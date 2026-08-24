@@ -1,1 +1,4260 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <meta name="theme-color" content="#0b63d8">
+
+    <title>وظائف التحدي | إدارة المتقدمين</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+
+    --blue: #0b63d8;
+    --blue-dark: #0649a8;
+    --blue-light: #edf5ff;
+
+    --green: #079455;
+    --green-light: #edfff5;
+
+    --red: #d71920;
+    --red-light: #fff1f2;
+
+    --orange: #f59e0b;
+    --orange-light: #fff8e7;
+
+    --purple: #6941c6;
+    --purple-light: #f4f0ff;
+
+    --text: #10233f;
+    --muted: #718096;
+
+    --border: #dfe7f1;
+
+    --white: #ffffff;
+    --bg: #f5f8fc;
+}
+
+/* =========================================================
+   BODY
+========================================================= */
+
+html {
+    min-height: 100%;
+    background: var(--bg);
+}
+
+body {
+
+    min-height: 100vh;
+
+    font-family:
+        "Cairo",
+        Arial,
+        sans-serif;
+
+    color: var(--text);
+
+    background:
+        linear-gradient(
+            180deg,
+            #f5f8fc 0%,
+            #ffffff 100%
+        );
+
+    overflow-x: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family:
+        "Cairo",
+        Arial,
+        sans-serif;
+}
+
+button {
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.background {
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    overflow: hidden;
+
+    z-index: 0;
+}
+
+.background::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    top: -270px;
+    right: -220px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(11,99,216,.14),
+            rgba(11,99,216,.03) 55%,
+            transparent 72%
+        );
+}
+
+.background::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 450px;
+    height: 450px;
+
+    bottom: -250px;
+    left: -220px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(215,25,32,.08),
+            transparent 70%
+        );
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app {
+
+    position: relative;
+
+    z-index: 1;
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    padding:
+        25px
+        16px
+        50px;
+}
+
+.container {
+
+    width: 100%;
+
+    max-width: 1450px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+
+    text-align: center;
+
+    margin-bottom: 25px;
+}
+
+.logo-box {
+
+    width: 160px;
+
+    min-height: 55px;
+
+    margin:
+        0
+        auto
+        12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.logo-fallback {
+
+    width: 100%;
+
+    min-height: 55px;
+
+    padding:
+        7px
+        15px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 18px;
+
+    color: white;
+
+    font-size: 22px;
+
+    font-weight: 900;
+
+    white-space: nowrap;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--blue-dark)
+        );
+
+    box-shadow:
+        0 10px 25px
+        rgba(11,99,216,.18);
+}
+
+.school-name {
+
+    color:
+        var(--blue-dark);
+
+    font-size: 25px;
+
+    font-weight: 900;
+}
+
+.department {
+
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+.page-title {
+
+    margin-top: 16px;
+
+    color: var(--text);
+
+    font-size: 23px;
+
+    font-weight: 900;
+}
+
+.page-description {
+
+    margin-top: 5px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   SEARCH CARD
+========================================================= */
+
+.search-card {
+
+    padding: 20px;
+
+    margin-bottom: 18px;
+
+    background:
+        rgba(255,255,255,.98);
+
+    border:
+        1px solid
+        rgba(11,99,216,.08);
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 14px 40px
+        rgba(16,35,63,.08);
+}
+
+.search-title {
+
+    color: var(--text);
+
+    font-size: 16px;
+
+    font-weight: 900;
+}
+
+.search-description {
+
+    margin-top: 4px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+.search-box {
+
+    position: relative;
+
+    margin-top: 15px;
+}
+
+.search-box input {
+
+    width: 100%;
+
+    height: 55px;
+
+    padding:
+        0
+        52px
+        0
+        18px;
+
+    border:
+        1.5px solid
+        var(--border);
+
+    border-radius: 14px;
+
+    outline: none;
+
+    color: var(--text);
+
+    background: #f9fbfe;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition: .2s;
+}
+
+.search-box input:focus {
+
+    border-color:
+        var(--blue);
+
+    background:
+        white;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(11,99,216,.06);
+}
+
+.search-icon {
+
+    position: absolute;
+
+    right: 17px;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    color:
+        var(--blue);
+
+    font-size: 19px;
+
+    pointer-events: none;
+}
+
+.search-info {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-top: 10px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+.search-count {
+
+    color:
+        var(--blue-dark);
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   SEARCH RESULTS
+========================================================= */
+
+.results-card {
+
+    display: none;
+
+    margin-bottom: 20px;
+
+    overflow: hidden;
+
+    background: white;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 14px 40px
+        rgba(16,35,63,.08);
+}
+
+.results-card.show {
+    display: block;
+}
+
+.results-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding:
+        16px
+        20px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--blue-dark)
+        );
+}
+
+.results-title {
+
+    font-size: 14px;
+
+    font-weight: 900;
+}
+
+.results-count {
+
+    padding:
+        5px
+        10px;
+
+    border-radius: 8px;
+
+    background:
+        rgba(255,255,255,.16);
+
+    font-size: 9px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   SEARCH RESULT LIST
+========================================================= */
+
+.results-list {
+
+    max-height: 500px;
+
+    overflow-y: auto;
+}
+
+.result-item {
+
+    display: grid;
+
+    grid-template-columns:
+        115px
+        1fr
+        150px
+        110px;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding:
+        14px
+        18px;
+
+    border-bottom:
+        1px solid
+        #edf1f6;
+
+    cursor: pointer;
+
+    transition: .15s;
+}
+
+.result-item:last-child {
+    border-bottom: 0;
+}
+
+.result-item:hover {
+    background: #f6faff;
+}
+
+.result-uid {
+
+    color:
+        var(--blue-dark);
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size: 11px;
+
+    font-weight: 900;
+
+    direction: ltr;
+
+    text-align: right;
+}
+
+.result-name {
+
+    color: var(--text);
+
+    font-size: 12px;
+
+    font-weight: 900;
+}
+
+.result-detail {
+
+    margin-top: 2px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    font-weight: 600;
+}
+
+.result-phone {
+
+    color: #475569;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    direction: ltr;
+
+    text-align: right;
+}
+
+.result-stage {
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   DETAILS CARD
+========================================================= */
+
+.details-card {
+
+    display: none;
+
+    margin-bottom: 20px;
+
+    overflow: hidden;
+
+    background: white;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 18px 50px
+        rgba(16,35,63,.10);
+}
+
+.details-card.show {
+    display: block;
+}
+
+
+/* =========================================================
+   DETAILS HEADER
+========================================================= */
+
+.details-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding:
+        18px
+        20px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--blue-dark)
+        );
+}
+
+.details-header-title {
+
+    font-size: 16px;
+
+    font-weight: 900;
+}
+
+.details-header-subtitle {
+
+    margin-top: 3px;
+
+    opacity: .85;
+
+    font-size: 9px;
+
+    font-weight: 600;
+}
+
+.close-button {
+
+    width: 38px;
+
+    height: 38px;
+
+    border: 0;
+
+    border-radius: 10px;
+
+    color: white;
+
+    background:
+        rgba(255,255,255,.14);
+
+    font-size: 18px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   PERSONAL DATA
+========================================================= */
+
+.personal-section {
+
+    padding: 20px;
+
+    border-bottom:
+        1px solid
+        var(--border);
+}
+
+.section-title {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 14px;
+
+    color: var(--text);
+
+    font-size: 14px;
+
+    font-weight: 900;
+}
+
+.section-title::before {
+
+    content: "";
+
+    width: 4px;
+
+    height: 20px;
+
+    border-radius: 4px;
+
+    background:
+        var(--blue);
+}
+
+.personal-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 10px;
+}
+
+.info-box {
+
+    min-width: 0;
+
+    padding:
+        12px;
+
+    border:
+        1px solid
+        #edf1f6;
+
+    border-radius: 12px;
+
+    background:
+        #fafcff;
+}
+
+.info-label {
+
+    margin-bottom: 4px;
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+    font-weight: 800;
+}
+
+.info-value {
+
+    color: var(--text);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    word-break: break-word;
+}
+
+.info-value.ltr {
+
+    direction: ltr;
+
+    text-align: right;
+
+    font-family:
+        Arial,
+        sans-serif;
+}
+
+
+/* =========================================================
+   STAGES
+========================================================= */
+
+.stages-section {
+
+    padding: 20px;
+}
+
+.stage {
+
+    position: relative;
+
+    padding:
+        18px;
+
+    margin-bottom: 13px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            #fbfdff
+        );
+}
+
+.stage:last-child {
+    margin-bottom: 0;
+}
+
+.stage-top {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 14px;
+}
+
+.stage-number {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.stage-circle {
+
+    width: 34px;
+
+    height: 34px;
+
+    flex: 0 0 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: white;
+
+    background:
+        var(--blue);
+
+    font-size: 11px;
+
+    font-weight: 900;
+}
+
+.stage-name {
+
+    color: var(--text);
+
+    font-size: 13px;
+
+    font-weight: 900;
+}
+
+.stage-description {
+
+    margin-top: 2px;
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+    font-weight: 600;
+}
+
+.stage-current {
+
+    padding:
+        5px
+        10px;
+
+    border-radius: 8px;
+
+    font-size: 8px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   STAGE BUTTONS
+========================================================= */
+
+.stage-actions {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+}
+
+.stage-button {
+
+    min-height: 40px;
+
+    padding:
+        0
+        14px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 10px;
+
+    background:
+        #f8fafc;
+
+    color:
+        #526277;
+
+    font-size: 9px;
+
+    font-weight: 900;
+
+    transition: .18s;
+}
+
+.stage-button:hover {
+
+    transform:
+        translateY(-1px);
+}
+
+.stage-button.green {
+
+    color:
+        #067343;
+
+    border-color:
+        #b8ead2;
+
+    background:
+        var(--green-light);
+}
+
+.stage-button.red {
+
+    color:
+        #b4232d;
+
+    border-color:
+        #ffd0d4;
+
+    background:
+        var(--red-light);
+}
+
+.stage-button.orange {
+
+    color:
+        #9a6700;
+
+    border-color:
+        #ffe0a3;
+
+    background:
+        var(--orange-light);
+}
+
+.stage-button.blue {
+
+    color:
+        var(--blue-dark);
+
+    border-color:
+        #c7dcfa;
+
+    background:
+        var(--blue-light);
+}
+
+.stage-button.active {
+
+    color: white;
+
+    border-color:
+        transparent;
+
+    background:
+        var(--blue);
+
+    box-shadow:
+        0 6px 15px
+        rgba(11,99,216,.18);
+}
+
+.stage-button.active.green {
+
+    background:
+        var(--green);
+}
+
+.stage-button.active.red {
+
+    background:
+        var(--red);
+}
+
+.stage-button.active.orange {
+
+    background:
+        var(--orange);
+}
+
+
+/* =========================================================
+   DATE CONTROLS
+========================================================= */
+
+.date-controls {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        auto;
+
+    gap: 10px;
+
+    margin-top: 10px;
+}
+
+.date-input {
+
+    width: 100%;
+
+    height: 42px;
+
+    padding:
+        0
+        12px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 10px;
+
+    outline: none;
+
+    color: var(--text);
+
+    background: #fafcff;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.date-input:focus {
+
+    border-color:
+        var(--blue);
+}
+
+.save-date-button {
+
+    height: 42px;
+
+    padding:
+        0
+        15px;
+
+    border: 0;
+
+    border-radius: 10px;
+
+    color: white;
+
+    background:
+        var(--blue);
+
+    font-size: 9px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   GENERAL BADGE
+========================================================= */
+
+.badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 26px;
+
+    padding:
+        4px
+        10px;
+
+    border-radius: 8px;
+
+    font-size: 8px;
+
+    font-weight: 900;
+}
+
+.badge-default {
+
+    color: #526277;
+
+    background:
+        #f1f4f8;
+}
+
+.badge-blue {
+
+    color:
+        var(--blue-dark);
+
+    background:
+        var(--blue-light);
+}
+
+.badge-green {
+
+    color:
+        #067343;
+
+    background:
+        var(--green-light);
+}
+
+.badge-red {
+
+    color:
+        #b4232d;
+
+    background:
+        var(--red-light);
+}
+
+.badge-orange {
+
+    color:
+        #9a6700;
+
+    background:
+        var(--orange-light);
+}
+
+
+/* =========================================================
+   RAW DATA
+========================================================= */
+
+.raw-data {
+
+    padding: 20px;
+
+    border-top:
+        1px solid
+        var(--border);
+}
+
+.raw-data summary {
+
+    cursor: pointer;
+
+    color:
+        var(--blue-dark);
+
+    font-size: 11px;
+
+    font-weight: 900;
+}
+
+.raw-data pre {
+
+    max-height: 500px;
+
+    overflow: auto;
+
+    margin-top: 12px;
+
+    padding: 15px;
+
+    direction: ltr;
+
+    text-align: left;
+
+    white-space: pre-wrap;
+
+    word-break: break-word;
+
+    border-radius: 12px;
+
+    color: #334155;
+
+    background:
+        #f7f9fc;
+
+    font-family:
+        Consolas,
+        monospace;
+
+    font-size: 9px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty {
+
+    padding:
+        40px
+        20px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        rgba(246,249,253,.94);
+
+    backdrop-filter:
+        blur(7px);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition: .2s;
+}
+
+.loading.show {
+
+    opacity: 1;
+
+    visibility: visible;
+}
+
+.loading-box {
+
+    width:
+        calc(100% - 40px);
+
+    max-width: 300px;
+
+    padding: 25px;
+
+    text-align: center;
+
+    border-radius: 20px;
+
+    background:
+        white;
+
+    box-shadow:
+        0 20px 60px
+        rgba(16,35,63,.15);
+}
+
+.spinner {
+
+    width: 40px;
+
+    height: 40px;
+
+    margin:
+        0
+        auto
+        13px;
+
+    border:
+        4px solid
+        #e5edf8;
+
+    border-top-color:
+        var(--blue);
+
+    border-radius: 50%;
+
+    animation:
+        spin .8s linear infinite;
+}
+
+@keyframes spin {
+
+    to {
+        transform:
+            rotate(360deg);
+    }
+}
+
+.loading-text {
+
+    color:
+        var(--text);
+
+    font-size: 10px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast {
+
+    position: fixed;
+
+    z-index: 10000;
+
+    left: 50%;
+
+    bottom: 25px;
+
+    width:
+        calc(100% - 30px);
+
+    max-width: 430px;
+
+    padding:
+        13px
+        16px;
+
+    transform:
+        translate(-50%, 30px);
+
+    border-radius: 12px;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    color: white;
+
+    background:
+        #10233f;
+
+    text-align: center;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    transition: .25s;
+}
+
+.toast.show {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transform:
+        translate(-50%, 0);
+}
+
+.toast.success {
+
+    background:
+        var(--green);
+}
+
+.toast.error {
+
+    background:
+        var(--red);
+}
+
+.toast.warning {
+
+    background:
+        var(--orange);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+
+    margin-top: 25px;
+
+    text-align: center;
+
+    color:
+        var(--muted);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .app {
+
+        padding:
+            20px
+            10px
+            40px;
+    }
+
+    .school-name {
+
+        font-size: 20px;
+    }
+
+    .page-title {
+
+        font-size: 19px;
+    }
+
+    .personal-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .result-item {
+
+        grid-template-columns:
+            1fr
+            auto;
+
+        gap: 7px;
+    }
+
+    .result-uid {
+
+        grid-column: 1;
+    }
+
+    .result-stage {
+
+        grid-column: 2;
+
+        grid-row: 1 / span 2;
+    }
+
+    .result-phone {
+
+        grid-column: 1;
+    }
+
+}
+
+@media (max-width: 520px) {
+
+    .logo-box {
+
+        width: 145px;
+    }
+
+    .search-card,
+    .personal-section,
+    .stages-section {
+
+        padding: 15px;
+    }
+
+    .personal-grid {
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .stage {
+
+        padding: 14px;
+    }
+
+    .stage-top {
+
+        flex-direction:
+            column;
+    }
+
+    .stage-actions {
+
+        display: grid;
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .stage-button {
+
+        width: 100%;
+
+        padding:
+            0
+            7px;
+    }
+
+    .date-controls {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .save-date-button {
+
+        width: 100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="background"></div>
+
+
+<!-- =========================================================
+     LOADING
+========================================================= -->
+
+<div
+    id="loading"
+    class="loading">
+
+    <div class="loading-box">
+
+        <div class="spinner"></div>
+
+        <div
+            id="loadingText"
+            class="loading-text">
+
+            جارِ تحميل بيانات المتقدمين...
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    id="toast"
+    class="toast">
+</div>
+
+
+<!-- =========================================================
+     APP
+========================================================= -->
+
+<main class="app">
+
+<div class="container">
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="header">
+
+    <div class="logo-box">
+
+        <div class="logo-fallback">
+
+            وظائف التحدي
+
+        </div>
+
+    </div>
+
+
+    <div class="school-name">
+
+        مدرسة التحدي الأهلية المختلطة
+
+    </div>
+
+
+    <div class="department">
+
+        قسم الحوكمة
+
+    </div>
+
+
+    <div class="page-title">
+
+        إدارة طلبات التوظيف
+
+    </div>
+
+
+    <div class="page-description">
+
+        البحث عن المتقدم ومتابعة مراحل طلب التوظيف
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     SEARCH
+========================================================= -->
+
+<section class="search-card">
+
+    <div class="search-title">
+
+        البحث عن المتقدم
+
+    </div>
+
+
+    <div class="search-description">
+
+        يمكنك البحث بالاسم أو الكود أو رقم الهاتف أو الاختصاص أو أي معلومة موجودة في الطلب
+
+    </div>
+
+
+    <div class="search-box">
+
+        <span class="search-icon">
+
+            🔎
+
+        </span>
+
+        <input
+            id="searchInput"
+            type="text"
+            autocomplete="off"
+            placeholder="اكتب اسم المتقدم أو الكود أو رقم الهاتف أو أي معلومة...">
+
+    </div>
+
+
+    <div class="search-info">
+
+        <span>
+
+            البحث يشمل جميع بيانات المتقدم
+
+        </span>
+
+        <span
+            id="searchCount"
+            class="search-count">
+
+            0 نتيجة
+
+        </span>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     RESULTS
+========================================================= -->
+
+<section
+    id="resultsCard"
+    class="results-card">
+
+
+    <div class="results-header">
+
+        <div class="results-title">
+
+            نتائج البحث
+
+        </div>
+
+
+        <div
+            id="resultsCount"
+            class="results-count">
+
+            0
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="resultsList"
+        class="results-list">
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     DETAILS
+========================================================= -->
+
+<section
+    id="detailsCard"
+    class="details-card">
+
+
+    <div class="details-header">
+
+        <div>
+
+            <div
+                id="detailsTitle"
+                class="details-header-title">
+
+                بيانات المتقدم
+
+            </div>
+
+
+            <div
+                id="detailsSubtitle"
+                class="details-header-subtitle">
+
+                تفاصيل الطلب
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="closeDetails"
+            class="close-button"
+            type="button">
+
+            ×
+
+        </button>
+
+    </div>
+
+
+    <!-- PERSONAL DATA -->
+
+    <div class="personal-section">
+
+        <div class="section-title">
+
+            بيانات المتقدم
+
+        </div>
+
+
+        <div
+            id="personalGrid"
+            class="personal-grid">
+
+        </div>
+
+    </div>
+
+
+    <!-- STAGES -->
+
+    <div class="stages-section">
+
+        <div class="section-title">
+
+            مراحل طلب التوظيف
+
+        </div>
+
+
+        <!-- STAGE 1 -->
+
+        <div class="stage">
+
+            <div class="stage-top">
+
+                <div class="stage-number">
+
+                    <div class="stage-circle">
+
+                        1
+
+                    </div>
+
+                    <div>
+
+                        <div class="stage-name">
+
+                            مرحلة التدقيق
+
+                        </div>
+
+                        <div class="stage-description">
+
+                            توثيق ومراجعة بيانات المتقدم
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="reviewCurrent"
+                    class="stage-current badge badge-default">
+
+                    لم تحدد
+
+                </div>
+
+            </div>
+
+
+            <div class="stage-actions">
+
+                <button
+                    class="stage-button green"
+                    data-field="reviewStage"
+                    data-value="تم التوثيق">
+
+                    ✓ تم التوثيق
+
+                </button>
+
+
+                <button
+                    class="stage-button red"
+                    data-field="reviewStage"
+                    data-value="مرفوض من التوثيق">
+
+                    ✕ مرفوض من التوثيق
+
+                </button>
+
+
+                <button
+                    class="stage-button orange"
+                    data-field="reviewStage"
+                    data-value="قيد التدقيق">
+
+                    ◷ قيد التدقيق
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- STAGE 2 -->
+
+        <div class="stage">
+
+            <div class="stage-top">
+
+                <div class="stage-number">
+
+                    <div class="stage-circle">
+
+                        2
+
+                    </div>
+
+                    <div>
+
+                        <div class="stage-name">
+
+                            مرحلة الحاجة إليك
+
+                        </div>
+
+                        <div class="stage-description">
+
+                            تحديد حاجة المدرسة إلى المتقدم
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="needCurrent"
+                    class="stage-current badge badge-default">
+
+                    لم تحدد
+
+                </div>
+
+            </div>
+
+
+            <div class="stage-actions">
+
+                <button
+                    class="stage-button green"
+                    data-field="needStatus"
+                    data-value="توجد حاجة">
+
+                    ✓ توجد حاجة
+
+                </button>
+
+
+                <button
+                    class="stage-button red"
+                    data-field="needStatus"
+                    data-value="لا توجد حاجة">
+
+                    ✕ لا توجد حاجة
+
+                </button>
+
+
+                <button
+                    class="stage-button orange"
+                    data-field="needStatus"
+                    data-value="قيد الدراسة">
+
+                    ◷ قيد الدراسة
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- STAGE 3 -->
+
+        <div class="stage">
+
+            <div class="stage-top">
+
+                <div class="stage-number">
+
+                    <div class="stage-circle">
+
+                        3
+
+                    </div>
+
+                    <div>
+
+                        <div class="stage-name">
+
+                            مرحلة المقابلة
+
+                        </div>
+
+                        <div class="stage-description">
+
+                            تحديد حالة وموعد المقابلة
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="interviewCurrent"
+                    class="stage-current badge badge-default">
+
+                    لم تحدد
+
+                </div>
+
+            </div>
+
+
+            <div class="stage-actions">
+
+                <button
+                    class="stage-button blue"
+                    data-field="interviewStage"
+                    data-value="تم تحديد المقابلة">
+
+                    ✓ تم تحديد المقابلة
+
+                </button>
+
+
+                <button
+                    class="stage-button green"
+                    data-field="interviewStage"
+                    data-value="تمت المقابلة">
+
+                    ✓ تمت المقابلة
+
+                </button>
+
+
+                <button
+                    class="stage-button red"
+                    data-field="interviewStage"
+                    data-value="لم يحضر">
+
+                    ✕ لم يحضر
+
+                </button>
+
+
+                <button
+                    class="stage-button orange"
+                    data-field="interviewStage"
+                    data-value="بانتظار المقابلة">
+
+                    ◷ بانتظار المقابلة
+
+                </button>
+
+            </div>
+
+
+            <div class="date-controls">
+
+                <input
+                    id="interviewDateInput"
+                    class="date-input"
+                    type="datetime-local">
+
+
+                <button
+                    id="saveInterviewDate"
+                    class="save-date-button"
+                    type="button">
+
+                    حفظ تاريخ المقابلة
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- STAGE 4 -->
+
+        <div class="stage">
+
+            <div class="stage-top">
+
+                <div class="stage-number">
+
+                    <div class="stage-circle">
+
+                        4
+
+                    </div>
+
+                    <div>
+
+                        <div class="stage-name">
+
+                            قرار لجنة المقابلات
+
+                        </div>
+
+                        <div class="stage-description">
+
+                            القرار الرسمي للجنة المقابلات
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="committeeCurrent"
+                    class="stage-current badge badge-default">
+
+                    لم تحدد
+
+                </div>
+
+            </div>
+
+
+            <div class="stage-actions">
+
+                <button
+                    class="stage-button green"
+                    data-field="committeeDecision"
+                    data-value="مقبول من لجنة المقابلات">
+
+                    ✓ مقبول
+
+                </button>
+
+
+                <button
+                    class="stage-button red"
+                    data-field="committeeDecision"
+                    data-value="مرفوض من لجنة المقابلات">
+
+                    ✕ مرفوض
+
+                </button>
+
+
+                <button
+                    class="stage-button orange"
+                    data-field="committeeDecision"
+                    data-value="قيد القرار">
+
+                    ◷ قيد القرار
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- STAGE 5 -->
+
+        <div class="stage">
+
+            <div class="stage-top">
+
+                <div class="stage-number">
+
+                    <div class="stage-circle">
+
+                        5
+
+                    </div>
+
+                    <div>
+
+                        <div class="stage-name">
+
+                            القبول أو الرفض
+
+                        </div>
+
+                        <div class="stage-description">
+
+                            القرار النهائي للمتقدم
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="acceptanceCurrent"
+                    class="stage-current badge badge-default">
+
+                    لم تحدد
+
+                </div>
+
+            </div>
+
+
+            <div class="stage-actions">
+
+                <button
+                    class="stage-button green"
+                    data-field="acceptanceStatus"
+                    data-value="مقبول">
+
+                    ✓ قبول
+
+                </button>
+
+
+                <button
+                    class="stage-button red"
+                    data-field="acceptanceStatus"
+                    data-value="مرفوض">
+
+                    ✕ رفض
+
+                </button>
+
+
+                <button
+                    class="stage-button orange"
+                    data-field="acceptanceStatus"
+                    data-value="قيد الانتظار">
+
+                    ◷ قيد الانتظار
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- STAGE 6 -->
+
+        <div class="stage">
+
+            <div class="stage-top">
+
+                <div class="stage-number">
+
+                    <div class="stage-circle">
+
+                        6
+
+                    </div>
+
+                    <div>
+
+                        <div class="stage-name">
+
+                            المباشرة
+
+                        </div>
+
+                        <div class="stage-description">
+
+                            تحديد تاريخ مباشرة المتقدم
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="startCurrent"
+                    class="stage-current badge badge-default">
+
+                    لم تحدد
+
+                </div>
+
+            </div>
+
+
+            <div class="stage-actions">
+
+                <button
+                    class="stage-button green"
+                    data-field="startStatus"
+                    data-value="تمت المباشرة">
+
+                    ✓ تمت المباشرة
+
+                </button>
+
+
+                <button
+                    class="stage-button red"
+                    data-field="startStatus"
+                    data-value="لم تتم المباشرة">
+
+                    ✕ لم تتم المباشرة
+
+                </button>
+
+            </div>
+
+
+            <div class="date-controls">
+
+                <input
+                    id="startDateInput"
+                    class="date-input"
+                    type="date">
+
+
+                <button
+                    id="saveStartDate"
+                    class="save-date-button"
+                    type="button">
+
+                    حفظ تاريخ المباشرة
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RAW DATA -->
+
+    <div class="raw-data">
+
+        <details>
+
+            <summary>
+
+                عرض بيانات Firebase الأصلية
+
+            </summary>
+
+
+            <pre
+                id="rawData">
+
+            </pre>
+
+        </details>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="footer">
+
+    وظائف التحدي
+
+    <br>
+
+    مدرسة التحدي الأهلية المختلطة — قسم الحوكمة
+
+</footer>
+
+
+</div>
+
+</main>
+
+
+
+<script type="module">
+
+
+/* =========================================================
+   FIREBASE
+========================================================= */
+
+import {
+    initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+import {
+    getDatabase,
+    ref,
+    get,
+    update
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyAF6kxQoJUan19ZCbGK7djExbouYxOLGF8",
+
+    authDomain:
+        "ahtahadi-e6f61.firebaseapp.com",
+
+    databaseURL:
+        "https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app",
+
+    projectId:
+        "ahtahadi-e6f61",
+
+    storageBucket:
+        "ahtahadi-e6f61.firebasestorage.app",
+
+    messagingSenderId:
+        "271225539711",
+
+    appId:
+        "1:271225539711:web:9fc4b45cf14d879b55434a",
+
+    measurementId:
+        "G-S5JDFN1RKF"
+
+};
+
+
+const app =
+    initializeApp(
+        firebaseConfig
+    );
+
+
+const db =
+    getDatabase(
+        app
+    );
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const loading =
+    document.getElementById(
+        "loading"
+    );
+
+
+const loadingText =
+    document.getElementById(
+        "loadingText"
+    );
+
+
+const toast =
+    document.getElementById(
+        "toast"
+    );
+
+
+const searchInput =
+    document.getElementById(
+        "searchInput"
+    );
+
+
+const searchCount =
+    document.getElementById(
+        "searchCount"
+    );
+
+
+const resultsCard =
+    document.getElementById(
+        "resultsCard"
+    );
+
+
+const resultsList =
+    document.getElementById(
+        "resultsList"
+    );
+
+
+const resultsCount =
+    document.getElementById(
+        "resultsCount"
+    );
+
+
+const detailsCard =
+    document.getElementById(
+        "detailsCard"
+    );
+
+
+const closeDetails =
+    document.getElementById(
+        "closeDetails"
+    );
+
+
+const detailsTitle =
+    document.getElementById(
+        "detailsTitle"
+    );
+
+
+const detailsSubtitle =
+    document.getElementById(
+        "detailsSubtitle"
+    );
+
+
+const personalGrid =
+    document.getElementById(
+        "personalGrid"
+    );
+
+
+const rawData =
+    document.getElementById(
+        "rawData"
+    );
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let allApplicants = [];
+
+let selectedApplicant = null;
+
+
+/* =========================================================
+   STAGE FIELD PATHS
+========================================================= */
+
+const STAGE_FIELDS = {
+
+    reviewStage:
+        "reviewStage",
+
+    needStatus:
+        "needStatus",
+
+    interviewStage:
+        "interviewStage",
+
+    interviewDate:
+        "interviewDate",
+
+    committeeDecision:
+        "committeeDecision",
+
+    acceptanceStatus:
+        "acceptanceStatus",
+
+    startStatus:
+        "startStatus",
+
+    startDate:
+        "startDate"
+
+};
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+function setLoading(
+    show,
+    text = "جارِ تحميل البيانات..."
+) {
+
+    loadingText.textContent =
+        text;
+
+    if (show) {
+
+        loading.classList.add(
+            "show"
+        );
+
+    } else {
+
+        loading.classList.remove(
+            "show"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer = null;
+
+
+function showToast(
+    message,
+    type = ""
+) {
+
+    clearTimeout(
+        toastTimer
+    );
+
+    toast.textContent =
+        message;
+
+    toast.className =
+        "toast";
+
+    if (type) {
+
+        toast.classList.add(
+            type
+        );
+
+    }
+
+    toast.classList.add(
+        "show"
+    );
+
+    toastTimer =
+        setTimeout(
+            function() {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            3000
+        );
+
+}
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   NORMALIZE SEARCH
+========================================================= */
+
+function normalizeText(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(
+        /[\u064B-\u065F\u0670]/g,
+        ""
+    )
+    .replace(
+        /[أإآ]/g,
+        "ا"
+    )
+    .replace(
+        /ة/g,
+        "ه"
+    )
+    .replace(
+        /ى/g,
+        "ي"
+    )
+    .trim();
+
+}
+
+
+/* =========================================================
+   GET NAME
+========================================================= */
+
+function getApplicantName(
+    applicant
+) {
+
+    const possible = [
+
+        applicant?.personal?.fullName,
+
+        applicant?.personal?.name,
+
+        applicant?.personal?.full_name,
+
+        applicant?.fullName,
+
+        applicant?.full_name,
+
+        applicant?.name,
+
+        applicant?.applicantName,
+
+        applicant?.candidateName,
+
+        applicant?.personal?.arabicName
+
+    ];
+
+
+    for (
+        const value of possible
+    ) {
+
+        if (
+            value !== null &&
+            value !== undefined &&
+            String(value).trim() !== ""
+        ) {
+
+            return String(value);
+
+        }
+
+    }
+
+
+    return "اسم غير متوفر";
+
+}
+
+
+/* =========================================================
+   GET PHONE
+========================================================= */
+
+function getApplicantPhone(
+    applicant
+) {
+
+    const possible = [
+
+        applicant?.personal?.phone,
+
+        applicant?.personal?.mobile,
+
+        applicant?.personal?.phoneNumber,
+
+        applicant?.personal?.mobileNumber,
+
+        applicant?.phone,
+
+        applicant?.mobile,
+
+        applicant?.phoneNumber,
+
+        applicant?.mobileNumber
+
+    ];
+
+
+    for (
+        const value of possible
+    ) {
+
+        if (
+            value !== null &&
+            value !== undefined &&
+            String(value).trim() !== ""
+        ) {
+
+            return String(value);
+
+        }
+
+    }
+
+
+    return "غير متوفر";
+
+}
+
+
+/* =========================================================
+   GET FIELD
+========================================================= */
+
+function getField(
+    applicant,
+    field
+) {
+
+    if (!applicant) {
+
+        return "";
+
+    }
+
+
+    if (
+        Object.prototype.hasOwnProperty.call(
+            applicant,
+            field
+        )
+    ) {
+
+        return applicant[field];
+
+    }
+
+
+    if (
+        applicant.status &&
+        typeof applicant.status === "object" &&
+        Object.prototype.hasOwnProperty.call(
+            applicant.status,
+            field
+        )
+    ) {
+
+        return applicant.status[field];
+
+    }
+
+
+    if (
+        applicant.applicationStatus &&
+        typeof applicant.applicationStatus === "object" &&
+        Object.prototype.hasOwnProperty.call(
+            applicant.applicationStatus,
+            field
+        )
+    ) {
+
+        return applicant.applicationStatus[field];
+
+    }
+
+
+    return "";
+
+}
+
+
+/* =========================================================
+   RECURSIVE VALUE SEARCH
+========================================================= */
+
+function flattenObject(
+    value,
+    prefix = "",
+    result = []
+) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return result;
+
+    }
+
+
+    if (
+        typeof value === "object"
+    ) {
+
+        if (
+            Array.isArray(value)
+        ) {
+
+            value.forEach(
+                function(item, index) {
+
+                    flattenObject(
+                        item,
+                        prefix
+                            ? prefix + "." + index
+                            : String(index),
+                        result
+                    );
+
+                }
+            );
+
+        } else {
+
+            Object.entries(
+                value
+            ).forEach(
+                function([
+                    key,
+                    child
+                ]) {
+
+                    flattenObject(
+                        child,
+                        prefix
+                            ? prefix + "." + key
+                            : key,
+                        result
+                    );
+
+                }
+            );
+
+        }
+
+    } else {
+
+        result.push(
+            String(value)
+        );
+
+    }
+
+
+    return result;
+
+}
+
+
+/* =========================================================
+   SEARCH MATCH
+========================================================= */
+
+function applicantMatches(
+    applicant,
+    query
+) {
+
+    const q =
+        normalizeText(
+            query
+        );
+
+
+    if (!q) {
+
+        return true;
+
+    }
+
+
+    const values = [
+
+        applicant.uid,
+
+        getApplicantName(
+            applicant
+        ),
+
+        getApplicantPhone(
+            applicant
+        ),
+
+        ...flattenObject(
+            applicant
+        )
+
+    ];
+
+
+    const searchable =
+        normalizeText(
+            values.join(" ")
+        );
+
+
+    return searchable.includes(
+        q
+    );
+
+}
+
+
+/* =========================================================
+   BADGE CLASS
+========================================================= */
+
+function badgeClass(
+    value
+) {
+
+    const text =
+        normalizeText(
+            value
+        );
+
+
+    if (!text) {
+
+        return "badge-default";
+
+    }
+
+
+    if (
+        text.includes("مقبول") ||
+        text.includes("تم التوثيق") ||
+        text.includes("توجد حاجه") ||
+        text.includes("تمت المقابله") ||
+        text.includes("تمت المباشره") ||
+        text.includes("موافق")
+    ) {
+
+        return "badge-green";
+
+    }
+
+
+    if (
+        text.includes("مرفوض") ||
+        text.includes("رفض") ||
+        text.includes("لا توجد حاجه") ||
+        text.includes("لم يحضر") ||
+        text.includes("لم تتم المباشره")
+    ) {
+
+        return "badge-red";
+
+    }
+
+
+    if (
+        text.includes("قيد") ||
+        text.includes("انتظار") ||
+        text.includes("بانتظار") ||
+        text.includes("تدقيق") ||
+        text.includes("دراسه")
+    ) {
+
+        return "badge-orange";
+
+    }
+
+
+    return "badge-blue";
+
+}
+
+
+/* =========================================================
+   DISPLAY
+========================================================= */
+
+function displayValue(
+    value
+) {
+
+    if (
+        value === null ||
+        value === undefined ||
+        String(value).trim() === ""
+    ) {
+
+        return "لم تحدد";
+
+    }
+
+
+    return String(value);
+
+}
+
+
+/* =========================================================
+   LOAD APPLICANTS
+========================================================= */
+
+async function loadApplicants() {
+
+    setLoading(
+        true,
+        "جارِ قراءة بيانات المتقدمين من Firebase..."
+    );
+
+
+    try {
+
+        const applicationsReference =
+            ref(
+                db,
+                "jobApplications"
+            );
+
+
+        const snapshot =
+            await get(
+                applicationsReference
+            );
+
+
+        if (
+            !snapshot.exists()
+        ) {
+
+            allApplicants = [];
+
+            renderSearchResults(
+                ""
+            );
+
+            showToast(
+                "لا توجد طلبات توظيف في قاعدة البيانات.",
+                "warning"
+            );
+
+            return;
+
+        }
+
+
+        const data =
+            snapshot.val();
+
+
+        allApplicants =
+            Object.entries(
+                data
+            )
+            .map(
+                function([
+                    uid,
+                    applicant
+                ]) {
+
+                    return {
+
+                        uid: uid,
+
+                        ...(applicant || {})
+
+                    };
+
+                }
+            );
+
+
+        allApplicants.sort(
+            function(a, b) {
+
+                return getApplicantName(a)
+                    .localeCompare(
+                        getApplicantName(b),
+                        "ar",
+                        {
+                            sensitivity: "base"
+                        }
+                    );
+
+            }
+        );
+
+
+    }
+    catch (error) {
+
+        console.error(
+            "Firebase Error:",
+            error
+        );
+
+
+        showToast(
+            "تعذر قراءة بيانات Firebase. تأكد من الاتصال و Firebase Rules.",
+            "error"
+        );
+
+    }
+    finally {
+
+        setLoading(
+            false
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER RESULTS
+========================================================= */
+
+function renderSearchResults(
+    query
+) {
+
+    const q =
+        String(
+            query || ""
+        ).trim();
+
+
+    if (!q) {
+
+        resultsCard.classList.remove(
+            "show"
+        );
+
+        searchCount.textContent =
+            "0 نتيجة";
+
+        return;
+
+    }
+
+
+    const results =
+        allApplicants.filter(
+            function(applicant) {
+
+                return applicantMatches(
+                    applicant,
+                    q
+                );
+
+            }
+        );
+
+
+    resultsCount.textContent =
+        results.length;
+
+
+    searchCount.textContent =
+        results.length +
+        " نتيجة";
+
+
+    resultsCard.classList.add(
+        "show"
+    );
+
+
+    if (
+        results.length === 0
+    ) {
+
+        resultsList.innerHTML = `
+
+            <div class="empty">
+
+                لم يتم العثور على أي متقدم مطابق للبحث.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    resultsList.innerHTML =
+        results
+        .slice(
+            0,
+            100
+        )
+        .map(
+            function(applicant) {
+
+                const review =
+                    getField(
+                        applicant,
+                        "reviewStage"
+                    );
+
+
+                return `
+
+                    <div
+                        class="result-item"
+                        data-uid="${escapeHTML(applicant.uid)}">
+
+                        <div>
+
+                            <div class="result-uid">
+
+                                ${escapeHTML(applicant.uid)}
+
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="result-name">
+
+                                ${escapeHTML(
+                                    getApplicantName(applicant)
+                                )}
+
+                            </div>
+
+                            <div class="result-detail">
+
+                                اضغط لعرض بيانات المتقدم ومراحل الطلب
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="result-phone">
+
+                            ${escapeHTML(
+                                getApplicantPhone(applicant)
+                            )}
+
+                        </div>
+
+
+                        <div class="result-stage">
+
+                            <span
+                                class="badge ${badgeClass(review)}">
+
+                                ${escapeHTML(
+                                    displayValue(review)
+                                )}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   PERSONAL DATA
+========================================================= */
+
+function buildPersonalData(
+    applicant
+) {
+
+    const fields = [
+
+        {
+            label: "الكود",
+            value: applicant.uid,
+            ltr: true
+        },
+
+        {
+            label: "الاسم",
+            value: getApplicantName(applicant)
+        },
+
+        {
+            label: "رقم الهاتف",
+            value: getApplicantPhone(applicant),
+            ltr: true
+        },
+
+        {
+            label: "الجنس",
+            value:
+                applicant?.personal?.gender ||
+                applicant?.gender ||
+                "غير متوفر"
+        },
+
+        {
+            label: "الاختصاص",
+            value:
+                applicant?.education?.specialization ||
+                applicant?.education?.major ||
+                applicant?.specialization ||
+                applicant?.major ||
+                "غير متوفر"
+        },
+
+        {
+            label: "الشهادة",
+            value:
+                applicant?.education?.certificate ||
+                applicant?.education?.degree ||
+                applicant?.certificate ||
+                "غير متوفر"
+        },
+
+        {
+            label: "المعدل",
+            value:
+                applicant?.education?.gpa ||
+                applicant?.gpa ||
+                "غير متوفر"
+        },
+
+        {
+            label: "تاريخ التقديم",
+            value:
+                applicant?.submittedAt ||
+                applicant?.createdAt ||
+                applicant?.applicationDate ||
+                "غير متوفر"
+        }
+
+    ];
+
+
+    return fields
+        .map(
+            function(field) {
+
+                return `
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+
+                            ${escapeHTML(
+                                field.label
+                            )}
+
+                        </div>
+
+                        <div
+                            class="info-value ${field.ltr ? "ltr" : ""}">
+
+                            ${escapeHTML(
+                                displayValue(
+                                    field.value
+                                )
+                            )}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   SHOW APPLICANT
+========================================================= */
+
+function showApplicant(
+    applicant
+) {
+
+    selectedApplicant =
+        applicant;
+
+
+    detailsTitle.textContent =
+        getApplicantName(
+            applicant
+        );
+
+
+    detailsSubtitle.textContent =
+        "الكود: " +
+        applicant.uid;
+
+
+    personalGrid.innerHTML =
+        buildPersonalData(
+            applicant
+        );
+
+
+    rawData.textContent =
+        JSON.stringify(
+            applicant,
+            null,
+            2
+        );
+
+
+    updateStageUI();
+
+
+    detailsCard.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        function() {
+
+            detailsCard.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        },
+        100
+    );
+
+}
+
+
+/* =========================================================
+   UPDATE STAGE UI
+========================================================= */
+
+function updateStageUI() {
+
+    if (!selectedApplicant) {
+
+        return;
+
+    }
+
+
+    const stages = {
+
+        reviewCurrent:
+            "reviewStage",
+
+        needCurrent:
+            "needStatus",
+
+        interviewCurrent:
+            "interviewStage",
+
+        committeeCurrent:
+            "committeeDecision",
+
+        acceptanceCurrent:
+            "acceptanceStatus",
+
+        startCurrent:
+            "startStatus"
+
+    };
+
+
+    Object.entries(
+        stages
+    ).forEach(
+        function([
+            elementId,
+            field
+        ]) {
+
+            const element =
+                document.getElementById(
+                    elementId
+                );
+
+
+            const value =
+                getField(
+                    selectedApplicant,
+                    field
+                );
+
+
+            element.textContent =
+                displayValue(
+                    value
+                );
+
+
+            element.className =
+                "stage-current badge " +
+                badgeClass(
+                    value
+                );
+
+        }
+    );
+
+
+    document
+        .querySelectorAll(
+            ".stage-button[data-field]"
+        )
+        .forEach(
+            function(button) {
+
+                const field =
+                    button.dataset.field;
+
+
+                const value =
+                    button.dataset.value;
+
+
+                const current =
+                    getField(
+                        selectedApplicant,
+                        field
+                    );
+
+
+                button.classList.toggle(
+                    "active",
+                    String(current) ===
+                    String(value)
+                );
+
+            }
+        );
+
+
+    document.getElementById(
+        "interviewDateInput"
+    ).value =
+        convertToDateTimeLocal(
+            getField(
+                selectedApplicant,
+                "interviewDate"
+            )
+        );
+
+
+    document.getElementById(
+        "startDateInput"
+    ).value =
+        convertToDate(
+            getField(
+                selectedApplicant,
+                "startDate"
+            )
+        );
+
+}
+
+
+/* =========================================================
+   DATE HELPERS
+========================================================= */
+
+function convertToDateTimeLocal(
+    value
+) {
+
+    if (!value) {
+
+        return "";
+
+    }
+
+
+    const text =
+        String(value);
+
+
+    if (
+        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(
+            text
+        )
+    ) {
+
+        return text;
+
+    }
+
+
+    if (
+        /^\d{4}-\d{2}-\d{2}/.test(
+            text
+        )
+    ) {
+
+        return text
+            .substring(
+                0,
+                16
+            );
+
+    }
+
+
+    return "";
+
+}
+
+
+function convertToDate(
+    value
+) {
+
+    if (!value) {
+
+        return "";
+
+    }
+
+
+    const match =
+        String(value).match(
+            /(\d{4})-(\d{2})-(\d{2})/
+        );
+
+
+    if (match) {
+
+        return (
+            match[1] +
+            "-" +
+            match[2] +
+            "-" +
+            match[3]
+        );
+
+    }
+
+
+    return "";
+
+}
+
+
+/* =========================================================
+   UPDATE FIREBASE
+========================================================= */
+
+async function updateApplicantField(
+    field,
+    value,
+    successMessage
+) {
+
+    if (!selectedApplicant) {
+
+        showToast(
+            "اختر متقدمًا أولًا.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const uid =
+        selectedApplicant.uid;
+
+
+    if (!uid) {
+
+        showToast(
+            "تعذر تحديد UID للمتقدم.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const confirmed =
+        window.confirm(
+            "هل أنت متأكد من تسجيل:\n\n" +
+            value +
+            "\n\nللمتقدم:\n" +
+            getApplicantName(
+                selectedApplicant
+            ) +
+            "؟"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    setLoading(
+        true,
+        "جارِ حفظ التغيير..."
+    );
+
+
+    try {
+
+        const applicantRef =
+            ref(
+                db,
+                "jobApplications/" +
+                uid
+            );
+
+
+        const updates = {};
+
+
+        updates[field] =
+            value;
+
+
+        await update(
+            applicantRef,
+            updates
+        );
+
+
+        selectedApplicant[field] =
+            value;
+
+
+        const index =
+            allApplicants.findIndex(
+                function(item) {
+
+                    return item.uid === uid;
+
+                }
+            );
+
+
+        if (index !== -1) {
+
+            allApplicants[index][field] =
+                value;
+
+        }
+
+
+        updateStageUI();
+
+
+        rawData.textContent =
+            JSON.stringify(
+                selectedApplicant,
+                null,
+                2
+            );
+
+
+        renderSearchResults(
+            searchInput.value
+        );
+
+
+        showToast(
+            successMessage ||
+            "تم حفظ التغيير بنجاح.",
+            "success"
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Update Error:",
+            error
+        );
+
+
+        showToast(
+            "تعذر حفظ التغيير في Firebase.",
+            "error"
+        );
+
+    }
+    finally {
+
+        setLoading(
+            false
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   STAGE BUTTONS
+========================================================= */
+
+document
+    .querySelectorAll(
+        ".stage-button[data-field]"
+    )
+    .forEach(
+        function(button) {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    const field =
+                        this.dataset.field;
+
+
+                    const value =
+                        this.dataset.value;
+
+
+                    updateApplicantField(
+                        field,
+                        value,
+                        "تم تحديث مرحلة الطلب بنجاح."
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   SAVE INTERVIEW DATE
+========================================================= */
+
+document
+    .getElementById(
+        "saveInterviewDate"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            const value =
+                document.getElementById(
+                    "interviewDateInput"
+                ).value;
+
+
+            if (!value) {
+
+                showToast(
+                    "حدد تاريخ ووقت المقابلة أولًا.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            updateApplicantField(
+                "interviewDate",
+                value,
+                "تم حفظ تاريخ المقابلة."
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   SAVE START DATE
+========================================================= */
+
+document
+    .getElementById(
+        "saveStartDate"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            const value =
+                document.getElementById(
+                    "startDateInput"
+                ).value;
+
+
+            if (!value) {
+
+                showToast(
+                    "حدد تاريخ المباشرة أولًا.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            updateApplicantField(
+                "startDate",
+                value,
+                "تم حفظ تاريخ المباشرة."
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+searchInput.addEventListener(
+    "input",
+    function() {
+
+        renderSearchResults(
+            this.value
+        );
+
+    }
+);
+
+
+/* =========================================================
+   CLICK RESULT
+========================================================= */
+
+resultsList.addEventListener(
+    "click",
+    function(event) {
+
+        const item =
+            event.target.closest(
+                ".result-item"
+            );
+
+
+        if (!item) {
+
+            return;
+
+        }
+
+
+        const uid =
+            item.dataset.uid;
+
+
+        const applicant =
+            allApplicants.find(
+                function(candidate) {
+
+                    return candidate.uid === uid;
+
+                }
+            );
+
+
+        if (!applicant) {
+
+            showToast(
+                "تعذر العثور على بيانات المتقدم.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        showApplicant(
+            applicant
+        );
+
+    }
+);
+
+
+/* =========================================================
+   CLOSE DETAILS
+========================================================= */
+
+closeDetails.addEventListener(
+    "click",
+    function() {
+
+        detailsCard.classList.remove(
+            "show"
+        );
+
+        selectedApplicant =
+            null;
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+);
+
+
+/* =========================================================
+   ESC KEY
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            detailsCard.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadApplicants();
+
+
+</script>
+
+
+</body>
+
+</html>
