@@ -5,29 +5,28 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
+    <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <meta name="theme-color" content="#0b63d8">
 
-    <title>إدارة وظائف التحدي | مدرسة التحدي</title>
+    <title>إدارة المتقدمين | مدرسة التحدي</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
-    <link
-        rel="preconnect"
+    <link rel="preconnect"
         href="https://fonts.gstatic.com"
         crossorigin>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
 
 <style>
 
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -40,33 +39,32 @@
     --blue-dark: #0649a8;
     --blue-light: #edf5ff;
 
-    --green: #079455;
-    --green-light: #edfff5;
-
     --red: #d71920;
     --red-light: #fff1f2;
+
+    --green: #079455;
+    --green-light: #edfff5;
 
     --orange: #f59e0b;
     --orange-light: #fff8e7;
 
     --text: #10233f;
     --muted: #718096;
-
-    --border: #dfe7f1;
+    --border: #e1e8f2;
 
     --white: #ffffff;
-    --bg: #f5f8fc;
+    --bg: #f6f9fd;
 }
 
-
 html {
+    width: 100%;
     min-height: 100%;
     background: var(--bg);
 }
 
-
 body {
 
+    width: 100%;
     min-height: 100vh;
 
     font-family:
@@ -79,23 +77,22 @@ body {
     background:
         linear-gradient(
             180deg,
-            #f5f8fc 0%,
+            #f6f9fd 0%,
             #ffffff 100%
         );
 
     overflow-x: hidden;
 }
 
-
 button,
 input,
-select {
+select,
+textarea {
     font-family:
         "Cairo",
         Arial,
         sans-serif;
 }
-
 
 button {
     cursor: pointer;
@@ -109,16 +106,14 @@ button {
 .background {
 
     position: fixed;
-
     inset: 0;
 
-    z-index: 0;
+    overflow: hidden;
 
     pointer-events: none;
 
-    overflow: hidden;
+    z-index: 0;
 }
-
 
 .background::before {
 
@@ -126,11 +121,11 @@ button {
 
     position: absolute;
 
-    width: 470px;
-    height: 470px;
+    width: 420px;
+    height: 420px;
 
-    top: -260px;
-    right: -190px;
+    top: -220px;
+    right: -170px;
 
     border-radius: 50%;
 
@@ -138,11 +133,10 @@ button {
         radial-gradient(
             circle,
             rgba(11,99,216,.14),
-            rgba(11,99,216,.03) 50%,
+            rgba(11,99,216,.04) 45%,
             transparent 72%
         );
 }
-
 
 .background::after {
 
@@ -150,11 +144,11 @@ button {
 
     position: absolute;
 
-    width: 400px;
-    height: 400px;
+    width: 360px;
+    height: 360px;
 
-    bottom: -230px;
-    left: -180px;
+    bottom: -190px;
+    left: -150px;
 
     border-radius: 50%;
 
@@ -162,7 +156,7 @@ button {
         radial-gradient(
             circle,
             rgba(215,25,32,.08),
-            transparent 70%
+            transparent 72%
         );
 }
 
@@ -183,16 +177,15 @@ button {
 
     padding:
         25px
-        15px
-        50px;
+        18px
+        40px;
 }
-
 
 .container {
 
     width: 100%;
 
-    max-width: 1300px;
+    max-width: 1600px;
 
     margin: 0 auto;
 }
@@ -209,25 +202,28 @@ button {
     margin-bottom: 25px;
 }
 
-
 .logo-box {
 
-    width: 160px;
-
-    min-height: 58px;
+    width: 150px;
+    min-height: 60px;
 
     margin:
         0
         auto
-        12px;
+        10px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
 }
 
-
-.logo-text {
+.logo-fallback {
 
     width: 100%;
 
-    min-height: 58px;
+    min-height: 60px;
 
     display: flex;
 
@@ -237,7 +233,7 @@ button {
 
     padding:
         8px
-        15px;
+        14px;
 
     border-radius: 18px;
 
@@ -245,7 +241,7 @@ button {
 
     background:
         linear-gradient(
-            135deg,
+            145deg,
             var(--blue),
             var(--blue-dark)
         );
@@ -255,27 +251,85 @@ button {
     font-weight: 900;
 
     white-space: nowrap;
-
-    box-shadow:
-        0 10px 25px
-        rgba(11,99,216,.18);
 }
-
 
 .school-name {
 
-    color:
-        var(--blue-dark);
-
-    font-size: 24px;
+    font-size: 25px;
 
     font-weight: 900;
-}
 
+    color: var(--blue-dark);
+}
 
 .department {
 
     margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+.page-title {
+
+    margin-top: 18px;
+
+    font-size: 23px;
+
+    font-weight: 900;
+}
+
+.page-description {
+
+    margin-top: 5px;
+
+    font-size: 11px;
+
+    color: var(--muted);
+
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   STATISTICS
+===================================================== */
+
+.statistics {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 14px;
+
+    margin-bottom: 20px;
+}
+
+.stat-card {
+
+    padding:
+        20px
+        18px;
+
+    background: white;
+
+    border:
+        1px solid
+        rgba(11,99,216,.08);
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 12px 35px
+        rgba(16,35,63,.07);
+}
+
+.stat-label {
 
     color: var(--muted);
 
@@ -284,26 +338,86 @@ button {
     font-weight: 700;
 }
 
-
-.page-title {
-
-    margin-top: 15px;
-
-    font-size: 22px;
-
-    font-weight: 900;
-}
-
-
-.page-description {
+.stat-number {
 
     margin-top: 4px;
 
-    color: var(--muted);
+    font-size: 28px;
 
-    font-size: 10px;
+    font-weight: 900;
 
-    font-weight: 600;
+    color: var(--text);
+}
+
+
+/* =====================================================
+   CONTROL PANEL
+===================================================== */
+
+.control-panel {
+
+    padding: 17px;
+
+    margin-bottom: 18px;
+
+    background: white;
+
+    border:
+        1px solid
+        rgba(11,99,216,.08);
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 12px 40px
+        rgba(16,35,63,.07);
+}
+
+.filter-buttons {
+
+    display: flex;
+
+    gap: 9px;
+
+    flex-wrap: wrap;
+}
+
+.filter-button {
+
+    height: 43px;
+
+    padding:
+        0
+        18px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 12px;
+
+    background: #f8fafc;
+
+    color: #526277;
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+.filter-button.active {
+
+    color: white;
+
+    border-color:
+        var(--blue);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--blue-dark)
+        );
 }
 
 
@@ -311,63 +425,22 @@ button {
    SEARCH
 ===================================================== */
 
-.search-card {
-
-    margin-bottom: 18px;
-
-    padding: 18px;
-
-    background: white;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius: 20px;
-
-    box-shadow:
-        0 12px 40px
-        rgba(16,35,63,.07);
-}
-
-
-.search-title {
-
-    font-size: 15px;
-
-    font-weight: 900;
-}
-
-
-.search-description {
-
-    margin-top: 4px;
-
-    color: var(--muted);
-
-    font-size: 9px;
-
-    font-weight: 600;
-}
-
-
 .search-box {
 
     position: relative;
 
-    margin-top: 13px;
+    margin-top: 14px;
 }
-
 
 .search-box input {
 
     width: 100%;
 
-    height: 52px;
+    height: 50px;
 
     padding:
         0
-        48px
+        45px
         0
         15px;
 
@@ -379,7 +452,8 @@ button {
 
     outline: none;
 
-    background: #f9fbfe;
+    background:
+        #f9fbfe;
 
     color: var(--text);
 
@@ -388,7 +462,6 @@ button {
     font-weight: 700;
 }
 
-
 .search-box input:focus {
 
     border-color:
@@ -396,12 +469,7 @@ button {
 
     background:
         white;
-
-    box-shadow:
-        0 0 0 4px
-        rgba(11,99,216,.06);
 }
-
 
 .search-icon {
 
@@ -413,12 +481,14 @@ button {
 
     transform:
         translateY(-50%);
-
-    font-size: 18px;
 }
 
 
-.search-footer {
+/* =====================================================
+   RESULTS
+===================================================== */
+
+.results-header {
 
     display: flex;
 
@@ -428,36 +498,48 @@ button {
 
     gap: 10px;
 
-    margin-top: 9px;
-
-    color: var(--muted);
-
-    font-size: 9px;
-
-    font-weight: 700;
+    margin:
+        18px
+        2px
+        10px;
 }
 
+.results-title {
 
-.result-count {
-
-    color:
-        var(--blue-dark);
+    font-size: 16px;
 
     font-weight: 900;
 }
 
+.results-count {
+
+    padding:
+        5px
+        10px;
+
+    border-radius: 20px;
+
+    background:
+        var(--blue-light);
+
+    color:
+        var(--blue-dark);
+
+    font-size: 10px;
+
+    font-weight: 800;
+}
+
 
 /* =====================================================
-   RESULTS
+   TABLE
 ===================================================== */
 
-.results-card {
+.table-wrapper {
 
-    display: none;
+    width: 100%;
 
-    margin-bottom: 18px;
-
-    overflow: hidden;
+    overflow-x: auto;
 
     background: white;
 
@@ -472,168 +554,116 @@ button {
         rgba(16,35,63,.07);
 }
 
+table {
 
-.results-card.show {
-    display: block;
+    width: 100%;
+
+    min-width: 1500px;
+
+    border-collapse: collapse;
+
+    text-align: right;
 }
 
-
-.results-header {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 10px;
-
-    padding:
-        14px
-        17px;
-
-    color: white;
+thead {
 
     background:
         linear-gradient(
             135deg,
-            var(--blue),
-            var(--blue-dark)
+            #f4f8ff,
+            #eef5ff
         );
 }
 
+th {
 
-.results-header-title {
+    position: sticky;
 
-    font-size: 13px;
+    top: 0;
 
-    font-weight: 900;
-}
-
-
-.results-header-count {
+    z-index: 5;
 
     padding:
-        4px
-        10px;
-
-    border-radius: 20px;
-
-    background:
-        rgba(255,255,255,.15);
-
-    font-size: 9px;
-
-    font-weight: 900;
-}
-
-
-.results-list {
-
-    max-height: 500px;
-
-    overflow-y: auto;
-}
-
-
-.applicant-row {
-
-    display: grid;
-
-    grid-template-columns:
-        120px
-        1fr
-        160px
-        110px;
-
-    align-items: center;
-
-    gap: 12px;
-
-    padding:
-        13px
-        16px;
-
-    border-bottom:
-        1px solid
-        #edf1f6;
-
-    cursor: pointer;
-
-    transition: .15s;
-}
-
-
-.applicant-row:last-child {
-    border-bottom: 0;
-}
-
-
-.applicant-row:hover {
-
-    background:
-        #f6faff;
-}
-
-
-.applicant-code {
-
-    direction: ltr;
-
-    text-align: right;
+        14px
+        12px;
 
     color:
-        var(--blue-dark);
+        #536278;
 
-    font-family:
-        Arial,
-        sans-serif;
+    background:
+        #eef5ff;
 
     font-size: 10px;
 
     font-weight: 900;
+
+    white-space: nowrap;
+
+    border-bottom:
+        1px solid
+        var(--border);
 }
 
+td {
 
-.applicant-name {
+    padding:
+        13px
+        12px;
 
-    font-size: 11px;
+    color: #35445a;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    border-bottom:
+        1px solid
+        #edf1f6;
+}
+
+tbody tr {
+
+    cursor: pointer;
+
+    transition:
+        background .15s ease;
+}
+
+tbody tr:hover {
+
+    background:
+        #f8fbff;
+}
+
+.uid {
+
+    color:
+        var(--blue-dark);
+
+    font-weight: 900;
+
+    direction: ltr;
+}
+
+.name-cell {
+
+    color:
+        var(--text);
 
     font-weight: 900;
 }
 
-
-.applicant-job {
-
-    margin-top: 2px;
-
-    color: var(--muted);
-
-    font-size: 8px;
-
-    font-weight: 700;
-}
-
-
-.applicant-phone {
+.phone-cell {
 
     direction: ltr;
 
-    text-align: right;
-
-    color: #536278;
-
-    font-size: 9px;
-
-    font-weight: 700;
+    font-weight: 800;
 }
 
-
-/* =====================================================
-   BADGES
-===================================================== */
-
-.badge {
+.gender-badge,
+.status-badge {
 
     display: inline-flex;
 
@@ -641,76 +671,158 @@ button {
 
     justify-content: center;
 
-    min-height: 27px;
+    min-width: 55px;
 
     padding:
-        4px
-        10px;
+        5px
+        9px;
 
-    border-radius: 8px;
+    border-radius: 20px;
 
-    font-size: 8px;
+    font-size: 9px;
 
-    font-weight: 900;
+    font-weight: 800;
 }
 
+.gender-male {
 
-.badge-default {
+    color: #0758a8;
 
-    color: #526277;
-
-    background: #f1f4f8;
+    background:
+        #eaf4ff;
 }
 
+.gender-female {
 
-.badge-green {
+    color: #b91d41;
 
-    color: #067343;
+    background:
+        #fff0f4;
+}
+
+.status-new {
+
+    color: #086033;
 
     background:
         var(--green-light);
 }
 
+.status-other {
 
-.badge-red {
-
-    color: #b4232d;
-
-    background:
-        var(--red-light);
-}
-
-
-.badge-orange {
-
-    color: #9a6700;
+    color: #8a5a00;
 
     background:
         var(--orange-light);
 }
 
 
-.badge-blue {
+/* =====================================================
+   MOBILE LIST
+===================================================== */
+
+.mobile-list {
+
+    display: none;
+}
+
+.applicant-card {
+
+    padding: 15px;
+
+    margin-bottom: 11px;
+
+    background:
+        white;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 19px;
+
+    box-shadow:
+        0 9px 27px
+        rgba(16,35,63,.06);
+
+    cursor: pointer;
+}
+
+.card-name {
+
+    font-size: 14px;
+
+    font-weight: 900;
+}
+
+.card-uid {
+
+    margin-top: 3px;
 
     color:
         var(--blue-dark);
 
+    font-size: 9px;
+
+    font-weight: 800;
+
+    direction: ltr;
+}
+
+.card-details {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 7px;
+
+    margin-top: 12px;
+}
+
+.detail {
+
+    padding: 8px;
+
+    border-radius: 10px;
+
     background:
-        var(--blue-light);
+        #f8fafc;
+}
+
+.detail-label {
+
+    color: #8995a6;
+
+    font-size: 8px;
+
+    font-weight: 800;
+}
+
+.detail-value {
+
+    margin-top: 2px;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    word-break: break-word;
 }
 
 
 /* =====================================================
-   DETAILS
+   EMPTY
 ===================================================== */
 
-.details-card {
+.empty-state {
 
-    display: none;
+    padding:
+        60px
+        20px;
 
-    overflow: hidden;
-
-    margin-bottom: 20px;
+    text-align: center;
 
     background: white;
 
@@ -718,20 +830,65 @@ button {
         1px solid
         var(--border);
 
+    border-radius: 20px;
+}
+
+
+/* =====================================================
+   ADMIN MODAL
+===================================================== */
+
+.modal-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 20000;
+
+    display: none;
+
+    align-items: flex-start;
+
+    justify-content: center;
+
+    padding:
+        25px
+        15px;
+
+    overflow-y: auto;
+
+    background:
+        rgba(16,35,63,.55);
+
+    backdrop-filter:
+        blur(6px);
+}
+
+.modal-overlay.show {
+
+    display: flex;
+}
+
+.modal {
+
+    width: 100%;
+
+    max-width: 900px;
+
+    overflow: hidden;
+
+    background:
+        white;
+
     border-radius: 22px;
 
     box-shadow:
-        0 15px 45px
-        rgba(16,35,63,.09);
+        0 25px 80px
+        rgba(0,0,0,.25);
 }
 
-
-.details-card.show {
-    display: block;
-}
-
-
-.details-header {
+.modal-header {
 
     display: flex;
 
@@ -742,7 +899,7 @@ button {
     gap: 15px;
 
     padding:
-        17px
+        18px
         20px;
 
     color: white;
@@ -755,16 +912,14 @@ button {
         );
 }
 
+.modal-name {
 
-.details-name {
-
-    font-size: 15px;
+    font-size: 17px;
 
     font-weight: 900;
 }
 
-
-.details-code {
+.modal-code {
 
     margin-top: 3px;
 
@@ -777,53 +932,46 @@ button {
     text-align: right;
 }
 
+.close-modal {
 
-.close-button {
+    width: 40px;
 
-    width: 38px;
-
-    height: 38px;
+    height: 40px;
 
     border: 0;
 
     border-radius: 10px;
 
+    color: white;
+
     background:
         rgba(255,255,255,.15);
 
-    color: white;
-
-    font-size: 20px;
+    font-size: 22px;
 
     font-weight: 900;
+}
+
+.modal-body {
+
+    padding: 18px;
 }
 
 
 /* =====================================================
-   DATA
+   APPLICANT INFO
 ===================================================== */
-
-.data-section {
-
-    padding: 18px;
-
-    border-bottom:
-        1px solid
-        var(--border);
-}
-
 
 .section-title {
 
-    margin-bottom: 13px;
+    margin-bottom: 12px;
 
-    font-size: 13px;
+    font-size: 14px;
 
     font-weight: 900;
 }
 
-
-.data-grid {
+.applicant-info {
 
     display: grid;
 
@@ -831,12 +979,11 @@ button {
         repeat(4, 1fr);
 
     gap: 9px;
+
+    margin-bottom: 20px;
 }
 
-
-.data-box {
-
-    min-width: 0;
+.info-box {
 
     padding: 10px;
 
@@ -850,8 +997,7 @@ button {
         #fafcff;
 }
 
-
-.data-label {
+.info-label {
 
     color: var(--muted);
 
@@ -860,12 +1006,12 @@ button {
     font-weight: 800;
 }
 
-
-.data-value {
+.info-value {
 
     margin-top: 3px;
 
-    color: var(--text);
+    color:
+        var(--text);
 
     font-size: 9px;
 
@@ -879,17 +1025,11 @@ button {
    STAGES
 ===================================================== */
 
-.stages-section {
-
-    padding: 18px;
-}
-
-
 .stage-card {
 
     margin-bottom: 12px;
 
-    padding: 16px;
+    padding: 15px;
 
     border:
         1px solid
@@ -901,12 +1041,6 @@ button {
         #fff;
 }
 
-
-.stage-card:last-child {
-    margin-bottom: 0;
-}
-
-
 .stage-header {
 
     display: flex;
@@ -917,69 +1051,57 @@ button {
 
     gap: 12px;
 
-    margin-bottom: 13px;
+    margin-bottom: 12px;
 }
 
-
-.stage-title-box {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-}
-
-
-.stage-number {
-
-    width: 32px;
-
-    height: 32px;
-
-    flex:
-        0
-        0
-        32px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border-radius: 50%;
-
-    color: white;
-
-    background:
-        var(--blue);
-
-    font-size: 10px;
-
-    font-weight: 900;
-}
-
-
-.stage-name {
+.stage-title {
 
     font-size: 12px;
 
     font-weight: 900;
 }
 
+.stage-current {
 
-.stage-note {
+    padding:
+        5px
+        10px;
 
-    margin-top: 2px;
+    border-radius: 8px;
 
-    color: var(--muted);
+    color: #526277;
+
+    background:
+        #f1f4f8;
 
     font-size: 8px;
 
-    font-weight: 600;
+    font-weight: 900;
 }
 
+.stage-current.green {
+
+    color: #067343;
+
+    background:
+        var(--green-light);
+}
+
+.stage-current.red {
+
+    color: #b4232d;
+
+    background:
+        var(--red-light);
+}
+
+.stage-current.orange {
+
+    color: #9a6700;
+
+    background:
+        var(--orange-light);
+}
 
 .stage-actions {
 
@@ -989,7 +1111,6 @@ button {
 
     gap: 7px;
 }
-
 
 .stage-button {
 
@@ -1008,95 +1129,83 @@ button {
     background:
         #f8fafc;
 
-    color: #526277;
+    color:
+        #526277;
 
     font-size: 9px;
 
     font-weight: 900;
-
-    transition: .15s;
 }
-
-
-.stage-button:hover {
-
-    transform:
-        translateY(-1px);
-}
-
 
 .stage-button.green {
 
     color: #067343;
 
-    border-color: #c5ead7;
-
     background:
         var(--green-light);
-}
 
+    border-color:
+        #c8ead9;
+}
 
 .stage-button.red {
 
     color: #b4232d;
 
-    border-color: #ffd1d5;
-
     background:
         var(--red-light);
-}
 
+    border-color:
+        #ffd1d5;
+}
 
 .stage-button.orange {
 
     color: #9a6700;
 
-    border-color: #ffe1a5;
-
     background:
         var(--orange-light);
-}
 
+    border-color:
+        #ffe1a5;
+}
 
 .stage-button.blue {
 
     color:
         var(--blue-dark);
 
-    border-color: #c9ddf9;
-
     background:
         var(--blue-light);
-}
 
+    border-color:
+        #c8ddfa;
+}
 
 .stage-button.active {
 
     color: white;
 
-    border-color:
-        transparent;
-
     background:
+        var(--blue);
+
+    border-color:
         var(--blue);
 }
 
-
-.stage-button.active.green {
+.stage-button.green.active {
 
     background:
         var(--green);
 }
 
-
-.stage-button.active.red {
+.stage-button.red.active {
 
     background:
         var(--red);
 }
 
-
-.stage-button.active.orange {
+.stage-button.orange.active {
 
     background:
         var(--orange);
@@ -1104,7 +1213,7 @@ button {
 
 
 /* =====================================================
-   DATE
+   DATE AREA
 ===================================================== */
 
 .date-area {
@@ -1119,7 +1228,6 @@ button {
 
     margin-top: 10px;
 }
-
 
 .date-input {
 
@@ -1142,20 +1250,10 @@ button {
     background:
         #fafcff;
 
-    color: var(--text);
-
-    font-size: 9px;
+    font-size: 10px;
 
     font-weight: 700;
 }
-
-
-.date-input:focus {
-
-    border-color:
-        var(--blue);
-}
-
 
 .save-date {
 
@@ -1181,36 +1279,16 @@ button {
 
 
 /* =====================================================
-   EMPTY
-===================================================== */
-
-.empty {
-
-    padding:
-        35px
-        20px;
-
-    text-align: center;
-
-    color: var(--muted);
-
-    font-size: 10px;
-
-    font-weight: 700;
-}
-
-
-/* =====================================================
    LOADING
 ===================================================== */
 
-.loading {
+.loading-screen {
 
     position: fixed;
 
     inset: 0;
 
-    z-index: 9999;
+    z-index: 30000;
 
     display: flex;
 
@@ -1218,85 +1296,53 @@ button {
 
     justify-content: center;
 
+    flex-direction: column;
+
+    gap: 13px;
+
     background:
-        rgba(246,249,253,.96);
+        rgba(255,255,255,.97);
 
     opacity: 0;
 
     visibility: hidden;
-
-    transition: .2s;
 }
 
-
-.loading.show {
+.loading-screen.active {
 
     opacity: 1;
 
     visibility: visible;
 }
 
+.loader-circle {
 
-.loading-box {
+    width: 48px;
 
-    width:
-        calc(100% - 40px);
-
-    max-width: 300px;
-
-    padding: 25px;
-
-    border-radius: 20px;
-
-    background: white;
-
-    text-align: center;
-
-    box-shadow:
-        0 20px 60px
-        rgba(16,35,63,.14);
-}
-
-
-.spinner {
-
-    width: 40px;
-
-    height: 40px;
-
-    margin:
-        0
-        auto
-        12px;
+    height: 48px;
 
     border:
         4px solid
-        #e6eef9;
+        #e6eefb;
 
     border-top-color:
         var(--blue);
 
+    border-right-color:
+        var(--red);
+
     border-radius: 50%;
 
     animation:
-        spin .8s linear infinite;
+        rotate .75s linear infinite;
 }
 
-
-@keyframes spin {
+@keyframes rotate {
 
     to {
         transform:
             rotate(360deg);
     }
-}
-
-
-.loading-text {
-
-    font-size: 10px;
-
-    font-weight: 800;
 }
 
 
@@ -1308,29 +1354,25 @@ button {
 
     position: fixed;
 
-    z-index: 10000;
+    z-index: 40000;
+
+    bottom: 20px;
 
     left: 50%;
 
-    bottom: 25px;
+    transform:
+        translate(-50%, 20px);
 
     width:
         calc(100% - 30px);
 
-    max-width: 420px;
+    max-width: 450px;
 
     padding:
-        12px
+        13px
         15px;
 
-    transform:
-        translate(-50%, 25px);
-
-    border-radius: 12px;
-
-    opacity: 0;
-
-    visibility: hidden;
+    border-radius: 14px;
 
     color: white;
 
@@ -1339,13 +1381,14 @@ button {
 
     text-align: center;
 
-    font-size: 9px;
+    font-size: 11px;
 
-    font-weight: 800;
+    font-weight: 700;
 
-    transition: .2s;
+    opacity: 0;
+
+    visibility: hidden;
 }
-
 
 .toast.show {
 
@@ -1357,14 +1400,16 @@ button {
         translate(-50%, 0);
 }
 
-
 .toast.success {
-    background: var(--green);
+
+    background:
+        #078d54;
 }
 
-
 .toast.error {
-    background: var(--red);
+
+    background:
+        #b91c25;
 }
 
 
@@ -1378,76 +1423,64 @@ button {
 
     text-align: center;
 
-    color: var(--muted);
+    color: #a1acb9;
 
     font-size: 9px;
-
-    font-weight: 700;
 }
 
 
 /* =====================================================
-   MOBILE
+   RESPONSIVE
 ===================================================== */
 
 @media (max-width: 800px) {
 
-    .data-grid {
+    .table-wrapper {
+        display: none;
+    }
 
+    .mobile-list {
+        display: block;
+    }
+
+    .applicant-info {
         grid-template-columns:
             repeat(2, 1fr);
     }
 
-
-    .applicant-row {
-
-        grid-template-columns:
-            1fr
-            auto;
-
-        gap: 6px;
-    }
-
-
-    .applicant-phone {
-
-        grid-column: 1;
-    }
-
-
-    .applicant-status {
-
-        grid-column: 2;
-
-        grid-row:
-            1 / span 2;
+    .school-name {
+        font-size: 20px;
     }
 
 }
 
 
-@media (max-width: 520px) {
+@media (max-width: 500px) {
 
-    .app {
+    .statistics {
 
-        padding:
-            20px
-            10px
-            40px;
+        grid-template-columns:
+            repeat(3,1fr);
+
+        gap: 7px;
     }
 
+    .stat-card {
 
-    .school-name {
+        padding:
+            13px
+            8px;
+    }
+
+    .stat-number {
 
         font-size: 20px;
     }
 
+    .stat-label {
 
-    .page-title {
-
-        font-size: 18px;
+        font-size: 8px;
     }
-
 
     .stage-header {
 
@@ -1458,7 +1491,6 @@ button {
             column;
     }
 
-
     .stage-actions {
 
         display: grid;
@@ -1466,7 +1498,6 @@ button {
         grid-template-columns:
             1fr 1fr;
     }
-
 
     .stage-button {
 
@@ -1477,13 +1508,11 @@ button {
             7px;
     }
 
-
     .date-area {
 
         grid-template-columns:
             1fr;
     }
-
 
     .save-date {
 
@@ -1503,105 +1532,159 @@ button {
 <div class="background"></div>
 
 
-<!-- LOADING -->
+<!-- =====================================================
+     LOADING
+===================================================== -->
 
 <div
-    id="loading"
-    class="loading">
+    class="loading-screen active"
+    id="loadingScreen">
 
-    <div class="loading-box">
+    <div class="loader-circle"></div>
 
-        <div class="spinner"></div>
-
-        <div
-            id="loadingText"
-            class="loading-text">
-
-            جارِ تحميل المتقدمين...
-
-        </div>
-
+    <div id="loadingText">
+        جارٍ تحميل بيانات المتقدمين...
     </div>
 
 </div>
 
 
-<!-- TOAST -->
+<!-- =====================================================
+     TOAST
+===================================================== -->
 
 <div
-    id="toast"
-    class="toast">
+    class="toast"
+    id="toast">
 </div>
 
+
+<!-- =====================================================
+     APP
+===================================================== -->
 
 <main class="app">
 
 <div class="container">
 
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
 <header class="header">
 
     <div class="logo-box">
 
-        <div class="logo-text">
-
+        <div class="logo-fallback">
             وظائف التحدي
-
         </div>
 
     </div>
 
 
-    <div class="school-name">
-
+    <h1 class="school-name">
         مدرسة التحدي الأهلية المختلطة
-
-    </div>
+    </h1>
 
 
     <div class="department">
-
         قسم الحوكمة
-
     </div>
 
 
-    <div class="page-title">
-
+    <h2 class="page-title">
         إدارة طلبات التوظيف
+    </h2>
 
-    </div>
 
-
-    <div class="page-description">
-
-        البحث عن المتقدم وتحديث مراحل طلب التوظيف
-
-    </div>
+    <p class="page-description">
+        مراجعة المتقدمين والتحكم بمراحل طلبات التوظيف
+    </p>
 
 </header>
+
+
+<!-- =====================================================
+     STATISTICS
+===================================================== -->
+
+<section class="statistics">
+
+    <div class="stat-card">
+
+        <div class="stat-label">
+            جميع المتقدمين
+        </div>
+
+        <div
+            class="stat-number"
+            id="totalCount">
+            0
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-label">
+            الذكور
+        </div>
+
+        <div
+            class="stat-number"
+            id="maleCount">
+            0
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-label">
+            الإناث
+        </div>
+
+        <div
+            class="stat-number"
+            id="femaleCount">
+            0
+        </div>
+
+    </div>
+
+</section>
 
 
 <!-- =====================================================
      SEARCH
 ===================================================== -->
 
-<section class="search-card">
-
-    <div class="search-title">
-
-        البحث عن المتقدم
-
-    </div>
+<section class="control-panel">
 
 
-    <div class="search-description">
+    <div class="filter-buttons">
 
-        ابحث بالاسم أو الكود أو رقم الهاتف أو المادة أو الجامعة أو أي معلومة موجودة في الطلب
+        <button
+            type="button"
+            class="filter-button active"
+            data-filter="all">
+            الكل
+        </button>
+
+
+        <button
+            type="button"
+            class="filter-button"
+            data-filter="ذكر">
+            الذكور
+        </button>
+
+
+        <button
+            type="button"
+            class="filter-button"
+            data-filter="أنثى">
+            الإناث
+        </button>
 
     </div>
 
@@ -1609,35 +1692,14 @@ button {
     <div class="search-box">
 
         <span class="search-icon">
-
             🔎
-
         </span>
 
         <input
-            id="searchInput"
             type="text"
-            autocomplete="off"
-            placeholder="اكتب اسم المتقدم أو الكود أو أي معلومة...">
-
-    </div>
-
-
-    <div class="search-footer">
-
-        <span>
-
-            يبدأ البحث مباشرة أثناء الكتابة
-
-        </span>
-
-        <span
-            id="searchResultCount"
-            class="result-count">
-
-            0 نتيجة
-
-        </span>
+            id="searchInput"
+            placeholder="البحث بالاسم أو الكود أو رقم الهاتف أو العنوان أو المادة..."
+            autocomplete="off">
 
     </div>
 
@@ -1645,575 +1707,103 @@ button {
 
 
 <!-- =====================================================
-     RESULTS
+     RESULTS HEADER
 ===================================================== -->
 
-<section
-    id="resultsCard"
-    class="results-card">
+<div class="results-header">
 
-
-    <div class="results-header">
-
-        <div class="results-header-title">
-
-            نتائج البحث
-
-        </div>
-
-
-        <div
-            id="resultsHeaderCount"
-            class="results-header-count">
-
-            0
-
-        </div>
-
+    <div class="results-title">
+        قائمة المتقدمين
     </div>
-
 
     <div
-        id="resultsList"
-        class="results-list">
-
+        class="results-count"
+        id="resultsCount">
+        0 متقدم
     </div>
 
-</section>
+</div>
 
 
 <!-- =====================================================
-     DETAILS
+     TABLE
 ===================================================== -->
 
-<section
-    id="detailsCard"
-    class="details-card">
+<div class="table-wrapper">
 
+<table>
 
-    <div class="details-header">
+<thead>
 
-        <div>
+<tr>
 
-            <div
-                id="detailsName"
-                class="details-name">
+    <th>UID</th>
 
-                اسم المتقدم
+    <th>الاسم</th>
 
-            </div>
+    <th>الجنس</th>
 
+    <th>المواليد</th>
 
-            <div
-                id="detailsCode"
-                class="details-code">
+    <th>رقم الهاتف</th>
 
-                UID
+    <th>عنوان السكن</th>
 
-            </div>
+    <th>المرحلة</th>
 
-        </div>
+    <th>المادة</th>
 
+    <th>الشهادة</th>
 
-        <button
-            id="closeDetails"
-            class="close-button"
-            type="button">
+    <th>الجامعة</th>
 
-            ×
+    <th>الكلية</th>
 
-        </button>
+    <th>المعدل</th>
 
-    </div>
+    <th>مرحلة التدقيق</th>
 
+    <th>الحاجة إليك</th>
 
-    <!-- DATA -->
+    <th>المقابلة</th>
 
-    <div class="data-section">
+    <th>قرار اللجنة</th>
 
-        <div class="section-title">
+</tr>
 
-            بيانات المتقدم
+</thead>
 
-        </div>
 
+<tbody id="tableBody">
+</tbody>
 
-        <div
-            id="dataGrid"
-            class="data-grid">
+</table>
 
-        </div>
+</div>
 
-    </div>
 
+<!-- =====================================================
+     MOBILE
+===================================================== -->
 
-    <!-- STAGES -->
+<div
+    class="mobile-list"
+    id="mobileList">
+</div>
 
-    <div class="stages-section">
 
-        <div class="section-title">
+<!-- =====================================================
+     EMPTY
+===================================================== -->
 
-            مراحل طلب التوظيف
+<div
+    class="empty-state"
+    id="emptyState"
+    style="display:none;">
 
-        </div>
+    لا توجد طلبات مطابقة للبحث.
 
-
-        <!-- =================================================
-             1 REVIEW
-        ================================================== -->
-
-        <div class="stage-card">
-
-            <div class="stage-header">
-
-                <div class="stage-title-box">
-
-                    <div class="stage-number">
-                        1
-                    </div>
-
-                    <div>
-
-                        <div class="stage-name">
-
-                            مرحلة التدقيق
-
-                        </div>
-
-                        <div class="stage-note">
-
-                            تدقيق بيانات واستمارة المتقدم
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <span
-                    id="reviewStatus"
-                    class="badge badge-default">
-
-                    لم يتم تحديدها بعد
-
-                </span>
-
-            </div>
-
-
-            <div class="stage-actions">
-
-                <button
-                    type="button"
-                    class="stage-button green"
-                    data-field="reviewStage"
-                    data-value="تم التدقيق">
-
-                    تم التدقيق
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="stage-button orange"
-                    data-field="reviewStage"
-                    data-value="قيد التدقيق">
-
-                    قيد التدقيق
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="stage-button red"
-                    data-field="reviewStage"
-                    data-value="لم يجتز التدقيق">
-
-                    لم يجتز التدقيق
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- =================================================
-             2 NEED
-        ================================================== -->
-
-        <div class="stage-card">
-
-            <div class="stage-header">
-
-                <div class="stage-title-box">
-
-                    <div class="stage-number">
-                        2
-                    </div>
-
-                    <div>
-
-                        <div class="stage-name">
-
-                            مرحلة الحاجة إليك
-
-                        </div>
-
-                        <div class="stage-note">
-
-                            تحديد حاجة المدرسة إلى اختصاص المتقدم
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <span
-                    id="needStatusView"
-                    class="badge badge-default">
-
-                    لم يتم تحديدها بعد
-
-                </span>
-
-            </div>
-
-
-            <div class="stage-actions">
-
-                <button
-                    type="button"
-                    class="stage-button green"
-                    data-field="needStatus"
-                    data-value="توجد حاجة إليك">
-
-                    توجد حاجة إليك
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="stage-button orange"
-                    data-field="needStatus"
-                    data-value="قيد المراجعة">
-
-                    قيد المراجعة
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="stage-button red"
-                    data-field="needStatus"
-                    data-value="لا توجد حاجة حالياً">
-
-                    لا توجد حاجة حالياً
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- =================================================
-             3 INTERVIEW ACCEPTANCE
-        ================================================== -->
-
-        <div class="stage-card">
-
-            <div class="stage-header">
-
-                <div class="stage-title-box">
-
-                    <div class="stage-number">
-                        3
-                    </div>
-
-                    <div>
-
-                        <div class="stage-name">
-
-                            مرحلة المقابلة
-
-                        </div>
-
-                        <div class="stage-note">
-
-                            تحديد انتقال المتقدم إلى المقابلة
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <span
-                    id="interviewStatus"
-                    class="badge badge-default">
-
-                    لم يتم تحديدها بعد
-
-                </span>
-
-            </div>
-
-
-            <div class="stage-actions">
-
-                <button
-                    type="button"
-                    class="stage-button green"
-                    data-field="interviewStage"
-                    data-value="مؤهل للمقابلة">
-
-                    مؤهل للمقابلة
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="stage-button orange"
-                    data-field="interviewStage"
-                    data-value="بانتظار تحديد المقابلة">
-
-                    بانتظار تحديد المقابلة
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="stage-button red"
-                    data-field="interviewStage"
-                    data-value="غير مؤهل للمقابلة">
-
-                    غير مؤهل للمقابلة
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- =================================================
-             4 INTERVIEW DATE
-        ================================================== -->
-
-        <div class="stage-card">
-
-            <div class="stage-header">
-
-                <div class="stage-title-box">
-
-                    <div class="stage-number">
-                        4
-                    </div>
-
-                    <div>
-
-                        <div class="stage-name">
-
-                            تاريخ المقابلة
-
-                        </div>
-
-                        <div class="stage-note">
-
-                            حدد التاريخ والوقت الذي سيظهر للمتقدم
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <span
-                    id="interviewDateStatus"
-                    class="badge badge-default">
-
-                    لم يتم تحديد الموعد
-
-                </span>
-
-            </div>
-
-
-            <div class="date-area">
-
-                <input
-                    id="interviewDateInput"
-                    class="date-input"
-                    type="datetime-local">
-
-
-                <button
-                    id="saveInterviewDate"
-                    class="save-date"
-                    type="button">
-
-                    حفظ تاريخ المقابلة
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- =================================================
-             5 COMMITTEE
-        ================================================== -->
-
-        <div class="stage-card">
-
-            <div class="stage-header">
-
-                <div class="stage-title-box">
-
-                    <div class="stage-number">
-                        5
-                    </div>
-
-                    <div>
-
-                        <div class="stage-name">
-
-                            قرار لجنة المقابلات
-
-                        </div>
-
-                        <div class="stage-note">
-
-                            القرار النهائي للجنة بعد المقابلة
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <span
-                    id="committeeStatus"
-                    class="badge badge-default">
-
-                    لم يتم تحديدها بعد
-
-                </span>
-
-            </div>
-
-
-            <div class="stage-actions">
-
-                <button
-                    type="button"
-                    class="stage-button green committee-button"
-                    data-value="قبول">
-
-                    قبول
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="stage-button red committee-button"
-                    data-value="رفض">
-
-                    عدم قبول
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- =================================================
-             6 START DATE
-        ================================================== -->
-
-        <div
-            id="startDateStage"
-            class="stage-card">
-
-            <div class="stage-header">
-
-                <div class="stage-title-box">
-
-                    <div class="stage-number">
-                        6
-                    </div>
-
-                    <div>
-
-                        <div class="stage-name">
-
-                            تاريخ المباشرة
-
-                        </div>
-
-                        <div class="stage-note">
-
-                            يحدد بعد قبول المتقدم من اللجنة
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <span
-                    id="startDateStatus"
-                    class="badge badge-default">
-
-                    لم يتم تحديد التاريخ
-
-                </span>
-
-            </div>
-
-
-            <div class="date-area">
-
-                <input
-                    id="startDateInput"
-                    class="date-input"
-                    type="date">
-
-
-                <button
-                    id="saveStartDate"
-                    class="save-date"
-                    type="button">
-
-                    حفظ تاريخ المباشرة
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-    </div>
-
-</section>
+</div>
 
 
 <footer class="footer">
@@ -2226,6 +1816,418 @@ button {
 </div>
 
 </main>
+
+
+<!-- =====================================================
+     ADMIN MODAL
+===================================================== -->
+
+<div
+    class="modal-overlay"
+    id="applicantModal">
+
+<div class="modal">
+
+
+<div class="modal-header">
+
+    <div>
+
+        <div
+            class="modal-name"
+            id="modalName">
+            المتقدم
+        </div>
+
+        <div
+            class="modal-code"
+            id="modalCode">
+        </div>
+
+    </div>
+
+
+    <button
+        type="button"
+        class="close-modal"
+        id="closeModal">
+        ×
+    </button>
+
+</div>
+
+
+<div class="modal-body">
+
+
+<div class="section-title">
+    بيانات المتقدم
+</div>
+
+
+<div
+    class="applicant-info"
+    id="applicantInfo">
+</div>
+
+
+<div class="section-title">
+    مراحل طلب التوظيف
+</div>
+
+
+<!-- =================================================
+     REVIEW
+================================================= -->
+
+<div class="stage-card">
+
+    <div class="stage-header">
+
+        <div class="stage-title">
+            1. مرحلة التدقيق
+        </div>
+
+        <div
+            id="reviewCurrent"
+            class="stage-current">
+            لم يتم تحديدها بعد
+        </div>
+
+    </div>
+
+
+    <div class="stage-actions">
+
+        <button
+            class="stage-button green status-button"
+            data-field="reviewStage"
+            data-value="تم التدقيق">
+
+            تم التدقيق
+
+        </button>
+
+
+        <button
+            class="stage-button orange status-button"
+            data-field="reviewStage"
+            data-value="قيد التدقيق">
+
+            قيد التدقيق
+
+        </button>
+
+
+        <button
+            class="stage-button red status-button"
+            data-field="reviewStage"
+            data-value="لم يجتز التدقيق">
+
+            لم يجتز التدقيق
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =================================================
+     NEED
+================================================= -->
+
+<div class="stage-card">
+
+    <div class="stage-header">
+
+        <div class="stage-title">
+            2. مرحلة الحاجة إليك
+        </div>
+
+        <div
+            id="needCurrent"
+            class="stage-current">
+            لم يتم تحديدها بعد
+        </div>
+
+    </div>
+
+
+    <div class="stage-actions">
+
+        <button
+            class="stage-button green status-button"
+            data-field="needStatus"
+            data-value="توجد حاجة إليك">
+
+            توجد حاجة إليك
+
+        </button>
+
+
+        <button
+            class="stage-button orange status-button"
+            data-field="needStatus"
+            data-value="قيد المراجعة">
+
+            قيد المراجعة
+
+        </button>
+
+
+        <button
+            class="stage-button red status-button"
+            data-field="needStatus"
+            data-value="لا توجد حاجة حالياً">
+
+            لا توجد حاجة حالياً
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =================================================
+     INTERVIEW
+================================================= -->
+
+<div class="stage-card">
+
+    <div class="stage-header">
+
+        <div class="stage-title">
+            3. مرحلة المقابلة
+        </div>
+
+        <div
+            id="interviewCurrent"
+            class="stage-current">
+            لم يتم تحديدها بعد
+        </div>
+
+    </div>
+
+
+    <div class="stage-actions">
+
+        <button
+            class="stage-button green status-button"
+            data-field="interviewStage"
+            data-value="مؤهل للمقابلة">
+
+            مؤهل للمقابلة
+
+        </button>
+
+
+        <button
+            class="stage-button orange status-button"
+            data-field="interviewStage"
+            data-value="بانتظار تحديد موعد المقابلة">
+
+            بانتظار الموعد
+
+        </button>
+
+
+        <button
+            class="stage-button red status-button"
+            data-field="interviewStage"
+            data-value="غير مؤهل للمقابلة">
+
+            غير مؤهل للمقابلة
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =================================================
+     INTERVIEW DATE
+================================================= -->
+
+<div class="stage-card">
+
+    <div class="stage-header">
+
+        <div class="stage-title">
+            4. تاريخ المقابلة
+        </div>
+
+        <div
+            id="interviewDateCurrent"
+            class="stage-current">
+            لم يتم تحديد الموعد
+        </div>
+
+    </div>
+
+
+    <div class="date-area">
+
+        <input
+            type="datetime-local"
+            id="interviewDateInput"
+            class="date-input">
+
+
+        <button
+            type="button"
+            id="saveInterviewDate"
+            class="save-date">
+
+            حفظ موعد المقابلة
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =================================================
+     COMMITTEE
+================================================= -->
+
+<div class="stage-card">
+
+    <div class="stage-header">
+
+        <div class="stage-title">
+            5. قرار لجنة المقابلات
+        </div>
+
+        <div
+            id="committeeCurrent"
+            class="stage-current">
+            لم يتم تحديدها بعد
+        </div>
+
+    </div>
+
+
+    <div class="stage-actions">
+
+        <button
+            class="stage-button green committee-button"
+            data-value="قبول">
+
+            قبول
+
+        </button>
+
+
+        <button
+            class="stage-button red committee-button"
+            data-value="رفض">
+
+            عدم قبول
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =================================================
+     ACCEPTANCE
+================================================= -->
+
+<div class="stage-card">
+
+    <div class="stage-header">
+
+        <div class="stage-title">
+            6. حالة القبول
+        </div>
+
+        <div
+            id="acceptanceCurrent"
+            class="stage-current">
+            لم يتم تحديدها بعد
+        </div>
+
+    </div>
+
+
+    <div class="stage-actions">
+
+        <button
+            class="stage-button green acceptance-button"
+            data-value="مقبول">
+
+            مقبول
+
+        </button>
+
+
+        <button
+            class="stage-button red acceptance-button"
+            data-value="حظ أوفر في فرص قادمة">
+
+            حظ أوفر
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =================================================
+     START DATE
+================================================= -->
+
+<div class="stage-card">
+
+    <div class="stage-header">
+
+        <div class="stage-title">
+            7. تاريخ المباشرة
+        </div>
+
+        <div
+            id="startDateCurrent"
+            class="stage-current">
+            لم يتم تحديد التاريخ
+        </div>
+
+    </div>
+
+
+    <div class="date-area">
+
+        <input
+            type="date"
+            id="startDateInput"
+            class="date-input">
+
+
+        <button
+            type="button"
+            id="saveStartDate"
+            class="save-date">
+
+            حفظ تاريخ المباشرة
+
+        </button>
+
+    </div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
 
 
 <script type="module">
@@ -2305,9 +2307,9 @@ const db =
    ELEMENTS
 ===================================================== */
 
-const loading =
+const loadingScreen =
     document.getElementById(
-        "loading"
+        "loadingScreen"
     );
 
 
@@ -2323,63 +2325,75 @@ const toast =
     );
 
 
+const totalCount =
+    document.getElementById(
+        "totalCount"
+    );
+
+
+const maleCount =
+    document.getElementById(
+        "maleCount"
+    );
+
+
+const femaleCount =
+    document.getElementById(
+        "femaleCount"
+    );
+
+
+const tableBody =
+    document.getElementById(
+        "tableBody"
+    );
+
+
+const mobileList =
+    document.getElementById(
+        "mobileList"
+    );
+
+
+const emptyState =
+    document.getElementById(
+        "emptyState"
+    );
+
+
+const resultsCount =
+    document.getElementById(
+        "resultsCount"
+    );
+
+
 const searchInput =
     document.getElementById(
         "searchInput"
     );
 
 
-const searchResultCount =
+const applicantModal =
     document.getElementById(
-        "searchResultCount"
+        "applicantModal"
     );
 
 
-const resultsCard =
+const modalName =
     document.getElementById(
-        "resultsCard"
+        "modalName"
     );
 
 
-const resultsHeaderCount =
+const modalCode =
     document.getElementById(
-        "resultsHeaderCount"
+        "modalCode"
     );
 
 
-const resultsList =
+const applicantInfo =
     document.getElementById(
-        "resultsList"
-    );
-
-
-const detailsCard =
-    document.getElementById(
-        "detailsCard"
-    );
-
-
-const detailsName =
-    document.getElementById(
-        "detailsName"
-    );
-
-
-const detailsCode =
-    document.getElementById(
-        "detailsCode"
-    );
-
-
-const dataGrid =
-    document.getElementById(
-        "dataGrid"
-    );
-
-
-const closeDetails =
-    document.getElementById(
-        "closeDetails"
+        "applicantInfo"
     );
 
 
@@ -2401,75 +2415,38 @@ const startDateInput =
 
 let allApplicants = [];
 
-let selectedApplicant = null;
+let currentFilter =
+    "all";
 
 
-/* =====================================================
-   LOADING
-===================================================== */
-
-function showLoading(
-    state,
-    message = "جارِ تحميل البيانات..."
-) {
-
-    loadingText.textContent =
-        message;
+let selectedApplicant =
+    null;
 
 
-    if (state) {
-
-        loading.classList.add(
-            "show"
-        );
-
-    } else {
-
-        loading.classList.remove(
-            "show"
-        );
-
-    }
-
-}
+let toastTimer =
+    null;
 
 
 /* =====================================================
    TOAST
 ===================================================== */
 
-let toastTimer = null;
-
-
 function showToast(
     message,
     type = ""
 ) {
-
-    clearTimeout(
-        toastTimer
-    );
-
 
     toast.textContent =
         message;
 
 
     toast.className =
-        "toast";
+        "toast show " +
+        type;
 
 
-    if (type) {
-
-        toast.classList.add(
-            type
-        );
-
-    }
-
-
-    toast.classList.add(
-        "show"
+    clearTimeout(
+        toastTimer
     );
 
 
@@ -2477,9 +2454,8 @@ function showToast(
         setTimeout(
             function() {
 
-                toast.classList.remove(
-                    "show"
-                );
+                toast.className =
+                    "toast";
 
             },
             3000
@@ -2489,65 +2465,103 @@ function showToast(
 
 
 /* =====================================================
-   ESCAPE
+   LOADING
+===================================================== */
+
+function showLoading(
+    state,
+    message = "جارٍ تحميل البيانات..."
+) {
+
+    loadingText.textContent =
+        message;
+
+
+    if (state) {
+
+        loadingScreen.classList.add(
+            "active"
+        );
+
+    } else {
+
+        loadingScreen.classList.remove(
+            "active"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
 ===================================================== */
 
 function escapeHTML(
     value
 ) {
 
-    return String(
-        value ?? ""
-    )
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-    .replace(
-        /</g,
-        "&lt;"
-    )
-    .replace(
-        />/g,
-        "&gt;"
-    )
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-    .replace(
-        /'/g,
-        "&#039;"
-    );
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
 
 /* =====================================================
-   NORMALIZE SEARCH
+   DISPLAY VALUE
 ===================================================== */
 
-function normalizeText(
+function displayValue(
     value
 ) {
 
-    return String(
-        value ?? ""
-    )
-    .toLowerCase()
-    .trim()
-    .replace(
-        /[أإآ]/g,
-        "ا"
-    )
-    .replace(
-        /ة/g,
-        "ه"
-    )
-    .replace(
-        /ى/g,
-        "ي"
-    );
+    if (
+        value === undefined ||
+        value === null ||
+        String(value).trim() === ""
+    ) {
+
+        return "لم يتم تحديدها بعد";
+
+    }
+
+
+    return String(value);
 
 }
 
@@ -2556,14 +2570,13 @@ function normalizeText(
    GET NAME
 ===================================================== */
 
-function getName(
+function getApplicantName(
     applicant
 ) {
 
     return (
         applicant?.personal?.fullName ||
         applicant?.fullName ||
-        applicant?.name ||
         "غير متوفر"
     );
 
@@ -2574,270 +2587,97 @@ function getName(
    GET PHONE
 ===================================================== */
 
-function getPhone(
+function getApplicantPhone(
     applicant
 ) {
 
     return (
         applicant?.personal?.phone ||
         applicant?.phone ||
-        "غير متوفر"
+        ""
     );
 
 }
 
 
 /* =====================================================
-   GET JOB
+   FORMAT DATE
 ===================================================== */
 
-function getJob(
-    applicant
+function formatDate(
+    value
 ) {
 
-    return (
-        applicant?.job?.specialization ||
-        applicant?.job?.schoolLevel ||
-        applicant?.education?.specialization ||
-        "غير متوفر"
-    );
+    if (!value) {
 
-}
-
-
-/* =====================================================
-   FLATTEN VALUES
-===================================================== */
-
-function collectValues(
-    value,
-    output = []
-) {
-
-    if (
-        value === null ||
-        value === undefined
-    ) {
-
-        return output;
+        return "غير متوفر";
 
     }
 
 
-    if (
-        typeof value === "object"
-    ) {
+    try {
 
-        Object.values(
-            value
-        ).forEach(
-            function(child) {
+        const date =
+            new Date(value);
 
-                collectValues(
-                    child,
-                    output
-                );
 
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return String(value);
+
+        }
+
+
+        return date.toLocaleString(
+            "ar-IQ",
+            {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit"
             }
         );
 
-    } else {
+    } catch {
 
-        output.push(
-            String(value)
-        );
+        return String(value);
 
     }
-
-
-    return output;
 
 }
 
 
 /* =====================================================
-   SEARCH MATCH
-===================================================== */
+   LOAD APPLICANTS
 
-function matchesSearch(
-    applicant,
-    query
-) {
-
-    const search =
-        normalizeText(
-            query
-        );
-
-
-    if (!search) {
-
-        return false;
-
-    }
-
-
-    const values = [
-
-        applicant.uid,
-
-        ...collectValues(
-            applicant
-        )
-
-    ];
-
-
-    const combined =
-        normalizeText(
-            values.join(" ")
-        );
-
-
-    return combined.includes(
-        search
-    );
-
-}
-
-
-/* =====================================================
-   GET STATUS FIELD
-===================================================== */
-
-function getField(
-    applicant,
-    field
-) {
-
-    if (!applicant) {
-
-        return "";
-
-    }
-
-
-    if (
-        applicant[field] !== undefined &&
-        applicant[field] !== null
-    ) {
-
-        return applicant[field];
-
-    }
-
-
-    return "";
-
-}
-
-
-/* =====================================================
-   DISPLAY
-===================================================== */
-
-function displayValue(
-    value
-) {
-
-    if (
-        value === null ||
-        value === undefined ||
-        String(value).trim() === ""
-    ) {
-
-        return "لم يتم تحديدها بعد";
-
-    }
-
-
-    return String(
-        value
-    );
-
-}
-
-
-/* =====================================================
-   BADGE
-===================================================== */
-
-function getBadgeClass(
-    value
-) {
-
-    const text =
-        normalizeText(
-            value
-        );
-
-
-    if (!text) {
-
-        return "badge-default";
-
-    }
-
-
-    if (
-        text.includes("تم التدقيق") ||
-        text.includes("توجد حاجه") ||
-        text.includes("مؤهل للمقابله") ||
-        text === "قبول"
-    ) {
-
-        return "badge-green";
-
-    }
-
-
-    if (
-        text.includes("لم يجتز") ||
-        text.includes("لا توجد حاجه") ||
-        text.includes("غير مؤهل") ||
-        text === "رفض"
-    ) {
-
-        return "badge-red";
-
-    }
-
-
-    if (
-        text.includes("قيد") ||
-        text.includes("بانتظار")
-    ) {
-
-        return "badge-orange";
-
-    }
-
-
-    return "badge-blue";
-
-}
-
-
-/* =====================================================
-   LOAD
+   نفس طريقة الكود الأصلي
 ===================================================== */
 
 async function loadApplicants() {
 
     showLoading(
         true,
-        "جارِ تحميل بيانات المتقدمين..."
+        "جارٍ تحميل بيانات المتقدمين..."
     );
 
 
     try {
 
+        const applicationsReference =
+            ref(
+                db,
+                "jobApplications"
+            );
+
+
         const snapshot =
             await get(
-                ref(
-                    db,
-                    "jobApplications"
-                )
+                applicationsReference
             );
 
 
@@ -2847,10 +2687,9 @@ async function loadApplicants() {
 
             allApplicants = [];
 
-            showToast(
-                "لا توجد طلبات توظيف.",
-                "error"
-            );
+            updateStatistics();
+
+            renderApplicants();
 
             return;
 
@@ -2873,7 +2712,7 @@ async function loadApplicants() {
 
                     return {
 
-                        uid,
+                        uid: uid,
 
                         ...(applicant || {})
 
@@ -2883,28 +2722,27 @@ async function loadApplicants() {
             );
 
 
-        allApplicants.sort(
-            function(a, b) {
-
-                return getName(a)
-                    .localeCompare(
-                        getName(b),
-                        "ar"
-                    );
-
-            }
+        sortApplicantsAlphabetically(
+            allApplicants
         );
+
+
+        updateStatistics();
+
+
+        renderApplicants();
 
     }
     catch (error) {
 
         console.error(
+            "Firebase Error:",
             error
         );
 
 
         showToast(
-            "تعذر تحميل بيانات Firebase.",
+            "تعذر قراءة بيانات Firebase.",
             "error"
         );
 
@@ -2921,170 +2759,644 @@ async function loadApplicants() {
 
 
 /* =====================================================
-   SEARCH RESULTS
+   SORT
 ===================================================== */
 
-function renderResults(
-    query
+function sortApplicantsAlphabetically(
+    applicants
 ) {
 
-    const search =
-        String(
-            query || ""
-        ).trim();
+    return applicants.sort(
+        function(a, b) {
 
-
-    if (!search) {
-
-        resultsCard.classList.remove(
-            "show"
-        );
-
-
-        searchResultCount.textContent =
-            "0 نتيجة";
-
-
-        return;
-
-    }
-
-
-    const results =
-        allApplicants.filter(
-            function(applicant) {
-
-                return matchesSearch(
-                    applicant,
-                    search
+            return getApplicantName(a)
+                .localeCompare(
+                    getApplicantName(b),
+                    "ar",
+                    {
+                        sensitivity: "base"
+                    }
                 );
 
-            }
-        );
-
-
-    searchResultCount.textContent =
-        results.length +
-        " نتيجة";
-
-
-    resultsHeaderCount.textContent =
-        results.length;
-
-
-    resultsCard.classList.add(
-        "show"
+        }
     );
-
-
-    if (
-        results.length === 0
-    ) {
-
-        resultsList.innerHTML = `
-
-            <div class="empty">
-
-                لا يوجد متقدم مطابق للبحث.
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    resultsList.innerHTML =
-        results
-        .map(
-            function(applicant) {
-
-                const review =
-                    getField(
-                        applicant,
-                        "reviewStage"
-                    );
-
-
-                return `
-
-                    <div
-                        class="applicant-row"
-                        data-uid="${escapeHTML(applicant.uid)}">
-
-
-                        <div class="applicant-code">
-
-                            ${escapeHTML(
-                                applicant.uid
-                            )}
-
-                        </div>
-
-
-                        <div>
-
-                            <div class="applicant-name">
-
-                                ${escapeHTML(
-                                    getName(applicant)
-                                )}
-
-                            </div>
-
-
-                            <div class="applicant-job">
-
-                                ${escapeHTML(
-                                    getJob(applicant)
-                                )}
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="applicant-phone">
-
-                            ${escapeHTML(
-                                getPhone(applicant)
-                            )}
-
-                        </div>
-
-
-                        <div class="applicant-status">
-
-                            <span
-                                class="badge ${getBadgeClass(review)}">
-
-                                ${escapeHTML(
-                                    displayValue(review)
-                                )}
-
-                            </span>
-
-                        </div>
-
-
-                    </div>
-
-                `;
-
-            }
-        )
-        .join("");
 
 }
 
 
 /* =====================================================
-   DATA GRID
+   STATISTICS
 ===================================================== */
 
-function renderApplicantData(
+function updateStatistics() {
+
+    totalCount.textContent =
+        allApplicants.length;
+
+
+    maleCount.textContent =
+        allApplicants.filter(
+            applicant =>
+                applicant?.personal?.gender ===
+                "ذكر"
+        ).length;
+
+
+    femaleCount.textContent =
+        allApplicants.filter(
+            applicant =>
+                applicant?.personal?.gender ===
+                "أنثى"
+        ).length;
+
+}
+
+
+/* =====================================================
+   FILTER
+===================================================== */
+
+function getFilteredApplicants() {
+
+    let result =
+        [...allApplicants];
+
+
+    if (
+        currentFilter !==
+        "all"
+    ) {
+
+        result =
+            result.filter(
+                function(applicant) {
+
+                    return (
+                        applicant?.personal?.gender ===
+                        currentFilter
+                    );
+
+                }
+            );
+
+    }
+
+
+    const search =
+        searchInput.value
+            .trim()
+            .toLowerCase();
+
+
+    if (search) {
+
+        result =
+            result.filter(
+                function(applicant) {
+
+                    const values = [
+
+                        applicant.uid,
+
+                        applicant?.personal?.fullName,
+
+                        applicant?.personal?.phone,
+
+                        applicant?.personal?.address,
+
+                        applicant?.job?.schoolLevel,
+
+                        applicant?.job?.specialization,
+
+                        applicant?.education?.certificate,
+
+                        applicant?.education?.university,
+
+                        applicant?.education?.college,
+
+                        applicant?.education?.specialization,
+
+                        applicant?.experience?.experience,
+
+                        applicant?.experience?.previousWork
+
+                    ];
+
+
+                    return values.some(
+                        function(value) {
+
+                            return String(
+                                value || ""
+                            )
+                            .toLowerCase()
+                            .includes(
+                                search
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+
+
+    sortApplicantsAlphabetically(
+        result
+    );
+
+
+    return result;
+
+}
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function renderApplicants() {
+
+    const applicants =
+        getFilteredApplicants();
+
+
+    resultsCount.textContent =
+        applicants.length +
+        " متقدم";
+
+
+    tableBody.innerHTML =
+        "";
+
+
+    mobileList.innerHTML =
+        "";
+
+
+    if (
+        applicants.length === 0
+    ) {
+
+        emptyState.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    emptyState.style.display =
+        "none";
+
+
+    applicants.forEach(
+        function(applicant) {
+
+            renderTableRow(
+                applicant
+            );
+
+
+            renderMobileCard(
+                applicant
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   TABLE ROW
+===================================================== */
+
+function renderTableRow(
+    applicant
+) {
+
+    const personal =
+        applicant.personal || {};
+
+
+    const job =
+        applicant.job || {};
+
+
+    const education =
+        applicant.education || {};
+
+
+    const row =
+        document.createElement(
+            "tr"
+        );
+
+
+    const genderClass =
+        personal.gender === "ذكر"
+            ? "gender-male"
+            : "gender-female";
+
+
+    row.innerHTML = `
+
+        <td>
+
+            <span class="uid">
+
+                ${escapeHTML(
+                    applicant.uid
+                )}
+
+            </span>
+
+        </td>
+
+
+        <td>
+
+            <span class="name-cell">
+
+                ${escapeHTML(
+                    personal.fullName ||
+                    "غير متوفر"
+                )}
+
+            </span>
+
+        </td>
+
+
+        <td>
+
+            <span class="gender-badge ${genderClass}">
+
+                ${escapeHTML(
+                    personal.gender ||
+                    "غير محدد"
+                )}
+
+            </span>
+
+        </td>
+
+
+        <td>
+
+            ${escapeHTML(
+                personal.birthDate ||
+                "غير متوفر"
+            )}
+
+        </td>
+
+
+        <td>
+
+            <span class="phone-cell">
+
+                ${escapeHTML(
+                    personal.phone ||
+                    "غير متوفر"
+                )}
+
+            </span>
+
+        </td>
+
+
+        <td>
+
+            ${escapeHTML(
+                personal.address ||
+                "غير متوفر"
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${escapeHTML(
+                job.schoolLevel ||
+                "غير متوفر"
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${escapeHTML(
+                job.specialization ||
+                "غير متوفر"
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${escapeHTML(
+                education.certificate ||
+                "غير متوفر"
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${escapeHTML(
+                education.university ||
+                "غير متوفر"
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${escapeHTML(
+                education.college ||
+                "غير متوفر"
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${escapeHTML(
+                education.gpa ||
+                "غير متوفر"
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${escapeHTML(
+                displayValue(
+                    applicant.reviewStage
+                )
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${escapeHTML(
+                displayValue(
+                    applicant.needStatus
+                )
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${escapeHTML(
+                displayValue(
+                    applicant.interviewStage
+                )
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${escapeHTML(
+                applicant.committeeDecision ===
+                "رفض"
+                    ? "عدم قبول"
+                    : displayValue(
+                        applicant.committeeDecision
+                    )
+            )}
+
+        </td>
+
+    `;
+
+
+    row.addEventListener(
+        "click",
+        function() {
+
+            openApplicant(
+                applicant
+            );
+
+        }
+    );
+
+
+    tableBody.appendChild(
+        row
+    );
+
+}
+
+
+/* =====================================================
+   MOBILE CARD
+===================================================== */
+
+function renderMobileCard(
+    applicant
+) {
+
+    const personal =
+        applicant.personal || {};
+
+
+    const job =
+        applicant.job || {};
+
+
+    const card =
+        document.createElement(
+            "div"
+        );
+
+
+    card.className =
+        "applicant-card";
+
+
+    card.innerHTML = `
+
+        <div class="card-name">
+
+            ${escapeHTML(
+                personal.fullName ||
+                "غير متوفر"
+            )}
+
+        </div>
+
+
+        <div class="card-uid">
+
+            ${escapeHTML(
+                applicant.uid
+            )}
+
+        </div>
+
+
+        <div class="card-details">
+
+
+            ${mobileDetail(
+                "رقم الهاتف",
+                personal.phone
+            )}
+
+
+            ${mobileDetail(
+                "الجنس",
+                personal.gender
+            )}
+
+
+            ${mobileDetail(
+                "المرحلة",
+                job.schoolLevel
+            )}
+
+
+            ${mobileDetail(
+                "المادة",
+                job.specialization
+            )}
+
+
+            ${mobileDetail(
+                "مرحلة التدقيق",
+                applicant.reviewStage
+            )}
+
+
+            ${mobileDetail(
+                "الحاجة إليك",
+                applicant.needStatus
+            )}
+
+
+        </div>
+
+    `;
+
+
+    card.addEventListener(
+        "click",
+        function() {
+
+            openApplicant(
+                applicant
+            );
+
+        }
+    );
+
+
+    mobileList.appendChild(
+        card
+    );
+
+}
+
+
+/* =====================================================
+   MOBILE DETAIL
+===================================================== */
+
+function mobileDetail(
+    label,
+    value
+) {
+
+    return `
+
+        <div class="detail">
+
+            <div class="detail-label">
+
+                ${escapeHTML(label)}
+
+            </div>
+
+            <div class="detail-value">
+
+                ${escapeHTML(
+                    displayValue(value)
+                )}
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   OPEN APPLICANT
+===================================================== */
+
+function openApplicant(
+    applicant
+) {
+
+    selectedApplicant =
+        applicant;
+
+
+    modalName.textContent =
+        getApplicantName(
+            applicant
+        );
+
+
+    modalCode.textContent =
+        applicant.uid;
+
+
+    renderApplicantInfo(
+        applicant
+    );
+
+
+    refreshAdminStages();
+
+
+    applicantModal.classList.add(
+        "show"
+    );
+
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+/* =====================================================
+   APPLICANT INFO
+===================================================== */
+
+function renderApplicantInfo(
     applicant
 ) {
 
@@ -3142,7 +3454,7 @@ function renderApplicantData(
         ],
 
         [
-            "المادة / الاختصاص",
+            "المادة",
             job.specialization
         ],
 
@@ -3162,7 +3474,7 @@ function renderApplicantData(
         ],
 
         [
-            "التخصص الدراسي",
+            "التخصص",
             education.specialization
         ],
 
@@ -3189,7 +3501,7 @@ function renderApplicantData(
     ];
 
 
-    dataGrid.innerHTML =
+    applicantInfo.innerHTML =
         fields
         .map(
             function([
@@ -3199,16 +3511,16 @@ function renderApplicantData(
 
                 return `
 
-                    <div class="data-box">
+                    <div class="info-box">
 
-                        <div class="data-label">
+                        <div class="info-label">
 
                             ${escapeHTML(label)}
 
                         </div>
 
 
-                        <div class="data-value">
+                        <div class="info-value">
 
                             ${escapeHTML(
                                 displayValue(value)
@@ -3228,60 +3540,10 @@ function renderApplicantData(
 
 
 /* =====================================================
-   SHOW DETAILS
+   REFRESH ADMIN UI
 ===================================================== */
 
-function openApplicant(
-    applicant
-) {
-
-    selectedApplicant =
-        applicant;
-
-
-    detailsName.textContent =
-        getName(
-            applicant
-        );
-
-
-    detailsCode.textContent =
-        applicant.uid;
-
-
-    renderApplicantData(
-        applicant
-    );
-
-
-    refreshStageUI();
-
-
-    detailsCard.classList.add(
-        "show"
-    );
-
-
-    setTimeout(
-        function() {
-
-            detailsCard.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-
-        },
-        100
-    );
-
-}
-
-
-/* =====================================================
-   REFRESH STAGES
-===================================================== */
-
-function refreshStageUI() {
+function refreshAdminStages() {
 
     if (!selectedApplicant) {
 
@@ -3290,129 +3552,185 @@ function refreshStageUI() {
     }
 
 
-    setStatusElement(
-        "reviewStatus",
-        getField(
-            selectedApplicant,
-            "reviewStage"
-        )
+    updateStageCurrent(
+        "reviewCurrent",
+        selectedApplicant.reviewStage
     );
 
 
-    setStatusElement(
-        "needStatusView",
-        getField(
-            selectedApplicant,
-            "needStatus"
-        )
+    updateStageCurrent(
+        "needCurrent",
+        selectedApplicant.needStatus
     );
 
 
-    setStatusElement(
-        "interviewStatus",
-        getField(
-            selectedApplicant,
-            "interviewStage"
-        )
+    updateStageCurrent(
+        "interviewCurrent",
+        selectedApplicant.interviewStage
     );
 
 
-    setStatusElement(
-        "committeeStatus",
-        getCommitteePublicValue(
-            getField(
-                selectedApplicant,
-                "committeeDecision"
-            )
-        )
+    updateStageCurrent(
+        "committeeCurrent",
+        selectedApplicant.committeeDecision ===
+        "رفض"
+            ? "عدم قبول"
+            : selectedApplicant.committeeDecision
+    );
+
+
+    updateStageCurrent(
+        "acceptanceCurrent",
+        selectedApplicant.acceptanceStatus
     );
 
 
     const interviewDate =
-        getField(
-            selectedApplicant,
-            "interviewDate"
+        selectedApplicant.interviewDate;
+
+
+    const interviewElement =
+        document.getElementById(
+            "interviewDateCurrent"
         );
 
 
-    document.getElementById(
-        "interviewDateStatus"
-    ).textContent =
+    interviewElement.textContent =
         interviewDate
-            ? formatDateForDisplay(
+            ? formatDate(
                 interviewDate
             )
             : "لم يتم تحديد الموعد";
 
 
-    document.getElementById(
-        "interviewDateStatus"
-    ).className =
-        "badge " +
-        (
-            interviewDate
-                ? "badge-green"
-                : "badge-default"
-        );
-
-
     interviewDateInput.value =
-        normalizeDateTimeInput(
+        normalizeDateTime(
             interviewDate
         );
 
 
-    const startDate =
-        getField(
-            selectedApplicant,
-            "startDate"
+    const start =
+        selectedApplicant.startDate;
+
+
+    const startElement =
+        document.getElementById(
+            "startDateCurrent"
         );
 
 
-    document.getElementById(
-        "startDateStatus"
-    ).textContent =
-        startDate
-            ? formatDateForDisplay(
-                startDate
+    startElement.textContent =
+        start
+            ? formatDate(
+                start
             )
             : "لم يتم تحديد التاريخ";
 
 
-    document.getElementById(
-        "startDateStatus"
-    ).className =
-        "badge " +
-        (
-            startDate
-                ? "badge-green"
-                : "badge-default"
-        );
-
-
     startDateInput.value =
-        normalizeDateInput(
-            startDate
+        normalizeDate(
+            start
         );
 
+
+    refreshActiveButtons();
+
+}
+
+
+/* =====================================================
+   STAGE CURRENT
+===================================================== */
+
+function updateStageCurrent(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(
+            id
+        );
+
+
+    const text =
+        displayValue(
+            value
+        );
+
+
+    element.textContent =
+        text;
+
+
+    element.className =
+        "stage-current";
+
+
+    const lower =
+        String(
+            text
+        );
+
+
+    if (
+        lower.includes("تم") ||
+        lower.includes("توجد") ||
+        lower.includes("مؤهل") ||
+        lower.includes("مقبول") ||
+        lower === "قبول"
+    ) {
+
+        element.classList.add(
+            "green"
+        );
+
+    }
+    else if (
+        lower.includes("لم يجتز") ||
+        lower.includes("لا توجد") ||
+        lower.includes("غير مؤهل") ||
+        lower.includes("عدم قبول") ||
+        lower.includes("حظ أوفر")
+    ) {
+
+        element.classList.add(
+            "red"
+        );
+
+    }
+    else if (
+        lower.includes("قيد") ||
+        lower.includes("بانتظار")
+    ) {
+
+        element.classList.add(
+            "orange"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   ACTIVE BUTTONS
+===================================================== */
+
+function refreshActiveButtons() {
 
     document
         .querySelectorAll(
-            ".stage-button[data-field]"
+            ".status-button"
         )
         .forEach(
             function(button) {
 
-                const current =
-                    getField(
-                        selectedApplicant,
-                        button.dataset.field
-                    );
-
-
                 button.classList.toggle(
                     "active",
-                    current ===
+                    selectedApplicant[
+                        button.dataset.field
+                    ] ===
                     button.dataset.value
                 );
 
@@ -3429,10 +3747,26 @@ function refreshStageUI() {
 
                 button.classList.toggle(
                     "active",
-                    getField(
-                        selectedApplicant,
-                        "committeeDecision"
-                    ) ===
+                    selectedApplicant
+                        .committeeDecision ===
+                    button.dataset.value
+                );
+
+            }
+        );
+
+
+    document
+        .querySelectorAll(
+            ".acceptance-button"
+        )
+        .forEach(
+            function(button) {
+
+                button.classList.toggle(
+                    "active",
+                    selectedApplicant
+                        .acceptanceStatus ===
                     button.dataset.value
                 );
 
@@ -3443,62 +3777,10 @@ function refreshStageUI() {
 
 
 /* =====================================================
-   STATUS ELEMENT
+   UPDATE SINGLE FIELD
 ===================================================== */
 
-function setStatusElement(
-    id,
-    value
-) {
-
-    const element =
-        document.getElementById(
-            id
-        );
-
-
-    element.textContent =
-        displayValue(
-            value
-        );
-
-
-    element.className =
-        "badge " +
-        getBadgeClass(
-            value
-        );
-
-}
-
-
-/* =====================================================
-   COMMITTEE DISPLAY
-===================================================== */
-
-function getCommitteePublicValue(
-    value
-) {
-
-    if (
-        value === "رفض"
-    ) {
-
-        return "عدم قبول";
-
-    }
-
-
-    return value;
-
-}
-
-
-/* =====================================================
-   SAVE FIELD
-===================================================== */
-
-async function saveField(
+async function updateApplicantField(
     field,
     value
 ) {
@@ -3512,30 +3794,25 @@ async function saveField(
 
     showLoading(
         true,
-        "جارِ حفظ التغيير..."
+        "جارٍ حفظ التغيير..."
     );
 
 
     try {
 
-        const applicantRef =
+        await update(
+
             ref(
                 db,
                 "jobApplications/" +
                 selectedApplicant.uid
-            );
+            ),
 
+            {
+                [field]:
+                    value
+            }
 
-        const updates = {};
-
-
-        updates[field] =
-            value;
-
-
-        await update(
-            applicantRef,
-            updates
         );
 
 
@@ -3543,33 +3820,26 @@ async function saveField(
             value;
 
 
-        const index =
-            allApplicants.findIndex(
-                function(item) {
-
-                    return item.uid ===
-                        selectedApplicant.uid;
-
-                }
+        const original =
+            allApplicants.find(
+                item =>
+                    item.uid ===
+                    selectedApplicant.uid
             );
 
 
-        if (
-            index !== -1
-        ) {
+        if (original) {
 
-            allApplicants[index][field] =
+            original[field] =
                 value;
 
         }
 
 
-        refreshStageUI();
+        refreshAdminStages();
 
 
-        renderResults(
-            searchInput.value
-        );
+        renderApplicants();
 
 
         showToast(
@@ -3603,21 +3873,117 @@ async function saveField(
 
 
 /* =====================================================
-   NORMAL STAGE BUTTONS
+   UPDATE MULTIPLE FIELDS
+===================================================== */
+
+async function updateApplicantFields(
+    values
+) {
+
+    if (!selectedApplicant) {
+
+        return;
+
+    }
+
+
+    showLoading(
+        true,
+        "جارٍ حفظ التغييرات..."
+    );
+
+
+    try {
+
+        await update(
+
+            ref(
+                db,
+                "jobApplications/" +
+                selectedApplicant.uid
+            ),
+
+            values
+
+        );
+
+
+        Object.assign(
+            selectedApplicant,
+            values
+        );
+
+
+        const original =
+            allApplicants.find(
+                item =>
+                    item.uid ===
+                    selectedApplicant.uid
+            );
+
+
+        if (original) {
+
+            Object.assign(
+                original,
+                values
+            );
+
+        }
+
+
+        refreshAdminStages();
+
+
+        renderApplicants();
+
+
+        showToast(
+            "تم حفظ التغييرات بنجاح.",
+            "success"
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        showToast(
+            "تعذر حفظ التغييرات.",
+            "error"
+        );
+
+    }
+    finally {
+
+        showLoading(
+            false
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   STATUS BUTTONS
 ===================================================== */
 
 document
     .querySelectorAll(
-        ".stage-button[data-field]"
+        ".status-button"
     )
     .forEach(
         function(button) {
 
             button.addEventListener(
                 "click",
-                async function() {
+                function() {
 
-                    await saveField(
+                    updateApplicantField(
                         this.dataset.field,
                         this.dataset.value
                     );
@@ -3630,7 +3996,7 @@ document
 
 
 /* =====================================================
-   COMMITTEE BUTTONS
+   COMMITTEE
 ===================================================== */
 
 document
@@ -3642,23 +4008,17 @@ document
 
             button.addEventListener(
                 "click",
-                async function() {
+                function() {
 
-                    const decision =
+                    const value =
                         this.dataset.value;
 
 
                     if (
-                        decision === "قبول"
+                        value === "قبول"
                     ) {
 
-                        /*
-                         * نخزن القرار الحقيقي
-                         * ونخلي acceptanceStatus
-                         * متوافق ويا صفحة المتقدم.
-                         */
-
-                        await saveMultipleFields({
+                        updateApplicantFields({
 
                             committeeDecision:
                                 "قبول",
@@ -3670,14 +4030,7 @@ document
 
                     } else {
 
-                        /*
-                         * داخل الإدارة القرار يبقى رفض.
-                         *
-                         * أما acceptanceStatus الذي يظهر
-                         * بصفحة المتقدم نخليه حظ أوفر.
-                         */
-
-                        await saveMultipleFields({
+                        updateApplicantFields({
 
                             committeeDecision:
                                 "رفض",
@@ -3700,104 +4053,59 @@ document
 
 
 /* =====================================================
-   SAVE MULTIPLE
+   ACCEPTANCE
 ===================================================== */
 
-async function saveMultipleFields(
-    values
-) {
+document
+    .querySelectorAll(
+        ".acceptance-button"
+    )
+    .forEach(
+        function(button) {
 
-    if (!selectedApplicant) {
+            button.addEventListener(
+                "click",
+                function() {
 
-        return;
-
-    }
-
-
-    showLoading(
-        true,
-        "جارِ حفظ قرار اللجنة..."
-    );
+                    const value =
+                        this.dataset.value;
 
 
-    try {
+                    if (
+                        value === "مقبول"
+                    ) {
 
-        const applicantRef =
-            ref(
-                db,
-                "jobApplications/" +
-                selectedApplicant.uid
-            );
+                        updateApplicantFields({
 
+                            acceptanceStatus:
+                                "مقبول",
 
-        await update(
-            applicantRef,
-            values
-        );
+                            committeeDecision:
+                                selectedApplicant
+                                    .committeeDecision ||
+                                "قبول"
 
+                        });
 
-        Object.assign(
-            selectedApplicant,
-            values
-        );
+                    } else {
 
+                        updateApplicantFields({
 
-        const index =
-            allApplicants.findIndex(
-                item =>
-                    item.uid ===
-                    selectedApplicant.uid
-            );
+                            acceptanceStatus:
+                                "حظ أوفر في فرص قادمة",
 
+                            startDate:
+                                ""
 
-        if (
-            index !== -1
-        ) {
+                        });
 
-            Object.assign(
-                allApplicants[index],
-                values
+                    }
+
+                }
             );
 
         }
-
-
-        refreshStageUI();
-
-
-        renderResults(
-            searchInput.value
-        );
-
-
-        showToast(
-            "تم حفظ قرار لجنة المقابلات.",
-            "success"
-        );
-
-    }
-    catch (error) {
-
-        console.error(
-            error
-        );
-
-
-        showToast(
-            "تعذر حفظ القرار.",
-            "error"
-        );
-
-    }
-    finally {
-
-        showLoading(
-            false
-        );
-
-    }
-
-}
+    );
 
 
 /* =====================================================
@@ -3810,7 +4118,7 @@ document
     )
     .addEventListener(
         "click",
-        async function() {
+        function() {
 
             const value =
                 interviewDateInput.value;
@@ -3828,12 +4136,7 @@ document
             }
 
 
-            /*
-             * عند اختيار تاريخ المقابلة
-             * نخزن المرحلة أيضاً تلقائياً.
-             */
-
-            await saveMultipleFields({
+            updateApplicantFields({
 
                 interviewDate:
                     value,
@@ -3857,7 +4160,7 @@ document
     )
     .addEventListener(
         "click",
-        async function() {
+        function() {
 
             if (
                 !selectedApplicant
@@ -3869,14 +4172,13 @@ document
 
 
             if (
-                getField(
-                    selectedApplicant,
-                    "committeeDecision"
-                ) !== "قبول"
+                selectedApplicant
+                    .acceptanceStatus !==
+                "مقبول"
             ) {
 
                 showToast(
-                    "لا يمكن تحديد تاريخ المباشرة قبل قبول المتقدم من لجنة المقابلات.",
+                    "لا يمكن تحديد تاريخ المباشرة قبل قبول المتقدم.",
                     "error"
                 );
 
@@ -3901,7 +4203,7 @@ document
             }
 
 
-            await saveField(
+            updateApplicantField(
                 "startDate",
                 value
             );
@@ -3911,89 +4213,17 @@ document
 
 
 /* =====================================================
-   DATE DISPLAY
+   DATE INPUT NORMALIZE
 ===================================================== */
 
-function formatDateForDisplay(
+function normalizeDateTime(
     value
 ) {
 
     if (!value) {
 
         return "";
-    }
 
-
-    const text =
-        String(
-            value
-        );
-
-
-    const parts =
-        text.split(
-            "T"
-        );
-
-
-    const datePart =
-        parts[0];
-
-
-    const dateParts =
-        datePart.split(
-            "-"
-        );
-
-
-    if (
-        dateParts.length !== 3
-    ) {
-
-        return text;
-
-    }
-
-
-    let result =
-        dateParts[2] +
-        "/" +
-        dateParts[1] +
-        "/" +
-        dateParts[0];
-
-
-    if (
-        parts[1]
-    ) {
-
-        result +=
-            " - " +
-            parts[1]
-                .substring(
-                    0,
-                    5
-                );
-
-    }
-
-
-    return result;
-
-}
-
-
-/* =====================================================
-   NORMALIZE DATE INPUTS
-===================================================== */
-
-function normalizeDateTimeInput(
-    value
-) {
-
-    if (!value) {
-
-        return "";
     }
 
 
@@ -4002,9 +4232,8 @@ function normalizeDateTimeInput(
 
 
     if (
-        text.includes(
-            "T"
-        )
+        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/
+            .test(text)
     ) {
 
         return text.substring(
@@ -4020,13 +4249,14 @@ function normalizeDateTimeInput(
 }
 
 
-function normalizeDateInput(
+function normalizeDate(
     value
 ) {
 
     if (!value) {
 
         return "";
+
     }
 
 
@@ -4035,9 +4265,8 @@ function normalizeDateInput(
 
 
     if (
-        /^\d{4}-\d{2}-\d{2}/.test(
-            text
-        )
+        /^\d{4}-\d{2}-\d{2}/
+            .test(text)
     ) {
 
         return text.substring(
@@ -4054,89 +4283,110 @@ function normalizeDateInput(
 
 
 /* =====================================================
-   SEARCH EVENT
+   SEARCH
 ===================================================== */
 
 searchInput.addEventListener(
     "input",
     function() {
 
-        renderResults(
-            this.value
-        );
+        renderApplicants();
 
     }
 );
 
 
 /* =====================================================
-   CLICK RESULT
+   GENDER FILTER
 ===================================================== */
 
-resultsList.addEventListener(
-    "click",
-    function(event) {
+document
+    .querySelectorAll(
+        ".filter-button"
+    )
+    .forEach(
+        function(button) {
 
-        const row =
-            event.target.closest(
-                ".applicant-row"
-            );
+            button.addEventListener(
+                "click",
+                function() {
+
+                    document
+                        .querySelectorAll(
+                            ".filter-button"
+                        )
+                        .forEach(
+                            item =>
+                                item.classList.remove(
+                                    "active"
+                                )
+                        );
 
 
-        if (!row) {
-
-            return;
-
-        }
+                    this.classList.add(
+                        "active"
+                    );
 
 
-        const uid =
-            row.dataset.uid;
+                    currentFilter =
+                        this.dataset.filter;
 
 
-        const applicant =
-            allApplicants.find(
-                function(item) {
-
-                    return item.uid === uid;
+                    renderApplicants();
 
                 }
             );
 
-
-        if (!applicant) {
-
-            return;
-
         }
-
-
-        openApplicant(
-            applicant
-        );
-
-    }
-);
+    );
 
 
 /* =====================================================
-   CLOSE
+   CLOSE MODAL
 ===================================================== */
 
-closeDetails.addEventListener(
+document
+    .getElementById(
+        "closeModal"
+    )
+    .addEventListener(
+        "click",
+        closeApplicantModal
+    );
+
+
+applicantModal.addEventListener(
     "click",
-    function() {
+    function(event) {
 
-        detailsCard.classList.remove(
-            "show"
-        );
+        if (
+            event.target ===
+            applicantModal
+        ) {
 
+            closeApplicantModal();
 
-        selectedApplicant =
-            null;
+        }
 
     }
 );
+
+
+function closeApplicantModal() {
+
+    applicantModal.classList.remove(
+        "show"
+    );
+
+
+    document.body.style.overflow =
+        "";
+
+
+    selectedApplicant =
+        null;
+
+}
 
 
 /* =====================================================
