@@ -5,33 +5,44 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
+    <meta
+        name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <meta name="theme-color" content="#0b63d8">
 
-    <title>إدارة المتقدمين | مدرسة التحدي</title>
+    <title>إدارة وظائف التحدي | مدرسة التحدي</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
-    <link rel="preconnect"
+    <link
+        rel="preconnect"
         href="https://fonts.gstatic.com"
         crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
 
 <style>
 
+/* =========================================================
+   RESET
+========================================================= */
+
 *,
 *::before,
 *::after {
+
     box-sizing: border-box;
+
     margin: 0;
     padding: 0;
+
     -webkit-tap-highlight-color: transparent;
 }
+
 
 :root {
 
@@ -39,32 +50,44 @@
     --blue-dark: #0649a8;
     --blue-light: #edf5ff;
 
-    --red: #d71920;
-    --red-light: #fff1f2;
-
     --green: #079455;
     --green-light: #edfff5;
+
+    --red: #d71920;
+    --red-light: #fff1f2;
 
     --orange: #f59e0b;
     --orange-light: #fff8e7;
 
+    --purple: #6941c6;
+    --purple-light: #f4f0ff;
+
     --text: #10233f;
     --muted: #718096;
+
     --border: #e1e8f2;
 
     --white: #ffffff;
     --bg: #f6f9fd;
 }
 
+
 html {
+
     width: 100%;
+
     min-height: 100%;
+
     background: var(--bg);
+
+    -webkit-text-size-adjust: 100%;
 }
+
 
 body {
 
     width: 100%;
+
     min-height: 100vh;
 
     font-family:
@@ -82,38 +105,46 @@ body {
         );
 
     overflow-x: hidden;
+
+    -webkit-font-smoothing: antialiased;
 }
+
 
 button,
 input,
 select,
 textarea {
+
     font-family:
         "Cairo",
         Arial,
         sans-serif;
 }
 
+
 button {
+
     cursor: pointer;
 }
 
 
-/* =====================================================
+/* =========================================================
    BACKGROUND
-===================================================== */
+========================================================= */
 
 .background {
 
     position: fixed;
+
     inset: 0;
+
+    z-index: 0;
 
     overflow: hidden;
 
     pointer-events: none;
-
-    z-index: 0;
 }
+
 
 .background::before {
 
@@ -121,11 +152,11 @@ button {
 
     position: absolute;
 
-    width: 420px;
-    height: 420px;
+    width: 450px;
+    height: 450px;
 
-    top: -220px;
-    right: -170px;
+    top: -240px;
+    right: -180px;
 
     border-radius: 50%;
 
@@ -133,10 +164,11 @@ button {
         radial-gradient(
             circle,
             rgba(11,99,216,.14),
-            rgba(11,99,216,.04) 45%,
+            rgba(11,99,216,.03) 50%,
             transparent 72%
         );
 }
+
 
 .background::after {
 
@@ -144,11 +176,11 @@ button {
 
     position: absolute;
 
-    width: 360px;
-    height: 360px;
+    width: 400px;
+    height: 400px;
 
-    bottom: -190px;
-    left: -150px;
+    bottom: -220px;
+    left: -180px;
 
     border-radius: 50%;
 
@@ -156,14 +188,14 @@ button {
         radial-gradient(
             circle,
             rgba(215,25,32,.08),
-            transparent 72%
+            transparent 70%
         );
 }
 
 
-/* =====================================================
+/* =========================================================
    APP
-===================================================== */
+========================================================= */
 
 .app {
 
@@ -177,23 +209,24 @@ button {
 
     padding:
         25px
-        18px
-        40px;
+        16px
+        50px;
 }
+
 
 .container {
 
     width: 100%;
 
-    max-width: 1600px;
+    max-width: 1650px;
 
     margin: 0 auto;
 }
 
 
-/* =====================================================
+/* =========================================================
    HEADER
-===================================================== */
+========================================================= */
 
 .header {
 
@@ -202,15 +235,17 @@ button {
     margin-bottom: 25px;
 }
 
+
 .logo-box {
 
-    width: 150px;
+    width: 160px;
+
     min-height: 60px;
 
     margin:
         0
         auto
-        10px;
+        12px;
 
     display: flex;
 
@@ -219,7 +254,8 @@ button {
     justify-content: center;
 }
 
-.logo-fallback {
+
+.logo-text {
 
     width: 100%;
 
@@ -233,7 +269,7 @@ button {
 
     padding:
         8px
-        14px;
+        15px;
 
     border-radius: 18px;
 
@@ -241,7 +277,7 @@ button {
 
     background:
         linear-gradient(
-            145deg,
+            135deg,
             var(--blue),
             var(--blue-dark)
         );
@@ -251,16 +287,25 @@ button {
     font-weight: 900;
 
     white-space: nowrap;
+
+    box-shadow:
+        0 10px 25px
+        rgba(11,99,216,.18);
 }
 
+
 .school-name {
+
+    color:
+        var(--blue-dark);
 
     font-size: 25px;
 
     font-weight: 900;
 
-    color: var(--blue-dark);
+    line-height: 1.5;
 }
+
 
 .department {
 
@@ -273,30 +318,34 @@ button {
     font-weight: 700;
 }
 
+
 .page-title {
 
-    margin-top: 18px;
+    margin-top: 16px;
+
+    color: var(--text);
 
     font-size: 23px;
 
     font-weight: 900;
 }
 
+
 .page-description {
 
     margin-top: 5px;
 
-    font-size: 11px;
-
     color: var(--muted);
+
+    font-size: 10px;
 
     font-weight: 600;
 }
 
 
-/* =====================================================
-   STATISTICS
-===================================================== */
+/* =========================================================
+   TOP STATS
+========================================================= */
 
 .statistics {
 
@@ -305,22 +354,70 @@ button {
     grid-template-columns:
         repeat(3, 1fr);
 
-    gap: 14px;
+    gap: 12px;
 
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
+
 
 .stat-card {
 
     padding:
-        20px
-        18px;
+        17px
+        16px;
+
+    background:
+        rgba(255,255,255,.97);
+
+    border:
+        1px solid
+        rgba(11,99,216,.08);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 10px 30px
+        rgba(16,35,63,.06);
+}
+
+
+.stat-label {
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+.stat-number {
+
+    margin-top: 3px;
+
+    color: var(--text);
+
+    font-size: 25px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   STAGE NAV
+========================================================= */
+
+.stage-navigation {
+
+    margin-bottom: 18px;
+
+    padding: 15px;
 
     background: white;
 
     border:
         1px solid
-        rgba(11,99,216,.08);
+        var(--border);
 
     border-radius: 20px;
 
@@ -329,83 +426,72 @@ button {
         rgba(16,35,63,.07);
 }
 
-.stat-label {
 
-    color: var(--muted);
+.stage-nav-title {
 
-    font-size: 11px;
-
-    font-weight: 700;
-}
-
-.stat-number {
-
-    margin-top: 4px;
-
-    font-size: 28px;
-
-    font-weight: 900;
+    margin-bottom: 10px;
 
     color: var(--text);
+
+    font-size: 13px;
+
+    font-weight: 900;
 }
 
 
-/* =====================================================
-   CONTROL PANEL
-===================================================== */
-
-.control-panel {
-
-    padding: 17px;
-
-    margin-bottom: 18px;
-
-    background: white;
-
-    border:
-        1px solid
-        rgba(11,99,216,.08);
-
-    border-radius: 22px;
-
-    box-shadow:
-        0 12px 40px
-        rgba(16,35,63,.07);
-}
-
-.filter-buttons {
+.stage-tabs {
 
     display: flex;
 
-    gap: 9px;
-
     flex-wrap: wrap;
+
+    gap: 8px;
 }
 
-.filter-button {
 
-    height: 43px;
+.stage-tab {
+
+    min-height: 42px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
 
     padding:
         0
-        18px;
+        13px;
 
     border:
         1px solid
         var(--border);
 
-    border-radius: 12px;
-
-    background: #f8fafc;
+    border-radius: 11px;
 
     color: #526277;
 
-    font-size: 11px;
+    background:
+        #f8fafc;
+
+    font-size: 9px;
 
     font-weight: 800;
+
+    transition: .15s;
 }
 
-.filter-button.active {
+
+.stage-tab:hover {
+
+    border-color:
+        var(--blue);
+}
+
+
+.stage-tab.active {
 
     color: white;
 
@@ -418,19 +504,82 @@ button {
             var(--blue),
             var(--blue-dark)
         );
+
+    box-shadow:
+        0 7px 18px
+        rgba(11,99,216,.17);
 }
 
 
-/* =====================================================
+.stage-tab-count {
+
+    min-width: 23px;
+
+    height: 23px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding:
+        0
+        6px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(0,0,0,.06);
+
+    font-size: 8px;
+
+    font-weight: 900;
+}
+
+
+.stage-tab.active
+.stage-tab-count {
+
+    background:
+        rgba(255,255,255,.18);
+}
+
+
+/* =========================================================
+   CONTROL PANEL
+========================================================= */
+
+.control-panel {
+
+    margin-bottom: 18px;
+
+    padding: 17px;
+
+    background:
+        rgba(255,255,255,.98);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 12px 35px
+        rgba(16,35,63,.07);
+}
+
+
+/* =========================================================
    SEARCH
-===================================================== */
+========================================================= */
 
 .search-box {
 
     position: relative;
-
-    margin-top: 14px;
 }
+
 
 .search-box input {
 
@@ -440,7 +589,7 @@ button {
 
     padding:
         0
-        45px
+        46px
         0
         15px;
 
@@ -460,7 +609,10 @@ button {
     font-size: 12px;
 
     font-weight: 700;
+
+    transition: .15s;
 }
+
 
 .search-box input:focus {
 
@@ -469,7 +621,12 @@ button {
 
     background:
         white;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(11,99,216,.06);
 }
+
 
 .search-icon {
 
@@ -481,12 +638,407 @@ button {
 
     transform:
         translateY(-50%);
+
+    color:
+        #7b8ba0;
+
+    font-size: 16px;
 }
 
 
-/* =====================================================
-   RESULTS
-===================================================== */
+/* =========================================================
+   FILTER TITLE
+========================================================= */
+
+.filter-title-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-top: 15px;
+
+    padding-top: 15px;
+
+    border-top:
+        1px solid
+        #edf1f6;
+}
+
+
+.filter-title {
+
+    font-size: 12px;
+
+    font-weight: 900;
+}
+
+
+.filter-description {
+
+    margin-top: 2px;
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+    font-weight: 600;
+}
+
+
+.clear-filters {
+
+    height: 36px;
+
+    padding:
+        0
+        12px;
+
+    border:
+        1px solid
+        #ffd4d8;
+
+    border-radius: 9px;
+
+    color:
+        #a6212c;
+
+    background:
+        #fff5f6;
+
+    font-size: 9px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   EXCEL FILTERS
+========================================================= */
+
+.excel-filters {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            5,
+            minmax(150px, 1fr)
+        );
+
+    gap: 9px;
+
+    margin-top: 10px;
+}
+
+
+.excel-filter {
+
+    position: relative;
+
+    min-width: 0;
+}
+
+
+.excel-filter-label {
+
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #66758a;
+
+    font-size: 8px;
+
+    font-weight: 800;
+}
+
+
+.excel-filter-button {
+
+    width: 100%;
+
+    min-height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 7px;
+
+    padding:
+        0
+        10px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 9px;
+
+    background:
+        #f9fbfe;
+
+    color: #45566d;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    text-align: right;
+}
+
+
+.excel-filter.active
+.excel-filter-button {
+
+    border-color:
+        var(--blue);
+
+    color:
+        var(--blue-dark);
+
+    background:
+        var(--blue-light);
+}
+
+
+.filter-button-text {
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+.excel-filter-menu {
+
+    position: absolute;
+
+    z-index: 500;
+
+    top:
+        calc(100% + 5px);
+
+    right: 0;
+
+    width: 100%;
+
+    min-width: 220px;
+
+    max-height: 350px;
+
+    display: none;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 12px;
+
+    background: white;
+
+    box-shadow:
+        0 18px 45px
+        rgba(16,35,63,.18);
+}
+
+
+.excel-filter.open {
+
+    z-index: 600;
+}
+
+
+.excel-filter.open
+.excel-filter-menu {
+
+    display: block;
+}
+
+
+.filter-search {
+
+    padding: 8px;
+
+    border-bottom:
+        1px solid
+        #edf1f6;
+}
+
+
+.filter-search input {
+
+    width: 100%;
+
+    height: 35px;
+
+    padding:
+        0
+        9px;
+
+    outline: none;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 8px;
+
+    background:
+        #f8fafc;
+
+    font-size: 9px;
+}
+
+
+.filter-actions {
+
+    display: flex;
+
+    gap: 5px;
+
+    padding: 7px;
+
+    border-bottom:
+        1px solid
+        #edf1f6;
+}
+
+
+.filter-action {
+
+    flex: 1;
+
+    height: 31px;
+
+    border: 0;
+
+    border-radius: 7px;
+
+    background:
+        #f0f4f9;
+
+    color:
+        #536278;
+
+    font-size: 8px;
+
+    font-weight: 800;
+}
+
+
+.filter-action.primary {
+
+    color: white;
+
+    background:
+        var(--blue);
+}
+
+
+.filter-options {
+
+    max-height: 250px;
+
+    overflow-y: auto;
+
+    padding: 5px;
+}
+
+
+.filter-option {
+
+    min-height: 36px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding:
+        5px
+        7px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+}
+
+
+.filter-option:hover {
+
+    background:
+        #f4f8fd;
+}
+
+
+.filter-option input {
+
+    width: 15px;
+    height: 15px;
+
+    accent-color:
+        var(--blue);
+}
+
+
+.filter-option-text {
+
+    flex: 1;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+.filter-option-count {
+
+    color:
+        #98a4b3;
+
+    font-size: 8px;
+}
+
+
+.filter-empty {
+
+    padding:
+        18px
+        8px;
+
+    text-align: center;
+
+    color:
+        var(--muted);
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   RESULTS HEADER
+========================================================= */
 
 .results-header {
 
@@ -504,12 +1056,14 @@ button {
         10px;
 }
 
+
 .results-title {
 
-    font-size: 16px;
+    font-size: 15px;
 
     font-weight: 900;
 }
+
 
 .results-count {
 
@@ -519,218 +1073,30 @@ button {
 
     border-radius: 20px;
 
-    background:
-        var(--blue-light);
-
     color:
         var(--blue-dark);
 
-    font-size: 10px;
+    background:
+        var(--blue-light);
 
-    font-weight: 800;
+    font-size: 9px;
+
+    font-weight: 900;
 }
 
 
-/* =====================================================
+/* =========================================================
    TABLE
-===================================================== */
+========================================================= */
 
 .table-wrapper {
 
     width: 100%;
 
-    overflow-x: auto;
+    max-height: 680px;
 
-    background: white;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius: 20px;
-
-    box-shadow:
-        0 12px 40px
-        rgba(16,35,63,.07);
-}
-
-table {
-
-    width: 100%;
-
-    min-width: 1500px;
-
-    border-collapse: collapse;
-
-    text-align: right;
-}
-
-thead {
-
-    background:
-        linear-gradient(
-            135deg,
-            #f4f8ff,
-            #eef5ff
-        );
-}
-
-th {
-
-    position: sticky;
-
-    top: 0;
-
-    z-index: 5;
-
-    padding:
-        14px
-        12px;
-
-    color:
-        #536278;
-
-    background:
-        #eef5ff;
-
-    font-size: 10px;
-
-    font-weight: 900;
-
-    white-space: nowrap;
-
-    border-bottom:
-        1px solid
-        var(--border);
-}
-
-td {
-
-    padding:
-        13px
-        12px;
-
-    color: #35445a;
-
-    font-size: 10px;
-
-    font-weight: 600;
-
-    white-space: nowrap;
-
-    border-bottom:
-        1px solid
-        #edf1f6;
-}
-
-tbody tr {
-
-    cursor: pointer;
-
-    transition:
-        background .15s ease;
-}
-
-tbody tr:hover {
-
-    background:
-        #f8fbff;
-}
-
-.uid {
-
-    color:
-        var(--blue-dark);
-
-    font-weight: 900;
-
-    direction: ltr;
-}
-
-.name-cell {
-
-    color:
-        var(--text);
-
-    font-weight: 900;
-}
-
-.phone-cell {
-
-    direction: ltr;
-
-    font-weight: 800;
-}
-
-.gender-badge,
-.status-badge {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    min-width: 55px;
-
-    padding:
-        5px
-        9px;
-
-    border-radius: 20px;
-
-    font-size: 9px;
-
-    font-weight: 800;
-}
-
-.gender-male {
-
-    color: #0758a8;
-
-    background:
-        #eaf4ff;
-}
-
-.gender-female {
-
-    color: #b91d41;
-
-    background:
-        #fff0f4;
-}
-
-.status-new {
-
-    color: #086033;
-
-    background:
-        var(--green-light);
-}
-
-.status-other {
-
-    color: #8a5a00;
-
-    background:
-        var(--orange-light);
-}
-
-
-/* =====================================================
-   MOBILE LIST
-===================================================== */
-
-.mobile-list {
-
-    display: none;
-}
-
-.applicant-card {
-
-    padding: 15px;
-
-    margin-bottom: 11px;
+    overflow:
+        auto;
 
     background:
         white;
@@ -739,72 +1105,324 @@ tbody tr:hover {
         1px solid
         var(--border);
 
-    border-radius: 19px;
+    border-radius: 18px;
 
     box-shadow:
-        0 9px 27px
+        0 12px 40px
+        rgba(16,35,63,.07);
+
+    -webkit-overflow-scrolling:
+        touch;
+}
+
+
+table {
+
+    width: 100%;
+
+    min-width: 1950px;
+
+    border-collapse:
+        separate;
+
+    border-spacing: 0;
+
+    text-align: right;
+}
+
+
+thead {
+
+    background:
+        #eef5ff;
+}
+
+
+th {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 10;
+
+    padding:
+        13px
+        11px;
+
+    color: #536278;
+
+    background:
+        #eef5ff;
+
+    white-space: nowrap;
+
+    border-bottom:
+        1px solid
+        var(--border);
+
+    border-left:
+        1px solid
+        #e6edf6;
+
+    font-size: 9px;
+
+    font-weight: 900;
+}
+
+
+td {
+
+    padding:
+        12px
+        10px;
+
+    color:
+        #35445a;
+
+    background: white;
+
+    white-space: nowrap;
+
+    border-bottom:
+        1px solid
+        #edf1f6;
+
+    border-left:
+        1px solid
+        #f0f3f7;
+
+    font-size: 9px;
+
+    font-weight: 600;
+}
+
+
+tbody tr {
+
+    cursor: pointer;
+
+    transition: .15s;
+}
+
+
+tbody tr:hover td {
+
+    background:
+        #f7faff;
+}
+
+
+.uid {
+
+    direction: ltr;
+
+    color:
+        var(--blue-dark);
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-weight: 900;
+}
+
+
+.name-cell {
+
+    color: var(--text);
+
+    font-weight: 900;
+}
+
+
+.phone-cell {
+
+    direction: ltr;
+
+    text-align: right;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   BADGES
+========================================================= */
+
+.badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 25px;
+
+    padding:
+        3px
+        8px;
+
+    border-radius: 7px;
+
+    font-size: 8px;
+
+    font-weight: 900;
+}
+
+
+.badge-default {
+
+    color:
+        #526277;
+
+    background:
+        #f1f4f8;
+}
+
+
+.badge-green {
+
+    color:
+        #067343;
+
+    background:
+        var(--green-light);
+}
+
+
+.badge-red {
+
+    color:
+        #b4232d;
+
+    background:
+        var(--red-light);
+}
+
+
+.badge-orange {
+
+    color:
+        #9a6700;
+
+    background:
+        var(--orange-light);
+}
+
+
+.badge-blue {
+
+    color:
+        var(--blue-dark);
+
+    background:
+        var(--blue-light);
+}
+
+
+/* =========================================================
+   MOBILE CARDS
+========================================================= */
+
+.mobile-list {
+
+    display: none;
+}
+
+
+.applicant-card {
+
+    margin-bottom: 10px;
+
+    padding: 14px;
+
+    background:
+        white;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 17px;
+
+    box-shadow:
+        0 8px 24px
         rgba(16,35,63,.06);
 
     cursor: pointer;
 }
 
+
 .card-name {
 
-    font-size: 14px;
+    color: var(--text);
+
+    font-size: 13px;
 
     font-weight: 900;
 }
 
-.card-uid {
 
-    margin-top: 3px;
+.card-code {
+
+    margin-top: 2px;
 
     color:
         var(--blue-dark);
 
-    font-size: 9px;
-
-    font-weight: 800;
-
     direction: ltr;
-}
-
-.card-details {
-
-    display: grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap: 7px;
-
-    margin-top: 12px;
-}
-
-.detail {
-
-    padding: 8px;
-
-    border-radius: 10px;
-
-    background:
-        #f8fafc;
-}
-
-.detail-label {
-
-    color: #8995a6;
 
     font-size: 8px;
 
     font-weight: 800;
 }
 
-.detail-value {
+
+.card-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 6px;
+
+    margin-top: 11px;
+}
+
+
+.card-field {
+
+    padding: 7px;
+
+    background:
+        #f8fafc;
+
+    border-radius: 9px;
+}
+
+
+.card-label {
+
+    color:
+        #8995a6;
+
+    font-size: 7px;
+
+    font-weight: 800;
+}
+
+
+.card-value {
 
     margin-top: 2px;
 
-    font-size: 9px;
+    color:
+        #34435a;
+
+    font-size: 8px;
 
     font-weight: 700;
 
@@ -812,31 +1430,41 @@ tbody tr:hover {
 }
 
 
-/* =====================================================
+/* =========================================================
    EMPTY
-===================================================== */
+========================================================= */
 
 .empty-state {
 
+    display: none;
+
     padding:
-        60px
+        50px
         20px;
 
     text-align: center;
 
-    background: white;
+    color:
+        var(--muted);
+
+    background:
+        white;
 
     border:
         1px solid
         var(--border);
 
-    border-radius: 20px;
+    border-radius: 18px;
+
+    font-size: 10px;
+
+    font-weight: 700;
 }
 
 
-/* =====================================================
-   ADMIN MODAL
-===================================================== */
+/* =========================================================
+   MODAL
+========================================================= */
 
 .modal-overlay {
 
@@ -853,28 +1481,30 @@ tbody tr:hover {
     justify-content: center;
 
     padding:
-        25px
-        15px;
+        24px
+        14px;
 
     overflow-y: auto;
 
     background:
-        rgba(16,35,63,.55);
+        rgba(16,35,63,.58);
 
     backdrop-filter:
-        blur(6px);
+        blur(7px);
 }
+
 
 .modal-overlay.show {
 
     display: flex;
 }
 
+
 .modal {
 
     width: 100%;
 
-    max-width: 900px;
+    max-width: 950px;
 
     overflow: hidden;
 
@@ -885,8 +1515,9 @@ tbody tr:hover {
 
     box-shadow:
         0 25px 80px
-        rgba(0,0,0,.25);
+        rgba(0,0,0,.24);
 }
+
 
 .modal-header {
 
@@ -912,31 +1543,33 @@ tbody tr:hover {
         );
 }
 
+
 .modal-name {
 
-    font-size: 17px;
+    font-size: 16px;
 
     font-weight: 900;
 }
+
 
 .modal-code {
 
     margin-top: 3px;
 
-    font-size: 9px;
-
-    opacity: .85;
-
     direction: ltr;
 
     text-align: right;
+
+    font-size: 8px;
+
+    opacity: .85;
 }
+
 
 .close-modal {
 
-    width: 40px;
-
-    height: 40px;
+    width: 39px;
+    height: 39px;
 
     border: 0;
 
@@ -947,10 +1580,11 @@ tbody tr:hover {
     background:
         rgba(255,255,255,.15);
 
-    font-size: 22px;
+    font-size: 20px;
 
     font-weight: 900;
 }
+
 
 .modal-body {
 
@@ -958,57 +1592,64 @@ tbody tr:hover {
 }
 
 
-/* =====================================================
-   APPLICANT INFO
-===================================================== */
+/* =========================================================
+   APPLICANT DATA
+========================================================= */
 
 .section-title {
 
-    margin-bottom: 12px;
+    margin-bottom: 11px;
 
-    font-size: 14px;
+    font-size: 13px;
 
     font-weight: 900;
 }
 
-.applicant-info {
+
+.info-grid {
 
     display: grid;
 
     grid-template-columns:
         repeat(4, 1fr);
 
-    gap: 9px;
+    gap: 8px;
 
     margin-bottom: 20px;
 }
 
+
 .info-box {
 
-    padding: 10px;
+    min-width: 0;
+
+    padding: 9px;
 
     border:
         1px solid
         #edf1f6;
 
-    border-radius: 10px;
+    border-radius: 9px;
 
     background:
         #fafcff;
 }
 
+
 .info-label {
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
-    font-size: 8px;
+    font-size: 7px;
 
     font-weight: 800;
 }
 
+
 .info-value {
 
-    margin-top: 3px;
+    margin-top: 2px;
 
     color:
         var(--text);
@@ -1021,13 +1662,13 @@ tbody tr:hover {
 }
 
 
-/* =====================================================
+/* =========================================================
    STAGES
-===================================================== */
+========================================================= */
 
 .stage-card {
 
-    margin-bottom: 12px;
+    margin-bottom: 11px;
 
     padding: 15px;
 
@@ -1035,11 +1676,11 @@ tbody tr:hover {
         1px solid
         var(--border);
 
-    border-radius: 15px;
+    border-radius: 14px;
 
-    background:
-        #fff;
+    background: white;
 }
+
 
 .stage-header {
 
@@ -1049,59 +1690,32 @@ tbody tr:hover {
 
     justify-content: space-between;
 
-    gap: 12px;
+    gap: 10px;
 
-    margin-bottom: 12px;
+    margin-bottom: 11px;
 }
 
-.stage-title {
 
-    font-size: 12px;
+.stage-name {
+
+    font-size: 11px;
 
     font-weight: 900;
 }
 
-.stage-current {
 
-    padding:
-        5px
-        10px;
+.stage-description {
 
-    border-radius: 8px;
+    margin-top: 2px;
 
-    color: #526277;
+    color:
+        var(--muted);
 
-    background:
-        #f1f4f8;
+    font-size: 7px;
 
-    font-size: 8px;
-
-    font-weight: 900;
+    font-weight: 600;
 }
 
-.stage-current.green {
-
-    color: #067343;
-
-    background:
-        var(--green-light);
-}
-
-.stage-current.red {
-
-    color: #b4232d;
-
-    background:
-        var(--red-light);
-}
-
-.stage-current.orange {
-
-    color: #9a6700;
-
-    background:
-        var(--orange-light);
-}
 
 .stage-actions {
 
@@ -1112,19 +1726,20 @@ tbody tr:hover {
     gap: 7px;
 }
 
+
 .stage-button {
 
-    min-height: 40px;
+    min-height: 39px;
 
     padding:
         0
-        14px;
+        13px;
 
     border:
         1px solid
         var(--border);
 
-    border-radius: 10px;
+    border-radius: 9px;
 
     background:
         #f8fafc;
@@ -1132,89 +1747,111 @@ tbody tr:hover {
     color:
         #526277;
 
-    font-size: 9px;
+    font-size: 8px;
 
     font-weight: 900;
+
+    transition: .15s;
 }
+
 
 .stage-button.green {
 
-    color: #067343;
+    color:
+        #067343;
+
+    border-color:
+        #c5ead7;
 
     background:
         var(--green-light);
-
-    border-color:
-        #c8ead9;
 }
+
 
 .stage-button.red {
 
-    color: #b4232d;
-
-    background:
-        var(--red-light);
+    color:
+        #b4232d;
 
     border-color:
         #ffd1d5;
+
+    background:
+        var(--red-light);
 }
+
 
 .stage-button.orange {
 
-    color: #9a6700;
-
-    background:
-        var(--orange-light);
+    color:
+        #9a6700;
 
     border-color:
         #ffe1a5;
+
+    background:
+        var(--orange-light);
 }
+
 
 .stage-button.blue {
 
     color:
         var(--blue-dark);
 
+    border-color:
+        #c9ddf9;
+
     background:
         var(--blue-light);
-
-    border-color:
-        #c8ddfa;
 }
+
 
 .stage-button.active {
 
     color: white;
 
-    background:
-        var(--blue);
-
     border-color:
         var(--blue);
+
+    background:
+        var(--blue);
 }
+
 
 .stage-button.green.active {
 
     background:
         var(--green);
+
+    border-color:
+        var(--green);
 }
+
 
 .stage-button.red.active {
 
     background:
         var(--red);
+
+    border-color:
+        var(--red);
 }
+
 
 .stage-button.orange.active {
 
     background:
         var(--orange);
+
+    border-color:
+        var(--orange);
 }
 
 
-/* =====================================================
-   DATE AREA
-===================================================== */
+/* =========================================================
+   DATE
+========================================================= */
 
 .date-area {
 
@@ -1226,61 +1863,66 @@ tbody tr:hover {
 
     gap: 8px;
 
-    margin-top: 10px;
+    margin-top: 9px;
 }
+
 
 .date-input {
 
     width: 100%;
 
-    height: 42px;
+    height: 41px;
 
     padding:
         0
-        12px;
+        11px;
 
     border:
         1px solid
         var(--border);
 
-    border-radius: 10px;
+    border-radius: 9px;
 
     outline: none;
 
     background:
         #fafcff;
 
-    font-size: 10px;
+    color:
+        var(--text);
+
+    font-size: 9px;
 
     font-weight: 700;
 }
 
+
 .save-date {
 
-    height: 42px;
+    height: 41px;
 
     padding:
         0
-        15px;
+        14px;
 
     border: 0;
 
-    border-radius: 10px;
+    border-radius: 9px;
 
     color: white;
 
     background:
         var(--blue);
 
-    font-size: 9px;
+    font-size: 8px;
 
     font-weight: 900;
 }
 
 
-/* =====================================================
+/* =========================================================
    LOADING
-===================================================== */
+========================================================= */
 
 .loading-screen {
 
@@ -1298,7 +1940,7 @@ tbody tr:hover {
 
     flex-direction: column;
 
-    gap: 13px;
+    gap: 12px;
 
     background:
         rgba(255,255,255,.97);
@@ -1306,7 +1948,10 @@ tbody tr:hover {
     opacity: 0;
 
     visibility: hidden;
+
+    transition: .2s;
 }
+
 
 .loading-screen.active {
 
@@ -1315,11 +1960,11 @@ tbody tr:hover {
     visibility: visible;
 }
 
+
 .loader-circle {
 
-    width: 48px;
-
-    height: 48px;
+    width: 46px;
+    height: 46px;
 
     border:
         4px solid
@@ -1334,21 +1979,34 @@ tbody tr:hover {
     border-radius: 50%;
 
     animation:
-        rotate .75s linear infinite;
+        spin .75s linear infinite;
 }
 
-@keyframes rotate {
+
+@keyframes spin {
 
     to {
+
         transform:
             rotate(360deg);
     }
 }
 
 
-/* =====================================================
+.loading-text {
+
+    color:
+        var(--text);
+
+    font-size: 10px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
    TOAST
-===================================================== */
+========================================================= */
 
 .toast {
 
@@ -1360,19 +2018,23 @@ tbody tr:hover {
 
     left: 50%;
 
-    transform:
-        translate(-50%, 20px);
-
     width:
         calc(100% - 30px);
 
-    max-width: 450px;
+    max-width: 430px;
 
     padding:
-        13px
+        12px
         15px;
 
-    border-radius: 14px;
+    transform:
+        translate(-50%, 20px);
+
+    border-radius: 13px;
+
+    opacity: 0;
+
+    visibility: hidden;
 
     color: white;
 
@@ -1381,14 +2043,13 @@ tbody tr:hover {
 
     text-align: center;
 
-    font-size: 11px;
+    font-size: 9px;
 
-    font-weight: 700;
+    font-weight: 800;
 
-    opacity: 0;
-
-    visibility: hidden;
+    transition: .2s;
 }
+
 
 .toast.show {
 
@@ -1400,22 +2061,24 @@ tbody tr:hover {
         translate(-50%, 0);
 }
 
+
 .toast.success {
 
     background:
-        #078d54;
+        var(--green);
 }
+
 
 .toast.error {
 
     background:
-        #b91c25;
+        var(--red);
 }
 
 
-/* =====================================================
+/* =========================================================
    FOOTER
-===================================================== */
+========================================================= */
 
 .footer {
 
@@ -1423,64 +2086,137 @@ tbody tr:hover {
 
     text-align: center;
 
-    color: #a1acb9;
+    color:
+        #a1acb9;
 
-    font-size: 9px;
+    font-size: 8px;
+
+    font-weight: 600;
 }
 
 
-/* =====================================================
+/* =========================================================
    RESPONSIVE
-===================================================== */
+========================================================= */
+
+@media (max-width: 1250px) {
+
+    .excel-filters {
+
+        grid-template-columns:
+            repeat(4, 1fr);
+    }
+}
+
+
+@media (max-width: 950px) {
+
+    .excel-filters {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+}
+
 
 @media (max-width: 800px) {
 
     .table-wrapper {
+
         display: none;
     }
 
+
     .mobile-list {
+
         display: block;
     }
 
-    .applicant-info {
+
+    .info-grid {
+
         grid-template-columns:
             repeat(2, 1fr);
     }
 
+
+    .excel-filters {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
     .school-name {
+
         font-size: 20px;
     }
 
+
+    .page-title {
+
+        font-size: 19px;
+    }
 }
 
 
-@media (max-width: 500px) {
+@media (max-width: 520px) {
+
+    .app {
+
+        padding:
+            20px
+            10px
+            40px;
+    }
+
 
     .statistics {
-
-        grid-template-columns:
-            repeat(3,1fr);
 
         gap: 7px;
     }
 
+
     .stat-card {
 
         padding:
-            13px
+            12px
             8px;
+
+        text-align: center;
     }
+
 
     .stat-number {
 
-        font-size: 20px;
+        font-size: 19px;
     }
+
 
     .stat-label {
 
-        font-size: 8px;
+        font-size: 7px;
     }
+
+
+    .stage-tabs {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .stage-tab {
+
+        width: 100%;
+
+        padding:
+            0
+            7px;
+    }
+
 
     .stage-header {
 
@@ -1491,6 +2227,7 @@ tbody tr:hover {
             column;
     }
 
+
     .stage-actions {
 
         display: grid;
@@ -1499,14 +2236,16 @@ tbody tr:hover {
             1fr 1fr;
     }
 
+
     .stage-button {
 
         width: 100%;
 
         padding:
             0
-            7px;
+            6px;
     }
+
 
     .date-area {
 
@@ -1514,11 +2253,38 @@ tbody tr:hover {
             1fr;
     }
 
+
     .save-date {
 
         width: 100%;
     }
 
+
+    .excel-filter-menu {
+
+        position: fixed;
+
+        top: 50%;
+
+        right: 12px;
+        left: 12px;
+
+        width: auto;
+
+        max-height: 70vh;
+
+        transform:
+            translateY(-50%);
+
+        z-index: 2000;
+    }
+
+
+    .card-grid {
+
+        grid-template-columns:
+            1fr;
+    }
 }
 
 </style>
@@ -1532,78 +2298,96 @@ tbody tr:hover {
 <div class="background"></div>
 
 
-<!-- =====================================================
+<!-- =========================================================
      LOADING
-===================================================== -->
+========================================================= -->
 
 <div
-    class="loading-screen active"
-    id="loadingScreen">
+    id="loadingScreen"
+    class="loading-screen active">
 
     <div class="loader-circle"></div>
 
-    <div id="loadingText">
+    <div
+        id="loadingText"
+        class="loading-text">
+
         جارٍ تحميل بيانات المتقدمين...
+
     </div>
 
 </div>
 
 
-<!-- =====================================================
+<!-- =========================================================
      TOAST
-===================================================== -->
+========================================================= -->
 
 <div
-    class="toast"
-    id="toast">
+    id="toast"
+    class="toast">
 </div>
 
 
-<!-- =====================================================
+<!-- =========================================================
      APP
-===================================================== -->
+========================================================= -->
 
 <main class="app">
 
 <div class="container">
 
 
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
 <header class="header">
 
     <div class="logo-box">
 
-        <div class="logo-fallback">
+        <div class="logo-text">
+
             وظائف التحدي
+
         </div>
 
     </div>
 
 
-    <h1 class="school-name">
+    <div class="school-name">
+
         مدرسة التحدي الأهلية المختلطة
-    </h1>
 
-
-    <div class="department">
-        قسم الحوكمة
     </div>
 
 
-    <h2 class="page-title">
-        إدارة طلبات التوظيف
-    </h2>
+    <div class="department">
+
+        قسم الحوكمة
+
+    </div>
 
 
-    <p class="page-description">
-        مراجعة المتقدمين والتحكم بمراحل طلبات التوظيف
-    </p>
+    <div class="page-title">
+
+        إدارة ومتابعة طلبات التوظيف
+
+    </div>
+
+
+    <div class="page-description">
+
+        متابعة مراحل المتقدمين والتحكم بحالة كل طلب
+
+    </div>
 
 </header>
 
 
-<!-- =====================================================
+<!-- =========================================================
      STATISTICS
-===================================================== -->
+========================================================= -->
 
 <section class="statistics">
 
@@ -1614,8 +2398,8 @@ tbody tr:hover {
         </div>
 
         <div
-            class="stat-number"
-            id="totalCount">
+            id="totalCount"
+            class="stat-number">
             0
         </div>
 
@@ -1629,8 +2413,8 @@ tbody tr:hover {
         </div>
 
         <div
-            class="stat-number"
-            id="maleCount">
+            id="maleCount"
+            class="stat-number">
             0
         </div>
 
@@ -1644,8 +2428,8 @@ tbody tr:hover {
         </div>
 
         <div
-            class="stat-number"
-            id="femaleCount">
+            id="femaleCount"
+            class="stat-number">
             0
         </div>
 
@@ -1654,40 +2438,194 @@ tbody tr:hover {
 </section>
 
 
-<!-- =====================================================
-     SEARCH
-===================================================== -->
+<!-- =========================================================
+     STAGE NAVIGATION
+========================================================= -->
+
+<section class="stage-navigation">
+
+    <div class="stage-nav-title">
+
+        متابعة مراحل الطلبات
+
+    </div>
+
+
+    <div
+        id="stageTabs"
+        class="stage-tabs">
+
+
+        <button
+            class="stage-tab active"
+            data-stage-filter="all">
+
+            الكل
+
+            <span
+                class="stage-tab-count">
+                0
+            </span>
+
+        </button>
+
+
+        <button
+            class="stage-tab"
+            data-stage-filter="reviewPending">
+
+            قيد التدقيق
+
+            <span class="stage-tab-count">
+                0
+            </span>
+
+        </button>
+
+
+        <button
+            class="stage-tab"
+            data-stage-filter="reviewDone">
+
+            تم التدقيق
+
+            <span class="stage-tab-count">
+                0
+            </span>
+
+        </button>
+
+
+        <button
+            class="stage-tab"
+            data-stage-filter="reviewFailed">
+
+            لم يجتز التدقيق
+
+            <span class="stage-tab-count">
+                0
+            </span>
+
+        </button>
+
+
+        <button
+            class="stage-tab"
+            data-stage-filter="needReview">
+
+            قيد المراجعة
+
+            <span class="stage-tab-count">
+                0
+            </span>
+
+        </button>
+
+
+        <button
+            class="stage-tab"
+            data-stage-filter="needed">
+
+            توجد حاجة
+
+            <span class="stage-tab-count">
+                0
+            </span>
+
+        </button>
+
+
+        <button
+            class="stage-tab"
+            data-stage-filter="notNeeded">
+
+            لا توجد حاجة
+
+            <span class="stage-tab-count">
+                0
+            </span>
+
+        </button>
+
+
+        <button
+            class="stage-tab"
+            data-stage-filter="interviewWaiting">
+
+            بانتظار المقابلة
+
+            <span class="stage-tab-count">
+                0
+            </span>
+
+        </button>
+
+
+        <button
+            class="stage-tab"
+            data-stage-filter="interviewScheduled">
+
+            تم تحديد المقابلة
+
+            <span class="stage-tab-count">
+                0
+            </span>
+
+        </button>
+
+
+        <button
+            class="stage-tab"
+            data-stage-filter="accepted">
+
+            المقبولين
+
+            <span class="stage-tab-count">
+                0
+            </span>
+
+        </button>
+
+
+        <button
+            class="stage-tab"
+            data-stage-filter="rejected">
+
+            عدم القبول
+
+            <span class="stage-tab-count">
+                0
+            </span>
+
+        </button>
+
+
+        <button
+            class="stage-tab"
+            data-stage-filter="startDateSet">
+
+            تم تحديد المباشرة
+
+            <span class="stage-tab-count">
+                0
+            </span>
+
+        </button>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CONTROL PANEL
+========================================================= -->
 
 <section class="control-panel">
 
 
-    <div class="filter-buttons">
-
-        <button
-            type="button"
-            class="filter-button active"
-            data-filter="all">
-            الكل
-        </button>
-
-
-        <button
-            type="button"
-            class="filter-button"
-            data-filter="ذكر">
-            الذكور
-        </button>
-
-
-        <button
-            type="button"
-            class="filter-button"
-            data-filter="أنثى">
-            الإناث
-        </button>
-
-    </div>
-
+    <!-- SEARCH -->
 
     <div class="search-box">
 
@@ -1696,40 +2634,90 @@ tbody tr:hover {
         </span>
 
         <input
-            type="text"
             id="searchInput"
-            placeholder="البحث بالاسم أو الكود أو رقم الهاتف أو العنوان أو المادة..."
-            autocomplete="off">
+            type="text"
+            autocomplete="off"
+            placeholder="البحث بالاسم أو الكود أو الهاتف أو العنوان أو المادة أو أي معلومة...">
 
+    </div>
+
+
+    <!-- FILTER TITLE -->
+
+    <div class="filter-title-row">
+
+        <div>
+
+            <div class="filter-title">
+
+                فلاتر البيانات
+
+            </div>
+
+
+            <div class="filter-description">
+
+                يمكنك اختيار قيمة أو أكثر من أي حقل
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="clearFiltersButton"
+            class="clear-filters"
+            type="button">
+
+            مسح البحث والفلاتر
+
+        </button>
+
+    </div>
+
+
+    <!-- FILTERS -->
+
+    <div
+        id="excelFilters"
+        class="excel-filters">
     </div>
 
 </section>
 
 
-<!-- =====================================================
-     RESULTS HEADER
-===================================================== -->
+<!-- =========================================================
+     RESULTS
+========================================================= -->
 
 <div class="results-header">
 
-    <div class="results-title">
-        قائمة المتقدمين
+    <div
+        id="resultsTitle"
+        class="results-title">
+
+        جميع المتقدمين
+
     </div>
 
+
     <div
-        class="results-count"
-        id="resultsCount">
+        id="resultsCount"
+        class="results-count">
+
         0 متقدم
+
     </div>
 
 </div>
 
 
-<!-- =====================================================
+<!-- =========================================================
      TABLE
-===================================================== -->
+========================================================= -->
 
-<div class="table-wrapper">
+<div
+    class="table-wrapper">
 
 <table>
 
@@ -1747,7 +2735,7 @@ tbody tr:hover {
 
     <th>رقم الهاتف</th>
 
-    <th>عنوان السكن</th>
+    <th>العنوان</th>
 
     <th>المرحلة</th>
 
@@ -1759,15 +2747,25 @@ tbody tr:hover {
 
     <th>الكلية</th>
 
+    <th>تخصص الدراسة</th>
+
+    <th>سنة التخرج</th>
+
     <th>المعدل</th>
 
     <th>مرحلة التدقيق</th>
 
     <th>الحاجة إليك</th>
 
-    <th>المقابلة</th>
+    <th>مرحلة المقابلة</th>
+
+    <th>تاريخ المقابلة</th>
 
     <th>قرار اللجنة</th>
+
+    <th>حالة القبول</th>
+
+    <th>تاريخ المباشرة</th>
 
 </tr>
 
@@ -1782,26 +2780,25 @@ tbody tr:hover {
 </div>
 
 
-<!-- =====================================================
+<!-- =========================================================
      MOBILE
-===================================================== -->
+========================================================= -->
 
 <div
-    class="mobile-list"
-    id="mobileList">
+    id="mobileList"
+    class="mobile-list">
 </div>
 
 
-<!-- =====================================================
+<!-- =========================================================
      EMPTY
-===================================================== -->
+========================================================= -->
 
 <div
-    class="empty-state"
     id="emptyState"
-    style="display:none;">
+    class="empty-state">
 
-    لا توجد طلبات مطابقة للبحث.
+    لا توجد طلبات مطابقة للقسم أو البحث أو الفلاتر الحالية.
 
 </div>
 
@@ -1818,13 +2815,14 @@ tbody tr:hover {
 </main>
 
 
-<!-- =====================================================
-     ADMIN MODAL
-===================================================== -->
+<!-- =========================================================
+     MODAL
+========================================================= -->
 
 <div
-    class="modal-overlay"
-    id="applicantModal">
+    id="applicantModal"
+    class="modal-overlay">
+
 
 <div class="modal">
 
@@ -1834,24 +2832,32 @@ tbody tr:hover {
     <div>
 
         <div
-            class="modal-name"
-            id="modalName">
-            المتقدم
+            id="modalName"
+            class="modal-name">
+
+            اسم المتقدم
+
         </div>
 
+
         <div
-            class="modal-code"
-            id="modalCode">
+            id="modalCode"
+            class="modal-code">
+
+            UID
+
         </div>
 
     </div>
 
 
     <button
-        type="button"
+        id="closeModal"
         class="close-modal"
-        id="closeModal">
+        type="button">
+
         ×
+
     </button>
 
 </div>
@@ -1860,39 +2866,62 @@ tbody tr:hover {
 <div class="modal-body">
 
 
+<!-- =====================================================
+     APPLICANT DATA
+===================================================== -->
+
 <div class="section-title">
+
     بيانات المتقدم
+
 </div>
 
 
 <div
-    class="applicant-info"
-    id="applicantInfo">
+    id="applicantInfo"
+    class="info-grid">
 </div>
 
 
 <div class="section-title">
-    مراحل طلب التوظيف
+
+    مراحل الطلب
+
 </div>
 
 
-<!-- =================================================
+<!-- =====================================================
      REVIEW
-================================================= -->
+===================================================== -->
 
 <div class="stage-card">
 
     <div class="stage-header">
 
-        <div class="stage-title">
-            1. مرحلة التدقيق
+        <div>
+
+            <div class="stage-name">
+
+                1. مرحلة التدقيق
+
+            </div>
+
+            <div class="stage-description">
+
+                تدقيق البيانات والمعلومات المقدمة
+
+            </div>
+
         </div>
 
-        <div
+
+        <span
             id="reviewCurrent"
-            class="stage-current">
+            class="badge badge-default">
+
             لم يتم تحديدها بعد
-        </div>
+
+        </span>
 
     </div>
 
@@ -1933,23 +2962,38 @@ tbody tr:hover {
 </div>
 
 
-<!-- =================================================
+<!-- =====================================================
      NEED
-================================================= -->
+===================================================== -->
 
 <div class="stage-card">
 
     <div class="stage-header">
 
-        <div class="stage-title">
-            2. مرحلة الحاجة إليك
+        <div>
+
+            <div class="stage-name">
+
+                2. مرحلة الحاجة إليك
+
+            </div>
+
+            <div class="stage-description">
+
+                تحديد حاجة المدرسة إلى المتقدم
+
+            </div>
+
         </div>
 
-        <div
+
+        <span
             id="needCurrent"
-            class="stage-current">
+            class="badge badge-default">
+
             لم يتم تحديدها بعد
-        </div>
+
+        </span>
 
     </div>
 
@@ -1990,23 +3034,38 @@ tbody tr:hover {
 </div>
 
 
-<!-- =================================================
+<!-- =====================================================
      INTERVIEW
-================================================= -->
+===================================================== -->
 
 <div class="stage-card">
 
     <div class="stage-header">
 
-        <div class="stage-title">
-            3. مرحلة المقابلة
+        <div>
+
+            <div class="stage-name">
+
+                3. مرحلة المقابلة
+
+            </div>
+
+            <div class="stage-description">
+
+                تحديد انتقال المتقدم إلى المقابلة
+
+            </div>
+
         </div>
 
-        <div
+
+        <span
             id="interviewCurrent"
-            class="stage-current">
+            class="badge badge-default">
+
             لم يتم تحديدها بعد
-        </div>
+
+        </span>
 
     </div>
 
@@ -2028,7 +3087,7 @@ tbody tr:hover {
             data-field="interviewStage"
             data-value="بانتظار تحديد موعد المقابلة">
 
-            بانتظار الموعد
+            بانتظار تحديد الموعد
 
         </button>
 
@@ -2047,23 +3106,38 @@ tbody tr:hover {
 </div>
 
 
-<!-- =================================================
+<!-- =====================================================
      INTERVIEW DATE
-================================================= -->
+===================================================== -->
 
 <div class="stage-card">
 
     <div class="stage-header">
 
-        <div class="stage-title">
-            4. تاريخ المقابلة
+        <div>
+
+            <div class="stage-name">
+
+                4. تاريخ المقابلة
+
+            </div>
+
+            <div class="stage-description">
+
+                التاريخ والوقت الذي يظهر للمتقدم
+
+            </div>
+
         </div>
 
-        <div
+
+        <span
             id="interviewDateCurrent"
-            class="stage-current">
+            class="badge badge-default">
+
             لم يتم تحديد الموعد
-        </div>
+
+        </span>
 
     </div>
 
@@ -2071,15 +3145,15 @@ tbody tr:hover {
     <div class="date-area">
 
         <input
-            type="datetime-local"
             id="interviewDateInput"
-            class="date-input">
+            class="date-input"
+            type="datetime-local">
 
 
         <button
-            type="button"
             id="saveInterviewDate"
-            class="save-date">
+            class="save-date"
+            type="button">
 
             حفظ موعد المقابلة
 
@@ -2090,23 +3164,38 @@ tbody tr:hover {
 </div>
 
 
-<!-- =================================================
+<!-- =====================================================
      COMMITTEE
-================================================= -->
+===================================================== -->
 
 <div class="stage-card">
 
     <div class="stage-header">
 
-        <div class="stage-title">
-            5. قرار لجنة المقابلات
+        <div>
+
+            <div class="stage-name">
+
+                5. قرار لجنة المقابلات
+
+            </div>
+
+            <div class="stage-description">
+
+                قبول أو عدم قبول بعد المقابلة
+
+            </div>
+
         </div>
 
-        <div
+
+        <span
             id="committeeCurrent"
-            class="stage-current">
+            class="badge badge-default">
+
             لم يتم تحديدها بعد
-        </div>
+
+        </span>
 
     </div>
 
@@ -2135,23 +3224,38 @@ tbody tr:hover {
 </div>
 
 
-<!-- =================================================
+<!-- =====================================================
      ACCEPTANCE
-================================================= -->
+===================================================== -->
 
 <div class="stage-card">
 
     <div class="stage-header">
 
-        <div class="stage-title">
-            6. حالة القبول
+        <div>
+
+            <div class="stage-name">
+
+                6. حالة القبول النهائية
+
+            </div>
+
+            <div class="stage-description">
+
+                الحالة التي تظهر ضمن مراحل الطلب
+
+            </div>
+
         </div>
 
-        <div
+
+        <span
             id="acceptanceCurrent"
-            class="stage-current">
+            class="badge badge-default">
+
             لم يتم تحديدها بعد
-        </div>
+
+        </span>
 
     </div>
 
@@ -2180,23 +3284,38 @@ tbody tr:hover {
 </div>
 
 
-<!-- =================================================
+<!-- =====================================================
      START DATE
-================================================= -->
+===================================================== -->
 
 <div class="stage-card">
 
     <div class="stage-header">
 
-        <div class="stage-title">
-            7. تاريخ المباشرة
+        <div>
+
+            <div class="stage-name">
+
+                7. تاريخ المباشرة
+
+            </div>
+
+            <div class="stage-description">
+
+                يحدد بعد قبول المتقدم
+
+            </div>
+
         </div>
 
-        <div
+
+        <span
             id="startDateCurrent"
-            class="stage-current">
+            class="badge badge-default">
+
             لم يتم تحديد التاريخ
-        </div>
+
+        </span>
 
     </div>
 
@@ -2204,15 +3323,15 @@ tbody tr:hover {
     <div class="date-area">
 
         <input
-            type="date"
             id="startDateInput"
-            class="date-input">
+            class="date-input"
+            type="date">
 
 
         <button
-            type="button"
             id="saveStartDate"
-            class="save-date">
+            class="save-date"
+            type="button">
 
             حفظ تاريخ المباشرة
 
@@ -2230,12 +3349,16 @@ tbody tr:hover {
 </div>
 
 
+<!-- =========================================================
+     FIREBASE
+========================================================= -->
+
 <script type="module">
 
 
-/* =====================================================
+/* =========================================================
    FIREBASE IMPORT
-===================================================== */
+========================================================= */
 
 import {
     initializeApp
@@ -2254,9 +3377,9 @@ from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 
-/* =====================================================
+/* =========================================================
    FIREBASE CONFIG
-===================================================== */
+========================================================= */
 
 const firebaseConfig = {
 
@@ -2287,9 +3410,9 @@ const firebaseConfig = {
 };
 
 
-/* =====================================================
+/* =========================================================
    INITIALIZE
-===================================================== */
+========================================================= */
 
 const app =
     initializeApp(
@@ -2303,9 +3426,9 @@ const db =
     );
 
 
-/* =====================================================
+/* =========================================================
    ELEMENTS
-===================================================== */
+========================================================= */
 
 const loadingScreen =
     document.getElementById(
@@ -2343,6 +3466,36 @@ const femaleCount =
     );
 
 
+const searchInput =
+    document.getElementById(
+        "searchInput"
+    );
+
+
+const excelFilters =
+    document.getElementById(
+        "excelFilters"
+    );
+
+
+const clearFiltersButton =
+    document.getElementById(
+        "clearFiltersButton"
+    );
+
+
+const resultsCount =
+    document.getElementById(
+        "resultsCount"
+    );
+
+
+const resultsTitle =
+    document.getElementById(
+        "resultsTitle"
+    );
+
+
 const tableBody =
     document.getElementById(
         "tableBody"
@@ -2358,18 +3511,6 @@ const mobileList =
 const emptyState =
     document.getElementById(
         "emptyState"
-    );
-
-
-const resultsCount =
-    document.getElementById(
-        "resultsCount"
-    );
-
-
-const searchInput =
-    document.getElementById(
-        "searchInput"
     );
 
 
@@ -2409,94 +3550,477 @@ const startDateInput =
     );
 
 
-/* =====================================================
+/* =========================================================
    DATA
-===================================================== */
+========================================================= */
 
 let allApplicants = [];
 
-let currentFilter =
+let selectedApplicant = null;
+
+let currentStageFilter =
     "all";
 
+let toastTimer = null;
 
-let selectedApplicant =
-    null;
-
-
-let toastTimer =
-    null;
+const activeFilters = {};
 
 
-/* =====================================================
-   TOAST
-===================================================== */
+/* =========================================================
+   STAGE FILTER DEFINITIONS
+========================================================= */
 
-function showToast(
-    message,
-    type = ""
-) {
+const stageFilters = {
 
-    toast.textContent =
-        message;
+    all: {
 
+        label:
+            "جميع المتقدمين",
 
-    toast.className =
-        "toast show " +
-        type;
+        match:
+            () => true
 
-
-    clearTimeout(
-        toastTimer
-    );
+    },
 
 
-    toastTimer =
-        setTimeout(
-            function() {
+    reviewPending: {
 
-                toast.className =
-                    "toast";
+        label:
+            "قيد التدقيق",
 
-            },
-            3000
-        );
+        match:
+            applicant => {
 
-}
+                const value =
+                    applicant.reviewStage;
 
+                return (
+                    !value ||
+                    value ===
+                    "قيد التدقيق"
+                );
 
-/* =====================================================
-   LOADING
-===================================================== */
+            }
 
-function showLoading(
-    state,
-    message = "جارٍ تحميل البيانات..."
-) {
-
-    loadingText.textContent =
-        message;
+    },
 
 
-    if (state) {
+    reviewDone: {
 
-        loadingScreen.classList.add(
-            "active"
-        );
+        label:
+            "تم التدقيق",
 
-    } else {
+        match:
+            applicant =>
+                applicant.reviewStage ===
+                "تم التدقيق"
 
-        loadingScreen.classList.remove(
-            "active"
-        );
+    },
+
+
+    reviewFailed: {
+
+        label:
+            "لم يجتز التدقيق",
+
+        match:
+            applicant =>
+                applicant.reviewStage ===
+                "لم يجتز التدقيق"
+
+    },
+
+
+    needReview: {
+
+        label:
+            "قيد المراجعة",
+
+        match:
+            applicant =>
+                applicant.needStatus ===
+                "قيد المراجعة"
+
+    },
+
+
+    needed: {
+
+        label:
+            "توجد حاجة",
+
+        match:
+            applicant =>
+                applicant.needStatus ===
+                "توجد حاجة إليك"
+
+    },
+
+
+    notNeeded: {
+
+        label:
+            "لا توجد حاجة",
+
+        match:
+            applicant =>
+                applicant.needStatus ===
+                "لا توجد حاجة حالياً"
+
+    },
+
+
+    interviewWaiting: {
+
+        label:
+            "بانتظار المقابلة",
+
+        match:
+            applicant =>
+                applicant.interviewStage ===
+                "بانتظار تحديد موعد المقابلة"
+
+    },
+
+
+    interviewScheduled: {
+
+        label:
+            "تم تحديد المقابلة",
+
+        match:
+            applicant =>
+                Boolean(
+                    applicant.interviewDate
+                ) ||
+                applicant.interviewStage ===
+                    "تم تحديد موعد المقابلة"
+
+    },
+
+
+    accepted: {
+
+        label:
+            "المقبولين",
+
+        match:
+            applicant =>
+                applicant.acceptanceStatus ===
+                    "مقبول" ||
+                applicant.committeeDecision ===
+                    "قبول"
+
+    },
+
+
+    rejected: {
+
+        label:
+            "عدم القبول",
+
+        match:
+            applicant =>
+                applicant.committeeDecision ===
+                    "رفض" ||
+                applicant.acceptanceStatus ===
+                    "حظ أوفر في فرص قادمة"
+
+    },
+
+
+    startDateSet: {
+
+        label:
+            "تم تحديد المباشرة",
+
+        match:
+            applicant =>
+                Boolean(
+                    applicant.startDate
+                )
 
     }
 
-}
+};
 
 
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
+/* =========================================================
+   FILTER FIELD DEFINITIONS
+========================================================= */
+
+const filterFields = [
+
+    {
+        key: "uid",
+
+        label: "UID",
+
+        getValue:
+            applicant =>
+                applicant.uid
+    },
+
+
+    {
+        key: "fullName",
+
+        label: "الاسم",
+
+        getValue:
+            applicant =>
+                applicant?.personal?.fullName
+    },
+
+
+    {
+        key: "gender",
+
+        label: "الجنس",
+
+        getValue:
+            applicant =>
+                applicant?.personal?.gender
+    },
+
+
+    {
+        key: "birthDate",
+
+        label: "المواليد",
+
+        getValue:
+            applicant =>
+                applicant?.personal?.birthDate
+    },
+
+
+    {
+        key: "phone",
+
+        label: "رقم الهاتف",
+
+        getValue:
+            applicant =>
+                applicant?.personal?.phone
+    },
+
+
+    {
+        key: "address",
+
+        label: "عنوان السكن",
+
+        getValue:
+            applicant =>
+                applicant?.personal?.address
+    },
+
+
+    {
+        key: "schoolLevel",
+
+        label: "المرحلة",
+
+        getValue:
+            applicant =>
+                applicant?.job?.schoolLevel
+    },
+
+
+    {
+        key: "jobSpecialization",
+
+        label: "المادة",
+
+        getValue:
+            applicant =>
+                applicant?.job?.specialization
+    },
+
+
+    {
+        key: "certificate",
+
+        label: "الشهادة",
+
+        getValue:
+            applicant =>
+                applicant?.education?.certificate
+    },
+
+
+    {
+        key: "university",
+
+        label: "الجامعة",
+
+        getValue:
+            applicant =>
+                applicant?.education?.university
+    },
+
+
+    {
+        key: "college",
+
+        label: "الكلية",
+
+        getValue:
+            applicant =>
+                applicant?.education?.college
+    },
+
+
+    {
+        key: "educationSpecialization",
+
+        label: "تخصص الدراسة",
+
+        getValue:
+            applicant =>
+                applicant?.education?.specialization
+    },
+
+
+    {
+        key: "graduationYear",
+
+        label: "سنة التخرج",
+
+        getValue:
+            applicant =>
+                applicant?.education?.graduationYear
+    },
+
+
+    {
+        key: "gpa",
+
+        label: "المعدل",
+
+        getValue:
+            applicant =>
+                applicant?.education?.gpa
+    },
+
+
+    {
+        key: "governmentEmployee",
+
+        label: "موظف حكومي",
+
+        getValue:
+            applicant =>
+                applicant?.experience?.governmentEmployee
+    },
+
+
+    {
+        key: "reviewStage",
+
+        label: "مرحلة التدقيق",
+
+        getValue:
+            applicant =>
+                applicant.reviewStage
+    },
+
+
+    {
+        key: "needStatus",
+
+        label: "الحاجة إليك",
+
+        getValue:
+            applicant =>
+                applicant.needStatus
+    },
+
+
+    {
+        key: "interviewStage",
+
+        label: "مرحلة المقابلة",
+
+        getValue:
+            applicant =>
+                applicant.interviewStage
+    },
+
+
+    {
+        key: "interviewDate",
+
+        label: "تاريخ المقابلة",
+
+        getValue:
+            applicant =>
+                applicant.interviewDate
+                    ? formatDate(
+                        applicant.interviewDate
+                    )
+                    : "غير محدد"
+    },
+
+
+    {
+        key: "committeeDecision",
+
+        label: "قرار اللجنة",
+
+        getValue:
+            applicant => {
+
+                if (
+                    applicant.committeeDecision ===
+                    "رفض"
+                ) {
+
+                    return "عدم قبول";
+
+                }
+
+                return (
+                    applicant.committeeDecision ||
+                    "غير محدد"
+                );
+
+            }
+    },
+
+
+    {
+        key: "acceptanceStatus",
+
+        label: "حالة القبول",
+
+        getValue:
+            applicant =>
+                applicant.acceptanceStatus
+    },
+
+
+    {
+        key: "startDate",
+
+        label: "تاريخ المباشرة",
+
+        getValue:
+            applicant =>
+                applicant.startDate
+                    ? formatDateOnly(
+                        applicant.startDate
+                    )
+                    : "غير محدد"
+    }
+
+];
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
 
 function escapeHTML(
     value
@@ -2512,47 +4036,73 @@ function escapeHTML(
     }
 
 
-    return String(value)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+    return String(
+        value
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 
 
-/* =====================================================
+/* =========================================================
+   NORMALIZE TEXT
+========================================================= */
+
+function normalizeText(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+    .toLowerCase()
+    .trim()
+    .replace(
+        /[أإآ]/g,
+        "ا"
+    )
+    .replace(
+        /ة/g,
+        "ه"
+    )
+    .replace(
+        /ى/g,
+        "ي"
+    );
+
+}
+
+
+/* =========================================================
    DISPLAY VALUE
-===================================================== */
+========================================================= */
 
 function displayValue(
     value
 ) {
 
     if (
-        value === undefined ||
         value === null ||
+        value === undefined ||
         String(value).trim() === ""
     ) {
 
@@ -2566,9 +4116,9 @@ function displayValue(
 }
 
 
-/* =====================================================
-   GET NAME
-===================================================== */
+/* =========================================================
+   NAME
+========================================================= */
 
 function getApplicantName(
     applicant
@@ -2583,9 +4133,9 @@ function getApplicantName(
 }
 
 
-/* =====================================================
-   GET PHONE
-===================================================== */
+/* =========================================================
+   PHONE
+========================================================= */
 
 function getApplicantPhone(
     applicant
@@ -2600,9 +4150,35 @@ function getApplicantPhone(
 }
 
 
-/* =====================================================
-   FORMAT DATE
-===================================================== */
+/* =========================================================
+   SORT
+========================================================= */
+
+function sortApplicantsAlphabetically(
+    applicants
+) {
+
+    return applicants.sort(
+        function(a, b) {
+
+            return getApplicantName(a)
+                .localeCompare(
+                    getApplicantName(b),
+                    "ar",
+                    {
+                        sensitivity: "base"
+                    }
+                );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   DATE FORMAT
+========================================================= */
 
 function formatDate(
     value
@@ -2610,7 +4186,7 @@ function formatDate(
 
     if (!value) {
 
-        return "غير متوفر";
+        return "غير محدد";
 
     }
 
@@ -2643,7 +4219,8 @@ function formatDate(
             }
         );
 
-    } catch {
+    }
+    catch {
 
         return String(value);
 
@@ -2652,11 +4229,245 @@ function formatDate(
 }
 
 
-/* =====================================================
-   LOAD APPLICANTS
+/* =========================================================
+   DATE ONLY
+========================================================= */
 
+function formatDateOnly(
+    value
+) {
+
+    if (!value) {
+
+        return "غير محدد";
+
+    }
+
+
+    const text =
+        String(value);
+
+
+    const match =
+        text.match(
+            /^(\d{4})-(\d{2})-(\d{2})/
+        );
+
+
+    if (match) {
+
+        return (
+            match[3] +
+            "/" +
+            match[2] +
+            "/" +
+            match[1]
+        );
+
+    }
+
+
+    return text;
+
+}
+
+
+/* =========================================================
+   BADGE CLASS
+========================================================= */
+
+function getBadgeClass(
+    value
+) {
+
+    const text =
+        normalizeText(
+            value
+        );
+
+
+    if (!text) {
+
+        return "badge-default";
+
+    }
+
+
+    if (
+        text.includes(
+            "تم التدقيق"
+        ) ||
+        text.includes(
+            "توجد حاجه"
+        ) ||
+        text.includes(
+            "مؤهل للمقابله"
+        ) ||
+        text.includes(
+            "تم تحديد موعد"
+        ) ||
+        text === "قبول" ||
+        text === "مقبول"
+    ) {
+
+        return "badge-green";
+
+    }
+
+
+    if (
+        text.includes(
+            "لم يجتز"
+        ) ||
+        text.includes(
+            "لا توجد حاجه"
+        ) ||
+        text.includes(
+            "غير مؤهل"
+        ) ||
+        text === "رفض" ||
+        text.includes(
+            "عدم قبول"
+        ) ||
+        text.includes(
+            "حظ اوفر"
+        )
+    ) {
+
+        return "badge-red";
+
+    }
+
+
+    if (
+        text.includes(
+            "قيد"
+        ) ||
+        text.includes(
+            "بانتظار"
+        )
+    ) {
+
+        return "badge-orange";
+
+    }
+
+
+    return "badge-blue";
+
+}
+
+
+/* =========================================================
+   BADGE HTML
+========================================================= */
+
+function badgeHTML(
+    value
+) {
+
+    return `
+
+        <span
+            class="badge ${getBadgeClass(value)}">
+
+            ${escapeHTML(
+                displayValue(value)
+            )}
+
+        </span>
+
+    `;
+
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+function showLoading(
+    state,
+    message =
+        "جارٍ تحميل البيانات..."
+) {
+
+    loadingText.textContent =
+        message;
+
+
+    if (state) {
+
+        loadingScreen.classList.add(
+            "active"
+        );
+
+    } else {
+
+        loadingScreen.classList.remove(
+            "active"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(
+    message,
+    type = ""
+) {
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toast.textContent =
+        message;
+
+
+    toast.className =
+        "toast";
+
+
+    if (type) {
+
+        toast.classList.add(
+            type
+        );
+
+    }
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    toastTimer =
+        setTimeout(
+            function() {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            3000
+        );
+
+}
+
+
+/* =========================================================
+   LOAD APPLICANTS
    نفس طريقة الكود الأصلي
-===================================================== */
+========================================================= */
 
 async function loadApplicants() {
 
@@ -2688,6 +4499,10 @@ async function loadApplicants() {
             allApplicants = [];
 
             updateStatistics();
+
+            createExcelFilters();
+
+            updateStageCounters();
 
             renderApplicants();
 
@@ -2730,6 +4545,12 @@ async function loadApplicants() {
         updateStatistics();
 
 
+        createExcelFilters();
+
+
+        updateStageCounters();
+
+
         renderApplicants();
 
     }
@@ -2742,9 +4563,21 @@ async function loadApplicants() {
 
 
         showToast(
-            "تعذر قراءة بيانات Firebase.",
+            "تعذر قراءة بيانات Firebase. تأكد من Firebase Rules.",
             "error"
         );
+
+
+        tableBody.innerHTML =
+            "";
+
+
+        mobileList.innerHTML =
+            "";
+
+
+        emptyState.style.display =
+            "block";
 
     }
     finally {
@@ -2758,35 +4591,9 @@ async function loadApplicants() {
 }
 
 
-/* =====================================================
-   SORT
-===================================================== */
-
-function sortApplicantsAlphabetically(
-    applicants
-) {
-
-    return applicants.sort(
-        function(a, b) {
-
-            return getApplicantName(a)
-                .localeCompare(
-                    getApplicantName(b),
-                    "ar",
-                    {
-                        sensitivity: "base"
-                    }
-                );
-
-        }
-    );
-
-}
-
-
-/* =====================================================
+/* =========================================================
    STATISTICS
-===================================================== */
+========================================================= */
 
 function updateStatistics() {
 
@@ -2812,9 +4619,890 @@ function updateStatistics() {
 }
 
 
-/* =====================================================
-   FILTER
-===================================================== */
+/* =========================================================
+   STAGE COUNTERS
+========================================================= */
+
+function updateStageCounters() {
+
+    document
+        .querySelectorAll(
+            ".stage-tab"
+        )
+        .forEach(
+            function(button) {
+
+                const key =
+                    button.dataset
+                        .stageFilter;
+
+
+                const config =
+                    stageFilters[
+                        key
+                    ];
+
+
+                if (!config) {
+
+                    return;
+
+                }
+
+
+                const count =
+                    key === "all"
+                        ? allApplicants.length
+                        : allApplicants
+                            .filter(
+                                config.match
+                            )
+                            .length;
+
+
+                const counter =
+                    button.querySelector(
+                        ".stage-tab-count"
+                    );
+
+
+                if (counter) {
+
+                    counter.textContent =
+                        count;
+
+                }
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   STAGE TAB EVENTS
+========================================================= */
+
+document
+    .querySelectorAll(
+        ".stage-tab"
+    )
+    .forEach(
+        function(button) {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    document
+                        .querySelectorAll(
+                            ".stage-tab"
+                        )
+                        .forEach(
+                            item =>
+                                item.classList.remove(
+                                    "active"
+                                )
+                        );
+
+
+                    this.classList.add(
+                        "active"
+                    );
+
+
+                    currentStageFilter =
+                        this.dataset
+                            .stageFilter;
+
+
+                    const config =
+                        stageFilters[
+                            currentStageFilter
+                        ];
+
+
+                    resultsTitle.textContent =
+                        config
+                            ? config.label
+                            : "المتقدمين";
+
+
+                    renderApplicants();
+
+                }
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   FILTER VALUE
+========================================================= */
+
+function getFilterValue(
+    applicant,
+    field
+) {
+
+    let value =
+        field.getValue(
+            applicant
+        );
+
+
+    if (
+        value === null ||
+        value === undefined ||
+        String(value).trim() === ""
+    ) {
+
+        return "غير متوفر";
+
+    }
+
+
+    return String(
+        value
+    ).trim();
+
+}
+
+
+/* =========================================================
+   UNIQUE VALUES
+========================================================= */
+
+function getUniqueFilterValues(
+    field
+) {
+
+    const map =
+        new Map();
+
+
+    allApplicants.forEach(
+        function(applicant) {
+
+            const value =
+                getFilterValue(
+                    applicant,
+                    field
+                );
+
+
+            const normalized =
+                normalizeText(
+                    value
+                );
+
+
+            if (
+                !map.has(
+                    normalized
+                )
+            ) {
+
+                map.set(
+                    normalized,
+                    value
+                );
+
+            }
+
+        }
+    );
+
+
+    return Array.from(
+        map.values()
+    )
+    .sort(
+        function(a, b) {
+
+            return String(a)
+                .localeCompare(
+                    String(b),
+                    "ar",
+                    {
+                        sensitivity:
+                            "base",
+
+                        numeric:
+                            true
+                    }
+                );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CREATE FILTERS
+========================================================= */
+
+function createExcelFilters() {
+
+    excelFilters.innerHTML =
+        "";
+
+
+    filterFields.forEach(
+        function(field) {
+
+            if (
+                !activeFilters[
+                    field.key
+                ]
+            ) {
+
+                activeFilters[
+                    field.key
+                ] =
+                    new Set();
+
+            }
+
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+
+            wrapper.className =
+                "excel-filter";
+
+
+            wrapper.dataset.key =
+                field.key;
+
+
+            wrapper.innerHTML = `
+
+                <span
+                    class="excel-filter-label">
+
+                    ${escapeHTML(
+                        field.label
+                    )}
+
+                </span>
+
+
+                <button
+                    class="excel-filter-button"
+                    type="button">
+
+                    <span
+                        class="filter-button-text">
+
+                        الكل
+
+                    </span>
+
+                    <span>
+                        ▾
+                    </span>
+
+                </button>
+
+
+                <div
+                    class="excel-filter-menu">
+
+
+                    <div
+                        class="filter-search">
+
+                        <input
+                            type="text"
+                            autocomplete="off"
+                            placeholder="بحث في الخيارات...">
+
+                    </div>
+
+
+                    <div
+                        class="filter-actions">
+
+                        <button
+                            class="filter-action primary select-all-options"
+                            type="button">
+
+                            تحديد الكل
+
+                        </button>
+
+
+                        <button
+                            class="filter-action clear-options"
+                            type="button">
+
+                            مسح
+
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="filter-options">
+                    </div>
+
+                </div>
+
+            `;
+
+
+            excelFilters.appendChild(
+                wrapper
+            );
+
+
+            const button =
+                wrapper.querySelector(
+                    ".excel-filter-button"
+                );
+
+
+            const filterSearch =
+                wrapper.querySelector(
+                    ".filter-search input"
+                );
+
+
+            button.addEventListener(
+                "click",
+                function(event) {
+
+                    event.stopPropagation();
+
+
+                    closeFilterMenus(
+                        wrapper
+                    );
+
+
+                    wrapper
+                        .classList
+                        .toggle(
+                            "open"
+                        );
+
+
+                    if (
+                        wrapper.classList
+                            .contains(
+                                "open"
+                            )
+                    ) {
+
+                        renderFilterOptions(
+                            field
+                        );
+
+                    }
+
+                }
+            );
+
+
+            filterSearch.addEventListener(
+                "input",
+                function() {
+
+                    renderFilterOptions(
+                        field
+                    );
+
+                }
+            );
+
+
+            wrapper
+                .querySelector(
+                    ".select-all-options"
+                )
+                .addEventListener(
+                    "click",
+                    function() {
+
+                        const text =
+                            normalizeText(
+                                filterSearch.value
+                            );
+
+
+                        getUniqueFilterValues(
+                            field
+                        )
+                        .forEach(
+                            function(value) {
+
+                                if (
+                                    !text ||
+                                    normalizeText(
+                                        value
+                                    ).includes(
+                                        text
+                                    )
+                                ) {
+
+                                    activeFilters[
+                                        field.key
+                                    ].add(
+                                        value
+                                    );
+
+                                }
+
+                            }
+                        );
+
+
+                        renderFilterOptions(
+                            field
+                        );
+
+
+                        updateFilterButton(
+                            wrapper,
+                            field
+                        );
+
+
+                        renderApplicants();
+
+                    }
+                );
+
+
+            wrapper
+                .querySelector(
+                    ".clear-options"
+                )
+                .addEventListener(
+                    "click",
+                    function() {
+
+                        activeFilters[
+                            field.key
+                        ].clear();
+
+
+                        renderFilterOptions(
+                            field
+                        );
+
+
+                        updateFilterButton(
+                            wrapper,
+                            field
+                        );
+
+
+                        renderApplicants();
+
+                    }
+                );
+
+
+            updateFilterButton(
+                wrapper,
+                field
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   FILTER OPTIONS
+========================================================= */
+
+function renderFilterOptions(
+    field
+) {
+
+    const wrapper =
+        document.querySelector(
+            `.excel-filter[data-key="${CSS.escape(field.key)}"]`
+        );
+
+
+    if (!wrapper) {
+
+        return;
+
+    }
+
+
+    const search =
+        normalizeText(
+            wrapper.querySelector(
+                ".filter-search input"
+            ).value
+        );
+
+
+    const container =
+        wrapper.querySelector(
+            ".filter-options"
+        );
+
+
+    const values =
+        getUniqueFilterValues(
+            field
+        )
+        .filter(
+            value =>
+                !search ||
+                normalizeText(
+                    value
+                )
+                .includes(
+                    search
+                )
+        );
+
+
+    if (
+        values.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="filter-empty">
+
+                لا توجد نتائج
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        values
+        .map(
+            function(value) {
+
+                const checked =
+                    activeFilters[
+                        field.key
+                    ]
+                    .has(
+                        value
+                    )
+                        ? "checked"
+                        : "";
+
+
+                const count =
+                    allApplicants
+                    .filter(
+                        applicant =>
+                            getFilterValue(
+                                applicant,
+                                field
+                            ) ===
+                            value
+                    )
+                    .length;
+
+
+                return `
+
+                    <label
+                        class="filter-option">
+
+                        <input
+                            type="checkbox"
+                            value="${escapeHTML(value)}"
+                            ${checked}>
+
+                        <span
+                            class="filter-option-text">
+
+                            ${escapeHTML(value)}
+
+                        </span>
+
+                        <span
+                            class="filter-option-count">
+
+                            ${count}
+
+                        </span>
+
+                    </label>
+
+                `;
+
+            }
+        )
+        .join("");
+
+
+    container
+        .querySelectorAll(
+            "input[type='checkbox']"
+        )
+        .forEach(
+            function(checkbox) {
+
+                checkbox.addEventListener(
+                    "change",
+                    function() {
+
+                        if (
+                            this.checked
+                        ) {
+
+                            activeFilters[
+                                field.key
+                            ].add(
+                                this.value
+                            );
+
+                        } else {
+
+                            activeFilters[
+                                field.key
+                            ].delete(
+                                this.value
+                            );
+
+                        }
+
+
+                        updateFilterButton(
+                            wrapper,
+                            field
+                        );
+
+
+                        renderApplicants();
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   UPDATE FILTER BUTTON
+========================================================= */
+
+function updateFilterButton(
+    wrapper,
+    field
+) {
+
+    const selected =
+        activeFilters[
+            field.key
+        ];
+
+
+    const text =
+        wrapper.querySelector(
+            ".filter-button-text"
+        );
+
+
+    if (
+        !selected ||
+        selected.size === 0
+    ) {
+
+        text.textContent =
+            "الكل";
+
+
+        wrapper.classList.remove(
+            "active"
+        );
+
+
+        return;
+
+    }
+
+
+    wrapper.classList.add(
+        "active"
+    );
+
+
+    if (
+        selected.size === 1
+    ) {
+
+        text.textContent =
+            Array.from(
+                selected
+            )[0];
+
+    } else {
+
+        text.textContent =
+            `تم اختيار ${selected.size}`;
+
+    }
+
+}
+
+
+/* =========================================================
+   CLOSE FILTER MENUS
+========================================================= */
+
+function closeFilterMenus(
+    except = null
+) {
+
+    document
+        .querySelectorAll(
+            ".excel-filter.open"
+        )
+        .forEach(
+            function(item) {
+
+                if (
+                    item !== except
+                ) {
+
+                    item.classList.remove(
+                        "open"
+                    );
+
+                }
+
+            }
+        );
+
+}
+
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            !event.target.closest(
+                ".excel-filter"
+            )
+        ) {
+
+            closeFilterMenus();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   CLEAR FILTERS
+========================================================= */
+
+clearFiltersButton.addEventListener(
+    "click",
+    function() {
+
+        searchInput.value =
+            "";
+
+
+        Object.values(
+            activeFilters
+        )
+        .forEach(
+            set =>
+                set.clear()
+        );
+
+
+        createExcelFilters();
+
+
+        renderApplicants();
+
+
+        showToast(
+            "تم مسح البحث وجميع الفلاتر.",
+            "success"
+        );
+
+    }
+);
+
+
+/* =========================================================
+   SEARCH ALL VALUES RECURSIVELY
+========================================================= */
+
+function collectSearchValues(
+    value,
+    output = []
+) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return output;
+
+    }
+
+
+    if (
+        typeof value === "object"
+    ) {
+
+        Object.values(
+            value
+        )
+        .forEach(
+            child =>
+                collectSearchValues(
+                    child,
+                    output
+                )
+        );
+
+    } else {
+
+        output.push(
+            String(value)
+        );
+
+    }
+
+
+    return output;
+
+}
+
+
+/* =========================================================
+   FILTER APPLICANTS
+========================================================= */
 
 function getFilteredApplicants() {
 
@@ -2822,30 +5510,77 @@ function getFilteredApplicants() {
         [...allApplicants];
 
 
+    /* القسم الحالي */
+
+    const stageConfig =
+        stageFilters[
+            currentStageFilter
+        ];
+
+
     if (
-        currentFilter !==
+        stageConfig &&
+        currentStageFilter !==
         "all"
     ) {
 
         result =
             result.filter(
-                function(applicant) {
-
-                    return (
-                        applicant?.personal?.gender ===
-                        currentFilter
-                    );
-
-                }
+                stageConfig.match
             );
 
     }
 
 
+    /* Excel filters */
+
+    result =
+        result.filter(
+            function(applicant) {
+
+                return filterFields.every(
+                    function(field) {
+
+                        const selected =
+                            activeFilters[
+                                field.key
+                            ];
+
+
+                        if (
+                            !selected ||
+                            selected.size === 0
+                        ) {
+
+                            return true;
+
+                        }
+
+
+                        const value =
+                            getFilterValue(
+                                applicant,
+                                field
+                            );
+
+
+                        return selected.has(
+                            value
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+    /* البحث العام */
+
     const search =
-        searchInput.value
-            .trim()
-            .toLowerCase();
+        normalizeText(
+            searchInput.value
+        );
 
 
     if (search) {
@@ -2858,43 +5593,18 @@ function getFilteredApplicants() {
 
                         applicant.uid,
 
-                        applicant?.personal?.fullName,
-
-                        applicant?.personal?.phone,
-
-                        applicant?.personal?.address,
-
-                        applicant?.job?.schoolLevel,
-
-                        applicant?.job?.specialization,
-
-                        applicant?.education?.certificate,
-
-                        applicant?.education?.university,
-
-                        applicant?.education?.college,
-
-                        applicant?.education?.specialization,
-
-                        applicant?.experience?.experience,
-
-                        applicant?.experience?.previousWork
+                        ...collectSearchValues(
+                            applicant
+                        )
 
                     ];
 
 
-                    return values.some(
-                        function(value) {
-
-                            return String(
-                                value || ""
-                            )
-                            .toLowerCase()
-                            .includes(
-                                search
-                            );
-
-                        }
+                    return normalizeText(
+                        values.join(" ")
+                    )
+                    .includes(
+                        search
                     );
 
                 }
@@ -2913,9 +5623,9 @@ function getFilteredApplicants() {
 }
 
 
-/* =====================================================
-   RENDER
-===================================================== */
+/* =========================================================
+   RENDER APPLICANTS
+========================================================= */
 
 function renderApplicants() {
 
@@ -2970,24 +5680,27 @@ function renderApplicants() {
 }
 
 
-/* =====================================================
+/* =========================================================
    TABLE ROW
-===================================================== */
+========================================================= */
 
 function renderTableRow(
     applicant
 ) {
 
     const personal =
-        applicant.personal || {};
+        applicant.personal ||
+        {};
 
 
     const job =
-        applicant.job || {};
+        applicant.job ||
+        {};
 
 
     const education =
-        applicant.education || {};
+        applicant.education ||
+        {};
 
 
     const row =
@@ -2996,10 +5709,11 @@ function renderTableRow(
         );
 
 
-    const genderClass =
-        personal.gender === "ذكر"
-            ? "gender-male"
-            : "gender-female";
+    const committeeDisplay =
+        applicant.committeeDecision ===
+        "رفض"
+            ? "عدم قبول"
+            : applicant.committeeDecision;
 
 
     row.innerHTML = `
@@ -3033,14 +5747,10 @@ function renderTableRow(
 
         <td>
 
-            <span class="gender-badge ${genderClass}">
-
-                ${escapeHTML(
-                    personal.gender ||
-                    "غير محدد"
-                )}
-
-            </span>
+            ${escapeHTML(
+                personal.gender ||
+                "غير متوفر"
+            )}
 
         </td>
 
@@ -3132,7 +5842,7 @@ function renderTableRow(
         <td>
 
             ${escapeHTML(
-                education.gpa ||
+                education.specialization ||
                 "غير متوفر"
             )}
 
@@ -3142,9 +5852,8 @@ function renderTableRow(
         <td>
 
             ${escapeHTML(
-                displayValue(
-                    applicant.reviewStage
-                )
+                education.graduationYear ||
+                "غير متوفر"
             )}
 
         </td>
@@ -3153,9 +5862,35 @@ function renderTableRow(
         <td>
 
             ${escapeHTML(
-                displayValue(
-                    applicant.needStatus
-                )
+                education.gpa ||
+                "غير متوفر"
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${badgeHTML(
+                applicant.reviewStage
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${badgeHTML(
+                applicant.needStatus
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${badgeHTML(
+                applicant.interviewStage
             )}
 
         </td>
@@ -3164,23 +5899,42 @@ function renderTableRow(
         <td>
 
             ${escapeHTML(
-                displayValue(
-                    applicant.interviewStage
-                )
-            )}
-
-        </td>
-
-
-        <td>
-
-            ${escapeHTML(
-                applicant.committeeDecision ===
-                "رفض"
-                    ? "عدم قبول"
-                    : displayValue(
-                        applicant.committeeDecision
+                applicant.interviewDate
+                    ? formatDate(
+                        applicant.interviewDate
                     )
+                    : "غير محدد"
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${badgeHTML(
+                committeeDisplay
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${badgeHTML(
+                applicant.acceptanceStatus
+            )}
+
+        </td>
+
+
+        <td>
+
+            ${escapeHTML(
+                applicant.startDate
+                    ? formatDateOnly(
+                        applicant.startDate
+                    )
+                    : "غير محدد"
             )}
 
         </td>
@@ -3193,7 +5947,7 @@ function renderTableRow(
         function() {
 
             openApplicant(
-                applicant
+                applicant.uid
             );
 
         }
@@ -3207,20 +5961,22 @@ function renderTableRow(
 }
 
 
-/* =====================================================
+/* =========================================================
    MOBILE CARD
-===================================================== */
+========================================================= */
 
 function renderMobileCard(
     applicant
 ) {
 
     const personal =
-        applicant.personal || {};
+        applicant.personal ||
+        {};
 
 
     const job =
-        applicant.job || {};
+        applicant.job ||
+        {};
 
 
     const card =
@@ -3245,7 +6001,7 @@ function renderMobileCard(
         </div>
 
 
-        <div class="card-uid">
+        <div class="card-code">
 
             ${escapeHTML(
                 applicant.uid
@@ -3254,42 +6010,42 @@ function renderMobileCard(
         </div>
 
 
-        <div class="card-details">
+        <div class="card-grid">
 
 
-            ${mobileDetail(
+            ${mobileField(
                 "رقم الهاتف",
                 personal.phone
             )}
 
 
-            ${mobileDetail(
-                "الجنس",
-                personal.gender
-            )}
-
-
-            ${mobileDetail(
-                "المرحلة",
-                job.schoolLevel
-            )}
-
-
-            ${mobileDetail(
+            ${mobileField(
                 "المادة",
                 job.specialization
             )}
 
 
-            ${mobileDetail(
+            ${mobileField(
                 "مرحلة التدقيق",
                 applicant.reviewStage
             )}
 
 
-            ${mobileDetail(
+            ${mobileField(
                 "الحاجة إليك",
                 applicant.needStatus
+            )}
+
+
+            ${mobileField(
+                "المقابلة",
+                applicant.interviewStage
+            )}
+
+
+            ${mobileField(
+                "حالة القبول",
+                applicant.acceptanceStatus
             )}
 
 
@@ -3303,7 +6059,7 @@ function renderMobileCard(
         function() {
 
             openApplicant(
-                applicant
+                applicant.uid
             );
 
         }
@@ -3317,26 +6073,27 @@ function renderMobileCard(
 }
 
 
-/* =====================================================
-   MOBILE DETAIL
-===================================================== */
+/* =========================================================
+   MOBILE FIELD
+========================================================= */
 
-function mobileDetail(
+function mobileField(
     label,
     value
 ) {
 
     return `
 
-        <div class="detail">
+        <div class="card-field">
 
-            <div class="detail-label">
+            <div class="card-label">
 
                 ${escapeHTML(label)}
 
             </div>
 
-            <div class="detail-value">
+
+            <div class="card-value">
 
                 ${escapeHTML(
                     displayValue(value)
@@ -3351,13 +6108,32 @@ function mobileDetail(
 }
 
 
-/* =====================================================
+/* =========================================================
    OPEN APPLICANT
-===================================================== */
+========================================================= */
 
 function openApplicant(
-    applicant
+    uid
 ) {
+
+    const applicant =
+        allApplicants.find(
+            item =>
+                item.uid === uid
+        );
+
+
+    if (!applicant) {
+
+        showToast(
+            "تعذر العثور على بيانات المتقدم.",
+            "error"
+        );
+
+        return;
+
+    }
+
 
     selectedApplicant =
         applicant;
@@ -3378,7 +6154,7 @@ function openApplicant(
     );
 
 
-    refreshAdminStages();
+    refreshStageUI();
 
 
     applicantModal.classList.add(
@@ -3392,34 +6168,38 @@ function openApplicant(
 }
 
 
-/* =====================================================
+/* =========================================================
    APPLICANT INFO
-===================================================== */
+========================================================= */
 
 function renderApplicantInfo(
     applicant
 ) {
 
     const personal =
-        applicant.personal || {};
+        applicant.personal ||
+        {};
 
 
     const job =
-        applicant.job || {};
+        applicant.job ||
+        {};
 
 
     const education =
-        applicant.education || {};
+        applicant.education ||
+        {};
 
 
     const experience =
-        applicant.experience || {};
+        applicant.experience ||
+        {};
 
 
     const fields = [
 
         [
-            "الكود",
+            "UID",
             applicant.uid
         ],
 
@@ -3474,7 +6254,7 @@ function renderApplicantInfo(
         ],
 
         [
-            "التخصص",
+            "تخصص الدراسة",
             education.specialization
         ],
 
@@ -3489,6 +6269,11 @@ function renderApplicantInfo(
         ],
 
         [
+            "موظف حكومي",
+            experience.governmentEmployee
+        ],
+
+        [
             "الخبرات",
             experience.experience
         ],
@@ -3496,6 +6281,15 @@ function renderApplicantInfo(
         [
             "العمل السابق",
             experience.previousWork
+        ],
+
+        [
+            "تاريخ التقديم",
+            applicant.submittedAt
+                ? formatDate(
+                    applicant.submittedAt
+                )
+                : "غير متوفر"
         ]
 
     ];
@@ -3539,11 +6333,11 @@ function renderApplicantInfo(
 }
 
 
-/* =====================================================
-   REFRESH ADMIN UI
-===================================================== */
+/* =========================================================
+   REFRESH STAGE UI
+========================================================= */
 
-function refreshAdminStages() {
+function refreshStageUI() {
 
     if (!selectedApplicant) {
 
@@ -3552,50 +6346,57 @@ function refreshAdminStages() {
     }
 
 
-    updateStageCurrent(
+    setBadgeElement(
         "reviewCurrent",
-        selectedApplicant.reviewStage
+        selectedApplicant
+            .reviewStage
     );
 
 
-    updateStageCurrent(
+    setBadgeElement(
         "needCurrent",
-        selectedApplicant.needStatus
+        selectedApplicant
+            .needStatus
     );
 
 
-    updateStageCurrent(
+    setBadgeElement(
         "interviewCurrent",
-        selectedApplicant.interviewStage
+        selectedApplicant
+            .interviewStage
     );
 
 
-    updateStageCurrent(
+    setBadgeElement(
         "committeeCurrent",
-        selectedApplicant.committeeDecision ===
-        "رفض"
-            ? "عدم قبول"
-            : selectedApplicant.committeeDecision
+        selectedApplicant
+            .committeeDecision ===
+            "رفض"
+                ? "عدم قبول"
+                : selectedApplicant
+                    .committeeDecision
     );
 
 
-    updateStageCurrent(
+    setBadgeElement(
         "acceptanceCurrent",
-        selectedApplicant.acceptanceStatus
+        selectedApplicant
+            .acceptanceStatus
     );
 
 
     const interviewDate =
-        selectedApplicant.interviewDate;
+        selectedApplicant
+            .interviewDate;
 
 
-    const interviewElement =
+    const interviewDateCurrent =
         document.getElementById(
             "interviewDateCurrent"
         );
 
 
-    interviewElement.textContent =
+    interviewDateCurrent.textContent =
         interviewDate
             ? formatDate(
                 interviewDate
@@ -3603,33 +6404,52 @@ function refreshAdminStages() {
             : "لم يتم تحديد الموعد";
 
 
+    interviewDateCurrent.className =
+        "badge " +
+        (
+            interviewDate
+                ? "badge-green"
+                : "badge-default"
+        );
+
+
     interviewDateInput.value =
-        normalizeDateTime(
+        normalizeDateTimeInput(
             interviewDate
         );
 
 
-    const start =
-        selectedApplicant.startDate;
+    const startDate =
+        selectedApplicant
+            .startDate;
 
 
-    const startElement =
+    const startDateCurrent =
         document.getElementById(
             "startDateCurrent"
         );
 
 
-    startElement.textContent =
-        start
-            ? formatDate(
-                start
+    startDateCurrent.textContent =
+        startDate
+            ? formatDateOnly(
+                startDate
             )
             : "لم يتم تحديد التاريخ";
 
 
+    startDateCurrent.className =
+        "badge " +
+        (
+            startDate
+                ? "badge-green"
+                : "badge-default"
+        );
+
+
     startDateInput.value =
-        normalizeDate(
-            start
+        normalizeDateInput(
+            startDate
         );
 
 
@@ -3638,11 +6458,11 @@ function refreshAdminStages() {
 }
 
 
-/* =====================================================
-   STAGE CURRENT
-===================================================== */
+/* =========================================================
+   SET BADGE ELEMENT
+========================================================= */
 
-function updateStageCurrent(
+function setBadgeElement(
     id,
     value
 ) {
@@ -3653,69 +6473,24 @@ function updateStageCurrent(
         );
 
 
-    const text =
+    element.textContent =
         displayValue(
             value
         );
 
 
-    element.textContent =
-        text;
-
-
     element.className =
-        "stage-current";
-
-
-    const lower =
-        String(
-            text
+        "badge " +
+        getBadgeClass(
+            value
         );
-
-
-    if (
-        lower.includes("تم") ||
-        lower.includes("توجد") ||
-        lower.includes("مؤهل") ||
-        lower.includes("مقبول") ||
-        lower === "قبول"
-    ) {
-
-        element.classList.add(
-            "green"
-        );
-
-    }
-    else if (
-        lower.includes("لم يجتز") ||
-        lower.includes("لا توجد") ||
-        lower.includes("غير مؤهل") ||
-        lower.includes("عدم قبول") ||
-        lower.includes("حظ أوفر")
-    ) {
-
-        element.classList.add(
-            "red"
-        );
-
-    }
-    else if (
-        lower.includes("قيد") ||
-        lower.includes("بانتظار")
-    ) {
-
-        element.classList.add(
-            "orange"
-        );
-
-    }
 
 }
 
 
-/* =====================================================
+/* =========================================================
    ACTIVE BUTTONS
-===================================================== */
+========================================================= */
 
 function refreshActiveButtons() {
 
@@ -3776,13 +6551,12 @@ function refreshActiveButtons() {
 }
 
 
-/* =====================================================
-   UPDATE SINGLE FIELD
-===================================================== */
+/* =========================================================
+   UPDATE FIELDS
+========================================================= */
 
-async function updateApplicantField(
-    field,
-    value
+async function updateApplicantFields(
+    values
 ) {
 
     if (!selectedApplicant) {
@@ -3792,9 +6566,13 @@ async function updateApplicantField(
     }
 
 
+    const uid =
+        selectedApplicant.uid;
+
+
     showLoading(
         true,
-        "جارٍ حفظ التغيير..."
+        "جارٍ حفظ التغييرات..."
     );
 
 
@@ -3805,41 +6583,50 @@ async function updateApplicantField(
             ref(
                 db,
                 "jobApplications/" +
-                selectedApplicant.uid
+                uid
             ),
 
-            {
-                [field]:
-                    value
-            }
+            values
 
         );
 
 
-        selectedApplicant[field] =
-            value;
+        Object.assign(
+            selectedApplicant,
+            values
+        );
 
 
         const original =
             allApplicants.find(
                 item =>
-                    item.uid ===
-                    selectedApplicant.uid
+                    item.uid === uid
             );
 
 
         if (original) {
 
-            original[field] =
-                value;
+            Object.assign(
+                original,
+                values
+            );
 
         }
 
 
-        refreshAdminStages();
+        updateStatistics();
+
+
+        updateStageCounters();
+
+
+        refreshStageUI();
 
 
         renderApplicants();
+
+
+        createExcelFilters();
 
 
         showToast(
@@ -3851,6 +6638,7 @@ async function updateApplicantField(
     catch (error) {
 
         console.error(
+            "Update Error:",
             error
         );
 
@@ -3872,105 +6660,9 @@ async function updateApplicantField(
 }
 
 
-/* =====================================================
-   UPDATE MULTIPLE FIELDS
-===================================================== */
-
-async function updateApplicantFields(
-    values
-) {
-
-    if (!selectedApplicant) {
-
-        return;
-
-    }
-
-
-    showLoading(
-        true,
-        "جارٍ حفظ التغييرات..."
-    );
-
-
-    try {
-
-        await update(
-
-            ref(
-                db,
-                "jobApplications/" +
-                selectedApplicant.uid
-            ),
-
-            values
-
-        );
-
-
-        Object.assign(
-            selectedApplicant,
-            values
-        );
-
-
-        const original =
-            allApplicants.find(
-                item =>
-                    item.uid ===
-                    selectedApplicant.uid
-            );
-
-
-        if (original) {
-
-            Object.assign(
-                original,
-                values
-            );
-
-        }
-
-
-        refreshAdminStages();
-
-
-        renderApplicants();
-
-
-        showToast(
-            "تم حفظ التغييرات بنجاح.",
-            "success"
-        );
-
-    }
-    catch (error) {
-
-        console.error(
-            error
-        );
-
-
-        showToast(
-            "تعذر حفظ التغييرات.",
-            "error"
-        );
-
-    }
-    finally {
-
-        showLoading(
-            false
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   STATUS BUTTONS
-===================================================== */
+/* =========================================================
+   NORMAL STATUS BUTTONS
+========================================================= */
 
 document
     .querySelectorAll(
@@ -3981,12 +6673,22 @@ document
 
             button.addEventListener(
                 "click",
-                function() {
+                async function() {
 
-                    updateApplicantField(
-                        this.dataset.field,
-                        this.dataset.value
-                    );
+                    const field =
+                        this.dataset.field;
+
+
+                    const value =
+                        this.dataset.value;
+
+
+                    await updateApplicantFields({
+
+                        [field]:
+                            value
+
+                    });
 
                 }
             );
@@ -3995,9 +6697,9 @@ document
     );
 
 
-/* =====================================================
+/* =========================================================
    COMMITTEE
-===================================================== */
+========================================================= */
 
 document
     .querySelectorAll(
@@ -4008,17 +6710,18 @@ document
 
             button.addEventListener(
                 "click",
-                function() {
+                async function() {
 
-                    const value =
+                    const decision =
                         this.dataset.value;
 
 
                     if (
-                        value === "قبول"
+                        decision ===
+                        "قبول"
                     ) {
 
-                        updateApplicantFields({
+                        await updateApplicantFields({
 
                             committeeDecision:
                                 "قبول",
@@ -4030,7 +6733,7 @@ document
 
                     } else {
 
-                        updateApplicantFields({
+                        await updateApplicantFields({
 
                             committeeDecision:
                                 "رفض",
@@ -4052,9 +6755,9 @@ document
     );
 
 
-/* =====================================================
+/* =========================================================
    ACCEPTANCE
-===================================================== */
+========================================================= */
 
 document
     .querySelectorAll(
@@ -4065,31 +6768,27 @@ document
 
             button.addEventListener(
                 "click",
-                function() {
+                async function() {
 
                     const value =
                         this.dataset.value;
 
 
                     if (
-                        value === "مقبول"
+                        value ===
+                        "مقبول"
                     ) {
 
-                        updateApplicantFields({
+                        await updateApplicantFields({
 
                             acceptanceStatus:
-                                "مقبول",
-
-                            committeeDecision:
-                                selectedApplicant
-                                    .committeeDecision ||
-                                "قبول"
+                                "مقبول"
 
                         });
 
                     } else {
 
-                        updateApplicantFields({
+                        await updateApplicantFields({
 
                             acceptanceStatus:
                                 "حظ أوفر في فرص قادمة",
@@ -4108,9 +6807,9 @@ document
     );
 
 
-/* =====================================================
-   INTERVIEW DATE
-===================================================== */
+/* =========================================================
+   SAVE INTERVIEW DATE
+========================================================= */
 
 document
     .getElementById(
@@ -4118,10 +6817,11 @@ document
     )
     .addEventListener(
         "click",
-        function() {
+        async function() {
 
             const value =
-                interviewDateInput.value;
+                interviewDateInput
+                    .value;
 
 
             if (!value) {
@@ -4136,7 +6836,7 @@ document
             }
 
 
-            updateApplicantFields({
+            await updateApplicantFields({
 
                 interviewDate:
                     value,
@@ -4150,9 +6850,9 @@ document
     );
 
 
-/* =====================================================
-   START DATE
-===================================================== */
+/* =========================================================
+   SAVE START DATE
+========================================================= */
 
 document
     .getElementById(
@@ -4160,11 +6860,9 @@ document
     )
     .addEventListener(
         "click",
-        function() {
+        async function() {
 
-            if (
-                !selectedApplicant
-            ) {
+            if (!selectedApplicant) {
 
                 return;
 
@@ -4188,7 +6886,8 @@ document
 
 
             const value =
-                startDateInput.value;
+                startDateInput
+                    .value;
 
 
             if (!value) {
@@ -4203,20 +6902,22 @@ document
             }
 
 
-            updateApplicantField(
-                "startDate",
-                value
-            );
+            await updateApplicantFields({
+
+                startDate:
+                    value
+
+            });
 
         }
     );
 
 
-/* =====================================================
-   DATE INPUT NORMALIZE
-===================================================== */
+/* =========================================================
+   DATE INPUT HELPERS
+========================================================= */
 
-function normalizeDateTime(
+function normalizeDateTimeInput(
     value
 ) {
 
@@ -4233,7 +6934,9 @@ function normalizeDateTime(
 
     if (
         /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/
-            .test(text)
+            .test(
+                text
+            )
     ) {
 
         return text.substring(
@@ -4249,7 +6952,7 @@ function normalizeDateTime(
 }
 
 
-function normalizeDate(
+function normalizeDateInput(
     value
 ) {
 
@@ -4266,7 +6969,9 @@ function normalizeDate(
 
     if (
         /^\d{4}-\d{2}-\d{2}/
-            .test(text)
+            .test(
+                text
+            )
     ) {
 
         return text.substring(
@@ -4282,9 +6987,9 @@ function normalizeDate(
 }
 
 
-/* =====================================================
-   SEARCH
-===================================================== */
+/* =========================================================
+   SEARCH EVENT
+========================================================= */
 
 searchInput.addEventListener(
     "input",
@@ -4296,54 +7001,9 @@ searchInput.addEventListener(
 );
 
 
-/* =====================================================
-   GENDER FILTER
-===================================================== */
-
-document
-    .querySelectorAll(
-        ".filter-button"
-    )
-    .forEach(
-        function(button) {
-
-            button.addEventListener(
-                "click",
-                function() {
-
-                    document
-                        .querySelectorAll(
-                            ".filter-button"
-                        )
-                        .forEach(
-                            item =>
-                                item.classList.remove(
-                                    "active"
-                                )
-                        );
-
-
-                    this.classList.add(
-                        "active"
-                    );
-
-
-                    currentFilter =
-                        this.dataset.filter;
-
-
-                    renderApplicants();
-
-                }
-            );
-
-        }
-    );
-
-
-/* =====================================================
+/* =========================================================
    CLOSE MODAL
-===================================================== */
+========================================================= */
 
 document
     .getElementById(
@@ -4372,6 +7032,23 @@ applicantModal.addEventListener(
 );
 
 
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key ===
+            "Escape"
+        ) {
+
+            closeApplicantModal();
+
+        }
+
+    }
+);
+
+
 function closeApplicantModal() {
 
     applicantModal.classList.remove(
@@ -4389,9 +7066,9 @@ function closeApplicantModal() {
 }
 
 
-/* =====================================================
+/* =========================================================
    START
-===================================================== */
+========================================================= */
 
 loadApplicants();
 
