@@ -11,11 +11,9 @@
 
     <meta name="theme-color" content="#0b63d8">
 
-    <title>وظائف التحدي | إدارة المتقدمين</title>
+    <title>إدارة وظائف التحدي | مدرسة التحدي</title>
 
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
     <link
         rel="preconnect"
@@ -28,10 +26,6 @@
 
 
 <style>
-
-/* =========================================================
-   RESET
-========================================================= */
 
 * {
     box-sizing: border-box;
@@ -55,9 +49,6 @@
     --orange: #f59e0b;
     --orange-light: #fff8e7;
 
-    --purple: #6941c6;
-    --purple-light: #f4f0ff;
-
     --text: #10233f;
     --muted: #718096;
 
@@ -67,14 +58,12 @@
     --bg: #f5f8fc;
 }
 
-/* =========================================================
-   BODY
-========================================================= */
 
 html {
     min-height: 100%;
     background: var(--bg);
 }
+
 
 body {
 
@@ -97,35 +86,39 @@ body {
     overflow-x: hidden;
 }
 
+
 button,
 input,
-select,
-textarea {
+select {
     font-family:
         "Cairo",
         Arial,
         sans-serif;
 }
 
+
 button {
     cursor: pointer;
 }
 
 
-/* =========================================================
+/* =====================================================
    BACKGROUND
-========================================================= */
+===================================================== */
 
 .background {
+
     position: fixed;
+
     inset: 0;
+
+    z-index: 0;
 
     pointer-events: none;
 
     overflow: hidden;
-
-    z-index: 0;
 }
+
 
 .background::before {
 
@@ -133,11 +126,11 @@ button {
 
     position: absolute;
 
-    width: 500px;
-    height: 500px;
+    width: 470px;
+    height: 470px;
 
-    top: -270px;
-    right: -220px;
+    top: -260px;
+    right: -190px;
 
     border-radius: 50%;
 
@@ -145,10 +138,11 @@ button {
         radial-gradient(
             circle,
             rgba(11,99,216,.14),
-            rgba(11,99,216,.03) 55%,
+            rgba(11,99,216,.03) 50%,
             transparent 72%
         );
 }
+
 
 .background::after {
 
@@ -156,11 +150,11 @@ button {
 
     position: absolute;
 
-    width: 450px;
-    height: 450px;
+    width: 400px;
+    height: 400px;
 
-    bottom: -250px;
-    left: -220px;
+    bottom: -230px;
+    left: -180px;
 
     border-radius: 50%;
 
@@ -173,9 +167,9 @@ button {
 }
 
 
-/* =========================================================
+/* =====================================================
    APP
-========================================================= */
+===================================================== */
 
 .app {
 
@@ -189,23 +183,24 @@ button {
 
     padding:
         25px
-        16px
+        15px
         50px;
 }
+
 
 .container {
 
     width: 100%;
 
-    max-width: 1450px;
+    max-width: 1300px;
 
     margin: 0 auto;
 }
 
 
-/* =========================================================
+/* =====================================================
    HEADER
-========================================================= */
+===================================================== */
 
 .header {
 
@@ -214,49 +209,39 @@ button {
     margin-bottom: 25px;
 }
 
+
 .logo-box {
 
     width: 160px;
 
-    min-height: 55px;
+    min-height: 58px;
 
     margin:
         0
         auto
         12px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
 }
 
-.logo-fallback {
+
+.logo-text {
 
     width: 100%;
 
-    min-height: 55px;
-
-    padding:
-        7px
-        15px;
+    min-height: 58px;
 
     display: flex;
 
     align-items: center;
 
     justify-content: center;
+
+    padding:
+        8px
+        15px;
 
     border-radius: 18px;
 
     color: white;
-
-    font-size: 22px;
-
-    font-weight: 900;
-
-    white-space: nowrap;
 
     background:
         linear-gradient(
@@ -265,20 +250,28 @@ button {
             var(--blue-dark)
         );
 
+    font-size: 22px;
+
+    font-weight: 900;
+
+    white-space: nowrap;
+
     box-shadow:
         0 10px 25px
         rgba(11,99,216,.18);
 }
+
 
 .school-name {
 
     color:
         var(--blue-dark);
 
-    font-size: 25px;
+    font-size: 24px;
 
     font-weight: 900;
 }
+
 
 .department {
 
@@ -286,68 +279,23 @@ button {
 
     color: var(--muted);
 
-    font-size: 12px;
+    font-size: 11px;
 
     font-weight: 700;
 }
 
+
 .page-title {
 
-    margin-top: 16px;
+    margin-top: 15px;
 
-    color: var(--text);
-
-    font-size: 23px;
+    font-size: 22px;
 
     font-weight: 900;
 }
+
 
 .page-description {
-
-    margin-top: 5px;
-
-    color: var(--muted);
-
-    font-size: 11px;
-
-    font-weight: 600;
-}
-
-
-/* =========================================================
-   SEARCH CARD
-========================================================= */
-
-.search-card {
-
-    padding: 20px;
-
-    margin-bottom: 18px;
-
-    background:
-        rgba(255,255,255,.98);
-
-    border:
-        1px solid
-        rgba(11,99,216,.08);
-
-    border-radius: 20px;
-
-    box-shadow:
-        0 14px 40px
-        rgba(16,35,63,.08);
-}
-
-.search-title {
-
-    color: var(--text);
-
-    font-size: 16px;
-
-    font-weight: 900;
-}
-
-.search-description {
 
     margin-top: 4px;
 
@@ -358,43 +306,88 @@ button {
     font-weight: 600;
 }
 
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+.search-card {
+
+    margin-bottom: 18px;
+
+    padding: 18px;
+
+    background: white;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 12px 40px
+        rgba(16,35,63,.07);
+}
+
+
+.search-title {
+
+    font-size: 15px;
+
+    font-weight: 900;
+}
+
+
+.search-description {
+
+    margin-top: 4px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    font-weight: 600;
+}
+
+
 .search-box {
 
     position: relative;
 
-    margin-top: 15px;
+    margin-top: 13px;
 }
+
 
 .search-box input {
 
     width: 100%;
 
-    height: 55px;
+    height: 52px;
 
     padding:
         0
-        52px
+        48px
         0
-        18px;
+        15px;
 
     border:
         1.5px solid
         var(--border);
 
-    border-radius: 14px;
+    border-radius: 13px;
 
     outline: none;
 
-    color: var(--text);
-
     background: #f9fbfe;
 
-    font-size: 13px;
+    color: var(--text);
+
+    font-size: 12px;
 
     font-weight: 700;
-
-    transition: .2s;
 }
+
 
 .search-box input:focus {
 
@@ -409,26 +402,23 @@ button {
         rgba(11,99,216,.06);
 }
 
+
 .search-icon {
 
     position: absolute;
 
-    right: 17px;
+    right: 15px;
 
     top: 50%;
 
     transform:
         translateY(-50%);
 
-    color:
-        var(--blue);
-
-    font-size: 19px;
-
-    pointer-events: none;
+    font-size: 18px;
 }
 
-.search-info {
+
+.search-footer {
 
     display: flex;
 
@@ -438,7 +428,7 @@ button {
 
     gap: 10px;
 
-    margin-top: 10px;
+    margin-top: 9px;
 
     color: var(--muted);
 
@@ -447,7 +437,8 @@ button {
     font-weight: 700;
 }
 
-.search-count {
+
+.result-count {
 
     color:
         var(--blue-dark);
@@ -456,15 +447,15 @@ button {
 }
 
 
-/* =========================================================
-   SEARCH RESULTS
-========================================================= */
+/* =====================================================
+   RESULTS
+===================================================== */
 
 .results-card {
 
     display: none;
 
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 
     overflow: hidden;
 
@@ -477,13 +468,15 @@ button {
     border-radius: 20px;
 
     box-shadow:
-        0 14px 40px
-        rgba(16,35,63,.08);
+        0 12px 40px
+        rgba(16,35,63,.07);
 }
+
 
 .results-card.show {
     display: block;
 }
+
 
 .results-header {
 
@@ -493,11 +486,11 @@ button {
 
     justify-content: space-between;
 
-    gap: 15px;
+    gap: 10px;
 
     padding:
-        16px
-        20px;
+        14px
+        17px;
 
     color: white;
 
@@ -509,33 +502,31 @@ button {
         );
 }
 
-.results-title {
 
-    font-size: 14px;
+.results-header-title {
+
+    font-size: 13px;
 
     font-weight: 900;
 }
 
-.results-count {
+
+.results-header-count {
 
     padding:
-        5px
+        4px
         10px;
 
-    border-radius: 8px;
+    border-radius: 20px;
 
     background:
-        rgba(255,255,255,.16);
+        rgba(255,255,255,.15);
 
     font-size: 9px;
 
     font-weight: 900;
 }
 
-
-/* =========================================================
-   SEARCH RESULT LIST
-========================================================= */
 
 .results-list {
 
@@ -544,23 +535,24 @@ button {
     overflow-y: auto;
 }
 
-.result-item {
+
+.applicant-row {
 
     display: grid;
 
     grid-template-columns:
-        115px
+        120px
         1fr
-        150px
+        160px
         110px;
 
     align-items: center;
 
-    gap: 15px;
+    gap: 12px;
 
     padding:
-        14px
-        18px;
+        13px
+        16px;
 
     border-bottom:
         1px solid
@@ -571,15 +563,24 @@ button {
     transition: .15s;
 }
 
-.result-item:last-child {
+
+.applicant-row:last-child {
     border-bottom: 0;
 }
 
-.result-item:hover {
-    background: #f6faff;
+
+.applicant-row:hover {
+
+    background:
+        #f6faff;
 }
 
-.result-uid {
+
+.applicant-code {
+
+    direction: ltr;
+
+    text-align: right;
 
     color:
         var(--blue-dark);
@@ -588,65 +589,128 @@ button {
         Arial,
         sans-serif;
 
+    font-size: 10px;
+
+    font-weight: 900;
+}
+
+
+.applicant-name {
+
     font-size: 11px;
 
     font-weight: 900;
-
-    direction: ltr;
-
-    text-align: right;
 }
 
-.result-name {
 
-    color: var(--text);
-
-    font-size: 12px;
-
-    font-weight: 900;
-}
-
-.result-detail {
+.applicant-job {
 
     margin-top: 2px;
 
     color: var(--muted);
 
-    font-size: 9px;
-
-    font-weight: 600;
-}
-
-.result-phone {
-
-    color: #475569;
-
-    font-size: 9px;
+    font-size: 8px;
 
     font-weight: 700;
+}
+
+
+.applicant-phone {
 
     direction: ltr;
 
     text-align: right;
+
+    color: #536278;
+
+    font-size: 9px;
+
+    font-weight: 700;
 }
 
-.result-stage {
 
-    text-align: center;
+/* =====================================================
+   BADGES
+===================================================== */
+
+.badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 27px;
+
+    padding:
+        4px
+        10px;
+
+    border-radius: 8px;
+
+    font-size: 8px;
+
+    font-weight: 900;
 }
 
 
-/* =========================================================
-   DETAILS CARD
-========================================================= */
+.badge-default {
+
+    color: #526277;
+
+    background: #f1f4f8;
+}
+
+
+.badge-green {
+
+    color: #067343;
+
+    background:
+        var(--green-light);
+}
+
+
+.badge-red {
+
+    color: #b4232d;
+
+    background:
+        var(--red-light);
+}
+
+
+.badge-orange {
+
+    color: #9a6700;
+
+    background:
+        var(--orange-light);
+}
+
+
+.badge-blue {
+
+    color:
+        var(--blue-dark);
+
+    background:
+        var(--blue-light);
+}
+
+
+/* =====================================================
+   DETAILS
+===================================================== */
 
 .details-card {
 
     display: none;
 
-    margin-bottom: 20px;
-
     overflow: hidden;
+
+    margin-bottom: 20px;
 
     background: white;
 
@@ -657,18 +721,15 @@ button {
     border-radius: 22px;
 
     box-shadow:
-        0 18px 50px
-        rgba(16,35,63,.10);
+        0 15px 45px
+        rgba(16,35,63,.09);
 }
+
 
 .details-card.show {
     display: block;
 }
 
-
-/* =========================================================
-   DETAILS HEADER
-========================================================= */
 
 .details-header {
 
@@ -681,7 +742,7 @@ button {
     gap: 15px;
 
     padding:
-        18px
+        17px
         20px;
 
     color: white;
@@ -694,23 +755,28 @@ button {
         );
 }
 
-.details-header-title {
 
-    font-size: 16px;
+.details-name {
+
+    font-size: 15px;
 
     font-weight: 900;
 }
 
-.details-header-subtitle {
+
+.details-code {
 
     margin-top: 3px;
 
-    opacity: .85;
-
     font-size: 9px;
 
-    font-weight: 600;
+    opacity: .85;
+
+    direction: ltr;
+
+    text-align: right;
 }
+
 
 .close-button {
 
@@ -722,91 +788,70 @@ button {
 
     border-radius: 10px;
 
+    background:
+        rgba(255,255,255,.15);
+
     color: white;
 
-    background:
-        rgba(255,255,255,.14);
-
-    font-size: 18px;
+    font-size: 20px;
 
     font-weight: 900;
 }
 
 
-/* =========================================================
-   PERSONAL DATA
-========================================================= */
+/* =====================================================
+   DATA
+===================================================== */
 
-.personal-section {
+.data-section {
 
-    padding: 20px;
+    padding: 18px;
 
     border-bottom:
         1px solid
         var(--border);
 }
 
+
 .section-title {
 
-    display: flex;
+    margin-bottom: 13px;
 
-    align-items: center;
-
-    gap: 8px;
-
-    margin-bottom: 14px;
-
-    color: var(--text);
-
-    font-size: 14px;
+    font-size: 13px;
 
     font-weight: 900;
 }
 
-.section-title::before {
 
-    content: "";
-
-    width: 4px;
-
-    height: 20px;
-
-    border-radius: 4px;
-
-    background:
-        var(--blue);
-}
-
-.personal-grid {
+.data-grid {
 
     display: grid;
 
     grid-template-columns:
         repeat(4, 1fr);
 
-    gap: 10px;
+    gap: 9px;
 }
 
-.info-box {
+
+.data-box {
 
     min-width: 0;
 
-    padding:
-        12px;
+    padding: 10px;
 
     border:
         1px solid
         #edf1f6;
 
-    border-radius: 12px;
+    border-radius: 10px;
 
     background:
         #fafcff;
 }
 
-.info-label {
 
-    margin-bottom: 4px;
+.data-label {
 
     color: var(--muted);
 
@@ -815,79 +860,68 @@ button {
     font-weight: 800;
 }
 
-.info-value {
+
+.data-value {
+
+    margin-top: 3px;
 
     color: var(--text);
 
-    font-size: 10px;
+    font-size: 9px;
 
     font-weight: 800;
 
     word-break: break-word;
 }
 
-.info-value.ltr {
 
-    direction: ltr;
-
-    text-align: right;
-
-    font-family:
-        Arial,
-        sans-serif;
-}
-
-
-/* =========================================================
+/* =====================================================
    STAGES
-========================================================= */
+===================================================== */
 
 .stages-section {
 
-    padding: 20px;
+    padding: 18px;
 }
 
-.stage {
 
-    position: relative;
+.stage-card {
 
-    padding:
-        18px;
+    margin-bottom: 12px;
 
-    margin-bottom: 13px;
+    padding: 16px;
 
     border:
         1px solid
         var(--border);
 
-    border-radius: 16px;
+    border-radius: 15px;
 
     background:
-        linear-gradient(
-            180deg,
-            #ffffff,
-            #fbfdff
-        );
+        #fff;
 }
 
-.stage:last-child {
+
+.stage-card:last-child {
     margin-bottom: 0;
 }
 
-.stage-top {
+
+.stage-header {
 
     display: flex;
 
-    align-items: flex-start;
+    align-items: center;
 
     justify-content: space-between;
 
-    gap: 15px;
+    gap: 12px;
 
-    margin-bottom: 14px;
+    margin-bottom: 13px;
 }
 
-.stage-number {
+
+.stage-title-box {
 
     display: flex;
 
@@ -896,13 +930,17 @@ button {
     gap: 10px;
 }
 
-.stage-circle {
 
-    width: 34px;
+.stage-number {
 
-    height: 34px;
+    width: 32px;
 
-    flex: 0 0 34px;
+    height: 32px;
+
+    flex:
+        0
+        0
+        32px;
 
     display: flex;
 
@@ -917,21 +955,21 @@ button {
     background:
         var(--blue);
 
-    font-size: 11px;
+    font-size: 10px;
 
     font-weight: 900;
 }
+
 
 .stage-name {
 
-    color: var(--text);
-
-    font-size: 13px;
+    font-size: 12px;
 
     font-weight: 900;
 }
 
-.stage-description {
+
+.stage-note {
 
     margin-top: 2px;
 
@@ -942,23 +980,6 @@ button {
     font-weight: 600;
 }
 
-.stage-current {
-
-    padding:
-        5px
-        10px;
-
-    border-radius: 8px;
-
-    font-size: 8px;
-
-    font-weight: 900;
-}
-
-
-/* =========================================================
-   STAGE BUTTONS
-========================================================= */
 
 .stage-actions {
 
@@ -966,8 +987,9 @@ button {
 
     flex-wrap: wrap;
 
-    gap: 8px;
+    gap: 7px;
 }
+
 
 .stage-button {
 
@@ -986,15 +1008,15 @@ button {
     background:
         #f8fafc;
 
-    color:
-        #526277;
+    color: #526277;
 
     font-size: 9px;
 
     font-weight: 900;
 
-    transition: .18s;
+    transition: .15s;
 }
+
 
 .stage-button:hover {
 
@@ -1002,53 +1024,51 @@ button {
         translateY(-1px);
 }
 
+
 .stage-button.green {
 
-    color:
-        #067343;
+    color: #067343;
 
-    border-color:
-        #b8ead2;
+    border-color: #c5ead7;
 
     background:
         var(--green-light);
 }
 
+
 .stage-button.red {
 
-    color:
-        #b4232d;
+    color: #b4232d;
 
-    border-color:
-        #ffd0d4;
+    border-color: #ffd1d5;
 
     background:
         var(--red-light);
 }
 
+
 .stage-button.orange {
 
-    color:
-        #9a6700;
+    color: #9a6700;
 
-    border-color:
-        #ffe0a3;
+    border-color: #ffe1a5;
 
     background:
         var(--orange-light);
 }
+
 
 .stage-button.blue {
 
     color:
         var(--blue-dark);
 
-    border-color:
-        #c7dcfa;
+    border-color: #c9ddf9;
 
     background:
         var(--blue-light);
 }
+
 
 .stage-button.active {
 
@@ -1059,11 +1079,8 @@ button {
 
     background:
         var(--blue);
-
-    box-shadow:
-        0 6px 15px
-        rgba(11,99,216,.18);
 }
+
 
 .stage-button.active.green {
 
@@ -1071,11 +1088,13 @@ button {
         var(--green);
 }
 
+
 .stage-button.active.red {
 
     background:
         var(--red);
 }
+
 
 .stage-button.active.orange {
 
@@ -1084,11 +1103,11 @@ button {
 }
 
 
-/* =========================================================
-   DATE CONTROLS
-========================================================= */
+/* =====================================================
+   DATE
+===================================================== */
 
-.date-controls {
+.date-area {
 
     display: grid;
 
@@ -1096,10 +1115,11 @@ button {
         1fr
         auto;
 
-    gap: 10px;
+    gap: 8px;
 
     margin-top: 10px;
 }
+
 
 .date-input {
 
@@ -1119,14 +1139,16 @@ button {
 
     outline: none;
 
+    background:
+        #fafcff;
+
     color: var(--text);
 
-    background: #fafcff;
-
-    font-size: 10px;
+    font-size: 9px;
 
     font-weight: 700;
 }
+
 
 .date-input:focus {
 
@@ -1134,7 +1156,8 @@ button {
         var(--blue);
 }
 
-.save-date-button {
+
+.save-date {
 
     height: 42px;
 
@@ -1157,144 +1180,14 @@ button {
 }
 
 
-/* =========================================================
-   GENERAL BADGE
-========================================================= */
-
-.badge {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    min-height: 26px;
-
-    padding:
-        4px
-        10px;
-
-    border-radius: 8px;
-
-    font-size: 8px;
-
-    font-weight: 900;
-}
-
-.badge-default {
-
-    color: #526277;
-
-    background:
-        #f1f4f8;
-}
-
-.badge-blue {
-
-    color:
-        var(--blue-dark);
-
-    background:
-        var(--blue-light);
-}
-
-.badge-green {
-
-    color:
-        #067343;
-
-    background:
-        var(--green-light);
-}
-
-.badge-red {
-
-    color:
-        #b4232d;
-
-    background:
-        var(--red-light);
-}
-
-.badge-orange {
-
-    color:
-        #9a6700;
-
-    background:
-        var(--orange-light);
-}
-
-
-/* =========================================================
-   RAW DATA
-========================================================= */
-
-.raw-data {
-
-    padding: 20px;
-
-    border-top:
-        1px solid
-        var(--border);
-}
-
-.raw-data summary {
-
-    cursor: pointer;
-
-    color:
-        var(--blue-dark);
-
-    font-size: 11px;
-
-    font-weight: 900;
-}
-
-.raw-data pre {
-
-    max-height: 500px;
-
-    overflow: auto;
-
-    margin-top: 12px;
-
-    padding: 15px;
-
-    direction: ltr;
-
-    text-align: left;
-
-    white-space: pre-wrap;
-
-    word-break: break-word;
-
-    border-radius: 12px;
-
-    color: #334155;
-
-    background:
-        #f7f9fc;
-
-    font-family:
-        Consolas,
-        monospace;
-
-    font-size: 9px;
-
-    line-height: 1.7;
-}
-
-
-/* =========================================================
+/* =====================================================
    EMPTY
-========================================================= */
+===================================================== */
 
 .empty {
 
     padding:
-        40px
+        35px
         20px;
 
     text-align: center;
@@ -1307,9 +1200,9 @@ button {
 }
 
 
-/* =========================================================
+/* =====================================================
    LOADING
-========================================================= */
+===================================================== */
 
 .loading {
 
@@ -1326,10 +1219,7 @@ button {
     justify-content: center;
 
     background:
-        rgba(246,249,253,.94);
-
-    backdrop-filter:
-        blur(7px);
+        rgba(246,249,253,.96);
 
     opacity: 0;
 
@@ -1338,12 +1228,14 @@ button {
     transition: .2s;
 }
 
+
 .loading.show {
 
     opacity: 1;
 
     visibility: visible;
 }
+
 
 .loading-box {
 
@@ -1354,17 +1246,17 @@ button {
 
     padding: 25px;
 
-    text-align: center;
-
     border-radius: 20px;
 
-    background:
-        white;
+    background: white;
+
+    text-align: center;
 
     box-shadow:
         0 20px 60px
-        rgba(16,35,63,.15);
+        rgba(16,35,63,.14);
 }
+
 
 .spinner {
 
@@ -1375,11 +1267,11 @@ button {
     margin:
         0
         auto
-        13px;
+        12px;
 
     border:
         4px solid
-        #e5edf8;
+        #e6eef9;
 
     border-top-color:
         var(--blue);
@@ -1390,6 +1282,7 @@ button {
         spin .8s linear infinite;
 }
 
+
 @keyframes spin {
 
     to {
@@ -1398,10 +1291,8 @@ button {
     }
 }
 
-.loading-text {
 
-    color:
-        var(--text);
+.loading-text {
 
     font-size: 10px;
 
@@ -1409,9 +1300,9 @@ button {
 }
 
 
-/* =========================================================
+/* =====================================================
    TOAST
-========================================================= */
+===================================================== */
 
 .toast {
 
@@ -1426,14 +1317,14 @@ button {
     width:
         calc(100% - 30px);
 
-    max-width: 430px;
+    max-width: 420px;
 
     padding:
-        13px
-        16px;
+        12px
+        15px;
 
     transform:
-        translate(-50%, 30px);
+        translate(-50%, 25px);
 
     border-radius: 12px;
 
@@ -1452,8 +1343,9 @@ button {
 
     font-weight: 800;
 
-    transition: .25s;
+    transition: .2s;
 }
+
 
 .toast.show {
 
@@ -1465,28 +1357,20 @@ button {
         translate(-50%, 0);
 }
 
-.toast.success {
 
-    background:
-        var(--green);
+.toast.success {
+    background: var(--green);
 }
+
 
 .toast.error {
-
-    background:
-        var(--red);
-}
-
-.toast.warning {
-
-    background:
-        var(--orange);
+    background: var(--red);
 }
 
 
-/* =========================================================
+/* =====================================================
    FOOTER
-========================================================= */
+===================================================== */
 
 .footer {
 
@@ -1494,22 +1378,55 @@ button {
 
     text-align: center;
 
-    color:
-        var(--muted);
+    color: var(--muted);
 
     font-size: 9px;
 
     font-weight: 700;
-
-    line-height: 1.8;
 }
 
 
-/* =========================================================
+/* =====================================================
    MOBILE
-========================================================= */
+===================================================== */
 
 @media (max-width: 800px) {
+
+    .data-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .applicant-row {
+
+        grid-template-columns:
+            1fr
+            auto;
+
+        gap: 6px;
+    }
+
+
+    .applicant-phone {
+
+        grid-column: 1;
+    }
+
+
+    .applicant-status {
+
+        grid-column: 2;
+
+        grid-row:
+            1 / span 2;
+    }
+
+}
+
+
+@media (max-width: 520px) {
 
     .app {
 
@@ -1519,80 +1436,28 @@ button {
             40px;
     }
 
+
     .school-name {
 
         font-size: 20px;
     }
 
+
     .page-title {
 
-        font-size: 19px;
+        font-size: 18px;
     }
 
-    .personal-grid {
 
-        grid-template-columns:
-            repeat(2, 1fr);
-    }
+    .stage-header {
 
-    .result-item {
-
-        grid-template-columns:
-            1fr
-            auto;
-
-        gap: 7px;
-    }
-
-    .result-uid {
-
-        grid-column: 1;
-    }
-
-    .result-stage {
-
-        grid-column: 2;
-
-        grid-row: 1 / span 2;
-    }
-
-    .result-phone {
-
-        grid-column: 1;
-    }
-
-}
-
-@media (max-width: 520px) {
-
-    .logo-box {
-
-        width: 145px;
-    }
-
-    .search-card,
-    .personal-section,
-    .stages-section {
-
-        padding: 15px;
-    }
-
-    .personal-grid {
-
-        grid-template-columns:
-            1fr 1fr;
-    }
-
-    .stage {
-
-        padding: 14px;
-    }
-
-    .stage-top {
+        align-items:
+            flex-start;
 
         flex-direction:
             column;
     }
+
 
     .stage-actions {
 
@@ -1601,6 +1466,7 @@ button {
         grid-template-columns:
             1fr 1fr;
     }
+
 
     .stage-button {
 
@@ -1611,13 +1477,15 @@ button {
             7px;
     }
 
-    .date-controls {
+
+    .date-area {
 
         grid-template-columns:
             1fr;
     }
 
-    .save-date-button {
+
+    .save-date {
 
         width: 100%;
     }
@@ -1635,9 +1503,7 @@ button {
 <div class="background"></div>
 
 
-<!-- =========================================================
-     LOADING
-========================================================= -->
+<!-- LOADING -->
 
 <div
     id="loading"
@@ -1651,7 +1517,7 @@ button {
             id="loadingText"
             class="loading-text">
 
-            جارِ تحميل بيانات المتقدمين...
+            جارِ تحميل المتقدمين...
 
         </div>
 
@@ -1660,9 +1526,7 @@ button {
 </div>
 
 
-<!-- =========================================================
-     TOAST
-========================================================= -->
+<!-- TOAST -->
 
 <div
     id="toast"
@@ -1670,24 +1534,20 @@ button {
 </div>
 
 
-<!-- =========================================================
-     APP
-========================================================= -->
-
 <main class="app">
 
 <div class="container">
 
 
-<!-- =========================================================
+<!-- =====================================================
      HEADER
-========================================================= -->
+===================================================== -->
 
 <header class="header">
 
     <div class="logo-box">
 
-        <div class="logo-fallback">
+        <div class="logo-text">
 
             وظائف التحدي
 
@@ -1719,16 +1579,16 @@ button {
 
     <div class="page-description">
 
-        البحث عن المتقدم ومتابعة مراحل طلب التوظيف
+        البحث عن المتقدم وتحديث مراحل طلب التوظيف
 
     </div>
 
 </header>
 
 
-<!-- =========================================================
+<!-- =====================================================
      SEARCH
-========================================================= -->
+===================================================== -->
 
 <section class="search-card">
 
@@ -1741,7 +1601,7 @@ button {
 
     <div class="search-description">
 
-        يمكنك البحث بالاسم أو الكود أو رقم الهاتف أو الاختصاص أو أي معلومة موجودة في الطلب
+        ابحث بالاسم أو الكود أو رقم الهاتف أو المادة أو الجامعة أو أي معلومة موجودة في الطلب
 
     </div>
 
@@ -1758,22 +1618,22 @@ button {
             id="searchInput"
             type="text"
             autocomplete="off"
-            placeholder="اكتب اسم المتقدم أو الكود أو رقم الهاتف أو أي معلومة...">
+            placeholder="اكتب اسم المتقدم أو الكود أو أي معلومة...">
 
     </div>
 
 
-    <div class="search-info">
+    <div class="search-footer">
 
         <span>
 
-            البحث يشمل جميع بيانات المتقدم
+            يبدأ البحث مباشرة أثناء الكتابة
 
         </span>
 
         <span
-            id="searchCount"
-            class="search-count">
+            id="searchResultCount"
+            class="result-count">
 
             0 نتيجة
 
@@ -1784,9 +1644,9 @@ button {
 </section>
 
 
-<!-- =========================================================
+<!-- =====================================================
      RESULTS
-========================================================= -->
+===================================================== -->
 
 <section
     id="resultsCard"
@@ -1795,7 +1655,7 @@ button {
 
     <div class="results-header">
 
-        <div class="results-title">
+        <div class="results-header-title">
 
             نتائج البحث
 
@@ -1803,8 +1663,8 @@ button {
 
 
         <div
-            id="resultsCount"
-            class="results-count">
+            id="resultsHeaderCount"
+            class="results-header-count">
 
             0
 
@@ -1822,9 +1682,9 @@ button {
 </section>
 
 
-<!-- =========================================================
+<!-- =====================================================
      DETAILS
-========================================================= -->
+===================================================== -->
 
 <section
     id="detailsCard"
@@ -1836,19 +1696,19 @@ button {
         <div>
 
             <div
-                id="detailsTitle"
-                class="details-header-title">
+                id="detailsName"
+                class="details-name">
 
-                بيانات المتقدم
+                اسم المتقدم
 
             </div>
 
 
             <div
-                id="detailsSubtitle"
-                class="details-header-subtitle">
+                id="detailsCode"
+                class="details-code">
 
-                تفاصيل الطلب
+                UID
 
             </div>
 
@@ -1867,9 +1727,9 @@ button {
     </div>
 
 
-    <!-- PERSONAL DATA -->
+    <!-- DATA -->
 
-    <div class="personal-section">
+    <div class="data-section">
 
         <div class="section-title">
 
@@ -1879,8 +1739,8 @@ button {
 
 
         <div
-            id="personalGrid"
-            class="personal-grid">
+            id="dataGrid"
+            class="data-grid">
 
         </div>
 
@@ -1898,18 +1758,18 @@ button {
         </div>
 
 
-        <!-- STAGE 1 -->
+        <!-- =================================================
+             1 REVIEW
+        ================================================== -->
 
-        <div class="stage">
+        <div class="stage-card">
 
-            <div class="stage-top">
+            <div class="stage-header">
 
-                <div class="stage-number">
+                <div class="stage-title-box">
 
-                    <div class="stage-circle">
-
+                    <div class="stage-number">
                         1
-
                     </div>
 
                     <div>
@@ -1920,9 +1780,9 @@ button {
 
                         </div>
 
-                        <div class="stage-description">
+                        <div class="stage-note">
 
-                            توثيق ومراجعة بيانات المتقدم
+                            تدقيق بيانات واستمارة المتقدم
 
                         </div>
 
@@ -1931,13 +1791,13 @@ button {
                 </div>
 
 
-                <div
-                    id="reviewCurrent"
-                    class="stage-current badge badge-default">
+                <span
+                    id="reviewStatus"
+                    class="badge badge-default">
 
-                    لم تحدد
+                    لم يتم تحديدها بعد
 
-                </div>
+                </span>
 
             </div>
 
@@ -1945,31 +1805,34 @@ button {
             <div class="stage-actions">
 
                 <button
+                    type="button"
                     class="stage-button green"
                     data-field="reviewStage"
-                    data-value="تم التوثيق">
+                    data-value="تم التدقيق">
 
-                    ✓ تم التوثيق
-
-                </button>
-
-
-                <button
-                    class="stage-button red"
-                    data-field="reviewStage"
-                    data-value="مرفوض من التوثيق">
-
-                    ✕ مرفوض من التوثيق
+                    تم التدقيق
 
                 </button>
 
 
                 <button
+                    type="button"
                     class="stage-button orange"
                     data-field="reviewStage"
                     data-value="قيد التدقيق">
 
-                    ◷ قيد التدقيق
+                    قيد التدقيق
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="stage-button red"
+                    data-field="reviewStage"
+                    data-value="لم يجتز التدقيق">
+
+                    لم يجتز التدقيق
 
                 </button>
 
@@ -1978,18 +1841,18 @@ button {
         </div>
 
 
-        <!-- STAGE 2 -->
+        <!-- =================================================
+             2 NEED
+        ================================================== -->
 
-        <div class="stage">
+        <div class="stage-card">
 
-            <div class="stage-top">
+            <div class="stage-header">
 
-                <div class="stage-number">
+                <div class="stage-title-box">
 
-                    <div class="stage-circle">
-
+                    <div class="stage-number">
                         2
-
                     </div>
 
                     <div>
@@ -2000,9 +1863,9 @@ button {
 
                         </div>
 
-                        <div class="stage-description">
+                        <div class="stage-note">
 
-                            تحديد حاجة المدرسة إلى المتقدم
+                            تحديد حاجة المدرسة إلى اختصاص المتقدم
 
                         </div>
 
@@ -2011,13 +1874,13 @@ button {
                 </div>
 
 
-                <div
-                    id="needCurrent"
-                    class="stage-current badge badge-default">
+                <span
+                    id="needStatusView"
+                    class="badge badge-default">
 
-                    لم تحدد
+                    لم يتم تحديدها بعد
 
-                </div>
+                </span>
 
             </div>
 
@@ -2025,31 +1888,34 @@ button {
             <div class="stage-actions">
 
                 <button
+                    type="button"
                     class="stage-button green"
                     data-field="needStatus"
-                    data-value="توجد حاجة">
+                    data-value="توجد حاجة إليك">
 
-                    ✓ توجد حاجة
-
-                </button>
-
-
-                <button
-                    class="stage-button red"
-                    data-field="needStatus"
-                    data-value="لا توجد حاجة">
-
-                    ✕ لا توجد حاجة
+                    توجد حاجة إليك
 
                 </button>
 
 
                 <button
+                    type="button"
                     class="stage-button orange"
                     data-field="needStatus"
-                    data-value="قيد الدراسة">
+                    data-value="قيد المراجعة">
 
-                    ◷ قيد الدراسة
+                    قيد المراجعة
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="stage-button red"
+                    data-field="needStatus"
+                    data-value="لا توجد حاجة حالياً">
+
+                    لا توجد حاجة حالياً
 
                 </button>
 
@@ -2058,18 +1924,18 @@ button {
         </div>
 
 
-        <!-- STAGE 3 -->
+        <!-- =================================================
+             3 INTERVIEW ACCEPTANCE
+        ================================================== -->
 
-        <div class="stage">
+        <div class="stage-card">
 
-            <div class="stage-top">
+            <div class="stage-header">
 
-                <div class="stage-number">
+                <div class="stage-title-box">
 
-                    <div class="stage-circle">
-
+                    <div class="stage-number">
                         3
-
                     </div>
 
                     <div>
@@ -2080,9 +1946,9 @@ button {
 
                         </div>
 
-                        <div class="stage-description">
+                        <div class="stage-note">
 
-                            تحديد حالة وموعد المقابلة
+                            تحديد انتقال المتقدم إلى المقابلة
 
                         </div>
 
@@ -2091,13 +1957,13 @@ button {
                 </div>
 
 
-                <div
-                    id="interviewCurrent"
-                    class="stage-current badge badge-default">
+                <span
+                    id="interviewStatus"
+                    class="badge badge-default">
 
-                    لم تحدد
+                    لم يتم تحديدها بعد
 
-                </div>
+                </span>
 
             </div>
 
@@ -2105,48 +1971,87 @@ button {
             <div class="stage-actions">
 
                 <button
-                    class="stage-button blue"
-                    data-field="interviewStage"
-                    data-value="تم تحديد المقابلة">
-
-                    ✓ تم تحديد المقابلة
-
-                </button>
-
-
-                <button
+                    type="button"
                     class="stage-button green"
                     data-field="interviewStage"
-                    data-value="تمت المقابلة">
+                    data-value="مؤهل للمقابلة">
 
-                    ✓ تمت المقابلة
-
-                </button>
-
-
-                <button
-                    class="stage-button red"
-                    data-field="interviewStage"
-                    data-value="لم يحضر">
-
-                    ✕ لم يحضر
+                    مؤهل للمقابلة
 
                 </button>
 
 
                 <button
+                    type="button"
                     class="stage-button orange"
                     data-field="interviewStage"
-                    data-value="بانتظار المقابلة">
+                    data-value="بانتظار تحديد المقابلة">
 
-                    ◷ بانتظار المقابلة
+                    بانتظار تحديد المقابلة
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="stage-button red"
+                    data-field="interviewStage"
+                    data-value="غير مؤهل للمقابلة">
+
+                    غير مؤهل للمقابلة
 
                 </button>
 
             </div>
 
+        </div>
 
-            <div class="date-controls">
+
+        <!-- =================================================
+             4 INTERVIEW DATE
+        ================================================== -->
+
+        <div class="stage-card">
+
+            <div class="stage-header">
+
+                <div class="stage-title-box">
+
+                    <div class="stage-number">
+                        4
+                    </div>
+
+                    <div>
+
+                        <div class="stage-name">
+
+                            تاريخ المقابلة
+
+                        </div>
+
+                        <div class="stage-note">
+
+                            حدد التاريخ والوقت الذي سيظهر للمتقدم
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <span
+                    id="interviewDateStatus"
+                    class="badge badge-default">
+
+                    لم يتم تحديد الموعد
+
+                </span>
+
+            </div>
+
+
+            <div class="date-area">
 
                 <input
                     id="interviewDateInput"
@@ -2156,7 +2061,7 @@ button {
 
                 <button
                     id="saveInterviewDate"
-                    class="save-date-button"
+                    class="save-date"
                     type="button">
 
                     حفظ تاريخ المقابلة
@@ -2168,18 +2073,18 @@ button {
         </div>
 
 
-        <!-- STAGE 4 -->
+        <!-- =================================================
+             5 COMMITTEE
+        ================================================== -->
 
-        <div class="stage">
+        <div class="stage-card">
 
-            <div class="stage-top">
+            <div class="stage-header">
 
-                <div class="stage-number">
+                <div class="stage-title-box">
 
-                    <div class="stage-circle">
-
-                        4
-
+                    <div class="stage-number">
+                        5
                     </div>
 
                     <div>
@@ -2190,9 +2095,9 @@ button {
 
                         </div>
 
-                        <div class="stage-description">
+                        <div class="stage-note">
 
-                            القرار الرسمي للجنة المقابلات
+                            القرار النهائي للجنة بعد المقابلة
 
                         </div>
 
@@ -2201,13 +2106,13 @@ button {
                 </div>
 
 
-                <div
-                    id="committeeCurrent"
-                    class="stage-current badge badge-default">
+                <span
+                    id="committeeStatus"
+                    class="badge badge-default">
 
-                    لم تحدد
+                    لم يتم تحديدها بعد
 
-                </div>
+                </span>
 
             </div>
 
@@ -2215,31 +2120,21 @@ button {
             <div class="stage-actions">
 
                 <button
-                    class="stage-button green"
-                    data-field="committeeDecision"
-                    data-value="مقبول من لجنة المقابلات">
+                    type="button"
+                    class="stage-button green committee-button"
+                    data-value="قبول">
 
-                    ✓ مقبول
-
-                </button>
-
-
-                <button
-                    class="stage-button red"
-                    data-field="committeeDecision"
-                    data-value="مرفوض من لجنة المقابلات">
-
-                    ✕ مرفوض
+                    قبول
 
                 </button>
 
 
                 <button
-                    class="stage-button orange"
-                    data-field="committeeDecision"
-                    data-value="قيد القرار">
+                    type="button"
+                    class="stage-button red committee-button"
+                    data-value="رفض">
 
-                    ◷ قيد القرار
+                    عدم قبول
 
                 </button>
 
@@ -2248,111 +2143,33 @@ button {
         </div>
 
 
-        <!-- STAGE 5 -->
+        <!-- =================================================
+             6 START DATE
+        ================================================== -->
 
-        <div class="stage">
+        <div
+            id="startDateStage"
+            class="stage-card">
 
-            <div class="stage-top">
+            <div class="stage-header">
 
-                <div class="stage-number">
+                <div class="stage-title-box">
 
-                    <div class="stage-circle">
-
-                        5
-
-                    </div>
-
-                    <div>
-
-                        <div class="stage-name">
-
-                            القبول أو الرفض
-
-                        </div>
-
-                        <div class="stage-description">
-
-                            القرار النهائي للمتقدم
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    id="acceptanceCurrent"
-                    class="stage-current badge badge-default">
-
-                    لم تحدد
-
-                </div>
-
-            </div>
-
-
-            <div class="stage-actions">
-
-                <button
-                    class="stage-button green"
-                    data-field="acceptanceStatus"
-                    data-value="مقبول">
-
-                    ✓ قبول
-
-                </button>
-
-
-                <button
-                    class="stage-button red"
-                    data-field="acceptanceStatus"
-                    data-value="مرفوض">
-
-                    ✕ رفض
-
-                </button>
-
-
-                <button
-                    class="stage-button orange"
-                    data-field="acceptanceStatus"
-                    data-value="قيد الانتظار">
-
-                    ◷ قيد الانتظار
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- STAGE 6 -->
-
-        <div class="stage">
-
-            <div class="stage-top">
-
-                <div class="stage-number">
-
-                    <div class="stage-circle">
-
+                    <div class="stage-number">
                         6
-
                     </div>
 
                     <div>
 
                         <div class="stage-name">
 
-                            المباشرة
+                            تاريخ المباشرة
 
                         </div>
 
-                        <div class="stage-description">
+                        <div class="stage-note">
 
-                            تحديد تاريخ مباشرة المتقدم
+                            يحدد بعد قبول المتقدم من اللجنة
 
                         </div>
 
@@ -2361,42 +2178,18 @@ button {
                 </div>
 
 
-                <div
-                    id="startCurrent"
-                    class="stage-current badge badge-default">
+                <span
+                    id="startDateStatus"
+                    class="badge badge-default">
 
-                    لم تحدد
+                    لم يتم تحديد التاريخ
 
-                </div>
-
-            </div>
-
-
-            <div class="stage-actions">
-
-                <button
-                    class="stage-button green"
-                    data-field="startStatus"
-                    data-value="تمت المباشرة">
-
-                    ✓ تمت المباشرة
-
-                </button>
-
-
-                <button
-                    class="stage-button red"
-                    data-field="startStatus"
-                    data-value="لم تتم المباشرة">
-
-                    ✕ لم تتم المباشرة
-
-                </button>
+                </span>
 
             </div>
 
 
-            <div class="date-controls">
+            <div class="date-area">
 
                 <input
                     id="startDateInput"
@@ -2406,7 +2199,7 @@ button {
 
                 <button
                     id="saveStartDate"
-                    class="save-date-button"
+                    class="save-date"
                     type="button">
 
                     حفظ تاريخ المباشرة
@@ -2417,43 +2210,13 @@ button {
 
         </div>
 
-    </div>
-
-
-    <!-- RAW DATA -->
-
-    <div class="raw-data">
-
-        <details>
-
-            <summary>
-
-                عرض بيانات Firebase الأصلية
-
-            </summary>
-
-
-            <pre
-                id="rawData">
-
-            </pre>
-
-        </details>
 
     </div>
 
 </section>
 
 
-<!-- =========================================================
-     FOOTER
-========================================================= -->
-
 <footer class="footer">
-
-    وظائف التحدي
-
-    <br>
 
     مدرسة التحدي الأهلية المختلطة — قسم الحوكمة
 
@@ -2465,13 +2228,12 @@ button {
 </main>
 
 
-
 <script type="module">
 
 
-/* =========================================================
-   FIREBASE
-========================================================= */
+/* =====================================================
+   FIREBASE IMPORT
+===================================================== */
 
 import {
     initializeApp
@@ -2489,6 +2251,10 @@ import {
 from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
 
 const firebaseConfig = {
 
@@ -2519,6 +2285,10 @@ const firebaseConfig = {
 };
 
 
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
 const app =
     initializeApp(
         firebaseConfig
@@ -2531,9 +2301,9 @@ const db =
     );
 
 
-/* =========================================================
+/* =====================================================
    ELEMENTS
-========================================================= */
+===================================================== */
 
 const loading =
     document.getElementById(
@@ -2559,9 +2329,9 @@ const searchInput =
     );
 
 
-const searchCount =
+const searchResultCount =
     document.getElementById(
-        "searchCount"
+        "searchResultCount"
     );
 
 
@@ -2571,15 +2341,15 @@ const resultsCard =
     );
 
 
-const resultsList =
+const resultsHeaderCount =
     document.getElementById(
-        "resultsList"
+        "resultsHeaderCount"
     );
 
 
-const resultsCount =
+const resultsList =
     document.getElementById(
-        "resultsCount"
+        "resultsList"
     );
 
 
@@ -2589,91 +2359,65 @@ const detailsCard =
     );
 
 
+const detailsName =
+    document.getElementById(
+        "detailsName"
+    );
+
+
+const detailsCode =
+    document.getElementById(
+        "detailsCode"
+    );
+
+
+const dataGrid =
+    document.getElementById(
+        "dataGrid"
+    );
+
+
 const closeDetails =
     document.getElementById(
         "closeDetails"
     );
 
 
-const detailsTitle =
+const interviewDateInput =
     document.getElementById(
-        "detailsTitle"
+        "interviewDateInput"
     );
 
 
-const detailsSubtitle =
+const startDateInput =
     document.getElementById(
-        "detailsSubtitle"
+        "startDateInput"
     );
 
 
-const personalGrid =
-    document.getElementById(
-        "personalGrid"
-    );
-
-
-const rawData =
-    document.getElementById(
-        "rawData"
-    );
-
-
-/* =========================================================
-   STATE
-========================================================= */
+/* =====================================================
+   DATA
+===================================================== */
 
 let allApplicants = [];
 
 let selectedApplicant = null;
 
 
-/* =========================================================
-   STAGE FIELD PATHS
-========================================================= */
-
-const STAGE_FIELDS = {
-
-    reviewStage:
-        "reviewStage",
-
-    needStatus:
-        "needStatus",
-
-    interviewStage:
-        "interviewStage",
-
-    interviewDate:
-        "interviewDate",
-
-    committeeDecision:
-        "committeeDecision",
-
-    acceptanceStatus:
-        "acceptanceStatus",
-
-    startStatus:
-        "startStatus",
-
-    startDate:
-        "startDate"
-
-};
-
-
-/* =========================================================
+/* =====================================================
    LOADING
-========================================================= */
+===================================================== */
 
-function setLoading(
-    show,
-    text = "جارِ تحميل البيانات..."
+function showLoading(
+    state,
+    message = "جارِ تحميل البيانات..."
 ) {
 
     loadingText.textContent =
-        text;
+        message;
 
-    if (show) {
+
+    if (state) {
 
         loading.classList.add(
             "show"
@@ -2690,9 +2434,9 @@ function setLoading(
 }
 
 
-/* =========================================================
+/* =====================================================
    TOAST
-========================================================= */
+===================================================== */
 
 let toastTimer = null;
 
@@ -2706,11 +2450,14 @@ function showToast(
         toastTimer
     );
 
+
     toast.textContent =
         message;
 
+
     toast.className =
         "toast";
+
 
     if (type) {
 
@@ -2720,9 +2467,11 @@ function showToast(
 
     }
 
+
     toast.classList.add(
         "show"
     );
+
 
     toastTimer =
         setTimeout(
@@ -2739,9 +2488,9 @@ function showToast(
 }
 
 
-/* =========================================================
+/* =====================================================
    ESCAPE
-========================================================= */
+===================================================== */
 
 function escapeHTML(
     value
@@ -2774,9 +2523,9 @@ function escapeHTML(
 }
 
 
-/* =========================================================
+/* =====================================================
    NORMALIZE SEARCH
-========================================================= */
+===================================================== */
 
 function normalizeText(
     value
@@ -2786,11 +2535,7 @@ function normalizeText(
         value ?? ""
     )
     .toLowerCase()
-    .normalize("NFKD")
-    .replace(
-        /[\u064B-\u065F\u0670]/g,
-        ""
-    )
+    .trim()
     .replace(
         /[أإآ]/g,
         "ا"
@@ -2802,119 +2547,163 @@ function normalizeText(
     .replace(
         /ى/g,
         "ي"
-    )
-    .trim();
+    );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    GET NAME
-========================================================= */
+===================================================== */
 
-function getApplicantName(
+function getName(
     applicant
 ) {
 
-    const possible = [
-
-        applicant?.personal?.fullName,
-
-        applicant?.personal?.name,
-
-        applicant?.personal?.full_name,
-
-        applicant?.fullName,
-
-        applicant?.full_name,
-
-        applicant?.name,
-
-        applicant?.applicantName,
-
-        applicant?.candidateName,
-
-        applicant?.personal?.arabicName
-
-    ];
-
-
-    for (
-        const value of possible
-    ) {
-
-        if (
-            value !== null &&
-            value !== undefined &&
-            String(value).trim() !== ""
-        ) {
-
-            return String(value);
-
-        }
-
-    }
-
-
-    return "اسم غير متوفر";
+    return (
+        applicant?.personal?.fullName ||
+        applicant?.fullName ||
+        applicant?.name ||
+        "غير متوفر"
+    );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    GET PHONE
-========================================================= */
+===================================================== */
 
-function getApplicantPhone(
+function getPhone(
     applicant
 ) {
 
-    const possible = [
-
-        applicant?.personal?.phone,
-
-        applicant?.personal?.mobile,
-
-        applicant?.personal?.phoneNumber,
-
-        applicant?.personal?.mobileNumber,
-
-        applicant?.phone,
-
-        applicant?.mobile,
-
-        applicant?.phoneNumber,
-
-        applicant?.mobileNumber
-
-    ];
-
-
-    for (
-        const value of possible
-    ) {
-
-        if (
-            value !== null &&
-            value !== undefined &&
-            String(value).trim() !== ""
-        ) {
-
-            return String(value);
-
-        }
-
-    }
-
-
-    return "غير متوفر";
+    return (
+        applicant?.personal?.phone ||
+        applicant?.phone ||
+        "غير متوفر"
+    );
 
 }
 
 
-/* =========================================================
-   GET FIELD
-========================================================= */
+/* =====================================================
+   GET JOB
+===================================================== */
+
+function getJob(
+    applicant
+) {
+
+    return (
+        applicant?.job?.specialization ||
+        applicant?.job?.schoolLevel ||
+        applicant?.education?.specialization ||
+        "غير متوفر"
+    );
+
+}
+
+
+/* =====================================================
+   FLATTEN VALUES
+===================================================== */
+
+function collectValues(
+    value,
+    output = []
+) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return output;
+
+    }
+
+
+    if (
+        typeof value === "object"
+    ) {
+
+        Object.values(
+            value
+        ).forEach(
+            function(child) {
+
+                collectValues(
+                    child,
+                    output
+                );
+
+            }
+        );
+
+    } else {
+
+        output.push(
+            String(value)
+        );
+
+    }
+
+
+    return output;
+
+}
+
+
+/* =====================================================
+   SEARCH MATCH
+===================================================== */
+
+function matchesSearch(
+    applicant,
+    query
+) {
+
+    const search =
+        normalizeText(
+            query
+        );
+
+
+    if (!search) {
+
+        return false;
+
+    }
+
+
+    const values = [
+
+        applicant.uid,
+
+        ...collectValues(
+            applicant
+        )
+
+    ];
+
+
+    const combined =
+        normalizeText(
+            values.join(" ")
+        );
+
+
+    return combined.includes(
+        search
+    );
+
+}
+
+
+/* =====================================================
+   GET STATUS FIELD
+===================================================== */
 
 function getField(
     applicant,
@@ -2929,41 +2718,11 @@ function getField(
 
 
     if (
-        Object.prototype.hasOwnProperty.call(
-            applicant,
-            field
-        )
+        applicant[field] !== undefined &&
+        applicant[field] !== null
     ) {
 
         return applicant[field];
-
-    }
-
-
-    if (
-        applicant.status &&
-        typeof applicant.status === "object" &&
-        Object.prototype.hasOwnProperty.call(
-            applicant.status,
-            field
-        )
-    ) {
-
-        return applicant.status[field];
-
-    }
-
-
-    if (
-        applicant.applicationStatus &&
-        typeof applicant.applicationStatus === "object" &&
-        Object.prototype.hasOwnProperty.call(
-            applicant.applicationStatus,
-            field
-        )
-    ) {
-
-        return applicant.applicationStatus[field];
 
     }
 
@@ -2973,144 +2732,37 @@ function getField(
 }
 
 
-/* =========================================================
-   RECURSIVE VALUE SEARCH
-========================================================= */
+/* =====================================================
+   DISPLAY
+===================================================== */
 
-function flattenObject(
-    value,
-    prefix = "",
-    result = []
+function displayValue(
+    value
 ) {
 
     if (
         value === null ||
-        value === undefined
+        value === undefined ||
+        String(value).trim() === ""
     ) {
 
-        return result;
+        return "لم يتم تحديدها بعد";
 
     }
 
 
-    if (
-        typeof value === "object"
-    ) {
-
-        if (
-            Array.isArray(value)
-        ) {
-
-            value.forEach(
-                function(item, index) {
-
-                    flattenObject(
-                        item,
-                        prefix
-                            ? prefix + "." + index
-                            : String(index),
-                        result
-                    );
-
-                }
-            );
-
-        } else {
-
-            Object.entries(
-                value
-            ).forEach(
-                function([
-                    key,
-                    child
-                ]) {
-
-                    flattenObject(
-                        child,
-                        prefix
-                            ? prefix + "." + key
-                            : key,
-                        result
-                    );
-
-                }
-            );
-
-        }
-
-    } else {
-
-        result.push(
-            String(value)
-        );
-
-    }
-
-
-    return result;
-
-}
-
-
-/* =========================================================
-   SEARCH MATCH
-========================================================= */
-
-function applicantMatches(
-    applicant,
-    query
-) {
-
-    const q =
-        normalizeText(
-            query
-        );
-
-
-    if (!q) {
-
-        return true;
-
-    }
-
-
-    const values = [
-
-        applicant.uid,
-
-        getApplicantName(
-            applicant
-        ),
-
-        getApplicantPhone(
-            applicant
-        ),
-
-        ...flattenObject(
-            applicant
-        )
-
-    ];
-
-
-    const searchable =
-        normalizeText(
-            values.join(" ")
-        );
-
-
-    return searchable.includes(
-        q
+    return String(
+        value
     );
 
 }
 
 
-/* =========================================================
-   BADGE CLASS
-========================================================= */
+/* =====================================================
+   BADGE
+===================================================== */
 
-function badgeClass(
+function getBadgeClass(
     value
 ) {
 
@@ -3128,12 +2780,10 @@ function badgeClass(
 
 
     if (
-        text.includes("مقبول") ||
-        text.includes("تم التوثيق") ||
+        text.includes("تم التدقيق") ||
         text.includes("توجد حاجه") ||
-        text.includes("تمت المقابله") ||
-        text.includes("تمت المباشره") ||
-        text.includes("موافق")
+        text.includes("مؤهل للمقابله") ||
+        text === "قبول"
     ) {
 
         return "badge-green";
@@ -3142,11 +2792,10 @@ function badgeClass(
 
 
     if (
-        text.includes("مرفوض") ||
-        text.includes("رفض") ||
+        text.includes("لم يجتز") ||
         text.includes("لا توجد حاجه") ||
-        text.includes("لم يحضر") ||
-        text.includes("لم تتم المباشره")
+        text.includes("غير مؤهل") ||
+        text === "رفض"
     ) {
 
         return "badge-red";
@@ -3156,10 +2805,7 @@ function badgeClass(
 
     if (
         text.includes("قيد") ||
-        text.includes("انتظار") ||
-        text.includes("بانتظار") ||
-        text.includes("تدقيق") ||
-        text.includes("دراسه")
+        text.includes("بانتظار")
     ) {
 
         return "badge-orange";
@@ -3172,54 +2818,26 @@ function badgeClass(
 }
 
 
-/* =========================================================
-   DISPLAY
-========================================================= */
-
-function displayValue(
-    value
-) {
-
-    if (
-        value === null ||
-        value === undefined ||
-        String(value).trim() === ""
-    ) {
-
-        return "لم تحدد";
-
-    }
-
-
-    return String(value);
-
-}
-
-
-/* =========================================================
-   LOAD APPLICANTS
-========================================================= */
+/* =====================================================
+   LOAD
+===================================================== */
 
 async function loadApplicants() {
 
-    setLoading(
+    showLoading(
         true,
-        "جارِ قراءة بيانات المتقدمين من Firebase..."
+        "جارِ تحميل بيانات المتقدمين..."
     );
 
 
     try {
 
-        const applicationsReference =
-            ref(
-                db,
-                "jobApplications"
-            );
-
-
         const snapshot =
             await get(
-                applicationsReference
+                ref(
+                    db,
+                    "jobApplications"
+                )
             );
 
 
@@ -3229,13 +2847,9 @@ async function loadApplicants() {
 
             allApplicants = [];
 
-            renderSearchResults(
-                ""
-            );
-
             showToast(
-                "لا توجد طلبات توظيف في قاعدة البيانات.",
-                "warning"
+                "لا توجد طلبات توظيف.",
+                "error"
             );
 
             return;
@@ -3259,7 +2873,7 @@ async function loadApplicants() {
 
                     return {
 
-                        uid: uid,
+                        uid,
 
                         ...(applicant || {})
 
@@ -3272,37 +2886,32 @@ async function loadApplicants() {
         allApplicants.sort(
             function(a, b) {
 
-                return getApplicantName(a)
+                return getName(a)
                     .localeCompare(
-                        getApplicantName(b),
-                        "ar",
-                        {
-                            sensitivity: "base"
-                        }
+                        getName(b),
+                        "ar"
                     );
 
             }
         );
 
-
     }
     catch (error) {
 
         console.error(
-            "Firebase Error:",
             error
         );
 
 
         showToast(
-            "تعذر قراءة بيانات Firebase. تأكد من الاتصال و Firebase Rules.",
+            "تعذر تحميل بيانات Firebase.",
             "error"
         );
 
     }
     finally {
 
-        setLoading(
+        showLoading(
             false
         );
 
@@ -3311,28 +2920,30 @@ async function loadApplicants() {
 }
 
 
-/* =========================================================
-   RENDER RESULTS
-========================================================= */
+/* =====================================================
+   SEARCH RESULTS
+===================================================== */
 
-function renderSearchResults(
+function renderResults(
     query
 ) {
 
-    const q =
+    const search =
         String(
             query || ""
         ).trim();
 
 
-    if (!q) {
+    if (!search) {
 
         resultsCard.classList.remove(
             "show"
         );
 
-        searchCount.textContent =
+
+        searchResultCount.textContent =
             "0 نتيجة";
+
 
         return;
 
@@ -3343,22 +2954,22 @@ function renderSearchResults(
         allApplicants.filter(
             function(applicant) {
 
-                return applicantMatches(
+                return matchesSearch(
                     applicant,
-                    q
+                    search
                 );
 
             }
         );
 
 
-    resultsCount.textContent =
-        results.length;
-
-
-    searchCount.textContent =
+    searchResultCount.textContent =
         results.length +
         " نتيجة";
+
+
+    resultsHeaderCount.textContent =
+        results.length;
 
 
     resultsCard.classList.add(
@@ -3374,7 +2985,7 @@ function renderSearchResults(
 
             <div class="empty">
 
-                لم يتم العثور على أي متقدم مطابق للبحث.
+                لا يوجد متقدم مطابق للبحث.
 
             </div>
 
@@ -3387,10 +2998,6 @@ function renderSearchResults(
 
     resultsList.innerHTML =
         results
-        .slice(
-            0,
-            100
-        )
         .map(
             function(applicant) {
 
@@ -3404,52 +3011,54 @@ function renderSearchResults(
                 return `
 
                     <div
-                        class="result-item"
+                        class="applicant-row"
                         data-uid="${escapeHTML(applicant.uid)}">
 
-                        <div>
 
-                            <div class="result-uid">
-
-                                ${escapeHTML(applicant.uid)}
-
-                            </div>
-
-                        </div>
-
-
-                        <div>
-
-                            <div class="result-name">
-
-                                ${escapeHTML(
-                                    getApplicantName(applicant)
-                                )}
-
-                            </div>
-
-                            <div class="result-detail">
-
-                                اضغط لعرض بيانات المتقدم ومراحل الطلب
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="result-phone">
+                        <div class="applicant-code">
 
                             ${escapeHTML(
-                                getApplicantPhone(applicant)
+                                applicant.uid
                             )}
 
                         </div>
 
 
-                        <div class="result-stage">
+                        <div>
+
+                            <div class="applicant-name">
+
+                                ${escapeHTML(
+                                    getName(applicant)
+                                )}
+
+                            </div>
+
+
+                            <div class="applicant-job">
+
+                                ${escapeHTML(
+                                    getJob(applicant)
+                                )}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="applicant-phone">
+
+                            ${escapeHTML(
+                                getPhone(applicant)
+                            )}
+
+                        </div>
+
+
+                        <div class="applicant-status">
 
                             <span
-                                class="badge ${badgeClass(review)}">
+                                class="badge ${getBadgeClass(review)}">
 
                                 ${escapeHTML(
                                     displayValue(review)
@@ -3459,6 +3068,7 @@ function renderSearchResults(
 
                         </div>
 
+
                     </div>
 
                 `;
@@ -3470,103 +3080,138 @@ function renderSearchResults(
 }
 
 
-/* =========================================================
-   PERSONAL DATA
-========================================================= */
+/* =====================================================
+   DATA GRID
+===================================================== */
 
-function buildPersonalData(
+function renderApplicantData(
     applicant
 ) {
 
+    const personal =
+        applicant.personal || {};
+
+
+    const job =
+        applicant.job || {};
+
+
+    const education =
+        applicant.education || {};
+
+
+    const experience =
+        applicant.experience || {};
+
+
     const fields = [
 
-        {
-            label: "الكود",
-            value: applicant.uid,
-            ltr: true
-        },
+        [
+            "الكود",
+            applicant.uid
+        ],
 
-        {
-            label: "الاسم",
-            value: getApplicantName(applicant)
-        },
+        [
+            "الاسم",
+            personal.fullName
+        ],
 
-        {
-            label: "رقم الهاتف",
-            value: getApplicantPhone(applicant),
-            ltr: true
-        },
+        [
+            "الجنس",
+            personal.gender
+        ],
 
-        {
-            label: "الجنس",
-            value:
-                applicant?.personal?.gender ||
-                applicant?.gender ||
-                "غير متوفر"
-        },
+        [
+            "المواليد",
+            personal.birthDate
+        ],
 
-        {
-            label: "الاختصاص",
-            value:
-                applicant?.education?.specialization ||
-                applicant?.education?.major ||
-                applicant?.specialization ||
-                applicant?.major ||
-                "غير متوفر"
-        },
+        [
+            "رقم الهاتف",
+            personal.phone
+        ],
 
-        {
-            label: "الشهادة",
-            value:
-                applicant?.education?.certificate ||
-                applicant?.education?.degree ||
-                applicant?.certificate ||
-                "غير متوفر"
-        },
+        [
+            "عنوان السكن",
+            personal.address
+        ],
 
-        {
-            label: "المعدل",
-            value:
-                applicant?.education?.gpa ||
-                applicant?.gpa ||
-                "غير متوفر"
-        },
+        [
+            "المرحلة",
+            job.schoolLevel
+        ],
 
-        {
-            label: "تاريخ التقديم",
-            value:
-                applicant?.submittedAt ||
-                applicant?.createdAt ||
-                applicant?.applicationDate ||
-                "غير متوفر"
-        }
+        [
+            "المادة / الاختصاص",
+            job.specialization
+        ],
+
+        [
+            "الشهادة",
+            education.certificate
+        ],
+
+        [
+            "الجامعة",
+            education.university
+        ],
+
+        [
+            "الكلية",
+            education.college
+        ],
+
+        [
+            "التخصص الدراسي",
+            education.specialization
+        ],
+
+        [
+            "سنة التخرج",
+            education.graduationYear
+        ],
+
+        [
+            "المعدل",
+            education.gpa
+        ],
+
+        [
+            "الخبرات",
+            experience.experience
+        ],
+
+        [
+            "العمل السابق",
+            experience.previousWork
+        ]
 
     ];
 
 
-    return fields
+    dataGrid.innerHTML =
+        fields
         .map(
-            function(field) {
+            function([
+                label,
+                value
+            ]) {
 
                 return `
 
-                    <div class="info-box">
+                    <div class="data-box">
 
-                        <div class="info-label">
+                        <div class="data-label">
 
-                            ${escapeHTML(
-                                field.label
-                            )}
+                            ${escapeHTML(label)}
 
                         </div>
 
-                        <div
-                            class="info-value ${field.ltr ? "ltr" : ""}">
+
+                        <div class="data-value">
 
                             ${escapeHTML(
-                                displayValue(
-                                    field.value
-                                )
+                                displayValue(value)
                             )}
 
                         </div>
@@ -3582,11 +3227,11 @@ function buildPersonalData(
 }
 
 
-/* =========================================================
-   SHOW APPLICANT
-========================================================= */
+/* =====================================================
+   SHOW DETAILS
+===================================================== */
 
-function showApplicant(
+function openApplicant(
     applicant
 ) {
 
@@ -3594,32 +3239,22 @@ function showApplicant(
         applicant;
 
 
-    detailsTitle.textContent =
-        getApplicantName(
+    detailsName.textContent =
+        getName(
             applicant
         );
 
 
-    detailsSubtitle.textContent =
-        "الكود: " +
+    detailsCode.textContent =
         applicant.uid;
 
 
-    personalGrid.innerHTML =
-        buildPersonalData(
-            applicant
-        );
+    renderApplicantData(
+        applicant
+    );
 
 
-    rawData.textContent =
-        JSON.stringify(
-            applicant,
-            null,
-            2
-        );
-
-
-    updateStageUI();
+    refreshStageUI();
 
 
     detailsCard.classList.add(
@@ -3642,11 +3277,11 @@ function showApplicant(
 }
 
 
-/* =========================================================
-   UPDATE STAGE UI
-========================================================= */
+/* =====================================================
+   REFRESH STAGES
+===================================================== */
 
-function updateStageUI() {
+function refreshStageUI() {
 
     if (!selectedApplicant) {
 
@@ -3655,64 +3290,110 @@ function updateStageUI() {
     }
 
 
-    const stages = {
-
-        reviewCurrent:
-            "reviewStage",
-
-        needCurrent:
-            "needStatus",
-
-        interviewCurrent:
-            "interviewStage",
-
-        committeeCurrent:
-            "committeeDecision",
-
-        acceptanceCurrent:
-            "acceptanceStatus",
-
-        startCurrent:
-            "startStatus"
-
-    };
-
-
-    Object.entries(
-        stages
-    ).forEach(
-        function([
-            elementId,
-            field
-        ]) {
-
-            const element =
-                document.getElementById(
-                    elementId
-                );
-
-
-            const value =
-                getField(
-                    selectedApplicant,
-                    field
-                );
-
-
-            element.textContent =
-                displayValue(
-                    value
-                );
-
-
-            element.className =
-                "stage-current badge " +
-                badgeClass(
-                    value
-                );
-
-        }
+    setStatusElement(
+        "reviewStatus",
+        getField(
+            selectedApplicant,
+            "reviewStage"
+        )
     );
+
+
+    setStatusElement(
+        "needStatusView",
+        getField(
+            selectedApplicant,
+            "needStatus"
+        )
+    );
+
+
+    setStatusElement(
+        "interviewStatus",
+        getField(
+            selectedApplicant,
+            "interviewStage"
+        )
+    );
+
+
+    setStatusElement(
+        "committeeStatus",
+        getCommitteePublicValue(
+            getField(
+                selectedApplicant,
+                "committeeDecision"
+            )
+        )
+    );
+
+
+    const interviewDate =
+        getField(
+            selectedApplicant,
+            "interviewDate"
+        );
+
+
+    document.getElementById(
+        "interviewDateStatus"
+    ).textContent =
+        interviewDate
+            ? formatDateForDisplay(
+                interviewDate
+            )
+            : "لم يتم تحديد الموعد";
+
+
+    document.getElementById(
+        "interviewDateStatus"
+    ).className =
+        "badge " +
+        (
+            interviewDate
+                ? "badge-green"
+                : "badge-default"
+        );
+
+
+    interviewDateInput.value =
+        normalizeDateTimeInput(
+            interviewDate
+        );
+
+
+    const startDate =
+        getField(
+            selectedApplicant,
+            "startDate"
+        );
+
+
+    document.getElementById(
+        "startDateStatus"
+    ).textContent =
+        startDate
+            ? formatDateForDisplay(
+                startDate
+            )
+            : "لم يتم تحديد التاريخ";
+
+
+    document.getElementById(
+        "startDateStatus"
+    ).className =
+        "badge " +
+        (
+            startDate
+                ? "badge-green"
+                : "badge-default"
+        );
+
+
+    startDateInput.value =
+        normalizeDateInput(
+            startDate
+        );
 
 
     document
@@ -3722,198 +3403,114 @@ function updateStageUI() {
         .forEach(
             function(button) {
 
-                const field =
-                    button.dataset.field;
-
-
-                const value =
-                    button.dataset.value;
-
-
                 const current =
                     getField(
                         selectedApplicant,
-                        field
+                        button.dataset.field
                     );
 
 
                 button.classList.toggle(
                     "active",
-                    String(current) ===
-                    String(value)
+                    current ===
+                    button.dataset.value
                 );
 
             }
         );
 
 
-    document.getElementById(
-        "interviewDateInput"
-    ).value =
-        convertToDateTimeLocal(
-            getField(
-                selectedApplicant,
-                "interviewDate"
-            )
-        );
+    document
+        .querySelectorAll(
+            ".committee-button"
+        )
+        .forEach(
+            function(button) {
 
+                button.classList.toggle(
+                    "active",
+                    getField(
+                        selectedApplicant,
+                        "committeeDecision"
+                    ) ===
+                    button.dataset.value
+                );
 
-    document.getElementById(
-        "startDateInput"
-    ).value =
-        convertToDate(
-            getField(
-                selectedApplicant,
-                "startDate"
-            )
+            }
         );
 
 }
 
 
-/* =========================================================
-   DATE HELPERS
-========================================================= */
+/* =====================================================
+   STATUS ELEMENT
+===================================================== */
 
-function convertToDateTimeLocal(
+function setStatusElement(
+    id,
     value
 ) {
 
-    if (!value) {
-
-        return "";
-
-    }
-
-
-    const text =
-        String(value);
+    const element =
+        document.getElementById(
+            id
+        );
 
 
-    if (
-        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(
-            text
-        )
-    ) {
-
-        return text;
-
-    }
+    element.textContent =
+        displayValue(
+            value
+        );
 
 
-    if (
-        /^\d{4}-\d{2}-\d{2}/.test(
-            text
-        )
-    ) {
-
-        return text
-            .substring(
-                0,
-                16
-            );
-
-    }
-
-
-    return "";
+    element.className =
+        "badge " +
+        getBadgeClass(
+            value
+        );
 
 }
 
 
-function convertToDate(
+/* =====================================================
+   COMMITTEE DISPLAY
+===================================================== */
+
+function getCommitteePublicValue(
     value
 ) {
 
-    if (!value) {
+    if (
+        value === "رفض"
+    ) {
 
-        return "";
-
-    }
-
-
-    const match =
-        String(value).match(
-            /(\d{4})-(\d{2})-(\d{2})/
-        );
-
-
-    if (match) {
-
-        return (
-            match[1] +
-            "-" +
-            match[2] +
-            "-" +
-            match[3]
-        );
+        return "عدم قبول";
 
     }
 
 
-    return "";
+    return value;
 
 }
 
 
-/* =========================================================
-   UPDATE FIREBASE
-========================================================= */
+/* =====================================================
+   SAVE FIELD
+===================================================== */
 
-async function updateApplicantField(
+async function saveField(
     field,
-    value,
-    successMessage
+    value
 ) {
 
     if (!selectedApplicant) {
 
-        showToast(
-            "اختر متقدمًا أولًا.",
-            "error"
-        );
-
         return;
 
     }
 
 
-    const uid =
-        selectedApplicant.uid;
-
-
-    if (!uid) {
-
-        showToast(
-            "تعذر تحديد UID للمتقدم.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    const confirmed =
-        window.confirm(
-            "هل أنت متأكد من تسجيل:\n\n" +
-            value +
-            "\n\nللمتقدم:\n" +
-            getApplicantName(
-                selectedApplicant
-            ) +
-            "؟"
-        );
-
-
-    if (!confirmed) {
-
-        return;
-
-    }
-
-
-    setLoading(
+    showLoading(
         true,
         "جارِ حفظ التغيير..."
     );
@@ -3925,7 +3522,7 @@ async function updateApplicantField(
             ref(
                 db,
                 "jobApplications/" +
-                uid
+                selectedApplicant.uid
             );
 
 
@@ -3950,13 +3547,16 @@ async function updateApplicantField(
             allApplicants.findIndex(
                 function(item) {
 
-                    return item.uid === uid;
+                    return item.uid ===
+                        selectedApplicant.uid;
 
                 }
             );
 
 
-        if (index !== -1) {
+        if (
+            index !== -1
+        ) {
 
             allApplicants[index][field] =
                 value;
@@ -3964,24 +3564,15 @@ async function updateApplicantField(
         }
 
 
-        updateStageUI();
+        refreshStageUI();
 
 
-        rawData.textContent =
-            JSON.stringify(
-                selectedApplicant,
-                null,
-                2
-            );
-
-
-        renderSearchResults(
+        renderResults(
             searchInput.value
         );
 
 
         showToast(
-            successMessage ||
             "تم حفظ التغيير بنجاح.",
             "success"
         );
@@ -3990,7 +3581,6 @@ async function updateApplicantField(
     catch (error) {
 
         console.error(
-            "Update Error:",
             error
         );
 
@@ -4003,7 +3593,7 @@ async function updateApplicantField(
     }
     finally {
 
-        setLoading(
+        showLoading(
             false
         );
 
@@ -4012,9 +3602,9 @@ async function updateApplicantField(
 }
 
 
-/* =========================================================
-   STAGE BUTTONS
-========================================================= */
+/* =====================================================
+   NORMAL STAGE BUTTONS
+===================================================== */
 
 document
     .querySelectorAll(
@@ -4025,20 +3615,11 @@ document
 
             button.addEventListener(
                 "click",
-                function() {
+                async function() {
 
-                    const field =
-                        this.dataset.field;
-
-
-                    const value =
-                        this.dataset.value;
-
-
-                    updateApplicantField(
-                        field,
-                        value,
-                        "تم تحديث مرحلة الطلب بنجاح."
+                    await saveField(
+                        this.dataset.field,
+                        this.dataset.value
                     );
 
                 }
@@ -4048,9 +3629,180 @@ document
     );
 
 
-/* =========================================================
-   SAVE INTERVIEW DATE
-========================================================= */
+/* =====================================================
+   COMMITTEE BUTTONS
+===================================================== */
+
+document
+    .querySelectorAll(
+        ".committee-button"
+    )
+    .forEach(
+        function(button) {
+
+            button.addEventListener(
+                "click",
+                async function() {
+
+                    const decision =
+                        this.dataset.value;
+
+
+                    if (
+                        decision === "قبول"
+                    ) {
+
+                        /*
+                         * نخزن القرار الحقيقي
+                         * ونخلي acceptanceStatus
+                         * متوافق ويا صفحة المتقدم.
+                         */
+
+                        await saveMultipleFields({
+
+                            committeeDecision:
+                                "قبول",
+
+                            acceptanceStatus:
+                                "مقبول"
+
+                        });
+
+                    } else {
+
+                        /*
+                         * داخل الإدارة القرار يبقى رفض.
+                         *
+                         * أما acceptanceStatus الذي يظهر
+                         * بصفحة المتقدم نخليه حظ أوفر.
+                         */
+
+                        await saveMultipleFields({
+
+                            committeeDecision:
+                                "رفض",
+
+                            acceptanceStatus:
+                                "حظ أوفر في فرص قادمة",
+
+                            startDate:
+                                ""
+
+                        });
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+/* =====================================================
+   SAVE MULTIPLE
+===================================================== */
+
+async function saveMultipleFields(
+    values
+) {
+
+    if (!selectedApplicant) {
+
+        return;
+
+    }
+
+
+    showLoading(
+        true,
+        "جارِ حفظ قرار اللجنة..."
+    );
+
+
+    try {
+
+        const applicantRef =
+            ref(
+                db,
+                "jobApplications/" +
+                selectedApplicant.uid
+            );
+
+
+        await update(
+            applicantRef,
+            values
+        );
+
+
+        Object.assign(
+            selectedApplicant,
+            values
+        );
+
+
+        const index =
+            allApplicants.findIndex(
+                item =>
+                    item.uid ===
+                    selectedApplicant.uid
+            );
+
+
+        if (
+            index !== -1
+        ) {
+
+            Object.assign(
+                allApplicants[index],
+                values
+            );
+
+        }
+
+
+        refreshStageUI();
+
+
+        renderResults(
+            searchInput.value
+        );
+
+
+        showToast(
+            "تم حفظ قرار لجنة المقابلات.",
+            "success"
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        showToast(
+            "تعذر حفظ القرار.",
+            "error"
+        );
+
+    }
+    finally {
+
+        showLoading(
+            false
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   INTERVIEW DATE
+===================================================== */
 
 document
     .getElementById(
@@ -4058,18 +3810,16 @@ document
     )
     .addEventListener(
         "click",
-        function() {
+        async function() {
 
             const value =
-                document.getElementById(
-                    "interviewDateInput"
-                ).value;
+                interviewDateInput.value;
 
 
             if (!value) {
 
                 showToast(
-                    "حدد تاريخ ووقت المقابلة أولًا.",
+                    "حدد تاريخ ووقت المقابلة أولاً.",
                     "error"
                 );
 
@@ -4078,19 +3828,28 @@ document
             }
 
 
-            updateApplicantField(
-                "interviewDate",
-                value,
-                "تم حفظ تاريخ المقابلة."
-            );
+            /*
+             * عند اختيار تاريخ المقابلة
+             * نخزن المرحلة أيضاً تلقائياً.
+             */
+
+            await saveMultipleFields({
+
+                interviewDate:
+                    value,
+
+                interviewStage:
+                    "تم تحديد موعد المقابلة"
+
+            });
 
         }
     );
 
 
-/* =========================================================
-   SAVE START DATE
-========================================================= */
+/* =====================================================
+   START DATE
+===================================================== */
 
 document
     .getElementById(
@@ -4098,18 +3857,26 @@ document
     )
     .addEventListener(
         "click",
-        function() {
+        async function() {
 
-            const value =
-                document.getElementById(
-                    "startDateInput"
-                ).value;
+            if (
+                !selectedApplicant
+            ) {
+
+                return;
+
+            }
 
 
-            if (!value) {
+            if (
+                getField(
+                    selectedApplicant,
+                    "committeeDecision"
+                ) !== "قبول"
+            ) {
 
                 showToast(
-                    "حدد تاريخ المباشرة أولًا.",
+                    "لا يمكن تحديد تاريخ المباشرة قبل قبول المتقدم من لجنة المقابلات.",
                     "error"
                 );
 
@@ -4118,25 +3885,183 @@ document
             }
 
 
-            updateApplicantField(
+            const value =
+                startDateInput.value;
+
+
+            if (!value) {
+
+                showToast(
+                    "حدد تاريخ المباشرة أولاً.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            await saveField(
                 "startDate",
-                value,
-                "تم حفظ تاريخ المباشرة."
+                value
             );
 
         }
     );
 
 
-/* =========================================================
-   SEARCH
-========================================================= */
+/* =====================================================
+   DATE DISPLAY
+===================================================== */
+
+function formatDateForDisplay(
+    value
+) {
+
+    if (!value) {
+
+        return "";
+    }
+
+
+    const text =
+        String(
+            value
+        );
+
+
+    const parts =
+        text.split(
+            "T"
+        );
+
+
+    const datePart =
+        parts[0];
+
+
+    const dateParts =
+        datePart.split(
+            "-"
+        );
+
+
+    if (
+        dateParts.length !== 3
+    ) {
+
+        return text;
+
+    }
+
+
+    let result =
+        dateParts[2] +
+        "/" +
+        dateParts[1] +
+        "/" +
+        dateParts[0];
+
+
+    if (
+        parts[1]
+    ) {
+
+        result +=
+            " - " +
+            parts[1]
+                .substring(
+                    0,
+                    5
+                );
+
+    }
+
+
+    return result;
+
+}
+
+
+/* =====================================================
+   NORMALIZE DATE INPUTS
+===================================================== */
+
+function normalizeDateTimeInput(
+    value
+) {
+
+    if (!value) {
+
+        return "";
+    }
+
+
+    const text =
+        String(value);
+
+
+    if (
+        text.includes(
+            "T"
+        )
+    ) {
+
+        return text.substring(
+            0,
+            16
+        );
+
+    }
+
+
+    return "";
+
+}
+
+
+function normalizeDateInput(
+    value
+) {
+
+    if (!value) {
+
+        return "";
+    }
+
+
+    const text =
+        String(value);
+
+
+    if (
+        /^\d{4}-\d{2}-\d{2}/.test(
+            text
+        )
+    ) {
+
+        return text.substring(
+            0,
+            10
+        );
+
+    }
+
+
+    return "";
+
+}
+
+
+/* =====================================================
+   SEARCH EVENT
+===================================================== */
 
 searchInput.addEventListener(
     "input",
     function() {
 
-        renderSearchResults(
+        renderResults(
             this.value
         );
 
@@ -4144,21 +4069,21 @@ searchInput.addEventListener(
 );
 
 
-/* =========================================================
+/* =====================================================
    CLICK RESULT
-========================================================= */
+===================================================== */
 
 resultsList.addEventListener(
     "click",
     function(event) {
 
-        const item =
+        const row =
             event.target.closest(
-                ".result-item"
+                ".applicant-row"
             );
 
 
-        if (!item) {
+        if (!row) {
 
             return;
 
@@ -4166,14 +4091,14 @@ resultsList.addEventListener(
 
 
         const uid =
-            item.dataset.uid;
+            row.dataset.uid;
 
 
         const applicant =
             allApplicants.find(
-                function(candidate) {
+                function(item) {
 
-                    return candidate.uid === uid;
+                    return item.uid === uid;
 
                 }
             );
@@ -4181,17 +4106,12 @@ resultsList.addEventListener(
 
         if (!applicant) {
 
-            showToast(
-                "تعذر العثور على بيانات المتقدم.",
-                "error"
-            );
-
             return;
 
         }
 
 
-        showApplicant(
+        openApplicant(
             applicant
         );
 
@@ -4199,9 +4119,9 @@ resultsList.addEventListener(
 );
 
 
-/* =========================================================
-   CLOSE DETAILS
-========================================================= */
+/* =====================================================
+   CLOSE
+===================================================== */
 
 closeDetails.addEventListener(
     "click",
@@ -4211,43 +4131,17 @@ closeDetails.addEventListener(
             "show"
         );
 
+
         selectedApplicant =
             null;
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-
     }
 );
 
 
-/* =========================================================
-   ESC KEY
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-        if (
-            event.key === "Escape"
-        ) {
-
-            detailsCard.classList.remove(
-                "show"
-            );
-
-        }
-
-    }
-);
-
-
-/* =========================================================
+/* =====================================================
    START
-========================================================= */
+===================================================== */
 
 loadApplicants();
 
