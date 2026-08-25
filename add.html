@@ -1,34 +1,70 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#0b63d8">
-<title>لوحة الإدارة | مدرسة التحدي الأهلية المختلطة</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
+
+<meta name="theme-color" content="#075fcf">
+
+<title>إدارة المدرسة | مدرسة التحدي الأهلية المختلطة</title>
+
+<!--
+    تستخدم فقط لتحويل نموذج الكتاب العربي إلى PDF.
+    باقي الصفحة كلها داخل هذا الملف.
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 
 <style>
+
+/* =========================================================
+   ROOT
+========================================================= */
+
 :root{
-    --primary:#0b63d8;
-    --primary-dark:#084ca5;
-    --primary-soft:#edf5ff;
-    --success:#079455;
-    --success-soft:#ecfdf3;
-    --danger:#d92d20;
-    --danger-soft:#fef3f2;
-    --warning:#dc6803;
-    --warning-soft:#fff6ed;
+
+    --primary:#075fcf;
+    --primary2:#094ba4;
+    --primarySoft:#edf5ff;
+
+    --green:#078b50;
+    --greenSoft:#ecfdf3;
+
+    --red:#d92d20;
+    --redSoft:#fff1f0;
+
+    --orange:#dc6803;
+    --orangeSoft:#fff6ed;
+
     --purple:#6938ef;
-    --purple-soft:#f4f3ff;
-    --bg:#f5f7fb;
-    --card:#fff;
+    --purpleSoft:#f4f3ff;
+
+    --yellow:#b54708;
+    --yellowSoft:#fffaeb;
+
+    --bg:#f4f7fb;
+    --card:#ffffff;
     --text:#172033;
     --muted:#667085;
     --border:#e4e7ec;
-    --shadow:0 12px 35px rgba(16,24,40,.08);
-    --radius:18px;
+
+    --shadow:
+        0 12px 32px
+        rgba(16,24,40,.07);
+
 }
+
+
+/* =========================================================
+   RESET
+========================================================= */
 
 *{
     box-sizing:border-box;
@@ -37,2257 +73,7513 @@
     -webkit-tap-highlight-color:transparent;
 }
 
-html{scroll-behavior:smooth}
-
-body{
-    min-height:100vh;
-    font-family:Tahoma,Arial,sans-serif;
-    background:var(--bg);
-    color:var(--text);
+html{
+    scroll-behavior:smooth;
 }
 
-button,input,select,textarea{
+body{
+
+    min-height:100vh;
+
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+
+    background:
+        var(--bg);
+
+    color:
+        var(--text);
+
+}
+
+button,
+input,
+select,
+textarea{
     font:inherit;
 }
 
-button{cursor:pointer}
+button{
+    cursor:pointer;
+}
 
-.hidden{display:none!important}
+.hidden{
+    display:none !important;
+}
 
-/* ================= HEADER ================= */
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+.loader-screen{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:50000;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:#fff;
+
+}
+
+.loader-box{
+    text-align:center;
+}
+
+.loader-circle{
+
+    width:48px;
+    height:48px;
+
+    margin:
+        0 auto
+        14px;
+
+    border-radius:50%;
+
+    border:
+        4px solid
+        #e7edf5;
+
+    border-top-color:
+        var(--primary);
+
+    animation:
+        spin .8s
+        linear
+        infinite;
+
+}
+
+.loader-box p{
+    font-size:13px;
+    color:var(--muted);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
 
 .header{
+
     position:sticky;
+
     top:0;
+
     z-index:1000;
-    background:rgba(255,255,255,.96);
-    backdrop-filter:blur(15px);
-    border-bottom:1px solid var(--border);
+
+    background:
+        rgba(255,255,255,.97);
+
+    backdrop-filter:
+        blur(14px);
+
+    -webkit-backdrop-filter:
+        blur(14px);
+
+    border-bottom:
+        1px solid
+        var(--border);
+
 }
 
 .header-inner{
+
     max-width:1500px;
+
+    min-height:70px;
+
     margin:auto;
-    min-height:72px;
-    padding:10px 18px;
+
+    padding:
+        9px 18px;
+
     display:flex;
-    justify-content:space-between;
+
     align-items:center;
-    gap:15px;
+    justify-content:space-between;
+
+    gap:14px;
+
 }
 
 .brand{
+
+    min-width:0;
+
     display:flex;
+
     align-items:center;
-    gap:11px;
+
+    gap:10px;
+
 }
 
 .brand img{
-    width:46px;
-    height:46px;
+
+    width:48px;
+    height:48px;
+
     object-fit:contain;
+
 }
 
-.brand h1{
+.brand-text{
+    min-width:0;
+}
+
+.brand-text h1{
+
     font-size:16px;
+
     font-weight:900;
+
+    white-space:nowrap;
+
 }
 
-.brand p{
+.brand-text p{
+
     margin-top:3px;
+
     font-size:11px;
-    color:var(--primary);
+
+    color:
+        var(--primary);
+
     font-weight:800;
+
 }
 
-.logout{
+.logout-btn{
+
+    min-height:40px;
+
+    padding:
+        0 13px;
+
     border:0;
-    border-radius:12px;
-    min-height:42px;
-    padding:0 14px;
-    background:var(--danger-soft);
-    color:var(--danger);
-    font-weight:800;
+
+    border-radius:11px;
+
+    background:
+        var(--redSoft);
+
+    color:
+        var(--red);
+
+    font-size:12px;
+
+    font-weight:900;
+
 }
 
-/* ================= MAIN ================= */
+
+/* =========================================================
+   MAIN
+========================================================= */
 
 .main{
-    max-width:1500px;
+
+    width:min(1500px,100%);
+
     margin:auto;
-    padding:20px 16px 50px;
+
+    padding:
+        18px 16px
+        50px;
+
 }
+
+
+/* =========================================================
+   HERO
+========================================================= */
 
 .hero{
+
     position:relative;
+
     overflow:hidden;
-    padding:22px;
-    margin-bottom:18px;
+
+    margin-bottom:17px;
+
+    padding:
+        21px;
+
+    border-radius:
+        22px;
+
     color:#fff;
-    border-radius:24px;
-    background:linear-gradient(135deg,#0b63d8,#06469c);
-    box-shadow:0 18px 35px rgba(11,99,216,.18);
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #0769df,
+            #06428f
+        );
+
+    box-shadow:
+
+        0 15px 35px
+        rgba(7,95,207,.17);
+
 }
 
-.hero:after{
+.hero:before{
+
     content:"";
+
     position:absolute;
-    width:230px;
-    height:230px;
+
+    width:240px;
+    height:240px;
+
     border-radius:50%;
+
     left:-90px;
-    top:-120px;
-    background:rgba(255,255,255,.08);
+    top:-130px;
+
+    background:
+        rgba(255,255,255,.08);
+
 }
 
 .hero h2{
+
     position:relative;
+
     z-index:2;
-    font-size:22px;
+
+    font-size:21px;
+
 }
 
 .hero p{
+
     position:relative;
+
     z-index:2;
-    margin-top:8px;
-    font-size:13px;
-    opacity:.9;
-}
 
-/* ================= STATS ================= */
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:10px;
-    margin-bottom:18px;
-}
-
-.stat{
-    background:#fff;
-    border:1px solid var(--border);
-    border-radius:17px;
-    padding:15px;
-    box-shadow:0 5px 18px rgba(16,24,40,.04);
-}
-
-.stat span{
-    color:var(--muted);
-    font-size:11px;
-    font-weight:800;
-}
-
-.stat strong{
-    display:block;
     margin-top:7px;
-    font-size:25px;
-}
 
-/* ================= NAV ================= */
-
-.tabs{
-    display:flex;
-    gap:8px;
-    overflow-x:auto;
-    scrollbar-width:none;
-    margin-bottom:16px;
-    padding-bottom:5px;
-}
-
-.tabs::-webkit-scrollbar{display:none}
-
-.tab{
-    flex:0 0 auto;
-    min-height:44px;
-    padding:0 17px;
-    border:1px solid var(--border);
-    border-radius:12px;
-    background:#fff;
-    color:var(--muted);
     font-size:12px;
+
+    line-height:1.8;
+
+    opacity:.9;
+
+}
+
+
+/* =========================================================
+   TOP SUMMARY
+========================================================= */
+
+.summary-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:9px;
+
+    margin-bottom:17px;
+
+}
+
+.summary-card{
+
+    padding:14px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:16px;
+
+    background:#fff;
+
+    box-shadow:
+        0 5px 18px
+        rgba(16,24,40,.035);
+
+}
+
+.summary-card span{
+
+    font-size:11px;
+
+    color:
+        var(--muted);
+
+    font-weight:800;
+
+}
+
+.summary-card strong{
+
+    display:block;
+
+    margin-top:6px;
+
+    font-size:25px;
+
     font-weight:900;
+
 }
 
-.tab.active{
-    background:var(--primary);
-    border-color:var(--primary);
-    color:#fff;
-}
 
-/* ================= SECTION ================= */
-
-.section{display:none}
-.section.active{display:block;animation:fade .25s ease}
+/* =========================================================
+   PANEL
+========================================================= */
 
 .panel{
-    background:#fff;
-    border:1px solid var(--border);
-    border-radius:20px;
+
+    margin-bottom:15px;
+
     overflow:hidden;
-    box-shadow:var(--shadow);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:
+        19px;
+
+    background:#fff;
+
+    box-shadow:
+        var(--shadow);
+
 }
 
-.panel+.panel{margin-top:15px}
-
 .panel-head{
+
+    min-height:66px;
+
+    padding:
+        14px 17px;
+
     display:flex;
-    justify-content:space-between;
+
     align-items:center;
+    justify-content:space-between;
+
     gap:12px;
-    padding:17px 19px;
-    border-bottom:1px solid var(--border);
+
+    border-bottom:
+        1px solid
+        var(--border);
+
 }
 
 .panel-head h3{
-    font-size:16px;
+
+    font-size:15px;
+
+    font-weight:900;
+
 }
 
 .panel-head p{
+
     margin-top:4px;
-    color:var(--muted);
+
     font-size:11px;
+
+    line-height:1.7;
+
+    color:
+        var(--muted);
+
 }
 
 .panel-body{
-    padding:18px;
+
+    padding:17px;
+
 }
 
-/* ================= FORM ================= */
 
-.grid{
+/* =========================================================
+   CLASSES TOP
+========================================================= */
+
+.classes-top{
+
     display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:14px;
+
+    grid-template-columns:
+        repeat(auto-fill,minmax(180px,1fr));
+
+    gap:10px;
+
+}
+
+.class-card{
+
+    position:relative;
+
+    min-height:120px;
+
+    padding:15px;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:
+        16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f8fbff
+        );
+
+    cursor:pointer;
+
+    transition:
+        .22s ease;
+
+}
+
+.class-card:hover{
+
+    transform:
+        translateY(-2px);
+
+    border-color:
+        #b7d3f5;
+
+    box-shadow:
+        0 10px 22px
+        rgba(7,95,207,.08);
+
+}
+
+.class-card.selected{
+
+    border-color:
+        var(--primary);
+
+    box-shadow:
+
+        0 0 0 3px
+        rgba(7,95,207,.08);
+
+}
+
+.class-card:after{
+
+    content:"";
+
+    position:absolute;
+
+    width:75px;
+    height:75px;
+
+    left:-25px;
+    bottom:-30px;
+
+    border-radius:50%;
+
+    background:
+        var(--primarySoft);
+
+}
+
+.class-card h4{
+
+    position:relative;
+
+    z-index:2;
+
+    font-size:16px;
+
+    font-weight:900;
+
+}
+
+.class-meta{
+
+    position:relative;
+
+    z-index:2;
+
+    margin-top:8px;
+
+    display:flex;
+
+    gap:6px;
+
+    flex-wrap:wrap;
+
+}
+
+.class-count{
+
+    position:relative;
+
+    z-index:2;
+
+    margin-top:12px;
+
+    color:
+        var(--primary);
+
+    font-size:12px;
+
+    font-weight:900;
+
+}
+
+.class-actions{
+
+    position:absolute;
+
+    top:9px;
+    left:9px;
+
+    z-index:5;
+
+}
+
+
+/* =========================================================
+   BADGES
+========================================================= */
+
+.badge{
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    min-height:25px;
+
+    padding:
+        0 8px;
+
+    border-radius:20px;
+
+    font-size:10px;
+
+    font-weight:900;
+
+}
+
+.blue{
+    color:var(--primary);
+    background:var(--primarySoft);
+}
+
+.green{
+    color:var(--green);
+    background:var(--greenSoft);
+}
+
+.red{
+    color:var(--red);
+    background:var(--redSoft);
+}
+
+.orange{
+    color:var(--orange);
+    background:var(--orangeSoft);
+}
+
+.purple{
+    color:var(--purple);
+    background:var(--purpleSoft);
+}
+
+.yellow{
+    color:var(--yellow);
+    background:var(--yellowSoft);
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+
+    min-height:42px;
+
+    padding:
+        0 14px;
+
+    border:0;
+
+    border-radius:11px;
+
+    font-size:11px;
+
+    font-weight:900;
+
+    transition:.18s;
+
+}
+
+.btn:active{
+    transform:scale(.98);
+}
+
+.btn:disabled{
+    opacity:.5;
+    cursor:default;
+}
+
+.btn-primary{
+    color:#fff;
+    background:var(--primary);
+}
+
+.btn-green{
+    color:#fff;
+    background:var(--green);
+}
+
+.btn-soft{
+    color:var(--primary);
+    background:var(--primarySoft);
+}
+
+.btn-red{
+    color:var(--red);
+    background:var(--redSoft);
+}
+
+.btn-orange{
+    color:var(--orange);
+    background:var(--orangeSoft);
+}
+
+.btn-purple{
+    color:var(--purple);
+    background:var(--purpleSoft);
+}
+
+
+/* =========================================================
+   TABS
+========================================================= */
+
+.tabs{
+
+    display:flex;
+
+    gap:7px;
+
+    overflow-x:auto;
+
+    margin-bottom:15px;
+
+    padding-bottom:4px;
+
+    scrollbar-width:none;
+
+}
+
+.tabs::-webkit-scrollbar{
+    display:none;
+}
+
+.tab{
+
+    flex:
+        0 0 auto;
+
+    min-height:43px;
+
+    padding:
+        0 16px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:11px;
+
+    background:#fff;
+
+    color:
+        var(--muted);
+
+    font-size:11px;
+
+    font-weight:900;
+
+}
+
+.tab.active{
+
+    color:#fff;
+
+    border-color:
+        var(--primary);
+
+    background:
+        var(--primary);
+
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.section{
+    display:none;
+}
+
+.section.active{
+
+    display:block;
+
+    animation:
+        fadeIn .25s ease;
+
+}
+
+
+/* =========================================================
+   FORMS
+========================================================= */
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:13px;
+
 }
 
 .field{
+
     display:flex;
+
     flex-direction:column;
-    gap:7px;
+
+    gap:6px;
+
 }
 
-.field.full{grid-column:1/-1}
+.field.full{
+    grid-column:1/-1;
+}
 
 .field label{
-    font-size:12px;
-    font-weight:900;
+
     color:#344054;
+
+    font-size:11px;
+
+    font-weight:900;
+
 }
 
 .field input,
 .field select,
 .field textarea{
+
     width:100%;
-    border:1.5px solid var(--border);
-    border-radius:12px;
-    background:#fff;
-    color:var(--text);
+
+    border:
+        1.5px solid
+        var(--border);
+
+    border-radius:11px;
+
     outline:none;
-    transition:.2s;
+
+    background:#fff;
+
+    color:
+        var(--text);
+
+    transition:.18s;
+
 }
 
 .field input,
 .field select{
-    height:49px;
-    padding:0 13px;
+
+    height:48px;
+
+    padding:
+        0 12px;
+
 }
 
 .field textarea{
-    min-height:95px;
-    padding:12px;
+
+    min-height:90px;
+
+    padding:11px;
+
     resize:vertical;
+
 }
 
 .field input:focus,
 .field select:focus,
 .field textarea:focus{
-    border-color:var(--primary);
-    box-shadow:0 0 0 4px rgba(11,99,216,.07);
+
+    border-color:
+        var(--primary);
+
+    box-shadow:
+
+        0 0 0 4px
+        rgba(7,95,207,.06);
+
 }
 
-/* ================= BUTTON ================= */
+.help{
 
-.btn{
-    min-height:43px;
-    border:0;
-    border-radius:11px;
-    padding:0 14px;
-    font-size:12px;
-    font-weight:900;
+    font-size:10px;
+
+    line-height:1.7;
+
+    color:
+        var(--muted);
+
 }
 
-.btn-primary{background:var(--primary);color:#fff}
-.btn-success{background:var(--success);color:#fff}
-.btn-danger{background:var(--danger-soft);color:var(--danger)}
-.btn-warning{background:var(--warning-soft);color:var(--warning)}
-.btn-soft{background:var(--primary-soft);color:var(--primary)}
-.btn-purple{background:var(--purple-soft);color:var(--purple)}
+.form-actions{
 
-.actions{
     grid-column:1/-1;
+
     display:flex;
+
     justify-content:flex-end;
+
     gap:8px;
+
     margin-top:3px;
+
 }
 
-/* ================= CHECKBOXES ================= */
+
+/* =========================================================
+   CODE BOX
+========================================================= */
+
+.code-box{
+
+    padding:14px;
+
+    border:
+        1px dashed
+        #9dc6f8;
+
+    border-radius:14px;
+
+    text-align:center;
+
+    background:
+        var(--primarySoft);
+
+}
+
+.code-box small{
+
+    color:
+        var(--muted);
+
+    font-size:10px;
+
+}
+
+.code-box strong{
+
+    display:block;
+
+    direction:ltr;
+
+    margin:
+        7px 0
+        10px;
+
+    color:
+        var(--primary);
+
+    font-size:22px;
+
+    font-weight:900;
+
+    letter-spacing:1px;
+
+}
+
+
+/* =========================================================
+   TEACHER CLASSES
+========================================================= */
 
 .check-grid{
+
     display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:8px;
+
+    grid-template-columns:
+        repeat(auto-fill,minmax(150px,1fr));
+
+    gap:7px;
+
 }
 
 .check-item{
+
+    min-height:41px;
+
+    padding:
+        8px 10px;
+
     display:flex;
+
     align-items:center;
+
     gap:7px;
-    min-height:42px;
-    padding:8px 10px;
-    border:1px solid var(--border);
-    border-radius:11px;
-    font-size:12px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:10px;
+
+    font-size:11px;
+
+    cursor:pointer;
+
 }
 
 .check-item input{
-    width:17px;
-    height:17px;
+
+    width:16px;
+    height:16px;
+
 }
 
-/* ================= TABLE ================= */
+
+/* =========================================================
+   FILTER TOOLBAR
+========================================================= */
 
 .toolbar{
+
     display:grid;
-    grid-template-columns:1fr 190px 190px;
-    gap:9px;
-    margin-bottom:13px;
+
+    grid-template-columns:
+        minmax(200px,1fr)
+        180px
+        180px;
+
+    gap:8px;
+
+    margin-bottom:12px;
+
 }
 
 .toolbar input,
 .toolbar select{
+
     width:100%;
-    height:45px;
-    border:1.5px solid var(--border);
-    border-radius:11px;
-    padding:0 12px;
+
+    height:44px;
+
+    padding:
+        0 11px;
+
+    border:
+        1.5px solid
+        var(--border);
+
+    border-radius:10px;
+
     background:#fff;
+
     outline:none;
+
 }
 
+
+/* =========================================================
+   BULK TRANSFER
+========================================================= */
+
+.bulk-bar{
+
+    display:none;
+
+    margin-bottom:12px;
+
+    padding:11px;
+
+    border:
+        1px solid
+        #b9d6fb;
+
+    border-radius:12px;
+
+    background:
+        var(--primarySoft);
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+}
+
+.bulk-bar.show{
+    display:flex;
+}
+
+.bulk-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+
+}
+
+.bulk-bar strong{
+
+    color:
+        var(--primary);
+
+    font-size:12px;
+
+}
+
+.bulk-bar select{
+
+    min-width:180px;
+
+    height:39px;
+
+    padding:
+        0 9px;
+
+    border:
+        1px solid
+        #b7cff0;
+
+    border-radius:9px;
+
+    background:#fff;
+
+}
+
+
+/* =========================================================
+   TABLES
+========================================================= */
+
 .table-wrap{
+
     overflow:auto;
-    border:1px solid var(--border);
-    border-radius:14px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:13px;
+
 }
 
 table{
+
     width:100%;
-    min-width:900px;
+
+    min-width:1100px;
+
     border-collapse:collapse;
+
 }
 
 th{
-    background:#f8fafc;
-    color:#475467;
-    font-size:11px;
-    padding:12px;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:2;
+
+    padding:11px;
+
     text-align:right;
+
     white-space:nowrap;
-    border-bottom:1px solid var(--border);
+
+    background:#f8fafc;
+
+    border-bottom:
+        1px solid
+        var(--border);
+
+    color:#475467;
+
+    font-size:10px;
+
+    font-weight:900;
+
 }
 
 td{
-    padding:12px;
-    font-size:12px;
-    border-bottom:1px solid #f0f2f5;
+
+    padding:11px;
+
+    border-bottom:
+        1px solid #f0f2f5;
+
+    font-size:11px;
+
     vertical-align:middle;
+
 }
 
-tr:last-child td{border-bottom:0}
+tr:last-child td{
+    border-bottom:0;
+}
 
 .code{
+
     direction:ltr;
+
     display:inline-block;
-    color:var(--primary);
+
+    color:
+        var(--primary);
+
     font-weight:900;
-    letter-spacing:.5px;
+
+}
+
+.table-checkbox{
+
+    width:17px;
+    height:17px;
+
 }
 
 .row-actions{
+
     display:flex;
-    flex-wrap:wrap;
+
     gap:5px;
+
+    flex-wrap:wrap;
+
 }
 
 .mini{
-    min-height:32px;
+
+    min-height:31px;
+
+    padding:
+        0 8px;
+
     border:0;
+
     border-radius:8px;
-    padding:0 9px;
-    font-size:10px;
+
+    font-size:9px;
+
     font-weight:900;
+
 }
 
-/* ================= BADGES ================= */
 
-.badge{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    min-height:25px;
-    border-radius:20px;
-    padding:0 9px;
-    font-size:10px;
-    font-weight:900;
-}
+/* =========================================================
+   EMPTY
+========================================================= */
 
-.b-blue{background:var(--primary-soft);color:var(--primary)}
-.b-green{background:var(--success-soft);color:var(--success)}
-.b-red{background:var(--danger-soft);color:var(--danger)}
-.b-orange{background:var(--warning-soft);color:var(--warning)}
-.b-purple{background:var(--purple-soft);color:var(--purple)}
+.empty{
 
-/* ================= CARDS ================= */
+    padding:30px 15px;
 
-.list-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-}
-
-.info-card{
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:14px;
-}
-
-.info-card h4{
-    font-size:14px;
-}
-
-.info-card p{
-    margin-top:6px;
-    color:var(--muted);
-    font-size:11px;
-    line-height:1.7;
-}
-
-/* ================= CODE BOX ================= */
-
-.code-box{
-    border:1px dashed #9fc7f7;
-    background:var(--primary-soft);
-    border-radius:14px;
-    padding:14px;
     text-align:center;
-}
 
-.code-box small{
-    color:var(--muted);
-}
+    color:
+        var(--muted);
 
-.code-box strong{
-    display:block;
-    direction:ltr;
-    margin:7px 0 11px;
-    font-size:22px;
-    color:var(--primary);
-    letter-spacing:1.5px;
-}
-
-/* ================= MESSAGE ================= */
-
-.message{
-    display:none;
-    padding:11px 13px;
-    border-radius:11px;
-    margin-bottom:13px;
     font-size:12px;
-    font-weight:800;
+
 }
 
-.message.show{display:block}
-.message.success{background:var(--success-soft);color:#067647}
-.message.error{background:var(--danger-soft);color:#b42318}
 
-/* ================= MODAL ================= */
+/* =========================================================
+   MODAL
+========================================================= */
 
 .modal{
-    display:none;
+
     position:fixed;
+
     inset:0;
-    z-index:5000;
+
+    z-index:6000;
+
+    display:none;
+
     align-items:center;
     justify-content:center;
-    background:rgba(16,24,40,.45);
-    backdrop-filter:blur(4px);
+
     padding:15px;
+
+    background:
+        rgba(16,24,40,.48);
+
+    backdrop-filter:
+        blur(4px);
+
 }
 
-.modal.show{display:flex}
+.modal.show{
+    display:flex;
+}
 
 .modal-card{
-    width:min(520px,100%);
-    max-height:90vh;
+
+    width:min(650px,100%);
+
+    max-height:92vh;
+
     overflow:auto;
+
+    padding:19px;
+
+    border-radius:18px;
+
     background:#fff;
-    border-radius:19px;
-    padding:20px;
-    box-shadow:0 25px 70px rgba(0,0,0,.2);
+
+    box-shadow:
+        0 25px 70px
+        rgba(0,0,0,.2);
+
 }
 
-.modal-card h3{
+.modal-head{
+
+    margin-bottom:15px;
+
+    display:flex;
+
+    align-items:flex-start;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+}
+
+.modal-head h3{
     font-size:17px;
 }
 
-.modal-card p{
-    color:var(--muted);
-    font-size:12px;
-    line-height:1.8;
-    margin-top:8px;
+.modal-head p{
+
+    margin-top:4px;
+
+    color:
+        var(--muted);
+
+    font-size:10px;
+
+}
+
+.close-modal{
+
+    width:35px;
+    height:35px;
+
+    border:0;
+
+    border-radius:10px;
+
+    color:
+        var(--red);
+
+    background:
+        var(--redSoft);
+
+    font-weight:900;
+
 }
 
 .modal-actions{
+
     display:flex;
-    gap:8px;
-    margin-top:17px;
+
+    justify-content:flex-end;
+
+    gap:7px;
+
+    margin-top:16px;
+
 }
 
-.modal-actions .btn{flex:1}
 
-/* ================= TOAST ================= */
+/* =========================================================
+   CONFIRM
+========================================================= */
+
+.confirm-card{
+
+    width:min(410px,100%);
+
+    padding:20px;
+
+    border-radius:18px;
+
+    background:#fff;
+
+}
+
+.confirm-card h3{
+    font-size:17px;
+}
+
+.confirm-card p{
+
+    margin-top:8px;
+
+    color:
+        var(--muted);
+
+    font-size:11px;
+
+    line-height:1.8;
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
 
 .toast{
+
     position:fixed;
+
+    z-index:20000;
+
     left:50%;
-    bottom:25px;
-    transform:translate(-50%,30px);
-    z-index:10000;
-    max-width:calc(100% - 25px);
+    bottom:24px;
+
+    transform:
+        translate(-50%,30px);
+
+    max-width:
+        calc(100% - 25px);
+
     min-width:220px;
-    padding:12px 16px;
+
+    padding:
+        12px 16px;
+
     border-radius:11px;
-    background:#101828;
-    color:#fff;
+
     text-align:center;
-    font-size:12px;
+
+    background:#101828;
+
+    color:#fff;
+
+    font-size:11px;
+
     font-weight:800;
+
     opacity:0;
+
     visibility:hidden;
-    transition:.25s;
+
+    transition:.22s;
+
 }
 
 .toast.show{
+
     opacity:1;
+
     visibility:visible;
-    transform:translate(-50%,0);
+
+    transform:
+        translate(-50%,0);
+
 }
 
-/* ================= LOADING ================= */
 
-.loading{
+/* =========================================================
+   PDF TEMPLATE
+========================================================= */
+
+.pdf-host{
+
     position:fixed;
-    inset:0;
-    z-index:20000;
+
+    left:-99999px;
+
+    top:0;
+
+    width:794px;
+
     background:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+
 }
 
-.spinner{
-    width:44px;
-    height:44px;
-    border:4px solid #e7edf5;
-    border-top-color:var(--primary);
-    border-radius:50%;
-    animation:spin .8s linear infinite;
+.pdf-page{
+
+    width:794px;
+
+    min-height:1123px;
+
+    padding:
+        34px 46px;
+
+    direction:rtl;
+
+    color:#111827;
+
+    background:#fff;
+
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+
 }
 
-/* ================= MOBILE ================= */
+.pdf-top{
 
-@media(max-width:1000px){
-    .stats{grid-template-columns:repeat(3,1fr)}
-    .check-grid{grid-template-columns:repeat(3,1fr)}
-    .list-grid{grid-template-columns:repeat(2,1fr)}
+    min-height:510px;
+
+    position:relative;
+
 }
 
-@media(max-width:700px){
-    .main{padding:14px 10px 40px}
-    .header-inner{padding:8px 11px}
-    .brand h1{font-size:13px}
-    .brand p{font-size:9px}
-    .brand img{width:40px;height:40px}
-    .logout{font-size:10px;padding:0 10px}
-    .hero{padding:18px;border-radius:18px}
-    .hero h2{font-size:18px}
-    .stats{grid-template-columns:repeat(2,1fr)}
-    .grid{grid-template-columns:1fr}
-    .field.full,.actions{grid-column:auto}
-    .toolbar{grid-template-columns:1fr}
-    .check-grid{grid-template-columns:repeat(2,1fr)}
-    .list-grid{grid-template-columns:1fr}
-    .actions{flex-direction:column}
-    .actions .btn{width:100%}
+.pdf-letter-meta{
+
+    position:absolute;
+
+    top:0;
+    right:0;
+
+    width:190px;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    line-height:2;
+
 }
 
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes fade{
-    from{opacity:0;transform:translateY(4px)}
-    to{opacity:1;transform:none}
+.pdf-logo-area{
+
+    text-align:center;
+
 }
+
+.pdf-logo{
+
+    width:105px;
+    height:105px;
+
+    object-fit:contain;
+
+}
+
+.pdf-school{
+
+    margin-top:7px;
+
+    font-size:19px;
+
+    font-weight:900;
+
+    color:#0a4fa8;
+
+}
+
+.pdf-governance{
+
+    margin-top:4px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+.pdf-recipient{
+
+    margin-top:40px;
+
+    font-size:16px;
+
+    font-weight:800;
+
+}
+
+.pdf-subject{
+
+    margin-top:25px;
+
+    text-align:center;
+
+    font-size:18px;
+
+    font-weight:900;
+
+    text-decoration:underline;
+
+}
+
+.pdf-body-text{
+
+    margin-top:26px;
+
+    font-size:16px;
+
+    line-height:2.25;
+
+    text-align:justify;
+
+}
+
+.pdf-thanks{
+
+    margin-top:18px;
+
+    font-size:15px;
+
+}
+
+.pdf-manager{
+
+    width:250px;
+
+    margin-top:32px;
+    margin-right:auto;
+
+    text-align:center;
+
+    line-height:1.9;
+
+    font-size:14px;
+
+    font-weight:800;
+
+}
+
+.pdf-divider{
+
+    position:relative;
+
+    margin:
+        18px 0
+        24px;
+
+    border-top:
+        2px solid
+        #0a56b8;
+
+}
+
+.pdf-divider span{
+
+    position:absolute;
+
+    right:50%;
+
+    top:-15px;
+
+    transform:
+        translateX(50%);
+
+    padding:
+        5px 16px;
+
+    border:
+        1px solid
+        #9ec6f3;
+
+    border-radius:20px;
+
+    background:#fff;
+
+    color:#075fcf;
+
+    font-size:13px;
+
+    font-weight:900;
+
+}
+
+.pdf-student-title{
+
+    text-align:center;
+
+    color:#075fcf;
+
+    font-size:18px;
+
+    font-weight:900;
+
+    margin-bottom:18px;
+
+}
+
+.pdf-data-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:10px;
+
+}
+
+.pdf-data{
+
+    padding:
+        10px 12px;
+
+    border:
+        1px solid #dbe5f1;
+
+    border-radius:8px;
+
+    background:#fafcff;
+
+    font-size:12px;
+
+    line-height:1.7;
+
+}
+
+.pdf-data.full{
+    grid-column:1/-1;
+}
+
+.pdf-data b{
+
+    display:block;
+
+    margin-bottom:2px;
+
+    color:#344054;
+
+    font-size:11px;
+
+}
+
+.pdf-code{
+
+    margin-top:17px;
+
+    padding:13px;
+
+    border:
+        1px dashed #7eb1ed;
+
+    border-radius:9px;
+
+    text-align:center;
+
+    background:#edf5ff;
+
+}
+
+.pdf-code small{
+
+    display:block;
+
+    color:#667085;
+
+}
+
+.pdf-code strong{
+
+    display:block;
+
+    direction:ltr;
+
+    margin-top:5px;
+
+    color:#075fcf;
+
+    font-size:23px;
+
+    letter-spacing:2px;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:900px){
+
+    .summary-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:680px){
+
+    .header-inner{
+        padding:
+            8px 10px;
+    }
+
+    .brand img{
+        width:40px;
+        height:40px;
+    }
+
+    .brand-text h1{
+        font-size:12px;
+    }
+
+    .brand-text p{
+        font-size:9px;
+    }
+
+    .logout-btn{
+        min-height:37px;
+        padding:0 9px;
+        font-size:9px;
+    }
+
+    .main{
+        padding:
+            12px 9px
+            40px;
+    }
+
+    .hero{
+        padding:17px;
+        border-radius:17px;
+    }
+
+    .hero h2{
+        font-size:17px;
+    }
+
+    .classes-top{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .class-card{
+        min-height:110px;
+        padding:12px;
+    }
+
+    .class-card h4{
+        font-size:14px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full,
+    .form-actions{
+        grid-column:auto;
+    }
+
+    .toolbar{
+        grid-template-columns:1fr;
+    }
+
+    .bulk-bar{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .bulk-right{
+        width:100%;
+    }
+
+    .bulk-bar select{
+        flex:1;
+        min-width:0;
+    }
+
+    .modal-actions,
+    .form-actions{
+        flex-direction:column;
+    }
+
+    .modal-actions .btn,
+    .form-actions .btn{
+        width:100%;
+    }
+
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:translateY(4px);
+    }
+
+    to{
+        opacity:1;
+        transform:none;
+    }
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
-<div id="loading" class="loading"><div class="spinner"></div></div>
+
+<!-- =========================================================
+     LOADING
+========================================================= -->
+
+<div
+    id="loading"
+    class="loader-screen"
+>
+
+    <div class="loader-box">
+
+        <div class="loader-circle"></div>
+
+        <p>
+            جاري تحميل لوحة الإدارة
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
 
 <header class="header">
-<div class="header-inner">
-    <div class="brand">
-        <img src="images/logo.png" alt="الشعار">
-        <div>
-            <h1>مدرسة التحدي الأهلية المختلطة</h1>
-            <p>قسم الحوكمة - لوحة الإدارة</p>
+
+    <div class="header-inner">
+
+        <div class="brand">
+
+            <img
+                src="images/logo.png"
+                alt="شعار المدرسة"
+            >
+
+            <div class="brand-text">
+
+                <h1>
+                    مدرسة التحدي الأهلية المختلطة
+                </h1>
+
+                <p>
+                    قسم الحوكمة - الإدارة
+                </p>
+
+            </div>
+
         </div>
+
+
+        <button
+            class="logout-btn"
+            onclick="logout()"
+        >
+            تسجيل الخروج
+        </button>
+
     </div>
-    <button class="logout" onclick="logout()">تسجيل الخروج</button>
-</div>
+
 </header>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
 
 <main class="main">
 
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
 <section class="hero">
-    <h2 id="welcome">لوحة الإدارة</h2>
-    <p>إدارة الصفوف والشعب والمواد والطلاب والأساتذة وحسابات الدخول.</p>
+
+    <h2 id="welcome">
+        لوحة إدارة المدرسة
+    </h2>
+
+    <p>
+        إدارة الصفوف والطلاب والقبول وحسابات الطلبة والأساتذة.
+    </p>
+
 </section>
 
-<section class="stats">
-    <div class="stat"><span>الطلاب</span><strong id="statStudents">0</strong></div>
-    <div class="stat"><span>الأساتذة</span><strong id="statTeachers">0</strong></div>
-    <div class="stat"><span>الصفوف</span><strong id="statClasses">0</strong></div>
-    <div class="stat"><span>الشعب</span><strong id="statSections">0</strong></div>
-    <div class="stat"><span>المواد</span><strong id="statSubjects">0</strong></div>
+
+
+<!-- =========================================================
+     SUMMARY
+========================================================= -->
+
+<div class="summary-grid">
+
+    <div class="summary-card">
+
+        <span>
+            عدد الصفوف
+        </span>
+
+        <strong id="totalClasses">
+            0
+        </strong>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <span>
+            عدد الطلاب
+        </span>
+
+        <strong id="totalStudents">
+            0
+        </strong>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <span>
+            تم القبول
+        </span>
+
+        <strong id="totalAccepted">
+            0
+        </strong>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <span>
+            الأساتذة
+        </span>
+
+        <strong id="totalTeachers">
+            0
+        </strong>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     CLASSES TOP
+========================================================= -->
+
+<section class="panel">
+
+    <div class="panel-head">
+
+        <div>
+
+            <h3>
+                الصفوف
+            </h3>
+
+            <p>
+                اضغط على أي صف لعرض طلابه وإدارتهم.
+            </p>
+
+        </div>
+
+
+        <button
+            class="btn btn-primary"
+            onclick="openCreateClass()"
+        >
+            إنشاء صف
+        </button>
+
+    </div>
+
+
+    <div class="panel-body">
+
+        <div
+            id="classesTop"
+            class="classes-top"
+        ></div>
+
+    </div>
+
 </section>
+
+
+
+<!-- =========================================================
+     TABS
+========================================================= -->
 
 <nav class="tabs">
-    <button class="tab active" data-target="students">الطلاب</button>
-    <button class="tab" data-target="addStudent">إضافة طالب</button>
-    <button class="tab" data-target="teachers">الأساتذة</button>
-    <button class="tab" data-target="addTeacher">إضافة أستاذ</button>
-    <button class="tab" data-target="classes">الصفوف</button>
-    <button class="tab" data-target="sections">الشعب والقاعات</button>
-    <button class="tab" data-target="subjects">المواد</button>
+
+    <button
+        class="tab active"
+        data-target="studentsSection"
+    >
+        الطلاب
+    </button>
+
+    <button
+        class="tab"
+        data-target="addStudentSection"
+    >
+        إضافة طالب
+    </button>
+
+    <button
+        class="tab"
+        data-target="teachersSection"
+    >
+        الأساتذة
+    </button>
+
+    <button
+        class="tab"
+        data-target="addTeacherSection"
+    >
+        إضافة أستاذ
+    </button>
+
 </nav>
 
-<!-- ================= STUDENTS ================= -->
 
-<section id="students" class="section active">
-<div class="panel">
-    <div class="panel-head">
-        <div>
-            <h3>الطلاب</h3>
-            <p>عرض وفرز وإدارة ملفات الطلاب.</p>
-        </div>
-        <button class="btn btn-soft" onclick="loadAll()">تحديث</button>
-    </div>
 
-    <div class="panel-body">
-        <div class="toolbar">
-            <input id="studentSearch" placeholder="بحث بالاسم أو الكود أو الرقم...">
-            <select id="studentClassFilter"><option value="">جميع الصفوف</option></select>
-            <select id="studentGenderFilter">
-                <option value="">الجميع</option>
-                <option value="male">البنين</option>
-                <option value="female">البنات</option>
-            </select>
-        </div>
+<!-- =========================================================
+     STUDENTS
+========================================================= -->
 
-        <div class="table-wrap">
-            <table>
-                <thead>
-                <tr>
-                    <th>الكود</th>
-                    <th>اسم الطالب</th>
-                    <th>الجنس</th>
-                    <th>الصف</th>
-                    <th>الشعبة</th>
-                    <th>القاعة</th>
-                    <th>ولي الأمر</th>
-                    <th>الحالة</th>
-                    <th>الإجراءات</th>
-                </tr>
-                </thead>
-                <tbody id="studentsBody"></tbody>
-            </table>
-        </div>
-    </div>
-</div>
-</section>
+<section
+    id="studentsSection"
+    class="section active"
+>
 
-<!-- ================= ADD STUDENT ================= -->
+    <div class="panel">
 
-<section id="addStudent" class="section">
-<div class="panel">
-    <div class="panel-head">
-        <div>
-            <h3>إضافة طالب جديد</h3>
-            <p>إدخال الملف الكامل للطالب وإنشاء كود دخول.</p>
-        </div>
-    </div>
+        <div class="panel-head">
 
-    <div class="panel-body">
+            <div>
 
-        <div id="studentMessage" class="message"></div>
+                <h3 id="studentsTitle">
+                    جميع الطلاب
+                </h3>
 
-        <form id="studentForm" class="grid">
+                <p>
+                    اختر الطلاب لنقلهم إلى صف آخر أو إدارة ملف كل طالب.
+                </p>
 
-            <div class="field full">
-                <label>اسم الطالب الرباعي</label>
-                <input id="studentName" required placeholder="الاسم الرباعي">
             </div>
 
-            <div class="field">
-                <label>اسم الأم</label>
-                <input id="studentMother" required placeholder="اسم الأم">
-            </div>
 
-            <div class="field">
-                <label>تاريخ الميلاد</label>
-                <input id="studentBirth" type="date" required>
-            </div>
+            <button
+                class="btn btn-soft"
+                onclick="clearClassSelection()"
+            >
+                عرض الجميع
+            </button>
 
-            <div class="field">
-                <label>الجنس</label>
-                <select id="studentGender" required>
-                    <option value="">اختر</option>
-                    <option value="male">ذكر</option>
-                    <option value="female">أنثى</option>
+        </div>
+
+
+        <div class="panel-body">
+
+
+            <!-- FILTER -->
+
+            <div class="toolbar">
+
+                <input
+                    id="studentSearch"
+                    type="search"
+                    placeholder="بحث باسم الطالب أو الكود أو رقم ولي الأمر"
+                >
+
+
+                <select id="studentGenderFilter">
+
+                    <option value="">
+                        الجنس: الجميع
+                    </option>
+
+                    <option value="male">
+                        البنين
+                    </option>
+
+                    <option value="female">
+                        البنات
+                    </option>
+
                 </select>
-            </div>
 
-            <div class="field">
-                <label>الصف</label>
-                <select id="studentClass" required>
-                    <option value="">اختر الصف</option>
+
+                <select id="studentStatusFilter">
+
+                    <option value="">
+                        جميع الحالات
+                    </option>
+
+                    <option value="pending">
+                        لم يجلب الملف
+                    </option>
+
+                    <option value="accepted">
+                        تم القبول
+                    </option>
+
                 </select>
+
             </div>
 
-            <div class="field">
-                <label>الشعبة</label>
-                <select id="studentSection" required>
-                    <option value="">اختر الشعبة</option>
-                </select>
-            </div>
 
-            <div class="field">
-                <label>رقم ولي الأمر</label>
-                <input id="studentGuardian" type="tel" required placeholder="07XXXXXXXXX">
-            </div>
 
-            <div class="field">
-                <label>رقم خط النقل</label>
-                <input id="studentTransport" placeholder="اختياري">
-            </div>
+            <!-- BULK TRANSFER -->
 
-            <div class="field full">
-                <label>عنوان السكن بالتفصيل</label>
-                <textarea id="studentAddress" required placeholder="المحافظة، القضاء، المنطقة، المحلة، الشارع..."></textarea>
-            </div>
+            <div
+                id="bulkBar"
+                class="bulk-bar"
+            >
 
-            <div class="field full">
-                <div class="code-box">
-                    <small>كود الطالب</small>
-                    <strong id="studentCodePreview">لم يتم إنشاء الكود</strong>
-                    <button type="button" class="btn btn-soft" onclick="previewStudentCode()">توليد كود</button>
+                <strong id="selectedCount">
+                    تم تحديد 0 طالب
+                </strong>
+
+
+                <div class="bulk-right">
+
+                    <select id="transferClass">
+
+                        <option value="">
+                            نقل إلى صف...
+                        </option>
+
+                    </select>
+
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="moveSelectedStudents()"
+                    >
+                        نقل الطلاب
+                    </button>
+
                 </div>
+
             </div>
 
-            <div class="actions">
-                <button type="submit" class="btn btn-primary" id="saveStudent">حفظ الطالب</button>
+
+
+            <!-- TABLE -->
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                <input
+                                    id="selectAllStudents"
+                                    class="table-checkbox"
+                                    type="checkbox"
+                                >
+                            </th>
+
+                            <th>
+                                العدد
+                            </th>
+
+                            <th>
+                                الكود
+                            </th>
+
+                            <th>
+                                اسم الطالب
+                            </th>
+
+                            <th>
+                                الجنس
+                            </th>
+
+                            <th>
+                                الصف
+                            </th>
+
+                            <th>
+                                القاعة
+                            </th>
+
+                            <th>
+                                حالة الملف
+                            </th>
+
+                            <th>
+                                القسط
+                            </th>
+
+                            <th>
+                                الحساب
+                            </th>
+
+                            <th>
+                                الإجراءات
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="studentsBody"></tbody>
+
+                </table>
+
             </div>
 
-        </form>
+
+            <div
+                id="studentsEmpty"
+                class="empty hidden"
+            >
+                لا توجد بيانات طلاب مطابقة.
+            </div>
+
+        </div>
+
     </div>
-</div>
+
 </section>
 
-<!-- ================= TEACHERS ================= -->
 
-<section id="teachers" class="section">
-<div class="panel">
-    <div class="panel-head">
-        <div>
-            <h3>الأساتذة</h3>
-            <p>عرض الأساتذة والمواد والصفوف المسندة إليهم.</p>
-        </div>
-    </div>
 
-    <div class="panel-body">
-        <div class="toolbar">
-            <input id="teacherSearch" placeholder="بحث بالاسم أو الكود أو المادة...">
-            <select id="teacherSubjectFilter"><option value="">جميع المواد</option></select>
-            <select id="teacherStatusFilter">
-                <option value="">الجميع</option>
-                <option value="active">فعال</option>
-                <option value="hidden">مخفي</option>
-            </select>
-        </div>
+<!-- =========================================================
+     ADD STUDENT
+========================================================= -->
 
-        <div class="table-wrap">
-            <table>
-                <thead>
-                <tr>
-                    <th>الكود</th>
-                    <th>اسم الأستاذ</th>
-                    <th>المادة</th>
-                    <th>الصفوف</th>
-                    <th>الحالة</th>
-                    <th>الإجراءات</th>
-                </tr>
-                </thead>
-                <tbody id="teachersBody"></tbody>
-            </table>
-        </div>
-    </div>
-</div>
-</section>
+<section
+    id="addStudentSection"
+    class="section"
+>
 
-<!-- ================= ADD TEACHER ================= -->
+    <div class="panel">
 
-<section id="addTeacher" class="section">
-<div class="panel">
-    <div class="panel-head">
-        <div>
-            <h3>إضافة أستاذ</h3>
-            <p>اختيار المادة والصفوف التي يدرسها الأستاذ.</p>
-        </div>
-    </div>
+        <div class="panel-head">
 
-    <div class="panel-body">
+            <div>
 
-        <div id="teacherMessage" class="message"></div>
+                <h3>
+                    إضافة طالب جديد
+                </h3>
 
-        <form id="teacherForm" class="grid">
+                <p>
+                    يتم تحديد الجنس تلقائياً من الصف المختار.
+                </p>
 
-            <div class="field full">
-                <label>اسم الأستاذ</label>
-                <input id="teacherName" required placeholder="اسم الأستاذ">
             </div>
 
-            <div class="field">
-                <label>المادة التي يدرسها</label>
-                <select id="teacherSubject" required>
-                    <option value="">اختر المادة</option>
-                </select>
-            </div>
+        </div>
 
-            <div class="field">
-                <label>رقم الهاتف</label>
-                <input id="teacherPhone" type="tel" placeholder="اختياري">
-            </div>
 
-            <div class="field full">
-                <label>الصفوف التي يدرسها</label>
-                <div id="teacherClasses" class="check-grid"></div>
-            </div>
+        <div class="panel-body">
 
-            <div class="field full">
-                <div class="code-box">
-                    <small>كود الأستاذ</small>
-                    <strong id="teacherCodePreview">لم يتم إنشاء الكود</strong>
-                    <button type="button" class="btn btn-soft" onclick="previewTeacherCode()">توليد كود</button>
+            <div
+                id="studentMessage"
+                class="message"
+            ></div>
+
+
+            <form
+                id="studentForm"
+                class="form-grid"
+            >
+
+
+                <div class="field full">
+
+                    <label>
+                        اسم الطالب الرباعي
+                    </label>
+
+                    <input
+                        id="studentName"
+                        required
+                        placeholder="أدخل اسم الطالب الرباعي"
+                    >
+
                 </div>
-            </div>
 
-            <div class="actions">
-                <button type="submit" id="saveTeacher" class="btn btn-success">حفظ الأستاذ</button>
-            </div>
 
-        </form>
+
+                <div class="field">
+
+                    <label>
+                        اسم الأم
+                    </label>
+
+                    <input
+                        id="motherName"
+                        required
+                        placeholder="اسم الأم"
+                    >
+
+                </div>
+
+
+
+                <div class="field">
+
+                    <label>
+                        الصف
+                    </label>
+
+                    <select
+                        id="studentClass"
+                        required
+                    >
+
+                        <option value="">
+                            اختر الصف
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="field">
+
+                    <label>
+                        الجنس
+                    </label>
+
+                    <input
+                        id="studentGenderDisplay"
+                        readonly
+                        placeholder="يحدد حسب الصف"
+                    >
+
+                </div>
+
+
+
+                <div class="field">
+
+                    <label>
+                        رقم القاعة
+                    </label>
+
+                    <select
+                        id="studentRoom"
+                        required
+                    ></select>
+
+                </div>
+
+
+
+                <div class="field">
+
+                    <label>
+                        رقم ولي الأمر
+                    </label>
+
+                    <input
+                        id="guardianPhone"
+                        type="tel"
+                        required
+                        placeholder="07XXXXXXXXX"
+                    >
+
+                </div>
+
+
+
+                <div class="field">
+
+                    <label>
+                        رقم الطالب
+                    </label>
+
+                    <input
+                        id="studentPhone"
+                        type="tel"
+                        placeholder="رقم هاتف الطالب"
+                    >
+
+                </div>
+
+
+
+                <div class="field">
+
+                    <label>
+                        رقم الخط
+                    </label>
+
+                    <input
+                        id="lineNumber"
+                        placeholder="رقم خط النقل"
+                    >
+
+                </div>
+
+
+
+                <div class="field">
+
+                    <label>
+                        المدرسة القادم منها
+                    </label>
+
+                    <input
+                        id="previousSchool"
+                        required
+                        placeholder="اسم المدرسة السابقة"
+                    >
+
+                </div>
+
+
+
+                <div class="field">
+
+                    <label>
+                        تاريخ التسجيل / المباشرة
+                    </label>
+
+                    <input
+                        id="startDate"
+                        type="date"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="field">
+
+                    <label>
+                        مبلغ القسط الكلي
+                    </label>
+
+                    <input
+                        id="tuitionTotal"
+                        type="number"
+                        min="0"
+                        step="1000"
+                        placeholder="مثال: 1000000"
+                    >
+
+                    <div class="help">
+                        يمكن تركه فارغاً حالياً، لكن لا يمكن تفعيل الحساب بدون مبلغ قسط.
+                    </div>
+
+                </div>
+
+
+
+                <div class="field full">
+
+                    <label>
+                        عنوان السكن بالتفصيل
+                    </label>
+
+                    <textarea
+                        id="studentAddress"
+                        required
+                        placeholder="أدخل عنوان سكن الطالب بالتفصيل"
+                    ></textarea>
+
+                </div>
+
+
+
+                <div class="field full">
+
+                    <div class="code-box">
+
+                        <small>
+                            كود الطالب
+                        </small>
+
+                        <strong id="studentCodePreview">
+                            يولد عند الحفظ
+                        </strong>
+
+                        <button
+                            type="button"
+                            class="btn btn-soft"
+                            onclick="previewStudentCode()"
+                        >
+                            توليد الكود الآن
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="field full">
+
+                    <label
+                        class="check-item"
+                        style="max-width:280px"
+                    >
+
+                        <input
+                            id="activateOnCreate"
+                            type="checkbox"
+                        >
+
+                        <span>
+                            تفعيل حساب الطالب مباشرة
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+
+                <div class="form-actions">
+
+                    <button
+                        id="saveStudentBtn"
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        حفظ الطالب
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
     </div>
-</div>
+
 </section>
 
-<!-- ================= CLASSES ================= -->
 
-<section id="classes" class="section">
 
-<div class="panel">
-    <div class="panel-head">
-        <div>
-            <h3>إنشاء صف</h3>
-            <p>اسم الصف يكتب من الإدارة ولا توجد أسماء ثابتة داخل النظام.</p>
-        </div>
-    </div>
+<!-- =========================================================
+     TEACHERS
+========================================================= -->
 
-    <div class="panel-body">
-        <form id="classForm" class="grid">
-            <div class="field">
-                <label>اسم الصف</label>
-                <input id="className" required placeholder="مثال: الأول، الثاني، السادس العلمي">
+<section
+    id="teachersSection"
+    class="section"
+>
+
+    <div class="panel">
+
+        <div class="panel-head">
+
+            <div>
+
+                <h3>
+                    الأساتذة
+                </h3>
+
+                <p>
+                    حسابات الأساتذة والمواد والصفوف المسندة إليهم.
+                </p>
+
             </div>
 
-            <div class="field">
-                <label>المرحلة</label>
-                <select id="classStage">
-                    <option value="">غير محدد</option>
-                    <option value="primary">ابتدائي</option>
-                    <option value="secondary">ثانوي</option>
+        </div>
+
+
+        <div class="panel-body">
+
+            <div class="toolbar">
+
+                <input
+                    id="teacherSearch"
+                    placeholder="بحث باسم الأستاذ أو الكود أو المادة"
+                >
+
+                <select
+                    id="teacherGenderClassFilter"
+                >
+
+                    <option value="">
+                        جميع الصفوف
+                    </option>
+
                 </select>
-            </div>
 
-            <div class="actions">
-                <button class="btn btn-primary" type="submit">إنشاء الصف</button>
-            </div>
-        </form>
-    </div>
-</div>
+                <select
+                    id="teacherAccountFilter"
+                >
 
-<div class="panel">
-    <div class="panel-head"><h3>الصفوف الحالية</h3></div>
-    <div class="panel-body">
-        <div id="classesList" class="list-grid"></div>
-    </div>
-</div>
+                    <option value="">
+                        جميع الحسابات
+                    </option>
 
-</section>
+                    <option value="active">
+                        فعال
+                    </option>
 
-<!-- ================= SECTIONS ================= -->
+                    <option value="inactive">
+                        غير فعال
+                    </option>
 
-<section id="sections" class="section">
-
-<div class="panel">
-    <div class="panel-head">
-        <div>
-            <h3>إنشاء شعبة / قاعة</h3>
-            <p>كل شعبة ترتبط بصف ويحدد لها رقم قاعة من 1 إلى 25.</p>
-        </div>
-    </div>
-
-    <div class="panel-body">
-        <form id="sectionForm" class="grid">
-
-            <div class="field">
-                <label>الصف</label>
-                <select id="sectionClass" required>
-                    <option value="">اختر الصف</option>
                 </select>
+
             </div>
 
-            <div class="field">
-                <label>اسم الشعبة</label>
-                <input id="sectionName" required placeholder="مثال: أ">
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                الكود
+                            </th>
+
+                            <th>
+                                اسم الأستاذ
+                            </th>
+
+                            <th>
+                                المادة
+                            </th>
+
+                            <th>
+                                الصفوف
+                            </th>
+
+                            <th>
+                                الحساب
+                            </th>
+
+                            <th>
+                                الإجراءات
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="teachersBody"></tbody>
+
+                </table>
+
             </div>
 
-            <div class="field">
-                <label>رقم القاعة</label>
-                <select id="roomNumber" required></select>
-            </div>
-
-            <div class="actions">
-                <button class="btn btn-primary">إنشاء الشعبة</button>
-            </div>
-
-        </form>
-    </div>
-</div>
-
-<div class="panel">
-    <div class="panel-head"><h3>الشعب والقاعات</h3></div>
-    <div class="panel-body">
-        <div id="sectionsList" class="list-grid"></div>
-    </div>
-</div>
-
-</section>
-
-<!-- ================= SUBJECTS ================= -->
-
-<section id="subjects" class="section">
-
-<div class="panel">
-    <div class="panel-head">
-        <div>
-            <h3>المواد الدراسية</h3>
-            <p>إنشاء المواد وتحديد عدد الحصص الأسبوعية.</p>
         </div>
+
     </div>
-
-    <div class="panel-body">
-        <form id="subjectForm" class="grid">
-
-            <div class="field">
-                <label>اسم المادة</label>
-                <input id="subjectName" required placeholder="مثال: الرياضيات">
-            </div>
-
-            <div class="field">
-                <label>عدد الحصص الأسبوعية</label>
-                <input id="subjectLessons" type="number" min="0" max="20" value="1" required>
-            </div>
-
-            <div class="actions">
-                <button class="btn btn-primary">إضافة المادة</button>
-                <button type="button" class="btn btn-soft" onclick="addDefaultSubjects()">إضافة المواد الأساسية</button>
-            </div>
-
-        </form>
-    </div>
-</div>
-
-<div class="panel">
-    <div class="panel-head"><h3>المواد الحالية</h3></div>
-    <div class="panel-body">
-        <div id="subjectsList" class="list-grid"></div>
-    </div>
-</div>
 
 </section>
+
+
+
+<!-- =========================================================
+     ADD TEACHER
+========================================================= -->
+
+<section
+    id="addTeacherSection"
+    class="section"
+>
+
+    <div class="panel">
+
+        <div class="panel-head">
+
+            <div>
+
+                <h3>
+                    إضافة أستاذ
+                </h3>
+
+                <p>
+                    أدخل اسم الأستاذ ومادته وحدد الصفوف التي يدرسها.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel-body">
+
+            <div
+                id="teacherMessage"
+                class="message"
+            ></div>
+
+
+            <form
+                id="teacherForm"
+                class="form-grid"
+            >
+
+
+                <div class="field full">
+
+                    <label>
+                        اسم الأستاذ
+                    </label>
+
+                    <input
+                        id="teacherName"
+                        required
+                        placeholder="الاسم الكامل"
+                    >
+
+                </div>
+
+
+
+                <div class="field full">
+
+                    <label>
+                        المادة التي يدرسها
+                    </label>
+
+                    <input
+                        id="teacherSubject"
+                        required
+                        placeholder="مثال: الرياضيات"
+                    >
+
+                </div>
+
+
+
+                <div class="field full">
+
+                    <label>
+                        الصفوف التي يدرسها
+                    </label>
+
+                    <div
+                        id="teacherClasses"
+                        class="check-grid"
+                    ></div>
+
+                </div>
+
+
+
+                <div class="field full">
+
+                    <div class="code-box">
+
+                        <small>
+                            كود الأستاذ
+                        </small>
+
+                        <strong id="teacherCodePreview">
+                            يولد عند الحفظ
+                        </strong>
+
+                        <button
+                            type="button"
+                            class="btn btn-soft"
+                            onclick="previewTeacherCode()"
+                        >
+                            توليد الكود الآن
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-actions">
+
+                    <button
+                        id="saveTeacherBtn"
+                        class="btn btn-green"
+                        type="submit"
+                    >
+                        حفظ الأستاذ
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
 
 </main>
 
-<!-- ================= CONFIRM ================= -->
 
-<div id="confirmModal" class="modal">
-<div class="modal-card">
-    <h3 id="confirmTitle">تأكيد</h3>
-    <p id="confirmText"></p>
 
-    <div class="modal-actions">
-        <button class="btn btn-soft" onclick="closeConfirm()">إلغاء</button>
-        <button id="confirmYes" class="btn btn-danger">تأكيد</button>
+<!-- =========================================================
+     CREATE CLASS MODAL
+========================================================= -->
+
+<div
+    id="classModal"
+    class="modal"
+>
+
+    <div class="modal-card">
+
+        <div class="modal-head">
+
+            <div>
+
+                <h3>
+                    إنشاء صف جديد
+                </h3>
+
+                <p>
+                    الإدارة هي التي تكتب اسم الصف.
+                </p>
+
+            </div>
+
+            <button
+                class="close-modal"
+                onclick="closeModal('classModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form
+            id="classForm"
+            class="form-grid"
+        >
+
+            <div class="field full">
+
+                <label>
+                    اسم الصف
+                </label>
+
+                <input
+                    id="className"
+                    required
+                    placeholder="مثال: الأول، الثاني، السادس العلمي"
+                >
+
+            </div>
+
+
+            <div class="field full">
+
+                <label>
+                    نوع الصف
+                </label>
+
+                <select
+                    id="classGender"
+                    required
+                >
+
+                    <option value="">
+                        اختر
+                    </option>
+
+                    <option value="male">
+                        ذكور
+                    </option>
+
+                    <option value="female">
+                        إناث
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    class="btn btn-soft"
+                    onclick="closeModal('classModal')"
+                >
+                    إلغاء
+                </button>
+
+                <button
+                    class="btn btn-primary"
+                    type="submit"
+                >
+                    إنشاء الصف
+                </button>
+
+            </div>
+
+        </form>
+
     </div>
-</div>
+
 </div>
 
-<div id="toast" class="toast"></div>
+
+
+<!-- =========================================================
+     EDIT STUDENT MODAL
+========================================================= -->
+
+<div
+    id="studentEditModal"
+    class="modal"
+>
+
+    <div class="modal-card">
+
+        <div class="modal-head">
+
+            <div>
+
+                <h3>
+                    تعديل بيانات الطالب
+                </h3>
+
+                <p id="editStudentCodeText"></p>
+
+            </div>
+
+            <button
+                class="close-modal"
+                onclick="closeModal('studentEditModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form
+            id="editStudentForm"
+            class="form-grid"
+        >
+
+            <input
+                id="editStudentCode"
+                type="hidden"
+            >
+
+
+            <div class="field full">
+
+                <label>
+                    اسم الطالب الرباعي
+                </label>
+
+                <input
+                    id="editName"
+                    required
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    اسم الأم
+                </label>
+
+                <input
+                    id="editMother"
+                    required
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    الصف
+                </label>
+
+                <select
+                    id="editClass"
+                    required
+                ></select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    القاعة
+                </label>
+
+                <select
+                    id="editRoom"
+                    required
+                ></select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    رقم ولي الأمر
+                </label>
+
+                <input
+                    id="editGuardian"
+                    required
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    رقم الطالب
+                </label>
+
+                <input id="editStudentPhone">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    رقم الخط
+                </label>
+
+                <input id="editLine">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    المدرسة القادم منها
+                </label>
+
+                <input
+                    id="editPreviousSchool"
+                    required
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    تاريخ المباشرة
+                </label>
+
+                <input
+                    id="editStartDate"
+                    type="date"
+                    required
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    مبلغ القسط الكلي
+                </label>
+
+                <input
+                    id="editTuition"
+                    type="number"
+                    min="0"
+                    step="1000"
+                >
+
+            </div>
+
+
+            <div class="field full">
+
+                <label>
+                    عنوان السكن
+                </label>
+
+                <textarea
+                    id="editAddress"
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    class="btn btn-soft"
+                    onclick="closeModal('studentEditModal')"
+                >
+                    إلغاء
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    حفظ التعديلات
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     CONFIRM MODAL
+========================================================= -->
+
+<div
+    id="confirmModal"
+    class="modal"
+>
+
+    <div class="confirm-card">
+
+        <h3 id="confirmTitle">
+            تأكيد
+        </h3>
+
+        <p id="confirmText"></p>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="btn btn-soft"
+                onclick="closeConfirm()"
+            >
+                إلغاء
+            </button>
+
+            <button
+                id="confirmYes"
+                class="btn btn-primary"
+            >
+                تأكيد
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     PDF HIDDEN HOST
+========================================================= -->
+
+<div
+    id="pdfHost"
+    class="pdf-host"
+></div>
+
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
 
 <script>
-/* ============================================================
+
+/* =========================================================
    CONFIG
-============================================================ */
+========================================================= */
 
-const DB = "https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
+const DB =
+    "https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
 
-const PATHS = {
-    users:"users",
-    students:"students",
-    teachers:"teachers",
-    classes:"classes",
-    sections:"sections",
-    subjects:"subjects"
+
+const PATH = {
+
+    users:
+        "users",
+
+    students:
+        "students",
+
+    teachers:
+        "teachers",
+
+    classes:
+        "classes",
+
+    meta:
+        "meta"
+
 };
+
 
 let DATA = {
+
     users:{},
+
     students:{},
+
     teachers:{},
-    classes:{},
-    sections:{},
-    subjects:{}
+
+    classes:{}
+
 };
 
-let studentGeneratedCode = "";
-let teacherGeneratedCode = "";
-let confirmHandler = null;
 
-/* ============================================================
+let selectedClassId = "";
+
+let selectedStudents =
+    new Set();
+
+
+let generatedStudentCode = "";
+
+let generatedTeacherCode = "";
+
+let confirmAction = null;
+
+
+/* =========================================================
    HELPERS
-============================================================ */
+========================================================= */
 
-const $ = id => document.getElementById(id);
+const $ =
+    id =>
+        document.getElementById(id);
 
-function id(){
-    return Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+
+function esc(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
 }
 
-function safe(v){
-    return String(v ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+
+function norm(value){
+
+    return String(
+        value || ""
+    )
+    .trim()
+    .toLowerCase();
+
 }
 
-function normalize(v){
-    return String(v || "").trim().toLowerCase();
+
+function genderText(gender){
+
+    return gender === "female"
+        ? "إناث"
+        : "ذكور";
+
 }
 
-function adminCode(){
-    try{
-        return JSON.parse(sessionStorage.getItem("tahadi_session") || "{}").code || "";
-    }catch{
-        return "";
+
+function studentGenderText(gender){
+
+    return gender === "female"
+        ? "أنثى"
+        : "ذكر";
+
+}
+
+
+function money(value){
+
+    const number =
+        Number(value || 0);
+
+    if(!number){
+        return "غير محدد";
     }
+
+    return number.toLocaleString("en-US") +
+        " د.ع";
+
 }
+
+
+function today(){
+
+    const date =
+        new Date();
+
+    return [
+        date.getFullYear(),
+        String(date.getMonth()+1).padStart(2,"0"),
+        String(date.getDate()).padStart(2,"0")
+    ].join("-");
+
+}
+
+
+function displayDate(value){
+
+    if(!value){
+        return "—";
+    }
+
+    const parts =
+        String(value).split("-");
+
+    if(parts.length !== 3){
+        return value;
+    }
+
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer = null;
+
 
 function toast(text){
-    const el=$("toast");
-    el.textContent=text;
-    el.classList.add("show");
-    clearTimeout(el._timer);
-    el._timer=setTimeout(()=>el.classList.remove("show"),2200);
-}
 
-function message(id,text,type="error"){
-    const el=$(id);
-    el.textContent=text;
-    el.className=`message show ${type}`;
-}
+    const el =
+        $("toast");
 
-function clearMessage(id){
-    const el=$(id);
-    el.textContent="";
-    el.className="message";
-}
+    el.textContent =
+        text;
 
-function copy(text){
-    navigator.clipboard?.writeText(text)
-        .then(()=>toast("تم نسخ الكود"))
-        .catch(()=>{
-            const x=document.createElement("textarea");
-            x.value=text;
-            document.body.appendChild(x);
-            x.select();
-            document.execCommand("copy");
-            x.remove();
-            toast("تم نسخ الكود");
-        });
-}
-
-/* ============================================================
-   SESSION
-============================================================ */
-
-function verifyAdmin(){
-    let s={};
-
-    try{
-        s=JSON.parse(sessionStorage.getItem("tahadi_session") || "{}");
-    }catch{}
-
-    if(!s.code){
-        location.replace("index.html");
-        return false;
-    }
-
-    const r=normalize(s.role);
-
-    if(!["admin","administrator","add"].includes(r)){
-        location.replace("index.html");
-        return false;
-    }
-
-    if(s.name){
-        $("welcome").textContent=`مرحباً، ${s.name}`;
-    }
-
-    return true;
-}
-
-function logout(){
-    sessionStorage.clear();
-    location.replace("index.html");
-}
-
-/* ============================================================
-   FIREBASE REST
-============================================================ */
-
-async function request(path,method="GET",body){
-    const response=await fetch(`${DB}/${path}.json`,{
-        method,
-        cache:"no-store",
-        headers:body?{"Content-Type":"application/json"}:undefined,
-        body:body?JSON.stringify(body):undefined
-    });
-
-    if(!response.ok){
-        throw new Error(`${method}_${path}`);
-    }
-
-    if(method==="DELETE") return true;
-
-    return response.json();
-}
-
-const dbGet = path => request(path);
-const dbPut = (path,data) => request(path,"PUT",data);
-const dbPatch = (path,data) => request(path,"PATCH",data);
-const dbDelete = path => request(path,"DELETE");
-
-/* ============================================================
-   TABS
-============================================================ */
-
-document.querySelectorAll(".tab").forEach(btn=>{
-    btn.onclick=()=>{
-        document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-        document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));
-
-        btn.classList.add("active");
-        $(btn.dataset.target).classList.add("active");
-    };
-});
-
-/* ============================================================
-   LOAD
-============================================================ */
-
-async function loadAll(){
-    try{
-        const [users,students,teachers,classes,sections,subjects] =
-            await Promise.all([
-                dbGet(PATHS.users),
-                dbGet(PATHS.students),
-                dbGet(PATHS.teachers),
-                dbGet(PATHS.classes),
-                dbGet(PATHS.sections),
-                dbGet(PATHS.subjects)
-            ]);
-
-        DATA={
-            users:users||{},
-            students:students||{},
-            teachers:teachers||{},
-            classes:classes||{},
-            sections:sections||{},
-            subjects:subjects||{}
-        };
-
-        renderAll();
-
-    }catch(e){
-        console.error(e);
-        toast("تعذر قراءة بيانات Firebase");
-    }
-}
-
-/* ============================================================
-   STATS
-============================================================ */
-
-function updateStats(){
-    $("statStudents").textContent=Object.keys(DATA.students).length;
-    $("statTeachers").textContent=Object.keys(DATA.teachers).length;
-    $("statClasses").textContent=Object.keys(DATA.classes).length;
-    $("statSections").textContent=Object.keys(DATA.sections).length;
-    $("statSubjects").textContent=Object.keys(DATA.subjects).length;
-}
-
-/* ============================================================
-   CLASSES
-============================================================ */
-
-$("classForm").onsubmit=async e=>{
-    e.preventDefault();
-
-    const name=$("className").value.trim();
-    const stage=$("classStage").value;
-
-    if(!name) return;
-
-    const duplicate=Object.values(DATA.classes).some(
-        c=>normalize(c.name)===normalize(name)
+    el.classList.add(
+        "show"
     );
 
-    if(duplicate){
-        toast("هذا الصف موجود مسبقاً");
-        return;
-    }
-
-    const key=id();
-
-    const row={
-        id:key,
-        name,
-        stage,
-        active:true,
-        createdAt:Date.now(),
-        createdBy:adminCode()
-    };
-
-    try{
-        await dbPut(`${PATHS.classes}/${key}`,row);
-        DATA.classes[key]=row;
-        $("classForm").reset();
-        renderAll();
-        toast("تم إنشاء الصف");
-    }catch{
-        toast("تعذر إنشاء الصف");
-    }
-};
-
-function renderClasses(){
-    const box=$("classesList");
-
-    const rows=Object.values(DATA.classes)
-        .sort((a,b)=>String(a.name).localeCompare(String(b.name),"ar"));
-
-    box.innerHTML=rows.length
-        ?rows.map(c=>`
-            <div class="info-card">
-                <h4>${safe(c.name)}</h4>
-                <p>
-                    المرحلة:
-                    ${c.stage==="primary"?"ابتدائي":c.stage==="secondary"?"ثانوي":"غير محددة"}
-                </p>
-                <div class="row-actions" style="margin-top:10px">
-                    <button class="mini btn-danger" onclick="deleteClass('${c.id}')">حذف</button>
-                </div>
-            </div>
-        `).join("")
-        :`<p style="color:#667085">لا توجد صفوف بعد.</p>`;
-}
-
-async function deleteClass(key){
-    const usedStudent=Object.values(DATA.students).some(x=>x.classId===key);
-    const usedSection=Object.values(DATA.sections).some(x=>x.classId===key);
-    const usedTeacher=Object.values(DATA.teachers).some(x=>(x.classIds||[]).includes(key));
-
-    if(usedStudent||usedSection||usedTeacher){
-        toast("لا يمكن حذف الصف لأنه مستخدم");
-        return;
-    }
-
-    confirmBox(
-        "حذف الصف",
-        "هل تريد حذف هذا الصف نهائياً؟",
-        async()=>{
-            await dbDelete(`${PATHS.classes}/${key}`);
-            delete DATA.classes[key];
-            renderAll();
-            toast("تم حذف الصف");
-        }
-    );
-}
-
-/* ============================================================
-   SECTION / ROOM
-============================================================ */
-
-function buildRooms(){
-    $("roomNumber").innerHTML=
-        `<option value="">اختر رقم القاعة</option>`+
-        Array.from({length:25},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join("");
-}
-
-$("sectionForm").onsubmit=async e=>{
-    e.preventDefault();
-
-    const classId=$("sectionClass").value;
-    const name=$("sectionName").value.trim();
-    const room=Number($("roomNumber").value);
-
-    if(!classId||!name||!room) return;
-
-    const roomTaken=Object.values(DATA.sections).some(
-        s=>Number(s.roomNumber)===room
+    clearTimeout(
+        toastTimer
     );
 
-    if(roomTaken){
-        toast("رقم القاعة مستخدم لشعبة أخرى");
-        return;
-    }
-
-    const duplicate=Object.values(DATA.sections).some(
-        s=>s.classId===classId && normalize(s.name)===normalize(name)
-    );
-
-    if(duplicate){
-        toast("هذه الشعبة موجودة في الصف");
-        return;
-    }
-
-    const key=id();
-
-    const row={
-        id:key,
-        classId,
-        name,
-        roomNumber:room,
-        active:true,
-        createdAt:Date.now()
-    };
-
-    try{
-        await dbPut(`${PATHS.sections}/${key}`,row);
-        DATA.sections[key]=row;
-        $("sectionForm").reset();
-        renderAll();
-        toast("تم إنشاء الشعبة");
-    }catch{
-        toast("تعذر إنشاء الشعبة");
-    }
-};
-
-function renderSections(){
-    const box=$("sectionsList");
-
-    const rows=Object.values(DATA.sections);
-
-    box.innerHTML=rows.length?rows.map(s=>{
-        const c=DATA.classes[s.classId];
-        return `
-            <div class="info-card">
-                <h4>${safe(s.name)}</h4>
-                <p>
-                    الصف: ${safe(c?.name||"غير معروف")}<br>
-                    رقم القاعة: ${safe(s.roomNumber)}
-                </p>
-                <div class="row-actions" style="margin-top:10px">
-                    <button class="mini btn-danger" onclick="deleteSection('${s.id}')">حذف</button>
-                </div>
-            </div>
-        `;
-    }).join(""):`<p style="color:#667085">لا توجد شعب.</p>`;
-}
-
-async function deleteSection(key){
-    const used=Object.values(DATA.students).some(x=>x.sectionId===key);
-
-    if(used){
-        toast("لا يمكن حذف الشعبة لوجود طلاب فيها");
-        return;
-    }
-
-    confirmBox(
-        "حذف الشعبة",
-        "هل تريد حذف هذه الشعبة؟",
-        async()=>{
-            await dbDelete(`${PATHS.sections}/${key}`);
-            delete DATA.sections[key];
-            renderAll();
-            toast("تم حذف الشعبة");
-        }
-    );
-}
-
-/* ============================================================
-   SUBJECTS
-============================================================ */
-
-$("subjectForm").onsubmit=async e=>{
-    e.preventDefault();
-
-    const name=$("subjectName").value.trim();
-    const lessons=Number($("subjectLessons").value||0);
-
-    if(!name) return;
-
-    const exists=Object.values(DATA.subjects).some(
-        x=>normalize(x.name)===normalize(name)
-    );
-
-    if(exists){
-        toast("المادة موجودة مسبقاً");
-        return;
-    }
-
-    await saveSubject(name,lessons);
-    $("subjectForm").reset();
-    $("subjectLessons").value=1;
-    renderAll();
-};
-
-async function saveSubject(name,lessons){
-    const key=id();
-
-    const row={
-        id:key,
-        name,
-        weeklyLessons:Number(lessons||0),
-        active:true,
-        createdAt:Date.now()
-    };
-
-    await dbPut(`${PATHS.subjects}/${key}`,row);
-    DATA.subjects[key]=row;
-}
-
-async function addDefaultSubjects(){
-    const defaults=[
-        "التربية الإسلامية",
-        "اللغة العربية",
-        "اللغة الإنجليزية",
-        "الرياضيات",
-        "الاجتماعيات",
-        "الجغرافية",
-        "التاريخ",
-        "الاقتصاد",
-        "الكيمياء",
-        "الفيزياء",
-        "الأحياء",
-        "العلوم",
-        "الحاسوب",
-        "التربية الرياضية",
-        "التربية الفنية",
-        "التربية الأخلاقية"
-    ];
-
-    const existing=new Set(
-        Object.values(DATA.subjects).map(x=>normalize(x.name))
-    );
-
-    try{
-        for(const name of defaults){
-            if(!existing.has(normalize(name))){
-                await saveSubject(name,1);
-            }
-        }
-
-        renderAll();
-        toast("تمت إضافة المواد الأساسية");
-    }catch{
-        toast("حدث خطأ أثناء إضافة المواد");
-    }
-}
-
-function renderSubjects(){
-    const box=$("subjectsList");
-
-    const rows=Object.values(DATA.subjects)
-        .sort((a,b)=>String(a.name).localeCompare(String(b.name),"ar"));
-
-    box.innerHTML=rows.length?rows.map(s=>`
-        <div class="info-card">
-            <h4>${safe(s.name)}</h4>
-            <p>الحصص الأسبوعية: ${safe(s.weeklyLessons)}</p>
-            <div class="row-actions" style="margin-top:10px">
-                <button class="mini btn-danger" onclick="deleteSubject('${s.id}')">حذف</button>
-            </div>
-        </div>
-    `).join(""):`<p style="color:#667085">لا توجد مواد.</p>`;
-}
-
-async function deleteSubject(key){
-    const used=Object.values(DATA.teachers).some(t=>t.subjectId===key);
-
-    if(used){
-        toast("المادة مرتبطة بأستاذ ولا يمكن حذفها");
-        return;
-    }
-
-    confirmBox(
-        "حذف المادة",
-        "هل تريد حذف المادة؟",
-        async()=>{
-            await dbDelete(`${PATHS.subjects}/${key}`);
-            delete DATA.subjects[key];
-            renderAll();
-            toast("تم حذف المادة");
-        }
-    );
-}
-
-/* ============================================================
-   STUDENT CODE
-============================================================ */
-
-const digit=()=>Math.floor(Math.random()*10).toString();
-
-function studentCode(gender){
-    const chars=[digit(),digit(),digit(),digit(),digit()];
-    const genderLetter=gender==="female"?"G":"B";
-    const position=Math.floor(Math.random()*4)+1;
-    chars.splice(position,0,genderLetter);
-    return "ST"+chars.join("");
-}
-
-async function uniqueStudentCode(gender){
-    for(let i=0;i<50;i++){
-        const code=studentCode(gender);
-        if(!DATA.users[code]) return code;
-    }
-    throw new Error("CODE_ERROR");
-}
-
-async function previewStudentCode(){
-    const gender=$("studentGender").value;
-
-    if(!gender){
-        toast("حدد جنس الطالب أولاً");
-        return;
-    }
-
-    studentGeneratedCode=await uniqueStudentCode(gender);
-    $("studentCodePreview").textContent=studentGeneratedCode;
-}
-
-$("studentGender").onchange=()=>{
-    studentGeneratedCode="";
-    $("studentCodePreview").textContent="لم يتم إنشاء الكود";
-};
-
-/* ============================================================
-   STUDENT SECTION FILTER
-============================================================ */
-
-$("studentClass").onchange=()=>{
-    fillStudentSections();
-};
-
-function fillStudentSections(){
-    const classId=$("studentClass").value;
-    const select=$("studentSection");
-
-    const items=Object.values(DATA.sections)
-        .filter(x=>x.classId===classId);
-
-    select.innerHTML=
-        `<option value="">اختر الشعبة</option>`+
-        items.map(x=>`
-            <option value="${x.id}">
-                ${safe(x.name)} - القاعة ${safe(x.roomNumber)}
-            </option>
-        `).join("");
-}
-
-/* ============================================================
-   ADD STUDENT
-============================================================ */
-
-$("studentForm").onsubmit=async e=>{
-    e.preventDefault();
-
-    clearMessage("studentMessage");
-
-    const name=$("studentName").value.trim();
-    const mother=$("studentMother").value.trim();
-    const birth=$("studentBirth").value;
-    const gender=$("studentGender").value;
-    const classId=$("studentClass").value;
-    const sectionId=$("studentSection").value;
-    const guardianPhone=$("studentGuardian").value.trim();
-    const transportPhone=$("studentTransport").value.trim();
-    const address=$("studentAddress").value.trim();
-
-    if(!name||!mother||!birth||!gender||!classId||!sectionId||!guardianPhone||!address){
-        message("studentMessage","يرجى إكمال جميع الحقول المطلوبة");
-        return;
-    }
-
-    const section=DATA.sections[sectionId];
-
-    if(!section){
-        message("studentMessage","الشعبة غير موجودة");
-        return;
-    }
-
-    const btn=$("saveStudent");
-    btn.disabled=true;
-    btn.textContent="جاري الحفظ...";
-
-    try{
-        let code=studentGeneratedCode || await uniqueStudentCode(gender);
-
-        if(DATA.users[code]){
-            code=await uniqueStudentCode(gender);
-        }
-
-        const student={
-            code,
-            name,
-            motherName:mother,
-            birthDate:birth,
-            gender,
-            classId,
-            sectionId,
-            roomNumber:section.roomNumber,
-            guardianPhone,
-            transportPhone,
-            address,
-            hidden:false,
-            active:true,
-            createdAt:Date.now(),
-            createdBy:adminCode()
-        };
-
-        const loginUser={
-            code,
-            name,
-            role:"student",
-            gender,
-            active:true,
-            hidden:false,
-            studentId:code,
-            createdAt:Date.now()
-        };
-
-        await Promise.all([
-            dbPut(`${PATHS.students}/${code}`,student),
-            dbPut(`${PATHS.users}/${code}`,loginUser)
-        ]);
-
-        DATA.students[code]=student;
-        DATA.users[code]=loginUser;
-
-        studentGeneratedCode=code;
-        $("studentCodePreview").textContent=code;
-
-        message(
-            "studentMessage",
-            `تم حفظ الطالب بنجاح. الكود: ${code}`,
-            "success"
+    toastTimer =
+        setTimeout(
+            () =>
+                el.classList.remove(
+                    "show"
+                ),
+            2300
         );
 
-        $("studentName").value="";
-        $("studentMother").value="";
-        $("studentBirth").value="";
-        $("studentGuardian").value="";
-        $("studentTransport").value="";
-        $("studentAddress").value="";
-
-        renderAll();
-
-    }catch(e){
-        console.error(e);
-        message("studentMessage","تعذر حفظ الطالب. تحقق من صلاحيات Firebase.");
-    }finally{
-        btn.disabled=false;
-        btn.textContent="حفظ الطالب";
-    }
-};
-
-/* ============================================================
-   STUDENT LIST
-============================================================ */
-
-["studentSearch","studentClassFilter","studentGenderFilter"].forEach(x=>{
-    $(x).addEventListener(
-        x==="studentSearch"?"input":"change",
-        renderStudents
-    );
-});
-
-function renderStudents(){
-    const search=normalize($("studentSearch").value);
-    const classId=$("studentClassFilter").value;
-    const gender=$("studentGenderFilter").value;
-
-    const rows=Object.values(DATA.students)
-        .filter(s=>{
-            if(classId && s.classId!==classId) return false;
-            if(gender && s.gender!==gender) return false;
-
-            if(search){
-                const txt=normalize(
-                    `${s.name} ${s.code} ${s.guardianPhone} ${s.motherName}`
-                );
-                if(!txt.includes(search)) return false;
-            }
-
-            return true;
-        })
-        .sort((a,b)=>String(a.name).localeCompare(String(b.name),"ar"));
-
-    $("studentsBody").innerHTML=rows.map(s=>{
-        const c=DATA.classes[s.classId];
-        const sec=DATA.sections[s.sectionId];
-
-        return `
-            <tr style="${s.hidden?"opacity:.55":""}">
-                <td><span class="code">${safe(s.code)}</span></td>
-                <td>${safe(s.name)}</td>
-                <td>${s.gender==="female"?"أنثى":"ذكر"}</td>
-                <td>${safe(c?.name||"—")}</td>
-                <td>${safe(sec?.name||"—")}</td>
-                <td>${safe(s.roomNumber||"—")}</td>
-                <td>${safe(s.guardianPhone||"—")}</td>
-                <td>
-                    ${
-                        s.hidden
-                        ?'<span class="badge b-red">مخفي</span>'
-                        :'<span class="badge b-green">فعال</span>'
-                    }
-                </td>
-                <td>
-                    <div class="row-actions">
-                        <button class="mini btn-soft" onclick="copy('${safe(s.code)}')">نسخ الكود</button>
-                        <button class="mini btn-purple" onclick="studentPDF('${safe(s.code)}')">PDF</button>
-                        <button class="mini btn-warning" onclick="toggleStudent('${safe(s.code)}')">${s.hidden?"إظهار":"إخفاء"}</button>
-                        <button class="mini btn-danger" onclick="deleteStudent('${safe(s.code)}')">حذف</button>
-                    </div>
-                </td>
-            </tr>
-        `;
-    }).join("");
 }
 
-async function toggleStudent(code){
-    const s=DATA.students[code];
-    if(!s) return;
 
-    const hidden=!s.hidden;
+/* =========================================================
+   MESSAGE
+========================================================= */
 
-    try{
-        await Promise.all([
-            dbPatch(`${PATHS.students}/${code}`,{
-                hidden,
-                active:!hidden
-            }),
-            dbPatch(`${PATHS.users}/${code}`,{
-                hidden,
-                active:!hidden
-            })
-        ]);
+function showMessage(
+    id,
+    text,
+    type="error"
+){
 
-        s.hidden=hidden;
-        s.active=!hidden;
+    const el =
+        $(id);
 
-        if(DATA.users[code]){
-            DATA.users[code].hidden=hidden;
-            DATA.users[code].active=!hidden;
-        }
+    el.textContent =
+        text;
 
-        renderStudents();
-        toast(hidden?"تم إخفاء الطالب":"تم إظهار الطالب");
-    }catch{
-        toast("تعذر تعديل الطالب");
-    }
+    el.className =
+        `message show ${type}`;
+
 }
 
-function deleteStudent(code){
-    confirmBox(
-        "حذف الطالب",
-        "سيتم حذف ملف الطالب وحساب الدخول نهائياً. هل أنت متأكد؟",
-        async()=>{
-            await Promise.all([
-                dbDelete(`${PATHS.students}/${code}`),
-                dbDelete(`${PATHS.users}/${code}`)
-            ]);
 
-            delete DATA.students[code];
-            delete DATA.users[code];
+function hideMessage(id){
 
-            renderAll();
-            toast("تم حذف الطالب");
-        }
-    );
+    const el =
+        $(id);
+
+    el.textContent = "";
+
+    el.className =
+        "message";
+
 }
 
-/* ============================================================
-   STUDENT PDF
-============================================================ */
 
-async function studentPDF(code){
-    const s=DATA.students[code];
-    if(!s) return;
+/* =========================================================
+   MODAL
+========================================================= */
 
-    const c=DATA.classes[s.classId];
-    const sec=DATA.sections[s.sectionId];
+function openModal(id){
 
-    const {jsPDF}=window.jspdf;
-
-    const doc=new jsPDF({
-        orientation:"p",
-        unit:"mm",
-        format:"a4"
-    });
-
-    doc.setFont("helvetica","bold");
-    doc.setFontSize(18);
-    doc.text("AL-TAHADI PRIVATE SCHOOL",105,20,{align:"center"});
-
-    doc.setFontSize(12);
-    doc.text("Student Information Form",105,29,{align:"center"});
-
-    doc.line(20,35,190,35);
-
-    let y=48;
-
-    const rows=[
-        ["Student Code",s.code],
-        ["Student Name",s.name],
-        ["Mother Name",s.motherName],
-        ["Birth Date",s.birthDate],
-        ["Gender",s.gender==="female"?"Female":"Male"],
-        ["Class",c?.name||""],
-        ["Section",sec?.name||""],
-        ["Room",String(s.roomNumber||"")],
-        ["Guardian Phone",s.guardianPhone||""],
-        ["Transport Number",s.transportPhone||""],
-        ["Address",s.address||""]
-    ];
-
-    doc.setFont("helvetica","normal");
-    doc.setFontSize(11);
-
-    rows.forEach(([label,value])=>{
-        doc.setFont("helvetica","bold");
-        doc.text(`${label}:`,20,y);
-
-        doc.setFont("helvetica","normal");
-
-        const lines=doc.splitTextToSize(String(value||""),115);
-        doc.text(lines,70,y);
-
-        y+=Math.max(9,lines.length*6);
-    });
-
-    y+=8;
-
-    doc.setFont("helvetica","bold");
-    doc.setFontSize(20);
-    doc.text(s.code,105,y,{align:"center"});
-
-    y+=10;
-
-    doc.setFontSize(9);
-    doc.setFont("helvetica","normal");
-    doc.text(
-        `Generated: ${new Date().toLocaleString("en-GB")}`,
-        105,
-        y,
-        {align:"center"}
+    $(id).classList.add(
+        "show"
     );
 
-    doc.save(`student-${s.code}.pdf`);
 }
 
-/* ============================================================
-   TEACHER CODE
-============================================================ */
 
-function teacherCode(){
-    let numbers="";
-    for(let i=0;i<7;i++) numbers+=digit();
+function closeModal(id){
 
-    const letters="ABCDEFGHJKLMNPQRSTUVWXYZ";
-    const letter=letters[Math.floor(Math.random()*letters.length)];
-
-    return `TH${numbers}${letter}`;
-}
-
-async function uniqueTeacherCode(){
-    for(let i=0;i<50;i++){
-        const code=teacherCode();
-        if(!DATA.users[code]) return code;
-    }
-    throw new Error("CODE_ERROR");
-}
-
-async function previewTeacherCode(){
-    teacherGeneratedCode=await uniqueTeacherCode();
-    $("teacherCodePreview").textContent=teacherGeneratedCode;
-}
-
-/* ============================================================
-   ADD TEACHER
-============================================================ */
-
-$("teacherForm").onsubmit=async e=>{
-    e.preventDefault();
-
-    clearMessage("teacherMessage");
-
-    const name=$("teacherName").value.trim();
-    const subjectId=$("teacherSubject").value;
-    const phone=$("teacherPhone").value.trim();
-
-    const classIds=[
-        ...document.querySelectorAll("#teacherClasses input:checked")
-    ].map(x=>x.value);
-
-    if(!name||!subjectId||!classIds.length){
-        message("teacherMessage","أدخل اسم الأستاذ والمادة واختر صفاً واحداً على الأقل.");
-        return;
-    }
-
-    const btn=$("saveTeacher");
-    btn.disabled=true;
-    btn.textContent="جاري الحفظ...";
-
-    try{
-        let code=teacherGeneratedCode || await uniqueTeacherCode();
-
-        if(DATA.users[code]){
-            code=await uniqueTeacherCode();
-        }
-
-        const teacher={
-            code,
-            name,
-            subjectId,
-            classIds,
-            phone,
-            hidden:false,
-            active:true,
-            createdAt:Date.now(),
-            createdBy:adminCode()
-        };
-
-        const loginUser={
-            code,
-            name,
-            role:"teacher",
-            teacherId:code,
-            active:true,
-            hidden:false,
-            createdAt:Date.now()
-        };
-
-        await Promise.all([
-            dbPut(`${PATHS.teachers}/${code}`,teacher),
-            dbPut(`${PATHS.users}/${code}`,loginUser)
-        ]);
-
-        DATA.teachers[code]=teacher;
-        DATA.users[code]=loginUser;
-
-        teacherGeneratedCode=code;
-        $("teacherCodePreview").textContent=code;
-
-        message(
-            "teacherMessage",
-            `تم إنشاء حساب الأستاذ. الكود: ${code}`,
-            "success"
-        );
-
-        $("teacherName").value="";
-        $("teacherPhone").value="";
-        $("teacherSubject").value="";
-        document.querySelectorAll("#teacherClasses input").forEach(x=>x.checked=false);
-
-        renderAll();
-
-    }catch(e){
-        console.error(e);
-        message("teacherMessage","تعذر حفظ الأستاذ.");
-    }finally{
-        btn.disabled=false;
-        btn.textContent="حفظ الأستاذ";
-    }
-};
-
-/* ============================================================
-   TEACHERS TABLE
-============================================================ */
-
-["teacherSearch","teacherSubjectFilter","teacherStatusFilter"].forEach(x=>{
-    $(x).addEventListener(
-        x==="teacherSearch"?"input":"change",
-        renderTeachers
+    $(id).classList.remove(
+        "show"
     );
-});
 
-function renderTeachers(){
-    const search=normalize($("teacherSearch").value);
-    const subjectId=$("teacherSubjectFilter").value;
-    const status=$("teacherStatusFilter").value;
-
-    const rows=Object.values(DATA.teachers)
-        .filter(t=>{
-            if(subjectId && t.subjectId!==subjectId) return false;
-            if(status==="active" && t.hidden) return false;
-            if(status==="hidden" && !t.hidden) return false;
-
-            const subject=DATA.subjects[t.subjectId];
-
-            if(search){
-                const txt=normalize(`${t.name} ${t.code} ${subject?.name||""}`);
-                if(!txt.includes(search)) return false;
-            }
-
-            return true;
-        })
-        .sort((a,b)=>String(a.name).localeCompare(String(b.name),"ar"));
-
-    $("teachersBody").innerHTML=rows.map(t=>{
-        const subject=DATA.subjects[t.subjectId];
-
-        const classes=(t.classIds||[])
-            .map(x=>DATA.classes[x]?.name)
-            .filter(Boolean)
-            .join("، ");
-
-        return `
-            <tr style="${t.hidden?"opacity:.55":""}">
-                <td><span class="code">${safe(t.code)}</span></td>
-                <td>${safe(t.name)}</td>
-                <td>${safe(subject?.name||"—")}</td>
-                <td>${safe(classes||"—")}</td>
-                <td>
-                    ${
-                        t.hidden
-                        ?'<span class="badge b-red">مخفي</span>'
-                        :'<span class="badge b-green">فعال</span>'
-                    }
-                </td>
-                <td>
-                    <div class="row-actions">
-                        <button class="mini btn-soft" onclick="copy('${safe(t.code)}')">نسخ الكود</button>
-                        <button class="mini btn-warning" onclick="toggleTeacher('${safe(t.code)}')">${t.hidden?"إظهار":"إخفاء"}</button>
-                        <button class="mini btn-danger" onclick="deleteTeacher('${safe(t.code)}')">حذف</button>
-                    </div>
-                </td>
-            </tr>
-        `;
-    }).join("");
 }
 
-async function toggleTeacher(code){
-    const t=DATA.teachers[code];
-    if(!t) return;
 
-    const hidden=!t.hidden;
-
-    try{
-        await Promise.all([
-            dbPatch(`${PATHS.teachers}/${code}`,{
-                hidden,
-                active:!hidden
-            }),
-            dbPatch(`${PATHS.users}/${code}`,{
-                hidden,
-                active:!hidden
-            })
-        ]);
-
-        t.hidden=hidden;
-        t.active=!hidden;
-
-        if(DATA.users[code]){
-            DATA.users[code].hidden=hidden;
-            DATA.users[code].active=!hidden;
-        }
-
-        renderTeachers();
-        toast(hidden?"تم إخفاء الأستاذ":"تم إظهار الأستاذ");
-    }catch{
-        toast("تعذر تعديل الحساب");
-    }
-}
-
-function deleteTeacher(code){
-    confirmBox(
-        "حذف الأستاذ",
-        "سيتم حذف ملف الأستاذ وحساب الدخول نهائياً.",
-        async()=>{
-            await Promise.all([
-                dbDelete(`${PATHS.teachers}/${code}`),
-                dbDelete(`${PATHS.users}/${code}`)
-            ]);
-
-            delete DATA.teachers[code];
-            delete DATA.users[code];
-
-            renderAll();
-            toast("تم حذف الأستاذ");
-        }
-    );
-}
-
-/* ============================================================
-   DYNAMIC SELECTS
-============================================================ */
-
-function fillClassSelectors(){
-    const rows=Object.values(DATA.classes)
-        .sort((a,b)=>String(a.name).localeCompare(String(b.name),"ar"));
-
-    const options=rows.map(c=>`<option value="${c.id}">${safe(c.name)}</option>`).join("");
-
-    $("studentClass").innerHTML=`<option value="">اختر الصف</option>${options}`;
-    $("sectionClass").innerHTML=`<option value="">اختر الصف</option>${options}`;
-    $("studentClassFilter").innerHTML=`<option value="">جميع الصفوف</option>${options}`;
-
-    $("teacherClasses").innerHTML=rows.length
-        ?rows.map(c=>`
-            <label class="check-item">
-                <input type="checkbox" value="${c.id}">
-                <span>${safe(c.name)}</span>
-            </label>
-        `).join("")
-        :`<span style="color:#667085;font-size:12px">أنشئ الصفوف أولاً.</span>`;
-}
-
-function fillSubjectSelectors(){
-    const rows=Object.values(DATA.subjects)
-        .sort((a,b)=>String(a.name).localeCompare(String(b.name),"ar"));
-
-    const options=rows.map(s=>`<option value="${s.id}">${safe(s.name)}</option>`).join("");
-
-    $("teacherSubject").innerHTML=`<option value="">اختر المادة</option>${options}`;
-    $("teacherSubjectFilter").innerHTML=`<option value="">جميع المواد</option>${options}`;
-}
-
-/* ============================================================
-   RENDER ALL
-============================================================ */
-
-function renderAll(){
-    updateStats();
-    renderClasses();
-    renderSections();
-    renderSubjects();
-    fillClassSelectors();
-    fillSubjectSelectors();
-    fillStudentSections();
-    renderStudents();
-    renderTeachers();
-}
-
-/* ============================================================
+/* =========================================================
    CONFIRM
-============================================================ */
+========================================================= */
 
-function confirmBox(title,text,callback){
-    $("confirmTitle").textContent=title;
-    $("confirmText").textContent=text;
-    confirmHandler=callback;
-    $("confirmModal").classList.add("show");
+function confirmBox(
+    title,
+    text,
+    action
+){
+
+    $("confirmTitle").textContent =
+        title;
+
+    $("confirmText").textContent =
+        text;
+
+    confirmAction =
+        action;
+
+    openModal(
+        "confirmModal"
+    );
+
 }
+
 
 function closeConfirm(){
-    $("confirmModal").classList.remove("show");
-    confirmHandler=null;
+
+    closeModal(
+        "confirmModal"
+    );
+
+    confirmAction =
+        null;
+
 }
 
-$("confirmYes").onclick=async()=>{
-    const fn=confirmHandler;
-    closeConfirm();
 
-    if(fn){
-        try{
-            await fn();
-        }catch(e){
-            console.error(e);
-            toast("تعذر تنفيذ العملية");
+$("confirmYes").onclick =
+    async () => {
+
+        const action =
+            confirmAction;
+
+        closeConfirm();
+
+        if(action){
+
+            try{
+
+                await action();
+
+            }
+
+            catch(error){
+
+                console.error(error);
+
+                toast(
+                    "تعذر تنفيذ العملية"
+                );
+
+            }
+
         }
+
+    };
+
+
+/* =========================================================
+   FIREBASE REST
+========================================================= */
+
+async function firebaseRequest(
+    path,
+    method="GET",
+    body=null,
+    headers={}
+){
+
+    const options = {
+
+        method,
+
+        cache:
+            "no-store",
+
+        headers:{
+            ...headers
+        }
+
+    };
+
+
+    if(body !== null){
+
+        options.headers[
+            "Content-Type"
+        ] =
+            "application/json";
+
+        options.body =
+            JSON.stringify(body);
+
     }
-};
 
-/* ============================================================
-   NETWORK
-============================================================ */
 
-window.addEventListener("offline",()=>toast("لا يوجد اتصال بالإنترنت"));
-window.addEventListener("online",()=>{
-    toast("تم استعادة الاتصال");
-    loadAll();
-});
+    const response =
+        await fetch(
+            `${DB}/${path}.json`,
+            options
+        );
 
-/* ============================================================
-   START
-============================================================ */
 
-window.addEventListener("load",async()=>{
-    if(!verifyAdmin()) return;
+    if(!response.ok){
 
-    buildRooms();
+        throw new Error(
+            `${method} ${path} ${response.status}`
+        );
+
+    }
+
+
+    if(method === "DELETE"){
+
+        return true;
+
+    }
+
+
+    return response.json();
+
+}
+
+
+const dbGet =
+    path =>
+        firebaseRequest(path);
+
+
+const dbPut =
+    (path,data) =>
+        firebaseRequest(
+            path,
+            "PUT",
+            data
+        );
+
+
+const dbPatch =
+    (path,data) =>
+        firebaseRequest(
+            path,
+            "PATCH",
+            data
+        );
+
+
+const dbDelete =
+    path =>
+        firebaseRequest(
+            path,
+            "DELETE"
+        );
+
+
+/* =========================================================
+   ADMIN SESSION
+========================================================= */
+
+function localSession(){
 
     try{
-        await loadAll();
-    }finally{
-        $("loading").classList.add("hidden");
+
+        return JSON.parse(
+            sessionStorage.getItem(
+                "tahadi_session"
+            ) || "{}"
+        );
+
     }
+
+    catch{
+
+        return {};
+
+    }
+
+}
+
+
+async function verifyAdmin(){
+
+    const session =
+        localSession();
+
+
+    if(!session.code){
+
+        location.replace(
+            "index.html"
+        );
+
+        return false;
+
+    }
+
+
+    try{
+
+        const user =
+            await dbGet(
+                `${PATH.users}/${encodeURIComponent(session.code)}`
+            );
+
+
+        if(
+            !user ||
+            ![
+                "admin",
+                "administrator",
+                "add"
+            ].includes(
+                norm(user.role)
+            ) ||
+            user.active === false
+        ){
+
+            sessionStorage.clear();
+
+            location.replace(
+                "index.html"
+            );
+
+            return false;
+
+        }
+
+
+        if(user.name){
+
+            $("welcome").textContent =
+                `مرحباً، ${user.name}`;
+
+        }
+
+
+        return true;
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        toast(
+            "تعذر التحقق من صلاحية الإدارة"
+        );
+
+        return false;
+
+    }
+
+}
+
+
+function adminCode(){
+
+    return localSession().code || "";
+
+}
+
+
+function logout(){
+
+    sessionStorage.clear();
+
+    location.replace(
+        "index.html"
+    );
+
+}
+
+
+/* =========================================================
+   LOAD DATA
+========================================================= */
+
+async function loadAll(){
+
+    const [
+        users,
+        students,
+        teachers,
+        classes
+    ] =
+        await Promise.all([
+
+            dbGet(PATH.users),
+
+            dbGet(PATH.students),
+
+            dbGet(PATH.teachers),
+
+            dbGet(PATH.classes)
+
+        ]);
+
+
+    DATA.users =
+        users || {};
+
+    DATA.students =
+        students || {};
+
+    DATA.teachers =
+        teachers || {};
+
+    DATA.classes =
+        classes || {};
+
+
+    renderAll();
+
+}
+
+
+/* =========================================================
+   TABS
+========================================================= */
+
+document
+.querySelectorAll(".tab")
+.forEach(button => {
+
+    button.onclick =
+        () => {
+
+            document
+            .querySelectorAll(".tab")
+            .forEach(
+                x =>
+                    x.classList.remove(
+                        "active"
+                    )
+            );
+
+
+            document
+            .querySelectorAll(".section")
+            .forEach(
+                x =>
+                    x.classList.remove(
+                        "active"
+                    )
+            );
+
+
+            button.classList.add(
+                "active"
+            );
+
+
+            $(button.dataset.target)
+                .classList.add(
+                    "active"
+                );
+
+        };
+
 });
+
+
+function openTab(target){
+
+    const button =
+        document.querySelector(
+            `.tab[data-target="${target}"]`
+        );
+
+    if(button){
+        button.click();
+    }
+
+}
+
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+function renderStats(){
+
+    const students =
+        Object.values(
+            DATA.students
+        );
+
+
+    $("totalClasses").textContent =
+        Object.keys(
+            DATA.classes
+        ).length;
+
+
+    $("totalStudents").textContent =
+        students.length;
+
+
+    $("totalAccepted").textContent =
+        students.filter(
+            x =>
+                x.fileStatus ===
+                "accepted"
+        ).length;
+
+
+    $("totalTeachers").textContent =
+        Object.keys(
+            DATA.teachers
+        ).length;
+
+}
+
+
+/* =========================================================
+   CLASSES
+========================================================= */
+
+function openCreateClass(){
+
+    $("classForm").reset();
+
+    openModal(
+        "classModal"
+    );
+
+}
+
+
+$("classForm").onsubmit =
+    async event => {
+
+        event.preventDefault();
+
+
+        const name =
+            $("className")
+            .value
+            .trim();
+
+
+        const gender =
+            $("classGender")
+            .value;
+
+
+        if(!name || !gender){
+
+            toast(
+                "أكمل بيانات الصف"
+            );
+
+            return;
+
+        }
+
+
+        const duplicate =
+            Object.values(
+                DATA.classes
+            )
+            .some(
+                item =>
+                    norm(item.name) ===
+                        norm(name) &&
+                    item.gender ===
+                        gender
+            );
+
+
+        if(duplicate){
+
+            toast(
+                "هذا الصف موجود مسبقاً"
+            );
+
+            return;
+
+        }
+
+
+        const id =
+            "CL_" +
+            Date.now().toString(36) +
+            Math.random()
+                .toString(36)
+                .slice(2,6);
+
+
+        const row = {
+
+            id,
+
+            name,
+
+            gender,
+
+            active:true,
+
+            createdAt:
+                Date.now(),
+
+            createdBy:
+                adminCode()
+
+        };
+
+
+        try{
+
+            await dbPut(
+                `${PATH.classes}/${id}`,
+                row
+            );
+
+
+            DATA.classes[id] =
+                row;
+
+
+            closeModal(
+                "classModal"
+            );
+
+
+            renderAll();
+
+
+            toast(
+                "تم إنشاء الصف"
+            );
+
+        }
+
+        catch(error){
+
+            console.error(error);
+
+            toast(
+                "تعذر إنشاء الصف"
+            );
+
+        }
+
+    };
+
+
+function classStudentCount(classId){
+
+    return Object.values(
+        DATA.students
+    )
+    .filter(
+        student =>
+            student.classId ===
+                classId
+    )
+    .length;
+
+}
+
+
+function renderClasses(){
+
+    const box =
+        $("classesTop");
+
+
+    const classes =
+        Object.values(
+            DATA.classes
+        )
+        .sort(
+            (a,b) =>
+                String(a.name)
+                .localeCompare(
+                    String(b.name),
+                    "ar"
+                )
+        );
+
+
+    if(!classes.length){
+
+        box.innerHTML = `
+
+            <div class="empty"
+                 style="grid-column:1/-1">
+
+                لا توجد صفوف بعد.
+                اضغط «إنشاء صف» لإضافة أول صف.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+        classes.map(item => {
+
+            const selected =
+                selectedClassId ===
+                item.id;
+
+
+            return `
+
+                <article
+                    class="class-card ${selected ? "selected" : ""}"
+                    onclick="selectClass('${item.id}')"
+                >
+
+                    <h4>
+                        ${esc(item.name)}
+                    </h4>
+
+                    <div class="class-meta">
+
+                        <span class="badge ${
+                            item.gender === "female"
+                                ? "purple"
+                                : "blue"
+                        }">
+
+                            ${genderText(item.gender)}
+
+                        </span>
+
+                    </div>
+
+                    <div class="class-count">
+
+                        ${classStudentCount(item.id)}
+                        طالب
+
+                    </div>
+
+                </article>
+
+            `;
+
+        })
+        .join("");
+
+}
+
+
+/* =========================================================
+   SELECT CLASS
+========================================================= */
+
+function selectClass(classId){
+
+    selectedClassId =
+        classId;
+
+
+    selectedStudents.clear();
+
+
+    $("selectAllStudents").checked =
+        false;
+
+
+    const cls =
+        DATA.classes[classId];
+
+
+    $("studentsTitle").textContent =
+        cls
+            ? `طلاب الصف: ${cls.name} - ${genderText(cls.gender)}`
+            : "جميع الطلاب";
+
+
+    renderClasses();
+
+    renderStudents();
+
+    updateBulkBar();
+
+
+    openTab(
+        "studentsSection"
+    );
+
+}
+
+
+function clearClassSelection(){
+
+    selectedClassId = "";
+
+    selectedStudents.clear();
+
+    $("selectAllStudents").checked =
+        false;
+
+
+    $("studentsTitle").textContent =
+        "جميع الطلاب";
+
+
+    renderClasses();
+
+    renderStudents();
+
+    updateBulkBar();
+
+}
+
+
+/* =========================================================
+   CLASS SELECTS
+========================================================= */
+
+function classOptions(
+    placeholder="اختر الصف"
+){
+
+    const rows =
+        Object.values(
+            DATA.classes
+        )
+        .sort(
+            (a,b) =>
+                String(a.name)
+                .localeCompare(
+                    String(b.name),
+                    "ar"
+                )
+        );
+
+
+    return `
+
+        <option value="">
+            ${placeholder}
+        </option>
+
+        ${
+            rows.map(
+                item => `
+
+                    <option value="${item.id}">
+
+                        ${esc(item.name)}
+                        -
+                        ${genderText(item.gender)}
+
+                    </option>
+
+                `
+            ).join("")
+        }
+
+    `;
+
+}
+
+
+function fillClassControls(){
+
+    $("studentClass").innerHTML =
+        classOptions(
+            "اختر الصف"
+        );
+
+
+    $("editClass").innerHTML =
+        classOptions(
+            "اختر الصف"
+        );
+
+
+    $("teacherGenderClassFilter").innerHTML =
+        classOptions(
+            "جميع الصفوف"
+        );
+
+
+    buildTransferOptions();
+
+
+    const rows =
+        Object.values(
+            DATA.classes
+        )
+        .sort(
+            (a,b) =>
+                String(a.name)
+                .localeCompare(
+                    String(b.name),
+                    "ar"
+                )
+        );
+
+
+    $("teacherClasses").innerHTML =
+        rows.length
+        ? rows.map(
+            item => `
+
+                <label class="check-item">
+
+                    <input
+                        type="checkbox"
+                        value="${item.id}"
+                    >
+
+                    <span>
+
+                        ${esc(item.name)}
+                        -
+                        ${genderText(item.gender)}
+
+                    </span>
+
+                </label>
+
+            `
+        ).join("")
+        : `
+
+            <div class="help">
+                أنشئ الصفوف أولاً.
+            </div>
+
+        `;
+
+}
+
+
+/* =========================================================
+   ROOMS
+========================================================= */
+
+function roomOptions(
+    selected=""
+){
+
+    return `
+
+        <option value="">
+            اختر القاعة
+        </option>
+
+        ${
+            Array.from(
+                {length:25},
+                (_,i) => i+1
+            )
+            .map(
+                room => `
+
+                    <option
+                        value="${room}"
+                        ${
+                            String(room) ===
+                            String(selected)
+                                ? "selected"
+                                : ""
+                        }
+                    >
+
+                        القاعة ${room}
+
+                    </option>
+
+                `
+            )
+            .join("")
+        }
+
+    `;
+
+}
+
+
+function fillRooms(){
+
+    $("studentRoom").innerHTML =
+        roomOptions();
+
+    $("editRoom").innerHTML =
+        roomOptions();
+
+}
+
+
+/* =========================================================
+   STUDENT GENDER FROM CLASS
+========================================================= */
+
+$("studentClass").onchange =
+    () => {
+
+        const cls =
+            DATA.classes[
+                $("studentClass").value
+            ];
+
+
+        $("studentGenderDisplay").value =
+            cls
+            ? studentGenderText(
+                cls.gender
+              )
+            : "";
+
+
+        generatedStudentCode = "";
+
+        $("studentCodePreview").textContent =
+            "يولد عند الحفظ";
+
+    };
+
+
+/* =========================================================
+   STUDENT CODE
+========================================================= */
+
+function randomDigit(){
+
+    return Math.floor(
+        Math.random() * 10
+    ).toString();
+
+}
+
+
+function buildStudentCode(
+    gender
+){
+
+    const numbers = [
+
+        randomDigit(),
+        randomDigit(),
+        randomDigit(),
+        randomDigit(),
+        randomDigit()
+
+    ];
+
+
+    const letter =
+        gender === "female"
+            ? "G"
+            : "B";
+
+
+    const position =
+        Math.floor(
+            Math.random() * 4
+        ) + 1;
+
+
+    numbers.splice(
+        position,
+        0,
+        letter
+    );
+
+
+    return (
+        "ST" +
+        numbers.join("")
+    );
+
+}
+
+
+async function uniqueStudentCode(
+    gender
+){
+
+    for(
+        let attempt=0;
+        attempt<50;
+        attempt++
+    ){
+
+        const code =
+            buildStudentCode(
+                gender
+            );
+
+
+        if(!DATA.users[code]){
+
+            const exists =
+                await dbGet(
+                    `${PATH.users}/${code}`
+                );
+
+
+            if(!exists){
+
+                return code;
+
+            }
+
+        }
+
+    }
+
+
+    throw new Error(
+        "STUDENT_CODE_ERROR"
+    );
+
+}
+
+
+async function previewStudentCode(){
+
+    const classId =
+        $("studentClass").value;
+
+
+    const cls =
+        DATA.classes[classId];
+
+
+    if(!cls){
+
+        toast(
+            "اختر الصف أولاً"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        generatedStudentCode =
+            await uniqueStudentCode(
+                cls.gender
+            );
+
+
+        $("studentCodePreview")
+            .textContent =
+                generatedStudentCode;
+
+    }
+
+    catch{
+
+        toast(
+            "تعذر توليد الكود"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   STUDENT SEQUENCE
+   Firebase REST ETag transaction
+========================================================= */
+
+async function nextStudentSequence(){
+
+    const url =
+        `${DB}/${PATH.meta}/studentSequence.json`;
+
+
+    for(
+        let attempt=0;
+        attempt<10;
+        attempt++
+    ){
+
+        const getResponse =
+            await fetch(
+                url,
+                {
+                    method:"GET",
+                    cache:"no-store",
+                    headers:{
+                        "X-Firebase-ETag":
+                            "true"
+                    }
+                }
+            );
+
+
+        if(!getResponse.ok){
+
+            throw new Error(
+                "SEQUENCE_GET_ERROR"
+            );
+
+        }
+
+
+        const etag =
+            getResponse.headers
+                .get("ETag");
+
+
+        const current =
+            Number(
+                await getResponse.json()
+                || 0
+            );
+
+
+        const next =
+            current + 1;
+
+
+        const putResponse =
+            await fetch(
+                url,
+                {
+                    method:"PUT",
+                    headers:{
+                        "Content-Type":
+                            "application/json",
+                        "if-match":
+                            etag
+                    },
+                    body:
+                        JSON.stringify(
+                            next
+                        )
+                }
+            );
+
+
+        if(
+            putResponse.status ===
+            200
+        ){
+
+            return next;
+
+        }
+
+
+        if(
+            putResponse.status !==
+            412
+        ){
+
+            throw new Error(
+                "SEQUENCE_PUT_ERROR"
+            );
+
+        }
+
+    }
+
+
+    throw new Error(
+        "SEQUENCE_CONFLICT"
+    );
+
+}
+
+
+/* =========================================================
+   ADD STUDENT
+========================================================= */
+
+$("studentForm").onsubmit =
+    async event => {
+
+        event.preventDefault();
+
+
+        hideMessage(
+            "studentMessage"
+        );
+
+
+        const classId =
+            $("studentClass").value;
+
+
+        const cls =
+            DATA.classes[classId];
+
+
+        if(!cls){
+
+            showMessage(
+                "studentMessage",
+                "اختر الصف"
+            );
+
+            return;
+
+        }
+
+
+        const name =
+            $("studentName").value.trim();
+
+
+        const motherName =
+            $("motherName").value.trim();
+
+
+        const guardianPhone =
+            $("guardianPhone").value.trim();
+
+
+        const studentPhone =
+            $("studentPhone").value.trim();
+
+
+        const lineNumber =
+            $("lineNumber").value.trim();
+
+
+        const previousSchool =
+            $("previousSchool").value.trim();
+
+
+        const startDate =
+            $("startDate").value;
+
+
+        const roomNumber =
+            Number(
+                $("studentRoom").value
+            );
+
+
+        const address =
+            $("studentAddress").value.trim();
+
+
+        const tuitionTotal =
+            Number(
+                $("tuitionTotal").value
+                || 0
+            );
+
+
+        const activate =
+            $("activateOnCreate").checked;
+
+
+        if(
+            !name ||
+            !motherName ||
+            !guardianPhone ||
+            !previousSchool ||
+            !startDate ||
+            !roomNumber ||
+            !address
+        ){
+
+            showMessage(
+                "studentMessage",
+                "يرجى إكمال جميع البيانات المطلوبة"
+            );
+
+            return;
+
+        }
+
+
+        if(
+            activate &&
+            tuitionTotal <= 0
+        ){
+
+            showMessage(
+                "studentMessage",
+                "لتفعيل الحساب يجب إدخال مبلغ القسط الكلي"
+            );
+
+            return;
+
+        }
+
+
+        const button =
+            $("saveStudentBtn");
+
+
+        button.disabled =
+            true;
+
+
+        button.textContent =
+            "جاري الحفظ...";
+
+
+        try{
+
+            let code =
+                generatedStudentCode;
+
+
+            if(!code){
+
+                code =
+                    await uniqueStudentCode(
+                        cls.gender
+                    );
+
+            }
+
+
+            if(
+                await dbGet(
+                    `${PATH.users}/${code}`
+                )
+            ){
+
+                code =
+                    await uniqueStudentCode(
+                        cls.gender
+                    );
+
+            }
+
+
+            const serial =
+                await nextStudentSequence();
+
+
+            const student = {
+
+                code,
+
+                serial,
+
+                name,
+
+                motherName,
+
+                gender:
+                    cls.gender,
+
+                classId,
+
+                roomNumber,
+
+                guardianPhone,
+
+                studentPhone,
+
+                lineNumber,
+
+                previousSchool,
+
+                startDate,
+
+                address,
+
+                tuitionTotal,
+
+                fileStatus:
+                    "pending",
+
+                accountActive:
+                    activate,
+
+                hidden:
+                    false,
+
+                createdAt:
+                    Date.now(),
+
+                createdBy:
+                    adminCode()
+
+            };
+
+
+            const loginUser = {
+
+                code,
+
+                name,
+
+                role:
+                    "student",
+
+                gender:
+                    cls.gender,
+
+                classId,
+
+                studentId:
+                    code,
+
+                active:
+                    activate,
+
+                hidden:
+                    false,
+
+                createdAt:
+                    Date.now()
+
+            };
+
+
+            await Promise.all([
+
+                dbPut(
+                    `${PATH.students}/${code}`,
+                    student
+                ),
+
+                dbPut(
+                    `${PATH.users}/${code}`,
+                    loginUser
+                )
+
+            ]);
+
+
+            DATA.students[code] =
+                student;
+
+
+            DATA.users[code] =
+                loginUser;
+
+
+            generatedStudentCode =
+                code;
+
+
+            $("studentCodePreview").textContent =
+                code;
+
+
+            showMessage(
+                "studentMessage",
+                `تم إنشاء الطالب بنجاح. العدد: ${serial} - الكود: ${code}`,
+                "success"
+            );
+
+
+            resetStudentForm(
+                false
+            );
+
+
+            renderAll();
+
+
+            toast(
+                "تم حفظ الطالب"
+            );
+
+        }
+
+        catch(error){
+
+            console.error(error);
+
+
+            showMessage(
+                "studentMessage",
+                "تعذر حفظ الطالب. تحقق من اتصال Firebase والصلاحيات."
+            );
+
+        }
+
+        finally{
+
+            button.disabled =
+                false;
+
+
+            button.textContent =
+                "حفظ الطالب";
+
+        }
+
+    };
+
+
+function resetStudentForm(
+    clearCode=true
+){
+
+    $("studentName").value = "";
+
+    $("motherName").value = "";
+
+    $("guardianPhone").value = "";
+
+    $("studentPhone").value = "";
+
+    $("lineNumber").value = "";
+
+    $("previousSchool").value = "";
+
+    $("studentAddress").value = "";
+
+    $("tuitionTotal").value = "";
+
+    $("activateOnCreate").checked =
+        false;
+
+
+    $("startDate").value =
+        today();
+
+
+    if(clearCode){
+
+        generatedStudentCode = "";
+
+        $("studentCodePreview").textContent =
+            "يولد عند الحفظ";
+
+    }
+
+}
+
+
+/* =========================================================
+   STUDENT FILTERS
+========================================================= */
+
+[
+    "studentSearch",
+    "studentGenderFilter",
+    "studentStatusFilter"
+]
+.forEach(id => {
+
+    $(id).addEventListener(
+        id === "studentSearch"
+            ? "input"
+            : "change",
+        () => {
+
+            selectedStudents.clear();
+
+            $("selectAllStudents").checked =
+                false;
+
+            renderStudents();
+
+            updateBulkBar();
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   STUDENT ROWS
+========================================================= */
+
+function visibleStudents(){
+
+    const search =
+        norm(
+            $("studentSearch").value
+        );
+
+
+    const gender =
+        $("studentGenderFilter").value;
+
+
+    const status =
+        $("studentStatusFilter").value;
+
+
+    return Object.values(
+        DATA.students
+    )
+    .filter(student => {
+
+        if(
+            selectedClassId &&
+            student.classId !==
+                selectedClassId
+        ){
+            return false;
+        }
+
+
+        if(
+            gender &&
+            student.gender !==
+                gender
+        ){
+            return false;
+        }
+
+
+        if(
+            status &&
+            student.fileStatus !==
+                status
+        ){
+            return false;
+        }
+
+
+        if(search){
+
+            const text =
+                norm(
+                    [
+                        student.name,
+                        student.code,
+                        student.guardianPhone,
+                        student.studentPhone,
+                        student.previousSchool,
+                        student.motherName
+                    ].join(" ")
+                );
+
+
+            if(
+                !text.includes(
+                    search
+                )
+            ){
+                return false;
+            }
+
+        }
+
+
+        return true;
+
+    })
+    .sort(
+        (a,b) =>
+            Number(a.serial || 0) -
+            Number(b.serial || 0)
+    );
+
+}
+
+
+function renderStudents(){
+
+    const rows =
+        visibleStudents();
+
+
+    $("studentsEmpty")
+        .classList.toggle(
+            "hidden",
+            rows.length > 0
+        );
+
+
+    $("studentsBody").innerHTML =
+        rows.map(student => {
+
+            const cls =
+                DATA.classes[
+                    student.classId
+                ];
+
+
+            const checked =
+                selectedStudents.has(
+                    student.code
+                );
+
+
+            const fileBadge =
+                student.fileStatus ===
+                "accepted"
+                ? `
+                    <span class="badge green">
+                        تم القبول
+                    </span>
+                  `
+                : `
+                    <span class="badge orange">
+                        لم يجلب الملف
+                    </span>
+                  `;
+
+
+            const accountBadge =
+                student.accountActive
+                ? `
+                    <span class="badge green">
+                        فعال
+                    </span>
+                  `
+                : `
+                    <span class="badge red">
+                        غير فعال
+                    </span>
+                  `;
+
+
+            return `
+
+                <tr
+                    style="${
+                        student.hidden
+                            ? "opacity:.5"
+                            : ""
+                    }"
+                >
+
+                    <td>
+
+                        <input
+                            class="table-checkbox student-select"
+                            type="checkbox"
+                            value="${esc(student.code)}"
+                            ${checked ? "checked" : ""}
+                            onchange="studentSelectionChanged(this)"
+                        >
+
+                    </td>
+
+
+                    <td>
+                        ${esc(student.serial || "—")}
+                    </td>
+
+
+                    <td>
+
+                        <span class="code">
+                            ${esc(student.code)}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        ${esc(student.name)}
+                    </td>
+
+
+                    <td>
+
+                        ${
+                            student.gender === "female"
+                            ? `
+                                <span class="badge purple">
+                                    أنثى
+                                </span>
+                              `
+                            : `
+                                <span class="badge blue">
+                                    ذكر
+                                </span>
+                              `
+                        }
+
+                    </td>
+
+
+                    <td>
+                        ${esc(cls?.name || "—")}
+                    </td>
+
+
+                    <td>
+                        ${esc(student.roomNumber || "—")}
+                    </td>
+
+
+                    <td>
+                        ${fileBadge}
+                    </td>
+
+
+                    <td>
+                        ${money(student.tuitionTotal)}
+                    </td>
+
+
+                    <td>
+                        ${accountBadge}
+                    </td>
+
+
+                    <td>
+
+                        <div class="row-actions">
+
+                            <button
+                                class="mini btn-soft"
+                                onclick="copyCode('${esc(student.code)}')"
+                            >
+                                نسخ الكود
+                            </button>
+
+
+                            <button
+                                class="mini btn-purple"
+                                onclick="downloadStudentPDF('${esc(student.code)}')"
+                            >
+                                PDF
+                            </button>
+
+
+                            <button
+                                class="mini btn-soft"
+                                onclick="openEditStudent('${esc(student.code)}')"
+                            >
+                                تعديل
+                            </button>
+
+
+                            ${
+                                student.fileStatus !==
+                                "accepted"
+                                ? `
+                                    <button
+                                        class="mini btn-green"
+                                        onclick="acceptStudentFile('${esc(student.code)}')"
+                                    >
+                                        استلام الملف
+                                    </button>
+                                  `
+                                : ""
+                            }
+
+
+                            <button
+                                class="mini ${
+                                    student.accountActive
+                                        ? "btn-red"
+                                        : "btn-green"
+                                }"
+                                onclick="toggleStudentAccount('${esc(student.code)}')"
+                            >
+
+                                ${
+                                    student.accountActive
+                                        ? "إلغاء التفعيل"
+                                        : "تفعيل الحساب"
+                                }
+
+                            </button>
+
+
+                            <button
+                                class="mini btn-orange"
+                                onclick="toggleStudentHidden('${esc(student.code)}')"
+                            >
+
+                                ${
+                                    student.hidden
+                                        ? "إظهار"
+                                        : "إخفاء"
+                                }
+
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        })
+        .join("");
+
+}
+
+
+/* =========================================================
+   COPY
+========================================================= */
+
+async function copyCode(code){
+
+    try{
+
+        await navigator.clipboard
+            .writeText(code);
+
+        toast(
+            "تم نسخ الكود"
+        );
+
+    }
+
+    catch{
+
+        const input =
+            document.createElement(
+                "textarea"
+            );
+
+        input.value =
+            code;
+
+        document.body.appendChild(
+            input
+        );
+
+        input.select();
+
+        document.execCommand(
+            "copy"
+        );
+
+        input.remove();
+
+        toast(
+            "تم نسخ الكود"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   STUDENT SELECTION
+========================================================= */
+
+function studentSelectionChanged(
+    checkbox
+){
+
+    if(checkbox.checked){
+
+        selectedStudents.add(
+            checkbox.value
+        );
+
+    }
+
+    else{
+
+        selectedStudents.delete(
+            checkbox.value
+        );
+
+    }
+
+
+    updateBulkBar();
+
+}
+
+
+$("selectAllStudents").onchange =
+    function(){
+
+        const rows =
+            visibleStudents();
+
+
+        if(this.checked){
+
+            rows.forEach(
+                student =>
+                    selectedStudents.add(
+                        student.code
+                    )
+            );
+
+        }
+
+        else{
+
+            rows.forEach(
+                student =>
+                    selectedStudents.delete(
+                        student.code
+                    )
+            );
+
+        }
+
+
+        renderStudents();
+
+        updateBulkBar();
+
+    };
+
+
+function updateBulkBar(){
+
+    const count =
+        selectedStudents.size;
+
+
+    $("selectedCount").textContent =
+        `تم تحديد ${count} طالب`;
+
+
+    $("bulkBar")
+        .classList.toggle(
+            "show",
+            count > 0
+        );
+
+
+    buildTransferOptions();
+
+}
+
+
+/* =========================================================
+   TRANSFER OPTIONS
+========================================================= */
+
+function buildTransferOptions(){
+
+    const selected =
+        [...selectedStudents];
+
+
+    let gender = "";
+
+
+    if(selected.length){
+
+        const first =
+            DATA.students[
+                selected[0]
+            ];
+
+        gender =
+            first?.gender || "";
+
+    }
+
+
+    let classes =
+        Object.values(
+            DATA.classes
+        );
+
+
+    if(gender){
+
+        classes =
+            classes.filter(
+                cls =>
+                    cls.gender ===
+                    gender
+            );
+
+    }
+
+
+    if(selectedClassId){
+
+        classes =
+            classes.filter(
+                cls =>
+                    cls.id !==
+                    selectedClassId
+            );
+
+    }
+
+
+    $("transferClass").innerHTML = `
+
+        <option value="">
+            نقل إلى صف...
+        </option>
+
+        ${
+            classes.map(
+                cls => `
+
+                    <option value="${cls.id}">
+
+                        ${esc(cls.name)}
+                        -
+                        ${genderText(cls.gender)}
+
+                    </option>
+
+                `
+            ).join("")
+        }
+
+    `;
+
+}
+
+
+/* =========================================================
+   MOVE STUDENTS
+========================================================= */
+
+async function moveSelectedStudents(){
+
+    if(!selectedStudents.size){
+
+        toast(
+            "حدد طالباً واحداً على الأقل"
+        );
+
+        return;
+
+    }
+
+
+    const targetId =
+        $("transferClass").value;
+
+
+    const target =
+        DATA.classes[targetId];
+
+
+    if(!target){
+
+        toast(
+            "اختر الصف الجديد"
+        );
+
+        return;
+
+    }
+
+
+    const students =
+        [...selectedStudents]
+        .map(
+            code =>
+                DATA.students[code]
+        )
+        .filter(Boolean);
+
+
+    const invalidGender =
+        students.some(
+            student =>
+                student.gender !==
+                target.gender
+        );
+
+
+    if(invalidGender){
+
+        toast(
+            "لا يمكن نقل طالب إلى صف من جنس مختلف"
+        );
+
+        return;
+
+    }
+
+
+    confirmBox(
+
+        "نقل الطلاب",
+
+        `سيتم نقل ${students.length} طالب إلى الصف ${target.name}.`,
+
+        async () => {
+
+            const updates = {};
+
+
+            students.forEach(
+                student => {
+
+                    updates[
+                        `${PATH.students}/${student.code}/classId`
+                    ] =
+                        targetId;
+
+
+                    updates[
+                        `${PATH.users}/${student.code}/classId`
+                    ] =
+                        targetId;
+
+                }
+            );
+
+
+            await dbPatch(
+                "",
+                updates
+            );
+
+
+            students.forEach(
+                student => {
+
+                    DATA.students[
+                        student.code
+                    ].classId =
+                        targetId;
+
+
+                    if(
+                        DATA.users[
+                            student.code
+                        ]
+                    ){
+
+                        DATA.users[
+                            student.code
+                        ].classId =
+                            targetId;
+
+                    }
+
+                }
+            );
+
+
+            selectedStudents.clear();
+
+            $("selectAllStudents").checked =
+                false;
+
+
+            renderAll();
+
+
+            toast(
+                "تم نقل الطلاب"
+            );
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   ACCEPT STUDENT FILE
+========================================================= */
+
+function acceptStudentFile(code){
+
+    const student =
+        DATA.students[code];
+
+
+    if(!student){
+        return;
+    }
+
+
+    confirmBox(
+
+        "استلام ملف الطالب",
+
+        `هل تم استلام ملف الطالب ${student.name}؟ ستتحول حالته إلى «تم القبول».`,
+
+        async () => {
+
+            await dbPatch(
+                `${PATH.students}/${code}`,
+                {
+                    fileStatus:
+                        "accepted",
+
+                    fileReceivedAt:
+                        Date.now()
+                }
+            );
+
+
+            student.fileStatus =
+                "accepted";
+
+
+            student.fileReceivedAt =
+                Date.now();
+
+
+            renderAll();
+
+
+            toast(
+                "تم اعتماد قبول الطالب"
+            );
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   ACCOUNT ACTIVATE / DEACTIVATE
+========================================================= */
+
+function toggleStudentAccount(code){
+
+    const student =
+        DATA.students[code];
+
+
+    if(!student){
+        return;
+    }
+
+
+    if(
+        !student.accountActive &&
+        Number(
+            student.tuitionTotal || 0
+        ) <= 0
+    ){
+
+        toast(
+            "أدخل مبلغ القسط أولاً ثم فعّل الحساب"
+        );
+
+
+        openEditStudent(
+            code
+        );
+
+
+        setTimeout(
+            () =>
+                $("editTuition").focus(),
+            200
+        );
+
+
+        return;
+
+    }
+
+
+    const newStatus =
+        !student.accountActive;
+
+
+    confirmBox(
+
+        newStatus
+            ? "تفعيل الحساب"
+            : "إلغاء تفعيل الحساب",
+
+        newStatus
+            ? `تفعيل حساب الطالب ${student.name}؟`
+            : `إلغاء تفعيل حساب الطالب ${student.name}؟`,
+
+        async () => {
+
+            await Promise.all([
+
+                dbPatch(
+                    `${PATH.students}/${code}`,
+                    {
+                        accountActive:
+                            newStatus
+                    }
+                ),
+
+                dbPatch(
+                    `${PATH.users}/${code}`,
+                    {
+                        active:
+                            newStatus &&
+                            !student.hidden
+                    }
+                )
+
+            ]);
+
+
+            student.accountActive =
+                newStatus;
+
+
+            if(
+                DATA.users[code]
+            ){
+
+                DATA.users[code].active =
+                    newStatus &&
+                    !student.hidden;
+
+            }
+
+
+            renderStudents();
+
+
+            toast(
+                newStatus
+                    ? "تم تفعيل الحساب"
+                    : "تم إلغاء تفعيل الحساب"
+            );
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   HIDE STUDENT
+========================================================= */
+
+function toggleStudentHidden(code){
+
+    const student =
+        DATA.students[code];
+
+
+    if(!student){
+        return;
+    }
+
+
+    const hidden =
+        !student.hidden;
+
+
+    confirmBox(
+
+        hidden
+            ? "إخفاء الطالب"
+            : "إظهار الطالب",
+
+        hidden
+            ? `سيتم إخفاء الطالب ${student.name} وتعطيل دخوله مؤقتاً.`
+            : `سيتم إظهار الطالب ${student.name}.`,
+
+        async () => {
+
+            await Promise.all([
+
+                dbPatch(
+                    `${PATH.students}/${code}`,
+                    {
+                        hidden
+                    }
+                ),
+
+                dbPatch(
+                    `${PATH.users}/${code}`,
+                    {
+                        hidden,
+
+                        active:
+                            !hidden &&
+                            student.accountActive
+                    }
+                )
+
+            ]);
+
+
+            student.hidden =
+                hidden;
+
+
+            if(
+                DATA.users[code]
+            ){
+
+                DATA.users[code].hidden =
+                    hidden;
+
+
+                DATA.users[code].active =
+                    !hidden &&
+                    student.accountActive;
+
+            }
+
+
+            renderStudents();
+
+
+            toast(
+                hidden
+                    ? "تم إخفاء الطالب"
+                    : "تم إظهار الطالب"
+            );
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   EDIT STUDENT
+========================================================= */
+
+function openEditStudent(code){
+
+    const student =
+        DATA.students[code];
+
+
+    if(!student){
+        return;
+    }
+
+
+    $("editStudentCode").value =
+        code;
+
+
+    $("editStudentCodeText").textContent =
+        `الكود: ${code}`;
+
+
+    $("editName").value =
+        student.name || "";
+
+
+    $("editMother").value =
+        student.motherName || "";
+
+
+    $("editClass").innerHTML =
+        classOptions(
+            "اختر الصف"
+        );
+
+
+    $("editClass").value =
+        student.classId || "";
+
+
+    $("editRoom").innerHTML =
+        roomOptions(
+            student.roomNumber
+        );
+
+
+    $("editGuardian").value =
+        student.guardianPhone || "";
+
+
+    $("editStudentPhone").value =
+        student.studentPhone || "";
+
+
+    $("editLine").value =
+        student.lineNumber || "";
+
+
+    $("editPreviousSchool").value =
+        student.previousSchool || "";
+
+
+    $("editStartDate").value =
+        student.startDate || "";
+
+
+    $("editTuition").value =
+        student.tuitionTotal || "";
+
+
+    $("editAddress").value =
+        student.address || "";
+
+
+    openModal(
+        "studentEditModal"
+    );
+
+}
+
+
+$("editStudentForm").onsubmit =
+    async event => {
+
+        event.preventDefault();
+
+
+        const code =
+            $("editStudentCode").value;
+
+
+        const student =
+            DATA.students[code];
+
+
+        if(!student){
+            return;
+        }
+
+
+        const classId =
+            $("editClass").value;
+
+
+        const cls =
+            DATA.classes[classId];
+
+
+        if(!cls){
+
+            toast(
+                "اختر الصف"
+            );
+
+            return;
+
+        }
+
+
+        /*
+            لا نسمح بتغيير جنس الطالب
+            عن طريق النقل إلى صف من جنس مختلف.
+        */
+
+        if(
+            cls.gender !==
+            student.gender
+        ){
+
+            toast(
+                "لا يمكن نقل الطالب إلى صف من جنس مختلف"
+            );
+
+            return;
+
+        }
+
+
+        const tuitionTotal =
+            Number(
+                $("editTuition").value
+                || 0
+            );
+
+
+        if(
+            student.accountActive &&
+            tuitionTotal <= 0
+        ){
+
+            toast(
+                "الحساب فعال؛ يجب أن يبقى مبلغ القسط أكبر من صفر"
+            );
+
+            return;
+
+        }
+
+
+        const update = {
+
+            name:
+                $("editName").value.trim(),
+
+            motherName:
+                $("editMother").value.trim(),
+
+            classId,
+
+            roomNumber:
+                Number(
+                    $("editRoom").value
+                ),
+
+            guardianPhone:
+                $("editGuardian").value.trim(),
+
+            studentPhone:
+                $("editStudentPhone").value.trim(),
+
+            lineNumber:
+                $("editLine").value.trim(),
+
+            previousSchool:
+                $("editPreviousSchool").value.trim(),
+
+            startDate:
+                $("editStartDate").value,
+
+            tuitionTotal,
+
+            address:
+                $("editAddress").value.trim(),
+
+            updatedAt:
+                Date.now()
+
+        };
+
+
+        if(
+            !update.name ||
+            !update.motherName ||
+            !update.roomNumber ||
+            !update.guardianPhone ||
+            !update.previousSchool ||
+            !update.startDate ||
+            !update.address
+        ){
+
+            toast(
+                "أكمل البيانات المطلوبة"
+            );
+
+            return;
+
+        }
+
+
+        try{
+
+            await Promise.all([
+
+                dbPatch(
+                    `${PATH.students}/${code}`,
+                    update
+                ),
+
+                dbPatch(
+                    `${PATH.users}/${code}`,
+                    {
+                        name:
+                            update.name,
+
+                        classId:
+                            update.classId
+                    }
+                )
+
+            ]);
+
+
+            DATA.students[code] = {
+
+                ...student,
+
+                ...update
+
+            };
+
+
+            if(
+                DATA.users[code]
+            ){
+
+                DATA.users[code].name =
+                    update.name;
+
+                DATA.users[code].classId =
+                    update.classId;
+
+            }
+
+
+            closeModal(
+                "studentEditModal"
+            );
+
+
+            renderAll();
+
+
+            toast(
+                "تم تعديل بيانات الطالب"
+            );
+
+        }
+
+        catch(error){
+
+            console.error(error);
+
+            toast(
+                "تعذر حفظ التعديلات"
+            );
+
+        }
+
+    };
+
+
+/* =========================================================
+   PDF
+========================================================= */
+
+function pdfDataItem(
+    label,
+    value,
+    full=false
+){
+
+    return `
+
+        <div class="pdf-data ${full ? "full" : ""}">
+
+            <b>
+                ${esc(label)}
+            </b>
+
+            ${esc(value || "—")}
+
+        </div>
+
+    `;
+
+}
+
+
+async function downloadStudentPDF(code){
+
+    const student =
+        DATA.students[code];
+
+
+    if(!student){
+        return;
+    }
+
+
+    const cls =
+        DATA.classes[
+            student.classId
+        ];
+
+
+    if(
+        typeof html2pdf ===
+        "undefined"
+    ){
+
+        toast(
+            "تعذر تحميل مكتبة PDF، تحقق من الإنترنت"
+        );
+
+        return;
+
+    }
+
+
+    const schoolName =
+        student.previousSchool ||
+        "المدرسة السابقة";
+
+
+    const studentWord =
+        student.gender === "female"
+            ? "الطالبة"
+            : "الطالب";
+
+
+    const html = `
+
+        <div class="pdf-page">
+
+
+            <!-- ===============================
+                 النصف الأول: الكتاب الرسمي
+            ================================ -->
+
+            <section class="pdf-top">
+
+
+                <div class="pdf-letter-meta">
+
+                    <div>
+                        العدد:
+                        ${esc(student.serial)}
+                    </div>
+
+                    <div>
+                        التاريخ:
+                        ${esc(displayDate(student.startDate))}
+                    </div>
+
+                </div>
+
+
+
+                <div class="pdf-logo-area">
+
+                    <img
+                        class="pdf-logo"
+                        src="images/logo.png"
+                    >
+
+                    <div class="pdf-school">
+
+                        مدرسة التحدي الأهلية المختلطة
+
+                    </div>
+
+                    <div class="pdf-governance">
+
+                        قسم الحوكمة
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="pdf-recipient">
+
+                    إلى / إدارة
+                    ${esc(schoolName)}
+
+                </div>
+
+
+
+                <div class="pdf-subject">
+
+                    الموضوع / عدم ممانعة
+
+                </div>
+
+
+
+                <div class="pdf-body-text">
+
+                    لا مانع لدينا من قبول
+                    ${studentWord}
+                    <b>
+                        ${esc(student.name)}
+                    </b>
+                    للعام الدراسي الحالي
+                    <b>
+                        2026-2027
+                    </b>
+                    في الصف
+                    <b>
+                        ${esc(cls?.name || "—")}
+                    </b>
+                    ، يرجى تزويدنا بوثيقة الطالب
+                    أو تأييد لحين صدور الوثيقة.
+
+                </div>
+
+
+
+                <div class="pdf-thanks">
+
+                    مع خالص الشكر والتقدير.
+
+                </div>
+
+
+
+                <div class="pdf-manager">
+
+                    إدارة مدرسة التحدي الأهلية المختلطة
+
+                    <br>
+
+                    المدير
+
+                    <br>
+
+                    حسين جزاع خلف
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- ===============================
+                 الفاصل
+            ================================ -->
+
+            <div class="pdf-divider">
+
+                <span>
+                    بيانات الطالب
+                </span>
+
+            </div>
+
+
+
+            <!-- ===============================
+                 النصف الثاني
+            ================================ -->
+
+            <section>
+
+
+                <div class="pdf-student-title">
+
+                    استمارة بيانات الطالب
+
+                </div>
+
+
+                <div class="pdf-data-grid">
+
+                    ${pdfDataItem(
+                        "العدد",
+                        student.serial
+                    )}
+
+                    ${pdfDataItem(
+                        "تاريخ المباشرة",
+                        displayDate(student.startDate)
+                    )}
+
+                    ${pdfDataItem(
+                        "اسم الطالب الرباعي",
+                        student.name,
+                        true
+                    )}
+
+                    ${pdfDataItem(
+                        "اسم الأم",
+                        student.motherName
+                    )}
+
+                    ${pdfDataItem(
+                        "الجنس",
+                        studentGenderText(student.gender)
+                    )}
+
+                    ${pdfDataItem(
+                        "الصف",
+                        cls?.name || "—"
+                    )}
+
+                    ${pdfDataItem(
+                        "رقم القاعة",
+                        student.roomNumber
+                    )}
+
+                    ${pdfDataItem(
+                        "رقم ولي الأمر",
+                        student.guardianPhone
+                    )}
+
+                    ${pdfDataItem(
+                        "رقم الطالب",
+                        student.studentPhone || "—"
+                    )}
+
+                    ${pdfDataItem(
+                        "رقم الخط",
+                        student.lineNumber || "—"
+                    )}
+
+                    ${pdfDataItem(
+                        "المدرسة القادم منها",
+                        student.previousSchool,
+                        true
+                    )}
+
+                    ${pdfDataItem(
+                        "عنوان السكن",
+                        student.address,
+                        true
+                    )}
+
+                    ${pdfDataItem(
+                        "القسط الكلي",
+                        money(student.tuitionTotal)
+                    )}
+
+                    ${pdfDataItem(
+                        "حالة الملف",
+                        student.fileStatus === "accepted"
+                            ? "تم القبول"
+                            : "لم يجلب الملف"
+                    )}
+
+                </div>
+
+
+
+                <div class="pdf-code">
+
+                    <small>
+                        الكود الخاص بالطالب
+                    </small>
+
+                    <strong>
+                        ${esc(student.code)}
+                    </strong>
+
+                </div>
+
+
+            </section>
+
+
+        </div>
+
+    `;
+
+
+    const host =
+        $("pdfHost");
+
+
+    host.innerHTML =
+        html;
+
+
+    const element =
+        host.firstElementChild;
+
+
+    toast(
+        "جاري تجهيز ملف PDF"
+    );
+
+
+    const options = {
+
+        margin:0,
+
+        filename:
+            `عدم-ممانعة-${student.code}.pdf`,
+
+        image:{
+            type:"jpeg",
+            quality:.98
+        },
+
+        html2canvas:{
+            scale:2,
+            useCORS:true,
+            backgroundColor:"#ffffff",
+            logging:false
+        },
+
+        jsPDF:{
+            unit:"pt",
+            format:"a4",
+            orientation:"portrait"
+        },
+
+        pagebreak:{
+            mode:[
+                "avoid-all",
+                "css",
+                "legacy"
+            ]
+        }
+
+    };
+
+
+    try{
+
+        await html2pdf()
+            .set(options)
+            .from(element)
+            .save();
+
+
+        toast(
+            "تم إنشاء ملف PDF"
+        );
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        toast(
+            "تعذر إنشاء ملف PDF"
+        );
+
+    }
+
+    finally{
+
+        host.innerHTML = "";
+
+    }
+
+}
+
+
+/* =========================================================
+   TEACHER CODE
+========================================================= */
+
+function randomTeacherLetter(){
+
+    const letters =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ";
+
+
+    return letters[
+        Math.floor(
+            Math.random() *
+            letters.length
+        )
+    ];
+
+}
+
+
+function buildTeacherCode(){
+
+    let numbers = "";
+
+
+    for(
+        let i=0;
+        i<7;
+        i++
+    ){
+
+        numbers +=
+            randomDigit();
+
+    }
+
+
+    return (
+        "TH" +
+        numbers +
+        randomTeacherLetter()
+    );
+
+}
+
+
+async function uniqueTeacherCode(){
+
+    for(
+        let attempt=0;
+        attempt<50;
+        attempt++
+    ){
+
+        const code =
+            buildTeacherCode();
+
+
+        const exists =
+            await dbGet(
+                `${PATH.users}/${code}`
+            );
+
+
+        if(!exists){
+
+            return code;
+
+        }
+
+    }
+
+
+    throw new Error(
+        "TEACHER_CODE_ERROR"
+    );
+
+}
+
+
+async function previewTeacherCode(){
+
+    try{
+
+        generatedTeacherCode =
+            await uniqueTeacherCode();
+
+
+        $("teacherCodePreview")
+            .textContent =
+                generatedTeacherCode;
+
+    }
+
+    catch{
+
+        toast(
+            "تعذر توليد الكود"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   ADD TEACHER
+========================================================= */
+
+$("teacherForm").onsubmit =
+    async event => {
+
+        event.preventDefault();
+
+
+        hideMessage(
+            "teacherMessage"
+        );
+
+
+        const name =
+            $("teacherName").value.trim();
+
+
+        const subject =
+            $("teacherSubject").value.trim();
+
+
+        const classIds =
+            [
+                ...document.querySelectorAll(
+                    "#teacherClasses input:checked"
+                )
+            ]
+            .map(
+                input =>
+                    input.value
+            );
+
+
+        if(
+            !name ||
+            !subject ||
+            !classIds.length
+        ){
+
+            showMessage(
+                "teacherMessage",
+                "أدخل اسم الأستاذ والمادة واختر صفاً واحداً على الأقل"
+            );
+
+            return;
+
+        }
+
+
+        const button =
+            $("saveTeacherBtn");
+
+
+        button.disabled =
+            true;
+
+
+        button.textContent =
+            "جاري الحفظ...";
+
+
+        try{
+
+            let code =
+                generatedTeacherCode;
+
+
+            if(!code){
+
+                code =
+                    await uniqueTeacherCode();
+
+            }
+
+
+            if(
+                await dbGet(
+                    `${PATH.users}/${code}`
+                )
+            ){
+
+                code =
+                    await uniqueTeacherCode();
+
+            }
+
+
+            const teacher = {
+
+                code,
+
+                name,
+
+                subject,
+
+                classIds,
+
+                accountActive:
+                    true,
+
+                createdAt:
+                    Date.now(),
+
+                createdBy:
+                    adminCode()
+
+            };
+
+
+            const user = {
+
+                code,
+
+                name,
+
+                role:
+                    "teacher",
+
+                teacherId:
+                    code,
+
+                active:
+                    true,
+
+                createdAt:
+                    Date.now()
+
+            };
+
+
+            await Promise.all([
+
+                dbPut(
+                    `${PATH.teachers}/${code}`,
+                    teacher
+                ),
+
+                dbPut(
+                    `${PATH.users}/${code}`,
+                    user
+                )
+
+            ]);
+
+
+            DATA.teachers[code] =
+                teacher;
+
+
+            DATA.users[code] =
+                user;
+
+
+            generatedTeacherCode =
+                code;
+
+
+            $("teacherCodePreview")
+                .textContent =
+                    code;
+
+
+            showMessage(
+                "teacherMessage",
+                `تم إنشاء الأستاذ بنجاح. الكود: ${code}`,
+                "success"
+            );
+
+
+            $("teacherName").value = "";
+
+            $("teacherSubject").value = "";
+
+
+            document
+            .querySelectorAll(
+                "#teacherClasses input"
+            )
+            .forEach(
+                input =>
+                    input.checked = false
+            );
+
+
+            renderAll();
+
+
+            toast(
+                "تم حفظ الأستاذ"
+            );
+
+        }
+
+        catch(error){
+
+            console.error(error);
+
+
+            showMessage(
+                "teacherMessage",
+                "تعذر حفظ الأستاذ"
+            );
+
+        }
+
+        finally{
+
+            button.disabled =
+                false;
+
+
+            button.textContent =
+                "حفظ الأستاذ";
+
+        }
+
+    };
+
+
+/* =========================================================
+   TEACHERS FILTER
+========================================================= */
+
+[
+    "teacherSearch",
+    "teacherGenderClassFilter",
+    "teacherAccountFilter"
+]
+.forEach(id => {
+
+    $(id).addEventListener(
+        id === "teacherSearch"
+            ? "input"
+            : "change",
+        renderTeachers
+    );
+
+});
+
+
+function renderTeachers(){
+
+    const search =
+        norm(
+            $("teacherSearch").value
+        );
+
+
+    const classFilter =
+        $("teacherGenderClassFilter")
+        .value;
+
+
+    const accountFilter =
+        $("teacherAccountFilter")
+        .value;
+
+
+    const rows =
+        Object.values(
+            DATA.teachers
+        )
+        .filter(teacher => {
+
+            if(
+                classFilter &&
+                !(teacher.classIds || [])
+                    .includes(
+                        classFilter
+                    )
+            ){
+                return false;
+            }
+
+
+            if(
+                accountFilter ===
+                    "active" &&
+                !teacher.accountActive
+            ){
+                return false;
+            }
+
+
+            if(
+                accountFilter ===
+                    "inactive" &&
+                teacher.accountActive
+            ){
+                return false;
+            }
+
+
+            if(search){
+
+                const text =
+                    norm(
+                        `${teacher.name} ${teacher.code} ${teacher.subject}`
+                    );
+
+
+                if(
+                    !text.includes(
+                        search
+                    )
+                ){
+                    return false;
+                }
+
+            }
+
+
+            return true;
+
+        })
+        .sort(
+            (a,b) =>
+                String(a.name)
+                .localeCompare(
+                    String(b.name),
+                    "ar"
+                )
+        );
+
+
+    $("teachersBody").innerHTML =
+        rows.map(teacher => {
+
+            const classes =
+                (teacher.classIds || [])
+                .map(
+                    id =>
+                        DATA.classes[id]
+                )
+                .filter(Boolean)
+                .map(
+                    cls =>
+                        `${cls.name} (${genderText(cls.gender)})`
+                )
+                .join("، ");
+
+
+            return `
+
+                <tr>
+
+                    <td>
+
+                        <span class="code">
+                            ${esc(teacher.code)}
+                        </span>
+
+                    </td>
+
+                    <td>
+                        ${esc(teacher.name)}
+                    </td>
+
+                    <td>
+                        ${esc(teacher.subject)}
+                    </td>
+
+                    <td>
+                        ${esc(classes || "—")}
+                    </td>
+
+                    <td>
+
+                        ${
+                            teacher.accountActive
+                            ? `
+                                <span class="badge green">
+                                    فعال
+                                </span>
+                              `
+                            : `
+                                <span class="badge red">
+                                    غير فعال
+                                </span>
+                              `
+                        }
+
+                    </td>
+
+                    <td>
+
+                        <div class="row-actions">
+
+                            <button
+                                class="mini btn-soft"
+                                onclick="copyCode('${esc(teacher.code)}')"
+                            >
+                                نسخ الكود
+                            </button>
+
+                            <button
+                                class="mini ${
+                                    teacher.accountActive
+                                        ? "btn-red"
+                                        : "btn-green"
+                                }"
+                                onclick="toggleTeacherAccount('${esc(teacher.code)}')"
+                            >
+
+                                ${
+                                    teacher.accountActive
+                                        ? "إلغاء التفعيل"
+                                        : "تفعيل"
+                                }
+
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        })
+        .join("");
+
+}
+
+
+/* =========================================================
+   TEACHER ACCOUNT
+========================================================= */
+
+function toggleTeacherAccount(code){
+
+    const teacher =
+        DATA.teachers[code];
+
+
+    if(!teacher){
+        return;
+    }
+
+
+    const status =
+        !teacher.accountActive;
+
+
+    confirmBox(
+
+        status
+            ? "تفعيل الأستاذ"
+            : "إلغاء تفعيل الأستاذ",
+
+        `هل تريد ${
+            status
+                ? "تفعيل"
+                : "إلغاء تفعيل"
+        } حساب الأستاذ ${teacher.name}؟`,
+
+        async () => {
+
+            await Promise.all([
+
+                dbPatch(
+                    `${PATH.teachers}/${code}`,
+                    {
+                        accountActive:
+                            status
+                    }
+                ),
+
+                dbPatch(
+                    `${PATH.users}/${code}`,
+                    {
+                        active:
+                            status
+                    }
+                )
+
+            ]);
+
+
+            teacher.accountActive =
+                status;
+
+
+            if(
+                DATA.users[code]
+            ){
+
+                DATA.users[code].active =
+                    status;
+
+            }
+
+
+            renderTeachers();
+
+
+            toast(
+                status
+                    ? "تم تفعيل الأستاذ"
+                    : "تم إلغاء تفعيل الأستاذ"
+            );
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   RENDER ALL
+========================================================= */
+
+function renderAll(){
+
+    renderStats();
+
+    renderClasses();
+
+    fillClassControls();
+
+    fillRooms();
+
+    renderStudents();
+
+    renderTeachers();
+
+    updateBulkBar();
+
+}
+
+
+/* =========================================================
+   NETWORK
+========================================================= */
+
+window.addEventListener(
+    "offline",
+    () =>
+        toast(
+            "لا يوجد اتصال بالإنترنت"
+        )
+);
+
+
+window.addEventListener(
+    "online",
+    () => {
+
+        toast(
+            "تم استعادة الاتصال"
+        );
+
+        loadAll()
+            .catch(console.error);
+
+    }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+window.addEventListener(
+    "load",
+    async () => {
+
+        $("startDate").value =
+            today();
+
+
+        fillRooms();
+
+
+        try{
+
+            const allowed =
+                await verifyAdmin();
+
+
+            if(!allowed){
+                return;
+            }
+
+
+            await loadAll();
+
+        }
+
+        catch(error){
+
+            console.error(error);
+
+
+            toast(
+                "تعذر تحميل بيانات الإدارة"
+            );
+
+        }
+
+        finally{
+
+            $("loading")
+                .classList.add(
+                    "hidden"
+                );
+
+        }
+
+    }
+);
+
 </script>
 
+
 </body>
+
 </html>
