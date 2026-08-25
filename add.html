@@ -7,43 +7,39 @@
 
 <meta
     name="viewport"
-    content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
 >
 
 <meta name="theme-color" content="#075fcf">
 
 <title>إدارة المدرسة | مدرسة التحدي الأهلية المختلطة</title>
 
-<!-- PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-<!-- QR -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
 
 <style>
 
 /* =========================================================
-   ROOT
+   VARIABLES
 ========================================================= */
 
-:root{
+:root {
 
     --primary:#075fcf;
-    --primaryDark:#06499f;
-    --primarySoft:#edf5ff;
+    --primary-dark:#06489c;
+    --primary-soft:#edf5ff;
 
     --green:#078b50;
-    --greenSoft:#ecfdf3;
+    --green-soft:#ecfdf3;
 
     --red:#d92d20;
-    --redSoft:#fef3f2;
+    --red-soft:#fef3f2;
 
     --orange:#dc6803;
-    --orangeSoft:#fff6ed;
+    --orange-soft:#fff6ed;
 
     --purple:#6938ef;
-    --purpleSoft:#f4f3ff;
+    --purple-soft:#f4f3ff;
 
     --bg:#f4f7fb;
     --card:#ffffff;
@@ -52,9 +48,7 @@
     --muted:#667085;
     --border:#e4e7ec;
 
-    --shadow:
-        0 12px 35px
-        rgba(16,24,40,.07);
+    --shadow:0 12px 35px rgba(16,24,40,.07);
 
 }
 
@@ -63,27 +57,24 @@
    RESET
 ========================================================= */
 
-*{
-
-    box-sizing:border-box;
+* {
 
     margin:0;
     padding:0;
 
-    -webkit-tap-highlight-color:
-        transparent;
+    box-sizing:border-box;
+
+    -webkit-tap-highlight-color:transparent;
 
 }
 
-
-html{
+html {
 
     scroll-behavior:smooth;
 
 }
 
-
-body{
+body {
 
     min-height:100vh;
 
@@ -92,33 +83,28 @@ body{
         Arial,
         sans-serif;
 
-    background:
-        var(--bg);
+    background:var(--bg);
 
-    color:
-        var(--text);
+    color:var(--text);
 
 }
-
 
 button,
 input,
 select,
-textarea{
+textarea {
 
     font:inherit;
 
 }
 
-
-button{
+button {
 
     cursor:pointer;
 
 }
 
-
-.hidden{
+.hidden {
 
     display:none !important;
 
@@ -126,10 +112,10 @@ button{
 
 
 /* =========================================================
-   LOADER
+   LOADING
 ========================================================= */
 
-.loading-screen{
+.loading-screen {
 
     position:fixed;
 
@@ -146,22 +132,18 @@ button{
 
 }
 
-
-.loader{
+.loader {
 
     width:48px;
     height:48px;
 
     border-radius:50%;
 
-    border:
-        4px solid #e7edf5;
+    border:4px solid #e7edf5;
 
-    border-top-color:
-        var(--primary);
+    border-top-color:var(--primary);
 
-    animation:
-        spin .8s linear infinite;
+    animation:spin .8s linear infinite;
 
 }
 
@@ -170,7 +152,7 @@ button{
    HEADER
 ========================================================= */
 
-.header{
+.header {
 
     position:sticky;
 
@@ -178,22 +160,15 @@ button{
 
     z-index:1000;
 
-    background:
-        rgba(255,255,255,.97);
+    background:rgba(255,255,255,.97);
 
-    backdrop-filter:
-        blur(15px);
+    backdrop-filter:blur(15px);
 
-    -webkit-backdrop-filter:
-        blur(15px);
-
-    border-bottom:
-        1px solid var(--border);
+    border-bottom:1px solid var(--border);
 
 }
 
-
-.header-inner{
+.header-inner {
 
     width:min(1500px,100%);
 
@@ -201,8 +176,7 @@ button{
 
     margin:auto;
 
-    padding:
-        9px 17px;
+    padding:9px 17px;
 
     display:flex;
 
@@ -213,8 +187,7 @@ button{
 
 }
 
-
-.brand{
+.brand {
 
     display:flex;
 
@@ -226,8 +199,7 @@ button{
 
 }
 
-
-.brand img{
+.brand img {
 
     width:47px;
     height:47px;
@@ -236,8 +208,7 @@ button{
 
 }
 
-
-.brand h1{
+.brand h1 {
 
     font-size:15px;
 
@@ -245,13 +216,11 @@ button{
 
 }
 
-
-.brand p{
+.brand p {
 
     margin-top:3px;
 
-    color:
-        var(--primary);
+    color:var(--primary);
 
     font-size:10px;
 
@@ -259,23 +228,19 @@ button{
 
 }
 
-
-.logout-btn{
+.logout-btn {
 
     min-height:39px;
 
-    padding:
-        0 12px;
+    padding:0 12px;
 
     border:0;
 
     border-radius:11px;
 
-    color:
-        var(--red);
+    color:var(--red);
 
-    background:
-        var(--redSoft);
+    background:var(--red-soft);
 
     font-size:10px;
 
@@ -288,15 +253,13 @@ button{
    MAIN
 ========================================================= */
 
-.main{
+.main {
 
     width:min(1500px,100%);
 
     margin:auto;
 
-    padding:
-        17px 15px
-        55px;
+    padding:17px 15px 55px;
 
 }
 
@@ -305,7 +268,7 @@ button{
    HERO
 ========================================================= */
 
-.hero{
+.hero {
 
     position:relative;
 
@@ -320,7 +283,6 @@ button{
     color:#fff;
 
     background:
-
         linear-gradient(
             135deg,
             #0870e8,
@@ -328,14 +290,12 @@ button{
         );
 
     box-shadow:
-
         0 15px 35px
         rgba(7,95,207,.16);
 
 }
 
-
-.hero::after{
+.hero::after {
 
     content:"";
 
@@ -349,13 +309,11 @@ button{
 
     border-radius:50%;
 
-    background:
-        rgba(255,255,255,.08);
+    background:rgba(255,255,255,.08);
 
 }
 
-
-.hero h2{
+.hero h2 {
 
     position:relative;
 
@@ -365,8 +323,7 @@ button{
 
 }
 
-
-.hero p{
+.hero p {
 
     position:relative;
 
@@ -385,12 +342,11 @@ button{
    STATS
 ========================================================= */
 
-.stats{
+.stats {
 
     display:grid;
 
-    grid-template-columns:
-        repeat(4,1fr);
+    grid-template-columns:repeat(4,1fr);
 
     gap:9px;
 
@@ -398,13 +354,11 @@ button{
 
 }
 
-
-.stat{
+.stat {
 
     padding:14px;
 
-    border:
-        1px solid var(--border);
+    border:1px solid var(--border);
 
     border-radius:15px;
 
@@ -416,11 +370,9 @@ button{
 
 }
 
+.stat span {
 
-.stat span{
-
-    color:
-        var(--muted);
+    color:var(--muted);
 
     font-size:10px;
 
@@ -428,8 +380,7 @@ button{
 
 }
 
-
-.stat strong{
+.stat strong {
 
     display:block;
 
@@ -446,31 +397,27 @@ button{
    PANEL
 ========================================================= */
 
-.panel{
+.panel {
 
     margin-bottom:14px;
 
     overflow:hidden;
 
-    border:
-        1px solid var(--border);
+    border:1px solid var(--border);
 
     border-radius:18px;
 
     background:#fff;
 
-    box-shadow:
-        var(--shadow);
+    box-shadow:var(--shadow);
 
 }
 
-
-.panel-head{
+.panel-head {
 
     min-height:64px;
 
-    padding:
-        14px 17px;
+    padding:14px 17px;
 
     display:flex;
 
@@ -479,13 +426,11 @@ button{
 
     gap:10px;
 
-    border-bottom:
-        1px solid var(--border);
+    border-bottom:1px solid var(--border);
 
 }
 
-
-.panel-head h3{
+.panel-head h3 {
 
     font-size:15px;
 
@@ -493,13 +438,11 @@ button{
 
 }
 
-
-.panel-head p{
+.panel-head p {
 
     margin-top:4px;
 
-    color:
-        var(--muted);
+    color:var(--muted);
 
     font-size:10px;
 
@@ -507,8 +450,7 @@ button{
 
 }
 
-
-.panel-body{
+.panel-body {
 
     padding:17px;
 
@@ -519,7 +461,7 @@ button{
    CLASSES
 ========================================================= */
 
-.classes-grid{
+.classes-grid {
 
     display:grid;
 
@@ -530,22 +472,17 @@ button{
 
 }
 
-
-.class-card{
-
-    position:relative;
+.class-card {
 
     min-height:112px;
 
     padding:14px;
 
-    border:
-        1px solid var(--border);
+    border:1px solid var(--border);
 
     border-radius:15px;
 
     background:
-
         linear-gradient(
             145deg,
             #fff,
@@ -558,32 +495,25 @@ button{
 
 }
 
+.class-card:hover {
 
-.class-card:hover{
+    transform:translateY(-2px);
 
-    transform:
-        translateY(-2px);
-
-    border-color:
-        #abcdf5;
+    border-color:#abcdf5;
 
 }
 
+.class-card.selected {
 
-.class-card.selected{
-
-    border-color:
-        var(--primary);
+    border-color:var(--primary);
 
     box-shadow:
-
         0 0 0 3px
         rgba(7,95,207,.08);
 
 }
 
-
-.class-card h4{
+.class-card h4 {
 
     font-size:15px;
 
@@ -591,13 +521,11 @@ button{
 
 }
 
-
-.class-count{
+.class-count {
 
     margin-top:13px;
 
-    color:
-        var(--primary);
+    color:var(--primary);
 
     font-size:11px;
 
@@ -607,10 +535,10 @@ button{
 
 
 /* =========================================================
-   BADGE
+   BADGES
 ========================================================= */
 
-.badge{
+.badge {
 
     display:inline-flex;
 
@@ -619,8 +547,7 @@ button{
 
     min-height:25px;
 
-    padding:
-        0 8px;
+    padding:0 8px;
 
     border-radius:20px;
 
@@ -630,58 +557,43 @@ button{
 
 }
 
+.badge.blue {
 
-.badge.blue{
+    color:var(--primary);
 
-    color:
-        var(--primary);
-
-    background:
-        var(--primarySoft);
+    background:var(--primary-soft);
 
 }
 
+.badge.green {
 
-.badge.green{
+    color:var(--green);
 
-    color:
-        var(--green);
-
-    background:
-        var(--greenSoft);
+    background:var(--green-soft);
 
 }
 
+.badge.red {
 
-.badge.red{
+    color:var(--red);
 
-    color:
-        var(--red);
-
-    background:
-        var(--redSoft);
+    background:var(--red-soft);
 
 }
 
+.badge.orange {
 
-.badge.orange{
+    color:var(--orange);
 
-    color:
-        var(--orange);
-
-    background:
-        var(--orangeSoft);
+    background:var(--orange-soft);
 
 }
 
+.badge.purple {
 
-.badge.purple{
+    color:var(--purple);
 
-    color:
-        var(--purple);
-
-    background:
-        var(--purpleSoft);
+    background:var(--purple-soft);
 
 }
 
@@ -690,12 +602,11 @@ button{
    BUTTONS
 ========================================================= */
 
-.btn{
+.btn {
 
     min-height:41px;
 
-    padding:
-        0 13px;
+    padding:0 13px;
 
     border:0;
 
@@ -709,16 +620,13 @@ button{
 
 }
 
+.btn:active {
 
-.btn:active{
-
-    transform:
-        scale(.98);
+    transform:scale(.98);
 
 }
 
-
-.btn:disabled{
+.btn:disabled {
 
     opacity:.5;
 
@@ -726,76 +634,60 @@ button{
 
 }
 
-
-.btn-primary{
-
-    color:#fff;
-
-    background:
-        var(--primary);
-
-}
-
-
-.btn-green{
+.btn-primary {
 
     color:#fff;
 
-    background:
-        var(--green);
+    background:var(--primary);
 
 }
 
+.btn-green {
 
-.btn-soft{
+    color:#fff;
 
-    color:
-        var(--primary);
-
-    background:
-        var(--primarySoft);
+    background:var(--green);
 
 }
 
+.btn-soft {
 
-.btn-red{
+    color:var(--primary);
 
-    color:
-        var(--red);
-
-    background:
-        var(--redSoft);
+    background:var(--primary-soft);
 
 }
 
+.btn-red {
 
-.btn-orange{
+    color:var(--red);
 
-    color:
-        var(--orange);
-
-    background:
-        var(--orangeSoft);
+    background:var(--red-soft);
 
 }
 
+.btn-orange {
 
-.btn-purple{
+    color:var(--orange);
 
-    color:
-        var(--purple);
+    background:var(--orange-soft);
 
-    background:
-        var(--purpleSoft);
+}
+
+.btn-purple {
+
+    color:var(--purple);
+
+    background:var(--purple-soft);
 
 }
 
 
 /* =========================================================
-   TABS
+   MAIN TABS
 ========================================================= */
 
-.tabs{
+.tabs {
 
     display:flex;
 
@@ -805,37 +697,29 @@ button{
 
     margin-bottom:14px;
 
-    padding-bottom:3px;
-
     scrollbar-width:none;
 
 }
 
-
-.tabs::-webkit-scrollbar{
+.tabs::-webkit-scrollbar {
 
     display:none;
 
 }
 
+.tab {
 
-.tab{
-
-    flex:
-        0 0 auto;
+    flex:0 0 auto;
 
     min-height:42px;
 
-    padding:
-        0 15px;
+    padding:0 15px;
 
-    border:
-        1px solid var(--border);
+    border:1px solid var(--border);
 
     border-radius:11px;
 
-    color:
-        var(--muted);
+    color:var(--muted);
 
     background:#fff;
 
@@ -845,54 +729,44 @@ button{
 
 }
 
-
-.tab.active{
+.tab.active {
 
     color:#fff;
 
-    border-color:
-        var(--primary);
+    border-color:var(--primary);
 
-    background:
-        var(--primary);
+    background:var(--primary);
 
 }
 
-
-.section{
+.section {
 
     display:none;
 
 }
 
-
-.section.active{
+.section.active {
 
     display:block;
-
-    animation:
-        fadeIn .25s ease;
 
 }
 
 
 /* =========================================================
-   FORM
+   FORMS
 ========================================================= */
 
-.form-grid{
+.form-grid {
 
     display:grid;
 
-    grid-template-columns:
-        repeat(2,1fr);
+    grid-template-columns:repeat(2,1fr);
 
     gap:12px;
 
 }
 
-
-.field{
+.field {
 
     display:flex;
 
@@ -902,16 +776,13 @@ button{
 
 }
 
+.field.full {
 
-.field.full{
-
-    grid-column:
-        1 / -1;
+    grid-column:1/-1;
 
 }
 
-
-.field label{
+.field label {
 
     color:#344054;
 
@@ -921,40 +792,34 @@ button{
 
 }
 
-
 .field input,
 .field select,
-.field textarea{
+.field textarea {
 
     width:100%;
 
-    border:
-        1.5px solid var(--border);
+    border:1.5px solid var(--border);
 
     border-radius:11px;
 
-    color:
-        var(--text);
+    outline:none;
 
     background:#fff;
 
-    outline:none;
+    color:var(--text);
 
 }
 
-
 .field input,
-.field select{
+.field select {
 
     height:47px;
 
-    padding:
-        0 12px;
+    padding:0 12px;
 
 }
 
-
-.field textarea{
+.field textarea {
 
     min-height:90px;
 
@@ -964,26 +829,21 @@ button{
 
 }
 
-
 .field input:focus,
 .field select:focus,
-.field textarea:focus{
+.field textarea:focus {
 
-    border-color:
-        var(--primary);
+    border-color:var(--primary);
 
     box-shadow:
-
         0 0 0 4px
         rgba(7,95,207,.06);
 
 }
 
+.help {
 
-.help{
-
-    color:
-        var(--muted);
+    color:var(--muted);
 
     font-size:9px;
 
@@ -991,19 +851,17 @@ button{
 
 }
 
+.form-actions {
 
-.form-actions{
-
-    grid-column:
-        1 / -1;
+    grid-column:1/-1;
 
     display:flex;
 
     justify-content:flex-end;
 
-    gap:7px;
-
     flex-wrap:wrap;
+
+    gap:7px;
 
 }
 
@@ -1012,44 +870,37 @@ button{
    CODE BOX
 ========================================================= */
 
-.code-box{
+.code-box {
 
     padding:14px;
 
-    border:
-        1px dashed #9dc7f8;
+    border:1px dashed #9dc7f8;
 
     border-radius:13px;
 
     text-align:center;
 
-    background:
-        var(--primarySoft);
+    background:var(--primary-soft);
 
 }
 
+.code-box small {
 
-.code-box small{
-
-    color:
-        var(--muted);
+    color:var(--muted);
 
     font-size:9px;
 
 }
 
-
-.code-box strong{
+.code-box strong {
 
     display:block;
 
     direction:ltr;
 
-    margin:
-        7px 0 10px;
+    margin:7px 0 10px;
 
-    color:
-        var(--primary);
+    color:var(--primary);
 
     font-size:21px;
 
@@ -1061,10 +912,10 @@ button{
 
 
 /* =========================================================
-   CHECK
+   CHECKBOX
 ========================================================= */
 
-.check-grid{
+.check-grid {
 
     display:grid;
 
@@ -1075,13 +926,11 @@ button{
 
 }
 
-
-.check-item{
+.check-item {
 
     min-height:40px;
 
-    padding:
-        8px 10px;
+    padding:8px 10px;
 
     display:flex;
 
@@ -1089,8 +938,7 @@ button{
 
     gap:7px;
 
-    border:
-        1px solid var(--border);
+    border:1px solid var(--border);
 
     border-radius:10px;
 
@@ -1098,8 +946,7 @@ button{
 
 }
 
-
-.check-item input{
+.check-item input {
 
     width:16px;
     height:16px;
@@ -1111,7 +958,7 @@ button{
    FILTERS
 ========================================================= */
 
-.toolbar{
+.toolbar {
 
     display:grid;
 
@@ -1126,19 +973,16 @@ button{
 
 }
 
-
 .toolbar input,
-.toolbar select{
+.toolbar select {
 
     width:100%;
 
     height:43px;
 
-    padding:
-        0 10px;
+    padding:0 10px;
 
-    border:
-        1.5px solid var(--border);
+    border:1.5px solid var(--border);
 
     border-radius:10px;
 
@@ -1150,10 +994,10 @@ button{
 
 
 /* =========================================================
-   BULK
+   BULK TRANSFER
 ========================================================= */
 
-.bulk-bar{
+.bulk-bar {
 
     display:none;
 
@@ -1161,13 +1005,11 @@ button{
 
     padding:10px;
 
-    border:
-        1px solid #bad6f7;
+    border:1px solid #bad6f7;
 
     border-radius:11px;
 
-    background:
-        var(--primarySoft);
+    background:var(--primary-soft);
 
     align-items:center;
     justify-content:space-between;
@@ -1176,25 +1018,21 @@ button{
 
 }
 
-
-.bulk-bar.show{
+.bulk-bar.show {
 
     display:flex;
 
 }
 
+.bulk-bar strong {
 
-.bulk-bar strong{
-
-    color:
-        var(--primary);
+    color:var(--primary);
 
     font-size:10px;
 
 }
 
-
-.bulk-actions{
+.bulk-actions {
 
     display:flex;
 
@@ -1202,18 +1040,15 @@ button{
 
 }
 
-
-.bulk-actions select{
+.bulk-actions select {
 
     min-width:180px;
 
     height:38px;
 
-    padding:
-        0 8px;
+    padding:0 8px;
 
-    border:
-        1px solid #bad1ee;
+    border:1px solid #bad1ee;
 
     border-radius:8px;
 
@@ -1226,19 +1061,17 @@ button{
    TABLE
 ========================================================= */
 
-.table-wrap{
+.table-wrap {
 
     overflow:auto;
 
-    border:
-        1px solid var(--border);
+    border:1px solid var(--border);
 
     border-radius:12px;
 
 }
 
-
-table{
+table {
 
     width:100%;
 
@@ -1248,8 +1081,7 @@ table{
 
 }
 
-
-th{
+th {
 
     padding:10px;
 
@@ -1259,8 +1091,7 @@ th{
 
     background:#f8fafc;
 
-    border-bottom:
-        1px solid var(--border);
+    border-bottom:1px solid var(--border);
 
     color:#475467;
 
@@ -1270,13 +1101,11 @@ th{
 
 }
 
-
-td{
+td {
 
     padding:10px;
 
-    border-bottom:
-        1px solid #f0f2f5;
+    border-bottom:1px solid #f0f2f5;
 
     font-size:10px;
 
@@ -1284,63 +1113,55 @@ td{
 
 }
 
-
-tr:last-child td{
+tr:last-child td {
 
     border-bottom:0;
 
 }
 
-
-.code{
+.code {
 
     direction:ltr;
 
     display:inline-block;
 
-    color:
-        var(--primary);
+    color:var(--primary);
 
     font-weight:900;
 
 }
 
-
-.student-name-button{
-
-    padding:0;
+.student-name-button {
 
     border:0;
 
-    color:
-        var(--primary);
+    padding:0;
+
+    color:var(--primary);
 
     background:none;
 
-    text-align:right;
-
     font-weight:900;
+
+    text-align:right;
 
 }
 
-
-.row-actions{
+.row-actions {
 
     display:flex;
 
-    flex-wrap:wrap;
-
     gap:4px;
+
+    flex-wrap:wrap;
 
 }
 
-
-.mini{
+.mini {
 
     min-height:30px;
 
-    padding:
-        0 8px;
+    padding:0 8px;
 
     border:0;
 
@@ -1354,15 +1175,14 @@ tr:last-child td{
 
 
 /* =========================================================
-   MESSAGE
+   MESSAGES
 ========================================================= */
 
-.message{
+.message {
 
     display:none;
 
-    padding:
-        10px 12px;
+    padding:10px 12px;
 
     margin-bottom:11px;
 
@@ -1374,48 +1194,35 @@ tr:last-child td{
 
 }
 
-
-.message.show{
+.message.show {
 
     display:block;
 
 }
 
+.message.success {
 
-.message.success{
+    color:var(--green);
 
-    color:
-        var(--green);
-
-    background:
-        var(--greenSoft);
+    background:var(--green-soft);
 
 }
 
+.message.error {
 
-.message.error{
+    color:var(--red);
 
-    color:
-        var(--red);
-
-    background:
-        var(--redSoft);
+    background:var(--red-soft);
 
 }
 
-
-/* =========================================================
-   EMPTY
-========================================================= */
-
-.empty{
+.empty {
 
     padding:28px 15px;
 
     text-align:center;
 
-    color:
-        var(--muted);
+    color:var(--muted);
 
     font-size:10px;
 
@@ -1423,10 +1230,10 @@ tr:last-child td{
 
 
 /* =========================================================
-   MODAL
+   MODALS
 ========================================================= */
 
-.modal{
+.modal {
 
     position:fixed;
 
@@ -1441,23 +1248,19 @@ tr:last-child td{
 
     padding:14px;
 
-    background:
-        rgba(16,24,40,.5);
+    background:rgba(16,24,40,.5);
 
-    backdrop-filter:
-        blur(4px);
+    backdrop-filter:blur(4px);
 
 }
 
-
-.modal.show{
+.modal.show {
 
     display:flex;
 
 }
 
-
-.modal-card{
+.modal-card {
 
     width:min(650px,100%);
 
@@ -1477,8 +1280,7 @@ tr:last-child td{
 
 }
 
-
-.modal-head{
+.modal-head {
 
     display:flex;
 
@@ -1491,27 +1293,23 @@ tr:last-child td{
 
 }
 
-
-.modal-head h3{
+.modal-head h3 {
 
     font-size:16px;
 
 }
 
-
-.modal-head p{
+.modal-head p {
 
     margin-top:4px;
 
-    color:
-        var(--muted);
+    color:var(--muted);
 
     font-size:9px;
 
 }
 
-
-.close-btn{
+.close-btn {
 
     width:34px;
     height:34px;
@@ -1520,11 +1318,9 @@ tr:last-child td{
 
     border-radius:9px;
 
-    color:
-        var(--red);
+    color:var(--red);
 
-    background:
-        var(--redSoft);
+    background:var(--red-soft);
 
     font-weight:900;
 
@@ -1535,14 +1331,13 @@ tr:last-child td{
    STUDENT PROFILE
 ========================================================= */
 
-.student-profile-modal{
+.student-profile-modal {
 
-    width:min(960px,100%);
+    width:min(980px,100%);
 
 }
 
-
-.profile-summary{
+.profile-summary {
 
     display:flex;
 
@@ -1554,13 +1349,11 @@ tr:last-child td{
 
     margin-bottom:12px;
 
-    border:
-        1px solid var(--border);
+    border:1px solid var(--border);
 
     border-radius:14px;
 
     background:
-
         linear-gradient(
             135deg,
             #f5faff,
@@ -1569,8 +1362,7 @@ tr:last-child td{
 
 }
 
-
-.profile-avatar{
+.profile-avatar {
 
     width:62px;
     height:62px;
@@ -1587,7 +1379,6 @@ tr:last-child td{
     color:#fff;
 
     background:
-
         linear-gradient(
             135deg,
             #075fcf,
@@ -1600,8 +1391,7 @@ tr:last-child td{
 
 }
 
-
-.profile-summary h2{
+.profile-summary h2 {
 
     font-size:17px;
 
@@ -1609,8 +1399,7 @@ tr:last-child td{
 
 }
 
-
-.profile-badges{
+.profile-badges {
 
     display:flex;
 
@@ -1622,8 +1411,7 @@ tr:last-child td{
 
 }
 
-
-.profile-actions{
+.profile-actions {
 
     display:flex;
 
@@ -1635,8 +1423,7 @@ tr:last-child td{
 
 }
 
-
-.profile-tabs{
+.profile-tabs {
 
     display:flex;
 
@@ -1646,27 +1433,21 @@ tr:last-child td{
 
     margin-bottom:12px;
 
-    padding-bottom:3px;
-
 }
 
-
-.profile-tab{
+.profile-tab {
 
     flex:0 0 auto;
 
     min-height:38px;
 
-    padding:
-        0 12px;
+    padding:0 12px;
 
-    border:
-        1px solid var(--border);
+    border:1px solid var(--border);
 
     border-radius:9px;
 
-    color:
-        var(--muted);
+    color:var(--muted);
 
     background:#fff;
 
@@ -1676,54 +1457,45 @@ tr:last-child td{
 
 }
 
-
-.profile-tab.active{
+.profile-tab.active {
 
     color:#fff;
 
-    border-color:
-        var(--primary);
+    border-color:var(--primary);
 
-    background:
-        var(--primary);
+    background:var(--primary);
 
 }
 
-
-.profile-panel{
+.profile-panel {
 
     display:none;
 
 }
 
-
-.profile-panel.active{
+.profile-panel.active {
 
     display:block;
 
 }
 
-
-.profile-info-grid{
+.profile-info-grid {
 
     display:grid;
 
-    grid-template-columns:
-        repeat(3,1fr);
+    grid-template-columns:repeat(3,1fr);
 
     gap:8px;
 
 }
 
-
-.profile-info{
+.profile-info {
 
     min-height:69px;
 
     padding:10px;
 
-    border:
-        1px solid var(--border);
+    border:1px solid var(--border);
 
     border-radius:10px;
 
@@ -1731,23 +1503,19 @@ tr:last-child td{
 
 }
 
+.profile-info.full {
 
-.profile-info.full{
-
-    grid-column:
-        1 / -1;
+    grid-column:1/-1;
 
 }
 
-
-.profile-info small{
+.profile-info small {
 
     display:block;
 
     margin-bottom:4px;
 
-    color:
-        var(--muted);
+    color:var(--muted);
 
     font-size:8px;
 
@@ -1755,8 +1523,7 @@ tr:last-child td{
 
 }
 
-
-.profile-info strong{
+.profile-info strong {
 
     display:block;
 
@@ -1766,8 +1533,7 @@ tr:last-child td{
 
 }
 
-
-.profile-list{
+.profile-list {
 
     display:flex;
 
@@ -1777,8 +1543,7 @@ tr:last-child td{
 
 }
 
-
-.profile-list-item{
+.profile-list-item {
 
     padding:11px;
 
@@ -1789,41 +1554,35 @@ tr:last-child td{
 
     gap:10px;
 
-    border:
-        1px solid var(--border);
+    border:1px solid var(--border);
 
     border-radius:10px;
 
 }
 
-
-.profile-list-item strong{
+.profile-list-item strong {
 
     font-size:10px;
 
 }
 
-
-.profile-list-item small{
+.profile-list-item small {
 
     display:block;
 
     margin-top:3px;
 
-    color:
-        var(--muted);
+    color:var(--muted);
 
     font-size:8px;
 
 }
 
-
-.profile-money{
+.profile-money {
 
     display:grid;
 
-    grid-template-columns:
-        repeat(3,1fr);
+    grid-template-columns:repeat(3,1fr);
 
     gap:8px;
 
@@ -1831,13 +1590,11 @@ tr:last-child td{
 
 }
 
-
-.profile-money > div{
+.profile-money > div {
 
     padding:11px;
 
-    border:
-        1px solid var(--border);
+    border:1px solid var(--border);
 
     border-radius:10px;
 
@@ -1845,22 +1602,17 @@ tr:last-child td{
 
 }
 
-
-.profile-money span{
+.profile-money span {
 
     display:block;
 
-    color:
-        var(--muted);
+    color:var(--muted);
 
     font-size:8px;
 
-    font-weight:800;
-
 }
 
-
-.profile-money strong{
+.profile-money strong {
 
     display:block;
 
@@ -1875,7 +1627,7 @@ tr:last-child td{
    PDF PREVIEW
 ========================================================= */
 
-.pdf-preview-modal{
+.pdf-preview-modal {
 
     align-items:flex-start;
 
@@ -1883,10 +1635,9 @@ tr:last-child td{
 
 }
 
+.pdf-preview-window {
 
-.pdf-preview-window{
-
-    width:min(950px,100%);
+    width:min(960px,100%);
 
     margin:auto;
 
@@ -1898,52 +1649,42 @@ tr:last-child td{
 
 }
 
-
-.pdf-preview-head{
+.pdf-preview-head {
 
     min-height:67px;
 
-    padding:
-        13px 16px;
+    padding:13px 16px;
 
     display:flex;
 
     align-items:center;
     justify-content:space-between;
 
-    gap:10px;
-
     background:#fff;
 
-    border-bottom:
-        1px solid var(--border);
+    border-bottom:1px solid var(--border);
 
 }
 
-
-.pdf-preview-head h3{
+.pdf-preview-head h3 {
 
     font-size:15px;
 
 }
 
-
-.pdf-preview-head p{
+.pdf-preview-head p {
 
     margin-top:3px;
 
-    color:
-        var(--muted);
+    color:var(--muted);
 
     font-size:9px;
 
 }
 
+.pdf-preview-actions {
 
-.pdf-preview-actions{
-
-    padding:
-        10px 15px;
+    padding:10px 15px;
 
     display:flex;
 
@@ -1953,13 +1694,11 @@ tr:last-child td{
 
     background:#fff;
 
-    border-bottom:
-        1px solid var(--border);
+    border-bottom:1px solid var(--border);
 
 }
 
-
-.pdf-preview-scroll{
+.pdf-preview-scroll {
 
     overflow:auto;
 
@@ -1967,8 +1706,7 @@ tr:last-child td{
 
 }
 
-
-.pdf-preview-content{
+.pdf-preview-content {
 
     width:794px;
 
@@ -1976,17 +1714,11 @@ tr:last-child td{
 
 }
 
-
-/* =========================================================
-   PDF HOST
-========================================================= */
-
-.pdf-host{
+.pdf-host {
 
     position:fixed;
 
     left:-99999px;
-
     top:0;
 
     width:794px;
@@ -1995,10 +1727,10 @@ tr:last-child td{
 
 
 /* =========================================================
-   PDF A4
+   PDF PAGE
 ========================================================= */
 
-.pdf-page{
+.pdf-page {
 
     position:relative;
 
@@ -2009,19 +1741,16 @@ tr:last-child td{
 
     direction:rtl;
 
+    color:#17283c;
+
     background-color:#fff;
 
     background-image:
         url("images/student-form-template.jpeg");
 
-    background-size:
-        100% 100%;
-
+    background-size:100% 100%;
     background-position:center;
-
     background-repeat:no-repeat;
-
-    color:#18283b;
 
     font-family:
         Tahoma,
@@ -2030,24 +1759,23 @@ tr:last-child td{
 
 }
 
-
-.pdf-safe{
+.pdf-safe {
 
     position:absolute;
 
-    top:41px;
+    top:42px;
     right:50px;
-    bottom:45px;
+    bottom:44px;
     left:50px;
 
 }
 
 
 /* =========================================================
-   PDF HALF 1
+   PDF FIRST HALF
 ========================================================= */
 
-.pdf-first{
+.pdf-first {
 
     position:absolute;
 
@@ -2057,28 +1785,25 @@ tr:last-child td{
     width:100%;
     height:50%;
 
-    padding:
-        13px 7px 18px;
+    padding:12px 8px 18px;
 
     overflow:hidden;
 
 }
 
-
-.pdf-watermark{
+.pdf-watermark {
 
     position:absolute;
 
     z-index:0;
 
-    width:250px;
-    height:250px;
-
-    top:52%;
+    top:51%;
     right:50%;
 
-    transform:
-        translate(50%,-50%);
+    width:260px;
+    height:260px;
+
+    transform:translate(50%,-50%);
 
     object-fit:contain;
 
@@ -2086,17 +1811,18 @@ tr:last-child td{
 
 }
 
-
-.pdf-meta{
+.pdf-meta {
 
     position:absolute;
 
-    z-index:10;
+    z-index:5;
 
-    top:7px;
-    right:7px;
+    top:8px;
+    left:8px;
 
-    width:170px;
+    width:155px;
+
+    text-align:right;
 
     color:#273b55;
 
@@ -2108,29 +1834,26 @@ tr:last-child td{
 
 }
 
-
-.pdf-school-header{
+.pdf-school-header {
 
     position:relative;
 
-    z-index:4;
+    z-index:3;
 
     text-align:center;
 
 }
 
+.pdf-school-header img {
 
-.pdf-school-header img{
-
-    width:65px;
-    height:65px;
+    width:63px;
+    height:63px;
 
     object-fit:contain;
 
 }
 
-
-.pdf-school-header h2{
+.pdf-school-header h2 {
 
     margin-top:2px;
 
@@ -2142,8 +1865,7 @@ tr:last-child td{
 
 }
 
-
-.pdf-school-header p{
+.pdf-school-header p {
 
     margin-top:2px;
 
@@ -2155,31 +1877,17 @@ tr:last-child td{
 
 }
 
-
-.pdf-recipient{
+.pdf-recipient {
 
     position:relative;
 
-    z-index:4;
+    z-index:3;
 
-    margin-top:14px;
+    margin-top:18px;
 
     text-align:center;
 
     color:#223c5a;
-
-    font-size:12px;
-
-    font-weight:800;
-
-}
-
-
-.pdf-recipient strong{
-
-    display:inline-block;
-
-    color:#0c4381;
 
     font-size:13px;
 
@@ -2187,44 +1895,47 @@ tr:last-child td{
 
 }
 
+.pdf-recipient strong {
 
-.pdf-subject{
+    color:#0d427d;
 
-    position:relative;
-
-    z-index:4;
-
-    width:max-content;
-
-    margin:
-        13px auto
-        0;
-
-    padding:
-        5px 26px;
-
-    color:#183d69;
-
-    border-bottom:
-        2px solid #183d69;
-
-    font-size:12px;
+    font-size:14px;
 
     font-weight:900;
 
 }
 
-
-.pdf-letter{
+.pdf-subject {
 
     position:relative;
 
-    z-index:4;
+    z-index:3;
+
+    width:max-content;
+
+    margin:14px auto 0;
+
+    padding:5px 25px;
+
+    border-bottom:2px solid #183d69;
+
+    color:#183d69;
+
+    font-size:13px;
+
+    font-weight:900;
+
+}
+
+.pdf-letter {
+
+    position:relative;
+
+    z-index:3;
 
     margin-top:15px;
 
-    padding:
-        0 7px;
+    padding:0 7px;
 
     color:#1b2e45;
 
@@ -2232,14 +1943,13 @@ tr:last-child td{
 
     line-height:2.05;
 
-    font-weight:600;
-
     text-align:justify;
+
+    font-weight:600;
 
 }
 
-
-.pdf-letter strong{
+.pdf-letter strong {
 
     color:#064b9d;
 
@@ -2247,12 +1957,11 @@ tr:last-child td{
 
 }
 
-
-.pdf-thanks{
+.pdf-thanks {
 
     position:relative;
 
-    z-index:4;
+    z-index:3;
 
     margin-top:8px;
 
@@ -2264,23 +1973,22 @@ tr:last-child td{
 
 }
 
-
-.pdf-admin-sign{
+.pdf-admin-sign {
 
     position:absolute;
 
-    z-index:5;
+    z-index:4;
 
-    left:25px;
+    left:26px;
     bottom:18px;
 
-    width:220px;
+    min-width:220px;
 
     text-align:center;
 
     color:#183d69;
 
-    font-size:16px;
+    font-size:17px;
 
     font-weight:900;
 
@@ -2288,10 +1996,10 @@ tr:last-child td{
 
 
 /* =========================================================
-   PDF DIVIDER
+   PDF CENTER DIVIDER
 ========================================================= */
 
-.pdf-divider{
+.pdf-divider {
 
     position:absolute;
 
@@ -2308,8 +2016,7 @@ tr:last-child td{
 
 }
 
-
-.pdf-divider-label{
+.pdf-divider-label {
 
     position:absolute;
 
@@ -2318,16 +2025,13 @@ tr:last-child td{
     top:50%;
     right:50%;
 
-    transform:
-        translate(50%,-50%);
+    transform:translate(50%,-50%);
 
-    padding:
-        5px 20px;
+    padding:5px 22px;
 
-    border:
-        1px solid #263f60;
+    border:1px solid #263f60;
 
-    border-radius:30px;
+    border-radius:25px;
 
     background:#fff;
 
@@ -2341,10 +2045,10 @@ tr:last-child td{
 
 
 /* =========================================================
-   PDF HALF 2
+   PDF SECOND HALF
 ========================================================= */
 
-.pdf-second{
+.pdf-second {
 
     position:absolute;
 
@@ -2354,15 +2058,13 @@ tr:last-child td{
     width:100%;
     height:50%;
 
-    padding:
-        17px 7px 10px;
+    padding:17px 7px 8px;
 
     overflow:hidden;
 
 }
 
-
-.pdf-student-header{
+.pdf-student-header {
 
     display:flex;
 
@@ -2371,12 +2073,11 @@ tr:last-child td{
 
     gap:12px;
 
-    margin-bottom:10px;
+    margin-bottom:9px;
 
 }
 
-
-.pdf-student-brand{
+.pdf-student-brand {
 
     display:flex;
 
@@ -2386,18 +2087,16 @@ tr:last-child td{
 
 }
 
+.pdf-student-brand img {
 
-.pdf-student-brand img{
-
-    width:52px;
-    height:52px;
+    width:49px;
+    height:49px;
 
     object-fit:contain;
 
 }
 
-
-.pdf-student-brand h2{
+.pdf-student-brand h2 {
 
     color:#183d69;
 
@@ -2407,8 +2106,7 @@ tr:last-child td{
 
 }
 
-
-.pdf-student-brand p{
+.pdf-student-brand p {
 
     margin-top:2px;
 
@@ -2418,28 +2116,23 @@ tr:last-child td{
 
 }
 
-
-.pdf-form-number{
+.pdf-form-number {
 
     min-width:105px;
 
-    padding:
-        6px 9px;
+    padding:6px 9px;
 
-    border:
-        1px solid #7893b3;
+    border:1px solid #7893b3;
 
     border-radius:9px;
 
     text-align:center;
 
-    background:
-        rgba(255,255,255,.9);
+    background:rgba(255,255,255,.92);
 
 }
 
-
-.pdf-form-number small{
+.pdf-form-number small {
 
     display:block;
 
@@ -2449,8 +2142,7 @@ tr:last-child td{
 
 }
 
-
-.pdf-form-number strong{
+.pdf-form-number strong {
 
     display:block;
 
@@ -2462,54 +2154,43 @@ tr:last-child td{
 
 }
 
-
-.pdf-data-grid{
+.pdf-data-grid {
 
     display:grid;
 
-    grid-template-columns:
-        repeat(3,1fr);
+    grid-template-columns:repeat(3,1fr);
 
-    gap:6px;
+    gap:5px;
 
 }
 
+.pdf-data {
 
-.pdf-data{
+    min-height:43px;
 
-    min-height:47px;
+    padding:5px 7px;
 
-    padding:
-        6px 8px;
-
-    border:
-        1px solid rgba(100,116,139,.3);
+    border:1px solid rgba(100,116,139,.3);
 
     border-radius:7px;
 
-    background:
-        rgba(255,255,255,.91);
+    background:rgba(255,255,255,.92);
 
 }
 
+.pdf-data.span2 {
 
-.pdf-data.span2{
-
-    grid-column:
-        span 2;
+    grid-column:span 2;
 
 }
 
+.pdf-data.full {
 
-.pdf-data.full{
-
-    grid-column:
-        1 / -1;
+    grid-column:1/-1;
 
 }
 
-
-.pdf-data b{
+.pdf-data b {
 
     display:block;
 
@@ -2517,45 +2198,41 @@ tr:last-child td{
 
     color:#6b7788;
 
-    font-size:7px;
+    font-size:6.8px;
 
     font-weight:800;
 
 }
 
-
-.pdf-data span{
+.pdf-data span {
 
     display:block;
 
     color:#18293f;
 
-    font-size:9px;
+    font-size:8.5px;
 
-    line-height:1.5;
+    line-height:1.45;
 
     font-weight:900;
 
 }
 
-
-.pdf-login{
+.pdf-login {
 
     display:grid;
 
-    grid-template-columns:
-        1fr 112px;
+    grid-template-columns:1fr 105px;
 
-    gap:8px;
+    gap:7px;
 
-    margin-top:8px;
+    margin-top:7px;
 
 }
 
+.pdf-code-card {
 
-.pdf-code-card{
-
-    min-height:83px;
+    min-height:75px;
 
     display:flex;
 
@@ -2564,20 +2241,17 @@ tr:last-child td{
     align-items:center;
     justify-content:center;
 
-    padding:7px;
+    padding:6px;
 
-    border:
-        1.5px dashed #426a99;
+    border:1.5px dashed #426a99;
 
-    border-radius:10px;
+    border-radius:9px;
 
-    background:
-        rgba(255,255,255,.94);
+    background:rgba(255,255,255,.95);
 
 }
 
-
-.pdf-code-card small{
+.pdf-code-card small {
 
     color:#667085;
 
@@ -2585,16 +2259,15 @@ tr:last-child td{
 
 }
 
-
-.pdf-code-card strong{
+.pdf-code-card strong {
 
     direction:ltr;
 
-    margin-top:4px;
+    margin-top:3px;
 
     color:#164677;
 
-    font-size:19px;
+    font-size:18px;
 
     font-weight:900;
 
@@ -2602,21 +2275,19 @@ tr:last-child td{
 
 }
 
+.pdf-code-card p {
 
-.pdf-code-card p{
-
-    margin-top:3px;
+    margin-top:2px;
 
     color:#667085;
 
-    font-size:7px;
+    font-size:6.5px;
 
 }
 
+.pdf-qr-card {
 
-.pdf-qr-card{
-
-    min-height:83px;
+    min-height:75px;
 
     display:flex;
 
@@ -2625,45 +2296,38 @@ tr:last-child td{
     align-items:center;
     justify-content:center;
 
-    border:
-        1px solid #ccd8e5;
+    border:1px solid #ccd8e5;
 
-    border-radius:10px;
+    border-radius:9px;
 
-    background:
-        rgba(255,255,255,.95);
+    background:rgba(255,255,255,.96);
 
 }
 
+.student-pdf-qr {
 
-.student-pdf-qr{
-
-    width:62px;
-    height:62px;
+    width:58px;
+    height:58px;
 
 }
-
 
 .student-pdf-qr img,
-.student-pdf-qr canvas{
+.student-pdf-qr canvas {
 
     display:block !important;
 
-    width:62px !important;
-    height:62px !important;
+    width:58px !important;
+    height:58px !important;
 
 }
 
+.pdf-qr-card small {
 
-.pdf-qr-card small{
-
-    margin-top:3px;
+    margin-top:2px;
 
     color:#64748b;
 
     font-size:6px;
-
-    font-weight:800;
 
 }
 
@@ -2672,7 +2336,7 @@ tr:last-child td{
    TOAST
 ========================================================= */
 
-.toast{
+.toast {
 
     position:fixed;
 
@@ -2681,16 +2345,13 @@ tr:last-child td{
     left:50%;
     bottom:24px;
 
-    transform:
-        translate(-50%,30px);
+    transform:translate(-50%,30px);
 
     min-width:220px;
 
-    max-width:
-        calc(100% - 25px);
+    max-width:calc(100% - 25px);
 
-    padding:
-        11px 15px;
+    padding:11px 15px;
 
     border-radius:10px;
 
@@ -2705,22 +2366,18 @@ tr:last-child td{
     font-weight:800;
 
     opacity:0;
-
     visibility:hidden;
 
     transition:.2s;
 
 }
 
-
-.toast.show{
+.toast.show {
 
     opacity:1;
-
     visibility:visible;
 
-    transform:
-        translate(-50%,0);
+    transform:translate(-50%,0);
 
 }
 
@@ -2729,116 +2386,97 @@ tr:last-child td{
    MOBILE
 ========================================================= */
 
-@media(max-width:850px){
+@media(max-width:850px) {
 
-    .stats{
+    .stats {
 
-        grid-template-columns:
-            repeat(2,1fr);
+        grid-template-columns:repeat(2,1fr);
 
     }
 
 }
 
+@media(max-width:680px) {
 
-@media(max-width:680px){
+    .header-inner {
 
-    .header-inner{
-
-        padding:
-            7px 9px;
+        padding:7px 9px;
 
     }
 
-
-    .brand img{
+    .brand img {
 
         width:39px;
         height:39px;
 
     }
 
-
-    .brand h1{
+    .brand h1 {
 
         font-size:11px;
 
     }
 
-
-    .brand p{
+    .brand p {
 
         font-size:8px;
 
     }
 
-
-    .logout-btn{
+    .logout-btn {
 
         min-height:35px;
 
-        padding:
-            0 8px;
+        padding:0 8px;
 
         font-size:8px;
 
     }
 
+    .main {
 
-    .main{
-
-        padding:
-            11px 9px
-            45px;
+        padding:11px 9px 45px;
 
     }
 
-
-    .hero{
+    .hero {
 
         padding:16px;
 
     }
 
-
-    .hero h2{
+    .hero h2 {
 
         font-size:17px;
 
     }
 
+    .classes-grid {
 
-    .classes-grid{
-
-        grid-template-columns:
-            repeat(2,1fr);
+        grid-template-columns:repeat(2,1fr);
 
     }
 
-
-    .form-grid{
+    .form-grid {
 
         grid-template-columns:1fr;
 
     }
 
-
     .field.full,
-    .form-actions{
+    .form-actions {
 
         grid-column:auto;
 
     }
 
-
-    .toolbar{
+    .toolbar {
 
         grid-template-columns:1fr;
 
     }
 
-
-    .bulk-bar{
+    .bulk-bar {
 
         flex-direction:column;
 
@@ -2846,118 +2484,80 @@ tr:last-child td{
 
     }
 
-
-    .bulk-actions{
+    .bulk-actions {
 
         width:100%;
 
         flex-direction:column;
 
     }
-
 
     .bulk-actions select,
-    .bulk-actions button{
+    .bulk-actions button {
 
         width:100%;
 
     }
 
-
-    .form-actions{
+    .form-actions {
 
         flex-direction:column;
 
     }
 
-
-    .form-actions .btn{
+    .form-actions .btn {
 
         width:100%;
 
     }
 
+    .profile-info-grid {
 
-    .profile-info-grid{
-
-        grid-template-columns:
-            repeat(2,1fr);
+        grid-template-columns:repeat(2,1fr);
 
     }
 
-
-    .profile-money{
+    .profile-money {
 
         grid-template-columns:1fr;
 
     }
 
-
-    .pdf-preview-actions{
+    .pdf-preview-actions {
 
         flex-direction:column;
 
     }
 
-
-    .pdf-preview-actions .btn{
+    .pdf-preview-actions .btn {
 
         width:100%;
 
     }
 
-
-    .pdf-preview-scroll{
+    .pdf-preview-scroll {
 
         padding:8px;
 
     }
 
+    .pdf-preview-content {
 
-    .pdf-preview-content{
+        transform:scale(.46);
 
-        transform:
-            scale(.46);
+        transform-origin:top center;
 
-        transform-origin:
-            top center;
-
-        margin-bottom:
-            -605px;
+        margin-bottom:-605px;
 
     }
 
 }
 
+@keyframes spin {
 
-@keyframes spin{
+    to {
 
-    to{
-
-        transform:
-            rotate(360deg);
-
-    }
-
-}
-
-
-@keyframes fadeIn{
-
-    from{
-
-        opacity:0;
-
-        transform:
-            translateY(4px);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:none;
+        transform:rotate(360deg);
 
     }
 
@@ -2994,6 +2594,7 @@ tr:last-child td{
 
     <div class="header-inner">
 
+
         <div class="brand">
 
             <img
@@ -3023,20 +2624,19 @@ tr:last-child td{
             تسجيل الخروج
         </button>
 
+
     </div>
 
 </header>
 
 
 
-<!-- =========================================================
-     MAIN
-========================================================= -->
-
 <main class="main">
 
 
-<!-- HERO -->
+<!-- =========================================================
+     HERO
+========================================================= -->
 
 <section class="hero">
 
@@ -3045,16 +2645,19 @@ tr:last-child td{
     </h2>
 
     <p>
-        إدارة الصفوف والطلاب والأساتذة والملفات والأقساط والدرجات.
+        إدارة الصفوف والطلاب والأساتذة والملفات والأقساط.
     </p>
 
 </section>
 
 
 
-<!-- STATS -->
+<!-- =========================================================
+     STATISTICS
+========================================================= -->
 
 <div class="stats">
+
 
     <div class="stat">
 
@@ -3107,15 +2710,17 @@ tr:last-child td{
 
     </div>
 
+
 </div>
 
 
 
 <!-- =========================================================
-     CLASSES TOP
+     CLASSES
 ========================================================= -->
 
 <section class="panel">
+
 
     <div class="panel-head">
 
@@ -3126,7 +2731,7 @@ tr:last-child td{
             </h3>
 
             <p>
-                اضغط على الصف لعرض الطلاب الموجودين فيه.
+                اضغط على أي صف لعرض الطلاب المسجلين فيه.
             </p>
 
         </div>
@@ -3151,15 +2756,17 @@ tr:last-child td{
 
     </div>
 
+
 </section>
 
 
 
 <!-- =========================================================
-     MAIN TABS
+     TABS
 ========================================================= -->
 
 <nav class="tabs">
+
 
     <button
         class="tab active"
@@ -3191,6 +2798,7 @@ tr:last-child td{
     >
         إضافة أستاذ
     </button>
+
 
 </nav>
 
@@ -3236,9 +2844,8 @@ tr:last-child td{
     <div class="panel-body">
 
 
-        <!-- FILTERS -->
-
         <div class="toolbar">
+
 
             <input
                 id="studentSearch"
@@ -3280,16 +2887,16 @@ tr:last-child td{
 
             </select>
 
+
         </div>
 
 
-
-        <!-- BULK -->
 
         <div
             id="bulkBar"
             class="bulk-bar"
         >
+
 
             <strong id="selectedCount">
                 تم تحديد 0 طالب
@@ -3316,72 +2923,48 @@ tr:last-child td{
 
             </div>
 
+
         </div>
 
 
 
-        <!-- TABLE -->
-
         <div class="table-wrap">
 
             <table>
+
 
                 <thead>
 
                     <tr>
 
                         <th>
-
                             <input
                                 id="selectAll"
                                 type="checkbox"
                             >
-
                         </th>
 
-                        <th>
-                            العدد
-                        </th>
+                        <th>العدد</th>
 
-                        <th>
-                            الكود
-                        </th>
+                        <th>الكود</th>
 
-                        <th>
-                            اسم الطالب
-                        </th>
+                        <th>اسم الطالب</th>
 
-                        <th>
-                            الجنس
-                        </th>
+                        <th>الجنس</th>
 
-                        <th>
-                            الصف
-                        </th>
+                        <th>الصف</th>
 
-                        <th>
-                            القاعة
-                        </th>
+                        <th>القاعة</th>
 
-                        <th>
-                            الملف
-                        </th>
+                        <th>الملف</th>
 
-                        <th>
-                            الكتب
-                        </th>
+                        <th>الكتب</th>
 
-                        <th>
-                            القسط
-                        </th>
+                        <th>القسط</th>
 
-                        <th>
-                            الحساب
-                        </th>
+                        <th>الحساب</th>
 
-                        <th>
-                            الإجراءات
-                        </th>
+                        <th>الإجراءات</th>
 
                     </tr>
 
@@ -3389,6 +2972,7 @@ tr:last-child td{
 
 
                 <tbody id="studentsBody"></tbody>
+
 
             </table>
 
@@ -3399,7 +2983,7 @@ tr:last-child td{
             id="studentsEmpty"
             class="empty hidden"
         >
-            لا توجد بيانات طلاب مطابقة.
+            لا توجد بيانات مطابقة.
         </div>
 
 
@@ -3432,7 +3016,7 @@ tr:last-child td{
             </h3>
 
             <p>
-                يمكنك معاينة وتحميل الاستمارة قبل حفظ الطالب.
+                يمكنك معاينة وتحميل ملف PDF قبل حفظ الطالب.
             </p>
 
         </div>
@@ -3508,7 +3092,7 @@ tr:last-child td{
                 <input
                     id="studentGenderDisplay"
                     readonly
-                    placeholder="يحدد من الصف"
+                    placeholder="يحدد حسب الصف"
                 >
 
             </div>
@@ -3612,11 +3196,11 @@ tr:last-child td{
                     type="number"
                     min="0"
                     step="1000"
-                    placeholder="مثال: 1000000"
+                    placeholder="يمكن تركه فارغاً أو 0"
                 >
 
                 <div class="help">
-                    لا يمكن تفعيل الحساب بدون تحديد مبلغ القسط.
+                    القسط اختياري عند التسجيل ويمكن وضع صفر أو تركه فارغاً.
                 </div>
 
             </div>
@@ -3639,6 +3223,7 @@ tr:last-child td{
 
             <div class="field full">
 
+
                 <div class="code-box">
 
                     <small>
@@ -3660,10 +3245,12 @@ tr:last-child td{
 
                 </div>
 
+
             </div>
 
 
             <div class="field full">
+
 
                 <label class="check-item">
 
@@ -3678,10 +3265,17 @@ tr:last-child td{
 
                 </label>
 
+
+                <div class="help">
+                    إذا كان القسط صفر وتم اختيار التفعيل، يتم حفظ الطالب بشكل طبيعي ويبقى الحساب غير مفعّل إلى حين تحديد مبلغ القسط.
+                </div>
+
+
             </div>
 
 
             <div class="form-actions">
+
 
                 <button
                     type="button"
@@ -3709,6 +3303,7 @@ tr:last-child td{
                     حفظ الطالب
                 </button>
 
+
             </div>
 
 
@@ -3724,7 +3319,7 @@ tr:last-child td{
 
 
 <!-- =========================================================
-     TEACHERS LIST
+     TEACHERS
 ========================================================= -->
 
 <section
@@ -3744,7 +3339,7 @@ tr:last-child td{
             </h3>
 
             <p>
-                أسماء الأساتذة والمواد والصفوف المسندة إليهم.
+                عرض الأساتذة والمواد والصفوف المسندة إليهم.
             </p>
 
         </div>
@@ -3756,6 +3351,7 @@ tr:last-child td{
 
 
         <div class="toolbar">
+
 
             <input
                 id="teacherSearch"
@@ -3783,40 +3379,31 @@ tr:last-child td{
 
             </select>
 
+
         </div>
 
 
         <div class="table-wrap">
 
+
             <table>
+
 
                 <thead>
 
                     <tr>
 
-                        <th>
-                            الكود
-                        </th>
+                        <th>الكود</th>
 
-                        <th>
-                            اسم الأستاذ
-                        </th>
+                        <th>اسم الأستاذ</th>
 
-                        <th>
-                            المادة
-                        </th>
+                        <th>المادة</th>
 
-                        <th>
-                            الصفوف
-                        </th>
+                        <th>الصفوف</th>
 
-                        <th>
-                            الحساب
-                        </th>
+                        <th>الحساب</th>
 
-                        <th>
-                            الإجراءات
-                        </th>
+                        <th>الإجراءات</th>
 
                     </tr>
 
@@ -3825,7 +3412,9 @@ tr:last-child td{
 
                 <tbody id="teachersBody"></tbody>
 
+
             </table>
+
 
         </div>
 
@@ -3900,7 +3489,7 @@ tr:last-child td{
             <div class="field full">
 
                 <label>
-                    المادة التي يدرسها
+                    المادة
                 </label>
 
                 <input
@@ -3980,7 +3569,7 @@ tr:last-child td{
 
 
 <!-- =========================================================
-     CLASS MODAL
+     CREATE CLASS MODAL
 ========================================================= -->
 
 <div
@@ -3996,11 +3585,11 @@ tr:last-child td{
         <div>
 
             <h3>
-                إنشاء صف جديد
+                إنشاء صف
             </h3>
 
             <p>
-                اكتب اسم الصف وحدد هل هو ذكور أو إناث.
+                اكتب اسم الصف وحدد الجنس.
             </p>
 
         </div>
@@ -4087,7 +3676,7 @@ tr:last-child td{
 
 
 <!-- =========================================================
-     EDIT STUDENT
+     EDIT STUDENT MODAL
 ========================================================= -->
 
 <div
@@ -4136,7 +3725,7 @@ tr:last-child td{
         <div class="field full">
 
             <label>
-                اسم الطالب الرباعي
+                الاسم الرباعي
             </label>
 
             <input
@@ -4178,7 +3767,7 @@ tr:last-child td{
         <div class="field">
 
             <label>
-                رقم القاعة
+                القاعة
             </label>
 
             <select
@@ -4209,9 +3798,7 @@ tr:last-child td{
                 رقم الطالب
             </label>
 
-            <input
-                id="editStudentPhone"
-            >
+            <input id="editStudentPhone">
 
         </div>
 
@@ -4222,9 +3809,7 @@ tr:last-child td{
                 رقم الخط
             </label>
 
-            <input
-                id="editLine"
-            >
+            <input id="editLine">
 
         </div>
 
@@ -4261,7 +3846,7 @@ tr:last-child td{
         <div class="field">
 
             <label>
-                القسط الكلي
+                مبلغ القسط
             </label>
 
             <input
@@ -4310,7 +3895,7 @@ tr:last-child td{
 
 
 <!-- =========================================================
-     STUDENT FULL PROFILE
+     STUDENT PROFILE
 ========================================================= -->
 
 <div
@@ -4349,9 +3934,8 @@ tr:last-child td{
 
 
 
-    <!-- TOP -->
-
     <div class="profile-summary">
+
 
         <div
             id="profileAvatar"
@@ -4374,13 +3958,13 @@ tr:last-child td{
 
         </div>
 
+
     </div>
 
 
 
-    <!-- ACTIONS -->
-
     <div class="profile-actions">
+
 
         <button
             class="btn btn-green"
@@ -4413,13 +3997,13 @@ tr:last-child td{
             تحميل PDF
         </button>
 
+
     </div>
 
 
 
-    <!-- PROFILE TABS -->
-
     <div class="profile-tabs">
+
 
         <button
             class="profile-tab active"
@@ -4452,11 +4036,10 @@ tr:last-child td{
             الأقساط
         </button>
 
+
     </div>
 
 
-
-    <!-- INFO -->
 
     <section
         id="profileInfoPanel"
@@ -4472,12 +4055,11 @@ tr:last-child td{
 
 
 
-    <!-- GRADES -->
-
     <section
         id="profileGradesPanel"
         class="profile-panel"
     >
+
 
         <div class="table-wrap">
 
@@ -4487,25 +4069,15 @@ tr:last-child td{
 
                     <tr>
 
-                        <th>
-                            المادة
-                        </th>
+                        <th>المادة</th>
 
-                        <th>
-                            الفصل الأول
-                        </th>
+                        <th>الفصل الأول</th>
 
-                        <th>
-                            نصف السنة
-                        </th>
+                        <th>نصف السنة</th>
 
-                        <th>
-                            الفصل الثاني
-                        </th>
+                        <th>الفصل الثاني</th>
 
-                        <th>
-                            السعي السنوي
-                        </th>
+                        <th>السعي السنوي</th>
 
                     </tr>
 
@@ -4523,7 +4095,7 @@ tr:last-child td{
             id="profileGradesEmpty"
             class="empty hidden"
         >
-            لا توجد درجات مسجلة لهذا الطالب.
+            لا توجد درجات مسجلة.
         </div>
 
 
@@ -4531,12 +4103,11 @@ tr:last-child td{
 
 
 
-    <!-- ATTENDANCE -->
-
     <section
         id="profileAttendancePanel"
         class="profile-panel"
     >
+
 
         <div
             id="profileAttendanceList"
@@ -4551,11 +4122,10 @@ tr:last-child td{
             لا توجد سجلات حضور أو غياب.
         </div>
 
+
     </section>
 
 
-
-    <!-- PAYMENTS -->
 
     <section
         id="profilePaymentsPanel"
@@ -4564,6 +4134,7 @@ tr:last-child td{
 
 
         <div class="profile-money">
+
 
             <div>
 
@@ -4602,6 +4173,7 @@ tr:last-child td{
                 </strong>
 
             </div>
+
 
         </div>
 
@@ -4650,7 +4222,7 @@ tr:last-child td{
             </h3>
 
             <p>
-                عدم الممانعة وبيانات الطالب في صفحة A4 واحدة.
+                عدم الممانعة وبيانات الطالب في صفحة واحدة.
             </p>
 
         </div>
@@ -4668,6 +4240,7 @@ tr:last-child td{
 
     <div class="pdf-preview-actions">
 
+
         <button
             class="btn btn-soft"
             onclick="closeModal('pdfPreviewModal')"
@@ -4682,6 +4255,7 @@ tr:last-child td{
         >
             تحميل PDF
         </button>
+
 
     </div>
 
@@ -4716,6 +4290,7 @@ tr:last-child td{
     style="width:min(420px,100%)"
 >
 
+
     <h3 id="confirmTitle">
         تأكيد
     </h3>
@@ -4737,6 +4312,7 @@ tr:last-child td{
         style="margin-top:15px"
     >
 
+
         <button
             class="btn btn-soft"
             onclick="closeConfirm()"
@@ -4752,6 +4328,7 @@ tr:last-child td{
             تأكيد
         </button>
 
+
     </div>
 
 
@@ -4761,15 +4338,10 @@ tr:last-child td{
 
 
 
-<!-- =========================================================
-     HIDDEN PDF
-========================================================= -->
-
 <div
     id="pdfHost"
     class="pdf-host"
 ></div>
-
 
 
 <div
@@ -4782,7 +4354,7 @@ tr:last-child td{
 <script>
 
 /* =========================================================
-   CONFIG
+   DATABASE
 ========================================================= */
 
 const DB =
@@ -4791,29 +4363,21 @@ const DB =
 
 const PATH = {
 
-    users:
-        "users",
+    users:"users",
 
-    students:
-        "students",
+    students:"students",
 
-    teachers:
-        "teachers",
+    teachers:"teachers",
 
-    classes:
-        "classes",
+    classes:"classes",
 
-    grades:
-        "grades",
+    grades:"grades",
 
-    attendance:
-        "attendance",
+    attendance:"attendance",
 
-    payments:
-        "payments",
+    payments:"payments",
 
-    meta:
-        "meta"
+    meta:"meta"
 
 };
 
@@ -4849,7 +4413,7 @@ let confirmAction = null;
 
 
 /* =========================================================
-   HELPER
+   HELPERS
 ========================================================= */
 
 const $ =
@@ -4903,12 +4467,14 @@ function genderStudentText(gender){
 function money(value){
 
     const number =
-        Number(value || 0);
+        Number(
+            value || 0
+        );
 
 
     if(number <= 0){
 
-        return "غير محدد";
+        return "0 د.ع";
 
     }
 
@@ -4934,12 +4500,14 @@ function today(){
         date.getFullYear(),
 
         String(
-            date.getMonth()+1
-        ).padStart(2,"0"),
+            date.getMonth() + 1
+        )
+        .padStart(2,"0"),
 
         String(
             date.getDate()
-        ).padStart(2,"0")
+        )
+        .padStart(2,"0")
 
     ].join("-");
 
@@ -4962,7 +4530,8 @@ function viewDate(value){
 
         return new Date(
             value
-        ).toLocaleDateString(
+        )
+        .toLocaleDateString(
             "ar-IQ"
         );
 
@@ -4974,7 +4543,10 @@ function viewDate(value){
         .split("-");
 
 
-    if(parts.length === 3){
+    if(
+        parts.length ===
+        3
+    ){
 
         return (
             parts[2] +
@@ -5001,15 +4573,15 @@ let toastTimer = null;
 
 function toast(text){
 
-    const el =
+    const element =
         $("toast");
 
 
-    el.textContent =
+    element.textContent =
         text;
 
 
-    el.classList.add(
+    element.classList.add(
         "show"
     );
 
@@ -5023,7 +4595,7 @@ function toast(text){
         setTimeout(
             () => {
 
-                el.classList.remove(
+                element.classList.remove(
                     "show"
                 );
 
@@ -5035,7 +4607,7 @@ function toast(text){
 
 
 /* =========================================================
-   MESSAGE
+   MESSAGES
 ========================================================= */
 
 function showMessage(
@@ -5044,15 +4616,15 @@ function showMessage(
     type="error"
 ){
 
-    const el =
+    const element =
         $(id);
 
 
-    el.textContent =
+    element.textContent =
         text;
 
 
-    el.className =
+    element.className =
         `message show ${type}`;
 
 }
@@ -5060,27 +4632,29 @@ function showMessage(
 
 function hideMessage(id){
 
-    const el =
+    const element =
         $(id);
 
 
-    el.textContent =
+    element.textContent =
         "";
 
 
-    el.className =
+    element.className =
         "message";
 
 }
 
 
 /* =========================================================
-   MODAL
+   MODALS
 ========================================================= */
 
 function openModal(id){
 
-    $(id).classList.add(
+    $(id)
+    .classList
+    .add(
         "show"
     );
 
@@ -5089,7 +4663,9 @@ function openModal(id){
 
 function closeModal(id){
 
-    $(id).classList.remove(
+    $(id)
+    .classList
+    .remove(
         "show"
     );
 
@@ -5176,26 +4752,27 @@ $("confirmYes")
 
 
 /* =========================================================
-   FIREBASE
+   FIREBASE REST
 ========================================================= */
 
 async function firebaseRequest(
     path,
     method="GET",
-    body=null
+    data=null
 ){
 
     const options = {
 
         method,
 
-        cache:
-            "no-store"
+        cache:"no-store"
 
     };
 
 
-    if(body !== null){
+    if(
+        data !== null
+    ){
 
         options.headers = {
 
@@ -5207,7 +4784,7 @@ async function firebaseRequest(
 
         options.body =
             JSON.stringify(
-                body
+                data
             );
 
     }
@@ -5220,7 +4797,9 @@ async function firebaseRequest(
         );
 
 
-    if(!response.ok){
+    if(
+        !response.ok
+    ){
 
         throw new Error(
             `${method}_${path}_${response.status}`
@@ -5229,7 +4808,9 @@ async function firebaseRequest(
     }
 
 
-    if(method === "DELETE"){
+    if(
+        method === "DELETE"
+    ){
 
         return true;
 
@@ -5275,12 +4856,9 @@ function getSession(){
     try{
 
         return JSON.parse(
-
-            sessionStorage
-            .getItem(
+            sessionStorage.getItem(
                 "tahadi_session"
             ) || "{}"
-
         );
 
     }
@@ -5294,13 +4872,25 @@ function getSession(){
 }
 
 
+function adminCode(){
+
+    return (
+        getSession().code ||
+        ""
+    );
+
+}
+
+
 async function verifyAdmin(){
 
-    const current =
+    const session =
         getSession();
 
 
-    if(!current.code){
+    if(
+        !session.code
+    ){
 
         location.replace(
             "index.html"
@@ -5313,7 +4903,7 @@ async function verifyAdmin(){
 
     const user =
         await dbGet(
-            `${PATH.users}/${encodeURIComponent(current.code)}`
+            `${PATH.users}/${encodeURIComponent(session.code)}`
         );
 
 
@@ -5323,8 +4913,11 @@ async function verifyAdmin(){
             "admin",
             "administrator",
             "add"
-        ].includes(
-            norm(user.role)
+        ]
+        .includes(
+            norm(
+                user.role
+            )
         ) ||
         user.active === false
     ){
@@ -5342,7 +4935,9 @@ async function verifyAdmin(){
     }
 
 
-    if(user.name){
+    if(
+        user.name
+    ){
 
         $("welcome")
             .textContent =
@@ -5352,16 +4947,6 @@ async function verifyAdmin(){
 
 
     return true;
-
-}
-
-
-function adminCode(){
-
-    return (
-        getSession().code ||
-        ""
-    );
 
 }
 
@@ -5379,7 +4964,7 @@ function logout(){
 
 
 /* =========================================================
-   LOAD
+   LOAD ALL
 ========================================================= */
 
 async function loadAll(){
@@ -5433,57 +5018,59 @@ async function loadAll(){
 
 
 /* =========================================================
-   MAIN TABS
+   TABS
 ========================================================= */
 
 document
 .querySelectorAll(
     ".tab"
 )
-.forEach(button => {
+.forEach(
+    button => {
 
-    button.onclick =
-        () => {
+        button.onclick =
+            () => {
 
-            document
-            .querySelectorAll(
-                ".tab"
-            )
-            .forEach(
-                item =>
-                    item.classList.remove(
-                        "active"
-                    )
-            );
-
-
-            document
-            .querySelectorAll(
-                ".section"
-            )
-            .forEach(
-                item =>
-                    item.classList.remove(
-                        "active"
-                    )
-            );
+                document
+                .querySelectorAll(
+                    ".tab"
+                )
+                .forEach(
+                    element =>
+                        element.classList.remove(
+                            "active"
+                        )
+                );
 
 
-            button.classList.add(
-                "active"
-            );
+                document
+                .querySelectorAll(
+                    ".section"
+                )
+                .forEach(
+                    element =>
+                        element.classList.remove(
+                            "active"
+                        )
+                );
 
 
-            $(
-                button.dataset.target
-            )
-            .classList.add(
-                "active"
-            );
+                button.classList.add(
+                    "active"
+                );
 
-        };
 
-});
+                $(
+                    button.dataset.target
+                )
+                .classList.add(
+                    "active"
+                );
+
+            };
+
+    }
+);
 
 
 function openTab(id){
@@ -5546,7 +5133,7 @@ function renderStats(){
 
 
 /* =========================================================
-   CLASSES
+   CREATE CLASS
 ========================================================= */
 
 function openClassModal(){
@@ -5601,13 +5188,15 @@ $("classForm")
             .some(
                 item =>
                     norm(item.name) ===
-                        norm(name) &&
+                    norm(name) &&
                     item.gender ===
-                        gender
+                    gender
             );
 
 
-        if(duplicate){
+        if(
+            duplicate
+        ){
 
             toast(
                 "هذا الصف موجود مسبقاً"
@@ -5652,7 +5241,9 @@ $("classForm")
         );
 
 
-        DATA.classes[id] =
+        DATA.classes[
+            id
+        ] =
             row;
 
 
@@ -5671,7 +5262,7 @@ $("classForm")
     };
 
 
-function studentCountInClass(
+function countStudentsInClass(
     classId
 ){
 
@@ -5690,7 +5281,7 @@ function studentCountInClass(
 
 function renderClasses(){
 
-    const rows =
+    const classes =
         Object.values(
             DATA.classes
         )
@@ -5704,7 +5295,9 @@ function renderClasses(){
         );
 
 
-    if(!rows.length){
+    if(
+        !classes.length
+    ){
 
         $("classesGrid")
             .innerHTML = `
@@ -5713,7 +5306,7 @@ function renderClasses(){
                     class="empty"
                     style="grid-column:1/-1"
                 >
-                    لا توجد صفوف بعد.
+                    لا توجد صفوف حتى الآن.
                 </div>
 
             `;
@@ -5725,33 +5318,34 @@ function renderClasses(){
 
     $("classesGrid")
         .innerHTML =
-            rows.map(
-                item => `
+            classes.map(
+                cls => `
 
                     <article
                         class="class-card ${
-                            selectedClassId === item.id
+                            selectedClassId === cls.id
                                 ? "selected"
                                 : ""
                         }"
-                        onclick="selectClass('${item.id}')"
+                        onclick="selectClass('${cls.id}')"
                     >
 
+
                         <h4>
-                            ${esc(item.name)}
+                            ${esc(cls.name)}
                         </h4>
 
 
                         <div style="margin-top:7px">
 
                             <span class="badge ${
-                                item.gender === "female"
+                                cls.gender === "female"
                                     ? "purple"
                                     : "blue"
                             }">
 
                                 ${genderClassText(
-                                    item.gender
+                                    cls.gender
                                 )}
 
                             </span>
@@ -5762,13 +5356,14 @@ function renderClasses(){
                         <div class="class-count">
 
                             ${
-                                studentCountInClass(
-                                    item.id
+                                countStudentsInClass(
+                                    cls.id
                                 )
                             }
                             طالب
 
                         </div>
+
 
                     </article>
 
@@ -5779,7 +5374,9 @@ function renderClasses(){
 }
 
 
-function selectClass(classId){
+function selectClass(
+    classId
+){
 
     selectedClassId =
         classId;
@@ -5826,14 +5423,14 @@ function showAllStudents(){
         .clear();
 
 
-    $("studentsTitle")
-        .textContent =
-            "جميع الطلاب";
-
-
     $("selectAll")
         .checked =
             false;
+
+
+    $("studentsTitle")
+        .textContent =
+            "جميع الطلاب";
 
 
     renderClasses();
@@ -5846,7 +5443,7 @@ function showAllStudents(){
 
 
 /* =========================================================
-   CLASS OPTIONS
+   OPTIONS
 ========================================================= */
 
 function classOptions(
@@ -5875,13 +5472,13 @@ function classOptions(
 
         ${
             classes.map(
-                item => `
+                cls => `
 
-                    <option value="${item.id}">
+                    <option value="${cls.id}">
 
-                        ${esc(item.name)}
+                        ${esc(cls.name)}
                         -
-                        ${genderClassText(item.gender)}
+                        ${genderClassText(cls.gender)}
 
                     </option>
 
@@ -5943,14 +5540,14 @@ function fillControls(){
             classOptions();
 
 
-    $("editClass")
-        .innerHTML =
-            classOptions();
-
-
     $("studentRoom")
         .innerHTML =
             roomOptions();
+
+
+    $("editClass")
+        .innerHTML =
+            classOptions();
 
 
     $("editRoom")
@@ -5975,19 +5572,21 @@ function fillControls(){
         .innerHTML =
             classes.length
             ? classes.map(
-                item => `
+                cls => `
 
                     <label class="check-item">
 
                         <input
                             type="checkbox"
-                            value="${item.id}"
+                            value="${cls.id}"
                         >
 
                         <span>
-                            ${esc(item.name)}
+
+                            ${esc(cls.name)}
                             -
-                            ${genderClassText(item.gender)}
+                            ${genderClassText(cls.gender)}
+
                         </span>
 
                     </label>
@@ -6055,18 +5654,19 @@ $("studentClass")
 function randomDigit(){
 
     return Math.floor(
-        Math.random() * 10
+        Math.random() *
+        10
     )
     .toString();
 
 }
 
 
-function generateStudentCode(
+function createStudentCode(
     gender
 ){
 
-    const numbers = [
+    const digits = [
 
         randomDigit(),
         randomDigit(),
@@ -6077,7 +5677,7 @@ function generateStudentCode(
     ];
 
 
-    const letter =
+    const genderLetter =
         gender === "female"
             ? "G"
             : "B";
@@ -6085,20 +5685,21 @@ function generateStudentCode(
 
     const position =
         Math.floor(
-            Math.random() * 4
+            Math.random() *
+            4
         ) + 1;
 
 
-    numbers.splice(
+    digits.splice(
         position,
         0,
-        letter
+        genderLetter
     );
 
 
     return (
         "ST" +
-        numbers.join("")
+        digits.join("")
     );
 
 }
@@ -6109,32 +5710,39 @@ async function uniqueStudentCode(
 ){
 
     for(
-        let i=0;
-        i<50;
-        i++
+        let attempt=0;
+        attempt<60;
+        attempt++
     ){
 
         const code =
-            generateStudentCode(
+            createStudentCode(
                 gender
             );
 
 
         if(
-            !DATA.users[code]
+            DATA.users[
+                code
+            ]
         ){
 
-            const exists =
-                await dbGet(
-                    `${PATH.users}/${code}`
-                );
+            continue;
+
+        }
 
 
-            if(!exists){
+        const exists =
+            await dbGet(
+                `${PATH.users}/${code}`
+            );
 
-                return code;
 
-            }
+        if(
+            !exists
+        ){
+
+            return code;
 
         }
 
@@ -6142,7 +5750,7 @@ async function uniqueStudentCode(
 
 
     throw new Error(
-        "تعذر توليد كود طالب غير متكرر"
+        "تعذر توليد كود غير متكرر"
     );
 
 }
@@ -6150,18 +5758,16 @@ async function uniqueStudentCode(
 
 async function previewStudentCode(){
 
-    const classId =
-        $("studentClass")
-        .value;
-
-
     const cls =
         DATA.classes[
-            classId
+            $("studentClass")
+            .value
         ];
 
 
-    if(!cls){
+    if(
+        !cls
+    ){
 
         toast(
             "اختر الصف أولاً"
@@ -6201,7 +5807,7 @@ async function previewStudentCode(){
 
 
 /* =========================================================
-   STUDENT SEQUENCE
+   SEQUENCE
 ========================================================= */
 
 async function nextStudentSequence(){
@@ -6216,10 +5822,11 @@ async function nextStudentSequence(){
         attempt++
     ){
 
-        const readResponse =
+        const read =
             await fetch(
                 url,
                 {
+
                     method:"GET",
 
                     cache:"no-store",
@@ -6230,11 +5837,14 @@ async function nextStudentSequence(){
                             "true"
 
                     }
+
                 }
             );
 
 
-        if(!readResponse.ok){
+        if(
+            !read.ok
+        ){
 
             throw new Error(
                 "تعذر قراءة تسلسل الطلاب"
@@ -6244,8 +5854,7 @@ async function nextStudentSequence(){
 
 
         const etag =
-            readResponse
-            .headers
+            read.headers
             .get(
                 "ETag"
             );
@@ -6253,7 +5862,7 @@ async function nextStudentSequence(){
 
         const current =
             Number(
-                await readResponse.json()
+                await read.json()
                 || 0
             );
 
@@ -6262,10 +5871,11 @@ async function nextStudentSequence(){
             current + 1;
 
 
-        const writeResponse =
+        const write =
             await fetch(
                 url,
                 {
+
                     method:"PUT",
 
                     headers:{
@@ -6282,12 +5892,13 @@ async function nextStudentSequence(){
                         JSON.stringify(
                             next
                         )
+
                 }
             );
 
 
         if(
-            writeResponse.status ===
+            write.status ===
             200
         ){
 
@@ -6297,12 +5908,12 @@ async function nextStudentSequence(){
 
 
         if(
-            writeResponse.status !==
+            write.status !==
             412
         ){
 
             throw new Error(
-                "تعذر حجز رقم العدد"
+                "تعذر إنشاء العدد"
             );
 
         }
@@ -6311,7 +5922,7 @@ async function nextStudentSequence(){
 
 
     throw new Error(
-        "تعذر إنشاء تسلسل الطالب"
+        "تعذر إنشاء العدد"
     );
 
 }
@@ -6334,7 +5945,9 @@ async function getStudentDraft(){
         ];
 
 
-    if(!cls){
+    if(
+        !cls
+    ){
 
         throw new Error(
             "اختر الصف أولاً"
@@ -6343,7 +5956,7 @@ async function getStudentDraft(){
     }
 
 
-    const draft = {
+    const student = {
 
         name:
             $("studentName")
@@ -6393,10 +6006,17 @@ async function getStudentDraft(){
             $("startDate")
             .value,
 
+        /*
+            صفر أو فارغ مسموح.
+        */
+
         tuitionTotal:
-            Number(
-                $("tuitionTotal")
-                .value || 0
+            Math.max(
+                0,
+                Number(
+                    $("tuitionTotal")
+                    .value || 0
+                )
             ),
 
         address:
@@ -6414,17 +6034,17 @@ async function getStudentDraft(){
 
 
     if(
-        !draft.name ||
-        !draft.motherName ||
-        !draft.roomNumber ||
-        !draft.guardianPhone ||
-        !draft.previousSchool ||
-        !draft.startDate ||
-        !draft.address
+        !student.name ||
+        !student.motherName ||
+        !student.roomNumber ||
+        !student.guardianPhone ||
+        !student.previousSchool ||
+        !student.startDate ||
+        !student.address
     ){
 
         throw new Error(
-            "أكمل بيانات الطالب المطلوبة أولاً"
+            "أكمل بيانات الطالب المطلوبة"
         );
 
     }
@@ -6457,15 +6077,15 @@ async function getStudentDraft(){
     }
 
 
-    draft.code =
+    student.code =
         generatedStudentCode;
 
 
-    draft.serial =
+    student.serial =
         reservedStudentSerial;
 
 
-    return draft;
+    return student;
 
 }
 
@@ -6504,29 +6124,38 @@ $("studentForm")
                 await getStudentDraft();
 
 
-            const activate =
+            const activationRequested =
                 $("activateStudent")
                 .checked;
 
 
-            if(
-                activate &&
-                Number(
-                    student.tuitionTotal ||
-                    0
-                ) <= 0
-            ){
-
-                throw new Error(
-                    "لتفعيل الحساب يجب إدخال مبلغ القسط الكلي"
-                );
-
-            }
-
-
             /*
-                فحص نهائي للكود
+                لا نرفض الحفظ بسبب القسط.
+
+                فقط إذا طلب التفعيل والقسط صفر،
+                يتم حفظ الطالب والحساب يبقى غير فعال.
             */
+
+            const accountActive =
+                activationRequested &&
+                student.tuitionTotal > 0;
+
+
+            student.accountActive =
+                accountActive;
+
+
+            student.hidden =
+                false;
+
+
+            student.createdAt =
+                Date.now();
+
+
+            student.createdBy =
+                adminCode();
+
 
             const existing =
                 await dbGet(
@@ -6534,7 +6163,9 @@ $("studentForm")
                 );
 
 
-            if(existing){
+            if(
+                existing
+            ){
 
                 generatedStudentCode =
                     await uniqueStudentCode(
@@ -6553,22 +6184,6 @@ $("studentForm")
             }
 
 
-            student.accountActive =
-                activate;
-
-
-            student.hidden =
-                false;
-
-
-            student.createdAt =
-                Date.now();
-
-
-            student.createdBy =
-                adminCode();
-
-
             const user = {
 
                 code:
@@ -6583,14 +6198,14 @@ $("studentForm")
                 studentId:
                     student.code,
 
-                classId:
-                    student.classId,
-
                 gender:
                     student.gender,
 
+                classId:
+                    student.classId,
+
                 active:
-                    activate,
+                    accountActive,
 
                 hidden:
                     false,
@@ -6628,9 +6243,24 @@ $("studentForm")
                 user;
 
 
+            let successText =
+                `تم حفظ الطالب بنجاح - العدد ${student.serial} - الكود ${student.code}`;
+
+
+            if(
+                activationRequested &&
+                student.tuitionTotal <= 0
+            ){
+
+                successText +=
+                    " - تم الحفظ والحساب غير مفعّل لأن مبلغ القسط صفر.";
+
+            }
+
+
             showMessage(
                 "studentMessage",
-                `تم حفظ الطالب بنجاح - العدد ${student.serial} - الكود ${student.code}`,
+                successText,
                 "success"
             );
 
@@ -6642,7 +6272,7 @@ $("studentForm")
 
 
             toast(
-                "تم حفظ الطالب"
+                "تم حفظ الطالب بنجاح"
             );
 
         }
@@ -6716,7 +6346,7 @@ function resetStudentForm(){
 
 
 /* =========================================================
-   STUDENT FILTERS
+   FILTER STUDENTS
 ========================================================= */
 
 [
@@ -6724,31 +6354,33 @@ function resetStudentForm(){
     "studentGenderFilter",
     "studentStatusFilter"
 ]
-.forEach(id => {
+.forEach(
+    id => {
 
-    $(id)
-    .addEventListener(
-        id === "studentSearch"
-            ? "input"
-            : "change",
-        () => {
+        $(id)
+        .addEventListener(
+            id === "studentSearch"
+                ? "input"
+                : "change",
+            () => {
 
-            selectedStudents.clear();
-
-
-            $("selectAll")
-                .checked =
-                    false;
+                selectedStudents.clear();
 
 
-            renderStudents();
+                $("selectAll")
+                    .checked =
+                        false;
 
-            updateBulkBar();
 
-        }
-    );
+                renderStudents();
 
-});
+                updateBulkBar();
+
+            }
+        );
+
+    }
+);
 
 
 function filteredStudents(){
@@ -6773,382 +6405,375 @@ function filteredStudents(){
     return Object.values(
         DATA.students
     )
-    .filter(student => {
-
-        if(
-            selectedClassId &&
-            student.classId !==
-                selectedClassId
-        ){
-
-            return false;
-
-        }
-
-
-        if(
-            gender &&
-            student.gender !==
-                gender
-        ){
-
-            return false;
-
-        }
-
-
-        if(
-            status &&
-            student.fileStatus !==
-                status
-        ){
-
-            return false;
-
-        }
-
-
-        if(search){
-
-            const text =
-                norm(
-                    [
-                        student.name,
-                        student.code,
-                        student.motherName,
-                        student.guardianPhone,
-                        student.studentPhone,
-                        student.previousSchool
-                    ]
-                    .join(" ")
-                );
-
+    .filter(
+        student => {
 
             if(
-                !text.includes(
-                    search
-                )
+                selectedClassId &&
+                student.classId !==
+                selectedClassId
             ){
 
                 return false;
 
             }
 
+
+            if(
+                gender &&
+                student.gender !==
+                gender
+            ){
+
+                return false;
+
+            }
+
+
+            if(
+                status &&
+                student.fileStatus !==
+                status
+            ){
+
+                return false;
+
+            }
+
+
+            if(search){
+
+                const text =
+                    norm(
+                        [
+                            student.name,
+                            student.code,
+                            student.motherName,
+                            student.guardianPhone,
+                            student.studentPhone,
+                            student.previousSchool
+                        ]
+                        .join(" ")
+                    );
+
+
+                if(
+                    !text.includes(
+                        search
+                    )
+                ){
+
+                    return false;
+
+                }
+
+            }
+
+
+            return true;
+
         }
-
-
-        return true;
-
-    })
+    )
     .sort(
-        (a,b) => {
-
-            const sa =
-                Number(
-                    a.serial || 0
-                );
-
-
-            const sb =
-                Number(
-                    b.serial || 0
-                );
-
-
-            return (
-                sa - sb
-            );
-
-        }
+        (a,b) =>
+            Number(a.serial || 0) -
+            Number(b.serial || 0)
     );
 
 }
 
 
 /* =========================================================
-   STUDENTS TABLE
+   STUDENT TABLE
 ========================================================= */
 
 function renderStudents(){
 
-    const rows =
+    const students =
         filteredStudents();
 
 
     $("studentsEmpty")
         .classList.toggle(
             "hidden",
-            rows.length > 0
+            students.length > 0
         );
 
 
     $("studentsBody")
         .innerHTML =
-            rows.map(student => {
+            students.map(
+                student => {
 
-                const cls =
-                    DATA.classes[
-                        student.classId
-                    ];
-
-
-                const selected =
-                    selectedStudents.has(
-                        student.code
-                    );
+                    const cls =
+                        DATA.classes[
+                            student.classId
+                        ];
 
 
-                return `
+                    return `
 
-                    <tr
-                        style="${
-                            student.hidden
-                                ? "opacity:.5"
-                                : ""
-                        }"
-                    >
-
-
-                        <td>
-
-                            <input
-                                type="checkbox"
-                                value="${esc(student.code)}"
-                                ${selected ? "checked" : ""}
-                                onchange="toggleStudentSelection(this)"
-                            >
-
-                        </td>
+                        <tr
+                            style="${
+                                student.hidden
+                                    ? "opacity:.5"
+                                    : ""
+                            }"
+                        >
 
 
-                        <td>
-                            ${esc(student.serial || "—")}
-                        </td>
+                            <td>
+
+                                <input
+                                    type="checkbox"
+                                    value="${esc(student.code)}"
+                                    ${
+                                        selectedStudents.has(
+                                            student.code
+                                        )
+                                            ? "checked"
+                                            : ""
+                                    }
+                                    onchange="toggleStudentSelection(this)"
+                                >
+
+                            </td>
 
 
-                        <td>
-
-                            <span class="code">
-                                ${esc(student.code)}
-                            </span>
-
-                        </td>
+                            <td>
+                                ${esc(student.serial || "—")}
+                            </td>
 
 
-                        <td>
+                            <td>
 
-                            <button
-                                class="student-name-button"
-                                onclick="openStudentProfile('${esc(student.code)}')"
-                            >
-                                ${esc(student.name)}
-                            </button>
+                                <span class="code">
+                                    ${esc(student.code)}
+                                </span>
 
-                        </td>
+                            </td>
 
 
-                        <td>
-
-                            <span class="badge ${
-                                student.gender === "female"
-                                    ? "purple"
-                                    : "blue"
-                            }">
-
-                                ${genderStudentText(
-                                    student.gender
-                                )}
-
-                            </span>
-
-                        </td>
-
-
-                        <td>
-                            ${esc(cls?.name || "—")}
-                        </td>
-
-
-                        <td>
-                            ${esc(student.roomNumber || "—")}
-                        </td>
-
-
-                        <td>
-
-                            <span class="badge ${
-                                student.fileStatus === "accepted"
-                                    ? "green"
-                                    : "orange"
-                            }">
-
-                                ${
-                                    student.fileStatus === "accepted"
-                                        ? "تم القبول"
-                                        : "لم يجلب الملف"
-                                }
-
-                            </span>
-
-                        </td>
-
-
-                        <td>
-
-                            <span class="badge ${
-                                student.booksReceived
-                                    ? "green"
-                                    : "orange"
-                            }">
-
-                                ${
-                                    student.booksReceived
-                                        ? "استلم"
-                                        : "لم يستلم"
-                                }
-
-                            </span>
-
-                        </td>
-
-
-                        <td>
-                            ${money(student.tuitionTotal)}
-                        </td>
-
-
-                        <td>
-
-                            <span class="badge ${
-                                student.accountActive
-                                    ? "green"
-                                    : "red"
-                            }">
-
-                                ${
-                                    student.accountActive
-                                        ? "فعال"
-                                        : "غير فعال"
-                                }
-
-                            </span>
-
-                        </td>
-
-
-                        <td>
-
-                            <div class="row-actions">
-
+                            <td>
 
                                 <button
-                                    class="mini btn-primary"
+                                    class="student-name-button"
                                     onclick="openStudentProfile('${esc(student.code)}')"
                                 >
-                                    بيانات الطالب
+
+                                    ${esc(student.name)}
+
                                 </button>
 
-
-                                <button
-                                    class="mini btn-soft"
-                                    onclick="copyCode('${esc(student.code)}')"
-                                >
-                                    نسخ
-                                </button>
+                            </td>
 
 
-                                <button
-                                    class="mini btn-purple"
-                                    onclick="downloadSavedStudentPDF('${esc(student.code)}')"
-                                >
-                                    PDF
-                                </button>
+                            <td>
+
+                                <span class="badge ${
+                                    student.gender === "female"
+                                        ? "purple"
+                                        : "blue"
+                                }">
+
+                                    ${genderStudentText(
+                                        student.gender
+                                    )}
+
+                                </span>
+
+                            </td>
 
 
-                                <button
-                                    class="mini btn-soft"
-                                    onclick="editStudent('${esc(student.code)}')"
-                                >
-                                    تعديل
-                                </button>
+                            <td>
+                                ${esc(cls?.name || "—")}
+                            </td>
 
 
-                                ${
-                                    student.fileStatus !==
-                                    "accepted"
-
-                                    ? `
-
-                                        <button
-                                            class="mini btn-green"
-                                            onclick="acceptStudent('${esc(student.code)}')"
-                                        >
-                                            استلام الملف
-                                        </button>
-
-                                      `
-
-                                    : ""
-                                }
+                            <td>
+                                ${esc(student.roomNumber || "—")}
+                            </td>
 
 
-                                <button
-                                    class="mini ${
-                                        student.accountActive
-                                            ? "btn-red"
-                                            : "btn-green"
-                                    }"
-                                    onclick="toggleStudentAccount('${esc(student.code)}')"
-                                >
+                            <td>
+
+                                <span class="badge ${
+                                    student.fileStatus === "accepted"
+                                        ? "green"
+                                        : "orange"
+                                }">
+
+                                    ${
+                                        student.fileStatus === "accepted"
+                                            ? "تم القبول"
+                                            : "لم يجلب الملف"
+                                    }
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="badge ${
+                                    student.booksReceived
+                                        ? "green"
+                                        : "orange"
+                                }">
+
+                                    ${
+                                        student.booksReceived
+                                            ? "استلم الكتب"
+                                            : "لم يستلم"
+                                    }
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+                                ${money(student.tuitionTotal)}
+                            </td>
+
+
+                            <td>
+
+                                <span class="badge ${
+                                    student.accountActive
+                                        ? "green"
+                                        : "red"
+                                }">
 
                                     ${
                                         student.accountActive
-                                            ? "إلغاء التفعيل"
-                                            : "تفعيل"
+                                            ? "فعال"
+                                            : "غير فعال"
                                     }
 
-                                </button>
+                                </span>
+
+                            </td>
 
 
-                                <button
-                                    class="mini btn-orange"
-                                    onclick="toggleStudentHidden('${esc(student.code)}')"
-                                >
+                            <td>
+
+
+                                <div class="row-actions">
+
+
+                                    <button
+                                        class="mini btn-primary"
+                                        onclick="openStudentProfile('${esc(student.code)}')"
+                                    >
+                                        بيانات الطالب
+                                    </button>
+
+
+                                    <button
+                                        class="mini btn-soft"
+                                        onclick="copyCode('${esc(student.code)}')"
+                                    >
+                                        نسخ الكود
+                                    </button>
+
+
+                                    <button
+                                        class="mini btn-purple"
+                                        onclick="downloadSavedStudentPDF('${esc(student.code)}')"
+                                    >
+                                        PDF
+                                    </button>
+
+
+                                    <button
+                                        class="mini btn-soft"
+                                        onclick="editStudent('${esc(student.code)}')"
+                                    >
+                                        تعديل
+                                    </button>
+
 
                                     ${
-                                        student.hidden
-                                            ? "إظهار"
-                                            : "إخفاء"
+                                        student.fileStatus !==
+                                        "accepted"
+
+                                        ? `
+
+                                            <button
+                                                class="mini btn-green"
+                                                onclick="acceptStudent('${esc(student.code)}')"
+                                            >
+                                                استلام الملف
+                                            </button>
+
+                                          `
+
+                                        : ""
                                     }
 
-                                </button>
+
+                                    <button
+                                        class="mini ${
+                                            student.accountActive
+                                                ? "btn-red"
+                                                : "btn-green"
+                                        }"
+                                        onclick="toggleStudentAccount('${esc(student.code)}')"
+                                    >
+
+                                        ${
+                                            student.accountActive
+                                                ? "إلغاء التفعيل"
+                                                : "تفعيل"
+                                        }
+
+                                    </button>
 
 
-                            </div>
+                                    <button
+                                        class="mini btn-orange"
+                                        onclick="toggleStudentHidden('${esc(student.code)}')"
+                                    >
 
-                        </td>
+                                        ${
+                                            student.hidden
+                                                ? "إظهار"
+                                                : "إخفاء"
+                                        }
+
+                                    </button>
 
 
-                    </tr>
+                                </div>
 
-                `;
 
-            })
+                            </td>
+
+
+                        </tr>
+
+                    `;
+
+                }
+            )
             .join("");
 
 }
 
 
 /* =========================================================
-   COPY
+   COPY CODE
 ========================================================= */
 
-async function copyCode(code){
+async function copyCode(
+    code
+){
 
     try{
 
-        await navigator
-        .clipboard
+        await navigator.clipboard
         .writeText(
             code
         );
@@ -7162,35 +6787,8 @@ async function copyCode(code){
 
     catch{
 
-        const textarea =
-            document.createElement(
-                "textarea"
-            );
-
-
-        textarea.value =
-            code;
-
-
-        document.body
-            .appendChild(
-                textarea
-            );
-
-
-        textarea.select();
-
-
-        document.execCommand(
-            "copy"
-        );
-
-
-        textarea.remove();
-
-
         toast(
-            "تم نسخ الكود"
+            code
         );
 
     }
@@ -7199,7 +6797,7 @@ async function copyCode(code){
 
 
 /* =========================================================
-   SELECT STUDENTS
+   STUDENT SELECT
 ========================================================= */
 
 function toggleStudentSelection(
@@ -7235,25 +6833,29 @@ $("selectAll")
     function(){
 
         filteredStudents()
-        .forEach(student => {
+        .forEach(
+            student => {
 
-            if(this.checked){
+                if(
+                    this.checked
+                ){
 
-                selectedStudents.add(
-                    student.code
-                );
+                    selectedStudents.add(
+                        student.code
+                    );
+
+                }
+
+                else{
+
+                    selectedStudents.delete(
+                        student.code
+                    );
+
+                }
 
             }
-
-            else{
-
-                selectedStudents.delete(
-                    student.code
-                );
-
-            }
-
-        });
+        );
 
 
         renderStudents();
@@ -7265,19 +6867,15 @@ $("selectAll")
 
 function updateBulkBar(){
 
-    const count =
-        selectedStudents.size;
-
-
     $("selectedCount")
         .textContent =
-            `تم تحديد ${count} طالب`;
+            `تم تحديد ${selectedStudents.size} طالب`;
 
 
     $("bulkBar")
         .classList.toggle(
             "show",
-            count > 0
+            selectedStudents.size > 0
         );
 
 
@@ -7286,20 +6884,19 @@ function updateBulkBar(){
 }
 
 
-/* =========================================================
-   MOVE OPTIONS
-========================================================= */
-
 function buildMoveClassOptions(){
-
-    let gender = "";
-
 
     const firstCode =
         [...selectedStudents][0];
 
 
-    if(firstCode){
+    let gender =
+        "";
+
+
+    if(
+        firstCode
+    ){
 
         gender =
             DATA.students[
@@ -7315,7 +6912,9 @@ function buildMoveClassOptions(){
         );
 
 
-    if(gender){
+    if(
+        gender
+    ){
 
         classes =
             classes.filter(
@@ -7327,7 +6926,9 @@ function buildMoveClassOptions(){
     }
 
 
-    if(selectedClassId){
+    if(
+        selectedClassId
+    ){
 
         classes =
             classes.filter(
@@ -7398,7 +6999,9 @@ function moveSelectedStudents(){
         ];
 
 
-    if(!target){
+    if(
+        !target
+    ){
 
         toast(
             "اختر الصف الجديد"
@@ -7441,7 +7044,7 @@ function moveSelectedStudents(){
 
         "نقل الطلاب",
 
-        `سيتم نقل ${students.length} طالب إلى الصف ${target.name}.`,
+        `سيتم نقل ${students.length} طالب إلى ${target.name}.`,
 
         async () => {
 
@@ -7475,9 +7078,7 @@ function moveSelectedStudents(){
             students.forEach(
                 student => {
 
-                    DATA.students[
-                        student.code
-                    ].classId =
+                    student.classId =
                         targetId;
 
 
@@ -7498,7 +7099,8 @@ function moveSelectedStudents(){
             );
 
 
-            selectedStudents.clear();
+            selectedStudents
+                .clear();
 
 
             $("selectAll")
@@ -7521,10 +7123,12 @@ function moveSelectedStudents(){
 
 
 /* =========================================================
-   ACCEPT STUDENT FILE
+   ACCEPT FILE
 ========================================================= */
 
-function acceptStudent(code){
+function acceptStudent(
+    code
+){
 
     const student =
         DATA.students[
@@ -7532,7 +7136,9 @@ function acceptStudent(code){
         ];
 
 
-    if(!student){
+    if(
+        !student
+    ){
 
         return;
 
@@ -7543,7 +7149,7 @@ function acceptStudent(code){
 
         "استلام ملف الطالب",
 
-        `هل تم استلام ملف الطالب ${student.name}؟`,
+        `تأكيد استلام ملف الطالب ${student.name}؟`,
 
         async () => {
 
@@ -7551,8 +7157,7 @@ function acceptStudent(code){
                 `${PATH.students}/${code}`,
                 {
 
-                    fileStatus:
-                        "accepted",
+                    fileStatus:"accepted",
 
                     fileReceivedAt:
                         Date.now(),
@@ -7588,7 +7193,7 @@ function acceptStudent(code){
 
 
             toast(
-                "تم تغيير الحالة إلى تم القبول"
+                "تم اعتماد قبول الطالب"
             );
 
         }
@@ -7616,7 +7221,9 @@ async function setBooksStatus(
         ];
 
 
-    if(!student){
+    if(
+        !student
+    ){
 
         return;
 
@@ -7661,7 +7268,7 @@ async function setBooksStatus(
         toast(
             received
                 ? "تم تسجيل استلام الكتب"
-                : "تم تسجيل أن الطالب لم يستلم الكتب"
+                : "تم تسجيل عدم استلام الكتب"
         );
 
     }
@@ -7694,12 +7301,19 @@ function toggleStudentAccount(
         ];
 
 
-    if(!student){
+    if(
+        !student
+    ){
 
         return;
 
     }
 
+
+    /*
+        التفعيل يحتاج مبلغ قسط.
+        لكن هذا لا يمنع حفظ الطالب عند التسجيل.
+    */
 
     if(
         !student.accountActive &&
@@ -7710,23 +7324,12 @@ function toggleStudentAccount(
     ){
 
         toast(
-            "يجب إدخال مبلغ القسط أولاً"
+            "لتفعيل الحساب أدخل مبلغ القسط من تعديل بيانات الطالب"
         );
 
 
         editStudent(
             code
-        );
-
-
-        setTimeout(
-            () => {
-
-                $("editTuition")
-                    .focus();
-
-            },
-            200
         );
 
 
@@ -7758,17 +7361,21 @@ function toggleStudentAccount(
                 dbPatch(
                     `${PATH.students}/${code}`,
                     {
+
                         accountActive:
                             active
+
                     }
                 ),
 
                 dbPatch(
                     `${PATH.users}/${code}`,
                     {
+
                         active:
                             active &&
                             !student.hidden
+
                     }
                 )
 
@@ -7823,7 +7430,7 @@ function toggleStudentAccount(
 
 
 /* =========================================================
-   HIDE STUDENT
+   HIDE
 ========================================================= */
 
 function toggleStudentHidden(
@@ -7836,7 +7443,9 @@ function toggleStudentHidden(
         ];
 
 
-    if(!student){
+    if(
+        !student
+    ){
 
         return;
 
@@ -7854,8 +7463,8 @@ function toggleStudentHidden(
             : "إظهار الطالب",
 
         hidden
-            ? `سيتم إخفاء ${student.name} وتعطيل دخوله.`
-            : `سيتم إظهار ${student.name}.`,
+            ? `إخفاء الطالب ${student.name} وتعطيل دخوله؟`
+            : `إظهار الطالب ${student.name}؟`,
 
         async () => {
 
@@ -7864,7 +7473,9 @@ function toggleStudentHidden(
                 dbPatch(
                     `${PATH.students}/${code}`,
                     {
+
                         hidden
+
                     }
                 ),
 
@@ -7888,27 +7499,6 @@ function toggleStudentHidden(
                 hidden;
 
 
-            if(
-                DATA.users[
-                    code
-                ]
-            ){
-
-                DATA.users[
-                    code
-                ].hidden =
-                    hidden;
-
-
-                DATA.users[
-                    code
-                ].active =
-                    !hidden &&
-                    student.accountActive;
-
-            }
-
-
             renderStudents();
 
 
@@ -7929,7 +7519,9 @@ function toggleStudentHidden(
    EDIT STUDENT
 ========================================================= */
 
-function editStudent(code){
+function editStudent(
+    code
+){
 
     const student =
         DATA.students[
@@ -7937,7 +7529,9 @@ function editStudent(code){
         ];
 
 
-    if(!student){
+    if(
+        !student
+    ){
 
         return;
 
@@ -8008,7 +7602,7 @@ function editStudent(code){
 
     $("editTuition")
         .value =
-            student.tuitionTotal || "";
+            student.tuitionTotal ?? "";
 
 
     $("editAddress")
@@ -8041,7 +7635,9 @@ $("editStudentForm")
             ];
 
 
-        if(!student){
+        if(
+            !student
+        ){
 
             return;
 
@@ -8059,7 +7655,9 @@ $("editStudentForm")
             ];
 
 
-        if(!cls){
+        if(
+            !cls
+        ){
 
             toast(
                 "اختر الصف"
@@ -8084,25 +7682,20 @@ $("editStudentForm")
         }
 
 
+        /*
+            القسط يمكن أن يكون صفر.
+            إذا كان الحساب فعالاً ثم جعل القسط صفر،
+            يتم إلغاء تفعيل الحساب تلقائياً.
+        */
+
         const tuitionTotal =
-            Number(
-                $("editTuition")
-                .value || 0
+            Math.max(
+                0,
+                Number(
+                    $("editTuition")
+                    .value || 0
+                )
             );
-
-
-        if(
-            student.accountActive &&
-            tuitionTotal <= 0
-        ){
-
-            toast(
-                "الحساب فعال ويجب تحديد مبلغ القسط"
-            );
-
-            return;
-
-        }
 
 
         const update = {
@@ -8184,6 +7777,39 @@ $("editStudentForm")
         }
 
 
+        if(
+            tuitionTotal <= 0 &&
+            student.accountActive
+        ){
+
+            update.accountActive =
+                false;
+
+        }
+
+
+        const userUpdate = {
+
+            name:
+                update.name,
+
+            classId:
+                update.classId
+
+        };
+
+
+        if(
+            update.accountActive ===
+            false
+        ){
+
+            userUpdate.active =
+                false;
+
+        }
+
+
         await Promise.all([
 
             dbPatch(
@@ -8193,15 +7819,7 @@ $("editStudentForm")
 
             dbPatch(
                 `${PATH.users}/${code}`,
-                {
-
-                    name:
-                        update.name,
-
-                    classId:
-                        update.classId
-
-                }
+                userUpdate
             )
 
         ]);
@@ -8216,26 +7834,6 @@ $("editStudentForm")
             ...update
 
         };
-
-
-        if(
-            DATA.users[
-                code
-            ]
-        ){
-
-            DATA.users[
-                code
-            ].name =
-                update.name;
-
-
-            DATA.users[
-                code
-            ].classId =
-                update.classId;
-
-        }
 
 
         closeModal(
@@ -8266,7 +7864,7 @@ $("editStudentForm")
 
 
 /* =========================================================
-   PROFILE INFO ITEM
+   STUDENT PROFILE
 ========================================================= */
 
 function profileItem(
@@ -8288,7 +7886,7 @@ function profileItem(
             </small>
 
             <strong>
-                ${esc(value || "—")}
+                ${esc(value ?? "—")}
             </strong>
 
         </div>
@@ -8297,10 +7895,6 @@ function profileItem(
 
 }
 
-
-/* =========================================================
-   OPEN STUDENT PROFILE
-========================================================= */
 
 async function openStudentProfile(
     code
@@ -8312,7 +7906,9 @@ async function openStudentProfile(
         ];
 
 
-    if(!student){
+    if(
+        !student
+    ){
 
         toast(
             "ملف الطالب غير موجود"
@@ -8466,7 +8062,8 @@ async function openStudentProfile(
 
             profileItem(
                 "الصف",
-                cls?.name || "—"
+                cls?.name ||
+                "—"
             ) +
 
 
@@ -8484,13 +8081,15 @@ async function openStudentProfile(
 
             profileItem(
                 "رقم الطالب",
-                student.studentPhone
+                student.studentPhone ||
+                "غير مسجل"
             ) +
 
 
             profileItem(
                 "رقم الخط",
-                student.lineNumber
+                student.lineNumber ||
+                "غير مسجل"
             ) +
 
 
@@ -8527,14 +8126,22 @@ async function openStudentProfile(
             profileItem(
                 "حالة الملف",
                 student.fileStatus ===
-                    "accepted"
+                "accepted"
                     ? "تم القبول"
                     : "لم يجلب الملف"
             ) +
 
 
             profileItem(
-                "حالة الكتب",
+                "حالة الحساب",
+                student.accountActive
+                    ? "فعال"
+                    : "غير فعال"
+            ) +
+
+
+            profileItem(
+                "استلام الكتب",
                 student.booksReceived
                     ? "استلم الكتب"
                     : "لم يستلم الكتب"
@@ -8543,10 +8150,13 @@ async function openStudentProfile(
 
     $("profilePDFBtn")
         .onclick =
-            () =>
+            () => {
+
                 downloadSavedStudentPDF(
                     code
                 );
+
+            };
 
 
     $("profileEditBtn")
@@ -8600,50 +8210,52 @@ document
 .querySelectorAll(
     ".profile-tab"
 )
-.forEach(button => {
+.forEach(
+    button => {
 
-    button.onclick =
-        () => {
+        button.onclick =
+            () => {
 
-            document
-            .querySelectorAll(
-                ".profile-tab"
-            )
-            .forEach(
-                item =>
-                    item.classList.remove(
-                        "active"
-                    )
-            );
-
-
-            document
-            .querySelectorAll(
-                ".profile-panel"
-            )
-            .forEach(
-                item =>
-                    item.classList.remove(
-                        "active"
-                    )
-            );
+                document
+                .querySelectorAll(
+                    ".profile-tab"
+                )
+                .forEach(
+                    element =>
+                        element.classList.remove(
+                            "active"
+                        )
+                );
 
 
-            button.classList.add(
-                "active"
-            );
+                document
+                .querySelectorAll(
+                    ".profile-panel"
+                )
+                .forEach(
+                    element =>
+                        element.classList.remove(
+                            "active"
+                        )
+                );
 
 
-            $(
-                button.dataset.profile
-            )
-            .classList.add(
-                "active"
-            );
+                button.classList.add(
+                    "active"
+                );
 
-        };
 
-});
+                $(
+                    button.dataset.profile
+                )
+                .classList.add(
+                    "active"
+                );
+
+            };
+
+    }
+);
 
 
 function resetProfileTabs(){
@@ -8653,8 +8265,8 @@ function resetProfileTabs(){
         ".profile-tab"
     )
     .forEach(
-        item =>
-            item.classList.remove(
+        element =>
+            element.classList.remove(
                 "active"
             )
     );
@@ -8665,26 +8277,20 @@ function resetProfileTabs(){
         ".profile-panel"
     )
     .forEach(
-        item =>
-            item.classList.remove(
+        element =>
+            element.classList.remove(
                 "active"
             )
     );
 
 
-    const firstTab =
-        document.querySelector(
-            '.profile-tab[data-profile="profileInfoPanel"]'
-        );
-
-
-    if(firstTab){
-
-        firstTab.classList.add(
-            "active"
-        );
-
-    }
+    document
+    .querySelector(
+        '.profile-tab[data-profile="profileInfoPanel"]'
+    )
+    ?.classList.add(
+        "active"
+    );
 
 
     $("profileInfoPanel")
@@ -8699,7 +8305,9 @@ function resetProfileTabs(){
    GRADES
 ========================================================= */
 
-function gradeText(value){
+function gradeDisplay(
+    value
+){
 
     return (
         value === undefined ||
@@ -8712,7 +8320,9 @@ function gradeText(value){
 }
 
 
-function gradeStyle(value){
+function gradeStyle(
+    value
+){
 
     if(
         value === undefined ||
@@ -8729,26 +8339,30 @@ function gradeStyle(value){
         Number(value);
 
 
-    if(number < 50){
+    if(
+        number < 50
+    ){
 
         return (
-            "color:#d92d20;font-weight:900;"
+            "color:#d92d20;font-weight:900"
         );
 
     }
 
 
-    if(number >= 90){
+    if(
+        number >= 90
+    ){
 
         return (
-            "color:#078b50;font-weight:900;"
+            "color:#078b50;font-weight:900"
         );
 
     }
 
 
     return (
-        "font-weight:900;"
+        "font-weight:900"
     );
 
 }
@@ -8786,14 +8400,17 @@ async function loadProfileGrades(
 
                         <tr>
 
+
                             <td>
 
                                 <strong>
+
                                     ${esc(
                                         grade.subjectName ||
                                         grade.subject ||
                                         "مادة"
                                     )}
+
                                 </strong>
 
                             </td>
@@ -8802,7 +8419,7 @@ async function loadProfileGrades(
                             <td style="${gradeStyle(grade.term1)}">
 
                                 ${esc(
-                                    gradeText(
+                                    gradeDisplay(
                                         grade.term1
                                     )
                                 )}
@@ -8813,7 +8430,7 @@ async function loadProfileGrades(
                             <td style="${gradeStyle(grade.midyear)}">
 
                                 ${esc(
-                                    gradeText(
+                                    gradeDisplay(
                                         grade.midyear
                                     )
                                 )}
@@ -8824,7 +8441,7 @@ async function loadProfileGrades(
                             <td style="${gradeStyle(grade.term2)}">
 
                                 ${esc(
-                                    gradeText(
+                                    gradeDisplay(
                                         grade.term2
                                     )
                                 )}
@@ -8835,12 +8452,13 @@ async function loadProfileGrades(
                             <td style="${gradeStyle(grade.annual)}">
 
                                 ${esc(
-                                    gradeText(
+                                    gradeDisplay(
                                         grade.annual
                                     )
                                 )}
 
                             </td>
+
 
                         </tr>
 
@@ -8878,13 +8496,15 @@ function attendanceBadge(
     status
 ){
 
-    const normalized =
-        norm(status);
+    const value =
+        norm(
+            status
+        );
 
 
     if(
-        normalized === "absent" ||
-        normalized === "غائب"
+        value === "absent" ||
+        value === "غائب"
     ){
 
         return `
@@ -8899,10 +8519,10 @@ function attendanceBadge(
 
 
     if(
-        normalized === "leave" ||
-        normalized === "excused" ||
-        normalized === "إجازة" ||
-        normalized === "اجازة"
+        value === "leave" ||
+        value === "excused" ||
+        value === "إجازة" ||
+        value === "اجازة"
     ){
 
         return `
@@ -8917,8 +8537,8 @@ function attendanceBadge(
 
 
     if(
-        normalized === "late" ||
-        normalized === "متأخر"
+        value === "late" ||
+        value === "متأخر"
     ){
 
         return `
@@ -8962,10 +8582,12 @@ async function loadProfileAttendance(
             .sort(
                 (a,b) =>
                     Number(
-                        b.timestamp || 0
+                        b.timestamp ||
+                        0
                     ) -
                     Number(
-                        a.timestamp || 0
+                        a.timestamp ||
+                        0
                     )
             );
 
@@ -8983,6 +8605,7 @@ async function loadProfileAttendance(
                     item => `
 
                         <div class="profile-list-item">
+
 
                             <div>
 
@@ -9015,6 +8638,7 @@ async function loadProfileAttendance(
                                 )
                             }
 
+
                         </div>
 
                     `
@@ -9026,17 +8650,6 @@ async function loadProfileAttendance(
     catch(error){
 
         console.error(error);
-
-
-        $("profileAttendanceList")
-            .innerHTML =
-                "";
-
-
-        $("profileAttendanceEmpty")
-            .classList.remove(
-                "hidden"
-            );
 
     }
 
@@ -9072,10 +8685,12 @@ async function loadProfilePayments(
             .sort(
                 (a,b) =>
                     Number(
-                        b.timestamp || 0
+                        b.timestamp ||
+                        0
                     ) -
                     Number(
-                        a.timestamp || 0
+                        a.timestamp ||
+                        0
                     )
             );
 
@@ -9089,17 +8704,12 @@ async function loadProfilePayments(
 
         const paid =
             rows.reduce(
-                (sum,item) => {
-
-                    return (
-                        sum +
-                        Number(
-                            item.amount ||
-                            0
-                        )
-                    );
-
-                },
+                (sum,item) =>
+                    sum +
+                    Number(
+                        item.amount ||
+                        0
+                    ),
                 0
             );
 
@@ -9118,16 +8728,12 @@ async function loadProfilePayments(
 
         $("profilePaid")
             .textContent =
-                paid > 0
-                ? money(paid)
-                : "0 د.ع";
+                money(paid);
 
 
         $("profileRemaining")
             .textContent =
-                remaining > 0
-                ? money(remaining)
-                : "0 د.ع";
+                money(remaining);
 
 
         $("profilePaymentsEmpty")
@@ -9143,6 +8749,7 @@ async function loadProfilePayments(
                     item => `
 
                         <div class="profile-list-item">
+
 
                             <div>
 
@@ -9177,6 +8784,7 @@ async function loadProfilePayments(
 
                             </span>
 
+
                         </div>
 
                     `
@@ -9189,24 +8797,13 @@ async function loadProfilePayments(
 
         console.error(error);
 
-
-        $("profilePaymentsList")
-            .innerHTML =
-                "";
-
-
-        $("profilePaymentsEmpty")
-            .classList.remove(
-                "hidden"
-            );
-
     }
 
 }
 
 
 /* =========================================================
-   PDF ITEM
+   PDF
 ========================================================= */
 
 function pdfItem(
@@ -9224,7 +8821,7 @@ function pdfItem(
             </b>
 
             <span>
-                ${esc(value || "—")}
+                ${esc(value ?? "—")}
             </span>
 
         </div>
@@ -9233,10 +8830,6 @@ function pdfItem(
 
 }
 
-
-/* =========================================================
-   STUDENT LOGIN URL
-========================================================= */
 
 function studentLoginURL(
     code
@@ -9267,7 +8860,7 @@ function studentLoginURL(
 
 
 /* =========================================================
-   BUILD PDF HTML
+   BUILD PDF
 ========================================================= */
 
 function buildStudentPDF(
@@ -9275,16 +8868,33 @@ function buildStudentPDF(
 ){
 
     const studentWord =
-        student.gender ===
-        "female"
-        ? "الطالبة"
-        : "الطالب";
+        student.gender === "female"
+            ? "الطالبة"
+            : "الطالب";
 
 
     const loginURL =
         studentLoginURL(
             student.code
         );
+
+
+    const fileStatus =
+        student.fileStatus === "accepted"
+            ? "تم القبول"
+            : "لم يجلب الملف";
+
+
+    const accountStatus =
+        student.accountActive
+            ? "الحساب فعال"
+            : "الحساب غير فعال";
+
+
+    const booksStatus =
+        student.booksReceived
+            ? "استلم الكتب"
+            : "لم يستلم الكتب";
 
 
     return `
@@ -9295,9 +8905,9 @@ function buildStudentPDF(
             <div class="pdf-safe">
 
 
-                <!-- =======================================
+                <!-- =====================================
                      FIRST HALF
-                ======================================== -->
+                ====================================== -->
 
                 <section class="pdf-first">
 
@@ -9309,12 +8919,18 @@ function buildStudentPDF(
                     >
 
 
+
+                    <!-- العدد والتاريخ في الجهة الأخرى -->
+
                     <div class="pdf-meta">
 
                         <div>
 
                             العدد /
-                            ${esc(student.serial)}
+                            ${esc(
+                                student.serial ||
+                                "—"
+                            )}
 
                         </div>
 
@@ -9335,18 +8951,22 @@ function buildStudentPDF(
 
                     <div class="pdf-school-header">
 
+
                         <img
                             src="images/logo.png"
                             alt=""
                         >
 
+
                         <h2>
                             مدرسة التحدي الأهلية المختلطة
                         </h2>
 
+
                         <p>
                             قسم الحوكمة
                         </p>
+
 
                     </div>
 
@@ -9354,7 +8974,7 @@ function buildStudentPDF(
 
                     <div class="pdf-recipient">
 
-                        إلى / إدارة مدرسة
+                        إلى /
 
                         <strong>
 
@@ -9370,7 +8990,7 @@ function buildStudentPDF(
 
                     <div class="pdf-subject">
 
-                        الموضوع / عدم ممانعة
+                        م / عدم ممانعة
 
                     </div>
 
@@ -9393,9 +9013,7 @@ function buildStudentPDF(
                         للعام الدراسي الحالي
 
                         <strong>
-
                             2026-2027
-
                         </strong>
 
                         في الصف
@@ -9435,11 +9053,12 @@ function buildStudentPDF(
 
 
 
-                <!-- =======================================
-                     DIVIDER
-                ======================================== -->
+                <!-- =====================================
+                     CENTER
+                ====================================== -->
 
                 <div class="pdf-divider"></div>
+
 
                 <div class="pdf-divider-label">
 
@@ -9449,9 +9068,9 @@ function buildStudentPDF(
 
 
 
-                <!-- =======================================
+                <!-- =====================================
                      SECOND HALF
-                ======================================== -->
+                ====================================== -->
 
                 <section class="pdf-second">
 
@@ -9461,10 +9080,12 @@ function buildStudentPDF(
 
                         <div class="pdf-student-brand">
 
+
                             <img
                                 src="images/logo.png"
                                 alt=""
                             >
+
 
                             <div>
 
@@ -9474,10 +9095,10 @@ function buildStudentPDF(
 
                                 <p>
                                     مدرسة التحدي الأهلية المختلطة
-                                    - قسم الحوكمة
                                 </p>
 
                             </div>
+
 
                         </div>
 
@@ -9490,7 +9111,12 @@ function buildStudentPDF(
                             </small>
 
                             <strong>
-                                ${esc(student.serial)}
+
+                                ${esc(
+                                    student.serial ||
+                                    "—"
+                                )}
+
                             </strong>
 
                         </div>
@@ -9511,16 +9137,16 @@ function buildStudentPDF(
 
 
                         ${pdfItem(
-                            "الجنس",
-                            genderStudentText(
-                                student.gender
-                            )
+                            "اسم الأم",
+                            student.motherName
                         )}
 
 
                         ${pdfItem(
-                            "اسم الأم",
-                            student.motherName
+                            "الجنس",
+                            genderStudentText(
+                                student.gender
+                            )
                         )}
 
 
@@ -9557,14 +9183,6 @@ function buildStudentPDF(
 
 
                         ${pdfItem(
-                            "تاريخ المباشرة",
-                            viewDate(
-                                student.startDate
-                            )
-                        )}
-
-
-                        ${pdfItem(
                             "المدرسة القادم منها",
                             student.previousSchool,
                             "span2"
@@ -9572,7 +9190,41 @@ function buildStudentPDF(
 
 
                         ${pdfItem(
-                            "عنوان السكن",
+                            "تاريخ التسجيل / المباشرة",
+                            viewDate(
+                                student.startDate
+                            )
+                        )}
+
+
+                        ${pdfItem(
+                            "مبلغ القسط الكلي",
+                            money(
+                                student.tuitionTotal
+                            )
+                        )}
+
+
+                        ${pdfItem(
+                            "حالة الملف",
+                            fileStatus
+                        )}
+
+
+                        ${pdfItem(
+                            "حالة الحساب",
+                            accountStatus
+                        )}
+
+
+                        ${pdfItem(
+                            "استلام الكتب",
+                            booksStatus
+                        )}
+
+
+                        ${pdfItem(
+                            "عنوان السكن بالتفصيل",
                             student.address,
                             "full"
                         )}
@@ -9592,7 +9244,11 @@ function buildStudentPDF(
                             </small>
 
                             <strong>
-                                ${esc(student.code)}
+
+                                ${esc(
+                                    student.code
+                                )}
+
                             </strong>
 
                             <p>
@@ -9605,14 +9261,17 @@ function buildStudentPDF(
 
                         <div class="pdf-qr-card">
 
+
                             <div
                                 class="student-pdf-qr"
                                 data-url="${esc(loginURL)}"
                             ></div>
 
+
                             <small>
-                                امسح الرمز للدخول
+                                امسح الرمز لتسجيل الدخول
                             </small>
+
 
                         </div>
 
@@ -9669,11 +9328,9 @@ function renderPDFQR(
                     text:
                         element.dataset.url,
 
-                    width:
-                        124,
+                    width:124,
 
-                    height:
-                        124,
+                    height:124,
 
                     correctLevel:
                         QRCode.CorrectLevel.H
@@ -9722,7 +9379,6 @@ async function waitForImages(
                         image.onload =
                             resolve;
 
-
                         image.onerror =
                             resolve;
 
@@ -9737,7 +9393,7 @@ async function waitForImages(
 
 
 /* =========================================================
-   PREVIEW PDF BEFORE SAVE
+   PREVIEW PDF
 ========================================================= */
 
 async function previewStudentPDFBeforeSave(){
@@ -9790,7 +9446,7 @@ async function previewStudentPDFBeforeSave(){
 
 
 /* =========================================================
-   PDF OPTIONS
+   PDF CONFIG
 ========================================================= */
 
 function pdfOptions(
@@ -9895,13 +9551,8 @@ async function downloadStudentPDFBeforeSave(){
             resolve =>
                 setTimeout(
                     resolve,
-                    180
+                    200
                 )
-        );
-
-
-        toast(
-            "جاري تجهيز الملف"
         );
 
 
@@ -9963,21 +9614,9 @@ async function downloadSavedStudentPDF(
         ];
 
 
-    if(!student){
-
-        return;
-
-    }
-
-
     if(
-        typeof html2pdf ===
-        "undefined"
+        !student
     ){
-
-        toast(
-            "نظام PDF غير متوفر"
-        );
 
         return;
 
@@ -10025,7 +9664,7 @@ async function downloadSavedStudentPDF(
         resolve =>
             setTimeout(
                 resolve,
-                180
+                200
             )
     );
 
@@ -10089,9 +9728,9 @@ function randomTeacherLetter(){
 }
 
 
-function generateTeacherCode(){
+function createTeacherCode(){
 
-    let numbers =
+    let digits =
         "";
 
 
@@ -10101,7 +9740,7 @@ function generateTeacherCode(){
         i++
     ){
 
-        numbers +=
+        digits +=
             randomDigit();
 
     }
@@ -10109,7 +9748,7 @@ function generateTeacherCode(){
 
     return (
         "TH" +
-        numbers +
+        digits +
         randomTeacherLetter()
     );
 
@@ -10119,13 +9758,13 @@ function generateTeacherCode(){
 async function uniqueTeacherCode(){
 
     for(
-        let i=0;
-        i<50;
-        i++
+        let attempt=0;
+        attempt<60;
+        attempt++
     ){
 
         const code =
-            generateTeacherCode();
+            createTeacherCode();
 
 
         const exists =
@@ -10134,7 +9773,9 @@ async function uniqueTeacherCode(){
             );
 
 
-        if(!exists){
+        if(
+            !exists
+        ){
 
             return code;
 
@@ -10259,7 +9900,9 @@ $("teacherForm")
                 );
 
 
-            if(exists){
+            if(
+                exists
+            ){
 
                 code =
                     await uniqueTeacherCode();
@@ -10277,8 +9920,7 @@ $("teacherForm")
 
                 classIds,
 
-                accountActive:
-                    true,
+                accountActive:true,
 
                 createdAt:
                     Date.now(),
@@ -10295,14 +9937,12 @@ $("teacherForm")
 
                 name,
 
-                role:
-                    "teacher",
+                role:"teacher",
 
                 teacherId:
                     code,
 
-                active:
-                    true,
+                active:true,
 
                 createdAt:
                     Date.now()
@@ -10394,7 +10034,7 @@ $("teacherForm")
 
 
 /* =========================================================
-   TEACHER FILTERS
+   TEACHER LIST
 ========================================================= */
 
 [
@@ -10402,17 +10042,19 @@ $("teacherForm")
     "teacherClassFilter",
     "teacherStatusFilter"
 ]
-.forEach(id => {
+.forEach(
+    id => {
 
-    $(id)
-    .addEventListener(
-        id === "teacherSearch"
-            ? "input"
-            : "change",
-        renderTeachers
-    );
+        $(id)
+        .addEventListener(
+            id === "teacherSearch"
+                ? "input"
+                : "change",
+            renderTeachers
+        );
 
-});
+    }
+);
 
 
 function renderTeachers(){
@@ -10434,7 +10076,7 @@ function renderTeachers(){
         .value;
 
 
-    const rows =
+    const teachers =
         Object.values(
             DATA.teachers
         )
@@ -10443,7 +10085,10 @@ function renderTeachers(){
 
                 if(
                     classFilter &&
-                    !(teacher.classIds || [])
+                    !(
+                        teacher.classIds ||
+                        []
+                    )
                     .includes(
                         classFilter
                     )
@@ -10455,8 +10100,7 @@ function renderTeachers(){
 
 
                 if(
-                    status ===
-                    "active" &&
+                    status === "active" &&
                     !teacher.accountActive
                 ){
 
@@ -10466,8 +10110,7 @@ function renderTeachers(){
 
 
                 if(
-                    status ===
-                    "inactive" &&
+                    status === "inactive" &&
                     teacher.accountActive
                 ){
 
@@ -10476,7 +10119,9 @@ function renderTeachers(){
                 }
 
 
-                if(search){
+                if(
+                    search
+                ){
 
                     const text =
                         norm(
@@ -10500,20 +10145,12 @@ function renderTeachers(){
                 return true;
 
             }
-        )
-        .sort(
-            (a,b) =>
-                String(a.name)
-                .localeCompare(
-                    String(b.name),
-                    "ar"
-                )
         );
 
 
     $("teachersBody")
         .innerHTML =
-            rows.map(
+            teachers.map(
                 teacher => {
 
                     const classes =
@@ -10642,7 +10279,9 @@ function toggleTeacherAccount(
         ];
 
 
-    if(!teacher){
+    if(
+        !teacher
+    ){
 
         return;
 
@@ -10672,15 +10311,19 @@ function toggleTeacherAccount(
                 dbPatch(
                     `${PATH.teachers}/${code}`,
                     {
+
                         accountActive:
                             active
+
                     }
                 ),
 
                 dbPatch(
                     `${PATH.users}/${code}`,
                     {
+
                         active
+
                     }
                 )
 
@@ -10689,20 +10332,6 @@ function toggleTeacherAccount(
 
             teacher.accountActive =
                 active;
-
-
-            if(
-                DATA.users[
-                    code
-                ]
-            ){
-
-                DATA.users[
-                    code
-                ].active =
-                    active;
-
-            }
 
 
             renderTeachers();
@@ -10805,7 +10434,9 @@ window
                 await verifyAdmin();
 
 
-            if(!allowed){
+            if(
+                !allowed
+            ){
 
                 return;
 
@@ -10842,5 +10473,4 @@ window
 </script>
 
 </body>
-
 </html>
