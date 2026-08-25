@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width,
+                   initial-scale=1.0,
+                   maximum-scale=1.0,
+                   user-scalable=no">
+
+    <meta name="theme-color" content="#0758c9">
+
+    <title>قسم الحوكمة | مدرسة التحدي الأهلية المختلطة</title>
+
+    <!-- ملف الستايل الموحد لجميع صفحات النظام -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+
+
+<!-- ======================================================
+     شاشة عدم وجود الإنترنت
+====================================================== -->
+
+<div id="offlineScreen" class="offline-screen">
+
+    <div class="offline-content">
+
+        <img
+            src="images/no-internet.png"
+            alt="لا يوجد اتصال بالإنترنت"
+            class="offline-image"
+        >
+
+        <h2>لا يوجد اتصال بالإنترنت</h2>
+
+        <p>
+            يرجى التحقق من اتصالك بالشبكة
+        </p>
+
+        <div class="offline-loading"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ======================================================
+     شاشة البداية
+====================================================== -->
+
+<div id="splashScreen" class="splash-screen">
+
+    <div class="splash-inner">
+
+        <div class="splash-logo-container">
+
+            <div class="logo-glow"></div>
+
+            <img
+                src="images/logo.png"
+                alt="مدرسة التحدي"
+                class="splash-logo"
+            >
+
+        </div>
+
+
+        <h1 class="splash-title">
+            مدرسة التحدي الأهلية المختلطة
+        </h1>
+
+
+        <div class="splash-divider"></div>
+
+
+        <p class="splash-subtitle">
+            قسم الحوكمة
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- ======================================================
+     صفحة تسجيل الدخول
+====================================================== -->
+
+<main id="loginPage" class="login-page">
+
+    <div class="login-wrapper">
+
+
+        <!-- الشعار -->
+
+        <div class="login-logo-area">
+
+            <img
+                src="images/logo.png"
+                alt="شعار مدرسة التحدي"
+                class="login-logo"
+            >
+
+        </div>
+
+
+
+        <!-- اسم المدرسة -->
+
+        <div class="login-heading">
+
+            <h1>
+                مدرسة التحدي الأهلية المختلطة
+            </h1>
+
+            <p>
+                قسم الحوكمة
+            </p>
+
+        </div>
+
+
+
+        <!-- صندوق الدخول -->
+
+        <div class="login-card">
+
+
+            <div class="login-card-header">
+
+                <h2>
+                    تسجيل الدخول
+                </h2>
+
+                <span>
+                    أدخل الكود الخاص بك
+                </span>
+
+            </div>
+
+
+
+            <!-- الرسائل -->
+
+            <div
+                id="messageBox"
+                class="message-box"
+            ></div>
+
+
+
+            <!-- حقل الكود -->
+
+            <div class="code-field">
+
+                <input
+                    type="text"
+                    id="userCode"
+                    placeholder="أدخل الكود الخاص بك"
+                    autocomplete="off"
+                    autocorrect="off"
+                    autocapitalize="characters"
+                    spellcheck="false"
+                    maxlength="25"
+                >
+
+            </div>
+
+
+
+            <!-- زر تسجيل الدخول -->
+
+            <button
+                id="loginButton"
+                class="login-button"
+                type="button"
+            >
+
+                <span id="loginButtonText">
+                    تسجيل الدخول
+                </span>
+
+
+                <span
+                    id="loginSpinner"
+                    class="login-spinner"
+                ></span>
+
+            </button>
+
+
+        </div>
+
+
+
+        <div class="login-footer">
+
+            <span>
+                نظام الحوكمة الإلكتروني
+            </span>
+
+        </div>
+
+
+    </div>
+
+</main>
+
+
+
+<!-- ======================================================
+     صوت تشغيل التطبيق
+====================================================== -->
+
+<audio
+    id="startupAudio"
+    preload="auto"
+>
+
+    <source
+        src="sounds/start.mp3"
+        type="audio/mpeg"
+    >
+
+</audio>
+
+
+
+<script>
+
+
+/* =========================================================
+   Firebase Realtime Database
+========================================================= */
+
+const DATABASE_URL =
+    "https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
+
+
+/*
+    مكان حسابات المستخدمين داخل Firebase
+
+    users
+       CODE
+          name
+          role
+          active
+*/
+
+const USERS_PATH = "users";
+
+
+
+/* =========================================================
+   عناصر الصفحة
+========================================================= */
+
+const offlineScreen =
+    document.getElementById("offlineScreen");
+
+const splashScreen =
+    document.getElementById("splashScreen");
+
+const loginPage =
+    document.getElementById("loginPage");
+
+const userCode =
+    document.getElementById("userCode");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const loginButtonText =
+    document.getElementById("loginButtonText");
+
+const loginSpinner =
+    document.getElementById("loginSpinner");
+
+const messageBox =
+    document.getElementById("messageBox");
+
+const startupAudio =
+    document.getElementById("startupAudio");
+
+
+
+/* =========================================================
+   تنظيف الكود
+========================================================= */
+
+function cleanCode(code) {
+
+    return String(code || "")
+        .trim()
+        .replace(/\s+/g, "")
+        .toUpperCase();
+
+}
+
+
+
+/* =========================================================
+   الرسائل
+========================================================= */
+
+function showMessage(text, type = "error") {
+
+    messageBox.textContent = text;
+
+    messageBox.className =
+        "message-box show " + type;
+
+}
+
+
+function hideMessage() {
+
+    messageBox.textContent = "";
+
+    messageBox.className =
+        "message-box";
+
+}
+
+
+
+/* =========================================================
+   زر تسجيل الدخول
+========================================================= */
+
+function setLoginLoading(status) {
+
+    if (status) {
+
+        loginButton.disabled = true;
+
+        loginButtonText.textContent =
+            "جاري التحقق";
+
+        loginSpinner.style.display =
+            "inline-block";
+
+    }
+
+    else {
+
+        loginButton.disabled = false;
+
+        loginButtonText.textContent =
+            "تسجيل الدخول";
+
+        loginSpinner.style.display =
+            "none";
+
+    }
+
+}
+
+
+
+/* =========================================================
+   شاشة عدم وجود الإنترنت
+========================================================= */
+
+function showOffline() {
+
+    offlineScreen.classList.add("show");
+
+    loginPage.classList.remove("show");
+
+    splashScreen.classList.remove("show");
+
+}
+
+
+function hideOffline() {
+
+    offlineScreen.classList.remove("show");
+
+}
+
+
+
+/* =========================================================
+   تشغيل صوت البداية
+========================================================= */
+
+function playStartupSound() {
+
+    if (!startupAudio) {
+        return;
+    }
+
+
+    startupAudio.volume = 0.45;
+
+
+    const playRequest =
+        startupAudio.play();
+
+
+    if (playRequest) {
+
+        playRequest.catch(() => {
+
+            /*
+              iPhone وبعض المتصفحات
+              قد تمنع التشغيل التلقائي للصوت.
+            */
+
+        });
+
+    }
+
+}
+
+
+
+/* =========================================================
+   تشغيل شاشة البداية
+========================================================= */
+
+function startIntro() {
+
+    if (!navigator.onLine) {
+
+        showOffline();
+
+        return;
+
+    }
+
+
+    hideOffline();
+
+
+    splashScreen.classList.add("show");
+
+
+    playStartupSound();
+
+
+    setTimeout(() => {
+
+        splashScreen.classList.add("closing");
+
+
+        setTimeout(() => {
+
+            splashScreen.classList.remove("show");
+
+            splashScreen.classList.remove("closing");
+
+            loginPage.classList.add("show");
+
+
+            setTimeout(() => {
+
+                userCode.focus();
+
+            }, 300);
+
+
+        }, 700);
+
+
+    }, 2300);
+
+}
+
+
+
+/* =========================================================
+   تحديد صفحة المستخدم
+========================================================= */
+
+function goToUserPage(role) {
+
+    role = String(role || "")
+        .trim()
+        .toLowerCase();
+
+
+    switch (role) {
+
+
+        /* =========================
+           الإدارة
+        ========================= */
+
+        case "admin":
+
+        case "administrator":
+
+            window.location.replace(
+                "add.html"
+            );
+
+            return;
+
+
+
+        /* =========================
+           الطالب / الطالبة
+        ========================= */
+
+        case "student":
+
+        case "st":
+
+            window.location.replace(
+                "st.html"
+            );
+
+            return;
+
+
+
+        /* =========================
+           الأستاذ
+        ========================= */
+
+        case "teacher":
+
+        case "th":
+
+            window.location.replace(
+                "th.html"
+            );
+
+            return;
+
+
+
+        /* =========================
+           مشرف الحضور والغيابات
+        ========================= */
+
+        case "attendance":
+
+        case "supervisor":
+
+        case "msh":
+
+            window.location.replace(
+                "msh.html"
+            );
+
+            return;
+
+
+        default:
+
+            throw new Error(
+                "UNKNOWN_ROLE"
+            );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   قراءة المستخدم من Firebase
+========================================================= */
+
+async function getUserFromFirebase(code) {
+
+
+    /*
+        يصبح الرابط مثلاً:
+
+        users/ST12B345.json
+    */
+
+
+    const url =
+        `${DATABASE_URL}/${USERS_PATH}/${encodeURIComponent(code)}.json`;
+
+
+    const response =
+        await fetch(url, {
+
+            method: "GET",
+
+            cache: "no-store"
+
+        });
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            "FIREBASE_ERROR"
+        );
+
+    }
+
+
+    return await response.json();
+
+}
+
+
+
+/* =========================================================
+   حفظ جلسة المستخدم
+========================================================= */
+
+function saveSession(code, user) {
+
+
+    const session = {
+
+        code: code,
+
+        role: user.role || "",
+
+        name: user.name || "",
+
+        loginTime: Date.now()
+
+    };
+
+
+    sessionStorage.setItem(
+        "tahadi_session",
+        JSON.stringify(session)
+    );
+
+
+    sessionStorage.setItem(
+        "tahadi_code",
+        code
+    );
+
+
+    sessionStorage.setItem(
+        "tahadi_role",
+        user.role || ""
+    );
+
+}
+
+
+
+/* =========================================================
+   تسجيل الدخول
+========================================================= */
+
+async function login() {
+
+
+    hideMessage();
+
+
+
+    /* ==============================================
+       فحص الإنترنت
+    ============================================== */
+
+    if (!navigator.onLine) {
+
+        showOffline();
+
+        return;
+
+    }
+
+
+
+    /* ==============================================
+       قراءة الكود
+    ============================================== */
+
+    const code =
+        cleanCode(userCode.value);
+
+
+
+    if (!code) {
+
+        showMessage(
+            "يرجى إدخال الكود الخاص بك"
+        );
+
+        userCode.focus();
+
+        return;
+
+    }
+
+
+
+    setLoginLoading(true);
+
+
+
+    try {
+
+
+        /* ==========================================
+           قراءة Firebase
+        ========================================== */
+
+        const user =
+            await getUserFromFirebase(code);
+
+
+
+        /* ==========================================
+           الكود غير موجود
+        ========================================== */
+
+        if (!user) {
+
+            showMessage(
+                "الكود الذي أدخلته غير صحيح"
+            );
+
+            return;
+
+        }
+
+
+
+        /* ==========================================
+           الحساب معطل
+        ========================================== */
+
+        if (
+            user.active === false ||
+            user.status === "inactive" ||
+            user.status === "disabled" ||
+            user.status === "blocked"
+        ) {
+
+            showMessage(
+                "هذا الحساب غير فعال، يرجى مراجعة الإدارة"
+            );
+
+            return;
+
+        }
+
+
+
+        /* ==========================================
+           نوع الحساب غير موجود
+        ========================================== */
+
+        if (!user.role) {
+
+            showMessage(
+                "بيانات الحساب غير مكتملة، يرجى مراجعة الإدارة"
+            );
+
+            return;
+
+        }
+
+
+
+        /* ==========================================
+           حفظ الجلسة
+        ========================================== */
+
+        saveSession(
+            code,
+            user
+        );
+
+
+
+        /* ==========================================
+           رسالة نجاح
+        ========================================== */
+
+        showMessage(
+            "تم تسجيل الدخول بنجاح",
+            "success"
+        );
+
+
+
+        /* ==========================================
+           الانتقال
+        ========================================== */
+
+        setTimeout(() => {
+
+            try {
+
+                goToUserPage(
+                    user.role
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    "نوع الحساب غير معرف في النظام"
+                );
+
+                setLoginLoading(false);
+
+            }
+
+        }, 450);
+
+
+    }
+
+    catch (error) {
+
+
+        console.error(
+            "Login Error:",
+            error
+        );
+
+
+        if (!navigator.onLine) {
+
+            showOffline();
+
+        }
+
+        else {
+
+            showMessage(
+                "تعذر الاتصال بقاعدة البيانات، حاول مرة أخرى"
+            );
+
+        }
+
+    }
+
+    finally {
+
+        setTimeout(() => {
+
+            setLoginLoading(false);
+
+        }, 700);
+
+    }
+
+}
+
+
+
+/* =========================================================
+   عند الضغط على تسجيل الدخول
+========================================================= */
+
+loginButton.addEventListener(
+    "click",
+    login
+);
+
+
+
+/* =========================================================
+   Enter
+========================================================= */
+
+userCode.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            login();
+
+        }
+
+    }
+);
+
+
+
+/* =========================================================
+   تنسيق الكود أثناء الكتابة
+========================================================= */
+
+userCode.addEventListener(
+    "input",
+    function() {
+
+
+        hideMessage();
+
+
+        this.value =
+            this.value
+                .replace(/\s+/g, "")
+                .toUpperCase();
+
+    }
+);
+
+
+
+/* =========================================================
+   عند انقطاع الإنترنت
+========================================================= */
+
+window.addEventListener(
+    "offline",
+    function() {
+
+        showOffline();
+
+    }
+);
+
+
+
+/* =========================================================
+   عند رجوع الإنترنت
+========================================================= */
+
+window.addEventListener(
+    "online",
+    function() {
+
+
+        hideOffline();
+
+
+        splashScreen.classList.remove("show");
+
+        splashScreen.classList.remove("closing");
+
+        loginPage.classList.add("show");
+
+
+        hideMessage();
+
+
+        setTimeout(() => {
+
+            userCode.focus();
+
+        }, 250);
+
+    }
+);
+
+
+
+/* =========================================================
+   تشغيل التطبيق
+========================================================= */
+
+window.addEventListener(
+    "load",
+    function() {
+
+        startIntro();
+
+    }
+);
+
+
+</script>
+
+
+</body>
+
+</html>
