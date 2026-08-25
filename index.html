@@ -3,1483 +3,754 @@
 
 <head>
 
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    >
-
-    <meta name="theme-color" content="#0757c8">
-
-    <meta name="apple-mobile-web-app-capable" content="yes">
-
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-    <title>قسم الحوكمة | مدرسة التحدي الأهلية المختلطة</title>
-
-
-    <style>
-
-        /* =====================================================
-           إعدادات عامة
-        ===================================================== */
-
-        :root {
-
-            --primary: #075fcf;
-            --primary-dark: #034da9;
-            --primary-light: #eaf3ff;
-
-            --background: #f5f8fc;
-
-            --white: #ffffff;
-
-            --text: #172033;
-            --text-soft: #667085;
-
-            --border: #e2e8f0;
-
-            --danger: #c62828;
-            --danger-bg: #fff1f1;
-
-            --success: #078746;
-            --success-bg: #ecfdf3;
-
-            --shadow:
-                0 20px 55px
-                rgba(18, 43, 77, 0.12);
-
-        }
-
-
-        * {
-
-            margin: 0;
-            padding: 0;
-
-            box-sizing: border-box;
-
-            -webkit-tap-highlight-color:
-                transparent;
-
-        }
-
-
-        html,
-        body {
-
-            width: 100%;
-            min-height: 100%;
-
-        }
-
-
-        body {
-
-            font-family:
-                Tahoma,
-                Arial,
-                sans-serif;
-
-            background:
-                var(--background);
-
-            color:
-                var(--text);
-
-            overflow-x: hidden;
-
-        }
-
-
-        button,
-        input {
-
-            font-family: inherit;
-
-        }
-
-
-
-        /* =====================================================
-           خلفية الصفحة
-        ===================================================== */
-
-        .login-page {
-
-            display: none;
-
-            position: relative;
-
-            width: 100%;
-
-            min-height: 100vh;
-            min-height: 100dvh;
-
-            align-items: center;
-            justify-content: center;
-
-            padding:
-                32px 18px;
-
-            overflow: hidden;
-
-            background:
-
-                radial-gradient(
-                    circle at 90% 5%,
-                    rgba(7, 95, 207, .15),
-                    transparent 34%
-                ),
-
-                radial-gradient(
-                    circle at 5% 95%,
-                    rgba(7, 95, 207, .08),
-                    transparent 32%
-                ),
-
-                linear-gradient(
-                    180deg,
-                    #f7faff,
-                    #f3f6fb
-                );
-
-        }
-
-
-        .login-page.show {
-
-            display: flex;
-
-            animation:
-                pageFade
-                .65s
-                ease
-                both;
-
-        }
-
-
-
-        /* =====================================================
-           أشكال الخلفية
-        ===================================================== */
-
-        .shape {
-
-            position: absolute;
-
-            border-radius: 50%;
-
-            pointer-events: none;
-
-            filter:
-                blur(2px);
-
-        }
-
-
-        .shape-one {
-
-            width: 210px;
-            height: 210px;
-
-            top: -90px;
-            right: -85px;
-
-            background:
-                rgba(7, 95, 207, .07);
-
-        }
-
-
-        .shape-two {
-
-            width: 170px;
-            height: 170px;
-
-            bottom: -75px;
-            left: -65px;
-
-            background:
-                rgba(7, 95, 207, .06);
-
-        }
-
-
-
-        /* =====================================================
-           الحاوية
-        ===================================================== */
-
-        .login-container {
-
-            position: relative;
-
-            z-index: 2;
-
-            width: 100%;
-            max-width: 420px;
-
-        }
-
-
-
-        /* =====================================================
-           الشعار
-        ===================================================== */
-
-        .logo-area {
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            margin-bottom: 18px;
-
-        }
-
-
-        .logo-box {
-
-            position: relative;
-
-            width: 120px;
-            height: 120px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-        }
-
-
-        .logo-circle {
-
-            position: absolute;
-
-            width: 108px;
-            height: 108px;
-
-            border-radius: 50%;
-
-            background:
-                rgba(7, 95, 207, .08);
-
-            animation:
-                pulseLogo
-                2.3s
-                ease-in-out
-                infinite;
-
-        }
-
-
-        .login-logo {
-
-            position: relative;
-
-            z-index: 2;
-
-            width: 105px;
-            height: 105px;
-
-            object-fit: contain;
-
-            animation:
-                logoIn
-                .85s
-                cubic-bezier(.16,1,.3,1)
-                both;
-
-            filter:
-                drop-shadow(
-                    0 12px 20px
-                    rgba(7, 95, 207, .15)
-                );
-
-        }
-
-
-
-        /* =====================================================
-           عنوان المدرسة
-        ===================================================== */
-
-        .school-info {
-
-            text-align: center;
-
-            margin-bottom: 27px;
-
-            animation:
-                titleIn
-                .75s
-                .12s
-                ease
-                both;
-
-        }
-
-
-        .school-info h1 {
-
-            font-size: 21px;
-
-            font-weight: 800;
-
-            line-height: 1.65;
-
-            color:
-                var(--text);
-
-        }
-
-
-        .school-info p {
-
-            margin-top: 5px;
-
-            font-size: 15px;
-
-            font-weight: 700;
-
-            color:
-                var(--primary);
-
-        }
-
-
-
-        /* =====================================================
-           بطاقة تسجيل الدخول
-        ===================================================== */
-
-        .login-card {
-
-            width: 100%;
-
-            padding:
-                26px 20px
-                22px;
-
-            background:
-                rgba(255,255,255,.96);
-
-            border:
-                1px solid
-                rgba(255,255,255,.85);
-
-            border-radius: 25px;
-
-            box-shadow:
-                var(--shadow);
-
-            backdrop-filter:
-                blur(16px);
-
-            -webkit-backdrop-filter:
-                blur(16px);
-
-            animation:
-                cardIn
-                .8s
-                .16s
-                cubic-bezier(.16,1,.3,1)
-                both;
-
-        }
-
-
-
-        /* =====================================================
-           عنوان البطاقة
-        ===================================================== */
-
-        .card-header {
-
-            text-align: center;
-
-            margin-bottom: 21px;
-
-        }
-
-
-        .card-header h2 {
-
-            font-size: 20px;
-
-            font-weight: 800;
-
-            color:
-                var(--text);
-
-        }
-
-
-        .card-header p {
-
-            margin-top: 8px;
-
-            font-size: 14px;
-
-            color:
-                var(--text-soft);
-
-        }
-
-
-
-        /* =====================================================
-           حقل الكود
-        ===================================================== */
-
-        .input-wrapper {
-
-            position: relative;
-
-            width: 100%;
-
-        }
-
-
-        .code-input {
-
-            width: 100%;
-
-            height: 60px;
-
-            padding:
-                0 18px;
-
-            border:
-                1.5px solid
-                var(--border);
-
-            border-radius: 17px;
-
-            outline: none;
-
-            background:
-                #ffffff;
-
-            color:
-                var(--text);
-
-            font-size: 18px;
-
-            font-weight: 800;
-
-            text-align: center;
-
-            direction: ltr;
-
-            letter-spacing: 1.3px;
-
-            text-transform: uppercase;
-
-            transition:
-                border-color .25s ease,
-                box-shadow .25s ease,
-                transform .25s ease;
-
-        }
-
-
-        .code-input::placeholder {
-
-            direction: rtl;
-
-            font-size: 15px;
-
-            font-weight: 500;
-
-            letter-spacing: 0;
-
-            color:
-                #98a2b3;
-
-        }
-
-
-        .code-input:focus {
-
-            border-color:
-                var(--primary);
-
-            box-shadow:
-                0 0 0 4px
-                rgba(7, 95, 207, .08);
-
-            transform:
-                translateY(-1px);
-
-        }
-
-
-
-        /* =====================================================
-           رسالة الخطأ والنجاح
-        ===================================================== */
-
-        .message {
-
-            display: none;
-
-            width: 100%;
-
-            margin-bottom: 14px;
-
-            padding:
-                11px 13px;
-
-            border-radius: 13px;
-
-            text-align: center;
-
-            font-size: 13px;
-
-            line-height: 1.7;
-
-            font-weight: 700;
-
-        }
-
-
-        .message.show {
-
-            display: block;
-
-            animation:
-                messageIn
-                .25s
-                ease
-                both;
-
-        }
-
-
-        .message.error {
-
-            color:
-                var(--danger);
-
-            background:
-                var(--danger-bg);
-
-            border:
-                1px solid
-                #ffd5d5;
-
-        }
-
-
-        .message.success {
-
-            color:
-                var(--success);
-
-            background:
-                var(--success-bg);
-
-            border:
-                1px solid
-                #b7ebcb;
-
-        }
-
-
-
-        /* =====================================================
-           زر الدخول
-        ===================================================== */
-
-        .login-btn {
-
-            width: 100%;
-
-            height: 58px;
-
-            margin-top: 15px;
-
-            border: none;
-
-            border-radius: 17px;
-
-            outline: none;
-
-            background:
-
-                linear-gradient(
-                    135deg,
-                    #0868df,
-                    #0757c8
-                );
-
-            color:
-                #ffffff;
-
-            font-size: 16px;
-
-            font-weight: 800;
-
-            cursor: pointer;
-
-            box-shadow:
-
-                0 13px 28px
-                rgba(7, 95, 207, .24);
-
-            transition:
-                transform .2s ease,
-                opacity .2s ease,
-                box-shadow .2s ease;
-
-        }
-
-
-        .login-btn:active {
-
-            transform:
-                scale(.985);
-
-            box-shadow:
-
-                0 8px 18px
-                rgba(7, 95, 207, .18);
-
-        }
-
-
-        .login-btn:disabled {
-
-            opacity: .75;
-
-            cursor: default;
-
-        }
-
-
-
-        /* =====================================================
-           Loader
-        ===================================================== */
-
-        .spinner {
-
-            display: none;
-
-            width: 18px;
-            height: 18px;
-
-            margin-right: 9px;
-
-            vertical-align: middle;
-
-            border-radius: 50%;
-
-            border:
-                2px solid
-                rgba(255,255,255,.35);
-
-            border-top-color:
-                #ffffff;
-
-            animation:
-                spin
-                .7s
-                linear
-                infinite;
-
-        }
-
-
-
-        /* =====================================================
-           Footer
-        ===================================================== */
-
-        .footer {
-
-            padding-top: 21px;
-
-            text-align: center;
-
-            font-size: 12px;
-
-            color:
-                #98a2b3;
-
-        }
-
-
-
-        /* =====================================================
-           Splash Screen
-        ===================================================== */
-
-        .splash {
-
-            display: none;
-
-            position: fixed;
-
-            inset: 0;
-
-            z-index: 9999;
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 25px;
-
-            background:
-
-                radial-gradient(
-                    circle at 50% 25%,
-                    #197bf0 0%,
-                    #0864d8 33%,
-                    #064ba9 70%,
-                    #033b89 100%
-                );
-
-            overflow: hidden;
-
-            transition:
-                opacity .65s ease,
-                visibility .65s ease;
-
-        }
-
-
-        .splash.show {
-
-            display: flex;
-
-        }
-
-
-        .splash.close {
-
-            opacity: 0;
-
-            visibility: hidden;
-
-        }
-
-
-        .splash::before {
-
-            content: "";
-
-            position: absolute;
-
-            width: 380px;
-            height: 380px;
-
-            border-radius: 50%;
-
-            background:
-                rgba(255,255,255,.035);
-
-            top: -150px;
-            right: -130px;
-
-        }
-
-
-        .splash::after {
-
-            content: "";
-
-            position: absolute;
-
-            width: 290px;
-            height: 290px;
-
-            border-radius: 50%;
-
-            background:
-                rgba(255,255,255,.025);
-
-            bottom: -120px;
-            left: -100px;
-
-        }
-
-
-        .splash-content {
-
-            position: relative;
-
-            z-index: 2;
-
-            width: 100%;
-            max-width: 430px;
-
-            text-align: center;
-
-            color: #ffffff;
-
-        }
-
-
-        .splash-logo-wrapper {
-
-            position: relative;
-
-            width: 150px;
-            height: 150px;
-
-            margin:
-                0 auto;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-        }
-
-
-        .splash-glow {
-
-            position: absolute;
-
-            width: 145px;
-            height: 145px;
-
-            border-radius: 50%;
-
-            background:
-                rgba(255,255,255,.12);
-
-            animation:
-                splashPulse
-                2s
-                ease-in-out
-                infinite;
-
-        }
-
-
-        .splash-logo {
-
-            position: relative;
-
-            z-index: 2;
-
-            width: 128px;
-            height: 128px;
-
-            object-fit: contain;
-
-            filter:
-                drop-shadow(
-                    0 15px 28px
-                    rgba(0,0,0,.16)
-                );
-
-            animation:
-                splashLogoIn
-                1s
-                cubic-bezier(.16,1,.3,1)
-                both;
-
-        }
-
-
-        .splash h1 {
-
-            margin-top: 24px;
-
-            font-size: 22px;
-
-            line-height: 1.7;
-
-            font-weight: 800;
-
-            animation:
-                splashTextIn
-                .8s
-                .25s
-                ease
-                both;
-
-        }
-
-
-        .splash-line {
-
-            width: 0;
-            height: 3px;
-
-            margin:
-                14px auto;
-
-            border-radius: 10px;
-
-            background:
-                rgba(255,255,255,.88);
-
-            animation:
-                lineOpen
-                .8s
-                .5s
-                ease
-                forwards;
-
-        }
-
-
-        .splash p {
-
-            font-size: 15px;
-
-            font-weight: 700;
-
-            opacity: .95;
-
-            animation:
-                splashTextIn
-                .8s
-                .55s
-                ease
-                both;
-
-        }
-
-
-
-        /* =====================================================
-           عدم وجود الإنترنت
-        ===================================================== */
-
-        .offline-screen {
-
-            display: none;
-
-            position: fixed;
-
-            inset: 0;
-
-            z-index: 20000;
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 24px;
-
-            background:
-
-                radial-gradient(
-                    circle at top,
-                    #edf5ff,
-                    transparent 45%
-                ),
-
-                #ffffff;
-
-        }
-
-
-        .offline-screen.show {
-
-            display: flex;
-
-            animation:
-                pageFade
-                .35s
-                ease;
-
-        }
-
-
-        .offline-box {
-
-            width: 100%;
-
-            max-width: 380px;
-
-            text-align: center;
-
-        }
-
-
-        .offline-image {
-
-            width: 220px;
-
-            max-width: 75%;
-
-            height: auto;
-
-            object-fit: contain;
-
-            margin-bottom: 24px;
-
-            animation:
-                offlineIn
-                .7s
-                cubic-bezier(.16,1,.3,1);
-
-        }
-
-
-        .offline-box h2 {
-
-            font-size: 21px;
-
-            font-weight: 800;
-
-            color:
-                var(--text);
-
-        }
-
-
-        .offline-box p {
-
-            margin-top: 8px;
-
-            font-size: 14px;
-
-            line-height: 1.8;
-
-            color:
-                var(--text-soft);
-
-        }
-
-
-        .network-spinner {
-
-            width: 27px;
-            height: 27px;
-
-            margin:
-                24px auto
-                0;
-
-            border-radius: 50%;
-
-            border:
-                3px solid
-                #e5eaf0;
-
-            border-top-color:
-                var(--primary);
-
-            animation:
-                spin
-                .85s
-                linear
-                infinite;
-
-        }
-
-
-        .waiting-text {
-
-            margin-top: 10px !important;
-
-            font-size: 12px !important;
-
-            color:
-                #98a2b3 !important;
-
-        }
-
-
-
-        /* =====================================================
-           Animation
-        ===================================================== */
-
-        @keyframes spin {
-
-            to {
-
-                transform:
-                    rotate(360deg);
-
-            }
-
-        }
-
-
-        @keyframes pageFade {
-
-            from {
-
-                opacity: 0;
-
-            }
-
-            to {
-
-                opacity: 1;
-
-            }
-
-        }
-
-
-        @keyframes logoIn {
-
-            from {
-
-                opacity: 0;
-
-                transform:
-                    translateY(-15px)
-                    scale(.82);
-
-            }
-
-            to {
-
-                opacity: 1;
-
-                transform:
-                    translateY(0)
-                    scale(1);
-
-            }
-
-        }
-
-
-        @keyframes titleIn {
-
-            from {
-
-                opacity: 0;
-
-                transform:
-                    translateY(13px);
-
-            }
-
-            to {
-
-                opacity: 1;
-
-                transform:
-                    translateY(0);
-
-            }
-
-        }
-
-
-        @keyframes cardIn {
-
-            from {
-
-                opacity: 0;
-
-                transform:
-                    translateY(28px)
-                    scale(.97);
-
-            }
-
-            to {
-
-                opacity: 1;
-
-                transform:
-                    translateY(0)
-                    scale(1);
-
-            }
-
-        }
-
-
-        @keyframes messageIn {
-
-            from {
-
-                opacity: 0;
-
-                transform:
-                    translateY(-5px);
-
-            }
-
-            to {
-
-                opacity: 1;
-
-                transform:
-                    translateY(0);
-
-            }
-
-        }
-
-
-        @keyframes pulseLogo {
-
-            0%,
-            100% {
-
-                transform:
-                    scale(.96);
-
-                opacity: .65;
-
-            }
-
-            50% {
-
-                transform:
-                    scale(1.08);
-
-                opacity: .95;
-
-            }
-
-        }
-
-
-        @keyframes splashPulse {
-
-            0%,
-            100% {
-
-                transform:
-                    scale(.92);
-
-                opacity: .6;
-
-            }
-
-            50% {
-
-                transform:
-                    scale(1.12);
-
-                opacity: 1;
-
-            }
-
-        }
-
-
-        @keyframes splashLogoIn {
-
-            0% {
-
-                opacity: 0;
-
-                transform:
-                    scale(.45)
-                    translateY(25px);
-
-            }
-
-            65% {
-
-                transform:
-                    scale(1.07);
-
-            }
-
-            100% {
-
-                opacity: 1;
-
-                transform:
-                    scale(1)
-                    translateY(0);
-
-            }
-
-        }
-
-
-        @keyframes splashTextIn {
-
-            from {
-
-                opacity: 0;
-
-                transform:
-                    translateY(14px);
-
-            }
-
-            to {
-
-                opacity: 1;
-
-                transform:
-                    translateY(0);
-
-            }
-
-        }
-
-
-        @keyframes lineOpen {
-
-            from {
-
-                width: 0;
-
-            }
-
-            to {
-
-                width: 48px;
-
-            }
-
-        }
-
-
-        @keyframes offlineIn {
-
-            from {
-
-                opacity: 0;
-
-                transform:
-                    translateY(-12px)
-                    scale(.9);
-
-            }
-
-            to {
-
-                opacity: 1;
-
-                transform:
-                    translateY(0)
-                    scale(1);
-
-            }
-
-        }
-
-
-
-        /* =====================================================
-           الأجهزة الصغيرة
-        ===================================================== */
-
-        @media
-        (max-width: 370px) {
-
-            .login-page {
-
-                padding:
-                    23px 14px;
-
-            }
-
-
-            .login-logo {
-
-                width: 91px;
-                height: 91px;
-
-            }
-
-
-            .logo-box {
-
-                width: 105px;
-                height: 105px;
-
-            }
-
-
-            .logo-circle {
-
-                width: 95px;
-                height: 95px;
-
-            }
-
-
-            .school-info h1 {
-
-                font-size: 19px;
-
-            }
-
-
-            .login-card {
-
-                padding:
-                    22px 16px;
-
-                border-radius: 22px;
-
-            }
-
-
-            .splash h1 {
-
-                font-size: 19px;
-
-            }
-
-
-            .splash-logo {
-
-                width: 110px;
-                height: 110px;
-
-            }
-
-        }
-
-
-    </style>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
+>
+
+<meta name="theme-color" content="#075fcf">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<title>منصة التحدي | مدرسة التحدي الأهلية المختلطة</title>
+
+<style>
+
+:root{
+    --blue:#075fcf;
+    --blue-dark:#06469c;
+    --blue-deep:#053978;
+    --blue-soft:#edf5ff;
+    --white:#fff;
+    --bg:#f4f8fd;
+    --text:#172033;
+    --muted:#667085;
+    --border:#e3e9f1;
+    --danger:#c62828;
+    --danger-bg:#fff1f1;
+    --success:#078746;
+    --success-bg:#ecfdf3;
+    --shadow:0 25px 70px rgba(21,43,74,.14);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+    width:100%;
+    min-height:100%;
+}
+
+body{
+    font-family:Tahoma,Arial,sans-serif;
+    color:var(--text);
+    background:var(--bg);
+    overflow-x:hidden;
+}
+
+button,input{
+    font:inherit;
+}
+
+/* =========================================================
+   LOGIN PAGE
+========================================================= */
+
+.login-page{
+    display:none;
+    position:relative;
+    width:100%;
+    min-height:100vh;
+    min-height:100dvh;
+    align-items:center;
+    justify-content:center;
+    padding:
+        max(26px,env(safe-area-inset-top))
+        16px
+        max(26px,env(safe-area-inset-bottom));
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 85% 5%,rgba(7,95,207,.17),transparent 30%),
+        radial-gradient(circle at 3% 90%,rgba(7,95,207,.09),transparent 33%),
+        linear-gradient(180deg,#f8fbff,#f1f6fc);
+}
+
+.login-page.show{
+    display:flex;
+    animation:fade .45s ease both;
+}
+
+.bg-grid{
+    position:absolute;
+    inset:0;
+    opacity:.32;
+    pointer-events:none;
+    background-image:
+        linear-gradient(rgba(7,95,207,.04) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(7,95,207,.04) 1px,transparent 1px);
+    background-size:35px 35px;
+    mask-image:linear-gradient(to bottom,rgba(0,0,0,.4),transparent 80%);
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    pointer-events:none;
+}
+
+.orb.one{
+    width:250px;
+    height:250px;
+    top:-110px;
+    right:-110px;
+    background:rgba(7,95,207,.07);
+}
+
+.orb.two{
+    width:180px;
+    height:180px;
+    bottom:-80px;
+    left:-70px;
+    background:rgba(7,95,207,.06);
+}
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.login-container{
+    position:relative;
+    z-index:2;
+    width:min(430px,100%);
+}
+
+/* =========================================================
+   BRAND / LOGO
+========================================================= */
+
+.brand-area{
+    text-align:center;
+    margin-bottom:22px;
+}
+
+.logo-shell{
+    position:relative;
+    width:132px;
+    height:132px;
+    margin:0 auto 15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.logo-ring{
+    position:absolute;
+    inset:8px;
+    border-radius:50%;
+    border:1px solid rgba(7,95,207,.14);
+    background:rgba(255,255,255,.62);
+    box-shadow:
+        0 12px 35px rgba(7,95,207,.1),
+        inset 0 0 0 9px rgba(7,95,207,.035);
+    animation:ringPulse 2.5s ease-in-out infinite;
+}
+
+.logo-glow{
+    position:absolute;
+    width:88px;
+    height:88px;
+    border-radius:50%;
+    background:rgba(7,95,207,.12);
+    filter:blur(14px);
+}
+
+.main-logo{
+    position:relative;
+    z-index:2;
+    width:112px;
+    height:112px;
+    object-fit:contain;
+    filter:drop-shadow(0 13px 22px rgba(7,95,207,.16));
+    animation:logoEnter .7s cubic-bezier(.16,1,.3,1) both;
+}
+
+.school-name{
+    font-size:22px;
+    line-height:1.65;
+    font-weight:900;
+    letter-spacing:-.3px;
+}
+
+.governance{
+    margin-top:3px;
+    color:var(--blue);
+    font-size:13px;
+    font-weight:900;
+}
+
+.year-badge{
+    width:max-content;
+    margin:13px auto 0;
+    padding:8px 18px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    border-radius:999px;
+    color:var(--blue-dark);
+    background:rgba(255,255,255,.9);
+    border:1px solid rgba(7,95,207,.13);
+    box-shadow:0 8px 24px rgba(7,95,207,.08);
+}
+
+.year-badge span{
+    font-size:9px;
+    color:var(--muted);
+    font-weight:800;
+}
+
+.year-badge strong{
+    direction:ltr;
+    font-size:15px;
+    letter-spacing:1px;
+    font-weight:900;
+}
+
+/* =========================================================
+   LOGIN CARD
+========================================================= */
+
+.login-card{
+    width:100%;
+    padding:24px 20px 21px;
+    border-radius:26px;
+    border:1px solid rgba(255,255,255,.9);
+    background:rgba(255,255,255,.93);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    box-shadow:var(--shadow);
+    animation:cardEnter .65s .08s cubic-bezier(.16,1,.3,1) both;
+}
+
+.welcome{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.welcome-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:27px;
+    padding:0 10px;
+    margin-bottom:8px;
+    border-radius:99px;
+    color:var(--blue);
+    background:var(--blue-soft);
+    font-size:8px;
+    font-weight:900;
+}
+
+.welcome h2{
+    font-size:20px;
+    font-weight:900;
+}
+
+.welcome p{
+    margin-top:7px;
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.75;
+}
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.message{
+    display:none;
+    width:100%;
+    margin-bottom:12px;
+    padding:11px 12px;
+    border-radius:12px;
+    text-align:center;
+    font-size:11px;
+    line-height:1.7;
+    font-weight:800;
+}
+
+.message.show{
+    display:block;
+    animation:messageIn .2s ease both;
+}
+
+.message.error{
+    color:var(--danger);
+    background:var(--danger-bg);
+    border:1px solid #ffd3d3;
+}
+
+.message.success{
+    color:var(--success);
+    background:var(--success-bg);
+    border:1px solid #bceccb;
+}
+
+/* =========================================================
+   CODE INPUT
+========================================================= */
+
+.input-label{
+    display:block;
+    margin:0 4px 7px;
+    color:#344054;
+    font-size:9px;
+    font-weight:900;
+}
+
+.input-box{
+    position:relative;
+}
+
+.code-input{
+    width:100%;
+    height:60px;
+    padding:0 16px;
+    border:1.5px solid var(--border);
+    border-radius:17px;
+    outline:none;
+    color:var(--text);
+    background:#fff;
+    direction:ltr;
+    text-align:center;
+    text-transform:uppercase;
+    letter-spacing:1.8px;
+    font-size:18px;
+    font-weight:900;
+    transition:.2s;
+}
+
+.code-input::placeholder{
+    direction:rtl;
+    letter-spacing:0;
+    color:#98a2b3;
+    font-size:13px;
+    font-weight:500;
+}
+
+.code-input:focus{
+    border-color:var(--blue);
+    box-shadow:0 0 0 4px rgba(7,95,207,.07);
+    transform:translateY(-1px);
+}
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.login-btn{
+    width:100%;
+    height:58px;
+    margin-top:14px;
+    border:0;
+    border-radius:17px;
+    outline:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    color:#fff;
+    background:linear-gradient(135deg,#0870e8,#0757c8);
+    box-shadow:0 14px 30px rgba(7,95,207,.25);
+    font-size:15px;
+    font-weight:900;
+    transition:.18s;
+}
+
+.login-btn:active{
+    transform:scale(.985);
+}
+
+.login-btn:disabled{
+    opacity:.72;
+    cursor:default;
+}
+
+.spinner{
+    display:none;
+    width:18px;
+    height:18px;
+    border:2px solid rgba(255,255,255,.35);
+    border-top-color:#fff;
+    border-radius:50%;
+    animation:spin .7s linear infinite;
+}
+
+/* =========================================================
+   NOTES
+========================================================= */
+
+.security-note{
+    margin-top:14px;
+    padding-top:13px;
+    border-top:1px solid #eef1f5;
+    text-align:center;
+    color:#98a2b3;
+    font-size:8px;
+    line-height:1.7;
+}
+
+.footer{
+    margin-top:18px;
+    text-align:center;
+    color:#98a2b3;
+    font-size:9px;
+    line-height:1.8;
+}
+
+.footer strong{
+    color:#667085;
+}
+
+/* =========================================================
+   SPLASH
+========================================================= */
+
+.splash{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:10000;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    overflow:hidden;
+    color:#fff;
+    background:
+        radial-gradient(circle at 50% 18%,#1b82f7 0%,#0863d5 35%,#064a9f 72%,#043a7e 100%);
+    transition:opacity .55s ease,visibility .55s ease;
+}
+
+.splash.show{
+    display:flex;
+}
+
+.splash.close{
+    opacity:0;
+    visibility:hidden;
+}
+
+.splash:before,
+.splash:after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,.04);
+}
+
+.splash:before{
+    width:380px;
+    height:380px;
+    top:-170px;
+    right:-150px;
+}
+
+.splash:after{
+    width:300px;
+    height:300px;
+    left:-120px;
+    bottom:-130px;
+}
+
+.splash-content{
+    position:relative;
+    z-index:2;
+    width:min(430px,100%);
+    text-align:center;
+}
+
+.splash-logo-box{
+    position:relative;
+    width:158px;
+    height:158px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.splash-glow{
+    position:absolute;
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    background:rgba(255,255,255,.11);
+    box-shadow:0 0 70px rgba(255,255,255,.12);
+    animation:splashPulse 2s ease-in-out infinite;
+}
+
+.splash-logo{
+    position:relative;
+    z-index:2;
+    width:130px;
+    height:130px;
+    object-fit:contain;
+    filter:drop-shadow(0 17px 30px rgba(0,0,0,.16));
+    animation:splashLogo .9s cubic-bezier(.16,1,.3,1) both;
+}
+
+.splash h1{
+    margin-top:21px;
+    font-size:23px;
+    line-height:1.7;
+    font-weight:900;
+    animation:splashText .7s .18s ease both;
+}
+
+.splash-sub{
+    margin-top:7px;
+    font-size:12px;
+    font-weight:800;
+    opacity:.9;
+    animation:splashText .7s .3s ease both;
+}
+
+.splash-year{
+    width:max-content;
+    margin:16px auto 0;
+    padding:8px 18px;
+    border-radius:99px;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.2);
+    backdrop-filter:blur(10px);
+    direction:ltr;
+    font-size:16px;
+    letter-spacing:1px;
+    font-weight:900;
+    animation:splashText .7s .42s ease both;
+}
+
+.splash-line{
+    width:0;
+    height:3px;
+    margin:18px auto 0;
+    border-radius:10px;
+    background:#fff;
+    opacity:.9;
+    animation:lineOpen .7s .5s ease forwards;
+}
+
+/* =========================================================
+   OFFLINE
+========================================================= */
+
+.offline-screen{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:20000;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    background:
+        radial-gradient(circle at top,#edf5ff,transparent 45%),
+        #fff;
+}
+
+.offline-screen.show{
+    display:flex;
+}
+
+.offline-box{
+    width:min(390px,100%);
+    text-align:center;
+}
+
+.offline-image{
+    width:210px;
+    max-width:72%;
+    height:auto;
+    object-fit:contain;
+    margin-bottom:20px;
+}
+
+.offline-box h2{
+    font-size:20px;
+    font-weight:900;
+}
+
+.offline-box p{
+    margin-top:7px;
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.8;
+}
+
+.network-spinner{
+    width:27px;
+    height:27px;
+    margin:20px auto 0;
+    border:3px solid #e7ebf0;
+    border-top-color:var(--blue);
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+}
+
+.waiting-text{
+    margin-top:8px!important;
+    color:#98a2b3!important;
+    font-size:9px!important;
+}
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
+@keyframes fade{
+    from{opacity:0}
+    to{opacity:1}
+}
+
+@keyframes logoEnter{
+    from{opacity:0;transform:scale(.7) translateY(-15px)}
+    to{opacity:1;transform:scale(1) translateY(0)}
+}
+
+@keyframes cardEnter{
+    from{opacity:0;transform:translateY(24px) scale(.97)}
+    to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+@keyframes ringPulse{
+    0%,100%{transform:scale(.96);opacity:.75}
+    50%{transform:scale(1.05);opacity:1}
+}
+
+@keyframes messageIn{
+    from{opacity:0;transform:translateY(-5px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes splashPulse{
+    0%,100%{transform:scale(.92);opacity:.65}
+    50%{transform:scale(1.1);opacity:1}
+}
+
+@keyframes splashLogo{
+    from{opacity:0;transform:scale(.45) translateY(25px)}
+    to{opacity:1;transform:scale(1) translateY(0)}
+}
+
+@keyframes splashText{
+    from{opacity:0;transform:translateY(12px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes lineOpen{
+    to{width:54px}
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:390px){
+
+    .login-page{
+        padding-left:13px;
+        padding-right:13px;
+    }
+
+    .logo-shell{
+        width:115px;
+        height:115px;
+        margin-bottom:12px;
+    }
+
+    .main-logo{
+        width:97px;
+        height:97px;
+    }
+
+    .school-name{
+        font-size:19px;
+    }
+
+    .login-card{
+        padding:21px 16px 18px;
+        border-radius:22px;
+    }
+
+    .welcome h2{
+        font-size:18px;
+    }
+
+    .code-input{
+        height:57px;
+        font-size:17px;
+    }
+
+    .login-btn{
+        height:55px;
+    }
+
+    .splash-logo-box{
+        width:140px;
+        height:140px;
+    }
+
+    .splash-logo{
+        width:115px;
+        height:115px;
+    }
+
+    .splash h1{
+        font-size:20px;
+    }
+
+}
+
+</style>
 
 </head>
 
-
 <body>
 
-
 <!-- =========================================================
-     شاشة عدم وجود الإنترنت
+     OFFLINE SCREEN
 ========================================================= -->
 
-<div
-    id="offlineScreen"
-    class="offline-screen"
->
+<div id="offlineScreen" class="offline-screen">
 
     <div class="offline-box">
 
         <img
-            src="images/no-internet.png"
-            alt="لا يوجد اتصال بالإنترنت"
+            src="no-internet.png"
             class="offline-image"
+            alt="لا يوجد اتصال بالإنترنت"
+            onerror="this.style.display='none'"
         >
 
-        <h2>
-            لا يوجد اتصال بالإنترنت
-        </h2>
+        <h2>لا يوجد اتصال بالإنترنت</h2>
 
         <p>
-            يرجى التحقق من اتصالك بالإنترنت
+            تحقق من اتصال الجهاز بالإنترنت،
+            وسيتم فتح المنصة تلقائياً عند عودة الاتصال.
         </p>
 
         <div class="network-spinner"></div>
 
         <p class="waiting-text">
-            سيتم الدخول تلقائياً عند عودة الاتصال
+            بانتظار عودة الاتصال
         </p>
 
     </div>
@@ -1487,119 +758,106 @@
 </div>
 
 
-
 <!-- =========================================================
-     شاشة البداية
+     SPLASH
 ========================================================= -->
 
-<div
-    id="splashScreen"
-    class="splash"
->
+<div id="splashScreen" class="splash">
 
     <div class="splash-content">
 
-        <div class="splash-logo-wrapper">
+        <div class="splash-logo-box">
 
             <div class="splash-glow"></div>
 
             <img
-                src="images/logo.png"
-                alt="شعار مدرسة التحدي"
+                src="logo.png"
                 class="splash-logo"
+                alt="شعار مدرسة التحدي"
             >
 
         </div>
-
 
         <h1>
             مدرسة التحدي الأهلية المختلطة
         </h1>
 
+        <div class="splash-sub">
+            منصة الحوكمة الإلكترونية
+        </div>
+
+        <div class="splash-year">
+            2026-2027
+        </div>
 
         <div class="splash-line"></div>
-
-
-        <p>
-            قسم الحوكمة
-        </p>
 
     </div>
 
 </div>
 
 
-
 <!-- =========================================================
-     تسجيل الدخول
+     LOGIN
 ========================================================= -->
 
-<main
-    id="loginPage"
-    class="login-page"
->
+<main id="loginPage" class="login-page">
 
-    <div class="shape shape-one"></div>
+    <div class="bg-grid"></div>
 
-    <div class="shape shape-two"></div>
-
+    <div class="orb one"></div>
+    <div class="orb two"></div>
 
     <div class="login-container">
 
+        <section class="brand-area">
 
-        <!-- الشعار -->
+            <div class="logo-shell">
 
-        <div class="logo-area">
-
-            <div class="logo-box">
-
-                <div class="logo-circle"></div>
+                <div class="logo-ring"></div>
+                <div class="logo-glow"></div>
 
                 <img
-                    src="images/logo.png"
+                    src="logo.png"
+                    class="main-logo"
                     alt="شعار مدرسة التحدي"
-                    class="login-logo"
                 >
 
             </div>
 
-        </div>
-
-
-
-        <!-- اسم المدرسة -->
-
-        <div class="school-info">
-
-            <h1>
+            <h1 class="school-name">
                 مدرسة التحدي الأهلية المختلطة
             </h1>
 
-            <p>
+            <div class="governance">
                 قسم الحوكمة
-            </p>
+            </div>
 
-        </div>
+            <div class="year-badge">
+                <span>العام الدراسي</span>
+                <strong>2026-2027</strong>
+            </div>
+
+        </section>
 
 
+        <section class="login-card">
 
-        <!-- البطاقة -->
+            <div class="welcome">
 
-        <div class="login-card">
-
-
-            <div class="card-header">
+                <div class="welcome-badge">
+                    أهلاً بكم في منصة التحدي
+                </div>
 
                 <h2>
                     تسجيل الدخول
                 </h2>
 
                 <p>
-                    أدخل الكود الخاص بك
+                    أدخل الكود الخاص بحسابك للوصول إلى المنصة
                 </p>
 
             </div>
-
 
 
             <div
@@ -1608,33 +866,39 @@
             ></div>
 
 
+            <label
+                for="userCode"
+                class="input-label"
+            >
+                الكود الخاص بك
+            </label>
 
-            <div class="input-wrapper">
+
+            <div class="input-box">
 
                 <input
-                    type="text"
                     id="userCode"
                     class="code-input"
-                    placeholder="أدخل الكود الخاص بك"
+                    type="text"
+                    placeholder="مثال: ST42B781"
                     autocomplete="off"
                     autocorrect="off"
                     autocapitalize="characters"
                     spellcheck="false"
-                    maxlength="25"
+                    maxlength="30"
                 >
 
             </div>
 
 
-
             <button
-                type="button"
                 id="loginButton"
                 class="login-btn"
+                type="button"
             >
 
                 <span id="loginButtonText">
-                    تسجيل الدخول
+                    الدخول إلى المنصة
                 </span>
 
                 <span
@@ -1645,25 +909,32 @@
             </button>
 
 
-        </div>
+            <div class="security-note">
+                استخدم الكود المخصص لك فقط ولا تشاركه مع الآخرين
+            </div>
+
+        </section>
 
 
+        <footer class="footer">
 
-        <div class="footer">
+            <strong>
+                نظام الحوكمة الإلكتروني
+            </strong>
 
-            نظام الحوكمة الإلكتروني
+            <br>
 
-        </div>
+            مدرسة التحدي الأهلية المختلطة
 
+        </footer>
 
     </div>
 
 </main>
 
 
-
 <!-- =========================================================
-     صوت بداية التطبيق
+     AUDIO
 ========================================================= -->
 
 <audio
@@ -1672,1239 +943,797 @@
 >
 
     <source
-        src="sounds/start.mp3"
+        src="start.mp3"
         type="audio/mpeg"
     >
 
 </audio>
 
 
-
 <script>
 
-
 /* =========================================================
-   Firebase
+   DATABASE
 ========================================================= */
 
-const DATABASE_URL =
+const DATABASE_URL=
     "https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
 
-
-const USERS_PATH =
+const USERS_PATH=
     "users";
 
 
-
 /* =========================================================
-   عناصر الصفحة
+   DOM
 ========================================================= */
 
-const offlineScreen =
+const offlineScreen=
     document.getElementById("offlineScreen");
 
-
-const splashScreen =
+const splashScreen=
     document.getElementById("splashScreen");
 
-
-const loginPage =
+const loginPage=
     document.getElementById("loginPage");
 
-
-const userCodeInput =
+const userCodeInput=
     document.getElementById("userCode");
 
-
-const loginButton =
+const loginButton=
     document.getElementById("loginButton");
 
-
-const loginButtonText =
+const loginButtonText=
     document.getElementById("loginButtonText");
 
-
-const loginSpinner =
+const loginSpinner=
     document.getElementById("loginSpinner");
 
-
-const messageBox =
+const messageBox=
     document.getElementById("messageBox");
 
-
-const startupSound =
+const startupSound=
     document.getElementById("startupSound");
 
 
-
 /* =========================================================
-   متغيرات
+   STATE
 ========================================================= */
 
-let splashPlayed = false;
-
-let loginRunning = false;
-
+let splashPlayed=false;
+let loginRunning=false;
 
 
 /* =========================================================
-   تنظيف الكود
+   ARABIC/PERSIAN NUMBERS
 ========================================================= */
 
-function cleanCode(value) {
+function normalizeNumbers(value){
 
-    return String(value || "")
+    const arabic="٠١٢٣٤٥٦٧٨٩";
+    const persian="۰۱۲۳۴۵۶۷۸۹";
 
+    return String(value||"")
+        .replace(/[٠-٩]/g,n=>arabic.indexOf(n))
+        .replace(/[۰-۹]/g,n=>persian.indexOf(n));
+
+}
+
+
+/* =========================================================
+   CLEAN CODE
+========================================================= */
+
+function cleanCode(value){
+
+    return normalizeNumbers(value)
         .trim()
-
-        .replace(/\s+/g, "")
-
+        .replace(/\s+/g,"")
         .toUpperCase();
 
 }
 
 
-
 /* =========================================================
-   الرسائل
+   MESSAGE
 ========================================================= */
 
 function showMessage(
     text,
-    type = "error"
-) {
+    type="error"
+){
 
-    messageBox.textContent =
-        text;
+    messageBox.textContent=text;
 
-
-    messageBox.className =
-        "message show " + type;
+    messageBox.className=
+        "message show "+type;
 
 }
 
+function hideMessage(){
 
-
-function hideMessage() {
-
-    messageBox.textContent =
-        "";
-
-
-    messageBox.className =
-        "message";
+    messageBox.textContent="";
+    messageBox.className="message";
 
 }
-
 
 
 /* =========================================================
-   حالة زر الدخول
+   LOGIN BUTTON STATE
 ========================================================= */
 
-function setLoginLoading(status) {
+function setLoginLoading(status){
 
+    loginRunning=status;
 
-    loginRunning =
-        status;
+    loginButton.disabled=status;
 
+    loginButtonText.textContent=
+        status
+        ?"جاري التحقق من الحساب"
+        :"الدخول إلى المنصة";
 
-    if (status) {
-
-
-        loginButton.disabled =
-            true;
-
-
-        loginButtonText.textContent =
-            "جاري التحقق";
-
-
-        loginSpinner.style.display =
-            "inline-block";
-
-
-    }
-
-    else {
-
-
-        loginButton.disabled =
-            false;
-
-
-        loginButtonText.textContent =
-            "تسجيل الدخول";
-
-
-        loginSpinner.style.display =
-            "none";
-
-
-    }
+    loginSpinner.style.display=
+        status
+        ?"inline-block"
+        :"none";
 
 }
-
 
 
 /* =========================================================
-   شاشة عدم وجود الإنترنت
+   OFFLINE
 ========================================================= */
 
-function showOfflineScreen() {
+function showOfflineScreen(){
 
+    offlineScreen.classList.add("show");
 
-    offlineScreen.classList.add(
-        "show"
-    );
+    loginPage.classList.remove("show");
 
-
-    loginPage.classList.remove(
-        "show"
-    );
-
-
-    splashScreen.classList.remove(
-        "show"
-    );
-
-
-    splashScreen.classList.remove(
-        "close"
-    );
+    splashScreen.classList.remove("show");
+    splashScreen.classList.remove("close");
 
 }
 
+function hideOfflineScreen(){
 
-
-function hideOfflineScreen() {
-
-
-    offlineScreen.classList.remove(
-        "show"
-    );
+    offlineScreen.classList.remove("show");
 
 }
-
 
 
 /* =========================================================
-   تشغيل صوت البداية
+   SOUND
 ========================================================= */
 
-function playStartupSound() {
+function playStartupSound(){
 
-
-    if (!startupSound) {
-
+    if(!startupSound){
         return;
-
     }
 
+    try{
 
-    try {
+        startupSound.currentTime=0;
+        startupSound.volume=.38;
 
-
-        startupSound.currentTime =
-            0;
-
-
-        startupSound.volume =
-            0.45;
-
-
-        const request =
+        const request=
             startupSound.play();
 
-
-        if (
+        if(
             request &&
-            typeof request.catch === "function"
-        ) {
+            typeof request.catch==="function"
+        ){
 
-
-            request.catch(() => {
-
-                /*
-                    بعض الأجهزة والمتصفحات
-                    تمنع الصوت التلقائي.
-                */
-
-            });
-
+            request.catch(()=>{});
 
         }
 
-
-    }
-
-    catch (error) {
-
-
-        console.log(
-            "تعذر تشغيل صوت البداية"
-        );
-
-
-    }
+    }catch{}
 
 }
 
 
-
 /* =========================================================
-   إظهار صفحة الدخول
+   LOGIN PAGE
 ========================================================= */
 
-function showLoginPage() {
-
+function showLoginPage(){
 
     hideOfflineScreen();
 
+    splashScreen.classList.remove("show");
+    splashScreen.classList.remove("close");
 
-    splashScreen.classList.remove(
-        "show"
-    );
+    loginPage.classList.add("show");
 
+    setTimeout(()=>{
 
-    splashScreen.classList.remove(
-        "close"
-    );
+        if(
+            !userCodeInput.value
+        ){
+            userCodeInput.focus();
+        }
 
-
-    loginPage.classList.add(
-        "show"
-    );
-
-
-    setTimeout(() => {
-
-
-        userCodeInput.focus();
-
-
-    }, 300);
+    },300);
 
 }
 
 
-
 /* =========================================================
-   الأنيميشن الافتتاحي
+   SPLASH
 ========================================================= */
 
-function playSplash() {
+function playSplash(){
 
-
-    if (!navigator.onLine) {
-
+    if(!navigator.onLine){
 
         showOfflineScreen();
 
         return;
 
-
     }
-
 
     hideOfflineScreen();
 
-
-    if (splashPlayed) {
-
+    if(splashPlayed){
 
         showLoginPage();
 
         return;
 
-
     }
 
+    splashPlayed=true;
 
-    splashPlayed =
-        true;
+    loginPage.classList.remove("show");
 
-
-    loginPage.classList.remove(
-        "show"
-    );
-
-
-    splashScreen.classList.add(
-        "show"
-    );
-
+    splashScreen.classList.add("show");
 
     playStartupSound();
 
+    setTimeout(()=>{
 
-    setTimeout(() => {
+        splashScreen.classList.add("close");
 
-
-        splashScreen.classList.add(
-            "close"
-        );
-
-
-        setTimeout(() => {
-
+        setTimeout(()=>{
 
             showLoginPage();
 
+        },550);
 
-        }, 650);
-
-
-    }, 2400);
+    },2050);
 
 }
 
 
-
 /* =========================================================
-   قراءة بيانات المستخدم
+   FIREBASE USER
 ========================================================= */
 
-async function readUser(code) {
+async function readUser(code){
 
-
-    const url =
-
-        `${DATABASE_URL}/${USERS_PATH}/${encodeURIComponent(code)}.json`;
-
-
-    const response =
+    const response=
         await fetch(
-            url,
+            `${DATABASE_URL}/${USERS_PATH}/${encodeURIComponent(code)}.json`,
             {
-                method: "GET",
-
-                cache: "no-store",
-
-                headers: {
-                    "Accept":
-                        "application/json"
+                method:"GET",
+                cache:"no-store",
+                headers:{
+                    Accept:"application/json"
                 }
             }
         );
 
-
-    if (!response.ok) {
-
+    if(!response.ok){
 
         throw new Error(
             "FIREBASE_READ_FAILED"
         );
 
-
     }
 
-
-    return await response.json();
+    return response.json();
 
 }
 
 
-
 /* =========================================================
-   التحقق من حالة الحساب
+   ACCOUNT STATUS
 ========================================================= */
 
-function isAccountDisabled(user) {
+function isAccountDisabled(user){
 
-
-    if (
-        user.active === false
-    ) {
-
+    if(user.active===false){
         return true;
-
     }
 
+    if(user.hidden===true){
+        return true;
+    }
 
-    const status =
-        String(
-            user.status || ""
-        )
+    const status=
+        String(user.status||"")
         .trim()
         .toLowerCase();
 
-
-    const blockedStatuses = [
-
+    return [
         "inactive",
         "disabled",
         "blocked",
         "banned",
         "suspended"
-
-    ];
-
-
-    return blockedStatuses.includes(
-        status
-    );
+    ].includes(status);
 
 }
 
 
-
 /* =========================================================
-   حفظ الجلسة
+   SESSION
 ========================================================= */
 
 function saveSession(
     code,
     user
-) {
+){
 
+    const data={
 
-    const session = {
-
-
-        code:
-            code,
-
+        code,
 
         role:
-            user.role || "",
-
+            user.role||"",
 
         name:
-            user.name || "",
-
+            user.name||"",
 
         loginTime:
             Date.now()
 
+    };
+
+    sessionStorage.setItem(
+        "tahadi_session",
+        JSON.stringify(data)
+    );
+
+    sessionStorage.setItem(
+        "tahadi_code",
+        code
+    );
+
+    sessionStorage.setItem(
+        "tahadi_role",
+        String(user.role||"")
+    );
+
+}
+
+
+/* =========================================================
+   ROLE ROUTING
+========================================================= */
+
+function redirectByRole(role){
+
+    const value=
+        String(role||"")
+        .trim()
+        .toLowerCase();
+
+    const routes={
+
+        admin:"add.html",
+        administrator:"add.html",
+        add:"add.html",
+
+        student:"st.html",
+        st:"st.html",
+
+        teacher:"th.html",
+        th:"th.html",
+
+        attendance:"msh.html",
+        attendance_supervisor:"msh.html",
+        supervisor:"msh.html",
+        msh:"msh.html"
 
     };
 
+    const route=
+        routes[value];
 
-    sessionStorage.setItem(
+    if(!route){
 
-        "tahadi_session",
-
-        JSON.stringify(
-            session
-        )
-
-    );
-
-
-    sessionStorage.setItem(
-
-        "tahadi_code",
-
-        code
-
-    );
-
-
-    sessionStorage.setItem(
-
-        "tahadi_role",
-
-        String(
-            user.role || ""
-        )
-
-    );
-
-}
-
-
-
-/* =========================================================
-   تحديد الصفحة حسب الصلاحية
-========================================================= */
-
-function redirectByRole(role) {
-
-
-    const userRole =
-
-        String(role || "")
-
-            .trim()
-
-            .toLowerCase();
-
-
-
-    switch (userRole) {
-
-
-        /* =============================================
-           الإدارة
-        ============================================= */
-
-        case "admin":
-
-        case "administrator":
-
-        case "add":
-
-
-            window.location.replace(
-                "add.html"
-            );
-
-
-            return;
-
-
-
-        /* =============================================
-           الطالب / الطالبة
-        ============================================= */
-
-        case "student":
-
-        case "st":
-
-
-            window.location.replace(
-                "st.html"
-            );
-
-
-            return;
-
-
-
-        /* =============================================
-           الأستاذ / المدرسة
-        ============================================= */
-
-        case "teacher":
-
-        case "th":
-
-
-            window.location.replace(
-                "th.html"
-            );
-
-
-            return;
-
-
-
-        /* =============================================
-           مشرف الحضور والغيابات
-        ============================================= */
-
-        case "attendance":
-
-        case "attendance_supervisor":
-
-        case "supervisor":
-
-        case "msh":
-
-
-            window.location.replace(
-                "msh.html"
-            );
-
-
-            return;
-
-
-
-        default:
-
-
-            throw new Error(
-                "UNKNOWN_ROLE"
-            );
-
+        throw new Error(
+            "UNKNOWN_ROLE"
+        );
 
     }
 
+    window.location.replace(
+        route
+    );
+
 }
 
 
-
 /* =========================================================
-   تسجيل الدخول
+   LOGIN
 ========================================================= */
 
-async function login() {
+async function login(){
 
-
-    if (loginRunning) {
-
+    if(loginRunning){
         return;
-
     }
-
 
     hideMessage();
 
-
-
-    /* =====================================================
-       الإنترنت
-    ===================================================== */
-
-    if (!navigator.onLine) {
-
+    if(!navigator.onLine){
 
         showOfflineScreen();
 
         return;
 
-
     }
 
-
-
-    /* =====================================================
-       الكود
-    ===================================================== */
-
-    const code =
-
+    const code=
         cleanCode(
             userCodeInput.value
         );
 
-
-
-    if (!code) {
-
+    if(!code){
 
         showMessage(
             "يرجى إدخال الكود الخاص بك"
         );
 
-
         userCodeInput.focus();
-
 
         return;
 
     }
 
+    userCodeInput.value=
+        code;
 
+    setLoginLoading(true);
 
-    setLoginLoading(
-        true
-    );
+    try{
 
+        const user=
+            await readUser(code);
 
-
-    try {
-
-
-
-        /* =================================================
-           قراءة Firebase
-        ================================================= */
-
-        const user =
-            await readUser(
-                code
-            );
-
-
-
-        /* =================================================
-           الكود غير موجود
-        ================================================= */
-
-        if (
-            user === null ||
-            typeof user !== "object"
-        ) {
-
+        if(
+            !user ||
+            typeof user!=="object"
+        ){
 
             showMessage(
                 "الكود الذي أدخلته غير صحيح"
             );
 
-
             userCodeInput.select();
 
-
             return;
 
         }
 
-
-
-        /* =================================================
-           الحساب معطل
-        ================================================= */
-
-        if (
+        if(
             isAccountDisabled(user)
-        ) {
-
+        ){
 
             showMessage(
-                "هذا الحساب غير فعال، يرجى مراجعة الإدارة"
+                "هذا الحساب غير فعال، يرجى مراجعة إدارة المدرسة"
             );
-
 
             return;
 
         }
 
-
-
-        /* =================================================
-           الصلاحية
-        ================================================= */
-
-        if (!user.role) {
-
+        if(!user.role){
 
             showMessage(
                 "بيانات الحساب غير مكتملة، يرجى مراجعة الإدارة"
             );
 
-
             return;
 
         }
-
-
-
-        /* =================================================
-           حفظ الجلسة
-        ================================================= */
 
         saveSession(
             code,
             user
         );
 
-
-
-        /* =================================================
-           نجاح
-        ================================================= */
-
         showMessage(
-
-            "تم تسجيل الدخول بنجاح",
-
+            user.name
+            ?`مرحباً ${user.name}، تم تسجيل الدخول بنجاح`
+            :"تم تسجيل الدخول بنجاح",
             "success"
-
         );
 
+        await new Promise(
+            resolve=>
+                setTimeout(
+                    resolve,
+                    350
+                )
+        );
 
+        redirectByRole(
+            user.role
+        );
 
-        /* =================================================
-           تحويل المستخدم
-        ================================================= */
-
-        setTimeout(() => {
-
-
-            try {
-
-
-                redirectByRole(
-                    user.role
-                );
-
-
-            }
-
-            catch (error) {
-
-
-                console.error(
-                    error
-                );
-
-
-                showMessage(
-                    "نوع الحساب غير معرف في النظام"
-                );
-
-
-                setLoginLoading(
-                    false
-                );
-
-
-            }
-
-
-        }, 450);
-
-
-
-    }
-
-    catch (error) {
-
-
+    }catch(error){
 
         console.error(
             "Login Error:",
             error
         );
 
-
-
-        if (!navigator.onLine) {
-
+        if(!navigator.onLine){
 
             showOfflineScreen();
 
-
-        }
-
-        else {
-
+        }else if(
+            error.message==="UNKNOWN_ROLE"
+        ){
 
             showMessage(
-                "تعذر الاتصال بقاعدة البيانات، حاول مرة أخرى"
+                "نوع الحساب غير معرف في النظام"
             );
 
+        }else{
+
+            showMessage(
+                "تعذر الاتصال بالنظام، حاول مرة أخرى"
+            );
 
         }
 
+    }finally{
 
-
-    }
-
-    finally {
-
-
-
-        setTimeout(() => {
-
-
-            if (
-                document.visibilityState ===
-                "visible"
-            ) {
-
-
-                setLoginLoading(
-                    false
-                );
-
-
-            }
-
-
-        }, 700);
-
-
+        setLoginLoading(false);
 
     }
 
 }
 
 
-
 /* =========================================================
-   زر تسجيل الدخول
+   INPUT EVENTS
 ========================================================= */
 
 loginButton.addEventListener(
-
     "click",
-
     login
-
 );
 
-
-
-/* =========================================================
-   الضغط على Enter
-========================================================= */
-
 userCodeInput.addEventListener(
-
     "keydown",
+    event=>{
 
-    function(event) {
-
-
-        if (
-            event.key ===
-            "Enter"
-        ) {
-
+        if(event.key==="Enter"){
 
             event.preventDefault();
 
-
             login();
 
-
         }
 
-
     }
-
 );
-
-
-
-/* =========================================================
-   تنظيف الكود أثناء الكتابة
-========================================================= */
 
 userCodeInput.addEventListener(
-
     "input",
-
-    function() {
-
+    function(){
 
         hideMessage();
 
-
-        let value =
-            this.value;
-
-
-        /* تحويل الأرقام العربية إلى إنجليزية */
-
-        const arabicNumbers =
-            "٠١٢٣٤٥٦٧٨٩";
-
-
-        const persianNumbers =
-            "۰۱۲۳۴۵۶۷۸۹";
-
-
-        value =
-            value.replace(
-                /[٠-٩]/g,
-                number =>
-                    arabicNumbers.indexOf(
-                        number
-                    )
+        this.value=
+            cleanCode(
+                this.value
             );
-
-
-        value =
-            value.replace(
-                /[۰-۹]/g,
-                number =>
-                    persianNumbers.indexOf(
-                        number
-                    )
-            );
-
-
-        /* حذف الفراغات */
-
-        value =
-            value.replace(
-                /\s+/g,
-                ""
-            );
-
-
-        /* حروف كبيرة */
-
-        value =
-            value.toUpperCase();
-
-
-        this.value =
-            value;
-
 
     }
-
 );
 
 
-
 /* =========================================================
-   انقطاع الإنترنت
+   QR LOGIN
 ========================================================= */
 
-window.addEventListener(
+async function handleQRLogin(){
 
-    "offline",
-
-    function() {
-
-
-        setLoginLoading(
-            false
+    const params=
+        new URLSearchParams(
+            window.location.search
         );
 
+    const code=
+        cleanCode(
+            params.get("code")||""
+        );
 
-        showOfflineScreen();
-
-
+    if(!code){
+        return false;
     }
 
-);
+    userCodeInput.value=
+        code;
 
+    /*
+       تنظيف الرابط حتى يبقى شكله مرتب.
+    */
+    try{
 
+        history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+        );
 
-/* =========================================================
-   رجوع الإنترنت
-========================================================= */
+    }catch{}
 
-window.addEventListener(
+    /*
+       إذا الرابط صادر من QR الخاص بالطالب
+       نحاول الدخول مباشرة.
+    */
+    await new Promise(
+        resolve=>
+            setTimeout(
+                resolve,
+                180
+            )
+    );
 
-    "online",
+    await login();
 
-    function() {
-
-
-        hideOfflineScreen();
-
-
-        hideMessage();
-
-
-        showLoginPage();
-
-
-    }
-
-);
-
-
-
-/* =========================================================
-   دعم تشغيل الصوت بعد أول لمسة
-   في الأجهزة التي تمنع التشغيل التلقائي
-========================================================= */
-
-let firstInteraction =
-    false;
-
-
-function enableAudioAfterInteraction() {
-
-
-    if (firstInteraction) {
-
-        return;
-
-    }
-
-
-    firstInteraction =
-        true;
-
-
-    if (
-        startupSound &&
-        startupSound.paused &&
-        startupSound.currentTime === 0
-    ) {
-
-
-        startupSound.volume =
-            0.45;
-
-
-        const request =
-            startupSound.play();
-
-
-        if (request) {
-
-
-            request
-                .then(() => {
-
-
-                    setTimeout(() => {
-
-
-                        startupSound.pause();
-
-
-                    }, 800);
-
-
-                })
-                .catch(() => {});
-
-
-        }
-
-
-    }
-
+    return true;
 
 }
 
 
-document.addEventListener(
-
-    "touchstart",
-
-    enableAudioAfterInteraction,
-
-    {
-        once: true
-    }
-
-);
-
-
-document.addEventListener(
-
-    "click",
-
-    enableAudioAfterInteraction,
-
-    {
-        once: true
-    }
-
-);
-
-
-
 /* =========================================================
-   تشغيل التطبيق
+   NETWORK
 ========================================================= */
 
 window.addEventListener(
+    "offline",
+    ()=>{
 
-    "load",
+        setLoginLoading(false);
 
-    function() {
-
-
-        if (!navigator.onLine) {
-
-
-            showOfflineScreen();
-
-
-        }
-
-        else {
-
-
-            playSplash();
-
-
-        }
-
+        showOfflineScreen();
 
     }
+);
 
+window.addEventListener(
+    "online",
+    ()=>{
+
+        hideOfflineScreen();
+
+        hideMessage();
+
+        showLoginPage();
+
+    }
 );
 
 
-</script>
+/* =========================================================
+   AUDIO FALLBACK
+========================================================= */
 
+let firstInteraction=false;
+
+function unlockAudio(){
+
+    if(firstInteraction){
+        return;
+    }
+
+    firstInteraction=true;
+
+    if(
+        startupSound &&
+        startupSound.paused
+    ){
+
+        try{
+
+            startupSound.volume=.35;
+
+            const play=
+                startupSound.play();
+
+            if(play){
+
+                play
+                .then(()=>{
+
+                    setTimeout(()=>{
+
+                        startupSound.pause();
+
+                    },500);
+
+                })
+                .catch(()=>{});
+
+            }
+
+        }catch{}
+
+    }
+
+}
+
+document.addEventListener(
+    "touchstart",
+    unlockAudio,
+    {once:true}
+);
+
+document.addEventListener(
+    "click",
+    unlockAudio,
+    {once:true}
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+window.addEventListener(
+    "load",
+    async()=>{
+
+        if(!navigator.onLine){
+
+            showOfflineScreen();
+
+            return;
+
+        }
+
+        const params=
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const qrCode=
+            cleanCode(
+                params.get("code")||""
+            );
+
+        /*
+           إذا جاي من QR:
+           ما نطول عليه بالسلاش.
+        */
+        if(qrCode){
+
+            splashPlayed=true;
+
+            showLoginPage();
+
+            await handleQRLogin();
+
+            return;
+
+        }
+
+        playSplash();
+
+    }
+);
+
+</script>
 
 </body>
 
