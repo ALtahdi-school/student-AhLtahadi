@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
 
 <meta charset="UTF-8">
@@ -59,7 +58,7 @@ button,input{
 }
 
 /* =========================================================
-   LOGIN PAGE
+   LOGIN
 ========================================================= */
 
 .login-page{
@@ -83,13 +82,13 @@ button,input{
 
 .login-page.show{
     display:flex;
-    animation:loginReveal .8s cubic-bezier(.16,1,.3,1) both;
+    animation:loginReveal .9s cubic-bezier(.16,1,.3,1) both;
 }
 
 .bg-grid{
     position:absolute;
     inset:0;
-    opacity:.32;
+    opacity:.3;
     pointer-events:none;
     background-image:
         linear-gradient(rgba(7,95,207,.04) 1px,transparent 1px),
@@ -120,10 +119,6 @@ button,input{
     background:rgba(7,95,207,.06);
 }
 
-/* =========================================================
-   CONTAINER
-========================================================= */
-
 .login-container{
     position:relative;
     z-index:2;
@@ -131,7 +126,7 @@ button,input{
 }
 
 /* =========================================================
-   BRAND / LOGO
+   LOGIN BRAND
 ========================================================= */
 
 .brand-area{
@@ -177,7 +172,6 @@ button,input{
     height:112px;
     object-fit:contain;
     filter:drop-shadow(0 13px 22px rgba(7,95,207,.16));
-    animation:logoEnter .7s cubic-bezier(.16,1,.3,1) both;
 }
 
 .school-name{
@@ -234,7 +228,6 @@ button,input{
     backdrop-filter:blur(18px);
     -webkit-backdrop-filter:blur(18px);
     box-shadow:var(--shadow);
-    animation:cardEnter .65s .08s cubic-bezier(.16,1,.3,1) both;
 }
 
 .welcome{
@@ -313,10 +306,6 @@ button,input{
     font-weight:900;
 }
 
-.input-box{
-    position:relative;
-}
-
 .code-input{
     width:100%;
     height:60px;
@@ -359,7 +348,6 @@ button,input{
     margin-top:14px;
     border:0;
     border-radius:17px;
-    outline:none;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -369,7 +357,6 @@ button,input{
     box-shadow:0 14px 30px rgba(7,95,207,.25);
     font-size:15px;
     font-weight:900;
-    transition:.18s;
 }
 
 .login-btn:active{
@@ -378,7 +365,6 @@ button,input{
 
 .login-btn:disabled{
     opacity:.72;
-    cursor:default;
 }
 
 .spinner{
@@ -398,7 +384,6 @@ button,input{
     text-align:center;
     color:#98a2b3;
     font-size:8px;
-    line-height:1.7;
 }
 
 .footer{
@@ -414,7 +399,7 @@ button,input{
 }
 
 /* =========================================================
-   CINEMATIC CLOUD SPLASH
+   CINEMATIC SKY
 ========================================================= */
 
 .splash{
@@ -422,194 +407,250 @@ button,input{
     position:fixed;
     inset:0;
     z-index:10000;
-    align-items:center;
-    justify-content:center;
     overflow:hidden;
-    color:#fff;
     background:
-        radial-gradient(circle at 50% 28%,#80c8ff 0%,#4aa8ef 28%,#1e75ca 60%,#06468e 100%);
-    perspective:1200px;
+        linear-gradient(
+            180deg,
+            #3999e9 0%,
+            #61b6ee 35%,
+            #8ed1f5 65%,
+            #d9f1ff 100%
+        );
+    perspective:1000px;
 }
 
 .splash.show{
-    display:flex;
+    display:block;
 }
 
-.splash.zoom-out{
-    animation:splashFade .9s ease forwards;
-}
-
-/* السماء */
-.sky-glow{
+.sky-light{
     position:absolute;
     inset:0;
     background:
-        radial-gradient(circle at 50% 44%,rgba(255,255,255,.48),transparent 24%),
-        radial-gradient(circle at 50% 45%,rgba(255,255,255,.16),transparent 50%);
-    pointer-events:none;
+        radial-gradient(
+            circle at 50% 44%,
+            rgba(255,255,255,.65),
+            rgba(255,255,255,.16) 24%,
+            transparent 55%
+        );
 }
 
-/* طبقة السحاب */
-.cloud-world{
+/* =========================================================
+   CLOUDS
+========================================================= */
+
+.cloud-layer{
     position:absolute;
-    inset:-30%;
-    transform-origin:center center;
-    animation:cloudWorldFloat 7s ease-in-out infinite alternate;
+    inset:-15%;
+    pointer-events:none;
+    transform-style:preserve-3d;
 }
 
 .cloud{
     position:absolute;
+    width:250px;
+    height:88px;
     border-radius:999px;
     background:
-        radial-gradient(circle at 25% 25%,#fff 0 25%,transparent 26%),
-        radial-gradient(circle at 55% 20%,#fff 0 30%,transparent 31%),
-        radial-gradient(circle at 75% 40%,rgba(255,255,255,.98) 0 28%,transparent 29%),
-        linear-gradient(180deg,#fff,rgba(238,248,255,.97));
-    filter:
-        drop-shadow(0 25px 35px rgba(19,80,134,.15))
-        blur(.3px);
-    opacity:.95;
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.98),
+            rgba(235,247,255,.93)
+        );
+    box-shadow:
+        0 18px 45px rgba(28,111,169,.12);
 }
 
-.cloud::before,
-.cloud::after{
+.cloud:before,
+.cloud:after{
     content:"";
     position:absolute;
     border-radius:50%;
     background:inherit;
 }
 
-.cloud.c1{
-    width:310px;
+.cloud:before{
+    width:120px;
+    height:120px;
+    left:35px;
+    bottom:20px;
+}
+
+.cloud:after{
+    width:150px;
+    height:150px;
+    right:30px;
+    bottom:10px;
+}
+
+/* خلفية بعيدة */
+
+.back .c1{
+    width:220px;
+    height:72px;
+    top:10%;
+    left:-70px;
+    opacity:.45;
+    animation:cloudRight 15s linear infinite;
+}
+
+.back .c2{
+    width:260px;
+    height:78px;
+    top:24%;
+    right:-100px;
+    opacity:.42;
+    animation:cloudLeft 19s linear infinite;
+}
+
+.back .c3{
+    width:200px;
+    height:65px;
+    bottom:23%;
+    left:8%;
+    opacity:.38;
+    animation:cloudDrift 11s ease-in-out infinite alternate;
+}
+
+/* وسط */
+
+.middle .c1{
+    width:330px;
     height:105px;
     top:15%;
-    left:-30px;
-    transform:rotate(-7deg);
+    left:-145px;
+    opacity:.82;
+    animation:cloudRight 11s linear infinite;
 }
 
-.cloud.c2{
-    width:360px;
-    height:120px;
-    top:17%;
-    right:-85px;
-    transform:rotate(8deg);
-}
-
-.cloud.c3{
-    width:390px;
-    height:125px;
-    bottom:12%;
-    left:-90px;
-    transform:rotate(6deg);
-}
-
-.cloud.c4{
+.middle .c2{
     width:350px;
-    height:110px;
-    bottom:15%;
-    right:-65px;
-    transform:rotate(-6deg);
+    height:108px;
+    top:40%;
+    right:-190px;
+    opacity:.84;
+    animation:cloudLeft 13s linear infinite;
 }
 
-.cloud.c5{
-    width:240px;
-    height:85px;
-    top:43%;
-    left:-100px;
-    opacity:.72;
+.middle .c3{
+    width:310px;
+    height:96px;
+    bottom:10%;
+    left:-120px;
+    opacity:.76;
+    animation:cloudRight 14s linear infinite;
 }
 
-.cloud.c6{
-    width:250px;
-    height:90px;
-    top:46%;
-    right:-110px;
-    opacity:.72;
+/* أمامية */
+
+.front .cloud{
+    filter:blur(.6px);
 }
 
-/* السحاب القريب الذي يفتح مثل نفق */
-.cloud-door{
+.front .c1{
+    width:430px;
+    height:135px;
+    top:2%;
+    left:-250px;
+    opacity:.96;
+    animation:frontCloud1 9s ease-in-out infinite alternate;
+}
+
+.front .c2{
+    width:430px;
+    height:135px;
+    top:15%;
+    right:-280px;
+    opacity:.96;
+    animation:frontCloud2 10s ease-in-out infinite alternate;
+}
+
+.front .c3{
+    width:470px;
+    height:145px;
+    bottom:-15px;
+    left:-270px;
+    opacity:.97;
+    animation:frontCloud3 11s ease-in-out infinite alternate;
+}
+
+.front .c4{
+    width:450px;
+    height:140px;
+    bottom:4%;
+    right:-280px;
+    opacity:.97;
+    animation:frontCloud4 9.5s ease-in-out infinite alternate;
+}
+
+/* =========================================================
+   CENTER PORTAL
+========================================================= */
+
+.cloud-center{
     position:absolute;
-    inset:0;
-    pointer-events:none;
-    z-index:8;
-}
-
-.cloud-door .left-cloud,
-.cloud-door .right-cloud,
-.cloud-door .top-cloud,
-.cloud-door .bottom-cloud{
-    position:absolute;
+    z-index:3;
+    top:50%;
+    left:50%;
+    width:40vw;
+    height:40vw;
+    max-width:330px;
+    max-height:330px;
+    min-width:210px;
+    min-height:210px;
+    transform:translate(-50%,-50%) scale(.72);
+    border-radius:50%;
+    opacity:0;
     background:
-        radial-gradient(circle at 30% 30%,#fff 0 28%,transparent 29%),
-        radial-gradient(circle at 70% 25%,#fff 0 32%,transparent 33%),
-        linear-gradient(180deg,#fff,#edf7ff);
-    filter:blur(2px);
-    box-shadow:0 0 80px rgba(255,255,255,.9);
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.95) 0%,
+            rgba(224,246,255,.6) 35%,
+            rgba(180,226,252,.15) 62%,
+            transparent 72%
+        );
+    filter:blur(4px);
+    box-shadow:
+        0 0 90px rgba(255,255,255,.75);
 }
 
-.left-cloud{
-    width:62vw;
-    height:90vh;
-    left:-38vw;
-    top:5vh;
-    border-radius:50%;
-}
+/* =========================================================
+   SPLASH BRAND
+========================================================= */
 
-.right-cloud{
-    width:62vw;
-    height:90vh;
-    right:-38vw;
-    top:5vh;
-    border-radius:50%;
-}
-
-.top-cloud{
-    width:100vw;
-    height:55vh;
-    top:-38vh;
-    left:0;
-    border-radius:50%;
-}
-
-.bottom-cloud{
-    width:100vw;
-    height:55vh;
-    bottom:-38vh;
-    left:0;
-    border-radius:50%;
-}
-
-/* المحتوى */
-.splash-content{
-    position:relative;
-    z-index:5;
-    width:min(430px,90%);
+.splash-brand{
+    position:absolute;
+    z-index:6;
+    top:50%;
+    left:50%;
+    width:min(430px,88%);
     text-align:center;
-    transform-style:preserve-3d;
-    animation:heroFloat 3.2s ease-in-out infinite;
+    transform:
+        translate(-50%,-50%)
+        scale(.55);
+    opacity:0;
+    pointer-events:none;
 }
 
 .splash-logo-box{
     position:relative;
-    width:170px;
-    height:170px;
+    width:165px;
+    height:165px;
     margin:auto;
     display:flex;
     align-items:center;
     justify-content:center;
 }
 
-.splash-glow{
+.splash-logo-glow{
     position:absolute;
-    width:158px;
-    height:158px;
+    width:150px;
+    height:150px;
     border-radius:50%;
-    background:rgba(255,255,255,.18);
+    background:rgba(255,255,255,.25);
     box-shadow:
-        0 0 60px rgba(255,255,255,.35),
-        0 0 120px rgba(147,210,255,.22);
-    animation:splashPulse 2s ease-in-out infinite;
+        0 0 55px rgba(255,255,255,.35),
+        0 0 110px rgba(126,205,255,.3);
 }
 
 .splash-logo{
@@ -618,67 +659,95 @@ button,input{
     width:132px;
     height:132px;
     object-fit:contain;
-    filter:drop-shadow(0 18px 35px rgba(0,0,0,.18));
-    animation:splashLogo .95s cubic-bezier(.16,1,.3,1) both;
+    filter:
+        drop-shadow(
+            0 18px 30px
+            rgba(0,57,117,.18)
+        );
 }
 
-.splash h1{
-    margin-top:20px;
-    font-size:24px;
-    line-height:1.7;
+.splash-brand h1{
+    margin-top:18px;
+    color:#fff;
+    font-size:23px;
+    line-height:1.65;
     font-weight:900;
-    text-shadow:0 5px 18px rgba(2,50,100,.28);
+    text-shadow:
+        0 4px 15px rgba(4,57,108,.3);
 }
 
-.splash-sub{
-    margin-top:6px;
+.splash-brand p{
+    margin-top:5px;
+    color:rgba(255,255,255,.95);
     font-size:12px;
     font-weight:800;
-    opacity:.94;
 }
 
 .splash-year{
     width:max-content;
-    margin:16px auto 0;
+    margin:14px auto 0;
     padding:8px 18px;
-    border-radius:99px;
-    background:rgba(255,255,255,.15);
-    border:1px solid rgba(255,255,255,.25);
-    backdrop-filter:blur(12px);
     direction:ltr;
+    border-radius:99px;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.32);
+    background:rgba(255,255,255,.14);
+    backdrop-filter:blur(8px);
     font-size:16px;
     letter-spacing:1px;
     font-weight:900;
-    box-shadow:0 10px 35px rgba(0,0,0,.08);
 }
 
-/* زوم الدخول */
-.splash.enter-clouds .splash-content{
-    animation:zoomHero 1.5s cubic-bezier(.68,-.12,.2,1.05) forwards;
+/* =========================================================
+   SPLASH SEQUENCES
+========================================================= */
+
+.splash.focus .cloud-center{
+    animation:centerAppear 1.5s ease forwards;
 }
 
-.splash.enter-clouds .cloud-world{
-    animation:cloudZoom 1.55s cubic-bezier(.5,0,.2,1) forwards;
+.splash.focus .back{
+    animation:backZoom 5.7s cubic-bezier(.4,0,.15,1) forwards;
 }
 
-.splash.enter-clouds .left-cloud{
-    animation:leftCloudOpen 1.45s cubic-bezier(.5,0,.2,1) forwards;
+.splash.focus .middle{
+    animation:middleZoom 5.7s cubic-bezier(.4,0,.15,1) forwards;
 }
 
-.splash.enter-clouds .right-cloud{
-    animation:rightCloudOpen 1.45s cubic-bezier(.5,0,.2,1) forwards;
+.splash.focus .front{
+    animation:frontZoom 5.7s cubic-bezier(.4,0,.15,1) forwards;
 }
 
-.splash.enter-clouds .top-cloud{
-    animation:topCloudOpen 1.45s cubic-bezier(.5,0,.2,1) forwards;
+.splash.focus .splash-brand{
+    animation:
+        brandReveal 1.5s .9s
+        cubic-bezier(.16,1,.3,1)
+        forwards;
 }
 
-.splash.enter-clouds .bottom-cloud{
-    animation:bottomCloudOpen 1.45s cubic-bezier(.5,0,.2,1) forwards;
+/* آخر زوم */
+.splash.final-zoom .splash-brand{
+    animation:
+        brandFinalZoom
+        1.25s
+        cubic-bezier(.7,0,.2,1)
+        forwards;
 }
 
-.splash.enter-clouds .sky-glow{
-    animation:whiteFlash 1.45s ease forwards;
+.splash.final-zoom .cloud-center{
+    animation:
+        centerFinalZoom
+        1.25s
+        ease
+        forwards;
+}
+
+.splash.final-zoom{
+    animation:
+        splashWhiteOut
+        1.3s
+        ease
+        forwards;
 }
 
 /* =========================================================
@@ -693,9 +762,7 @@ button,input{
     align-items:center;
     justify-content:center;
     padding:24px;
-    background:
-        radial-gradient(circle at top,#edf5ff,transparent 45%),
-        #fff;
+    background:#fff;
 }
 
 .offline-screen.show{
@@ -744,166 +811,225 @@ button,input{
 }
 
 /* =========================================================
-   ANIMATION
+   ANIMATIONS
 ========================================================= */
 
 @keyframes spin{
     to{transform:rotate(360deg)}
 }
 
+@keyframes messageIn{
+    from{
+        opacity:0;
+        transform:translateY(-5px)
+    }
+    to{
+        opacity:1;
+        transform:none
+    }
+}
+
 @keyframes loginReveal{
     0%{
         opacity:0;
-        transform:scale(.9);
-        filter:blur(8px);
+        filter:blur(10px);
+        transform:scale(1.12);
     }
+
     100%{
         opacity:1;
-        transform:scale(1);
         filter:blur(0);
-    }
-}
-
-@keyframes logoEnter{
-    from{
-        opacity:0;
-        transform:scale(.7) translateY(-15px);
-    }
-    to{
-        opacity:1;
-        transform:scale(1) translateY(0);
-    }
-}
-
-@keyframes cardEnter{
-    from{
-        opacity:0;
-        transform:translateY(24px) scale(.97);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0) scale(1);
+        transform:scale(1);
     }
 }
 
 @keyframes ringPulse{
     0%,100%{
         transform:scale(.96);
-        opacity:.75;
+        opacity:.7
     }
+
     50%{
         transform:scale(1.05);
-        opacity:1;
+        opacity:1
     }
 }
 
-@keyframes messageIn{
+@keyframes cloudRight{
+    from{transform:translateX(-35px)}
+    to{transform:translateX(90px)}
+}
+
+@keyframes cloudLeft{
+    from{transform:translateX(45px)}
+    to{transform:translateX(-90px)}
+}
+
+@keyframes cloudDrift{
     from{
-        opacity:0;
-        transform:translateY(-5px);
+        transform:translate(-20px,6px)
     }
     to{
-        opacity:1;
-        transform:translateY(0);
+        transform:translate(28px,-12px)
     }
 }
 
-@keyframes splashPulse{
-    0%,100%{
-        transform:scale(.93);
-        opacity:.75;
-    }
-    50%{
-        transform:scale(1.08);
-        opacity:1;
-    }
-}
-
-@keyframes splashLogo{
+@keyframes frontCloud1{
     from{
-        opacity:0;
-        transform:scale(.45) translateY(25px);
+        transform:translate(-20px,-10px) scale(1)
     }
     to{
-        opacity:1;
-        transform:scale(1) translateY(0);
+        transform:translate(55px,20px) scale(1.08)
     }
 }
 
-@keyframes heroFloat{
-    0%,100%{
-        transform:translateY(0);
-    }
-    50%{
-        transform:translateY(-7px);
-    }
-}
-
-@keyframes cloudWorldFloat{
+@keyframes frontCloud2{
     from{
-        transform:translate3d(-1.5%,-1%,0) scale(1);
+        transform:translate(20px,0) scale(1)
     }
     to{
-        transform:translate3d(1.5%,1%,0) scale(1.04);
+        transform:translate(-55px,18px) scale(1.08)
     }
 }
 
-@keyframes zoomHero{
-    0%{
-        transform:translateZ(0) scale(1);
-        opacity:1;
-        filter:blur(0);
+@keyframes frontCloud3{
+    from{
+        transform:translate(-15px,10px) scale(1)
     }
-    45%{
-        transform:translateZ(120px) scale(1.12);
-        opacity:1;
+    to{
+        transform:translate(60px,-12px) scale(1.09)
     }
-    100%{
-        transform:translateZ(500px) scale(4);
+}
+
+@keyframes frontCloud4{
+    from{
+        transform:translate(20px,8px) scale(1)
+    }
+    to{
+        transform:translate(-60px,-16px) scale(1.09)
+    }
+}
+
+@keyframes centerAppear{
+    from{
         opacity:0;
-        filter:blur(12px);
+        transform:
+            translate(-50%,-50%)
+            scale(.55);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            translate(-50%,-50%)
+            scale(1);
     }
 }
 
-@keyframes cloudZoom{
-    0%{
+@keyframes backZoom{
+    from{
         transform:scale(1);
         filter:blur(0);
     }
-    100%{
-        transform:scale(3.6);
-        filter:blur(8px);
+
+    to{
+        transform:scale(1.45);
+        filter:blur(2px);
     }
 }
 
-@keyframes leftCloudOpen{
-    0%{transform:translateX(0) scale(1)}
-    100%{transform:translateX(-46vw) scale(1.5)}
-}
+@keyframes middleZoom{
+    from{
+        transform:scale(1);
+    }
 
-@keyframes rightCloudOpen{
-    0%{transform:translateX(0) scale(1)}
-    100%{transform:translateX(46vw) scale(1.5)}
-}
-
-@keyframes topCloudOpen{
-    0%{transform:translateY(0) scale(1)}
-    100%{transform:translateY(-45vh) scale(1.5)}
-}
-
-@keyframes bottomCloudOpen{
-    0%{transform:translateY(0) scale(1)}
-    100%{transform:translateY(45vh) scale(1.5)}
-}
-
-@keyframes whiteFlash{
-    0%{opacity:1}
-    55%{opacity:1;background:rgba(255,255,255,.1)}
-    100%{opacity:0;background:#fff}
-}
-
-@keyframes splashFade{
     to{
+        transform:scale(2);
+    }
+}
+
+@keyframes frontZoom{
+    0%{
+        transform:scale(1);
+        opacity:1;
+    }
+
+    100%{
+        transform:scale(3.1);
+        opacity:.28;
+        filter:blur(4px);
+    }
+}
+
+@keyframes brandReveal{
+    0%{
+        opacity:0;
+        transform:
+            translate(-50%,-50%)
+            scale(.5);
+        filter:blur(12px);
+    }
+
+    55%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:1;
+        transform:
+            translate(-50%,-50%)
+            scale(1);
+        filter:blur(0);
+    }
+}
+
+@keyframes brandFinalZoom{
+    0%{
+        opacity:1;
+        transform:
+            translate(-50%,-50%)
+            scale(1);
+        filter:blur(0);
+    }
+
+    55%{
+        opacity:1;
+        transform:
+            translate(-50%,-50%)
+            scale(1.7);
+    }
+
+    100%{
+        opacity:0;
+        transform:
+            translate(-50%,-50%)
+            scale(7);
+        filter:blur(13px);
+    }
+}
+
+@keyframes centerFinalZoom{
+    from{
+        opacity:1;
+        transform:
+            translate(-50%,-50%)
+            scale(1);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            translate(-50%,-50%)
+            scale(9);
+    }
+}
+
+@keyframes splashWhiteOut{
+    0%,45%{
+        opacity:1;
+    }
+
+    100%{
         opacity:0;
         visibility:hidden;
     }
@@ -923,7 +1049,6 @@ button,input{
     .logo-shell{
         width:115px;
         height:115px;
-        margin-bottom:12px;
     }
 
     .main-logo{
@@ -959,11 +1084,11 @@ button,input{
     }
 
     .splash-logo{
-        width:116px;
-        height:116px;
+        width:115px;
+        height:115px;
     }
 
-    .splash h1{
+    .splash-brand h1{
         font-size:20px;
     }
 
@@ -1011,39 +1136,60 @@ button,input{
 
 
 <!-- =========================================================
-     CLOUD SPLASH
+     SPLASH
 ========================================================= -->
 
 <div id="splashScreen" class="splash">
 
-    <div class="sky-glow"></div>
+    <div class="sky-light"></div>
 
-    <div class="cloud-world">
+
+    <!-- سحب بعيدة -->
+
+    <div class="cloud-layer back">
+
+        <div class="cloud c1"></div>
+        <div class="cloud c2"></div>
+        <div class="cloud c3"></div>
+
+    </div>
+
+
+    <!-- سحب متوسطة -->
+
+    <div class="cloud-layer middle">
+
+        <div class="cloud c1"></div>
+        <div class="cloud c2"></div>
+        <div class="cloud c3"></div>
+
+    </div>
+
+
+    <!-- سحب أمامية -->
+
+    <div class="cloud-layer front">
 
         <div class="cloud c1"></div>
         <div class="cloud c2"></div>
         <div class="cloud c3"></div>
         <div class="cloud c4"></div>
-        <div class="cloud c5"></div>
-        <div class="cloud c6"></div>
-
-    </div>
-
-    <div class="cloud-door">
-
-        <div class="left-cloud"></div>
-        <div class="right-cloud"></div>
-        <div class="top-cloud"></div>
-        <div class="bottom-cloud"></div>
 
     </div>
 
 
-    <div class="splash-content">
+    <!-- مركز الدخول -->
+
+    <div class="cloud-center"></div>
+
+
+    <!-- لا يظهر إلا بعد بداية الزوم -->
+
+    <div class="splash-brand">
 
         <div class="splash-logo-box">
 
-            <div class="splash-glow"></div>
+            <div class="splash-logo-glow"></div>
 
             <img
                 src="logo.png"
@@ -1057,9 +1203,9 @@ button,input{
             مدرسة التحدي الأهلية المختلطة
         </h1>
 
-        <div class="splash-sub">
+        <p>
             منصة الحوكمة الإلكترونية
-        </div>
+        </p>
 
         <div class="splash-year">
             2026-2027
@@ -1081,6 +1227,7 @@ button,input{
     <div class="orb one"></div>
     <div class="orb two"></div>
 
+
     <div class="login-container">
 
         <section class="brand-area">
@@ -1098,13 +1245,16 @@ button,input{
 
             </div>
 
+
             <h1 class="school-name">
                 مدرسة التحدي الأهلية المختلطة
             </h1>
 
+
             <div class="governance">
                 قسم الحوكمة
             </div>
+
 
             <div class="year-badge">
 
@@ -1154,21 +1304,17 @@ button,input{
             </label>
 
 
-            <div class="input-box">
-
-                <input
-                    id="userCode"
-                    class="code-input"
-                    type="text"
-                    placeholder="مثال: ST42B781"
-                    autocomplete="off"
-                    autocorrect="off"
-                    autocapitalize="characters"
-                    spellcheck="false"
-                    maxlength="30"
-                >
-
-            </div>
+            <input
+                id="userCode"
+                class="code-input"
+                type="text"
+                placeholder="مثال: ST42B781"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="characters"
+                spellcheck="false"
+                maxlength="30"
+            >
 
 
             <button
@@ -1239,8 +1385,7 @@ button,input{
 const DATABASE_URL=
     "https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
 
-const USERS_PATH=
-    "users";
+const USERS_PATH="users";
 
 
 /* =========================================================
@@ -1275,16 +1420,12 @@ const startupSound=
     document.getElementById("startupSound");
 
 
-/* =========================================================
-   STATE
-========================================================= */
-
 let splashPlayed=false;
 let loginRunning=false;
 
 
 /* =========================================================
-   NORMALIZE NUMBERS
+   NUMBERS
 ========================================================= */
 
 function normalizeNumbers(value){
@@ -1300,7 +1441,7 @@ function normalizeNumbers(value){
 
 
 /* =========================================================
-   CLEAN CODE
+   CODE
 ========================================================= */
 
 function cleanCode(value){
@@ -1317,10 +1458,7 @@ function cleanCode(value){
    MESSAGE
 ========================================================= */
 
-function showMessage(
-    text,
-    type="error"
-){
+function showMessage(text,type="error"){
 
     messageBox.textContent=text;
 
@@ -1338,7 +1476,7 @@ function hideMessage(){
 
 
 /* =========================================================
-   LOGIN BUTTON
+   BUTTON
 ========================================================= */
 
 function setLoginLoading(status){
@@ -1371,8 +1509,8 @@ function showOfflineScreen(){
     loginPage.classList.remove("show");
 
     splashScreen.classList.remove("show");
-    splashScreen.classList.remove("enter-clouds");
-    splashScreen.classList.remove("zoom-out");
+    splashScreen.classList.remove("focus");
+    splashScreen.classList.remove("final-zoom");
 
 }
 
@@ -1395,8 +1533,11 @@ function playStartupSound(){
 
     try{
 
+        startupSound.pause();
+
         startupSound.currentTime=0;
-        startupSound.volume=.42;
+
+        startupSound.volume=.48;
 
         const request=
             startupSound.play();
@@ -1421,25 +1562,23 @@ function showLoginPage(){
 
     hideOfflineScreen();
 
-    splashScreen.classList.remove("show");
-    splashScreen.classList.remove("enter-clouds");
-    splashScreen.classList.remove("zoom-out");
-
     loginPage.classList.add("show");
 
     setTimeout(()=>{
 
         if(!userCodeInput.value){
+
             userCodeInput.focus();
+
         }
 
-    },400);
+    },500);
 
 }
 
 
 /* =========================================================
-   CLOUD SPLASH
+   SPLASH SEQUENCE
 ========================================================= */
 
 function playSplash(){
@@ -1452,7 +1591,9 @@ function playSplash(){
 
     }
 
+
     hideOfflineScreen();
+
 
     if(splashPlayed){
 
@@ -1462,66 +1603,102 @@ function playSplash(){
 
     }
 
+
     splashPlayed=true;
 
-    loginPage.classList.remove("show");
 
-    splashScreen.classList.add("show");
+    loginPage.classList.remove(
+        "show"
+    );
 
-    playStartupSound();
+
+    splashScreen.classList.add(
+        "show"
+    );
 
 
     /*
-       أولاً نخلي المستخدم يشوف المدرسة والشعار
+       0 - 1.7 ثانية:
+       فقط سماء وسحب متحركة.
+       لا شعار ولا كتابة.
     */
+
     setTimeout(()=>{
 
         /*
-           بعدها يبدأ الدخول داخل الغيوم
+           تبدأ الكاميرا تدخل بالغيوم.
+           هنا يبدأ الصوت.
         */
+
         splashScreen.classList.add(
-            "enter-clouds"
+            "focus"
         );
 
-    },4300);
+
+        playStartupSound();
+
+    },1700);
 
 
     /*
-       قبل نهاية الصوت بقليل نكشف صفحة الدخول
+       بعد ظهور الشعار والكتابة
+       نخلي المستخدم يشوفهم فترة.
     */
+
     setTimeout(()=>{
 
+        /*
+           آخر Zoom على الشعار.
+        */
+
         splashScreen.classList.add(
-            "zoom-out"
+            "final-zoom"
         );
+
+
+        /*
+           نجهز صفحة التسجيل خلفه.
+        */
 
         loginPage.classList.add(
             "show"
         );
 
-    },5550);
+    },6800);
 
 
     /*
-       إزالة شاشة السحاب نهائياً
+       إزالة شاشة الغيوم.
     */
+
     setTimeout(()=>{
 
-        splashScreen.classList.remove("show");
-        splashScreen.classList.remove("enter-clouds");
-        splashScreen.classList.remove("zoom-out");
+        splashScreen.classList.remove(
+            "show"
+        );
+
+        splashScreen.classList.remove(
+            "focus"
+        );
+
+        splashScreen.classList.remove(
+            "final-zoom"
+        );
+
 
         if(!userCodeInput.value){
+
             userCodeInput.focus();
+
         }
 
-    },6500);
+    },8050);
 
 }
 
 
 /* =========================================================
-   FIREBASE USER
+   FIREBASE
 ========================================================= */
 
 async function readUser(code){
@@ -1538,6 +1715,7 @@ async function readUser(code){
             }
         );
 
+
     if(!response.ok){
 
         throw new Error(
@@ -1545,6 +1723,7 @@ async function readUser(code){
         );
 
     }
+
 
     return response.json();
 
@@ -1565,10 +1744,12 @@ function isAccountDisabled(user){
         return true;
     }
 
+
     const status=
         String(user.status||"")
         .trim()
         .toLowerCase();
+
 
     return [
         "inactive",
@@ -1585,35 +1766,27 @@ function isAccountDisabled(user){
    SESSION
 ========================================================= */
 
-function saveSession(
-    code,
-    user
-){
+function saveSession(code,user){
 
     const data={
-
         code,
-
-        role:
-            user.role||"",
-
-        name:
-            user.name||"",
-
-        loginTime:
-            Date.now()
-
+        role:user.role||"",
+        name:user.name||"",
+        loginTime:Date.now()
     };
+
 
     sessionStorage.setItem(
         "tahadi_session",
         JSON.stringify(data)
     );
 
+
     sessionStorage.setItem(
         "tahadi_code",
         code
     );
+
 
     sessionStorage.setItem(
         "tahadi_role",
@@ -1624,7 +1797,7 @@ function saveSession(
 
 
 /* =========================================================
-   ROUTES
+   ROUTING
 ========================================================= */
 
 function redirectByRole(role){
@@ -1633,6 +1806,7 @@ function redirectByRole(role){
         String(role||"")
         .trim()
         .toLowerCase();
+
 
     const routes={
 
@@ -1653,8 +1827,10 @@ function redirectByRole(role){
 
     };
 
+
     const route=
         routes[value];
+
 
     if(!route){
 
@@ -1663,6 +1839,7 @@ function redirectByRole(role){
         );
 
     }
+
 
     window.location.replace(
         route
@@ -1681,7 +1858,9 @@ async function login(){
         return;
     }
 
+
     hideMessage();
+
 
     if(!navigator.onLine){
 
@@ -1691,10 +1870,12 @@ async function login(){
 
     }
 
+
     const code=
         cleanCode(
             userCodeInput.value
         );
+
 
     if(!code){
 
@@ -1708,15 +1889,18 @@ async function login(){
 
     }
 
-    userCodeInput.value=
-        code;
+
+    userCodeInput.value=code;
+
 
     setLoginLoading(true);
+
 
     try{
 
         const user=
             await readUser(code);
+
 
         if(
             !user ||
@@ -1733,6 +1917,7 @@ async function login(){
 
         }
 
+
         if(
             isAccountDisabled(user)
         ){
@@ -1745,6 +1930,7 @@ async function login(){
 
         }
 
+
         if(!user.role){
 
             showMessage(
@@ -1755,10 +1941,12 @@ async function login(){
 
         }
 
+
         saveSession(
             code,
             user
         );
+
 
         showMessage(
             user.name
@@ -1767,30 +1955,34 @@ async function login(){
             "success"
         );
 
+
         await new Promise(
             resolve=>
-                setTimeout(
-                    resolve,
-                    350
-                )
+                setTimeout(resolve,350)
         );
+
 
         redirectByRole(
             user.role
         );
 
-    }catch(error){
+    }
+
+    catch(error){
 
         console.error(
             "Login Error:",
             error
         );
 
+
         if(!navigator.onLine){
 
             showOfflineScreen();
 
-        }else if(
+        }
+
+        else if(
             error.message==="UNKNOWN_ROLE"
         ){
 
@@ -1798,7 +1990,9 @@ async function login(){
                 "نوع الحساب غير معرف في النظام"
             );
 
-        }else{
+        }
+
+        else{
 
             showMessage(
                 "تعذر الاتصال بالنظام، حاول مرة أخرى"
@@ -1806,7 +2000,9 @@ async function login(){
 
         }
 
-    }finally{
+    }
+
+    finally{
 
         setLoginLoading(false);
 
@@ -1816,13 +2012,14 @@ async function login(){
 
 
 /* =========================================================
-   INPUT EVENTS
+   INPUT
 ========================================================= */
 
 loginButton.addEventListener(
     "click",
     login
 );
+
 
 userCodeInput.addEventListener(
     "keydown",
@@ -1838,6 +2035,7 @@ userCodeInput.addEventListener(
 
     }
 );
+
 
 userCodeInput.addEventListener(
     "input",
@@ -1865,17 +2063,20 @@ async function handleQRLogin(){
             window.location.search
         );
 
+
     const code=
         cleanCode(
             params.get("code")||""
         );
 
+
     if(!code){
         return false;
     }
 
-    userCodeInput.value=
-        code;
+
+    userCodeInput.value=code;
+
 
     try{
 
@@ -1887,15 +2088,15 @@ async function handleQRLogin(){
 
     }catch{}
 
+
     await new Promise(
         resolve=>
-            setTimeout(
-                resolve,
-                180
-            )
+            setTimeout(resolve,180)
     );
 
+
     await login();
+
 
     return true;
 
@@ -1917,6 +2118,7 @@ window.addEventListener(
     }
 );
 
+
 window.addEventListener(
     "online",
     ()=>{
@@ -1932,58 +2134,61 @@ window.addEventListener(
 
 
 /* =========================================================
-   AUDIO FALLBACK
+   AUDIO UNLOCK
 ========================================================= */
 
-let firstInteraction=false;
+let audioUnlocked=false;
+
 
 function unlockAudio(){
 
-    if(firstInteraction){
+    if(audioUnlocked){
         return;
     }
 
-    firstInteraction=true;
 
-    if(
-        startupSound &&
-        startupSound.paused
-    ){
+    audioUnlocked=true;
 
-        try{
 
-            startupSound.volume=.42;
-
-            const play=
-                startupSound.play();
-
-            if(play){
-
-                play
-                    .then(()=>{
-
-                        setTimeout(()=>{
-
-                            startupSound.pause();
-
-                        },500);
-
-                    })
-                    .catch(()=>{});
-
-            }
-
-        }catch{}
-
+    if(!startupSound){
+        return;
     }
 
+
+    try{
+
+        startupSound.volume=.01;
+
+
+        const request=
+            startupSound.play();
+
+
+        if(request){
+
+            request.then(()=>{
+
+                startupSound.pause();
+
+                startupSound.currentTime=0;
+
+                startupSound.volume=.48;
+
+            }).catch(()=>{});
+
+        }
+
+    }catch{}
+
 }
+
 
 document.addEventListener(
     "touchstart",
     unlockAudio,
     {once:true}
 );
+
 
 document.addEventListener(
     "click",
@@ -2000,6 +2205,7 @@ window.addEventListener(
     "load",
     async()=>{
 
+
         if(!navigator.onLine){
 
             showOfflineScreen();
@@ -2008,20 +2214,24 @@ window.addEventListener(
 
         }
 
+
         const params=
             new URLSearchParams(
                 window.location.search
             );
+
 
         const qrCode=
             cleanCode(
                 params.get("code")||""
             );
 
+
         /*
-           إذا جاي من QR، ما نخليه ينتظر
-           مشهد الغيوم.
+           QR:
+           يدخل مباشرة بدون مشهد البداية.
         */
+
         if(qrCode){
 
             splashPlayed=true;
@@ -2034,6 +2244,7 @@ window.addEventListener(
 
         }
 
+
         playSplash();
 
     }
@@ -2042,5 +2253,4 @@ window.addEventListener(
 </script>
 
 </body>
-
 </html>
