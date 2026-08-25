@@ -1,5112 +1,2293 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    >
-
-    <meta name="theme-color" content="#075fcf">
-
-    <title>لوحة الإدارة | مدرسة التحدي الأهلية المختلطة</title>
-
-
-    <style>
-
-        /* =========================================================
-           ROOT
-        ========================================================= */
-
-        :root {
-
-            --primary: #075fcf;
-            --primary-dark: #054aa5;
-            --primary-light: #edf5ff;
-
-            --green: #079455;
-            --green-light: #ecfdf3;
-
-            --red: #d92d20;
-            --red-light: #fef3f2;
-
-            --orange: #dc6803;
-            --orange-light: #fff6ed;
-
-            --purple: #6938ef;
-            --purple-light: #f4f3ff;
-
-            --background: #f5f7fb;
-
-            --white: #ffffff;
-
-            --text: #172033;
-            --text-soft: #667085;
-
-            --border: #e4e7ec;
-
-            --shadow:
-                0 10px 35px rgba(16, 24, 40, .08);
-
-            --radius: 18px;
-
-        }
-
-
-
-        /* =========================================================
-           GENERAL
-        ========================================================= */
-
-        * {
-
-            box-sizing: border-box;
-
-            margin: 0;
-            padding: 0;
-
-            -webkit-tap-highlight-color:
-                transparent;
-
-        }
-
-
-        html {
-
-            scroll-behavior: smooth;
-
-        }
-
-
-        body {
-
-            font-family:
-                Tahoma,
-                Arial,
-                sans-serif;
-
-            background:
-                var(--background);
-
-            color:
-                var(--text);
-
-            min-height: 100vh;
-
-        }
-
-
-        button,
-        input,
-        select {
-
-            font-family: inherit;
-
-        }
-
-
-        button {
-
-            cursor: pointer;
-
-        }
-
-
-        .hidden {
-
-            display: none !important;
-
-        }
-
-
-
-        /* =========================================================
-           PAGE LOADER
-        ========================================================= */
-
-        .page-loader {
-
-            position: fixed;
-
-            inset: 0;
-
-            z-index: 99999;
-
-            background:
-                #ffffff;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-        }
-
-
-        .page-loader-box {
-
-            text-align: center;
-
-        }
-
-
-        .loader-circle {
-
-            width: 46px;
-            height: 46px;
-
-            margin:
-                0 auto
-                15px;
-
-            border-radius: 50%;
-
-            border:
-                4px solid #e6edf7;
-
-            border-top-color:
-                var(--primary);
-
-            animation:
-                spin .8s
-                linear
-                infinite;
-
-        }
-
-
-        .page-loader p {
-
-            color:
-                var(--text-soft);
-
-            font-size: 14px;
-
-        }
-
-
-
-        /* =========================================================
-           HEADER
-        ========================================================= */
-
-        .top-header {
-
-            position: sticky;
-
-            top: 0;
-
-            z-index: 1000;
-
-            width: 100%;
-
-            background:
-                rgba(255,255,255,.96);
-
-            backdrop-filter:
-                blur(14px);
-
-            -webkit-backdrop-filter:
-                blur(14px);
-
-            border-bottom:
-                1px solid
-                var(--border);
-
-        }
-
-
-        .top-header-inner {
-
-            width: min(1450px, 100%);
-
-            margin: auto;
-
-            min-height: 70px;
-
-            padding:
-                10px 18px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 15px;
-
-        }
-
-
-        .brand {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 11px;
-
-        }
-
-
-        .brand-logo {
-
-            width: 46px;
-            height: 46px;
-
-            border-radius: 12px;
-
-            object-fit: contain;
-
-            background:
-                var(--primary-light);
-
-        }
-
-
-        .brand-title h1 {
-
-            font-size: 16px;
-
-            font-weight: 800;
-
-        }
-
-
-        .brand-title p {
-
-            margin-top: 3px;
-
-            font-size: 12px;
-
-            color:
-                var(--primary);
-
-            font-weight: 700;
-
-        }
-
-
-        .header-actions {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 8px;
-
-        }
-
-
-        .logout-btn {
-
-            min-height: 42px;
-
-            padding:
-                0 15px;
-
-            border: 0;
-
-            border-radius: 12px;
-
-            background:
-                var(--red-light);
-
-            color:
-                var(--red);
-
-            font-weight: 800;
-
-            font-size: 13px;
-
-        }
-
-
-
-        /* =========================================================
-           MAIN
-        ========================================================= */
-
-        .main {
-
-            width:
-                min(1450px, 100%);
-
-            margin:
-                0 auto;
-
-            padding:
-                22px 18px
-                45px;
-
-        }
-
-
-
-        /* =========================================================
-           WELCOME
-        ========================================================= */
-
-        .welcome {
-
-            padding:
-                22px;
-
-            border-radius:
-                24px;
-
-            margin-bottom:
-                20px;
-
-            color:
-                #ffffff;
-
-            background:
-
-                linear-gradient(
-                    135deg,
-                    #075fcf,
-                    #05499f
-                );
-
-            box-shadow:
-
-                0 15px 35px
-                rgba(7, 95, 207, .2);
-
-            position: relative;
-
-            overflow: hidden;
-
-        }
-
-
-        .welcome::after {
-
-            content: "";
-
-            position: absolute;
-
-            width: 190px;
-            height: 190px;
-
-            border-radius: 50%;
-
-            left: -70px;
-            top: -95px;
-
-            background:
-                rgba(255,255,255,.08);
-
-        }
-
-
-        .welcome h2 {
-
-            position: relative;
-
-            z-index: 2;
-
-            font-size: 22px;
-
-        }
-
-
-        .welcome p {
-
-            position: relative;
-
-            z-index: 2;
-
-            margin-top: 8px;
-
-            font-size: 13px;
-
-            opacity: .9;
-
-            line-height: 1.8;
-
-        }
-
-
-
-        /* =========================================================
-           STATS
-        ========================================================= */
-
-        .stats {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
-            gap: 13px;
-
-            margin-bottom:
-                21px;
-
-        }
-
-
-        .stat-card {
-
-            background:
-                var(--white);
-
-            border:
-                1px solid
-                var(--border);
-
-            border-radius:
-                18px;
-
-            padding:
-                17px;
-
-            box-shadow:
-                0 6px 20px
-                rgba(16,24,40,.04);
-
-        }
-
-
-        .stat-label {
-
-            color:
-                var(--text-soft);
-
-            font-size:
-                12px;
-
-            font-weight:
-                700;
-
-        }
-
-
-        .stat-number {
-
-            margin-top:
-                8px;
-
-            font-size:
-                27px;
-
-            font-weight:
-                900;
-
-        }
-
-
-        .stat-card.students
-        .stat-number {
-
-            color:
-                var(--primary);
-
-        }
-
-
-        .stat-card.teachers
-        .stat-number {
-
-            color:
-                var(--green);
-
-        }
-
-
-        .stat-card.admins
-        .stat-number {
-
-            color:
-                var(--purple);
-
-        }
-
-
-        .stat-card.attendance
-        .stat-number {
-
-            color:
-                var(--orange);
-
-        }
-
-
-
-        /* =========================================================
-           NAVIGATION
-        ========================================================= */
-
-        .admin-tabs {
-
-            display: flex;
-
-            gap: 8px;
-
-            overflow-x: auto;
-
-            padding-bottom:
-                8px;
-
-            margin-bottom:
-                17px;
-
-            scrollbar-width:
-                none;
-
-        }
-
-
-        .admin-tabs::-webkit-scrollbar {
-
-            display: none;
-
-        }
-
-
-        .tab-btn {
-
-            flex:
-                0 0 auto;
-
-            min-height:
-                44px;
-
-            border:
-                1px solid
-                var(--border);
-
-            border-radius:
-                13px;
-
-            padding:
-                0 17px;
-
-            background:
-                #ffffff;
-
-            color:
-                var(--text-soft);
-
-            font-size:
-                13px;
-
-            font-weight:
-                800;
-
-            transition:
-                .2s;
-
-        }
-
-
-        .tab-btn.active {
-
-            border-color:
-                var(--primary);
-
-            color:
-                #ffffff;
-
-            background:
-                var(--primary);
-
-            box-shadow:
-                0 8px 20px
-                rgba(7,95,207,.18);
-
-        }
-
-
-
-        /* =========================================================
-           CONTENT SECTIONS
-        ========================================================= */
-
-        .section {
-
-            display: none;
-
-            animation:
-                fadeIn .3s
-                ease;
-
-        }
-
-
-        .section.active {
-
-            display: block;
-
-        }
-
-
-
-        /* =========================================================
-           PANEL
-        ========================================================= */
-
-        .panel {
-
-            background:
-                #ffffff;
-
-            border:
-                1px solid
-                var(--border);
-
-            border-radius:
-                20px;
-
-            box-shadow:
-                var(--shadow);
-
-            overflow:
-                hidden;
-
-        }
-
-
-        .panel-header {
-
-            padding:
-                18px 20px;
-
-            border-bottom:
-                1px solid
-                var(--border);
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 10px;
-
-        }
-
-
-        .panel-header h3 {
-
-            font-size:
-                16px;
-
-            font-weight:
-                800;
-
-        }
-
-
-        .panel-header p {
-
-            margin-top:
-                4px;
-
-            font-size:
-                12px;
-
-            color:
-                var(--text-soft);
-
-        }
-
-
-        .panel-body {
-
-            padding:
-                20px;
-
-        }
-
-
-
-        /* =========================================================
-           FORM
-        ========================================================= */
-
-        .form-grid {
-
-            display:
-                grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap:
-                15px;
-
-        }
-
-
-        .field {
-
-            display:
-                flex;
-
-            flex-direction:
-                column;
-
-            gap:
-                7px;
-
-        }
-
-
-        .field.full {
-
-            grid-column:
-                1 / -1;
-
-        }
-
-
-        .field label {
-
-            font-size:
-                13px;
-
-            font-weight:
-                800;
-
-            color:
-                #344054;
-
-        }
-
-
-        .field input,
-        .field select {
-
-            width:
-                100%;
-
-            height:
-                50px;
-
-            padding:
-                0 14px;
-
-            border:
-                1.5px solid
-                var(--border);
-
-            border-radius:
-                13px;
-
-            background:
-                #ffffff;
-
-            outline:
-                none;
-
-            font-size:
-                14px;
-
-            color:
-                var(--text);
-
-            transition:
-                .2s;
-
-        }
-
-
-        .field input:focus,
-        .field select:focus {
-
-            border-color:
-                var(--primary);
-
-            box-shadow:
-                0 0 0 4px
-                rgba(7,95,207,.07);
-
-        }
-
-
-
-        /* =========================================================
-           GENERATED CODE
-        ========================================================= */
-
-        .generated-code-box {
-
-            padding:
-                16px;
-
-            border-radius:
-                16px;
-
-            background:
-                var(--primary-light);
-
-            border:
-                1px dashed
-                #8dbcf7;
-
-            text-align:
-                center;
-
-        }
-
-
-        .generated-code-label {
-
-            font-size:
-                12px;
-
-            color:
-                var(--text-soft);
-
-        }
-
-
-        .generated-code {
-
-            margin-top:
-                7px;
-
-            direction:
-                ltr;
-
-            font-size:
-                25px;
-
-            letter-spacing:
-                1.8px;
-
-            font-weight:
-                900;
-
-            color:
-                var(--primary);
-
-            word-break:
-                break-all;
-
-        }
-
-
-        .code-tools {
-
-            margin-top:
-                12px;
-
-            display:
-                flex;
-
-            justify-content:
-                center;
-
-            gap:
-                8px;
-
-        }
-
-
-
-        /* =========================================================
-           BUTTONS
-        ========================================================= */
-
-        .btn {
-
-            min-height:
-                46px;
-
-            padding:
-                0 18px;
-
-            border:
-                0;
-
-            border-radius:
-                13px;
-
-            font-size:
-                13px;
-
-            font-weight:
-                800;
-
-            transition:
-                .2s;
-
-        }
-
-
-        .btn:active {
-
-            transform:
-                scale(.98);
-
-        }
-
-
-        .btn-primary {
-
-            color:
-                #ffffff;
-
-            background:
-                var(--primary);
-
-        }
-
-
-        .btn-soft {
-
-            color:
-                var(--primary);
-
-            background:
-                var(--primary-light);
-
-        }
-
-
-        .btn-green {
-
-            color:
-                #ffffff;
-
-            background:
-                var(--green);
-
-        }
-
-
-        .btn-red {
-
-            color:
-                var(--red);
-
-            background:
-                var(--red-light);
-
-        }
-
-
-        .btn-orange {
-
-            color:
-                var(--orange);
-
-            background:
-                var(--orange-light);
-
-        }
-
-
-        .btn:disabled {
-
-            opacity:
-                .6;
-
-            cursor:
-                default;
-
-        }
-
-
-        .form-actions {
-
-            grid-column:
-                1 / -1;
-
-            display:
-                flex;
-
-            justify-content:
-                flex-end;
-
-            gap:
-                9px;
-
-            margin-top:
-                5px;
-
-        }
-
-
-
-        /* =========================================================
-           MESSAGE
-        ========================================================= */
-
-        .message {
-
-            display:
-                none;
-
-            margin-bottom:
-                15px;
-
-            border-radius:
-                13px;
-
-            padding:
-                12px 14px;
-
-            font-size:
-                13px;
-
-            font-weight:
-                700;
-
-            line-height:
-                1.7;
-
-        }
-
-
-        .message.show {
-
-            display:
-                block;
-
-        }
-
-
-        .message.success {
-
-            color:
-                #067647;
-
-            background:
-                #ecfdf3;
-
-            border:
-                1px solid
-                #abefc6;
-
-        }
-
-
-        .message.error {
-
-            color:
-                #b42318;
-
-            background:
-                #fef3f2;
-
-            border:
-                1px solid
-                #fecdca;
-
-        }
-
-
-
-        /* =========================================================
-           USERS SEARCH
-        ========================================================= */
-
-        .users-toolbar {
-
-            display:
-                grid;
-
-            grid-template-columns:
-                1fr 190px;
-
-            gap:
-                10px;
-
-            margin-bottom:
-                15px;
-
-        }
-
-
-        .search-input,
-        .filter-select {
-
-            width:
-                100%;
-
-            height:
-                48px;
-
-            padding:
-                0 14px;
-
-            border:
-                1.5px solid
-                var(--border);
-
-            border-radius:
-                13px;
-
-            outline:
-                none;
-
-            background:
-                #ffffff;
-
-        }
-
-
-        .search-input:focus,
-        .filter-select:focus {
-
-            border-color:
-                var(--primary);
-
-        }
-
-
-
-        /* =========================================================
-           TABLE
-        ========================================================= */
-
-        .table-wrap {
-
-            overflow-x:
-                auto;
-
-            border:
-                1px solid
-                var(--border);
-
-            border-radius:
-                15px;
-
-        }
-
-
-        table {
-
-            width:
-                100%;
-
-            min-width:
-                930px;
-
-            border-collapse:
-                collapse;
-
-        }
-
-
-        th {
-
-            padding:
-                13px;
-
-            background:
-                #f8fafc;
-
-            border-bottom:
-                1px solid
-                var(--border);
-
-            text-align:
-                right;
-
-            color:
-                #475467;
-
-            font-size:
-                12px;
-
-            white-space:
-                nowrap;
-
-        }
-
-
-        td {
-
-            padding:
-                13px;
-
-            border-bottom:
-                1px solid
-                #f0f2f5;
-
-            font-size:
-                13px;
-
-            vertical-align:
-                middle;
-
-        }
-
-
-        tr:last-child td {
-
-            border-bottom:
-                0;
-
-        }
-
-
-        .table-code {
-
-            direction:
-                ltr;
-
-            display:
-                inline-block;
-
-            font-weight:
-                900;
-
-            color:
-                var(--primary);
-
-        }
-
-
-        .table-actions {
-
-            display:
-                flex;
-
-            gap:
-                5px;
-
-            flex-wrap:
-                wrap;
-
-        }
-
-
-        .mini-btn {
-
-            min-height:
-                34px;
-
-            border:
-                0;
-
-            border-radius:
-                9px;
-
-            padding:
-                0 10px;
-
-            font-size:
-                11px;
-
-            font-weight:
-                800;
-
-        }
-
-
-
-        /* =========================================================
-           BADGES
-        ========================================================= */
-
-        .badge {
-
-            display:
-                inline-flex;
-
-            align-items:
-                center;
-
-            min-height:
-                27px;
-
-            padding:
-                0 9px;
-
-            border-radius:
-                20px;
-
-            font-size:
-                11px;
-
-            font-weight:
-                800;
-
-        }
-
-
-        .badge-student {
-
-            color:
-                var(--primary);
-
-            background:
-                var(--primary-light);
-
-        }
-
-
-        .badge-teacher {
-
-            color:
-                var(--green);
-
-            background:
-                var(--green-light);
-
-        }
-
-
-        .badge-admin {
-
-            color:
-                var(--purple);
-
-            background:
-                var(--purple-light);
-
-        }
-
-
-        .badge-attendance {
-
-            color:
-                var(--orange);
-
-            background:
-                var(--orange-light);
-
-        }
-
-
-        .badge-active {
-
-            color:
-                var(--green);
-
-            background:
-                var(--green-light);
-
-        }
-
-
-        .badge-inactive {
-
-            color:
-                var(--red);
-
-            background:
-                var(--red-light);
-
-        }
-
-
-
-        /* =========================================================
-           EMPTY
-        ========================================================= */
-
-        .empty {
-
-            padding:
-                40px 15px;
-
-            text-align:
-                center;
-
-            color:
-                var(--text-soft);
-
-            font-size:
-                14px;
-
-        }
-
-
-
-        /* =========================================================
-           TOAST
-        ========================================================= */
-
-        .toast {
-
-            position:
-                fixed;
-
-            z-index:
-                99999;
-
-            left:
-                50%;
-
-            bottom:
-                25px;
-
-            transform:
-                translate(-50%, 30px);
-
-            min-width:
-                220px;
-
-            max-width:
-                calc(100% - 30px);
-
-            padding:
-                12px 17px;
-
-            border-radius:
-                13px;
-
-            background:
-                #101828;
-
-            color:
-                #ffffff;
-
-            text-align:
-                center;
-
-            font-size:
-                13px;
-
-            font-weight:
-                700;
-
-            opacity:
-                0;
-
-            visibility:
-                hidden;
-
-            transition:
-                .25s;
-
-        }
-
-
-        .toast.show {
-
-            opacity:
-                1;
-
-            visibility:
-                visible;
-
-            transform:
-                translate(-50%, 0);
-
-        }
-
-
-
-        /* =========================================================
-           CONFIRM MODAL
-        ========================================================= */
-
-        .modal {
-
-            position:
-                fixed;
-
-            inset:
-                0;
-
-            z-index:
-                5000;
-
-            display:
-                none;
-
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            padding:
-                18px;
-
-            background:
-                rgba(16,24,40,.45);
-
-            backdrop-filter:
-                blur(4px);
-
-        }
-
-
-        .modal.show {
-
-            display:
-                flex;
-
-        }
-
-
-        .modal-card {
-
-            width:
-                min(400px,100%);
-
-            padding:
-                22px;
-
-            border-radius:
-                20px;
-
-            background:
-                #ffffff;
-
-            box-shadow:
-                0 30px 80px
-                rgba(0,0,0,.18);
-
-        }
-
-
-        .modal-card h3 {
-
-            font-size:
-                18px;
-
-        }
-
-
-        .modal-card p {
-
-            margin-top:
-                10px;
-
-            color:
-                var(--text-soft);
-
-            font-size:
-                13px;
-
-            line-height:
-                1.8;
-
-        }
-
-
-        .modal-actions {
-
-            margin-top:
-                20px;
-
-            display:
-                flex;
-
-            gap:
-                9px;
-
-        }
-
-
-        .modal-actions .btn {
-
-            flex:
-                1;
-
-        }
-
-
-
-        /* =========================================================
-           MOBILE
-        ========================================================= */
-
-        @media
-        (max-width: 900px) {
-
-            .stats {
-
-                grid-template-columns:
-                    repeat(2, 1fr);
-
-            }
-
-        }
-
-
-        @media
-        (max-width: 650px) {
-
-            .top-header-inner {
-
-                padding:
-                    9px 12px;
-
-            }
-
-
-            .brand-logo {
-
-                width:
-                    40px;
-
-                height:
-                    40px;
-
-            }
-
-
-            .brand-title h1 {
-
-                font-size:
-                    13px;
-
-            }
-
-
-            .brand-title p {
-
-                font-size:
-                    10px;
-
-            }
-
-
-            .logout-btn {
-
-                padding:
-                    0 11px;
-
-                font-size:
-                    11px;
-
-            }
-
-
-            .main {
-
-                padding:
-                    15px 11px
-                    40px;
-
-            }
-
-
-            .welcome {
-
-                padding:
-                    18px;
-
-                border-radius:
-                    19px;
-
-            }
-
-
-            .welcome h2 {
-
-                font-size:
-                    18px;
-
-            }
-
-
-            .stats {
-
-                gap:
-                    8px;
-
-            }
-
-
-            .stat-card {
-
-                padding:
-                    14px;
-
-                border-radius:
-                    15px;
-
-            }
-
-
-            .stat-number {
-
-                font-size:
-                    23px;
-
-            }
-
-
-            .panel {
-
-                border-radius:
-                    17px;
-
-            }
-
-
-            .panel-header {
-
-                padding:
-                    15px;
-
-            }
-
-
-            .panel-body {
-
-                padding:
-                    15px;
-
-            }
-
-
-            .form-grid {
-
-                grid-template-columns:
-                    1fr;
-
-            }
-
-
-            .field.full,
-            .form-actions {
-
-                grid-column:
-                    auto;
-
-            }
-
-
-            .form-actions {
-
-                flex-direction:
-                    column;
-
-            }
-
-
-            .form-actions .btn {
-
-                width:
-                    100%;
-
-            }
-
-
-            .users-toolbar {
-
-                grid-template-columns:
-                    1fr;
-
-            }
-
-
-            .generated-code {
-
-                font-size:
-                    21px;
-
-            }
-
-        }
-
-
-
-        /* =========================================================
-           ANIMATIONS
-        ========================================================= */
-
-        @keyframes spin {
-
-            to {
-
-                transform:
-                    rotate(360deg);
-
-            }
-
-        }
-
-
-        @keyframes fadeIn {
-
-            from {
-
-                opacity:
-                    0;
-
-                transform:
-                    translateY(5px);
-
-            }
-
-            to {
-
-                opacity:
-                    1;
-
-                transform:
-                    translateY(0);
-
-            }
-
-        }
-
-
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0b63d8">
+<title>لوحة الإدارة | مدرسة التحدي الأهلية المختلطة</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+:root{
+    --primary:#0b63d8;
+    --primary-dark:#084ca5;
+    --primary-soft:#edf5ff;
+    --success:#079455;
+    --success-soft:#ecfdf3;
+    --danger:#d92d20;
+    --danger-soft:#fef3f2;
+    --warning:#dc6803;
+    --warning-soft:#fff6ed;
+    --purple:#6938ef;
+    --purple-soft:#f4f3ff;
+    --bg:#f5f7fb;
+    --card:#fff;
+    --text:#172033;
+    --muted:#667085;
+    --border:#e4e7ec;
+    --shadow:0 12px 35px rgba(16,24,40,.08);
+    --radius:18px;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+    min-height:100vh;
+    font-family:Tahoma,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+button,input,select,textarea{
+    font:inherit;
+}
+
+button{cursor:pointer}
+
+.hidden{display:none!important}
+
+/* ================= HEADER ================= */
+
+.header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(255,255,255,.96);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid var(--border);
+}
+
+.header-inner{
+    max-width:1500px;
+    margin:auto;
+    min-height:72px;
+    padding:10px 18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.brand img{
+    width:46px;
+    height:46px;
+    object-fit:contain;
+}
+
+.brand h1{
+    font-size:16px;
+    font-weight:900;
+}
+
+.brand p{
+    margin-top:3px;
+    font-size:11px;
+    color:var(--primary);
+    font-weight:800;
+}
+
+.logout{
+    border:0;
+    border-radius:12px;
+    min-height:42px;
+    padding:0 14px;
+    background:var(--danger-soft);
+    color:var(--danger);
+    font-weight:800;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    max-width:1500px;
+    margin:auto;
+    padding:20px 16px 50px;
+}
+
+.hero{
+    position:relative;
+    overflow:hidden;
+    padding:22px;
+    margin-bottom:18px;
+    color:#fff;
+    border-radius:24px;
+    background:linear-gradient(135deg,#0b63d8,#06469c);
+    box-shadow:0 18px 35px rgba(11,99,216,.18);
+}
+
+.hero:after{
+    content:"";
+    position:absolute;
+    width:230px;
+    height:230px;
+    border-radius:50%;
+    left:-90px;
+    top:-120px;
+    background:rgba(255,255,255,.08);
+}
+
+.hero h2{
+    position:relative;
+    z-index:2;
+    font-size:22px;
+}
+
+.hero p{
+    position:relative;
+    z-index:2;
+    margin-top:8px;
+    font-size:13px;
+    opacity:.9;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.stat{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:17px;
+    padding:15px;
+    box-shadow:0 5px 18px rgba(16,24,40,.04);
+}
+
+.stat span{
+    color:var(--muted);
+    font-size:11px;
+    font-weight:800;
+}
+
+.stat strong{
+    display:block;
+    margin-top:7px;
+    font-size:25px;
+}
+
+/* ================= NAV ================= */
+
+.tabs{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    scrollbar-width:none;
+    margin-bottom:16px;
+    padding-bottom:5px;
+}
+
+.tabs::-webkit-scrollbar{display:none}
+
+.tab{
+    flex:0 0 auto;
+    min-height:44px;
+    padding:0 17px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:#fff;
+    color:var(--muted);
+    font-size:12px;
+    font-weight:900;
+}
+
+.tab.active{
+    background:var(--primary);
+    border-color:var(--primary);
+    color:#fff;
+}
+
+/* ================= SECTION ================= */
+
+.section{display:none}
+.section.active{display:block;animation:fade .25s ease}
+
+.panel{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+}
+
+.panel+.panel{margin-top:15px}
+
+.panel-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    padding:17px 19px;
+    border-bottom:1px solid var(--border);
+}
+
+.panel-head h3{
+    font-size:16px;
+}
+
+.panel-head p{
+    margin-top:4px;
+    color:var(--muted);
+    font-size:11px;
+}
+
+.panel-body{
+    padding:18px;
+}
+
+/* ================= FORM ================= */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.field.full{grid-column:1/-1}
+
+.field label{
+    font-size:12px;
+    font-weight:900;
+    color:#344054;
+}
+
+.field input,
+.field select,
+.field textarea{
+    width:100%;
+    border:1.5px solid var(--border);
+    border-radius:12px;
+    background:#fff;
+    color:var(--text);
+    outline:none;
+    transition:.2s;
+}
+
+.field input,
+.field select{
+    height:49px;
+    padding:0 13px;
+}
+
+.field textarea{
+    min-height:95px;
+    padding:12px;
+    resize:vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 4px rgba(11,99,216,.07);
+}
+
+/* ================= BUTTON ================= */
+
+.btn{
+    min-height:43px;
+    border:0;
+    border-radius:11px;
+    padding:0 14px;
+    font-size:12px;
+    font-weight:900;
+}
+
+.btn-primary{background:var(--primary);color:#fff}
+.btn-success{background:var(--success);color:#fff}
+.btn-danger{background:var(--danger-soft);color:var(--danger)}
+.btn-warning{background:var(--warning-soft);color:var(--warning)}
+.btn-soft{background:var(--primary-soft);color:var(--primary)}
+.btn-purple{background:var(--purple-soft);color:var(--purple)}
+
+.actions{
+    grid-column:1/-1;
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:3px;
+}
+
+/* ================= CHECKBOXES ================= */
+
+.check-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+}
+
+.check-item{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    min-height:42px;
+    padding:8px 10px;
+    border:1px solid var(--border);
+    border-radius:11px;
+    font-size:12px;
+}
+
+.check-item input{
+    width:17px;
+    height:17px;
+}
+
+/* ================= TABLE ================= */
+
+.toolbar{
+    display:grid;
+    grid-template-columns:1fr 190px 190px;
+    gap:9px;
+    margin-bottom:13px;
+}
+
+.toolbar input,
+.toolbar select{
+    width:100%;
+    height:45px;
+    border:1.5px solid var(--border);
+    border-radius:11px;
+    padding:0 12px;
+    background:#fff;
+    outline:none;
+}
+
+.table-wrap{
+    overflow:auto;
+    border:1px solid var(--border);
+    border-radius:14px;
+}
+
+table{
+    width:100%;
+    min-width:900px;
+    border-collapse:collapse;
+}
+
+th{
+    background:#f8fafc;
+    color:#475467;
+    font-size:11px;
+    padding:12px;
+    text-align:right;
+    white-space:nowrap;
+    border-bottom:1px solid var(--border);
+}
+
+td{
+    padding:12px;
+    font-size:12px;
+    border-bottom:1px solid #f0f2f5;
+    vertical-align:middle;
+}
+
+tr:last-child td{border-bottom:0}
+
+.code{
+    direction:ltr;
+    display:inline-block;
+    color:var(--primary);
+    font-weight:900;
+    letter-spacing:.5px;
+}
+
+.row-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+}
+
+.mini{
+    min-height:32px;
+    border:0;
+    border-radius:8px;
+    padding:0 9px;
+    font-size:10px;
+    font-weight:900;
+}
+
+/* ================= BADGES ================= */
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:25px;
+    border-radius:20px;
+    padding:0 9px;
+    font-size:10px;
+    font-weight:900;
+}
+
+.b-blue{background:var(--primary-soft);color:var(--primary)}
+.b-green{background:var(--success-soft);color:var(--success)}
+.b-red{background:var(--danger-soft);color:var(--danger)}
+.b-orange{background:var(--warning-soft);color:var(--warning)}
+.b-purple{background:var(--purple-soft);color:var(--purple)}
+
+/* ================= CARDS ================= */
+
+.list-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.info-card{
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:14px;
+}
+
+.info-card h4{
+    font-size:14px;
+}
+
+.info-card p{
+    margin-top:6px;
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.7;
+}
+
+/* ================= CODE BOX ================= */
+
+.code-box{
+    border:1px dashed #9fc7f7;
+    background:var(--primary-soft);
+    border-radius:14px;
+    padding:14px;
+    text-align:center;
+}
+
+.code-box small{
+    color:var(--muted);
+}
+
+.code-box strong{
+    display:block;
+    direction:ltr;
+    margin:7px 0 11px;
+    font-size:22px;
+    color:var(--primary);
+    letter-spacing:1.5px;
+}
+
+/* ================= MESSAGE ================= */
+
+.message{
+    display:none;
+    padding:11px 13px;
+    border-radius:11px;
+    margin-bottom:13px;
+    font-size:12px;
+    font-weight:800;
+}
+
+.message.show{display:block}
+.message.success{background:var(--success-soft);color:#067647}
+.message.error{background:var(--danger-soft);color:#b42318}
+
+/* ================= MODAL ================= */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    align-items:center;
+    justify-content:center;
+    background:rgba(16,24,40,.45);
+    backdrop-filter:blur(4px);
+    padding:15px;
+}
+
+.modal.show{display:flex}
+
+.modal-card{
+    width:min(520px,100%);
+    max-height:90vh;
+    overflow:auto;
+    background:#fff;
+    border-radius:19px;
+    padding:20px;
+    box-shadow:0 25px 70px rgba(0,0,0,.2);
+}
+
+.modal-card h3{
+    font-size:17px;
+}
+
+.modal-card p{
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.8;
+    margin-top:8px;
+}
+
+.modal-actions{
+    display:flex;
+    gap:8px;
+    margin-top:17px;
+}
+
+.modal-actions .btn{flex:1}
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    transform:translate(-50%,30px);
+    z-index:10000;
+    max-width:calc(100% - 25px);
+    min-width:220px;
+    padding:12px 16px;
+    border-radius:11px;
+    background:#101828;
+    color:#fff;
+    text-align:center;
+    font-size:12px;
+    font-weight:800;
+    opacity:0;
+    visibility:hidden;
+    transition:.25s;
+}
+
+.toast.show{
+    opacity:1;
+    visibility:visible;
+    transform:translate(-50%,0);
+}
+
+/* ================= LOADING ================= */
+
+.loading{
+    position:fixed;
+    inset:0;
+    z-index:20000;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.spinner{
+    width:44px;
+    height:44px;
+    border:4px solid #e7edf5;
+    border-top-color:var(--primary);
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:1000px){
+    .stats{grid-template-columns:repeat(3,1fr)}
+    .check-grid{grid-template-columns:repeat(3,1fr)}
+    .list-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:700px){
+    .main{padding:14px 10px 40px}
+    .header-inner{padding:8px 11px}
+    .brand h1{font-size:13px}
+    .brand p{font-size:9px}
+    .brand img{width:40px;height:40px}
+    .logout{font-size:10px;padding:0 10px}
+    .hero{padding:18px;border-radius:18px}
+    .hero h2{font-size:18px}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .grid{grid-template-columns:1fr}
+    .field.full,.actions{grid-column:auto}
+    .toolbar{grid-template-columns:1fr}
+    .check-grid{grid-template-columns:repeat(2,1fr)}
+    .list-grid{grid-template-columns:1fr}
+    .actions{flex-direction:column}
+    .actions .btn{width:100%}
+}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fade{
+    from{opacity:0;transform:translateY(4px)}
+    to{opacity:1;transform:none}
+}
+</style>
 </head>
-
 
 <body>
 
+<div id="loading" class="loading"><div class="spinner"></div></div>
 
-<!-- =========================================================
-     LOADER
-========================================================= -->
-
-<div
-    id="pageLoader"
-    class="page-loader"
->
-
-    <div class="page-loader-box">
-
-        <div class="loader-circle"></div>
-
-        <p>
-            جاري تحميل لوحة الإدارة
-        </p>
-
+<header class="header">
+<div class="header-inner">
+    <div class="brand">
+        <img src="images/logo.png" alt="الشعار">
+        <div>
+            <h1>مدرسة التحدي الأهلية المختلطة</h1>
+            <p>قسم الحوكمة - لوحة الإدارة</p>
+        </div>
     </div>
-
+    <button class="logout" onclick="logout()">تسجيل الخروج</button>
 </div>
-
-
-
-<!-- =========================================================
-     HEADER
-========================================================= -->
-
-<header class="top-header">
-
-    <div class="top-header-inner">
-
-        <div class="brand">
-
-            <img
-                src="images/logo.png"
-                class="brand-logo"
-                alt="الشعار"
-            >
-
-            <div class="brand-title">
-
-                <h1>
-                    مدرسة التحدي الأهلية المختلطة
-                </h1>
-
-                <p>
-                    لوحة الإدارة - قسم الحوكمة
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="header-actions">
-
-            <button
-                type="button"
-                class="logout-btn"
-                onclick="logout()"
-            >
-                تسجيل الخروج
-            </button>
-
-        </div>
-
-    </div>
-
 </header>
-
-
-
-<!-- =========================================================
-     MAIN
-========================================================= -->
 
 <main class="main">
 
+<section class="hero">
+    <h2 id="welcome">لوحة الإدارة</h2>
+    <p>إدارة الصفوف والشعب والمواد والطلاب والأساتذة وحسابات الدخول.</p>
+</section>
 
-    <!-- =====================================================
-         WELCOME
-    ====================================================== -->
+<section class="stats">
+    <div class="stat"><span>الطلاب</span><strong id="statStudents">0</strong></div>
+    <div class="stat"><span>الأساتذة</span><strong id="statTeachers">0</strong></div>
+    <div class="stat"><span>الصفوف</span><strong id="statClasses">0</strong></div>
+    <div class="stat"><span>الشعب</span><strong id="statSections">0</strong></div>
+    <div class="stat"><span>المواد</span><strong id="statSubjects">0</strong></div>
+</section>
 
-    <section class="welcome">
+<nav class="tabs">
+    <button class="tab active" data-target="students">الطلاب</button>
+    <button class="tab" data-target="addStudent">إضافة طالب</button>
+    <button class="tab" data-target="teachers">الأساتذة</button>
+    <button class="tab" data-target="addTeacher">إضافة أستاذ</button>
+    <button class="tab" data-target="classes">الصفوف</button>
+    <button class="tab" data-target="sections">الشعب والقاعات</button>
+    <button class="tab" data-target="subjects">المواد</button>
+</nav>
 
-        <h2 id="welcomeName">
-            لوحة الإدارة
-        </h2>
+<!-- ================= STUDENTS ================= -->
 
-        <p>
-            إدارة حسابات الطلاب والأساتذة ومستخدمي نظام الحوكمة
-        </p>
+<section id="students" class="section active">
+<div class="panel">
+    <div class="panel-head">
+        <div>
+            <h3>الطلاب</h3>
+            <p>عرض وفرز وإدارة ملفات الطلاب.</p>
+        </div>
+        <button class="btn btn-soft" onclick="loadAll()">تحديث</button>
+    </div>
 
-    </section>
-
-
-
-    <!-- =====================================================
-         STATS
-    ====================================================== -->
-
-    <section class="stats">
-
-        <div class="stat-card students">
-
-            <div class="stat-label">
-                الطلاب
-            </div>
-
-            <div
-                id="studentsCount"
-                class="stat-number"
-            >
-                0
-            </div>
-
+    <div class="panel-body">
+        <div class="toolbar">
+            <input id="studentSearch" placeholder="بحث بالاسم أو الكود أو الرقم...">
+            <select id="studentClassFilter"><option value="">جميع الصفوف</option></select>
+            <select id="studentGenderFilter">
+                <option value="">الجميع</option>
+                <option value="male">البنين</option>
+                <option value="female">البنات</option>
+            </select>
         </div>
 
-
-        <div class="stat-card teachers">
-
-            <div class="stat-label">
-                الأساتذة
-            </div>
-
-            <div
-                id="teachersCount"
-                class="stat-number"
-            >
-                0
-            </div>
-
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>الكود</th>
+                    <th>اسم الطالب</th>
+                    <th>الجنس</th>
+                    <th>الصف</th>
+                    <th>الشعبة</th>
+                    <th>القاعة</th>
+                    <th>ولي الأمر</th>
+                    <th>الحالة</th>
+                    <th>الإجراءات</th>
+                </tr>
+                </thead>
+                <tbody id="studentsBody"></tbody>
+            </table>
         </div>
+    </div>
+</div>
+</section>
 
+<!-- ================= ADD STUDENT ================= -->
 
-        <div class="stat-card admins">
-
-            <div class="stat-label">
-                الإدارة
-            </div>
-
-            <div
-                id="adminsCount"
-                class="stat-number"
-            >
-                0
-            </div>
-
+<section id="addStudent" class="section">
+<div class="panel">
+    <div class="panel-head">
+        <div>
+            <h3>إضافة طالب جديد</h3>
+            <p>إدخال الملف الكامل للطالب وإنشاء كود دخول.</p>
         </div>
+    </div>
 
+    <div class="panel-body">
 
-        <div class="stat-card attendance">
+        <div id="studentMessage" class="message"></div>
 
-            <div class="stat-label">
-                مشرفو الحضور
+        <form id="studentForm" class="grid">
+
+            <div class="field full">
+                <label>اسم الطالب الرباعي</label>
+                <input id="studentName" required placeholder="الاسم الرباعي">
             </div>
 
-            <div
-                id="attendanceCount"
-                class="stat-number"
-            >
-                0
+            <div class="field">
+                <label>اسم الأم</label>
+                <input id="studentMother" required placeholder="اسم الأم">
             </div>
 
-        </div>
+            <div class="field">
+                <label>تاريخ الميلاد</label>
+                <input id="studentBirth" type="date" required>
+            </div>
 
-    </section>
+            <div class="field">
+                <label>الجنس</label>
+                <select id="studentGender" required>
+                    <option value="">اختر</option>
+                    <option value="male">ذكر</option>
+                    <option value="female">أنثى</option>
+                </select>
+            </div>
 
+            <div class="field">
+                <label>الصف</label>
+                <select id="studentClass" required>
+                    <option value="">اختر الصف</option>
+                </select>
+            </div>
 
+            <div class="field">
+                <label>الشعبة</label>
+                <select id="studentSection" required>
+                    <option value="">اختر الشعبة</option>
+                </select>
+            </div>
 
-    <!-- =====================================================
-         TABS
-    ====================================================== -->
+            <div class="field">
+                <label>رقم ولي الأمر</label>
+                <input id="studentGuardian" type="tel" required placeholder="07XXXXXXXXX">
+            </div>
 
-    <nav class="admin-tabs">
+            <div class="field">
+                <label>رقم خط النقل</label>
+                <input id="studentTransport" placeholder="اختياري">
+            </div>
 
-        <button
-            class="tab-btn active"
-            data-target="usersSection"
-        >
-            المستخدمون
-        </button>
+            <div class="field full">
+                <label>عنوان السكن بالتفصيل</label>
+                <textarea id="studentAddress" required placeholder="المحافظة، القضاء، المنطقة، المحلة، الشارع..."></textarea>
+            </div>
 
-
-        <button
-            class="tab-btn"
-            data-target="studentSection"
-        >
-            إضافة طالب
-        </button>
-
-
-        <button
-            class="tab-btn"
-            data-target="teacherSection"
-        >
-            إضافة أستاذ
-        </button>
-
-    </nav>
-
-
-
-    <!-- =====================================================
-         USERS
-    ====================================================== -->
-
-    <section
-        id="usersSection"
-        class="section active"
-    >
-
-        <div class="panel">
-
-            <div class="panel-header">
-
-                <div>
-
-                    <h3>
-                        حسابات النظام
-                    </h3>
-
-                    <p>
-                        عرض وإدارة الحسابات المسجلة في Firebase
-                    </p>
-
+            <div class="field full">
+                <div class="code-box">
+                    <small>كود الطالب</small>
+                    <strong id="studentCodePreview">لم يتم إنشاء الكود</strong>
+                    <button type="button" class="btn btn-soft" onclick="previewStudentCode()">توليد كود</button>
                 </div>
-
-
-                <button
-                    class="btn btn-soft"
-                    onclick="loadUsers()"
-                >
-                    تحديث
-                </button>
-
             </div>
 
-
-            <div class="panel-body">
-
-
-                <div class="users-toolbar">
-
-                    <input
-                        type="search"
-                        id="usersSearch"
-                        class="search-input"
-                        placeholder="بحث بالاسم أو الكود..."
-                    >
-
-
-                    <select
-                        id="roleFilter"
-                        class="filter-select"
-                    >
-
-                        <option value="">
-                            جميع الحسابات
-                        </option>
-
-                        <option value="student">
-                            الطلاب
-                        </option>
-
-                        <option value="teacher">
-                            الأساتذة
-                        </option>
-
-                        <option value="admin">
-                            الإدارة
-                        </option>
-
-                        <option value="attendance">
-                            مشرف الحضور
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-
-                <div
-                    id="usersTableContainer"
-                    class="table-wrap"
-                >
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    الكود
-                                </th>
-
-                                <th>
-                                    الاسم
-                                </th>
-
-                                <th>
-                                    الحساب
-                                </th>
-
-                                <th>
-                                    التفاصيل
-                                </th>
-
-                                <th>
-                                    الحالة
-                                </th>
-
-                                <th>
-                                    الإجراءات
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody
-                            id="usersTableBody"
-                        ></tbody>
-
-                    </table>
-
-                </div>
-
-
-                <div
-                    id="usersEmpty"
-                    class="empty hidden"
-                >
-                    لا توجد حسابات مطابقة
-                </div>
-
-
+            <div class="actions">
+                <button type="submit" class="btn btn-primary" id="saveStudent">حفظ الطالب</button>
             </div>
 
+        </form>
+    </div>
+</div>
+</section>
+
+<!-- ================= TEACHERS ================= -->
+
+<section id="teachers" class="section">
+<div class="panel">
+    <div class="panel-head">
+        <div>
+            <h3>الأساتذة</h3>
+            <p>عرض الأساتذة والمواد والصفوف المسندة إليهم.</p>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <div class="toolbar">
+            <input id="teacherSearch" placeholder="بحث بالاسم أو الكود أو المادة...">
+            <select id="teacherSubjectFilter"><option value="">جميع المواد</option></select>
+            <select id="teacherStatusFilter">
+                <option value="">الجميع</option>
+                <option value="active">فعال</option>
+                <option value="hidden">مخفي</option>
+            </select>
         </div>
 
-    </section>
-
-
-
-    <!-- =====================================================
-         ADD STUDENT
-    ====================================================== -->
-
-    <section
-        id="studentSection"
-        class="section"
-    >
-
-        <div class="panel">
-
-            <div class="panel-header">
-
-                <div>
-
-                    <h3>
-                        إضافة طالب جديد
-                    </h3>
-
-                    <p>
-                        يتم إنشاء الكود تلقائياً وحفظه في Firebase
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="panel-body">
-
-
-                <div
-                    id="studentMessage"
-                    class="message"
-                ></div>
-
-
-                <form
-                    id="studentForm"
-                    class="form-grid"
-                >
-
-
-                    <div class="field full">
-
-                        <label>
-                            اسم الطالب الثلاثي أو الرباعي
-                        </label>
-
-                        <input
-                            type="text"
-                            id="studentName"
-                            placeholder="اكتب اسم الطالب"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label>
-                            الجنس
-                        </label>
-
-                        <select
-                            id="studentGender"
-                            required
-                        >
-
-                            <option value="">
-                                اختر الجنس
-                            </option>
-
-                            <option value="male">
-                                بنين
-                            </option>
-
-                            <option value="female">
-                                بنات
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label>
-                            الصف
-                        </label>
-
-                        <select
-                            id="studentClass"
-                            required
-                        >
-
-                            <option value="">
-                                اختر الصف
-                            </option>
-
-                            <option value="الأول متوسط">
-                                الأول متوسط
-                            </option>
-
-                            <option value="الثاني متوسط">
-                                الثاني متوسط
-                            </option>
-
-                            <option value="الثالث متوسط">
-                                الثالث متوسط
-                            </option>
-
-                            <option value="الرابع العلمي">
-                                الرابع العلمي
-                            </option>
-
-                            <option value="الخامس العلمي">
-                                الخامس العلمي
-                            </option>
-
-                            <option value="السادس العلمي">
-                                السادس العلمي
-                            </option>
-
-                            <option value="السادس الأدبي">
-                                السادس الأدبي
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label>
-                            الشعبة
-                        </label>
-
-                        <input
-                            type="text"
-                            id="studentSectionName"
-                            placeholder="مثال: أ"
-                        >
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label>
-                            رقم الهاتف
-                        </label>
-
-                        <input
-                            type="tel"
-                            id="studentPhone"
-                            placeholder="اختياري"
-                        >
-
-                    </div>
-
-
-
-                    <div class="field full">
-
-                        <div class="generated-code-box">
-
-                            <div class="generated-code-label">
-                                الكود الخاص بالطالب
-                            </div>
-
-                            <div
-                                id="studentGeneratedCode"
-                                class="generated-code"
-                            >
-                                لم يتم إنشاء الكود
-                            </div>
-
-
-                            <div class="code-tools">
-
-                                <button
-                                    type="button"
-                                    class="btn btn-soft"
-                                    onclick="previewStudentCode()"
-                                >
-                                    توليد كود
-                                </button>
-
-
-                                <button
-                                    type="button"
-                                    class="btn btn-soft"
-                                    onclick="copyCode('studentGeneratedCode')"
-                                >
-                                    نسخ الكود
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <div class="form-actions">
-
-                        <button
-                            type="submit"
-                            id="saveStudentBtn"
-                            class="btn btn-primary"
-                        >
-                            حفظ الطالب وإنشاء الحساب
-                        </button>
-
-                    </div>
-
-
-                </form>
-
-            </div>
-
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>الكود</th>
+                    <th>اسم الأستاذ</th>
+                    <th>المادة</th>
+                    <th>الصفوف</th>
+                    <th>الحالة</th>
+                    <th>الإجراءات</th>
+                </tr>
+                </thead>
+                <tbody id="teachersBody"></tbody>
+            </table>
         </div>
+    </div>
+</div>
+</section>
 
-    </section>
+<!-- ================= ADD TEACHER ================= -->
 
-
-
-    <!-- =====================================================
-         ADD TEACHER
-    ====================================================== -->
-
-    <section
-        id="teacherSection"
-        class="section"
-    >
-
-        <div class="panel">
-
-            <div class="panel-header">
-
-                <div>
-
-                    <h3>
-                        إضافة أستاذ جديد
-                    </h3>
-
-                    <p>
-                        إنشاء حساب أستاذ وكود دخول غير متكرر
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="panel-body">
-
-
-                <div
-                    id="teacherMessage"
-                    class="message"
-                ></div>
-
-
-                <form
-                    id="teacherForm"
-                    class="form-grid"
-                >
-
-
-                    <div class="field full">
-
-                        <label>
-                            اسم الأستاذ
-                        </label>
-
-                        <input
-                            type="text"
-                            id="teacherName"
-                            placeholder="اكتب اسم الأستاذ"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label>
-                            المادة
-                        </label>
-
-                        <input
-                            type="text"
-                            id="teacherSubject"
-                            placeholder="مثال: الرياضيات"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label>
-                            رقم الهاتف
-                        </label>
-
-                        <input
-                            type="tel"
-                            id="teacherPhone"
-                            placeholder="اختياري"
-                        >
-
-                    </div>
-
-
-
-                    <div class="field full">
-
-                        <div class="generated-code-box">
-
-                            <div class="generated-code-label">
-                                الكود الخاص بالأستاذ
-                            </div>
-
-                            <div
-                                id="teacherGeneratedCode"
-                                class="generated-code"
-                            >
-                                لم يتم إنشاء الكود
-                            </div>
-
-
-                            <div class="code-tools">
-
-                                <button
-                                    type="button"
-                                    class="btn btn-soft"
-                                    onclick="previewTeacherCode()"
-                                >
-                                    توليد كود
-                                </button>
-
-
-                                <button
-                                    type="button"
-                                    class="btn btn-soft"
-                                    onclick="copyCode('teacherGeneratedCode')"
-                                >
-                                    نسخ الكود
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <div class="form-actions">
-
-                        <button
-                            type="submit"
-                            id="saveTeacherBtn"
-                            class="btn btn-green"
-                        >
-                            حفظ الأستاذ وإنشاء الحساب
-                        </button>
-
-                    </div>
-
-
-                </form>
-
-            </div>
-
+<section id="addTeacher" class="section">
+<div class="panel">
+    <div class="panel-head">
+        <div>
+            <h3>إضافة أستاذ</h3>
+            <p>اختيار المادة والصفوف التي يدرسها الأستاذ.</p>
         </div>
+    </div>
 
-    </section>
+    <div class="panel-body">
 
+        <div id="teacherMessage" class="message"></div>
+
+        <form id="teacherForm" class="grid">
+
+            <div class="field full">
+                <label>اسم الأستاذ</label>
+                <input id="teacherName" required placeholder="اسم الأستاذ">
+            </div>
+
+            <div class="field">
+                <label>المادة التي يدرسها</label>
+                <select id="teacherSubject" required>
+                    <option value="">اختر المادة</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>رقم الهاتف</label>
+                <input id="teacherPhone" type="tel" placeholder="اختياري">
+            </div>
+
+            <div class="field full">
+                <label>الصفوف التي يدرسها</label>
+                <div id="teacherClasses" class="check-grid"></div>
+            </div>
+
+            <div class="field full">
+                <div class="code-box">
+                    <small>كود الأستاذ</small>
+                    <strong id="teacherCodePreview">لم يتم إنشاء الكود</strong>
+                    <button type="button" class="btn btn-soft" onclick="previewTeacherCode()">توليد كود</button>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit" id="saveTeacher" class="btn btn-success">حفظ الأستاذ</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+</section>
+
+<!-- ================= CLASSES ================= -->
+
+<section id="classes" class="section">
+
+<div class="panel">
+    <div class="panel-head">
+        <div>
+            <h3>إنشاء صف</h3>
+            <p>اسم الصف يكتب من الإدارة ولا توجد أسماء ثابتة داخل النظام.</p>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <form id="classForm" class="grid">
+            <div class="field">
+                <label>اسم الصف</label>
+                <input id="className" required placeholder="مثال: الأول، الثاني، السادس العلمي">
+            </div>
+
+            <div class="field">
+                <label>المرحلة</label>
+                <select id="classStage">
+                    <option value="">غير محدد</option>
+                    <option value="primary">ابتدائي</option>
+                    <option value="secondary">ثانوي</option>
+                </select>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary" type="submit">إنشاء الصف</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-head"><h3>الصفوف الحالية</h3></div>
+    <div class="panel-body">
+        <div id="classesList" class="list-grid"></div>
+    </div>
+</div>
+
+</section>
+
+<!-- ================= SECTIONS ================= -->
+
+<section id="sections" class="section">
+
+<div class="panel">
+    <div class="panel-head">
+        <div>
+            <h3>إنشاء شعبة / قاعة</h3>
+            <p>كل شعبة ترتبط بصف ويحدد لها رقم قاعة من 1 إلى 25.</p>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <form id="sectionForm" class="grid">
+
+            <div class="field">
+                <label>الصف</label>
+                <select id="sectionClass" required>
+                    <option value="">اختر الصف</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>اسم الشعبة</label>
+                <input id="sectionName" required placeholder="مثال: أ">
+            </div>
+
+            <div class="field">
+                <label>رقم القاعة</label>
+                <select id="roomNumber" required></select>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary">إنشاء الشعبة</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-head"><h3>الشعب والقاعات</h3></div>
+    <div class="panel-body">
+        <div id="sectionsList" class="list-grid"></div>
+    </div>
+</div>
+
+</section>
+
+<!-- ================= SUBJECTS ================= -->
+
+<section id="subjects" class="section">
+
+<div class="panel">
+    <div class="panel-head">
+        <div>
+            <h3>المواد الدراسية</h3>
+            <p>إنشاء المواد وتحديد عدد الحصص الأسبوعية.</p>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <form id="subjectForm" class="grid">
+
+            <div class="field">
+                <label>اسم المادة</label>
+                <input id="subjectName" required placeholder="مثال: الرياضيات">
+            </div>
+
+            <div class="field">
+                <label>عدد الحصص الأسبوعية</label>
+                <input id="subjectLessons" type="number" min="0" max="20" value="1" required>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary">إضافة المادة</button>
+                <button type="button" class="btn btn-soft" onclick="addDefaultSubjects()">إضافة المواد الأساسية</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-head"><h3>المواد الحالية</h3></div>
+    <div class="panel-body">
+        <div id="subjectsList" class="list-grid"></div>
+    </div>
+</div>
+
+</section>
 
 </main>
 
+<!-- ================= CONFIRM ================= -->
 
+<div id="confirmModal" class="modal">
+<div class="modal-card">
+    <h3 id="confirmTitle">تأكيد</h3>
+    <p id="confirmText"></p>
 
-<!-- =========================================================
-     CONFIRM MODAL
-========================================================= -->
-
-<div
-    id="confirmModal"
-    class="modal"
->
-
-    <div class="modal-card">
-
-        <h3 id="confirmTitle">
-            تأكيد
-        </h3>
-
-        <p id="confirmText"></p>
-
-
-        <div class="modal-actions">
-
-            <button
-                id="confirmCancel"
-                class="btn btn-soft"
-            >
-                إلغاء
-            </button>
-
-
-            <button
-                id="confirmAccept"
-                class="btn btn-red"
-            >
-                تأكيد
-            </button>
-
-        </div>
-
+    <div class="modal-actions">
+        <button class="btn btn-soft" onclick="closeConfirm()">إلغاء</button>
+        <button id="confirmYes" class="btn btn-danger">تأكيد</button>
     </div>
-
+</div>
 </div>
 
-
-
-<!-- =========================================================
-     TOAST
-========================================================= -->
-
-<div
-    id="toast"
-    class="toast"
-></div>
-
-
+<div id="toast" class="toast"></div>
 
 <script>
+/* ============================================================
+   CONFIG
+============================================================ */
 
+const DB = "https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
 
-/* =========================================================
-   DATABASE
-========================================================= */
+const PATHS = {
+    users:"users",
+    students:"students",
+    teachers:"teachers",
+    classes:"classes",
+    sections:"sections",
+    subjects:"subjects"
+};
 
-const DATABASE_URL =
-    "https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
+let DATA = {
+    users:{},
+    students:{},
+    teachers:{},
+    classes:{},
+    sections:{},
+    subjects:{}
+};
 
+let studentGeneratedCode = "";
+let teacherGeneratedCode = "";
+let confirmHandler = null;
 
-const USERS_PATH =
-    "users";
+/* ============================================================
+   HELPERS
+============================================================ */
 
+const $ = id => document.getElementById(id);
 
-
-/* =========================================================
-   STATE
-========================================================= */
-
-let allUsers = {};
-
-let studentPreviewCode = "";
-
-let teacherPreviewCode = "";
-
-let confirmCallback = null;
-
-
-
-/* =========================================================
-   SESSION
-========================================================= */
-
-function checkAdminSession() {
-
-
-    let session = null;
-
-
-    try {
-
-        session =
-            JSON.parse(
-                sessionStorage.getItem(
-                    "tahadi_session"
-                )
-            );
-
-    }
-
-    catch (error) {
-
-        session = null;
-
-    }
-
-
-    if (
-        !session ||
-        !session.code
-    ) {
-
-        window.location.replace(
-            "index.html"
-        );
-
-        return false;
-
-    }
-
-
-    const role =
-        String(
-            session.role || ""
-        )
-        .trim()
-        .toLowerCase();
-
-
-    if (
-        role !== "admin" &&
-        role !== "administrator" &&
-        role !== "add"
-    ) {
-
-        window.location.replace(
-            "index.html"
-        );
-
-        return false;
-
-    }
-
-
-    if (session.name) {
-
-        document.getElementById(
-            "welcomeName"
-        ).textContent =
-            "مرحباً، " + session.name;
-
-    }
-
-
-    return true;
-
+function id(){
+    return Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 }
 
-
-
-/* =========================================================
-   FIREBASE REST
-========================================================= */
-
-async function firebaseGet(path) {
-
-
-    const response =
-        await fetch(
-
-            `${DATABASE_URL}/${path}.json`,
-
-            {
-                method: "GET",
-
-                cache: "no-store"
-            }
-
-        );
-
-
-    if (!response.ok) {
-
-        throw new Error(
-            "FIREBASE_GET_ERROR"
-        );
-
-    }
-
-
-    return await response.json();
-
+function safe(v){
+    return String(v ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
-
-
-async function firebasePut(
-    path,
-    data
-) {
-
-
-    const response =
-        await fetch(
-
-            `${DATABASE_URL}/${path}.json`,
-
-            {
-                method: "PUT",
-
-                headers: {
-
-                    "Content-Type":
-                        "application/json"
-
-                },
-
-                body:
-                    JSON.stringify(
-                        data
-                    )
-
-            }
-
-        );
-
-
-    if (!response.ok) {
-
-        throw new Error(
-            "FIREBASE_PUT_ERROR"
-        );
-
-    }
-
-
-    return await response.json();
-
+function normalize(v){
+    return String(v || "").trim().toLowerCase();
 }
 
-
-
-async function firebasePatch(
-    path,
-    data
-) {
-
-
-    const response =
-        await fetch(
-
-            `${DATABASE_URL}/${path}.json`,
-
-            {
-                method: "PATCH",
-
-                headers: {
-
-                    "Content-Type":
-                        "application/json"
-
-                },
-
-                body:
-                    JSON.stringify(
-                        data
-                    )
-
-            }
-
-        );
-
-
-    if (!response.ok) {
-
-        throw new Error(
-            "FIREBASE_PATCH_ERROR"
-        );
-
-    }
-
-
-    return await response.json();
-
-}
-
-
-
-async function firebaseDelete(path) {
-
-
-    const response =
-        await fetch(
-
-            `${DATABASE_URL}/${path}.json`,
-
-            {
-                method:
-                    "DELETE"
-            }
-
-        );
-
-
-    if (!response.ok) {
-
-        throw new Error(
-            "FIREBASE_DELETE_ERROR"
-        );
-
-    }
-
-
-    return true;
-
-}
-
-
-
-/* =========================================================
-   TABS
-========================================================= */
-
-document
-.querySelectorAll(
-    ".tab-btn"
-)
-.forEach(button => {
-
-
-    button.addEventListener(
-        "click",
-        function() {
-
-
-            document
-            .querySelectorAll(
-                ".tab-btn"
-            )
-            .forEach(btn =>
-                btn.classList.remove(
-                    "active"
-                )
-            );
-
-
-            document
-            .querySelectorAll(
-                ".section"
-            )
-            .forEach(section =>
-                section.classList.remove(
-                    "active"
-                )
-            );
-
-
-            this.classList.add(
-                "active"
-            );
-
-
-            const target =
-                this.dataset.target;
-
-
-            document
-            .getElementById(
-                target
-            )
-            .classList.add(
-                "active"
-            );
-
-
-        }
-    );
-
-
-});
-
-
-
-/* =========================================================
-   RANDOM
-========================================================= */
-
-function randomDigit() {
-
-    return Math.floor(
-        Math.random() * 10
-    ).toString();
-
-}
-
-
-
-function randomLetter() {
-
-    const letters =
-        "ABCDEFGHJKLMNPQRSTUVWXYZ";
-
-
-    return letters[
-        Math.floor(
-            Math.random() *
-            letters.length
-        )
-    ];
-
-}
-
-
-
-/* =========================================================
-   STUDENT CODE
-========================================================= */
-
-function generateStudentCode(
-    gender
-) {
-
-
-    const genderLetter =
-        gender === "female"
-        ? "G"
-        : "B";
-
-
-    const digits = [
-
-        randomDigit(),
-        randomDigit(),
-        randomDigit(),
-        randomDigit(),
-        randomDigit()
-
-    ];
-
-
-    /*
-       وضع B أو G بين الأرقام
-       وليس في البداية أو النهاية.
-    */
-
-    const position =
-        Math.floor(
-            Math.random() * 4
-        ) + 1;
-
-
-    digits.splice(
-        position,
-        0,
-        genderLetter
-    );
-
-
-    return (
-        "ST" +
-        digits.join("")
-    );
-
-}
-
-
-
-/* =========================================================
-   TEACHER CODE
-========================================================= */
-
-function generateTeacherCode() {
-
-
-    let numbers = "";
-
-
-    for (
-        let i = 0;
-        i < 7;
-        i++
-    ) {
-
-        numbers +=
-            randomDigit();
-
-    }
-
-
-    return (
-        "TH" +
-        numbers +
-        randomLetter()
-    );
-
-}
-
-
-
-/* =========================================================
-   CHECK CODE
-========================================================= */
-
-async function codeExists(code) {
-
-
-    const data =
-        await firebaseGet(
-
-            `${USERS_PATH}/${code}`
-
-        );
-
-
-    return data !== null;
-
-}
-
-
-
-/* =========================================================
-   UNIQUE STUDENT CODE
-========================================================= */
-
-async function createUniqueStudentCode(
-    gender
-) {
-
-
-    for (
-        let i = 0;
-        i < 30;
-        i++
-    ) {
-
-
-        const code =
-            generateStudentCode(
-                gender
-            );
-
-
-        const exists =
-            await codeExists(
-                code
-            );
-
-
-        if (!exists) {
-
-            return code;
-
-        }
-
-
-    }
-
-
-    throw new Error(
-        "STUDENT_CODE_FAILED"
-    );
-
-}
-
-
-
-/* =========================================================
-   UNIQUE TEACHER CODE
-========================================================= */
-
-async function createUniqueTeacherCode() {
-
-
-    for (
-        let i = 0;
-        i < 30;
-        i++
-    ) {
-
-
-        const code =
-            generateTeacherCode();
-
-
-        const exists =
-            await codeExists(
-                code
-            );
-
-
-        if (!exists) {
-
-            return code;
-
-        }
-
-
-    }
-
-
-    throw new Error(
-        "TEACHER_CODE_FAILED"
-    );
-
-}
-
-
-
-/* =========================================================
-   STUDENT PREVIEW
-========================================================= */
-
-async function previewStudentCode() {
-
-
-    const gender =
-        document.getElementById(
-            "studentGender"
-        ).value;
-
-
-    if (!gender) {
-
-        toastMessage(
-            "اختر جنس الطالب أولاً"
-        );
-
-        return;
-
-    }
-
-
-    const box =
-        document.getElementById(
-            "studentGeneratedCode"
-        );
-
-
-    box.textContent =
-        "جاري إنشاء الكود...";
-
-
-    try {
-
-
-        studentPreviewCode =
-            await createUniqueStudentCode(
-                gender
-            );
-
-
-        box.textContent =
-            studentPreviewCode;
-
-
-    }
-
-    catch (error) {
-
-
-        box.textContent =
-            "تعذر إنشاء الكود";
-
-
-        toastMessage(
-            "حدث خطأ أثناء إنشاء الكود"
-        );
-
-
-    }
-
-}
-
-
-
-/* =========================================================
-   TEACHER PREVIEW
-========================================================= */
-
-async function previewTeacherCode() {
-
-
-    const box =
-        document.getElementById(
-            "teacherGeneratedCode"
-        );
-
-
-    box.textContent =
-        "جاري إنشاء الكود...";
-
-
-    try {
-
-
-        teacherPreviewCode =
-            await createUniqueTeacherCode();
-
-
-        box.textContent =
-            teacherPreviewCode;
-
-
-    }
-
-    catch (error) {
-
-
-        box.textContent =
-            "تعذر إنشاء الكود";
-
-
-        toastMessage(
-            "حدث خطأ أثناء إنشاء الكود"
-        );
-
-
-    }
-
-}
-
-
-
-/* =========================================================
-   STUDENT GENDER CHANGE
-========================================================= */
-
-document
-.getElementById(
-    "studentGender"
-)
-.addEventListener(
-    "change",
-    function() {
-
-
-        studentPreviewCode = "";
-
-
-        document.getElementById(
-            "studentGeneratedCode"
-        ).textContent =
-            "لم يتم إنشاء الكود";
-
-
-    }
-);
-
-
-
-/* =========================================================
-   ADD STUDENT
-========================================================= */
-
-document
-.getElementById(
-    "studentForm"
-)
-.addEventListener(
-    "submit",
-    async function(event) {
-
-
-        event.preventDefault();
-
-
-        hideFormMessage(
-            "studentMessage"
-        );
-
-
-        const name =
-            document.getElementById(
-                "studentName"
-            ).value.trim();
-
-
-        const gender =
-            document.getElementById(
-                "studentGender"
-            ).value;
-
-
-        const className =
-            document.getElementById(
-                "studentClass"
-            ).value;
-
-
-        const section =
-            document.getElementById(
-                "studentSectionName"
-            ).value.trim();
-
-
-        const phone =
-            document.getElementById(
-                "studentPhone"
-            ).value.trim();
-
-
-        if (
-            !name ||
-            !gender ||
-            !className
-        ) {
-
-            showFormMessage(
-                "studentMessage",
-                "يرجى إكمال البيانات المطلوبة",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        const button =
-            document.getElementById(
-                "saveStudentBtn"
-            );
-
-
-        button.disabled =
-            true;
-
-
-        button.textContent =
-            "جاري الحفظ...";
-
-
-        try {
-
-
-            let code =
-                studentPreviewCode;
-
-
-            if (!code) {
-
-                code =
-                    await createUniqueStudentCode(
-                        gender
-                    );
-
-            }
-
-
-            /*
-               فحص نهائي قبل الحفظ
-            */
-
-            if (
-                await codeExists(
-                    code
-                )
-            ) {
-
-                code =
-                    await createUniqueStudentCode(
-                        gender
-                    );
-
-            }
-
-
-            const student = {
-
-                code:
-                    code,
-
-                name:
-                    name,
-
-                role:
-                    "student",
-
-                gender:
-                    gender,
-
-                className:
-                    className,
-
-                section:
-                    section,
-
-                phone:
-                    phone,
-
-                active:
-                    true,
-
-                createdAt:
-                    Date.now(),
-
-                createdBy:
-                    getAdminCode()
-
-            };
-
-
-            await firebasePut(
-
-                `${USERS_PATH}/${code}`,
-
-                student
-
-            );
-
-
-            showFormMessage(
-
-                "studentMessage",
-
-                `تم إنشاء حساب الطالب بنجاح. الكود: ${code}`,
-
-                "success"
-
-            );
-
-
-            studentPreviewCode =
-                code;
-
-
-            document.getElementById(
-                "studentGeneratedCode"
-            ).textContent =
-                code;
-
-
-            await loadUsers();
-
-
-            /*
-              نفرغ الحقول مع إبقاء
-              الكود ظاهراً حتى يتم نسخه
-            */
-
-            document.getElementById(
-                "studentName"
-            ).value = "";
-
-
-            document.getElementById(
-                "studentPhone"
-            ).value = "";
-
-
-            document.getElementById(
-                "studentSectionName"
-            ).value = "";
-
-
-        }
-
-        catch (error) {
-
-
-            console.error(error);
-
-
-            showFormMessage(
-
-                "studentMessage",
-
-                "تعذر حفظ الطالب. تأكد من اتصال Firebase وصلاحيات قاعدة البيانات.",
-
-                "error"
-
-            );
-
-
-        }
-
-        finally {
-
-
-            button.disabled =
-                false;
-
-
-            button.textContent =
-                "حفظ الطالب وإنشاء الحساب";
-
-
-        }
-
-
-    }
-);
-
-
-
-/* =========================================================
-   ADD TEACHER
-========================================================= */
-
-document
-.getElementById(
-    "teacherForm"
-)
-.addEventListener(
-    "submit",
-    async function(event) {
-
-
-        event.preventDefault();
-
-
-        hideFormMessage(
-            "teacherMessage"
-        );
-
-
-        const name =
-            document.getElementById(
-                "teacherName"
-            ).value.trim();
-
-
-        const subject =
-            document.getElementById(
-                "teacherSubject"
-            ).value.trim();
-
-
-        const phone =
-            document.getElementById(
-                "teacherPhone"
-            ).value.trim();
-
-
-        if (
-            !name ||
-            !subject
-        ) {
-
-            showFormMessage(
-
-                "teacherMessage",
-
-                "يرجى إدخال اسم الأستاذ والمادة",
-
-                "error"
-
-            );
-
-            return;
-
-        }
-
-
-        const button =
-            document.getElementById(
-                "saveTeacherBtn"
-            );
-
-
-        button.disabled =
-            true;
-
-
-        button.textContent =
-            "جاري الحفظ...";
-
-
-        try {
-
-
-            let code =
-                teacherPreviewCode;
-
-
-            if (!code) {
-
-                code =
-                    await createUniqueTeacherCode();
-
-            }
-
-
-            if (
-                await codeExists(
-                    code
-                )
-            ) {
-
-                code =
-                    await createUniqueTeacherCode();
-
-            }
-
-
-            const teacher = {
-
-                code:
-                    code,
-
-                name:
-                    name,
-
-                role:
-                    "teacher",
-
-                subject:
-                    subject,
-
-                phone:
-                    phone,
-
-                active:
-                    true,
-
-                createdAt:
-                    Date.now(),
-
-                createdBy:
-                    getAdminCode()
-
-            };
-
-
-            await firebasePut(
-
-                `${USERS_PATH}/${code}`,
-
-                teacher
-
-            );
-
-
-            teacherPreviewCode =
-                code;
-
-
-            document.getElementById(
-                "teacherGeneratedCode"
-            ).textContent =
-                code;
-
-
-            showFormMessage(
-
-                "teacherMessage",
-
-                `تم إنشاء حساب الأستاذ بنجاح. الكود: ${code}`,
-
-                "success"
-
-            );
-
-
-            document.getElementById(
-                "teacherName"
-            ).value = "";
-
-
-            document.getElementById(
-                "teacherSubject"
-            ).value = "";
-
-
-            document.getElementById(
-                "teacherPhone"
-            ).value = "";
-
-
-            await loadUsers();
-
-
-        }
-
-        catch (error) {
-
-
-            console.error(error);
-
-
-            showFormMessage(
-
-                "teacherMessage",
-
-                "تعذر حفظ الأستاذ. تأكد من Firebase وقواعد القراءة والكتابة.",
-
-                "error"
-
-            );
-
-
-        }
-
-        finally {
-
-
-            button.disabled =
-                false;
-
-
-            button.textContent =
-                "حفظ الأستاذ وإنشاء الحساب";
-
-
-        }
-
-
-    }
-);
-
-
-
-/* =========================================================
-   ADMIN CODE
-========================================================= */
-
-function getAdminCode() {
-
-
-    try {
-
-
-        const session =
-            JSON.parse(
-                sessionStorage.getItem(
-                    "tahadi_session"
-                )
-            );
-
-
-        return (
-            session &&
-            session.code
-        )
-        ? session.code
-        : "";
-
-
-    }
-
-    catch (error) {
-
+function adminCode(){
+    try{
+        return JSON.parse(sessionStorage.getItem("tahadi_session") || "{}").code || "";
+    }catch{
         return "";
-
     }
-
 }
 
-
-
-/* =========================================================
-   LOAD USERS
-========================================================= */
-
-async function loadUsers() {
-
-
-    try {
-
-
-        const data =
-            await firebaseGet(
-                USERS_PATH
-            );
-
-
-        allUsers =
-            data || {};
-
-
-        updateStats();
-
-
-        renderUsers();
-
-
-    }
-
-    catch (error) {
-
-
-        console.error(
-            error
-        );
-
-
-        allUsers = {};
-
-
-        renderUsers();
-
-
-        toastMessage(
-            "تعذر قراءة بيانات Firebase"
-        );
-
-
-    }
-
+function toast(text){
+    const el=$("toast");
+    el.textContent=text;
+    el.classList.add("show");
+    clearTimeout(el._timer);
+    el._timer=setTimeout(()=>el.classList.remove("show"),2200);
 }
 
+function message(id,text,type="error"){
+    const el=$(id);
+    el.textContent=text;
+    el.className=`message show ${type}`;
+}
 
+function clearMessage(id){
+    const el=$(id);
+    el.textContent="";
+    el.className="message";
+}
 
-/* =========================================================
-   STATS
-========================================================= */
+function copy(text){
+    navigator.clipboard?.writeText(text)
+        .then(()=>toast("تم نسخ الكود"))
+        .catch(()=>{
+            const x=document.createElement("textarea");
+            x.value=text;
+            document.body.appendChild(x);
+            x.select();
+            document.execCommand("copy");
+            x.remove();
+            toast("تم نسخ الكود");
+        });
+}
 
-function updateStats() {
+/* ============================================================
+   SESSION
+============================================================ */
 
+function verifyAdmin(){
+    let s={};
 
-    let students = 0;
-    let teachers = 0;
-    let admins = 0;
-    let attendance = 0;
+    try{
+        s=JSON.parse(sessionStorage.getItem("tahadi_session") || "{}");
+    }catch{}
 
+    if(!s.code){
+        location.replace("index.html");
+        return false;
+    }
 
-    Object
-    .values(
-        allUsers
-    )
-    .forEach(user => {
+    const r=normalize(s.role);
 
+    if(!["admin","administrator","add"].includes(r)){
+        location.replace("index.html");
+        return false;
+    }
 
-        const role =
-            String(
-                user.role || ""
-            )
-            .toLowerCase();
+    if(s.name){
+        $("welcome").textContent=`مرحباً، ${s.name}`;
+    }
 
+    return true;
+}
 
-        if (
-            role === "student" ||
-            role === "st"
-        ) {
+function logout(){
+    sessionStorage.clear();
+    location.replace("index.html");
+}
 
-            students++;
+/* ============================================================
+   FIREBASE REST
+============================================================ */
 
-        }
-
-        else if (
-            role === "teacher" ||
-            role === "th"
-        ) {
-
-            teachers++;
-
-        }
-
-        else if (
-            role === "admin" ||
-            role === "administrator" ||
-            role === "add"
-        ) {
-
-            admins++;
-
-        }
-
-        else if (
-            role === "attendance" ||
-            role === "msh" ||
-            role === "supervisor"
-        ) {
-
-            attendance++;
-
-        }
-
-
+async function request(path,method="GET",body){
+    const response=await fetch(`${DB}/${path}.json`,{
+        method,
+        cache:"no-store",
+        headers:body?{"Content-Type":"application/json"}:undefined,
+        body:body?JSON.stringify(body):undefined
     });
 
-
-    document.getElementById(
-        "studentsCount"
-    ).textContent =
-        students;
-
-
-    document.getElementById(
-        "teachersCount"
-    ).textContent =
-        teachers;
-
-
-    document.getElementById(
-        "adminsCount"
-    ).textContent =
-        admins;
-
-
-    document.getElementById(
-        "attendanceCount"
-    ).textContent =
-        attendance;
-
-}
-
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-document
-.getElementById(
-    "usersSearch"
-)
-.addEventListener(
-    "input",
-    renderUsers
-);
-
-
-document
-.getElementById(
-    "roleFilter"
-)
-.addEventListener(
-    "change",
-    renderUsers
-);
-
-
-
-/* =========================================================
-   RENDER USERS
-========================================================= */
-
-function renderUsers() {
-
-
-    const tbody =
-        document.getElementById(
-            "usersTableBody"
-        );
-
-
-    const empty =
-        document.getElementById(
-            "usersEmpty"
-        );
-
-
-    const search =
-        document.getElementById(
-            "usersSearch"
-        ).value
-        .trim()
-        .toLowerCase();
-
-
-    const filter =
-        document.getElementById(
-            "roleFilter"
-        ).value;
-
-
-    let entries =
-        Object.entries(
-            allUsers
-        );
-
-
-    entries =
-        entries.filter(
-            ([code, user]) => {
-
-
-                const role =
-                    normalizeRole(
-                        user.role
-                    );
-
-
-                if (
-                    filter &&
-                    role !== filter
-                ) {
-
-                    return false;
-
-                }
-
-
-                if (search) {
-
-
-                    const text =
-                        `${code} ${user.name || ""} ${user.subject || ""} ${user.className || ""}`
-                        .toLowerCase();
-
-
-                    if (
-                        !text.includes(
-                            search
-                        )
-                    ) {
-
-                        return false;
-
-                    }
-
-
-                }
-
-
-                return true;
-
-
-            }
-        );
-
-
-    /*
-       الترتيب حسب الاسم
-    */
-
-    entries.sort(
-        (a, b) => {
-
-
-            const nameA =
-                String(
-                    a[1].name || ""
-                );
-
-
-            const nameB =
-                String(
-                    b[1].name || ""
-                );
-
-
-            return nameA.localeCompare(
-                nameB,
-                "ar"
-            );
-
-
-        }
-    );
-
-
-    tbody.innerHTML = "";
-
-
-    if (!entries.length) {
-
-
-        document.getElementById(
-            "usersTableContainer"
-        ).classList.add(
-            "hidden"
-        );
-
-
-        empty.classList.remove(
-            "hidden"
-        );
-
-
-        return;
-
+    if(!response.ok){
+        throw new Error(`${method}_${path}`);
     }
 
+    if(method==="DELETE") return true;
 
-    document.getElementById(
-        "usersTableContainer"
-    ).classList.remove(
-        "hidden"
+    return response.json();
+}
+
+const dbGet = path => request(path);
+const dbPut = (path,data) => request(path,"PUT",data);
+const dbPatch = (path,data) => request(path,"PATCH",data);
+const dbDelete = path => request(path,"DELETE");
+
+/* ============================================================
+   TABS
+============================================================ */
+
+document.querySelectorAll(".tab").forEach(btn=>{
+    btn.onclick=()=>{
+        document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+        document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));
+
+        btn.classList.add("active");
+        $(btn.dataset.target).classList.add("active");
+    };
+});
+
+/* ============================================================
+   LOAD
+============================================================ */
+
+async function loadAll(){
+    try{
+        const [users,students,teachers,classes,sections,subjects] =
+            await Promise.all([
+                dbGet(PATHS.users),
+                dbGet(PATHS.students),
+                dbGet(PATHS.teachers),
+                dbGet(PATHS.classes),
+                dbGet(PATHS.sections),
+                dbGet(PATHS.subjects)
+            ]);
+
+        DATA={
+            users:users||{},
+            students:students||{},
+            teachers:teachers||{},
+            classes:classes||{},
+            sections:sections||{},
+            subjects:subjects||{}
+        };
+
+        renderAll();
+
+    }catch(e){
+        console.error(e);
+        toast("تعذر قراءة بيانات Firebase");
+    }
+}
+
+/* ============================================================
+   STATS
+============================================================ */
+
+function updateStats(){
+    $("statStudents").textContent=Object.keys(DATA.students).length;
+    $("statTeachers").textContent=Object.keys(DATA.teachers).length;
+    $("statClasses").textContent=Object.keys(DATA.classes).length;
+    $("statSections").textContent=Object.keys(DATA.sections).length;
+    $("statSubjects").textContent=Object.keys(DATA.subjects).length;
+}
+
+/* ============================================================
+   CLASSES
+============================================================ */
+
+$("classForm").onsubmit=async e=>{
+    e.preventDefault();
+
+    const name=$("className").value.trim();
+    const stage=$("classStage").value;
+
+    if(!name) return;
+
+    const duplicate=Object.values(DATA.classes).some(
+        c=>normalize(c.name)===normalize(name)
     );
 
+    if(duplicate){
+        toast("هذا الصف موجود مسبقاً");
+        return;
+    }
 
-    empty.classList.add(
-        "hidden"
+    const key=id();
+
+    const row={
+        id:key,
+        name,
+        stage,
+        active:true,
+        createdAt:Date.now(),
+        createdBy:adminCode()
+    };
+
+    try{
+        await dbPut(`${PATHS.classes}/${key}`,row);
+        DATA.classes[key]=row;
+        $("classForm").reset();
+        renderAll();
+        toast("تم إنشاء الصف");
+    }catch{
+        toast("تعذر إنشاء الصف");
+    }
+};
+
+function renderClasses(){
+    const box=$("classesList");
+
+    const rows=Object.values(DATA.classes)
+        .sort((a,b)=>String(a.name).localeCompare(String(b.name),"ar"));
+
+    box.innerHTML=rows.length
+        ?rows.map(c=>`
+            <div class="info-card">
+                <h4>${safe(c.name)}</h4>
+                <p>
+                    المرحلة:
+                    ${c.stage==="primary"?"ابتدائي":c.stage==="secondary"?"ثانوي":"غير محددة"}
+                </p>
+                <div class="row-actions" style="margin-top:10px">
+                    <button class="mini btn-danger" onclick="deleteClass('${c.id}')">حذف</button>
+                </div>
+            </div>
+        `).join("")
+        :`<p style="color:#667085">لا توجد صفوف بعد.</p>`;
+}
+
+async function deleteClass(key){
+    const usedStudent=Object.values(DATA.students).some(x=>x.classId===key);
+    const usedSection=Object.values(DATA.sections).some(x=>x.classId===key);
+    const usedTeacher=Object.values(DATA.teachers).some(x=>(x.classIds||[]).includes(key));
+
+    if(usedStudent||usedSection||usedTeacher){
+        toast("لا يمكن حذف الصف لأنه مستخدم");
+        return;
+    }
+
+    confirmBox(
+        "حذف الصف",
+        "هل تريد حذف هذا الصف نهائياً؟",
+        async()=>{
+            await dbDelete(`${PATHS.classes}/${key}`);
+            delete DATA.classes[key];
+            renderAll();
+            toast("تم حذف الصف");
+        }
+    );
+}
+
+/* ============================================================
+   SECTION / ROOM
+============================================================ */
+
+function buildRooms(){
+    $("roomNumber").innerHTML=
+        `<option value="">اختر رقم القاعة</option>`+
+        Array.from({length:25},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join("");
+}
+
+$("sectionForm").onsubmit=async e=>{
+    e.preventDefault();
+
+    const classId=$("sectionClass").value;
+    const name=$("sectionName").value.trim();
+    const room=Number($("roomNumber").value);
+
+    if(!classId||!name||!room) return;
+
+    const roomTaken=Object.values(DATA.sections).some(
+        s=>Number(s.roomNumber)===room
     );
 
+    if(roomTaken){
+        toast("رقم القاعة مستخدم لشعبة أخرى");
+        return;
+    }
 
-    entries.forEach(
-        ([code, user]) => {
+    const duplicate=Object.values(DATA.sections).some(
+        s=>s.classId===classId && normalize(s.name)===normalize(name)
+    );
 
+    if(duplicate){
+        toast("هذه الشعبة موجودة في الصف");
+        return;
+    }
 
-            const tr =
-                document.createElement(
-                    "tr"
+    const key=id();
+
+    const row={
+        id:key,
+        classId,
+        name,
+        roomNumber:room,
+        active:true,
+        createdAt:Date.now()
+    };
+
+    try{
+        await dbPut(`${PATHS.sections}/${key}`,row);
+        DATA.sections[key]=row;
+        $("sectionForm").reset();
+        renderAll();
+        toast("تم إنشاء الشعبة");
+    }catch{
+        toast("تعذر إنشاء الشعبة");
+    }
+};
+
+function renderSections(){
+    const box=$("sectionsList");
+
+    const rows=Object.values(DATA.sections);
+
+    box.innerHTML=rows.length?rows.map(s=>{
+        const c=DATA.classes[s.classId];
+        return `
+            <div class="info-card">
+                <h4>${safe(s.name)}</h4>
+                <p>
+                    الصف: ${safe(c?.name||"غير معروف")}<br>
+                    رقم القاعة: ${safe(s.roomNumber)}
+                </p>
+                <div class="row-actions" style="margin-top:10px">
+                    <button class="mini btn-danger" onclick="deleteSection('${s.id}')">حذف</button>
+                </div>
+            </div>
+        `;
+    }).join(""):`<p style="color:#667085">لا توجد شعب.</p>`;
+}
+
+async function deleteSection(key){
+    const used=Object.values(DATA.students).some(x=>x.sectionId===key);
+
+    if(used){
+        toast("لا يمكن حذف الشعبة لوجود طلاب فيها");
+        return;
+    }
+
+    confirmBox(
+        "حذف الشعبة",
+        "هل تريد حذف هذه الشعبة؟",
+        async()=>{
+            await dbDelete(`${PATHS.sections}/${key}`);
+            delete DATA.sections[key];
+            renderAll();
+            toast("تم حذف الشعبة");
+        }
+    );
+}
+
+/* ============================================================
+   SUBJECTS
+============================================================ */
+
+$("subjectForm").onsubmit=async e=>{
+    e.preventDefault();
+
+    const name=$("subjectName").value.trim();
+    const lessons=Number($("subjectLessons").value||0);
+
+    if(!name) return;
+
+    const exists=Object.values(DATA.subjects).some(
+        x=>normalize(x.name)===normalize(name)
+    );
+
+    if(exists){
+        toast("المادة موجودة مسبقاً");
+        return;
+    }
+
+    await saveSubject(name,lessons);
+    $("subjectForm").reset();
+    $("subjectLessons").value=1;
+    renderAll();
+};
+
+async function saveSubject(name,lessons){
+    const key=id();
+
+    const row={
+        id:key,
+        name,
+        weeklyLessons:Number(lessons||0),
+        active:true,
+        createdAt:Date.now()
+    };
+
+    await dbPut(`${PATHS.subjects}/${key}`,row);
+    DATA.subjects[key]=row;
+}
+
+async function addDefaultSubjects(){
+    const defaults=[
+        "التربية الإسلامية",
+        "اللغة العربية",
+        "اللغة الإنجليزية",
+        "الرياضيات",
+        "الاجتماعيات",
+        "الجغرافية",
+        "التاريخ",
+        "الاقتصاد",
+        "الكيمياء",
+        "الفيزياء",
+        "الأحياء",
+        "العلوم",
+        "الحاسوب",
+        "التربية الرياضية",
+        "التربية الفنية",
+        "التربية الأخلاقية"
+    ];
+
+    const existing=new Set(
+        Object.values(DATA.subjects).map(x=>normalize(x.name))
+    );
+
+    try{
+        for(const name of defaults){
+            if(!existing.has(normalize(name))){
+                await saveSubject(name,1);
+            }
+        }
+
+        renderAll();
+        toast("تمت إضافة المواد الأساسية");
+    }catch{
+        toast("حدث خطأ أثناء إضافة المواد");
+    }
+}
+
+function renderSubjects(){
+    const box=$("subjectsList");
+
+    const rows=Object.values(DATA.subjects)
+        .sort((a,b)=>String(a.name).localeCompare(String(b.name),"ar"));
+
+    box.innerHTML=rows.length?rows.map(s=>`
+        <div class="info-card">
+            <h4>${safe(s.name)}</h4>
+            <p>الحصص الأسبوعية: ${safe(s.weeklyLessons)}</p>
+            <div class="row-actions" style="margin-top:10px">
+                <button class="mini btn-danger" onclick="deleteSubject('${s.id}')">حذف</button>
+            </div>
+        </div>
+    `).join(""):`<p style="color:#667085">لا توجد مواد.</p>`;
+}
+
+async function deleteSubject(key){
+    const used=Object.values(DATA.teachers).some(t=>t.subjectId===key);
+
+    if(used){
+        toast("المادة مرتبطة بأستاذ ولا يمكن حذفها");
+        return;
+    }
+
+    confirmBox(
+        "حذف المادة",
+        "هل تريد حذف المادة؟",
+        async()=>{
+            await dbDelete(`${PATHS.subjects}/${key}`);
+            delete DATA.subjects[key];
+            renderAll();
+            toast("تم حذف المادة");
+        }
+    );
+}
+
+/* ============================================================
+   STUDENT CODE
+============================================================ */
+
+const digit=()=>Math.floor(Math.random()*10).toString();
+
+function studentCode(gender){
+    const chars=[digit(),digit(),digit(),digit(),digit()];
+    const genderLetter=gender==="female"?"G":"B";
+    const position=Math.floor(Math.random()*4)+1;
+    chars.splice(position,0,genderLetter);
+    return "ST"+chars.join("");
+}
+
+async function uniqueStudentCode(gender){
+    for(let i=0;i<50;i++){
+        const code=studentCode(gender);
+        if(!DATA.users[code]) return code;
+    }
+    throw new Error("CODE_ERROR");
+}
+
+async function previewStudentCode(){
+    const gender=$("studentGender").value;
+
+    if(!gender){
+        toast("حدد جنس الطالب أولاً");
+        return;
+    }
+
+    studentGeneratedCode=await uniqueStudentCode(gender);
+    $("studentCodePreview").textContent=studentGeneratedCode;
+}
+
+$("studentGender").onchange=()=>{
+    studentGeneratedCode="";
+    $("studentCodePreview").textContent="لم يتم إنشاء الكود";
+};
+
+/* ============================================================
+   STUDENT SECTION FILTER
+============================================================ */
+
+$("studentClass").onchange=()=>{
+    fillStudentSections();
+};
+
+function fillStudentSections(){
+    const classId=$("studentClass").value;
+    const select=$("studentSection");
+
+    const items=Object.values(DATA.sections)
+        .filter(x=>x.classId===classId);
+
+    select.innerHTML=
+        `<option value="">اختر الشعبة</option>`+
+        items.map(x=>`
+            <option value="${x.id}">
+                ${safe(x.name)} - القاعة ${safe(x.roomNumber)}
+            </option>
+        `).join("");
+}
+
+/* ============================================================
+   ADD STUDENT
+============================================================ */
+
+$("studentForm").onsubmit=async e=>{
+    e.preventDefault();
+
+    clearMessage("studentMessage");
+
+    const name=$("studentName").value.trim();
+    const mother=$("studentMother").value.trim();
+    const birth=$("studentBirth").value;
+    const gender=$("studentGender").value;
+    const classId=$("studentClass").value;
+    const sectionId=$("studentSection").value;
+    const guardianPhone=$("studentGuardian").value.trim();
+    const transportPhone=$("studentTransport").value.trim();
+    const address=$("studentAddress").value.trim();
+
+    if(!name||!mother||!birth||!gender||!classId||!sectionId||!guardianPhone||!address){
+        message("studentMessage","يرجى إكمال جميع الحقول المطلوبة");
+        return;
+    }
+
+    const section=DATA.sections[sectionId];
+
+    if(!section){
+        message("studentMessage","الشعبة غير موجودة");
+        return;
+    }
+
+    const btn=$("saveStudent");
+    btn.disabled=true;
+    btn.textContent="جاري الحفظ...";
+
+    try{
+        let code=studentGeneratedCode || await uniqueStudentCode(gender);
+
+        if(DATA.users[code]){
+            code=await uniqueStudentCode(gender);
+        }
+
+        const student={
+            code,
+            name,
+            motherName:mother,
+            birthDate:birth,
+            gender,
+            classId,
+            sectionId,
+            roomNumber:section.roomNumber,
+            guardianPhone,
+            transportPhone,
+            address,
+            hidden:false,
+            active:true,
+            createdAt:Date.now(),
+            createdBy:adminCode()
+        };
+
+        const loginUser={
+            code,
+            name,
+            role:"student",
+            gender,
+            active:true,
+            hidden:false,
+            studentId:code,
+            createdAt:Date.now()
+        };
+
+        await Promise.all([
+            dbPut(`${PATHS.students}/${code}`,student),
+            dbPut(`${PATHS.users}/${code}`,loginUser)
+        ]);
+
+        DATA.students[code]=student;
+        DATA.users[code]=loginUser;
+
+        studentGeneratedCode=code;
+        $("studentCodePreview").textContent=code;
+
+        message(
+            "studentMessage",
+            `تم حفظ الطالب بنجاح. الكود: ${code}`,
+            "success"
+        );
+
+        $("studentName").value="";
+        $("studentMother").value="";
+        $("studentBirth").value="";
+        $("studentGuardian").value="";
+        $("studentTransport").value="";
+        $("studentAddress").value="";
+
+        renderAll();
+
+    }catch(e){
+        console.error(e);
+        message("studentMessage","تعذر حفظ الطالب. تحقق من صلاحيات Firebase.");
+    }finally{
+        btn.disabled=false;
+        btn.textContent="حفظ الطالب";
+    }
+};
+
+/* ============================================================
+   STUDENT LIST
+============================================================ */
+
+["studentSearch","studentClassFilter","studentGenderFilter"].forEach(x=>{
+    $(x).addEventListener(
+        x==="studentSearch"?"input":"change",
+        renderStudents
+    );
+});
+
+function renderStudents(){
+    const search=normalize($("studentSearch").value);
+    const classId=$("studentClassFilter").value;
+    const gender=$("studentGenderFilter").value;
+
+    const rows=Object.values(DATA.students)
+        .filter(s=>{
+            if(classId && s.classId!==classId) return false;
+            if(gender && s.gender!==gender) return false;
+
+            if(search){
+                const txt=normalize(
+                    `${s.name} ${s.code} ${s.guardianPhone} ${s.motherName}`
                 );
+                if(!txt.includes(search)) return false;
+            }
 
+            return true;
+        })
+        .sort((a,b)=>String(a.name).localeCompare(String(b.name),"ar"));
 
-            const role =
-                normalizeRole(
-                    user.role
-                );
+    $("studentsBody").innerHTML=rows.map(s=>{
+        const c=DATA.classes[s.classId];
+        const sec=DATA.sections[s.sectionId];
 
-
-            const details =
-                getUserDetails(
-                    user,
-                    role
-                );
-
-
-            const active =
-                user.active !== false;
-
-
-            tr.innerHTML = `
-
+        return `
+            <tr style="${s.hidden?"opacity:.55":""}">
+                <td><span class="code">${safe(s.code)}</span></td>
+                <td>${safe(s.name)}</td>
+                <td>${s.gender==="female"?"أنثى":"ذكر"}</td>
+                <td>${safe(c?.name||"—")}</td>
+                <td>${safe(sec?.name||"—")}</td>
+                <td>${safe(s.roomNumber||"—")}</td>
+                <td>${safe(s.guardianPhone||"—")}</td>
                 <td>
-
-                    <span class="table-code">
-                        ${escapeHtml(code)}
-                    </span>
-
+                    ${
+                        s.hidden
+                        ?'<span class="badge b-red">مخفي</span>'
+                        :'<span class="badge b-green">فعال</span>'
+                    }
                 </td>
-
-
                 <td>
-                    ${escapeHtml(user.name || "—")}
-                </td>
-
-
-                <td>
-                    ${roleBadge(role)}
-                </td>
-
-
-                <td>
-                    ${escapeHtml(details)}
-                </td>
-
-
-                <td>
-
-                    <span class="badge ${active ? "badge-active" : "badge-inactive"}">
-
-                        ${active ? "فعال" : "معطل"}
-
-                    </span>
-
-                </td>
-
-
-                <td>
-
-                    <div class="table-actions">
-
-                        <button
-                            class="mini-btn btn-soft"
-                            onclick="copyText('${escapeJs(code)}')"
-                        >
-                            نسخ
-                        </button>
-
-
-                        <button
-                            class="mini-btn ${active ? "btn-orange" : "btn-green"}"
-                            onclick="toggleAccount('${escapeJs(code)}', ${active})"
-                        >
-
-                            ${active ? "تعطيل" : "تفعيل"}
-
-                        </button>
-
-
-                        <button
-                            class="mini-btn btn-red"
-                            onclick="askDelete('${escapeJs(code)}')"
-                        >
-                            حذف
-                        </button>
-
+                    <div class="row-actions">
+                        <button class="mini btn-soft" onclick="copy('${safe(s.code)}')">نسخ الكود</button>
+                        <button class="mini btn-purple" onclick="studentPDF('${safe(s.code)}')">PDF</button>
+                        <button class="mini btn-warning" onclick="toggleStudent('${safe(s.code)}')">${s.hidden?"إظهار":"إخفاء"}</button>
+                        <button class="mini btn-danger" onclick="deleteStudent('${safe(s.code)}')">حذف</button>
                     </div>
-
                 </td>
+            </tr>
+        `;
+    }).join("");
+}
 
-            `;
+async function toggleStudent(code){
+    const s=DATA.students[code];
+    if(!s) return;
 
+    const hidden=!s.hidden;
 
-            tbody.appendChild(
-                tr
-            );
+    try{
+        await Promise.all([
+            dbPatch(`${PATHS.students}/${code}`,{
+                hidden,
+                active:!hidden
+            }),
+            dbPatch(`${PATHS.users}/${code}`,{
+                hidden,
+                active:!hidden
+            })
+        ]);
 
+        s.hidden=hidden;
+        s.active=!hidden;
 
+        if(DATA.users[code]){
+            DATA.users[code].hidden=hidden;
+            DATA.users[code].active=!hidden;
+        }
+
+        renderStudents();
+        toast(hidden?"تم إخفاء الطالب":"تم إظهار الطالب");
+    }catch{
+        toast("تعذر تعديل الطالب");
+    }
+}
+
+function deleteStudent(code){
+    confirmBox(
+        "حذف الطالب",
+        "سيتم حذف ملف الطالب وحساب الدخول نهائياً. هل أنت متأكد؟",
+        async()=>{
+            await Promise.all([
+                dbDelete(`${PATHS.students}/${code}`),
+                dbDelete(`${PATHS.users}/${code}`)
+            ]);
+
+            delete DATA.students[code];
+            delete DATA.users[code];
+
+            renderAll();
+            toast("تم حذف الطالب");
         }
     );
-
 }
 
+/* ============================================================
+   STUDENT PDF
+============================================================ */
 
+async function studentPDF(code){
+    const s=DATA.students[code];
+    if(!s) return;
 
-/* =========================================================
-   NORMALIZE ROLE
-========================================================= */
+    const c=DATA.classes[s.classId];
+    const sec=DATA.sections[s.sectionId];
 
-function normalizeRole(role) {
+    const {jsPDF}=window.jspdf;
 
+    const doc=new jsPDF({
+        orientation:"p",
+        unit:"mm",
+        format:"a4"
+    });
 
-    role =
-        String(
-            role || ""
-        )
-        .toLowerCase();
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(18);
+    doc.text("AL-TAHADI PRIVATE SCHOOL",105,20,{align:"center"});
 
+    doc.setFontSize(12);
+    doc.text("Student Information Form",105,29,{align:"center"});
 
-    if (
-        role === "st"
-    ) {
+    doc.line(20,35,190,35);
 
-        return "student";
+    let y=48;
 
-    }
+    const rows=[
+        ["Student Code",s.code],
+        ["Student Name",s.name],
+        ["Mother Name",s.motherName],
+        ["Birth Date",s.birthDate],
+        ["Gender",s.gender==="female"?"Female":"Male"],
+        ["Class",c?.name||""],
+        ["Section",sec?.name||""],
+        ["Room",String(s.roomNumber||"")],
+        ["Guardian Phone",s.guardianPhone||""],
+        ["Transport Number",s.transportPhone||""],
+        ["Address",s.address||""]
+    ];
 
+    doc.setFont("helvetica","normal");
+    doc.setFontSize(11);
 
-    if (
-        role === "th"
-    ) {
+    rows.forEach(([label,value])=>{
+        doc.setFont("helvetica","bold");
+        doc.text(`${label}:`,20,y);
 
-        return "teacher";
+        doc.setFont("helvetica","normal");
 
-    }
+        const lines=doc.splitTextToSize(String(value||""),115);
+        doc.text(lines,70,y);
 
+        y+=Math.max(9,lines.length*6);
+    });
 
-    if (
-        role === "administrator" ||
-        role === "add"
-    ) {
+    y+=8;
 
-        return "admin";
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(20);
+    doc.text(s.code,105,y,{align:"center"});
 
-    }
+    y+=10;
 
+    doc.setFontSize(9);
+    doc.setFont("helvetica","normal");
+    doc.text(
+        `Generated: ${new Date().toLocaleString("en-GB")}`,
+        105,
+        y,
+        {align:"center"}
+    );
 
-    if (
-        role === "msh" ||
-        role === "supervisor" ||
-        role === "attendance_supervisor"
-    ) {
-
-        return "attendance";
-
-    }
-
-
-    return role;
-
+    doc.save(`student-${s.code}.pdf`);
 }
 
+/* ============================================================
+   TEACHER CODE
+============================================================ */
 
+function teacherCode(){
+    let numbers="";
+    for(let i=0;i<7;i++) numbers+=digit();
 
-/* =========================================================
-   ROLE BADGE
-========================================================= */
+    const letters="ABCDEFGHJKLMNPQRSTUVWXYZ";
+    const letter=letters[Math.floor(Math.random()*letters.length)];
 
-function roleBadge(role) {
-
-
-    switch (role) {
-
-
-        case "student":
-
-            return `
-                <span class="badge badge-student">
-                    طالب
-                </span>
-            `;
-
-
-        case "teacher":
-
-            return `
-                <span class="badge badge-teacher">
-                    أستاذ
-                </span>
-            `;
-
-
-        case "admin":
-
-            return `
-                <span class="badge badge-admin">
-                    إدارة
-                </span>
-            `;
-
-
-        case "attendance":
-
-            return `
-                <span class="badge badge-attendance">
-                    مشرف حضور
-                </span>
-            `;
-
-
-        default:
-
-            return `
-                <span class="badge">
-                    ${escapeHtml(role || "غير محدد")}
-                </span>
-            `;
-
-    }
-
+    return `TH${numbers}${letter}`;
 }
 
+async function uniqueTeacherCode(){
+    for(let i=0;i<50;i++){
+        const code=teacherCode();
+        if(!DATA.users[code]) return code;
+    }
+    throw new Error("CODE_ERROR");
+}
 
+async function previewTeacherCode(){
+    teacherGeneratedCode=await uniqueTeacherCode();
+    $("teacherCodePreview").textContent=teacherGeneratedCode;
+}
 
-/* =========================================================
-   DETAILS
-========================================================= */
+/* ============================================================
+   ADD TEACHER
+============================================================ */
 
-function getUserDetails(
-    user,
-    role
-) {
+$("teacherForm").onsubmit=async e=>{
+    e.preventDefault();
 
+    clearMessage("teacherMessage");
 
-    if (
-        role === "student"
-    ) {
+    const name=$("teacherName").value.trim();
+    const subjectId=$("teacherSubject").value;
+    const phone=$("teacherPhone").value.trim();
 
+    const classIds=[
+        ...document.querySelectorAll("#teacherClasses input:checked")
+    ].map(x=>x.value);
 
-        let text =
-            user.className || "";
-
-
-        if (
-            user.section
-        ) {
-
-            text +=
-                " - " +
-                user.section;
-
-        }
-
-
-        if (
-            user.gender === "male"
-        ) {
-
-            text +=
-                " - بنين";
-
-        }
-
-
-        if (
-            user.gender === "female"
-        ) {
-
-            text +=
-                " - بنات";
-
-        }
-
-
-        return text || "—";
-
+    if(!name||!subjectId||!classIds.length){
+        message("teacherMessage","أدخل اسم الأستاذ والمادة واختر صفاً واحداً على الأقل.");
+        return;
     }
 
+    const btn=$("saveTeacher");
+    btn.disabled=true;
+    btn.textContent="جاري الحفظ...";
 
-    if (
-        role === "teacher"
-    ) {
+    try{
+        let code=teacherGeneratedCode || await uniqueTeacherCode();
 
-        return (
-            user.subject ||
-            "—"
+        if(DATA.users[code]){
+            code=await uniqueTeacherCode();
+        }
+
+        const teacher={
+            code,
+            name,
+            subjectId,
+            classIds,
+            phone,
+            hidden:false,
+            active:true,
+            createdAt:Date.now(),
+            createdBy:adminCode()
+        };
+
+        const loginUser={
+            code,
+            name,
+            role:"teacher",
+            teacherId:code,
+            active:true,
+            hidden:false,
+            createdAt:Date.now()
+        };
+
+        await Promise.all([
+            dbPut(`${PATHS.teachers}/${code}`,teacher),
+            dbPut(`${PATHS.users}/${code}`,loginUser)
+        ]);
+
+        DATA.teachers[code]=teacher;
+        DATA.users[code]=loginUser;
+
+        teacherGeneratedCode=code;
+        $("teacherCodePreview").textContent=code;
+
+        message(
+            "teacherMessage",
+            `تم إنشاء حساب الأستاذ. الكود: ${code}`,
+            "success"
         );
 
+        $("teacherName").value="";
+        $("teacherPhone").value="";
+        $("teacherSubject").value="";
+        document.querySelectorAll("#teacherClasses input").forEach(x=>x.checked=false);
+
+        renderAll();
+
+    }catch(e){
+        console.error(e);
+        message("teacherMessage","تعذر حفظ الأستاذ.");
+    }finally{
+        btn.disabled=false;
+        btn.textContent="حفظ الأستاذ";
     }
+};
 
+/* ============================================================
+   TEACHERS TABLE
+============================================================ */
 
-    return "—";
+["teacherSearch","teacherSubjectFilter","teacherStatusFilter"].forEach(x=>{
+    $(x).addEventListener(
+        x==="teacherSearch"?"input":"change",
+        renderTeachers
+    );
+});
 
-}
+function renderTeachers(){
+    const search=normalize($("teacherSearch").value);
+    const subjectId=$("teacherSubjectFilter").value;
+    const status=$("teacherStatusFilter").value;
 
+    const rows=Object.values(DATA.teachers)
+        .filter(t=>{
+            if(subjectId && t.subjectId!==subjectId) return false;
+            if(status==="active" && t.hidden) return false;
+            if(status==="hidden" && !t.hidden) return false;
 
+            const subject=DATA.subjects[t.subjectId];
 
-/* =========================================================
-   TOGGLE ACCOUNT
-========================================================= */
+            if(search){
+                const txt=normalize(`${t.name} ${t.code} ${subject?.name||""}`);
+                if(!txt.includes(search)) return false;
+            }
 
-async function toggleAccount(
-    code,
-    currentStatus
-) {
+            return true;
+        })
+        .sort((a,b)=>String(a.name).localeCompare(String(b.name),"ar"));
 
+    $("teachersBody").innerHTML=rows.map(t=>{
+        const subject=DATA.subjects[t.subjectId];
 
-    const newStatus =
-        !currentStatus;
+        const classes=(t.classIds||[])
+            .map(x=>DATA.classes[x]?.name)
+            .filter(Boolean)
+            .join("، ");
 
-
-    showConfirm(
-
-        newStatus
-        ? "تفعيل الحساب"
-        : "تعطيل الحساب",
-
-        newStatus
-        ? `هل تريد تفعيل الحساب ${code}؟`
-        : `هل تريد تعطيل الحساب ${code}؟`,
-
-        async function() {
-
-
-            try {
-
-
-                await firebasePatch(
-
-                    `${USERS_PATH}/${code}`,
-
-                    {
-                        active:
-                            newStatus
+        return `
+            <tr style="${t.hidden?"opacity:.55":""}">
+                <td><span class="code">${safe(t.code)}</span></td>
+                <td>${safe(t.name)}</td>
+                <td>${safe(subject?.name||"—")}</td>
+                <td>${safe(classes||"—")}</td>
+                <td>
+                    ${
+                        t.hidden
+                        ?'<span class="badge b-red">مخفي</span>'
+                        :'<span class="badge b-green">فعال</span>'
                     }
-
-                );
-
-
-                if (
-                    allUsers[code]
-                ) {
-
-                    allUsers[code].active =
-                        newStatus;
-
-                }
-
-
-                renderUsers();
-
-                updateStats();
-
-
-                toastMessage(
-
-                    newStatus
-                    ? "تم تفعيل الحساب"
-                    : "تم تعطيل الحساب"
-
-                );
-
-
-            }
-
-            catch (error) {
-
-
-                console.error(error);
-
-
-                toastMessage(
-                    "تعذر تعديل الحساب"
-                );
-
-
-            }
-
-
-        }
-
-    );
-
+                </td>
+                <td>
+                    <div class="row-actions">
+                        <button class="mini btn-soft" onclick="copy('${safe(t.code)}')">نسخ الكود</button>
+                        <button class="mini btn-warning" onclick="toggleTeacher('${safe(t.code)}')">${t.hidden?"إظهار":"إخفاء"}</button>
+                        <button class="mini btn-danger" onclick="deleteTeacher('${safe(t.code)}')">حذف</button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join("");
 }
 
+async function toggleTeacher(code){
+    const t=DATA.teachers[code];
+    if(!t) return;
 
+    const hidden=!t.hidden;
 
-/* =========================================================
-   DELETE
-========================================================= */
+    try{
+        await Promise.all([
+            dbPatch(`${PATHS.teachers}/${code}`,{
+                hidden,
+                active:!hidden
+            }),
+            dbPatch(`${PATHS.users}/${code}`,{
+                hidden,
+                active:!hidden
+            })
+        ]);
 
-function askDelete(code) {
+        t.hidden=hidden;
+        t.active=!hidden;
 
+        if(DATA.users[code]){
+            DATA.users[code].hidden=hidden;
+            DATA.users[code].active=!hidden;
+        }
 
-    const currentAdmin =
-        getAdminCode();
-
-
-    if (
-        code === currentAdmin
-    ) {
-
-        toastMessage(
-            "لا يمكنك حذف حساب الإدارة المستخدم حالياً"
-        );
-
-        return;
-
+        renderTeachers();
+        toast(hidden?"تم إخفاء الأستاذ":"تم إظهار الأستاذ");
+    }catch{
+        toast("تعذر تعديل الحساب");
     }
-
-
-    showConfirm(
-
-        "حذف الحساب",
-
-        `هل أنت متأكد من حذف الحساب ${code} نهائياً؟`,
-
-        async function() {
-
-
-            try {
-
-
-                await firebaseDelete(
-
-                    `${USERS_PATH}/${code}`
-
-                );
-
-
-                delete allUsers[
-                    code
-                ];
-
-
-                updateStats();
-
-                renderUsers();
-
-
-                toastMessage(
-                    "تم حذف الحساب"
-                );
-
-
-            }
-
-            catch (error) {
-
-
-                console.error(error);
-
-
-                toastMessage(
-                    "تعذر حذف الحساب"
-                );
-
-
-            }
-
-
-        }
-
-    );
-
 }
 
+function deleteTeacher(code){
+    confirmBox(
+        "حذف الأستاذ",
+        "سيتم حذف ملف الأستاذ وحساب الدخول نهائياً.",
+        async()=>{
+            await Promise.all([
+                dbDelete(`${PATHS.teachers}/${code}`),
+                dbDelete(`${PATHS.users}/${code}`)
+            ]);
 
+            delete DATA.teachers[code];
+            delete DATA.users[code];
 
-/* =========================================================
+            renderAll();
+            toast("تم حذف الأستاذ");
+        }
+    );
+}
+
+/* ============================================================
+   DYNAMIC SELECTS
+============================================================ */
+
+function fillClassSelectors(){
+    const rows=Object.values(DATA.classes)
+        .sort((a,b)=>String(a.name).localeCompare(String(b.name),"ar"));
+
+    const options=rows.map(c=>`<option value="${c.id}">${safe(c.name)}</option>`).join("");
+
+    $("studentClass").innerHTML=`<option value="">اختر الصف</option>${options}`;
+    $("sectionClass").innerHTML=`<option value="">اختر الصف</option>${options}`;
+    $("studentClassFilter").innerHTML=`<option value="">جميع الصفوف</option>${options}`;
+
+    $("teacherClasses").innerHTML=rows.length
+        ?rows.map(c=>`
+            <label class="check-item">
+                <input type="checkbox" value="${c.id}">
+                <span>${safe(c.name)}</span>
+            </label>
+        `).join("")
+        :`<span style="color:#667085;font-size:12px">أنشئ الصفوف أولاً.</span>`;
+}
+
+function fillSubjectSelectors(){
+    const rows=Object.values(DATA.subjects)
+        .sort((a,b)=>String(a.name).localeCompare(String(b.name),"ar"));
+
+    const options=rows.map(s=>`<option value="${s.id}">${safe(s.name)}</option>`).join("");
+
+    $("teacherSubject").innerHTML=`<option value="">اختر المادة</option>${options}`;
+    $("teacherSubjectFilter").innerHTML=`<option value="">جميع المواد</option>${options}`;
+}
+
+/* ============================================================
+   RENDER ALL
+============================================================ */
+
+function renderAll(){
+    updateStats();
+    renderClasses();
+    renderSections();
+    renderSubjects();
+    fillClassSelectors();
+    fillSubjectSelectors();
+    fillStudentSections();
+    renderStudents();
+    renderTeachers();
+}
+
+/* ============================================================
    CONFIRM
-========================================================= */
+============================================================ */
 
-function showConfirm(
-    title,
-    text,
-    callback
-) {
-
-
-    document.getElementById(
-        "confirmTitle"
-    ).textContent =
-        title;
-
-
-    document.getElementById(
-        "confirmText"
-    ).textContent =
-        text;
-
-
-    confirmCallback =
-        callback;
-
-
-    document.getElementById(
-        "confirmModal"
-    ).classList.add(
-        "show"
-    );
-
+function confirmBox(title,text,callback){
+    $("confirmTitle").textContent=title;
+    $("confirmText").textContent=text;
+    confirmHandler=callback;
+    $("confirmModal").classList.add("show");
 }
 
-
-
-function closeConfirm() {
-
-
-    document.getElementById(
-        "confirmModal"
-    ).classList.remove(
-        "show"
-    );
-
-
-    confirmCallback =
-        null;
-
+function closeConfirm(){
+    $("confirmModal").classList.remove("show");
+    confirmHandler=null;
 }
 
+$("confirmYes").onclick=async()=>{
+    const fn=confirmHandler;
+    closeConfirm();
 
-
-document.getElementById(
-    "confirmCancel"
-)
-.addEventListener(
-    "click",
-    closeConfirm
-);
-
-
-
-document.getElementById(
-    "confirmAccept"
-)
-.addEventListener(
-    "click",
-    async function() {
-
-
-        const callback =
-            confirmCallback;
-
-
-        closeConfirm();
-
-
-        if (callback) {
-
-            await callback();
-
+    if(fn){
+        try{
+            await fn();
+        }catch(e){
+            console.error(e);
+            toast("تعذر تنفيذ العملية");
         }
-
-
     }
-);
-
-
-
-/* =========================================================
-   FORM MESSAGE
-========================================================= */
-
-function showFormMessage(
-    id,
-    text,
-    type
-) {
-
-
-    const element =
-        document.getElementById(
-            id
-        );
-
-
-    element.textContent =
-        text;
-
-
-    element.className =
-        `message show ${type}`;
-
-}
-
-
-
-function hideFormMessage(id) {
-
-
-    const element =
-        document.getElementById(
-            id
-        );
-
-
-    element.textContent =
-        "";
-
-
-    element.className =
-        "message";
-
-}
-
-
-
-/* =========================================================
-   COPY
-========================================================= */
-
-async function copyCode(id) {
-
-
-    const value =
-        document.getElementById(
-            id
-        ).textContent.trim();
-
-
-    if (
-        !value ||
-        value.includes(
-            "لم يتم"
-        ) ||
-        value.includes(
-            "جاري"
-        ) ||
-        value.includes(
-            "تعذر"
-        )
-    ) {
-
-        toastMessage(
-            "قم بتوليد الكود أولاً"
-        );
-
-        return;
-
-    }
-
-
-    copyText(
-        value
-    );
-
-}
-
-
-
-async function copyText(text) {
-
-
-    try {
-
-
-        await navigator.clipboard.writeText(
-            text
-        );
-
-
-        toastMessage(
-            "تم نسخ الكود"
-        );
-
-
-    }
-
-    catch (error) {
-
-
-        const textarea =
-            document.createElement(
-                "textarea"
-            );
-
-
-        textarea.value =
-            text;
-
-
-        document.body.appendChild(
-            textarea
-        );
-
-
-        textarea.select();
-
-
-        document.execCommand(
-            "copy"
-        );
-
-
-        textarea.remove();
-
-
-        toastMessage(
-            "تم نسخ الكود"
-        );
-
-
-    }
-
-}
-
-
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-let toastTimer = null;
-
-
-function toastMessage(text) {
-
-
-    const toast =
-        document.getElementById(
-            "toast"
-        );
-
-
-    toast.textContent =
-        text;
-
-
-    toast.classList.add(
-        "show"
-    );
-
-
-    clearTimeout(
-        toastTimer
-    );
-
-
-    toastTimer =
-        setTimeout(
-            () => {
-
-                toast.classList.remove(
-                    "show"
-                );
-
-            },
-            2200
-        );
-
-}
-
-
-
-/* =========================================================
-   ESCAPE
-========================================================= */
-
-function escapeHtml(value) {
-
-
-    return String(
-        value || ""
-    )
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-    .replace(
-        /</g,
-        "&lt;"
-    )
-    .replace(
-        />/g,
-        "&gt;"
-    )
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-    .replace(
-        /'/g,
-        "&#039;"
-    );
-
-}
-
-
-
-function escapeJs(value) {
-
-
-    return String(
-        value || ""
-    )
-    .replace(
-        /\\/g,
-        "\\\\"
-    )
-    .replace(
-        /'/g,
-        "\\'"
-    );
-
-}
-
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-function logout() {
-
-
-    sessionStorage.removeItem(
-        "tahadi_session"
-    );
-
-
-    sessionStorage.removeItem(
-        "tahadi_code"
-    );
-
-
-    sessionStorage.removeItem(
-        "tahadi_role"
-    );
-
-
-    window.location.replace(
-        "index.html"
-    );
-
-}
-
-
-
-/* =========================================================
-   INTERNET
-========================================================= */
-
-window.addEventListener(
-    "offline",
-    function() {
-
-        toastMessage(
-            "لا يوجد اتصال بالإنترنت"
-        );
-
-    }
-);
-
-
-window.addEventListener(
-    "online",
-    function() {
-
-        toastMessage(
-            "تم استعادة الاتصال"
-        );
-
-
-        loadUsers();
-
-    }
-);
-
-
-
-/* =========================================================
+};
+
+/* ============================================================
+   NETWORK
+============================================================ */
+
+window.addEventListener("offline",()=>toast("لا يوجد اتصال بالإنترنت"));
+window.addEventListener("online",()=>{
+    toast("تم استعادة الاتصال");
+    loadAll();
+});
+
+/* ============================================================
    START
-========================================================= */
+============================================================ */
 
-window.addEventListener(
-    "load",
-    async function() {
+window.addEventListener("load",async()=>{
+    if(!verifyAdmin()) return;
 
+    buildRooms();
 
-        if (
-            !checkAdminSession()
-        ) {
-
-            return;
-
-        }
-
-
-        try {
-
-
-            await loadUsers();
-
-
-        }
-
-        finally {
-
-
-            document.getElementById(
-                "pageLoader"
-            ).classList.add(
-                "hidden"
-            );
-
-
-        }
-
-
+    try{
+        await loadAll();
+    }finally{
+        $("loading").classList.add("hidden");
     }
-);
-
-
+});
 </script>
 
-
 </body>
-
 </html>
