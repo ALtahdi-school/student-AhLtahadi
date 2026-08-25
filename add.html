@@ -5,151 +5,491 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#075fcf">
 <title>إدارة المدرسة | مدرسة التحدي الأهلية المختلطة</title>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
-:root{--p:#075fcf;--pd:#06489c;--ps:#edf5ff;--g:#078b50;--gs:#ecfdf3;--r:#d92d20;--rs:#fef3f2;--o:#dc6803;--os:#fff6ed;--v:#6938ef;--vs:#f4f3ff;--bg:#f4f7fb;--text:#172033;--muted:#667085;--border:#e4e7ec}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}html{scroll-behavior:smooth}body{min-height:100vh;font-family:Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text)}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
-.loading{position:fixed;inset:0;z-index:50000;display:flex;align-items:center;justify-content:center;background:#fff}.loader{width:46px;height:46px;border:4px solid #e7edf5;border-top-color:var(--p);border-radius:50%;animation:spin .8s linear infinite}
-.header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}.header-in{width:min(1500px,100%);min-height:68px;margin:auto;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}.brand{display:flex;align-items:center;gap:9px}.brand img{width:46px;height:46px;object-fit:contain}.brand h1{font-size:15px;font-weight:900}.brand p{margin-top:3px;color:var(--p);font-size:9px;font-weight:900}.logout{min-height:38px;padding:0 11px;border:0;border-radius:10px;color:var(--r);background:var(--rs);font-size:9px;font-weight:900}
-.main{width:min(1500px,100%);margin:auto;padding:16px 14px 50px}.hero{position:relative;overflow:hidden;margin-bottom:14px;padding:19px;border-radius:20px;color:#fff;background:linear-gradient(135deg,#0870e8,#064594);box-shadow:0 14px 35px rgba(7,95,207,.15)}.hero:after{content:"";position:absolute;width:220px;height:220px;left:-90px;top:-130px;border-radius:50%;background:rgba(255,255,255,.08)}.hero h2,.hero p{position:relative;z-index:2}.hero h2{font-size:19px}.hero p{margin-top:6px;font-size:10px;opacity:.9}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}.stat{padding:13px;border:1px solid var(--border);border-radius:14px;background:#fff}.stat span{font-size:9px;color:var(--muted);font-weight:800}.stat strong{display:block;margin-top:5px;font-size:23px}
-.panel{margin-bottom:14px;overflow:hidden;border:1px solid var(--border);border-radius:17px;background:#fff;box-shadow:0 10px 30px rgba(16,24,40,.06)}.panel-head{min-height:62px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--border)}.panel-head h3{font-size:14px;font-weight:900}.panel-head p{margin-top:3px;color:var(--muted);font-size:9px;line-height:1.6}.panel-body{padding:16px}
-.classes{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}.class-card{min-height:108px;padding:13px;border:1px solid var(--border);border-radius:14px;background:linear-gradient(145deg,#fff,#f8fbff);cursor:pointer;transition:.2s}.class-card:hover{transform:translateY(-2px);border-color:#a9cdf8}.class-card.selected{border-color:var(--p);box-shadow:0 0 0 3px rgba(7,95,207,.08)}.class-card h4{font-size:14px}.class-count{margin-top:12px;color:var(--p);font-size:10px;font-weight:900}
-.badge{display:inline-flex;align-items:center;justify-content:center;min-height:24px;padding:0 8px;border-radius:20px;font-size:8px;font-weight:900}.blue{color:var(--p);background:var(--ps)}.green{color:var(--g);background:var(--gs)}.red{color:var(--r);background:var(--rs)}.orange{color:var(--o);background:var(--os)}.purple{color:var(--v);background:var(--vs)}
-.btn{min-height:40px;padding:0 13px;border:0;border-radius:10px;font-size:9px;font-weight:900}.btn:disabled{opacity:.5;cursor:default}.btn-p{color:#fff;background:var(--p)}.btn-g{color:#fff;background:var(--g)}.btn-soft{color:var(--p);background:var(--ps)}.btn-r{color:var(--r);background:var(--rs)}.btn-o{color:var(--o);background:var(--os)}.btn-v{color:var(--v);background:var(--vs)}
-.tabs,.profile-tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:13px;scrollbar-width:none}.tabs::-webkit-scrollbar,.profile-tabs::-webkit-scrollbar{display:none}.tab,.profile-tab{flex:0 0 auto;min-height:40px;padding:0 14px;border:1px solid var(--border);border-radius:10px;color:var(--muted);background:#fff;font-size:9px;font-weight:900}.tab.active,.profile-tab.active{color:#fff;background:var(--p);border-color:var(--p)}.section,.profile-panel{display:none}.section.active,.profile-panel.active{display:block}
-.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}.field label{color:#344054;font-size:9px;font-weight:900}.field input,.field select,.field textarea{width:100%;border:1.5px solid var(--border);border-radius:10px;background:#fff;outline:none;color:var(--text)}.field input,.field select{height:46px;padding:0 11px}.field textarea{min-height:85px;padding:10px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--p);box-shadow:0 0 0 4px rgba(7,95,207,.06)}.help{font-size:8px;color:var(--muted);line-height:1.6}.form-actions{grid-column:1/-1;display:flex;justify-content:flex-end;gap:6px;flex-wrap:wrap}
-.code-box{padding:13px;border:1px dashed #9dc7f8;border-radius:12px;text-align:center;background:var(--ps)}.code-box small{font-size:8px;color:var(--muted)}.code-box strong{display:block;direction:ltr;margin:6px 0 9px;color:var(--p);font-size:20px;letter-spacing:1.5px}
-.check-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:6px}.check-item{min-height:39px;padding:7px 9px;display:flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:9px;font-size:9px}.check-item input{width:16px;height:16px}
-.toolbar{display:grid;grid-template-columns:minmax(210px,1fr) 165px 165px;gap:7px;margin-bottom:10px}.toolbar input,.toolbar select{width:100%;height:42px;padding:0 10px;border:1.5px solid var(--border);border-radius:9px;background:#fff;outline:none}
-.bulk{display:none;margin-bottom:10px;padding:10px;border:1px solid #bad6f7;border-radius:10px;background:var(--ps);align-items:center;justify-content:space-between;gap:8px}.bulk.show{display:flex}.bulk strong{color:var(--p);font-size:9px}.bulk-actions{display:flex;gap:6px}.bulk select{min-width:175px;height:37px;border:1px solid #bad1ee;border-radius:8px;background:#fff}
-.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:11px}table{width:100%;min-width:1120px;border-collapse:collapse}th{padding:10px;text-align:right;white-space:nowrap;background:#f8fafc;border-bottom:1px solid var(--border);color:#475467;font-size:8px}td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:middle}.code{direction:ltr;display:inline-block;color:var(--p);font-weight:900}.student-link{border:0;background:none;color:var(--p);font-weight:900}.row-actions{display:flex;gap:4px;flex-wrap:wrap}.mini{min-height:29px;padding:0 7px;border:0;border-radius:7px;font-size:7.5px;font-weight:900}
-.message{display:none;padding:9px 11px;margin-bottom:10px;border-radius:9px;font-size:9px;font-weight:800}.message.show{display:block}.message.success{color:var(--g);background:var(--gs)}.message.error{color:var(--r);background:var(--rs)}.empty{padding:26px 14px;text-align:center;color:var(--muted);font-size:9px}
-.modal{position:fixed;inset:0;z-index:6000;display:none;align-items:center;justify-content:center;padding:13px;background:rgba(16,24,40,.5);backdrop-filter:blur(4px)}.modal.show{display:flex}.modal-card{width:min(650px,100%);max-height:92vh;overflow:auto;padding:17px;border-radius:17px;background:#fff;box-shadow:0 25px 70px rgba(0,0,0,.2)}.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:9px;margin-bottom:13px}.modal-head h3{font-size:15px}.modal-head p{margin-top:3px;color:var(--muted);font-size:8px}.close{width:33px;height:33px;border:0;border-radius:9px;color:var(--r);background:var(--rs);font-weight:900}
-.profile-modal{width:min(980px,100%)}.profile-summary{display:flex;align-items:center;gap:12px;padding:13px;margin-bottom:11px;border:1px solid var(--border);border-radius:13px;background:linear-gradient(135deg,#f5faff,#fff)}.avatar{width:60px;height:60px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:17px;color:#fff;background:linear-gradient(135deg,#075fcf,#06469a);font-size:22px;font-weight:900}.profile-summary h2{font-size:16px}.profile-badges,.profile-actions{display:flex;gap:5px;flex-wrap:wrap}.profile-badges{margin-top:6px}.profile-actions{margin-bottom:11px}.profile-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.profile-info{min-height:65px;padding:9px;border:1px solid var(--border);border-radius:9px;background:#fafcff}.profile-info.full{grid-column:1/-1}.profile-info small{display:block;margin-bottom:3px;color:var(--muted);font-size:7px}.profile-info strong{font-size:9px;line-height:1.6}.profile-list{display:flex;flex-direction:column;gap:6px}.profile-item{padding:10px;display:flex;align-items:center;justify-content:space-between;gap:9px;border:1px solid var(--border);border-radius:9px}.profile-item strong{font-size:9px}.profile-item small{display:block;margin-top:3px;color:var(--muted);font-size:7px}.money-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}.money-grid>div{padding:10px;border:1px solid var(--border);border-radius:9px;background:#fafcff}.money-grid span{display:block;color:var(--muted);font-size:7px}.money-grid strong{display:block;margin-top:4px;font-size:11px}
-.pdf-preview{align-items:flex-start;overflow:auto}.pdf-window{width:min(960px,100%);margin:auto;overflow:hidden;border-radius:19px;background:#eef2f7}.pdf-head{padding:12px 15px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid var(--border)}.pdf-head h3{font-size:14px}.pdf-head p{margin-top:3px;color:var(--muted);font-size:8px}.pdf-actions{padding:9px 14px;display:flex;justify-content:flex-end;gap:6px;background:#fff;border-bottom:1px solid var(--border)}.pdf-scroll{overflow:auto;padding:18px}.pdf-preview-content{width:794px;margin:auto}.pdf-host{position:fixed;left:-99999px;top:0;width:794px}
-.pdf-page{position:relative;width:794px;height:1123px;overflow:hidden;direction:rtl;font-family:Tahoma,Arial,sans-serif;color:#17283c;background:#fff url("student-form-template.jpeg") center/100% 100% no-repeat}.pdf-safe{position:absolute;top:42px;right:50px;bottom:44px;left:50px}.pdf-first,.pdf-second{position:absolute;right:0;width:100%;height:50%;overflow:hidden}.pdf-first{top:0;padding:12px 8px 18px}.pdf-second{bottom:0;padding:17px 7px 8px}
-.pdf-watermark{position:absolute;z-index:0;width:255px;height:255px;top:53%;right:50%;transform:translate(50%,-50%);object-fit:contain;opacity:.05}.pdf-meta{position:absolute;z-index:6;top:14px;left:12px;width:170px;text-align:right;color:#1f344f;font-size:11px;font-weight:900;line-height:2.15}.pdf-school{position:relative;z-index:3;text-align:center}.pdf-school img{display:block;width:66px;height:66px;margin:0 auto 3px;object-fit:contain}.pdf-school h2{margin:0;color:#173d6c;font-size:16px;line-height:1.5}.pdf-school p{margin-top:1px;color:#667085;font-size:8px;font-weight:800}
-.pdf-address{position:relative;z-index:3;margin-top:22px;text-align:center;color:#172b4d;font-weight:900}.pdf-address .to{display:block;font-size:14px;line-height:1.8}.pdf-address .subject{display:block;margin-top:5px;font-size:14px;line-height:1.8}.pdf-letter{position:relative;z-index:3;margin-top:14px;padding:0 8px;color:#1b2e45;font-size:12px;line-height:2.05;font-weight:600;text-align:justify}.pdf-letter strong{color:#064b9d}.pdf-thanks{position:relative;z-index:3;margin-top:8px;padding-right:8px;font-size:10px;font-weight:800}.pdf-sign{position:absolute;z-index:4;left:30px;bottom:20px;width:220px;text-align:center;color:#173d6c;font-size:17px;font-weight:900}
-.pdf-divider{position:absolute;z-index:20;top:50%;right:0;left:0;height:2px;background:#263f60}.pdf-divider-label{position:absolute;z-index:21;top:50%;right:50%;transform:translate(50%,-50%);padding:5px 22px;border:1px solid #263f60;border-radius:25px;background:#fff;color:#263f60;font-size:8px;font-weight:900}
-.pdf-student-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}.pdf-student-brand{display:flex;align-items:center;gap:8px}.pdf-student-brand img{width:48px;height:48px;object-fit:contain}.pdf-student-brand h2{color:#183d69;font-size:13px}.pdf-student-brand p{margin-top:2px;color:#64748b;font-size:7px}.pdf-form-no{min-width:100px;padding:5px 8px;border:1px solid #7893b3;border-radius:8px;text-align:center;background:rgba(255,255,255,.92)}.pdf-form-no small{display:block;color:#64748b;font-size:6.5px}.pdf-form-no strong{display:block;margin-top:2px;color:#173c67;font-size:12px}
-.pdf-data-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}.pdf-data{min-height:40px;padding:5px 6px;border:1px solid rgba(100,116,139,.3);border-radius:6px;background:rgba(255,255,255,.93)}.pdf-data.span2{grid-column:span 2}.pdf-data.full{grid-column:1/-1}.pdf-data b{display:block;margin-bottom:2px;color:#6b7788;font-size:6.2px}.pdf-data span{display:block;color:#18293f;font-size:8px;line-height:1.4;font-weight:900}
-.pdf-login{display:grid;grid-template-columns:1fr 102px;gap:6px;margin-top:6px}.pdf-code-card,.pdf-qr-card{min-height:72px;display:flex;align-items:center;justify-content:center;flex-direction:column;border-radius:8px;background:rgba(255,255,255,.96)}.pdf-code-card{border:1.5px dashed #426a99}.pdf-code-card small{color:#667085;font-size:6.5px}.pdf-code-card strong{direction:ltr;margin-top:3px;color:#164677;font-size:17px;letter-spacing:2px}.pdf-code-card p{margin-top:2px;color:#667085;font-size:6px}.pdf-qr-card{border:1px solid #ccd8e5}.student-pdf-qr{width:56px;height:56px;overflow:hidden}.student-pdf-qr canvas{display:block!important;width:56px!important;height:56px!important}.student-pdf-qr img{display:none!important}.pdf-qr-card small{margin-top:2px;color:#64748b;font-size:5.5px}
-.toast{position:fixed;z-index:30000;left:50%;bottom:23px;transform:translate(-50%,30px);min-width:210px;max-width:calc(100% - 24px);padding:10px 14px;border-radius:10px;background:#101828;color:#fff;text-align:center;font-size:9px;font-weight:800;opacity:0;visibility:hidden;transition:.2s}.toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
-@media(max-width:850px){.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:680px){.header-in{padding:7px 9px}.brand img{width:38px;height:38px}.brand h1{font-size:10px}.brand p{font-size:7px}.main{padding:10px 8px 42px}.hero{padding:15px}.classes{grid-template-columns:repeat(2,1fr)}.form-grid,.toolbar{grid-template-columns:1fr}.field.full,.form-actions{grid-column:auto}.form-actions,.bulk,.bulk-actions,.pdf-actions{flex-direction:column}.bulk{align-items:flex-start}.bulk-actions,.bulk-actions select,.bulk-actions button,.form-actions .btn,.pdf-actions .btn{width:100%}.profile-info-grid{grid-template-columns:repeat(2,1fr)}.money-grid{grid-template-columns:1fr}.pdf-scroll{padding:7px}.pdf-preview-content{transform:scale(.46);transform-origin:top center;margin-bottom:-605px}}@keyframes spin{to{transform:rotate(360deg)}}
+:root{
+ --p:#075fcf;--pd:#06499f;--ps:#edf5ff;
+ --g:#078b50;--gs:#ecfdf3;
+ --r:#d92d20;--rs:#fff1f0;
+ --o:#dc6803;--os:#fff6ed;
+ --v:#6938ef;--vs:#f4f3ff;
+ --bg:#f4f7fb;--text:#172033;--muted:#667085;--border:#e4e7ec
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{min-height:100vh;font-family:Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+
+.loading{position:fixed;inset:0;z-index:50000;display:flex;align-items:center;justify-content:center;background:#fff}
+.loader{width:47px;height:47px;border:4px solid #e8edf4;border-top-color:var(--p);border-radius:50%;animation:spin .8s linear infinite}
+
+.header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.header-in{width:min(1500px,100%);min-height:69px;margin:auto;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{width:47px;height:47px;object-fit:contain}
+.brand h1{font-size:15px;font-weight:900}
+.brand p{margin-top:3px;color:var(--p);font-size:9px;font-weight:900}
+.logout{min-height:38px;padding:0 11px;border:0;border-radius:10px;color:var(--r);background:var(--rs);font-size:9px;font-weight:900}
+
+.main{width:min(1500px,100%);margin:auto;padding:16px 14px 50px}
+.hero{position:relative;overflow:hidden;margin-bottom:14px;padding:19px;border-radius:20px;color:#fff;background:linear-gradient(135deg,#0870e8,#064594);box-shadow:0 14px 35px rgba(7,95,207,.15)}
+.hero:after{content:"";position:absolute;width:220px;height:220px;left:-90px;top:-130px;border-radius:50%;background:rgba(255,255,255,.08)}
+.hero h2,.hero p{position:relative;z-index:2}
+.hero h2{font-size:19px}
+.hero p{margin-top:6px;font-size:10px;opacity:.9}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.stat{padding:13px;border:1px solid var(--border);border-radius:14px;background:#fff;box-shadow:0 5px 18px rgba(16,24,40,.035)}
+.stat span{font-size:9px;color:var(--muted);font-weight:800}
+.stat strong{display:block;margin-top:5px;font-size:23px;font-weight:900}
+
+.panel{margin-bottom:14px;overflow:hidden;border:1px solid var(--border);border-radius:17px;background:#fff;box-shadow:0 10px 30px rgba(16,24,40,.06)}
+.panel-head{min-height:62px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--border)}
+.panel-head h3{font-size:14px;font-weight:900}
+.panel-head p{margin-top:3px;color:var(--muted);font-size:9px;line-height:1.6}
+.panel-body{padding:16px}
+
+.classes{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
+.class-card{min-height:108px;padding:13px;border:1px solid var(--border);border-radius:14px;background:linear-gradient(145deg,#fff,#f8fbff);cursor:pointer;transition:.2s}
+.class-card:hover{transform:translateY(-2px);border-color:#a9cdf8}
+.class-card.selected{border-color:var(--p);box-shadow:0 0 0 3px rgba(7,95,207,.08)}
+.class-card h4{font-size:14px;font-weight:900}
+.class-count{margin-top:12px;color:var(--p);font-size:10px;font-weight:900}
+
+.badge{display:inline-flex;align-items:center;justify-content:center;min-height:24px;padding:0 8px;border-radius:20px;font-size:8px;font-weight:900}
+.blue{color:var(--p);background:var(--ps)}
+.green{color:var(--g);background:var(--gs)}
+.red{color:var(--r);background:var(--rs)}
+.orange{color:var(--o);background:var(--os)}
+.purple{color:var(--v);background:var(--vs)}
+
+.btn{min-height:40px;padding:0 13px;border:0;border-radius:10px;font-size:9px;font-weight:900}
+.btn:disabled{opacity:.5;cursor:default}
+.btn-p{color:#fff;background:var(--p)}
+.btn-g{color:#fff;background:var(--g)}
+.btn-soft{color:var(--p);background:var(--ps)}
+.btn-r{color:var(--r);background:var(--rs)}
+.btn-o{color:var(--o);background:var(--os)}
+.btn-v{color:var(--v);background:var(--vs)}
+
+.tabs,.profile-tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:13px;scrollbar-width:none}
+.tabs::-webkit-scrollbar,.profile-tabs::-webkit-scrollbar{display:none}
+.tab,.profile-tab{flex:0 0 auto;min-height:40px;padding:0 14px;border:1px solid var(--border);border-radius:10px;color:var(--muted);background:#fff;font-size:9px;font-weight:900}
+.tab.active,.profile-tab.active{color:#fff;background:var(--p);border-color:var(--p)}
+.section,.profile-panel{display:none}
+.section.active,.profile-panel.active{display:block}
+
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field.full{grid-column:1/-1}
+.field label{color:#344054;font-size:9px;font-weight:900}
+.field input,.field select,.field textarea{width:100%;border:1.5px solid var(--border);border-radius:10px;background:#fff;outline:none;color:var(--text)}
+.field input,.field select{height:46px;padding:0 11px}
+.field textarea{min-height:85px;padding:10px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--p);box-shadow:0 0 0 4px rgba(7,95,207,.06)}
+.help{font-size:8px;color:var(--muted);line-height:1.6}
+.form-actions{grid-column:1/-1;display:flex;justify-content:flex-end;gap:6px;flex-wrap:wrap}
+
+.code-box{padding:13px;border:1px dashed #9dc7f8;border-radius:12px;text-align:center;background:var(--ps)}
+.code-box small{font-size:8px;color:var(--muted)}
+.code-box strong{display:block;direction:ltr;margin:6px 0 9px;color:var(--p);font-size:20px;letter-spacing:1.5px}
+
+.check-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:6px}
+.check-item{min-height:39px;padding:7px 9px;display:flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:9px;font-size:9px}
+.check-item input{width:16px;height:16px}
+
+.toolbar{display:grid;grid-template-columns:minmax(210px,1fr) 165px 165px;gap:7px;margin-bottom:10px}
+.toolbar input,.toolbar select{width:100%;height:42px;padding:0 10px;border:1.5px solid var(--border);border-radius:9px;background:#fff;outline:none}
+
+.bulk{display:none;margin-bottom:10px;padding:10px;border:1px solid #bad6f7;border-radius:10px;background:var(--ps);align-items:center;justify-content:space-between;gap:8px}
+.bulk.show{display:flex}
+.bulk strong{color:var(--p);font-size:9px}
+.bulk-actions{display:flex;gap:6px}
+.bulk select{min-width:175px;height:37px;border:1px solid #bad1ee;border-radius:8px;background:#fff}
+
+.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:11px}
+table{width:100%;min-width:1120px;border-collapse:collapse}
+th{padding:10px;text-align:right;white-space:nowrap;background:#f8fafc;border-bottom:1px solid var(--border);color:#475467;font-size:8px;font-weight:900}
+td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:middle}
+.code{direction:ltr;display:inline-block;color:var(--p);font-weight:900}
+.student-link{border:0;background:none;color:var(--p);font-weight:900}
+.row-actions{display:flex;gap:4px;flex-wrap:wrap}
+.mini{min-height:29px;padding:0 7px;border:0;border-radius:7px;font-size:7.5px;font-weight:900}
+
+.message{display:none;padding:9px 11px;margin-bottom:10px;border-radius:9px;font-size:9px;font-weight:800}
+.message.show{display:block}
+.message.success{color:var(--g);background:var(--gs)}
+.message.error{color:var(--r);background:var(--rs)}
+.empty{padding:26px 14px;text-align:center;color:var(--muted);font-size:9px}
+
+.modal{position:fixed;inset:0;z-index:6000;display:none;align-items:center;justify-content:center;padding:13px;background:rgba(16,24,40,.5);backdrop-filter:blur(4px)}
+.modal.show{display:flex}
+.modal-card{width:min(650px,100%);max-height:92vh;overflow:auto;padding:17px;border-radius:17px;background:#fff;box-shadow:0 25px 70px rgba(0,0,0,.2)}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:9px;margin-bottom:13px}
+.modal-head h3{font-size:15px}
+.modal-head p{margin-top:3px;color:var(--muted);font-size:8px}
+.close{width:33px;height:33px;border:0;border-radius:9px;color:var(--r);background:var(--rs);font-weight:900}
+
+.profile-modal{width:min(980px,100%)}
+.profile-summary{display:flex;align-items:center;gap:12px;padding:13px;margin-bottom:11px;border:1px solid var(--border);border-radius:13px;background:linear-gradient(135deg,#f5faff,#fff)}
+.avatar{width:60px;height:60px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:17px;color:#fff;background:linear-gradient(135deg,#075fcf,#06469a);font-size:22px;font-weight:900}
+.profile-summary h2{font-size:16px}
+.profile-badges,.profile-actions{display:flex;gap:5px;flex-wrap:wrap}
+.profile-badges{margin-top:6px}
+.profile-actions{margin-bottom:11px}
+.profile-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.profile-info{min-height:65px;padding:9px;border:1px solid var(--border);border-radius:9px;background:#fafcff}
+.profile-info.full{grid-column:1/-1}
+.profile-info small{display:block;margin-bottom:3px;color:var(--muted);font-size:7px}
+.profile-info strong{font-size:9px;line-height:1.6}
+.profile-list{display:flex;flex-direction:column;gap:6px}
+.profile-item{padding:10px;display:flex;align-items:center;justify-content:space-between;gap:9px;border:1px solid var(--border);border-radius:9px}
+.profile-item strong{font-size:9px}
+.profile-item small{display:block;margin-top:3px;color:var(--muted);font-size:7px}
+.money-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}
+.money-grid>div{padding:10px;border:1px solid var(--border);border-radius:9px;background:#fafcff}
+.money-grid span{display:block;color:var(--muted);font-size:7px}
+.money-grid strong{display:block;margin-top:4px;font-size:11px}
+
+/* PDF PREVIEW */
+.pdf-preview{align-items:flex-start;overflow:auto}
+.pdf-window{width:min(960px,100%);margin:auto;overflow:hidden;border-radius:19px;background:#eef2f7}
+.pdf-head{padding:12px 15px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid var(--border)}
+.pdf-head h3{font-size:14px}
+.pdf-head p{margin-top:3px;color:var(--muted);font-size:8px}
+.pdf-actions{padding:9px 14px;display:flex;justify-content:flex-end;gap:6px;background:#fff;border-bottom:1px solid var(--border)}
+.pdf-scroll{overflow:auto;padding:18px}
+.pdf-preview-content{width:794px;margin:auto}
+.pdf-host{position:fixed;left:-99999px;top:0;width:794px}
+
+/* PDF PAGE */
+.pdf-page{
+ position:relative;width:794px;height:1123px;overflow:hidden;direction:rtl;
+ font-family:Tahoma,Arial,sans-serif;color:#17283c;
+ background:#fff url("student-form-template.jpeg") center/100% 100% no-repeat
+}
+.pdf-safe{position:absolute;top:18px;right:42px;bottom:30px;left:42px}
+.pdf-first,.pdf-second{position:absolute;right:0;width:100%;height:50%;overflow:hidden}
+.pdf-first{top:0;padding:4px 8px 12px}
+.pdf-second{bottom:0;padding:14px 8px 5px}
+
+/* WATERMARK */
+.pdf-watermark{
+ position:absolute;z-index:0;top:52%;right:50%;width:245px;height:245px;
+ transform:translate(50%,-50%);object-fit:contain;opacity:.05
+}
+
+/* NUMBER + DATE */
+.pdf-meta{
+ position:absolute;z-index:8;top:8px;left:8px;width:180px;text-align:right;
+ color:#1d3048;font-size:11px;font-weight:900;line-height:2
+}
+
+/* SCHOOL */
+.pdf-school{position:relative;z-index:3;text-align:center;margin-top:0}
+.pdf-school img{display:block;width:62px;height:62px;margin:0 auto 2px;object-fit:contain}
+.pdf-school h2{margin:0;color:#173d6c;font-size:15px;font-weight:900;line-height:1.45}
+.pdf-school p{margin-top:1px;color:#667085;font-size:8px;font-weight:800}
+
+/* TO + SUBJECT */
+.pdf-address{position:relative;z-index:4;margin-top:15px;text-align:center;color:#172b4d;font-weight:900}
+.pdf-address .to{display:block;font-size:14px;line-height:1.7}
+.pdf-address .subject{display:block;margin-top:4px;font-size:14px;line-height:1.7}
+
+/* LETTER */
+.pdf-letter{position:relative;z-index:3;margin-top:12px;padding:0 9px;color:#1b2e45;font-size:12px;font-weight:600;line-height:2;text-align:justify}
+.pdf-letter strong{color:#064b9d;font-weight:900}
+.pdf-thanks{position:relative;z-index:3;margin-top:7px;padding-right:9px;font-size:10px;font-weight:800}
+.pdf-sign{position:absolute;z-index:4;left:28px;bottom:15px;width:225px;text-align:center;color:#173d6c;font-size:17px;font-weight:900}
+
+/* CENTER DIVIDER */
+.pdf-divider{position:absolute;z-index:20;top:50%;right:0;left:0;height:2px;background:#263f60}
+.pdf-divider-label{position:absolute;z-index:21;top:50%;right:50%;transform:translate(50%,-50%);padding:4px 20px;border:1px solid #263f60;border-radius:25px;background:#fff;color:#263f60;font-size:8px;font-weight:900}
+
+/* STUDENT HALF */
+.pdf-student-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:7px}
+.pdf-student-brand{display:flex;align-items:center;gap:8px}
+.pdf-student-brand img{width:45px;height:45px;object-fit:contain}
+.pdf-student-brand h2{color:#183d69;font-size:13px;font-weight:900}
+.pdf-student-brand p{margin-top:2px;color:#64748b;font-size:7px}
+.pdf-form-no{min-width:100px;padding:5px 8px;border:1px solid #7893b3;border-radius:8px;text-align:center;background:rgba(255,255,255,.94)}
+.pdf-form-no small{display:block;color:#64748b;font-size:6.5px}
+.pdf-form-no strong{display:block;margin-top:2px;color:#173c67;font-size:12px}
+
+.pdf-data-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.pdf-data{min-height:39px;padding:4px 6px;border:1px solid rgba(100,116,139,.3);border-radius:6px;background:rgba(255,255,255,.94)}
+.pdf-data.span2{grid-column:span 2}
+.pdf-data.full{grid-column:1/-1}
+.pdf-data b{display:block;margin-bottom:2px;color:#6b7788;font-size:6.2px}
+.pdf-data span{display:block;color:#18293f;font-size:7.8px;line-height:1.35;font-weight:900}
+
+.pdf-login{display:grid;grid-template-columns:1fr 100px;gap:6px;margin-top:5px}
+.pdf-code-card,.pdf-qr-card{min-height:68px;display:flex;align-items:center;justify-content:center;flex-direction:column;border-radius:8px;background:rgba(255,255,255,.96)}
+.pdf-code-card{border:1.5px dashed #426a99}
+.pdf-code-card small{color:#667085;font-size:6.5px}
+.pdf-code-card strong{direction:ltr;margin-top:3px;color:#164677;font-size:17px;font-weight:900;letter-spacing:2px}
+.pdf-code-card p{margin-top:2px;color:#667085;font-size:5.8px}
+.pdf-qr-card{border:1px solid #ccd8e5}
+.student-pdf-qr{width:54px;height:54px;overflow:hidden}
+.student-pdf-qr canvas{display:block!important;width:54px!important;height:54px!important}
+.student-pdf-qr img{display:none!important}
+.pdf-qr-card small{margin-top:2px;color:#64748b;font-size:5.5px}
+
+.toast{position:fixed;z-index:30000;left:50%;bottom:23px;transform:translate(-50%,30px);min-width:210px;max-width:calc(100% - 24px);padding:10px 14px;border-radius:10px;background:#101828;color:#fff;text-align:center;font-size:9px;font-weight:800;opacity:0;visibility:hidden;transition:.2s}
+.toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+
+@media(max-width:850px){.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){
+ .header-in{padding:7px 9px}.brand img{width:38px;height:38px}.brand h1{font-size:10px}.brand p{font-size:7px}
+ .main{padding:10px 8px 42px}.hero{padding:15px}.classes{grid-template-columns:repeat(2,1fr)}
+ .form-grid,.toolbar{grid-template-columns:1fr}.field.full,.form-actions{grid-column:auto}
+ .form-actions,.bulk,.bulk-actions,.pdf-actions{flex-direction:column}.bulk{align-items:flex-start}
+ .bulk-actions,.bulk-actions select,.bulk-actions button,.form-actions .btn,.pdf-actions .btn{width:100%}
+ .profile-info-grid{grid-template-columns:repeat(2,1fr)}.money-grid{grid-template-columns:1fr}
+ .pdf-scroll{padding:7px}.pdf-preview-content{transform:scale(.46);transform-origin:top center;margin-bottom:-605px}
+}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 
 <body>
+
 <div id="loading" class="loading"><div class="loader"></div></div>
 
-<header class="header"><div class="header-in">
-<div class="brand"><img src="logo.png"><div><h1>مدرسة التحدي الأهلية المختلطة</h1><p>قسم الحوكمة - لوحة الإدارة</p></div></div>
-<button class="logout" onclick="logout()">تسجيل الخروج</button>
-</div></header>
+<header class="header">
+ <div class="header-in">
+  <div class="brand"><img src="logo.png" alt=""><div><h1>مدرسة التحدي الأهلية المختلطة</h1><p>قسم الحوكمة - لوحة الإدارة</p></div></div>
+  <button class="logout" onclick="logout()">تسجيل الخروج</button>
+ </div>
+</header>
 
 <main class="main">
+
 <section class="hero"><h2 id="welcome">لوحة إدارة المدرسة</h2><p>إدارة الصفوف والطلاب والأساتذة والقبول والملفات.</p></section>
 
 <div class="stats">
-<div class="stat"><span>الصفوف</span><strong id="totalClasses">0</strong></div>
-<div class="stat"><span>الطلاب</span><strong id="totalStudents">0</strong></div>
-<div class="stat"><span>تم القبول</span><strong id="totalAccepted">0</strong></div>
-<div class="stat"><span>الأساتذة</span><strong id="totalTeachers">0</strong></div>
+ <div class="stat"><span>عدد الصفوف</span><strong id="totalClasses">0</strong></div>
+ <div class="stat"><span>عدد الطلاب</span><strong id="totalStudents">0</strong></div>
+ <div class="stat"><span>تم القبول</span><strong id="totalAccepted">0</strong></div>
+ <div class="stat"><span>عدد الأساتذة</span><strong id="totalTeachers">0</strong></div>
 </div>
 
-<section class="panel"><div class="panel-head"><div><h3>الصفوف</h3><p>اضغط على الصف لعرض طلابه.</p></div><button class="btn btn-p" onclick="openClassModal()">إنشاء صف</button></div><div class="panel-body"><div id="classesGrid" class="classes"></div></div></section>
+<section class="panel">
+ <div class="panel-head"><div><h3>الصفوف</h3><p>اضغط على الصف لعرض طلابه.</p></div><button class="btn btn-p" onclick="openClassModal()">إنشاء صف</button></div>
+ <div class="panel-body"><div id="classesGrid" class="classes"></div></div>
+</section>
 
 <nav class="tabs">
-<button class="tab active" data-target="studentsSection">الطلاب</button>
-<button class="tab" data-target="addStudentSection">إضافة طالب</button>
-<button class="tab" data-target="teachersSection">الأساتذة</button>
-<button class="tab" data-target="addTeacherSection">إضافة أستاذ</button>
+ <button class="tab active" data-target="studentsSection">الطلاب</button>
+ <button class="tab" data-target="addStudentSection">إضافة طالب</button>
+ <button class="tab" data-target="teachersSection">الأساتذة</button>
+ <button class="tab" data-target="addTeacherSection">إضافة أستاذ</button>
 </nav>
 
-<section id="studentsSection" class="section active"><div class="panel">
-<div class="panel-head"><div><h3 id="studentsTitle">جميع الطلاب</h3><p>اضغط على اسم الطالب لعرض ملفه الكامل.</p></div><button class="btn btn-soft" onclick="showAllStudents()">عرض الجميع</button></div>
-<div class="panel-body">
-<div class="toolbar"><input id="studentSearch" placeholder="بحث بالاسم أو الكود أو الهاتف"><select id="studentGenderFilter"><option value="">الجنس: الجميع</option><option value="male">ذكور</option><option value="female">إناث</option></select><select id="studentStatusFilter"><option value="">جميع الحالات</option><option value="pending">لم يجلب الملف</option><option value="accepted">تم القبول</option></select></div>
-<div id="bulkBar" class="bulk"><strong id="selectedCount">تم تحديد 0 طالب</strong><div class="bulk-actions"><select id="moveClassSelect"><option value="">نقل إلى صف...</option></select><button class="btn btn-p" onclick="moveSelectedStudents()">نقل الطلاب</button></div></div>
-<div class="table-wrap"><table><thead><tr><th><input id="selectAll" type="checkbox"></th><th>العدد</th><th>الكود</th><th>الطالب</th><th>الجنس</th><th>الصف</th><th>القاعة</th><th>الملف</th><th>الكتب</th><th>القسط</th><th>الحساب</th><th>الإجراءات</th></tr></thead><tbody id="studentsBody"></tbody></table></div>
-<div id="studentsEmpty" class="empty hidden">لا توجد بيانات مطابقة.</div>
-</div></div></section>
+<section id="studentsSection" class="section active">
+ <div class="panel">
+  <div class="panel-head"><div><h3 id="studentsTitle">جميع الطلاب</h3><p>اضغط على اسم الطالب لفتح ملفه الكامل.</p></div><button class="btn btn-soft" onclick="showAllStudents()">عرض الجميع</button></div>
+  <div class="panel-body">
 
-<section id="addStudentSection" class="section"><div class="panel">
-<div class="panel-head"><div><h3>إضافة طالب جديد</h3><p>يمكن معاينة وتحميل PDF قبل الحفظ.</p></div></div>
-<div class="panel-body"><div id="studentMessage" class="message"></div>
-<form id="studentForm" class="form-grid">
-<div class="field full"><label>اسم الطالب الرباعي</label><input id="studentName" required></div>
-<div class="field"><label>اسم الأم</label><input id="motherName" required></div>
-<div class="field"><label>الصف</label><select id="studentClass" required></select></div>
-<div class="field"><label>الجنس</label><input id="studentGenderDisplay" readonly></div>
-<div class="field"><label>رقم القاعة</label><select id="studentRoom" required></select></div>
-<div class="field"><label>رقم ولي الأمر</label><input id="guardianPhone" required></div>
-<div class="field"><label>رقم الطالب</label><input id="studentPhone"></div>
-<div class="field"><label>رقم الخط</label><input id="lineNumber"></div>
-<div class="field"><label>المدرسة القادم منها</label><input id="previousSchool" required></div>
-<div class="field"><label>تاريخ التسجيل / المباشرة</label><input id="startDate" type="date" required></div>
-<div class="field"><label>مبلغ القسط الكلي</label><input id="tuitionTotal" type="number" min="0" step="1000" placeholder="يمكن تركه فارغاً أو 0"><span class="help">القسط لا يمنع حفظ الطالب إذا كان صفر أو فارغاً.</span></div>
-<div class="field full"><label>عنوان السكن بالتفصيل</label><textarea id="studentAddress" required></textarea></div>
-<div class="field full"><div class="code-box"><small>كود الطالب</small><strong id="studentCodePreview">لم يتم التوليد</strong><button type="button" class="btn btn-soft" onclick="previewStudentCode()">توليد الكود</button></div></div>
-<div class="field full"><label class="check-item"><input id="activateStudent" type="checkbox"><span>تفعيل حساب الطالب</span></label><span class="help">إذا كان القسط صفراً يتم الحفظ بصورة طبيعية ويبقى الحساب غير فعال.</span></div>
-<div class="form-actions"><button type="button" class="btn btn-v" onclick="previewStudentPDFBeforeSave()">معاينة PDF</button><button type="button" class="btn btn-soft" onclick="downloadStudentPDFBeforeSave()">تحميل PDF</button><button id="saveStudentBtn" class="btn btn-p">حفظ الطالب</button></div>
-</form></div></div></section>
+   <div class="toolbar">
+    <input id="studentSearch" placeholder="بحث بالاسم أو الكود أو الهاتف">
+    <select id="studentGenderFilter"><option value="">الجنس: الجميع</option><option value="male">ذكور</option><option value="female">إناث</option></select>
+    <select id="studentStatusFilter"><option value="">جميع الحالات</option><option value="pending">لم يجلب الملف</option><option value="accepted">تم القبول</option></select>
+   </div>
 
-<section id="teachersSection" class="section"><div class="panel"><div class="panel-head"><div><h3>الأساتذة</h3><p>الأساتذة والمواد والصفوف المسندة إليهم.</p></div></div><div class="panel-body">
-<div class="toolbar"><input id="teacherSearch" placeholder="بحث بالأستاذ أو الكود أو المادة"><select id="teacherClassFilter"></select><select id="teacherStatusFilter"><option value="">جميع الحسابات</option><option value="active">فعال</option><option value="inactive">غير فعال</option></select></div>
-<div class="table-wrap"><table><thead><tr><th>الكود</th><th>الأستاذ</th><th>المادة</th><th>الصفوف</th><th>الحساب</th><th>الإجراءات</th></tr></thead><tbody id="teachersBody"></tbody></table></div>
-</div></div></section>
+   <div id="bulkBar" class="bulk">
+    <strong id="selectedCount">تم تحديد 0 طالب</strong>
+    <div class="bulk-actions"><select id="moveClassSelect"><option value="">نقل إلى صف...</option></select><button class="btn btn-p" onclick="moveSelectedStudents()">نقل الطلاب</button></div>
+   </div>
 
-<section id="addTeacherSection" class="section"><div class="panel"><div class="panel-head"><div><h3>إضافة أستاذ</h3><p>حدد المادة والصفوف التي يدرسها.</p></div></div><div class="panel-body"><div id="teacherMessage" class="message"></div>
-<form id="teacherForm" class="form-grid">
-<div class="field full"><label>اسم الأستاذ</label><input id="teacherName" required></div>
-<div class="field full"><label>المادة</label><input id="teacherSubject" required></div>
-<div class="field full"><label>الصفوف التي يدرسها</label><div id="teacherClasses" class="check-grid"></div></div>
-<div class="field full"><div class="code-box"><small>كود الأستاذ</small><strong id="teacherCodePreview">لم يتم التوليد</strong><button type="button" class="btn btn-soft" onclick="previewTeacherCode()">توليد الكود</button></div></div>
-<div class="form-actions"><button id="saveTeacherBtn" class="btn btn-g">حفظ الأستاذ</button></div>
-</form></div></div></section>
+   <div class="table-wrap">
+    <table>
+     <thead><tr><th><input id="selectAll" type="checkbox"></th><th>العدد</th><th>الكود</th><th>الطالب</th><th>الجنس</th><th>الصف</th><th>القاعة</th><th>الملف</th><th>الكتب</th><th>القسط</th><th>الحساب</th><th>الإجراءات</th></tr></thead>
+     <tbody id="studentsBody"></tbody>
+    </table>
+   </div>
+
+   <div id="studentsEmpty" class="empty hidden">لا توجد بيانات مطابقة.</div>
+  </div>
+ </div>
+</section>
+
+<section id="addStudentSection" class="section">
+ <div class="panel">
+  <div class="panel-head"><div><h3>إضافة طالب جديد</h3><p>يمكن معاينة وطباعة الاستمارة قبل الحفظ.</p></div></div>
+  <div class="panel-body">
+   <div id="studentMessage" class="message"></div>
+
+   <form id="studentForm" class="form-grid">
+    <div class="field full"><label>اسم الطالب الرباعي</label><input id="studentName" required></div>
+    <div class="field"><label>اسم الأم</label><input id="motherName" required></div>
+    <div class="field"><label>الصف</label><select id="studentClass" required></select></div>
+    <div class="field"><label>الجنس</label><input id="studentGenderDisplay" readonly></div>
+    <div class="field"><label>رقم القاعة</label><select id="studentRoom" required></select></div>
+    <div class="field"><label>رقم ولي الأمر</label><input id="guardianPhone" required></div>
+    <div class="field"><label>رقم الطالب</label><input id="studentPhone"></div>
+    <div class="field"><label>رقم الخط</label><input id="lineNumber"></div>
+    <div class="field"><label>المدرسة القادم منها</label><input id="previousSchool" required></div>
+    <div class="field"><label>تاريخ التسجيل / المباشرة</label><input id="startDate" type="date" required></div>
+    <div class="field"><label>مبلغ القسط الكلي</label><input id="tuitionTotal" type="number" min="0" step="1000" placeholder="يمكن تركه فارغاً أو 0"><span class="help">يمكن حفظ الطالب حتى إذا كان مبلغ القسط صفراً أو فارغاً.</span></div>
+    <div class="field full"><label>عنوان السكن بالتفصيل</label><textarea id="studentAddress" required></textarea></div>
+
+    <div class="field full">
+     <div class="code-box"><small>كود الطالب</small><strong id="studentCodePreview">لم يتم التوليد</strong><button type="button" class="btn btn-soft" onclick="previewStudentCode()">توليد الكود</button></div>
+    </div>
+
+    <div class="field full">
+     <label class="check-item"><input id="activateStudent" type="checkbox"><span>تفعيل حساب الطالب مباشرة</span></label>
+     <span class="help">إذا كان مبلغ القسط صفراً يتم حفظ الطالب، لكن يبقى حسابه غير فعال.</span>
+    </div>
+
+    <div class="form-actions">
+     <button type="button" class="btn btn-v" onclick="previewStudentPDFBeforeSave()">معاينة PDF</button>
+     <button type="button" class="btn btn-soft" onclick="downloadStudentPDFBeforeSave()">تحميل PDF</button>
+     <button id="saveStudentBtn" class="btn btn-p">حفظ الطالب</button>
+    </div>
+   </form>
+
+  </div>
+ </div>
+</section>
+
+<section id="teachersSection" class="section">
+ <div class="panel">
+  <div class="panel-head"><div><h3>الأساتذة</h3><p>الأساتذة والمواد والصفوف المسندة إليهم.</p></div></div>
+  <div class="panel-body">
+   <div class="toolbar">
+    <input id="teacherSearch" placeholder="بحث بالأستاذ أو الكود أو المادة">
+    <select id="teacherClassFilter"></select>
+    <select id="teacherStatusFilter"><option value="">جميع الحسابات</option><option value="active">فعال</option><option value="inactive">غير فعال</option></select>
+   </div>
+   <div class="table-wrap"><table><thead><tr><th>الكود</th><th>الأستاذ</th><th>المادة</th><th>الصفوف</th><th>الحساب</th><th>الإجراءات</th></tr></thead><tbody id="teachersBody"></tbody></table></div>
+  </div>
+ </div>
+</section>
+
+<section id="addTeacherSection" class="section">
+ <div class="panel">
+  <div class="panel-head"><div><h3>إضافة أستاذ</h3><p>حدد المادة والصفوف التي يدرسها.</p></div></div>
+  <div class="panel-body">
+   <div id="teacherMessage" class="message"></div>
+   <form id="teacherForm" class="form-grid">
+    <div class="field full"><label>اسم الأستاذ</label><input id="teacherName" required></div>
+    <div class="field full"><label>المادة</label><input id="teacherSubject" required></div>
+    <div class="field full"><label>الصفوف التي يدرسها</label><div id="teacherClasses" class="check-grid"></div></div>
+    <div class="field full"><div class="code-box"><small>كود الأستاذ</small><strong id="teacherCodePreview">لم يتم التوليد</strong><button type="button" class="btn btn-soft" onclick="previewTeacherCode()">توليد الكود</button></div></div>
+    <div class="form-actions"><button id="saveTeacherBtn" class="btn btn-g">حفظ الأستاذ</button></div>
+   </form>
+  </div>
+ </div>
+</section>
+
 </main>
 
-<div id="classModal" class="modal"><div class="modal-card"><div class="modal-head"><div><h3>إنشاء صف جديد</h3><p>حدد اسم الصف والجنس.</p></div><button class="close" onclick="closeModal('classModal')">×</button></div>
-<form id="classForm" class="form-grid"><div class="field full"><label>اسم الصف</label><input id="className" required></div><div class="field full"><label>الجنس</label><select id="classGender" required><option value="">اختر</option><option value="male">ذكور</option><option value="female">إناث</option></select></div><div class="form-actions"><button class="btn btn-p">إنشاء الصف</button></div></form>
-</div></div>
+<div id="classModal" class="modal">
+ <div class="modal-card">
+  <div class="modal-head"><div><h3>إنشاء صف جديد</h3><p>حدد اسم الصف والجنس.</p></div><button class="close" onclick="closeModal('classModal')">×</button></div>
+  <form id="classForm" class="form-grid">
+   <div class="field full"><label>اسم الصف</label><input id="className" required></div>
+   <div class="field full"><label>الجنس</label><select id="classGender" required><option value="">اختر</option><option value="male">ذكور</option><option value="female">إناث</option></select></div>
+   <div class="form-actions"><button class="btn btn-p">إنشاء الصف</button></div>
+  </form>
+ </div>
+</div>
 
-<div id="editStudentModal" class="modal"><div class="modal-card"><div class="modal-head"><div><h3>تعديل الطالب</h3><p id="editStudentLabel"></p></div><button class="close" onclick="closeModal('editStudentModal')">×</button></div>
-<form id="editStudentForm" class="form-grid">
-<input id="editCode" type="hidden">
-<div class="field full"><label>اسم الطالب</label><input id="editName" required></div>
-<div class="field"><label>اسم الأم</label><input id="editMother" required></div>
-<div class="field"><label>الصف</label><select id="editClass" required></select></div>
-<div class="field"><label>القاعة</label><select id="editRoom" required></select></div>
-<div class="field"><label>رقم ولي الأمر</label><input id="editGuardian" required></div>
-<div class="field"><label>رقم الطالب</label><input id="editStudentPhone"></div>
-<div class="field"><label>رقم الخط</label><input id="editLine"></div>
-<div class="field"><label>المدرسة القادم منها</label><input id="editPreviousSchool" required></div>
-<div class="field"><label>تاريخ المباشرة</label><input id="editStartDate" type="date" required></div>
-<div class="field"><label>القسط الكلي</label><input id="editTuition" type="number" min="0"></div>
-<div class="field full"><label>عنوان السكن</label><textarea id="editAddress" required></textarea></div>
-<div class="form-actions"><button class="btn btn-p">حفظ التعديلات</button></div>
-</form></div></div>
+<div id="editStudentModal" class="modal">
+ <div class="modal-card">
+  <div class="modal-head"><div><h3>تعديل بيانات الطالب</h3><p id="editStudentLabel"></p></div><button class="close" onclick="closeModal('editStudentModal')">×</button></div>
+  <form id="editStudentForm" class="form-grid">
+   <input id="editCode" type="hidden">
+   <div class="field full"><label>اسم الطالب</label><input id="editName" required></div>
+   <div class="field"><label>اسم الأم</label><input id="editMother" required></div>
+   <div class="field"><label>الصف</label><select id="editClass" required></select></div>
+   <div class="field"><label>القاعة</label><select id="editRoom" required></select></div>
+   <div class="field"><label>رقم ولي الأمر</label><input id="editGuardian" required></div>
+   <div class="field"><label>رقم الطالب</label><input id="editStudentPhone"></div>
+   <div class="field"><label>رقم الخط</label><input id="editLine"></div>
+   <div class="field"><label>المدرسة القادم منها</label><input id="editPreviousSchool" required></div>
+   <div class="field"><label>تاريخ المباشرة</label><input id="editStartDate" type="date" required></div>
+   <div class="field"><label>مبلغ القسط</label><input id="editTuition" type="number" min="0"></div>
+   <div class="field full"><label>عنوان السكن</label><textarea id="editAddress" required></textarea></div>
+   <div class="form-actions"><button class="btn btn-p">حفظ التعديلات</button></div>
+  </form>
+ </div>
+</div>
 
-<div id="studentProfileModal" class="modal"><div class="modal-card profile-modal">
-<div class="modal-head"><div><h3>ملف الطالب الكامل</h3><p id="profileCode">—</p></div><button class="close" onclick="closeModal('studentProfileModal')">×</button></div>
-<div class="profile-summary"><div id="profileAvatar" class="avatar">ط</div><div><h2 id="profileName">—</h2><div id="profileBadges" class="profile-badges"></div></div></div>
-<div class="profile-actions"><button class="btn btn-g" onclick="setBooksStatus(true)">استلم الكتب</button><button class="btn btn-o" onclick="setBooksStatus(false)">لم يستلم الكتب</button><button id="profileEditBtn" class="btn btn-soft">تعديل البيانات</button><button id="profilePDFBtn" class="btn btn-v">تحميل PDF</button></div>
-<div class="profile-tabs"><button class="profile-tab active" data-profile="profileInfo">البيانات</button><button class="profile-tab" data-profile="profileGrades">الدرجات</button><button class="profile-tab" data-profile="profileAttendance">الحضور والغياب</button><button class="profile-tab" data-profile="profilePayments">الأقساط</button></div>
-<section id="profileInfo" class="profile-panel active"><div id="profileInfoGrid" class="profile-info-grid"></div></section>
-<section id="profileGrades" class="profile-panel"><div class="table-wrap"><table style="min-width:700px"><thead><tr><th>المادة</th><th>الفصل الأول</th><th>نصف السنة</th><th>الفصل الثاني</th><th>السعي السنوي</th></tr></thead><tbody id="profileGradesBody"></tbody></table></div><div id="profileGradesEmpty" class="empty hidden">لا توجد درجات.</div></section>
-<section id="profileAttendance" class="profile-panel"><div id="profileAttendanceList" class="profile-list"></div><div id="profileAttendanceEmpty" class="empty hidden">لا توجد سجلات حضور أو غياب.</div></section>
-<section id="profilePayments" class="profile-panel"><div class="money-grid"><div><span>القسط الكلي</span><strong id="profileTuition">0</strong></div><div><span>المدفوع</span><strong id="profilePaid">0</strong></div><div><span>المتبقي</span><strong id="profileRemaining">0</strong></div></div><div id="profilePaymentsList" class="profile-list"></div><div id="profilePaymentsEmpty" class="empty hidden">لا توجد دفعات.</div></section>
-</div></div>
+<div id="studentProfileModal" class="modal">
+ <div class="modal-card profile-modal">
 
-<div id="pdfPreviewModal" class="modal pdf-preview"><div class="pdf-window"><div class="pdf-head"><div><h3>معاينة استمارة الطالب</h3><p>عدم الممانعة + بيانات الطالب في صفحة واحدة.</p></div><button class="close" onclick="closeModal('pdfPreviewModal')">×</button></div><div class="pdf-actions"><button class="btn btn-soft" onclick="closeModal('pdfPreviewModal')">رجوع</button><button class="btn btn-p" onclick="downloadStudentPDFBeforeSave()">تحميل PDF</button></div><div class="pdf-scroll"><div id="pdfPreviewContent" class="pdf-preview-content"></div></div></div></div>
+  <div class="modal-head"><div><h3>ملف الطالب الكامل</h3><p id="profileCode">—</p></div><button class="close" onclick="closeModal('studentProfileModal')">×</button></div>
 
-<div id="confirmModal" class="modal"><div class="modal-card" style="width:min(410px,100%)"><h3 id="confirmTitle">تأكيد</h3><p id="confirmText" style="margin-top:7px;color:#667085;font-size:9px;line-height:1.7"></p><div class="form-actions" style="margin-top:14px"><button class="btn btn-soft" onclick="closeConfirm()">إلغاء</button><button id="confirmYes" class="btn btn-p">تأكيد</button></div></div></div>
-<div id="pdfHost" class="pdf-host"></div><div id="toast" class="toast"></div>
+  <div class="profile-summary">
+   <div id="profileAvatar" class="avatar">ط</div>
+   <div><h2 id="profileName">—</h2><div id="profileBadges" class="profile-badges"></div></div>
+  </div>
+
+  <div class="profile-actions">
+   <button class="btn btn-g" onclick="setBooksStatus(true)">استلم الكتب</button>
+   <button class="btn btn-o" onclick="setBooksStatus(false)">لم يستلم الكتب</button>
+   <button id="profileEditBtn" class="btn btn-soft">تعديل البيانات</button>
+   <button id="profilePDFBtn" class="btn btn-v">تحميل PDF</button>
+  </div>
+
+  <div class="profile-tabs">
+   <button class="profile-tab active" data-profile="profileInfo">البيانات</button>
+   <button class="profile-tab" data-profile="profileGrades">الدرجات</button>
+   <button class="profile-tab" data-profile="profileAttendance">الحضور والغياب</button>
+   <button class="profile-tab" data-profile="profilePayments">الأقساط</button>
+  </div>
+
+  <section id="profileInfo" class="profile-panel active"><div id="profileInfoGrid" class="profile-info-grid"></div></section>
+
+  <section id="profileGrades" class="profile-panel">
+   <div class="table-wrap"><table style="min-width:700px"><thead><tr><th>المادة</th><th>الفصل الأول</th><th>نصف السنة</th><th>الفصل الثاني</th><th>السعي السنوي</th></tr></thead><tbody id="profileGradesBody"></tbody></table></div>
+   <div id="profileGradesEmpty" class="empty hidden">لا توجد درجات.</div>
+  </section>
+
+  <section id="profileAttendance" class="profile-panel">
+   <div id="profileAttendanceList" class="profile-list"></div>
+   <div id="profileAttendanceEmpty" class="empty hidden">لا توجد سجلات حضور أو غياب.</div>
+  </section>
+
+  <section id="profilePayments" class="profile-panel">
+   <div class="money-grid">
+    <div><span>القسط الكلي</span><strong id="profileTuition">0</strong></div>
+    <div><span>المدفوع</span><strong id="profilePaid">0</strong></div>
+    <div><span>المتبقي</span><strong id="profileRemaining">0</strong></div>
+   </div>
+   <div id="profilePaymentsList" class="profile-list"></div>
+   <div id="profilePaymentsEmpty" class="empty hidden">لا توجد دفعات.</div>
+  </section>
+
+ </div>
+</div>
+
+<div id="pdfPreviewModal" class="modal pdf-preview">
+ <div class="pdf-window">
+  <div class="pdf-head"><div><h3>معاينة استمارة الطالب</h3><p>عدم الممانعة وبيانات الطالب في صفحة واحدة.</p></div><button class="close" onclick="closeModal('pdfPreviewModal')">×</button></div>
+  <div class="pdf-actions"><button class="btn btn-soft" onclick="closeModal('pdfPreviewModal')">رجوع</button><button class="btn btn-p" onclick="downloadStudentPDFBeforeSave()">تحميل PDF</button></div>
+  <div class="pdf-scroll"><div id="pdfPreviewContent" class="pdf-preview-content"></div></div>
+ </div>
+</div>
+
+<div id="confirmModal" class="modal">
+ <div class="modal-card" style="width:min(410px,100%)">
+  <h3 id="confirmTitle">تأكيد</h3>
+  <p id="confirmText" style="margin-top:7px;color:#667085;font-size:9px;line-height:1.7"></p>
+  <div class="form-actions" style="margin-top:14px"><button class="btn btn-soft" onclick="closeConfirm()">إلغاء</button><button id="confirmYes" class="btn btn-p">تأكيد</button></div>
+ </div>
+</div>
+
+<div id="pdfHost" class="pdf-host"></div>
+<div id="toast" class="toast"></div>
 
 <script>
 const DB="https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
@@ -158,106 +498,766 @@ let DATA={users:{},students:{},teachers:{},classes:{}},selectedClassId="",select
 const $=id=>document.getElementById(id);
 const esc=v=>String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
 const norm=v=>String(v||"").trim().toLowerCase();
-const genderClass=g=>g==="female"?"إناث":"ذكور",genderStudent=g=>g==="female"?"أنثى":"ذكر";
+const genderClass=g=>g==="female"?"إناث":"ذكور";
+const genderStudent=g=>g==="female"?"أنثى":"ذكر";
 const money=v=>(Number(v||0)||0).toLocaleString("en-US")+" د.ع";
 const today=()=>{let d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
 function viewDate(v){if(!v)return"—";if(typeof v==="number"){let d=new Date(v);return `${String(d.getDate()).padStart(2,"0")}/${String(d.getMonth()+1).padStart(2,"0")}/${d.getFullYear()}`}let p=String(v).split("-");return p.length===3?`${p[2]}/${p[1]}/${p[0]}`:v}
-let toastTimer;function toast(t){$("toast").textContent=t;$("toast").classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2200)}
-function message(id,t,type="error"){let e=$(id);e.textContent=t;e.className=`message show ${type}`}function hideMessage(id){$(id).className="message";$(id).textContent=""}
-function openModal(id){$(id).classList.add("show")}function closeModal(id){$(id).classList.remove("show")}
-function confirmBox(t,x,a){$("confirmTitle").textContent=t;$("confirmText").textContent=x;confirmAction=a;openModal("confirmModal")}function closeConfirm(){closeModal("confirmModal");confirmAction=null}
+
+let toastTimer;
+function toast(t){$("toast").textContent=t;$("toast").classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2200)}
+function message(id,t,type="error"){let e=$(id);e.textContent=t;e.className=`message show ${type}`}
+function hideMessage(id){$(id).className="message";$(id).textContent=""}
+function openModal(id){$(id).classList.add("show")}
+function closeModal(id){$(id).classList.remove("show")}
+function confirmBox(t,x,a){$("confirmTitle").textContent=t;$("confirmText").textContent=x;confirmAction=a;openModal("confirmModal")}
+function closeConfirm(){closeModal("confirmModal");confirmAction=null}
 $("confirmYes").onclick=async()=>{let a=confirmAction;closeConfirm();if(a)try{await a()}catch(e){console.error(e);toast("تعذر تنفيذ العملية")}};
 
-async function req(path,method="GET",data=null){let o={method,cache:"no-store"};if(data!==null){o.headers={"Content-Type":"application/json"};o.body=JSON.stringify(data)}let r=await fetch(`${DB}/${path}.json`,o);if(!r.ok)throw Error(`${method}_${path}_${r.status}`);return method==="DELETE"?true:r.json()}
+async function req(path,method="GET",data=null){
+ let o={method,cache:"no-store"};
+ if(data!==null){o.headers={"Content-Type":"application/json"};o.body=JSON.stringify(data)}
+ let r=await fetch(`${DB}/${path}.json`,o);
+ if(!r.ok)throw Error(`${method}_${path}_${r.status}`);
+ return method==="DELETE"?true:r.json()
+}
 const dbGet=p=>req(p),dbPut=(p,d)=>req(p,"PUT",d),dbPatch=(p,d)=>req(p,"PATCH",d);
-function session(){try{return JSON.parse(sessionStorage.getItem("tahadi_session")||"{}")}catch{return{}}}function adminCode(){return session().code||""}
-async function verifyAdmin(){let s=session();if(!s.code){location.replace("index.html");return false}let u=await dbGet(`users/${encodeURIComponent(s.code)}`);if(!u||!["admin","administrator","add"].includes(norm(u.role))||u.active===false){sessionStorage.clear();location.replace("index.html");return false}if(u.name)$("welcome").textContent=`مرحباً، ${u.name}`;return true}
-function logout(){sessionStorage.clear();location.replace("index.html")}
-async function loadAll(){let [u,s,t,c]=await Promise.all([dbGet(PATH.users),dbGet(PATH.students),dbGet(PATH.teachers),dbGet(PATH.classes)]);DATA.users=u||{};DATA.students=s||{};DATA.teachers=t||{};DATA.classes=c||{};renderAll()}
 
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));b.classList.add("active");$(b.dataset.target).classList.add("active")});
+function session(){try{return JSON.parse(sessionStorage.getItem("tahadi_session")||"{}")}catch{return{}}}
+function adminCode(){return session().code||""}
+async function verifyAdmin(){
+ let s=session();
+ if(!s.code){location.replace("index.html");return false}
+ let u=await dbGet(`users/${encodeURIComponent(s.code)}`);
+ if(!u||!["admin","administrator","add"].includes(norm(u.role))||u.active===false){sessionStorage.clear();location.replace("index.html");return false}
+ if(u.name)$("welcome").textContent=`مرحباً، ${u.name}`;
+ return true
+}
+function logout(){sessionStorage.clear();location.replace("index.html")}
+
+async function loadAll(){
+ let [u,s,t,c]=await Promise.all([dbGet(PATH.users),dbGet(PATH.students),dbGet(PATH.teachers),dbGet(PATH.classes)]);
+ DATA.users=u||{};DATA.students=s||{};DATA.teachers=t||{};DATA.classes=c||{};
+ renderAll()
+}
+
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+ document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));
+ b.classList.add("active");$(b.dataset.target).classList.add("active")
+});
 function openTab(id){document.querySelector(`.tab[data-target="${id}"]`)?.click()}
-function renderStats(){let s=Object.values(DATA.students);$("totalClasses").textContent=Object.keys(DATA.classes).length;$("totalStudents").textContent=s.length;$("totalAccepted").textContent=s.filter(x=>x.fileStatus==="accepted").length;$("totalTeachers").textContent=Object.keys(DATA.teachers).length}
+
+function renderStats(){
+ let s=Object.values(DATA.students);
+ $("totalClasses").textContent=Object.keys(DATA.classes).length;
+ $("totalStudents").textContent=s.length;
+ $("totalAccepted").textContent=s.filter(x=>x.fileStatus==="accepted").length;
+ $("totalTeachers").textContent=Object.keys(DATA.teachers).length
+}
 
 function openClassModal(){$("classForm").reset();openModal("classModal")}
-$("classForm").onsubmit=async e=>{e.preventDefault();let name=$("className").value.trim(),gender=$("classGender").value;if(!name||!gender)return toast("أكمل بيانات الصف");if(Object.values(DATA.classes).some(x=>norm(x.name)===norm(name)&&x.gender===gender))return toast("الصف موجود مسبقاً");let id="CL_"+Date.now().toString(36)+Math.random().toString(36).slice(2,6),row={id,name,gender,active:true,createdAt:Date.now(),createdBy:adminCode()};await dbPut(`classes/${id}`,row);DATA.classes[id]=row;closeModal("classModal");renderAll();toast("تم إنشاء الصف")}
-const classCount=id=>Object.values(DATA.students).filter(s=>s.classId===id).length;
-function renderClasses(){let rows=Object.values(DATA.classes).sort((a,b)=>String(a.name).localeCompare(String(b.name),"ar"));$("classesGrid").innerHTML=rows.length?rows.map(c=>`<article class="class-card ${selectedClassId===c.id?"selected":""}" onclick="selectClass('${c.id}')"><h4>${esc(c.name)}</h4><div style="margin-top:7px"><span class="badge ${c.gender==="female"?"purple":"blue"}">${genderClass(c.gender)}</span></div><div class="class-count">${classCount(c.id)} طالب</div></article>`).join(""):`<div class="empty" style="grid-column:1/-1">لا توجد صفوف.</div>`}
-function selectClass(id){selectedClassId=id;selectedStudents.clear();let c=DATA.classes[id];$("studentsTitle").textContent=`طلاب الصف: ${c.name} - ${genderClass(c.gender)}`;renderClasses();renderStudents();updateBulk();openTab("studentsSection")}
-function showAllStudents(){selectedClassId="";selectedStudents.clear();$("selectAll").checked=false;$("studentsTitle").textContent="جميع الطلاب";renderClasses();renderStudents();updateBulk()}
+$("classForm").onsubmit=async e=>{
+ e.preventDefault();
+ let name=$("className").value.trim(),gender=$("classGender").value;
+ if(!name||!gender)return toast("أكمل بيانات الصف");
+ if(Object.values(DATA.classes).some(x=>norm(x.name)===norm(name)&&x.gender===gender))return toast("الصف موجود مسبقاً");
+ let id="CL_"+Date.now().toString(36)+Math.random().toString(36).slice(2,6),row={id,name,gender,active:true,createdAt:Date.now(),createdBy:adminCode()};
+ await dbPut(`classes/${id}`,row);DATA.classes[id]=row;closeModal("classModal");renderAll();toast("تم إنشاء الصف")
+};
 
-function classOptions(ph="اختر الصف"){return `<option value="">${ph}</option>`+Object.values(DATA.classes).sort((a,b)=>String(a.name).localeCompare(String(b.name),"ar")).map(c=>`<option value="${c.id}">${esc(c.name)} - ${genderClass(c.gender)}</option>`).join("")}
-function roomOptions(sel=""){return `<option value="">اختر القاعة</option>`+Array.from({length:25},(_,i)=>i+1).map(n=>`<option value="${n}" ${String(n)===String(sel)?"selected":""}>القاعة ${n}</option>`).join("")}
-function fillControls(){$("studentClass").innerHTML=classOptions();$("studentRoom").innerHTML=roomOptions();$("editClass").innerHTML=classOptions();$("editRoom").innerHTML=roomOptions();$("teacherClassFilter").innerHTML=classOptions("جميع الصفوف");$("teacherClasses").innerHTML=Object.values(DATA.classes).map(c=>`<label class="check-item"><input type="checkbox" value="${c.id}"><span>${esc(c.name)} - ${genderClass(c.gender)}</span></label>`).join("")||`<span class="help">أنشئ الصفوف أولاً.</span>`;buildMoveOptions()}
-$("studentClass").onchange=()=>{let c=DATA.classes[$("studentClass").value];$("studentGenderDisplay").value=c?genderStudent(c.gender):"";generatedStudentCode="";reservedStudentSerial=null;$("studentCodePreview").textContent="لم يتم التوليد"};
+const classCount=id=>Object.values(DATA.students).filter(s=>s.classId===id).length;
+
+function renderClasses(){
+ let rows=Object.values(DATA.classes).sort((a,b)=>String(a.name).localeCompare(String(b.name),"ar"));
+ $("classesGrid").innerHTML=rows.length?rows.map(c=>`
+ <article class="class-card ${selectedClassId===c.id?"selected":""}" onclick="selectClass('${c.id}')">
+  <h4>${esc(c.name)}</h4>
+  <div style="margin-top:7px"><span class="badge ${c.gender==="female"?"purple":"blue"}">${genderClass(c.gender)}</span></div>
+  <div class="class-count">${classCount(c.id)} طالب</div>
+ </article>`).join(""):`<div class="empty" style="grid-column:1/-1">لا توجد صفوف.</div>`
+}
+
+function selectClass(id){
+ selectedClassId=id;selectedStudents.clear();
+ let c=DATA.classes[id];
+ $("studentsTitle").textContent=`طلاب الصف: ${c.name} - ${genderClass(c.gender)}`;
+ renderClasses();renderStudents();updateBulk();openTab("studentsSection")
+}
+function showAllStudents(){
+ selectedClassId="";selectedStudents.clear();$("selectAll").checked=false;
+ $("studentsTitle").textContent="جميع الطلاب";renderClasses();renderStudents();updateBulk()
+}
+
+function classOptions(ph="اختر الصف"){
+ return `<option value="">${ph}</option>`+Object.values(DATA.classes).sort((a,b)=>String(a.name).localeCompare(String(b.name),"ar")).map(c=>`<option value="${c.id}">${esc(c.name)} - ${genderClass(c.gender)}</option>`).join("")
+}
+function roomOptions(sel=""){
+ return `<option value="">اختر القاعة</option>`+Array.from({length:25},(_,i)=>i+1).map(n=>`<option value="${n}" ${String(n)===String(sel)?"selected":""}>القاعة ${n}</option>`).join("")
+}
+function fillControls(){
+ $("studentClass").innerHTML=classOptions();$("studentRoom").innerHTML=roomOptions();
+ $("editClass").innerHTML=classOptions();$("editRoom").innerHTML=roomOptions();
+ $("teacherClassFilter").innerHTML=classOptions("جميع الصفوف");
+ $("teacherClasses").innerHTML=Object.values(DATA.classes).map(c=>`<label class="check-item"><input type="checkbox" value="${c.id}"><span>${esc(c.name)} - ${genderClass(c.gender)}</span></label>`).join("")||`<span class="help">أنشئ الصفوف أولاً.</span>`;
+ buildMoveOptions()
+}
+
+$("studentClass").onchange=()=>{
+ let c=DATA.classes[$("studentClass").value];
+ $("studentGenderDisplay").value=c?genderStudent(c.gender):"";
+ generatedStudentCode="";reservedStudentSerial=null;$("studentCodePreview").textContent="لم يتم التوليد"
+};
 
 const digit=()=>Math.floor(Math.random()*10).toString();
-function makeStudentCode(g){let a=[digit(),digit(),digit(),digit(),digit()],p=Math.floor(Math.random()*4)+1;a.splice(p,0,g==="female"?"G":"B");return"ST"+a.join("")}
-async function uniqueStudentCode(g){for(let i=0;i<60;i++){let c=makeStudentCode(g);if(!DATA.users[c]&&!await dbGet(`users/${c}`))return c}throw Error("تعذر توليد كود الطالب")}
-async function previewStudentCode(){let c=DATA.classes[$("studentClass").value];if(!c)return toast("اختر الصف أولاً");generatedStudentCode=await uniqueStudentCode(c.gender);$("studentCodePreview").textContent=generatedStudentCode}
-async function nextStudentSequence(){let url=`${DB}/meta/studentSequence.json`;for(let i=0;i<10;i++){let r=await fetch(url,{cache:"no-store",headers:{"X-Firebase-ETag":"true"}});if(!r.ok)throw Error("تعذر قراءة التسلسل");let tag=r.headers.get("ETag"),n=Number(await r.json()||0)+1,w=await fetch(url,{method:"PUT",headers:{"Content-Type":"application/json","if-match":tag},body:JSON.stringify(n)});if(w.status===200)return n;if(w.status!==412)throw Error("تعذر حجز العدد")}throw Error("تعذر حجز العدد")}
+function makeStudentCode(g){
+ let a=[digit(),digit(),digit(),digit(),digit()],p=Math.floor(Math.random()*4)+1;
+ a.splice(p,0,g==="female"?"G":"B");
+ return "ST"+a.join("")
+}
+async function uniqueStudentCode(g){
+ for(let i=0;i<60;i++){
+  let c=makeStudentCode(g);
+  if(!DATA.users[c]&&!await dbGet(`users/${c}`))return c
+ }
+ throw Error("تعذر توليد كود الطالب")
+}
+async function previewStudentCode(){
+ let c=DATA.classes[$("studentClass").value];
+ if(!c)return toast("اختر الصف أولاً");
+ generatedStudentCode=await uniqueStudentCode(c.gender);
+ $("studentCodePreview").textContent=generatedStudentCode
+}
 
-async function studentDraft(){let classId=$("studentClass").value,c=DATA.classes[classId];if(!c)throw Error("اختر الصف");let s={name:$("studentName").value.trim(),motherName:$("motherName").value.trim(),classId,className:c.name,gender:c.gender,roomNumber:Number($("studentRoom").value),guardianPhone:$("guardianPhone").value.trim(),studentPhone:$("studentPhone").value.trim(),lineNumber:$("lineNumber").value.trim(),previousSchool:$("previousSchool").value.trim(),startDate:$("startDate").value,tuitionTotal:Math.max(0,Number($("tuitionTotal").value||0)),address:$("studentAddress").value.trim(),fileStatus:"pending",booksReceived:false};if(!s.name||!s.motherName||!s.roomNumber||!s.guardianPhone||!s.previousSchool||!s.startDate||!s.address)throw Error("أكمل بيانات الطالب المطلوبة");if(!generatedStudentCode){generatedStudentCode=await uniqueStudentCode(c.gender);$("studentCodePreview").textContent=generatedStudentCode}if(!reservedStudentSerial)reservedStudentSerial=await nextStudentSequence();s.code=generatedStudentCode;s.serial=reservedStudentSerial;s.createdAt=Date.now();return s}
+async function nextStudentSequence(){
+ let url=`${DB}/meta/studentSequence.json`;
+ for(let i=0;i<10;i++){
+  let r=await fetch(url,{cache:"no-store",headers:{"X-Firebase-ETag":"true"}});
+  if(!r.ok)throw Error("تعذر قراءة التسلسل");
+  let tag=r.headers.get("ETag"),n=Number(await r.json()||0)+1;
+  let w=await fetch(url,{method:"PUT",headers:{"Content-Type":"application/json","if-match":tag},body:JSON.stringify(n)});
+  if(w.status===200)return n;
+  if(w.status!==412)throw Error("تعذر حجز العدد")
+ }
+ throw Error("تعذر حجز العدد")
+}
 
-$("studentForm").onsubmit=async e=>{e.preventDefault();hideMessage("studentMessage");let b=$("saveStudentBtn");b.disabled=true;b.textContent="جاري الحفظ...";try{let s=await studentDraft(),requested=$("activateStudent").checked;s.accountActive=requested&&s.tuitionTotal>0;s.hidden=false;s.createdAt=Date.now();s.createdBy=adminCode();if(await dbGet(`users/${s.code}`)){s.code=await uniqueStudentCode(s.gender);generatedStudentCode=s.code}let u={code:s.code,name:s.name,role:"student",studentId:s.code,classId:s.classId,gender:s.gender,active:s.accountActive,hidden:false,createdAt:s.createdAt};await Promise.all([dbPut(`students/${s.code}`,s),dbPut(`users/${s.code}`,u)]);DATA.students[s.code]=s;DATA.users[s.code]=u;message("studentMessage",`تم حفظ الطالب - العدد ${s.serial} - الكود ${s.code}${requested&&!s.accountActive?" - الحساب بقي غير فعال لأن القسط صفر.":""}`,"success");resetStudentForm();renderAll();toast("تم حفظ الطالب")}catch(x){console.error(x);message("studentMessage",x.message||"تعذر الحفظ")}finally{b.disabled=false;b.textContent="حفظ الطالب"}}
-function resetStudentForm(){$("studentForm").reset();$("studentClass").innerHTML=classOptions();$("studentRoom").innerHTML=roomOptions();$("studentGenderDisplay").value="";$("startDate").value=today();generatedStudentCode="";reservedStudentSerial=null;$("studentCodePreview").textContent="لم يتم التوليد"}
+async function studentDraft(){
+ let classId=$("studentClass").value,c=DATA.classes[classId];
+ if(!c)throw Error("اختر الصف");
 
-["studentSearch","studentGenderFilter","studentStatusFilter"].forEach(id=>$(id).addEventListener(id==="studentSearch"?"input":"change",()=>{selectedStudents.clear();$("selectAll").checked=false;renderStudents();updateBulk()}));
-function filteredStudents(){let q=norm($("studentSearch").value),g=$("studentGenderFilter").value,st=$("studentStatusFilter").value;return Object.values(DATA.students).filter(s=>(!selectedClassId||s.classId===selectedClassId)&&(!g||s.gender===g)&&(!st||s.fileStatus===st)&&(!q||norm([s.name,s.code,s.motherName,s.guardianPhone,s.studentPhone,s.previousSchool].join(" ")).includes(q))).sort((a,b)=>Number(a.serial||0)-Number(b.serial||0))}
-function renderStudents(){let rows=filteredStudents();$("studentsEmpty").classList.toggle("hidden",rows.length>0);$("studentsBody").innerHTML=rows.map(s=>{let c=DATA.classes[s.classId];return `<tr style="${s.hidden?"opacity:.5":""}"><td><input type="checkbox" value="${s.code}" ${selectedStudents.has(s.code)?"checked":""} onchange="studentSelect(this)"></td><td>${s.serial||"—"}</td><td><span class="code">${esc(s.code)}</span></td><td><button class="student-link" onclick="openStudentProfile('${s.code}')">${esc(s.name)}</button></td><td><span class="badge ${s.gender==="female"?"purple":"blue"}">${genderStudent(s.gender)}</span></td><td>${esc(c?.name||"—")}</td><td>${s.roomNumber||"—"}</td><td><span class="badge ${s.fileStatus==="accepted"?"green":"orange"}">${s.fileStatus==="accepted"?"تم القبول":"لم يجلب الملف"}</span></td><td><span class="badge ${s.booksReceived?"green":"orange"}">${s.booksReceived?"استلم":"لم يستلم"}</span></td><td>${money(s.tuitionTotal)}</td><td><span class="badge ${s.accountActive?"green":"red"}">${s.accountActive?"فعال":"غير فعال"}</span></td><td><div class="row-actions"><button class="mini btn-p" onclick="openStudentProfile('${s.code}')">بيانات</button><button class="mini btn-soft" onclick="copyCode('${s.code}')">نسخ</button><button class="mini btn-v" onclick="downloadSavedStudentPDF('${s.code}')">PDF</button><button class="mini btn-soft" onclick="editStudent('${s.code}')">تعديل</button>${s.fileStatus!=="accepted"?`<button class="mini btn-g" onclick="acceptStudent('${s.code}')">استلام الملف</button>`:""}<button class="mini ${s.accountActive?"btn-r":"btn-g"}" onclick="toggleStudentAccount('${s.code}')">${s.accountActive?"إلغاء التفعيل":"تفعيل"}</button><button class="mini btn-o" onclick="toggleStudentHidden('${s.code}')">${s.hidden?"إظهار":"إخفاء"}</button></div></td></tr>`}).join("")}
+ let s={
+  name:$("studentName").value.trim(),
+  motherName:$("motherName").value.trim(),
+  classId,className:c.name,gender:c.gender,
+  roomNumber:Number($("studentRoom").value),
+  guardianPhone:$("guardianPhone").value.trim(),
+  studentPhone:$("studentPhone").value.trim(),
+  lineNumber:$("lineNumber").value.trim(),
+  previousSchool:$("previousSchool").value.trim(),
+  startDate:$("startDate").value,
+  tuitionTotal:Math.max(0,Number($("tuitionTotal").value||0)),
+  address:$("studentAddress").value.trim(),
+  fileStatus:"pending",
+  booksReceived:false
+ };
+
+ if(!s.name||!s.motherName||!s.roomNumber||!s.guardianPhone||!s.previousSchool||!s.startDate||!s.address)throw Error("أكمل بيانات الطالب المطلوبة");
+
+ if(!generatedStudentCode){
+  generatedStudentCode=await uniqueStudentCode(c.gender);
+  $("studentCodePreview").textContent=generatedStudentCode
+ }
+ if(!reservedStudentSerial)reservedStudentSerial=await nextStudentSequence();
+
+ s.code=generatedStudentCode;
+ s.serial=reservedStudentSerial;
+ s.createdAt=Date.now();
+
+ return s
+}
+
+$("studentForm").onsubmit=async e=>{
+ e.preventDefault();hideMessage("studentMessage");
+ let b=$("saveStudentBtn");b.disabled=true;b.textContent="جاري الحفظ...";
+ try{
+  let s=await studentDraft(),requested=$("activateStudent").checked;
+  s.accountActive=requested&&s.tuitionTotal>0;
+  s.hidden=false;s.createdAt=Date.now();s.createdBy=adminCode();
+
+  if(await dbGet(`users/${s.code}`)){
+   s.code=await uniqueStudentCode(s.gender);
+   generatedStudentCode=s.code
+  }
+
+  let u={
+   code:s.code,name:s.name,role:"student",studentId:s.code,
+   classId:s.classId,gender:s.gender,active:s.accountActive,
+   hidden:false,createdAt:s.createdAt
+  };
+
+  await Promise.all([dbPut(`students/${s.code}`,s),dbPut(`users/${s.code}`,u)]);
+  DATA.students[s.code]=s;DATA.users[s.code]=u;
+
+  message("studentMessage",`تم حفظ الطالب - العدد ${s.serial} - الكود ${s.code}${requested&&!s.accountActive?" - الحساب غير فعال لأن القسط صفر.":""}`,"success");
+  resetStudentForm();renderAll();toast("تم حفظ الطالب")
+ }catch(x){
+  console.error(x);message("studentMessage",x.message||"تعذر الحفظ")
+ }finally{
+  b.disabled=false;b.textContent="حفظ الطالب"
+ }
+};
+
+function resetStudentForm(){
+ $("studentForm").reset();
+ $("studentClass").innerHTML=classOptions();
+ $("studentRoom").innerHTML=roomOptions();
+ $("studentGenderDisplay").value="";
+ $("startDate").value=today();
+ generatedStudentCode="";reservedStudentSerial=null;
+ $("studentCodePreview").textContent="لم يتم التوليد"
+}
+
+["studentSearch","studentGenderFilter","studentStatusFilter"].forEach(id=>$(id).addEventListener(id==="studentSearch"?"input":"change",()=>{
+ selectedStudents.clear();$("selectAll").checked=false;renderStudents();updateBulk()
+}));
+
+function filteredStudents(){
+ let q=norm($("studentSearch").value),g=$("studentGenderFilter").value,st=$("studentStatusFilter").value;
+ return Object.values(DATA.students).filter(s=>
+  (!selectedClassId||s.classId===selectedClassId)&&
+  (!g||s.gender===g)&&
+  (!st||s.fileStatus===st)&&
+  (!q||norm([s.name,s.code,s.motherName,s.guardianPhone,s.studentPhone,s.previousSchool].join(" ")).includes(q))
+ ).sort((a,b)=>Number(a.serial||0)-Number(b.serial||0))
+}
+
+function renderStudents(){
+ let rows=filteredStudents();
+ $("studentsEmpty").classList.toggle("hidden",rows.length>0);
+ $("studentsBody").innerHTML=rows.map(s=>{
+  let c=DATA.classes[s.classId];
+  return `
+  <tr style="${s.hidden?"opacity:.5":""}">
+   <td><input type="checkbox" value="${s.code}" ${selectedStudents.has(s.code)?"checked":""} onchange="studentSelect(this)"></td>
+   <td>${s.serial||"—"}</td>
+   <td><span class="code">${esc(s.code)}</span></td>
+   <td><button class="student-link" onclick="openStudentProfile('${s.code}')">${esc(s.name)}</button></td>
+   <td><span class="badge ${s.gender==="female"?"purple":"blue"}">${genderStudent(s.gender)}</span></td>
+   <td>${esc(c?.name||"—")}</td>
+   <td>${s.roomNumber||"—"}</td>
+   <td><span class="badge ${s.fileStatus==="accepted"?"green":"orange"}">${s.fileStatus==="accepted"?"تم القبول":"لم يجلب الملف"}</span></td>
+   <td><span class="badge ${s.booksReceived?"green":"orange"}">${s.booksReceived?"استلم":"لم يستلم"}</span></td>
+   <td>${money(s.tuitionTotal)}</td>
+   <td><span class="badge ${s.accountActive?"green":"red"}">${s.accountActive?"فعال":"غير فعال"}</span></td>
+   <td><div class="row-actions">
+    <button class="mini btn-p" onclick="openStudentProfile('${s.code}')">بيانات</button>
+    <button class="mini btn-soft" onclick="copyCode('${s.code}')">نسخ</button>
+    <button class="mini btn-v" onclick="downloadSavedStudentPDF('${s.code}')">PDF</button>
+    <button class="mini btn-soft" onclick="editStudent('${s.code}')">تعديل</button>
+    ${s.fileStatus!=="accepted"?`<button class="mini btn-g" onclick="acceptStudent('${s.code}')">استلام الملف</button>`:""}
+    <button class="mini ${s.accountActive?"btn-r":"btn-g"}" onclick="toggleStudentAccount('${s.code}')">${s.accountActive?"إلغاء التفعيل":"تفعيل"}</button>
+    <button class="mini btn-o" onclick="toggleStudentHidden('${s.code}')">${s.hidden?"إظهار":"إخفاء"}</button>
+   </div></td>
+  </tr>`
+ }).join("")
+}
+
 async function copyCode(c){try{await navigator.clipboard.writeText(c);toast("تم نسخ الكود")}catch{toast(c)}}
+
 function studentSelect(e){e.checked?selectedStudents.add(e.value):selectedStudents.delete(e.value);updateBulk()}
-$("selectAll").onchange=function(){filteredStudents().forEach(s=>this.checked?selectedStudents.add(s.code):selectedStudents.delete(s.code));renderStudents();updateBulk()}
-function updateBulk(){$("selectedCount").textContent=`تم تحديد ${selectedStudents.size} طالب`;$("bulkBar").classList.toggle("show",selectedStudents.size>0);buildMoveOptions()}
-function buildMoveOptions(){let first=[...selectedStudents][0],g=first?DATA.students[first]?.gender:"",rows=Object.values(DATA.classes).filter(c=>(!g||c.gender===g)&&(!selectedClassId||c.id!==selectedClassId));$("moveClassSelect").innerHTML=`<option value="">نقل إلى صف...</option>`+rows.map(c=>`<option value="${c.id}">${esc(c.name)} - ${genderClass(c.gender)}</option>`).join("")}
-function moveSelectedStudents(){let id=$("moveClassSelect").value,t=DATA.classes[id],rows=[...selectedStudents].map(c=>DATA.students[c]).filter(Boolean);if(!rows.length)return toast("حدد الطلاب");if(!t)return toast("اختر الصف الجديد");if(rows.some(s=>s.gender!==t.gender))return toast("لا يمكن النقل إلى صف من جنس مختلف");confirmBox("نقل الطلاب",`نقل ${rows.length} طالب إلى ${t.name}؟`,async()=>{let u={};rows.forEach(s=>{u[`students/${s.code}/classId`]=id;u[`users/${s.code}/classId`]=id});await dbPatch("",u);rows.forEach(s=>s.classId=id);selectedStudents.clear();renderAll();toast("تم النقل")})}
+$("selectAll").onchange=function(){
+ filteredStudents().forEach(s=>this.checked?selectedStudents.add(s.code):selectedStudents.delete(s.code));
+ renderStudents();updateBulk()
+};
+function updateBulk(){
+ $("selectedCount").textContent=`تم تحديد ${selectedStudents.size} طالب`;
+ $("bulkBar").classList.toggle("show",selectedStudents.size>0);
+ buildMoveOptions()
+}
+function buildMoveOptions(){
+ let first=[...selectedStudents][0],g=first?DATA.students[first]?.gender:"";
+ let rows=Object.values(DATA.classes).filter(c=>(!g||c.gender===g)&&(!selectedClassId||c.id!==selectedClassId));
+ $("moveClassSelect").innerHTML=`<option value="">نقل إلى صف...</option>`+rows.map(c=>`<option value="${c.id}">${esc(c.name)} - ${genderClass(c.gender)}</option>`).join("")
+}
+function moveSelectedStudents(){
+ let id=$("moveClassSelect").value,t=DATA.classes[id],rows=[...selectedStudents].map(c=>DATA.students[c]).filter(Boolean);
+ if(!rows.length)return toast("حدد الطلاب");
+ if(!t)return toast("اختر الصف الجديد");
+ if(rows.some(s=>s.gender!==t.gender))return toast("لا يمكن النقل إلى صف من جنس مختلف");
 
-function acceptStudent(code){let s=DATA.students[code];confirmBox("استلام الملف",`تأكيد استلام ملف ${s.name}؟`,async()=>{await dbPatch(`students/${code}`,{fileStatus:"accepted",fileReceivedAt:Date.now(),fileReceivedBy:adminCode()});s.fileStatus="accepted";renderAll();if(openedStudentCode===code)await openStudentProfile(code);toast("تم القبول")})}
-async function setBooksStatus(v){let code=openedStudentCode,s=DATA.students[code];if(!s)return;await dbPatch(`students/${code}`,{booksReceived:v,booksStatusUpdatedAt:Date.now(),booksStatusUpdatedBy:adminCode()});s.booksReceived=v;renderStudents();await openStudentProfile(code);toast(v?"تم تسجيل استلام الكتب":"تم تسجيل عدم استلام الكتب")}
-function toggleStudentAccount(code){let s=DATA.students[code];if(!s.accountActive&&Number(s.tuitionTotal||0)<=0){toast("أدخل مبلغ القسط لتفعيل الحساب");return editStudent(code)}let active=!s.accountActive;confirmBox(active?"تفعيل الحساب":"إلغاء التفعيل",`هل تريد ${active?"تفعيل":"إلغاء تفعيل"} حساب ${s.name}؟`,async()=>{await Promise.all([dbPatch(`students/${code}`,{accountActive:active}),dbPatch(`users/${code}`,{active:active&&!s.hidden})]);s.accountActive=active;renderStudents();if(openedStudentCode===code)await openStudentProfile(code)})}
-function toggleStudentHidden(code){let s=DATA.students[code],hidden=!s.hidden;confirmBox(hidden?"إخفاء الطالب":"إظهار الطالب",`${hidden?"إخفاء":"إظهار"} ${s.name}؟`,async()=>{await Promise.all([dbPatch(`students/${code}`,{hidden}),dbPatch(`users/${code}`,{hidden,active:!hidden&&s.accountActive})]);s.hidden=hidden;renderStudents()})}
+ confirmBox("نقل الطلاب",`نقل ${rows.length} طالب إلى ${t.name}؟`,async()=>{
+  let u={};
+  rows.forEach(s=>{u[`students/${s.code}/classId`]=id;u[`users/${s.code}/classId`]=id});
+  await dbPatch("",u);
+  rows.forEach(s=>s.classId=id);
+  selectedStudents.clear();renderAll();toast("تم النقل")
+ })
+}
 
-function editStudent(code){let s=DATA.students[code];$("editCode").value=code;$("editStudentLabel").textContent=`الكود: ${code}`;$("editName").value=s.name||"";$("editMother").value=s.motherName||"";$("editClass").innerHTML=classOptions();$("editClass").value=s.classId;$("editRoom").innerHTML=roomOptions(s.roomNumber);$("editGuardian").value=s.guardianPhone||"";$("editStudentPhone").value=s.studentPhone||"";$("editLine").value=s.lineNumber||"";$("editPreviousSchool").value=s.previousSchool||"";$("editStartDate").value=s.startDate||"";$("editTuition").value=s.tuitionTotal??"";$("editAddress").value=s.address||"";openModal("editStudentModal")}
-$("editStudentForm").onsubmit=async e=>{e.preventDefault();let code=$("editCode").value,s=DATA.students[code],classId=$("editClass").value,c=DATA.classes[classId];if(!c)return toast("اختر الصف");if(c.gender!==s.gender)return toast("لا يمكن تغيير جنس الطالب عن طريق الصف");let tuition=Math.max(0,Number($("editTuition").value||0)),u={name:$("editName").value.trim(),motherName:$("editMother").value.trim(),classId,roomNumber:Number($("editRoom").value),guardianPhone:$("editGuardian").value.trim(),studentPhone:$("editStudentPhone").value.trim(),lineNumber:$("editLine").value.trim(),previousSchool:$("editPreviousSchool").value.trim(),startDate:$("editStartDate").value,tuitionTotal:tuition,address:$("editAddress").value.trim(),updatedAt:Date.now()};if(!u.name||!u.motherName||!u.roomNumber||!u.guardianPhone||!u.previousSchool||!u.startDate||!u.address)return toast("أكمل البيانات");if(tuition<=0&&s.accountActive)u.accountActive=false;await Promise.all([dbPatch(`students/${code}`,u),dbPatch(`users/${code}`,{name:u.name,classId,active:u.accountActive===false?false:DATA.users[code]?.active})]);DATA.students[code]={...s,...u};closeModal("editStudentModal");renderAll();if(openedStudentCode===code)await openStudentProfile(code);toast("تم التعديل")}
+function acceptStudent(code){
+ let s=DATA.students[code];
+ confirmBox("استلام الملف",`تأكيد استلام ملف ${s.name}؟`,async()=>{
+  await dbPatch(`students/${code}`,{fileStatus:"accepted",fileReceivedAt:Date.now(),fileReceivedBy:adminCode()});
+  s.fileStatus="accepted";renderAll();
+  if(openedStudentCode===code)await openStudentProfile(code);
+  toast("تم القبول")
+ })
+}
+
+async function setBooksStatus(v){
+ let code=openedStudentCode,s=DATA.students[code];
+ if(!s)return;
+ await dbPatch(`students/${code}`,{booksReceived:v,booksStatusUpdatedAt:Date.now(),booksStatusUpdatedBy:adminCode()});
+ s.booksReceived=v;renderStudents();await openStudentProfile(code);
+ toast(v?"تم تسجيل استلام الكتب":"تم تسجيل عدم استلام الكتب")
+}
+
+function toggleStudentAccount(code){
+ let s=DATA.students[code];
+ if(!s.accountActive&&Number(s.tuitionTotal||0)<=0){toast("أدخل مبلغ القسط لتفعيل الحساب");return editStudent(code)}
+ let active=!s.accountActive;
+ confirmBox(active?"تفعيل الحساب":"إلغاء التفعيل",`هل تريد ${active?"تفعيل":"إلغاء تفعيل"} حساب ${s.name}؟`,async()=>{
+  await Promise.all([dbPatch(`students/${code}`,{accountActive:active}),dbPatch(`users/${code}`,{active:active&&!s.hidden})]);
+  s.accountActive=active;renderStudents();
+  if(openedStudentCode===code)await openStudentProfile(code)
+ })
+}
+
+function toggleStudentHidden(code){
+ let s=DATA.students[code],hidden=!s.hidden;
+ confirmBox(hidden?"إخفاء الطالب":"إظهار الطالب",`${hidden?"إخفاء":"إظهار"} ${s.name}؟`,async()=>{
+  await Promise.all([dbPatch(`students/${code}`,{hidden}),dbPatch(`users/${code}`,{hidden,active:!hidden&&s.accountActive})]);
+  s.hidden=hidden;renderStudents()
+ })
+}
+
+function editStudent(code){
+ let s=DATA.students[code];
+ $("editCode").value=code;$("editStudentLabel").textContent=`الكود: ${code}`;
+ $("editName").value=s.name||"";$("editMother").value=s.motherName||"";
+ $("editClass").innerHTML=classOptions();$("editClass").value=s.classId;
+ $("editRoom").innerHTML=roomOptions(s.roomNumber);
+ $("editGuardian").value=s.guardianPhone||"";$("editStudentPhone").value=s.studentPhone||"";
+ $("editLine").value=s.lineNumber||"";$("editPreviousSchool").value=s.previousSchool||"";
+ $("editStartDate").value=s.startDate||"";$("editTuition").value=s.tuitionTotal??"";
+ $("editAddress").value=s.address||"";
+ openModal("editStudentModal")
+}
+
+$("editStudentForm").onsubmit=async e=>{
+ e.preventDefault();
+ let code=$("editCode").value,s=DATA.students[code],classId=$("editClass").value,c=DATA.classes[classId];
+ if(!c)return toast("اختر الصف");
+ if(c.gender!==s.gender)return toast("لا يمكن تغيير جنس الطالب عن طريق الصف");
+
+ let tuition=Math.max(0,Number($("editTuition").value||0));
+ let u={
+  name:$("editName").value.trim(),
+  motherName:$("editMother").value.trim(),
+  classId,
+  roomNumber:Number($("editRoom").value),
+  guardianPhone:$("editGuardian").value.trim(),
+  studentPhone:$("editStudentPhone").value.trim(),
+  lineNumber:$("editLine").value.trim(),
+  previousSchool:$("editPreviousSchool").value.trim(),
+  startDate:$("editStartDate").value,
+  tuitionTotal:tuition,
+  address:$("editAddress").value.trim(),
+  updatedAt:Date.now()
+ };
+
+ if(!u.name||!u.motherName||!u.roomNumber||!u.guardianPhone||!u.previousSchool||!u.startDate||!u.address)return toast("أكمل البيانات");
+
+ if(tuition<=0&&s.accountActive)u.accountActive=false;
+
+ await Promise.all([
+  dbPatch(`students/${code}`,u),
+  dbPatch(`users/${code}`,{name:u.name,classId,active:u.accountActive===false?false:DATA.users[code]?.active})
+ ]);
+
+ DATA.students[code]={...s,...u};
+ closeModal("editStudentModal");renderAll();
+ if(openedStudentCode===code)await openStudentProfile(code);
+ toast("تم التعديل")
+};
 
 const profileItem=(l,v,f=false)=>`<div class="profile-info ${f?"full":""}"><small>${esc(l)}</small><strong>${esc(v??"—")}</strong></div>`;
-async function openStudentProfile(code){let s=DATA.students[code],c=DATA.classes[s.classId];if(!s)return;openedStudentCode=code;$("profileCode").textContent=`الكود: ${code} | العدد: ${s.serial||"—"}`;$("profileName").textContent=s.name;$("profileAvatar").textContent=(s.name||"ط").trim().charAt(0);$("profileBadges").innerHTML=`<span class="badge ${s.gender==="female"?"purple":"blue"}">${genderStudent(s.gender)}</span><span class="badge blue">${esc(c?.name||"بدون صف")}</span><span class="badge ${s.fileStatus==="accepted"?"green":"orange"}">${s.fileStatus==="accepted"?"تم القبول":"لم يجلب الملف"}</span><span class="badge ${s.accountActive?"green":"red"}">${s.accountActive?"الحساب فعال":"الحساب غير فعال"}</span><span class="badge ${s.booksReceived?"green":"orange"}">${s.booksReceived?"استلم الكتب":"لم يستلم الكتب"}</span>`;$("profileInfoGrid").innerHTML=profileItem("العدد",s.serial)+profileItem("الكود",s.code)+profileItem("اسم الطالب",s.name,true)+profileItem("اسم الأم",s.motherName)+profileItem("الجنس",genderStudent(s.gender))+profileItem("الصف",c?.name)+profileItem("القاعة",s.roomNumber)+profileItem("رقم ولي الأمر",s.guardianPhone)+profileItem("رقم الطالب",s.studentPhone||"غير مسجل")+profileItem("رقم الخط",s.lineNumber||"غير مسجل")+profileItem("تاريخ إضافة الطالب",viewDate(s.createdAt))+profileItem("تاريخ المباشرة",viewDate(s.startDate))+profileItem("المدرسة القادم منها",s.previousSchool,true)+profileItem("عنوان السكن",s.address,true)+profileItem("القسط الكلي",money(s.tuitionTotal))+profileItem("حالة الملف",s.fileStatus==="accepted"?"تم القبول":"لم يجلب الملف")+profileItem("حالة الحساب",s.accountActive?"فعال":"غير فعال")+profileItem("استلام الكتب",s.booksReceived?"استلم الكتب":"لم يستلم الكتب");$("profilePDFBtn").onclick=()=>downloadSavedStudentPDF(code);$("profileEditBtn").onclick=()=>{closeModal("studentProfileModal");editStudent(code)};resetProfileTabs();openModal("studentProfileModal");await Promise.all([loadGrades(code),loadAttendance(code),loadPayments(code)])}
-document.querySelectorAll(".profile-tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".profile-tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".profile-panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");$(b.dataset.profile).classList.add("active")});
-function resetProfileTabs(){document.querySelectorAll(".profile-tab,.profile-panel").forEach(x=>x.classList.remove("active"));document.querySelector('.profile-tab[data-profile="profileInfo"]')?.classList.add("active");$("profileInfo").classList.add("active")}
-const grade=v=>v===undefined||v===null||v===""?"—":v,gradeCss=v=>v!==""&&v!=null?(Number(v)<50?"color:#d92d20;font-weight:900":Number(v)>=90?"color:#078b50;font-weight:900":"font-weight:900"):"";
-async function loadGrades(code){try{let d=await dbGet(`grades/${code}`),r=Object.values(d||{});$("profileGradesEmpty").classList.toggle("hidden",r.length>0);$("profileGradesBody").innerHTML=r.map(x=>`<tr><td><strong>${esc(x.subjectName||x.subject||"مادة")}</strong></td><td style="${gradeCss(x.term1)}">${grade(x.term1)}</td><td style="${gradeCss(x.midyear)}">${grade(x.midyear)}</td><td style="${gradeCss(x.term2)}">${grade(x.term2)}</td><td style="${gradeCss(x.annual)}">${grade(x.annual)}</td></tr>`).join("")}catch{$("profileGradesBody").innerHTML="";$("profileGradesEmpty").classList.remove("hidden")}}
-function attendanceBadge(s){s=norm(s);if(s==="absent"||s==="غائب")return`<span class="badge red">غائب</span>`;if(["leave","excused","إجازة","اجازة"].includes(s))return`<span class="badge blue">إجازة</span>`;if(s==="late"||s==="متأخر")return`<span class="badge orange">متأخر</span>`;return`<span class="badge green">حاضر</span>`}
-async function loadAttendance(code){try{let d=await dbGet(`attendance/${code}`),r=Object.values(d||{}).sort((a,b)=>Number(b.timestamp||0)-Number(a.timestamp||0));$("profileAttendanceEmpty").classList.toggle("hidden",r.length>0);$("profileAttendanceList").innerHTML=r.map(x=>`<div class="profile-item"><div><strong>${viewDate(x.date||x.timestamp)}</strong><small>${esc(x.note||"بدون ملاحظات")}</small></div>${attendanceBadge(x.status)}</div>`).join("")}catch{}}
-async function loadPayments(code){let s=DATA.students[code];try{let d=await dbGet(`payments/${code}`),r=Object.values(d||{}),total=Number(s.tuitionTotal||0),paid=r.reduce((a,x)=>a+Number(x.amount||0),0),left=Math.max(0,total-paid);$("profileTuition").textContent=money(total);$("profilePaid").textContent=money(paid);$("profileRemaining").textContent=money(left);$("profilePaymentsEmpty").classList.toggle("hidden",r.length>0);$("profilePaymentsList").innerHTML=r.map(x=>`<div class="profile-item"><div><strong style="color:#078b50">${money(x.amount)}</strong><small>${esc(x.note||"دفعة قسط")}</small></div><span class="badge green">${viewDate(x.date||x.timestamp)}</span></div>`).join("")}catch{}}
+
+async function openStudentProfile(code){
+ let s=DATA.students[code];if(!s)return;
+ let c=DATA.classes[s.classId];openedStudentCode=code;
+
+ $("profileCode").textContent=`الكود: ${code} | العدد: ${s.serial||"—"}`;
+ $("profileName").textContent=s.name;
+ $("profileAvatar").textContent=(s.name||"ط").trim().charAt(0);
+
+ $("profileBadges").innerHTML=`
+ <span class="badge ${s.gender==="female"?"purple":"blue"}">${genderStudent(s.gender)}</span>
+ <span class="badge blue">${esc(c?.name||"بدون صف")}</span>
+ <span class="badge ${s.fileStatus==="accepted"?"green":"orange"}">${s.fileStatus==="accepted"?"تم القبول":"لم يجلب الملف"}</span>
+ <span class="badge ${s.accountActive?"green":"red"}">${s.accountActive?"الحساب فعال":"الحساب غير فعال"}</span>
+ <span class="badge ${s.booksReceived?"green":"orange"}">${s.booksReceived?"استلم الكتب":"لم يستلم الكتب"}</span>`;
+
+ $("profileInfoGrid").innerHTML=
+ profileItem("العدد",s.serial)+
+ profileItem("الكود",s.code)+
+ profileItem("اسم الطالب الرباعي",s.name,true)+
+ profileItem("اسم الأم",s.motherName)+
+ profileItem("الجنس",genderStudent(s.gender))+
+ profileItem("الصف",c?.name)+
+ profileItem("رقم القاعة",s.roomNumber)+
+ profileItem("رقم ولي الأمر",s.guardianPhone)+
+ profileItem("رقم الطالب",s.studentPhone||"غير مسجل")+
+ profileItem("رقم الخط",s.lineNumber||"غير مسجل")+
+ profileItem("تاريخ إضافة الطالب",viewDate(s.createdAt))+
+ profileItem("تاريخ المباشرة",viewDate(s.startDate))+
+ profileItem("المدرسة القادم منها",s.previousSchool,true)+
+ profileItem("عنوان السكن",s.address,true)+
+ profileItem("القسط الكلي",money(s.tuitionTotal))+
+ profileItem("حالة الملف",s.fileStatus==="accepted"?"تم القبول":"لم يجلب الملف")+
+ profileItem("حالة الحساب",s.accountActive?"فعال":"غير فعال")+
+ profileItem("استلام الكتب",s.booksReceived?"استلم الكتب":"لم يستلم الكتب");
+
+ $("profilePDFBtn").onclick=()=>downloadSavedStudentPDF(code);
+ $("profileEditBtn").onclick=()=>{closeModal("studentProfileModal");editStudent(code)};
+
+ resetProfileTabs();openModal("studentProfileModal");
+ await Promise.all([loadGrades(code),loadAttendance(code),loadPayments(code)])
+}
+
+document.querySelectorAll(".profile-tab").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll(".profile-tab").forEach(x=>x.classList.remove("active"));
+ document.querySelectorAll(".profile-panel").forEach(x=>x.classList.remove("active"));
+ b.classList.add("active");$(b.dataset.profile).classList.add("active")
+});
+
+function resetProfileTabs(){
+ document.querySelectorAll(".profile-tab,.profile-panel").forEach(x=>x.classList.remove("active"));
+ document.querySelector('.profile-tab[data-profile="profileInfo"]')?.classList.add("active");
+ $("profileInfo").classList.add("active")
+}
+
+const grade=v=>v===undefined||v===null||v===""?"—":v;
+const gradeCss=v=>v!==""&&v!=null?(Number(v)<50?"color:#d92d20;font-weight:900":Number(v)>=90?"color:#078b50;font-weight:900":"font-weight:900"):"";
+
+async function loadGrades(code){
+ try{
+  let d=await dbGet(`grades/${code}`),r=Object.values(d||{});
+  $("profileGradesEmpty").classList.toggle("hidden",r.length>0);
+  $("profileGradesBody").innerHTML=r.map(x=>`
+   <tr><td><strong>${esc(x.subjectName||x.subject||"مادة")}</strong></td>
+   <td style="${gradeCss(x.term1)}">${grade(x.term1)}</td>
+   <td style="${gradeCss(x.midyear)}">${grade(x.midyear)}</td>
+   <td style="${gradeCss(x.term2)}">${grade(x.term2)}</td>
+   <td style="${gradeCss(x.annual)}">${grade(x.annual)}</td></tr>`).join("")
+ }catch{$("profileGradesBody").innerHTML="";$("profileGradesEmpty").classList.remove("hidden")}
+}
+
+function attendanceBadge(s){
+ s=norm(s);
+ if(s==="absent"||s==="غائب")return`<span class="badge red">غائب</span>`;
+ if(["leave","excused","إجازة","اجازة"].includes(s))return`<span class="badge blue">إجازة</span>`;
+ if(s==="late"||s==="متأخر")return`<span class="badge orange">متأخر</span>`;
+ return`<span class="badge green">حاضر</span>`
+}
+
+async function loadAttendance(code){
+ try{
+  let d=await dbGet(`attendance/${code}`),r=Object.values(d||{}).sort((a,b)=>Number(b.timestamp||0)-Number(a.timestamp||0));
+  $("profileAttendanceEmpty").classList.toggle("hidden",r.length>0);
+  $("profileAttendanceList").innerHTML=r.map(x=>`<div class="profile-item"><div><strong>${viewDate(x.date||x.timestamp)}</strong><small>${esc(x.note||"بدون ملاحظات")}</small></div>${attendanceBadge(x.status)}</div>`).join("")
+ }catch{}
+}
+
+async function loadPayments(code){
+ let s=DATA.students[code];
+ try{
+  let d=await dbGet(`payments/${code}`),r=Object.values(d||{}),total=Number(s.tuitionTotal||0),paid=r.reduce((a,x)=>a+Number(x.amount||0),0),left=Math.max(0,total-paid);
+  $("profileTuition").textContent=money(total);
+  $("profilePaid").textContent=money(paid);
+  $("profileRemaining").textContent=money(left);
+  $("profilePaymentsEmpty").classList.toggle("hidden",r.length>0);
+  $("profilePaymentsList").innerHTML=r.map(x=>`<div class="profile-item"><div><strong style="color:#078b50">${money(x.amount)}</strong><small>${esc(x.note||"دفعة قسط")}</small></div><span class="badge green">${viewDate(x.date||x.timestamp)}</span></div>`).join("")
+ }catch{}
+}
+
+/* =========================================================
+   PDF
+========================================================= */
 
 const pdfItem=(l,v,e="")=>`<div class="pdf-data ${e}"><b>${esc(l)}</b><span>${esc(v??"—")}</span></div>`;
-function studentLoginURL(code){let u=new URL("index.html",location.href);u.searchParams.set("code",code);u.searchParams.set("login","1");return u.toString()}
-function buildStudentPDF(s){let person=s.gender==="female"?"الطالبة":"الطالب",date=viewDate(s.createdAt||Date.now()),file=s.fileStatus==="accepted"?"تم القبول":"لم يجلب الملف",account=s.accountActive?"الحساب فعال":"الحساب غير فعال",books=s.booksReceived?"استلم الكتب":"لم يستلم الكتب",url=studentLoginURL(s.code);return `<div class="pdf-page"><div class="pdf-safe">
-<section class="pdf-first"><img src="logo.png" class="pdf-watermark"><div class="pdf-meta"><div>العدد : ${esc(s.serial||"—")}</div><div>التاريخ : ${esc(date)}</div></div><div class="pdf-school"><img src="logo.png"><h2>مدرسة التحدي الأهلية المختلطة</h2><p>قسم الحوكمة</p></div><div class="pdf-address"><span class="to">إلى / ${esc(s.previousSchool||"—")}</span><span class="subject">م / عدم ممانعة</span></div><div class="pdf-letter">لا مانع لدينا من قبول ${person} <strong>${esc(s.name)}</strong> للعام الدراسي الحالي <strong>2026-2027</strong> في الصف <strong>${esc(s.className||"—")}</strong>، يرجى تزويدنا بوثيقة ${person} أو تأييد لحين صدور الوثيقة.</div><div class="pdf-thanks">مع خالص الشكر والتقدير.</div><div class="pdf-sign">إدارة مدرسة التحدي</div></section>
-<div class="pdf-divider"></div><div class="pdf-divider-label">بيانات الطالب</div>
-<section class="pdf-second"><div class="pdf-student-head"><div class="pdf-student-brand"><img src="logo.png"><div><h2>استمارة بيانات الطالب</h2><p>مدرسة التحدي الأهلية المختلطة</p></div></div><div class="pdf-form-no"><small>رقم الاستمارة</small><strong>${esc(s.serial||"—")}</strong></div></div>
-<div class="pdf-data-grid">${pdfItem("اسم الطالب الرباعي",s.name,"span2")}${pdfItem("اسم الأم",s.motherName)}${pdfItem("الجنس",genderStudent(s.gender))}${pdfItem("الصف",s.className)}${pdfItem("رقم القاعة",s.roomNumber)}${pdfItem("رقم ولي الأمر",s.guardianPhone)}${pdfItem("رقم الطالب",s.studentPhone||"غير مسجل")}${pdfItem("رقم الخط",s.lineNumber||"غير مسجل")}${pdfItem("المدرسة القادم منها",s.previousSchool,"span2")}${pdfItem("تاريخ إضافة الطالب",date)}${pdfItem("تاريخ المباشرة",viewDate(s.startDate))}${pdfItem("القسط الكلي",money(s.tuitionTotal))}${pdfItem("حالة الملف",file)}${pdfItem("حالة الحساب",account)}${pdfItem("استلام الكتب",books)}${pdfItem("عنوان السكن",s.address,"full")}</div>
-<div class="pdf-login"><div class="pdf-code-card"><small>الكود الخاص بالطالب</small><strong>${esc(s.code)}</strong><p>كود تسجيل الدخول إلى المنصة</p></div><div class="pdf-qr-card"><div class="student-pdf-qr" data-url="${esc(url)}"></div><small>امسح الرمز للدخول</small></div></div></section>
-</div></div>`}
-function renderQR(root){if(typeof QRCode==="undefined")return;root.querySelectorAll(".student-pdf-qr").forEach(e=>{e.innerHTML="";new QRCode(e,{text:e.dataset.url,width:112,height:112,correctLevel:QRCode.CorrectLevel.H});e.querySelectorAll("img").forEach(x=>x.remove())})}
-async function waitImages(root){await Promise.all([...root.querySelectorAll("img")].map(i=>i.complete?Promise.resolve():new Promise(r=>{i.onload=i.onerror=r})))}
-async function previewStudentPDFBeforeSave(){try{let s=await studentDraft(),r=$("pdfPreviewContent");r.innerHTML=buildStudentPDF(s);renderQR(r);await waitImages(r);openModal("pdfPreviewModal")}catch(e){toast(e.message)}}
-const pdfOpt=name=>({margin:0,filename:name,image:{type:"jpeg",quality:1},html2canvas:{scale:2.5,useCORS:true,allowTaint:true,logging:false,backgroundColor:"#fff"},jsPDF:{unit:"pt",format:"a4",orientation:"portrait"}});
-async function makePDF(s){let h=$("pdfHost");h.innerHTML=buildStudentPDF(s);renderQR(h);await waitImages(h);await new Promise(r=>setTimeout(r,180));await html2pdf().set(pdfOpt(`استمارة-${s.code}.pdf`)).from(h.firstElementChild).save();h.innerHTML=""}
-async function downloadStudentPDFBeforeSave(){try{await makePDF(await studentDraft())}catch(e){console.error(e);toast(e.message||"تعذر إنشاء PDF")}}
-async function downloadSavedStudentPDF(code){let s=DATA.students[code],c=DATA.classes[s.classId];if(s)await makePDF({...s,className:c?.name||"—"})}
 
-function makeTeacherCode(){let n="";for(let i=0;i<7;i++)n+=digit();let a="ABCDEFGHJKLMNPQRSTUVWXYZ";return"TH"+n+a[Math.floor(Math.random()*a.length)]}
-async function uniqueTeacherCode(){for(let i=0;i<60;i++){let c=makeTeacherCode();if(!await dbGet(`users/${c}`))return c}throw Error("تعذر توليد كود الأستاذ")}
-async function previewTeacherCode(){generatedTeacherCode=await uniqueTeacherCode();$("teacherCodePreview").textContent=generatedTeacherCode}
-$("teacherForm").onsubmit=async e=>{e.preventDefault();let name=$("teacherName").value.trim(),subject=$("teacherSubject").value.trim(),classIds=[...document.querySelectorAll("#teacherClasses input:checked")].map(x=>x.value);if(!name||!subject||!classIds.length)return message("teacherMessage","أكمل بيانات الأستاذ");let b=$("saveTeacherBtn");b.disabled=true;try{let code=generatedTeacherCode||await uniqueTeacherCode();if(await dbGet(`users/${code}`))code=await uniqueTeacherCode();let t={code,name,subject,classIds,accountActive:true,createdAt:Date.now(),createdBy:adminCode()},u={code,name,role:"teacher",teacherId:code,active:true,createdAt:Date.now()};await Promise.all([dbPut(`teachers/${code}`,t),dbPut(`users/${code}`,u)]);DATA.teachers[code]=t;DATA.users[code]=u;message("teacherMessage",`تم إنشاء الأستاذ - الكود ${code}`,"success");$("teacherForm").reset();generatedTeacherCode="";$("teacherCodePreview").textContent="لم يتم التوليد";renderAll()}catch(x){message("teacherMessage",x.message)}finally{b.disabled=false}}
+function studentLoginURL(code){
+ let u=new URL("index.html",location.href);
+ u.searchParams.set("code",code);
+ u.searchParams.set("login","1");
+ return u.toString()
+}
+
+function buildStudentPDF(s){
+ const person=s.gender==="female"?"الطالبة":"الطالب";
+ const addDate=viewDate(s.createdAt||Date.now());
+ const file=s.fileStatus==="accepted"?"تم القبول":"لم يجلب الملف";
+ const account=s.accountActive?"الحساب فعال":"الحساب غير فعال";
+ const books=s.booksReceived?"استلم الكتب":"لم يستلم الكتب";
+ const url=studentLoginURL(s.code);
+
+ return `
+ <div class="pdf-page">
+  <div class="pdf-safe">
+
+   <section class="pdf-first">
+
+    <img src="logo.png" class="pdf-watermark" alt="">
+
+    <div class="pdf-meta">
+     <div>العدد : ${esc(s.serial||"—")}</div>
+     <div>التاريخ : ${esc(addDate)}</div>
+    </div>
+
+    <div class="pdf-school">
+     <img src="logo.png" alt="">
+     <h2>مدرسة التحدي الأهلية المختلطة</h2>
+     <p>قسم الحوكمة</p>
+    </div>
+
+    <div class="pdf-address">
+     <span class="to">إلى / ${esc(s.previousSchool||"—")}</span>
+     <span class="subject">م / عدم ممانعة</span>
+    </div>
+
+    <div class="pdf-letter">
+     لا مانع لدينا من قبول ${person}
+     <strong>${esc(s.name)}</strong>
+     للعام الدراسي الحالي
+     <strong>2026-2027</strong>
+     في الصف
+     <strong>${esc(s.className||"—")}</strong>
+     ، يرجى تزويدنا بوثيقة ${person} أو تأييد لحين صدور الوثيقة.
+    </div>
+
+    <div class="pdf-thanks">مع خالص الشكر والتقدير.</div>
+    <div class="pdf-sign">إدارة مدرسة التحدي</div>
+
+   </section>
+
+   <div class="pdf-divider"></div>
+   <div class="pdf-divider-label">بيانات الطالب</div>
+
+   <section class="pdf-second">
+
+    <div class="pdf-student-head">
+     <div class="pdf-student-brand">
+      <img src="logo.png" alt="">
+      <div><h2>استمارة بيانات الطالب</h2><p>مدرسة التحدي الأهلية المختلطة</p></div>
+     </div>
+     <div class="pdf-form-no"><small>رقم الاستمارة</small><strong>${esc(s.serial||"—")}</strong></div>
+    </div>
+
+    <div class="pdf-data-grid">
+     ${pdfItem("اسم الطالب الرباعي",s.name,"span2")}
+     ${pdfItem("اسم الأم",s.motherName)}
+     ${pdfItem("الجنس",genderStudent(s.gender))}
+     ${pdfItem("الصف",s.className)}
+     ${pdfItem("رقم القاعة",s.roomNumber)}
+     ${pdfItem("رقم ولي الأمر",s.guardianPhone)}
+     ${pdfItem("رقم الطالب",s.studentPhone||"غير مسجل")}
+     ${pdfItem("رقم الخط",s.lineNumber||"غير مسجل")}
+     ${pdfItem("المدرسة القادم منها",s.previousSchool,"span2")}
+     ${pdfItem("تاريخ إضافة الطالب",addDate)}
+     ${pdfItem("تاريخ المباشرة",viewDate(s.startDate))}
+     ${pdfItem("مبلغ القسط الكلي",money(s.tuitionTotal))}
+     ${pdfItem("حالة الملف",file)}
+     ${pdfItem("حالة الحساب",account)}
+     ${pdfItem("استلام الكتب",books)}
+     ${pdfItem("عنوان السكن بالتفصيل",s.address,"full")}
+    </div>
+
+    <div class="pdf-login">
+     <div class="pdf-code-card">
+      <small>الكود الخاص بالطالب</small>
+      <strong>${esc(s.code)}</strong>
+      <p>يستخدم لتسجيل الدخول إلى منصة الطالب</p>
+     </div>
+     <div class="pdf-qr-card">
+      <div class="student-pdf-qr" data-url="${esc(url)}"></div>
+      <small>امسح الرمز للدخول</small>
+     </div>
+    </div>
+
+   </section>
+
+  </div>
+ </div>`;
+}
+
+function renderQR(root){
+ if(typeof QRCode==="undefined")return;
+ root.querySelectorAll(".student-pdf-qr").forEach(e=>{
+  e.innerHTML="";
+  new QRCode(e,{text:e.dataset.url,width:108,height:108,correctLevel:QRCode.CorrectLevel.H});
+  e.querySelectorAll("img").forEach(x=>x.remove())
+ })
+}
+
+async function waitImages(root){
+ await Promise.all([...root.querySelectorAll("img")].map(i=>i.complete?Promise.resolve():new Promise(r=>{i.onload=i.onerror=r})))
+}
+
+async function previewStudentPDFBeforeSave(){
+ try{
+  let s=await studentDraft(),r=$("pdfPreviewContent");
+  r.innerHTML=buildStudentPDF(s);
+  renderQR(r);
+  await waitImages(r);
+  openModal("pdfPreviewModal")
+ }catch(e){toast(e.message||"تعذر إنشاء المعاينة")}
+}
+
+const pdfOpt=name=>({
+ margin:0,
+ filename:name,
+ image:{type:"jpg",quality:1},
+ html2canvas:{scale:2.4,useCORS:true,allowTaint:true,logging:false,backgroundColor:"#fff",scrollX:0,scrollY:0},
+ jsPDF:{unit:"pt",format:"a4",orientation:"portrait"}
+});
+
+async function makePDF(s){
+ let h=$("pdfHost");
+ h.innerHTML=buildStudentPDF(s);
+ renderQR(h);
+ await waitImages(h);
+ await new Promise(r=>setTimeout(r,180));
+
+ try{
+  await html2pdf().set(pdfOpt(`استمارة-${s.code}.pdf`)).from(h.firstElementChild).save();
+  toast("تم إنشاء ملف PDF")
+ }finally{
+  h.innerHTML=""
+ }
+}
+
+async function downloadStudentPDFBeforeSave(){
+ try{await makePDF(await studentDraft())}
+ catch(e){console.error(e);toast(e.message||"تعذر إنشاء PDF")}
+}
+
+async function downloadSavedStudentPDF(code){
+ let s=DATA.students[code],c=DATA.classes[s?.classId];
+ if(s)await makePDF({...s,className:c?.name||"—"})
+}
+
+/* =========================================================
+   TEACHERS
+========================================================= */
+
+function makeTeacherCode(){
+ let n="";
+ for(let i=0;i<7;i++)n+=digit();
+ let a="ABCDEFGHJKLMNPQRSTUVWXYZ";
+ return "TH"+n+a[Math.floor(Math.random()*a.length)]
+}
+
+async function uniqueTeacherCode(){
+ for(let i=0;i<60;i++){
+  let c=makeTeacherCode();
+  if(!await dbGet(`users/${c}`))return c
+ }
+ throw Error("تعذر توليد كود الأستاذ")
+}
+
+async function previewTeacherCode(){
+ generatedTeacherCode=await uniqueTeacherCode();
+ $("teacherCodePreview").textContent=generatedTeacherCode
+}
+
+$("teacherForm").onsubmit=async e=>{
+ e.preventDefault();
+ hideMessage("teacherMessage");
+
+ let name=$("teacherName").value.trim();
+ let subject=$("teacherSubject").value.trim();
+ let classIds=[...document.querySelectorAll("#teacherClasses input:checked")].map(x=>x.value);
+
+ if(!name||!subject||!classIds.length)return message("teacherMessage","أكمل بيانات الأستاذ");
+
+ let b=$("saveTeacherBtn");
+ b.disabled=true;b.textContent="جاري الحفظ...";
+
+ try{
+  let code=generatedTeacherCode||await uniqueTeacherCode();
+  if(await dbGet(`users/${code}`))code=await uniqueTeacherCode();
+
+  let t={code,name,subject,classIds,accountActive:true,createdAt:Date.now(),createdBy:adminCode()};
+  let u={code,name,role:"teacher",teacherId:code,active:true,createdAt:Date.now()};
+
+  await Promise.all([dbPut(`teachers/${code}`,t),dbPut(`users/${code}`,u)]);
+  DATA.teachers[code]=t;DATA.users[code]=u;
+
+  message("teacherMessage",`تم إنشاء الأستاذ - الكود ${code}`,"success");
+  $("teacherForm").reset();
+  generatedTeacherCode="";
+  $("teacherCodePreview").textContent="لم يتم التوليد";
+  renderAll()
+ }catch(x){
+  console.error(x);message("teacherMessage",x.message||"تعذر حفظ الأستاذ")
+ }finally{
+  b.disabled=false;b.textContent="حفظ الأستاذ"
+ }
+};
+
 ["teacherSearch","teacherClassFilter","teacherStatusFilter"].forEach(id=>$(id).addEventListener(id==="teacherSearch"?"input":"change",renderTeachers));
-function renderTeachers(){let q=norm($("teacherSearch").value),c=$("teacherClassFilter").value,st=$("teacherStatusFilter").value,r=Object.values(DATA.teachers).filter(t=>(!c||(t.classIds||[]).includes(c))&&(!st||(st==="active"&&t.accountActive)||(st==="inactive"&&!t.accountActive))&&(!q||norm(`${t.name} ${t.code} ${t.subject}`).includes(q)));$("teachersBody").innerHTML=r.map(t=>`<tr><td><span class="code">${t.code}</span></td><td>${esc(t.name)}</td><td>${esc(t.subject)}</td><td>${esc((t.classIds||[]).map(id=>DATA.classes[id]?.name).filter(Boolean).join("، ")||"—")}</td><td><span class="badge ${t.accountActive?"green":"red"}">${t.accountActive?"فعال":"غير فعال"}</span></td><td><div class="row-actions"><button class="mini btn-soft" onclick="copyCode('${t.code}')">نسخ</button><button class="mini ${t.accountActive?"btn-r":"btn-g"}" onclick="toggleTeacher('${t.code}')">${t.accountActive?"إلغاء التفعيل":"تفعيل"}</button></div></td></tr>`).join("")}
-function toggleTeacher(code){let t=DATA.teachers[code],a=!t.accountActive;confirmBox(a?"تفعيل الأستاذ":"إلغاء التفعيل",`${a?"تفعيل":"إلغاء تفعيل"} حساب ${t.name}؟`,async()=>{await Promise.all([dbPatch(`teachers/${code}`,{accountActive:a}),dbPatch(`users/${code}`,{active:a})]);t.accountActive=a;renderTeachers()})}
 
-function renderAll(){renderStats();renderClasses();fillControls();renderStudents();renderTeachers();updateBulk()}
-window.addEventListener("offline",()=>toast("لا يوجد اتصال بالإنترنت"));window.addEventListener("online",()=>loadAll().catch(console.error));
-window.addEventListener("load",async()=>{$("startDate").value=today();try{if(await verifyAdmin())await loadAll()}catch(e){console.error(e);toast("تعذر تحميل بيانات الإدارة")}finally{$("loading").classList.add("hidden")}});
+function renderTeachers(){
+ let q=norm($("teacherSearch").value),c=$("teacherClassFilter").value,st=$("teacherStatusFilter").value;
+
+ let rows=Object.values(DATA.teachers).filter(t=>
+  (!c||(t.classIds||[]).includes(c))&&
+  (!st||(st==="active"&&t.accountActive)||(st==="inactive"&&!t.accountActive))&&
+  (!q||norm(`${t.name} ${t.code} ${t.subject}`).includes(q))
+ );
+
+ $("teachersBody").innerHTML=rows.map(t=>`
+ <tr>
+  <td><span class="code">${esc(t.code)}</span></td>
+  <td>${esc(t.name)}</td>
+  <td>${esc(t.subject)}</td>
+  <td>${esc((t.classIds||[]).map(id=>DATA.classes[id]?.name).filter(Boolean).join("، ")||"—")}</td>
+  <td><span class="badge ${t.accountActive?"green":"red"}">${t.accountActive?"فعال":"غير فعال"}</span></td>
+  <td><div class="row-actions">
+   <button class="mini btn-soft" onclick="copyCode('${t.code}')">نسخ</button>
+   <button class="mini ${t.accountActive?"btn-r":"btn-g"}" onclick="toggleTeacher('${t.code}')">${t.accountActive?"إلغاء التفعيل":"تفعيل"}</button>
+  </div></td>
+ </tr>`).join("")
+}
+
+function toggleTeacher(code){
+ let t=DATA.teachers[code],a=!t.accountActive;
+ confirmBox(a?"تفعيل الأستاذ":"إلغاء التفعيل",`${a?"تفعيل":"إلغاء تفعيل"} حساب ${t.name}؟`,async()=>{
+  await Promise.all([dbPatch(`teachers/${code}`,{accountActive:a}),dbPatch(`users/${code}`,{active:a})]);
+  t.accountActive=a;renderTeachers()
+ })
+}
+
+function renderAll(){
+ renderStats();renderClasses();fillControls();renderStudents();renderTeachers();updateBulk()
+}
+
+window.addEventListener("offline",()=>toast("لا يوجد اتصال بالإنترنت"));
+window.addEventListener("online",()=>loadAll().catch(console.error));
+
+window.addEventListener("load",async()=>{
+ $("startDate").value=today();
+ try{
+  if(await verifyAdmin())await loadAll()
+ }catch(e){
+  console.error(e);toast("تعذر تحميل بيانات الإدارة")
+ }finally{
+  $("loading").classList.add("hidden")
+ }
+});
 </script>
+
 </body>
 </html>
