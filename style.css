@@ -1,0 +1,1080 @@
+/* =========================================================
+   مدرسة التحدي الأهلية المختلطة
+   ملف التصميم الرئيسي
+========================================================= */
+
+
+:root {
+
+    --primary: #0b63d8;
+
+    --primary-dark: #084da7;
+
+    --primary-light: #eaf3ff;
+
+    --danger: #d92d20;
+
+    --success: #079455;
+
+    --text: #172033;
+
+    --text-soft: #667085;
+
+    --white: #ffffff;
+
+    --background: #f6f8fc;
+
+    --border: #e4e7ec;
+
+    --shadow:
+        0 20px 60px
+        rgba(16, 24, 40, 0.12);
+
+}
+
+
+/* =========================================================
+   أساسيات
+========================================================= */
+
+* {
+
+    box-sizing: border-box;
+
+    margin: 0;
+
+    padding: 0;
+
+    -webkit-tap-highlight-color:
+        transparent;
+
+}
+
+
+html {
+
+    height: 100%;
+
+}
+
+
+body {
+
+    width: 100%;
+
+    min-height: 100%;
+
+    font-family:
+        "Tahoma",
+        "Arial",
+        sans-serif;
+
+    background:
+        var(--background);
+
+    color:
+        var(--text);
+
+    overflow-x: hidden;
+
+}
+
+
+button,
+input {
+
+    font-family: inherit;
+
+}
+
+
+
+/* =========================================================
+   صفحة تسجيل الدخول
+========================================================= */
+
+.login-page {
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    min-height: 100dvh;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding:
+        28px 18px;
+
+    background:
+
+        radial-gradient(
+            circle at top right,
+            rgba(11, 99, 216, 0.12),
+            transparent 36%
+        ),
+
+        radial-gradient(
+            circle at bottom left,
+            rgba(217, 45, 32, 0.06),
+            transparent 30%
+        ),
+
+        #f8fafc;
+
+}
+
+
+.login-page.show {
+
+    display: flex;
+
+    animation:
+        pageFadeIn
+        .65s
+        ease
+        both;
+
+}
+
+
+.login-container {
+
+    width: 100%;
+
+    max-width: 430px;
+
+}
+
+
+
+/* =========================================================
+   الشعار
+========================================================= */
+
+.login-logo-wrapper {
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    margin-bottom: 18px;
+
+}
+
+
+.login-logo {
+
+    width: 108px;
+
+    height: 108px;
+
+    object-fit: contain;
+
+    filter:
+
+        drop-shadow(
+            0 10px 20px
+            rgba(11, 99, 216, .14)
+        );
+
+    animation:
+
+        logoEnter
+        .8s
+        cubic-bezier(.2,.8,.2,1)
+        both;
+
+}
+
+
+
+/* =========================================================
+   اسم المدرسة
+========================================================= */
+
+.school-title {
+
+    text-align: center;
+
+    margin-bottom: 28px;
+
+}
+
+
+.school-title h1 {
+
+    font-size: 22px;
+
+    line-height: 1.55;
+
+    font-weight: 800;
+
+    color:
+        var(--text);
+
+}
+
+
+.school-title p {
+
+    margin-top: 5px;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    color:
+        var(--primary);
+
+}
+
+
+
+/* =========================================================
+   بطاقة الدخول
+========================================================= */
+
+.login-card {
+
+    width: 100%;
+
+    padding:
+        26px 20px
+        22px;
+
+    border-radius: 26px;
+
+    background:
+        rgba(255,255,255,.96);
+
+    border:
+        1px solid
+        rgba(255,255,255,.8);
+
+    box-shadow:
+        var(--shadow);
+
+    backdrop-filter:
+        blur(16px);
+
+    animation:
+
+        cardEnter
+        .75s
+        .08s
+        cubic-bezier(.2,.8,.2,1)
+        both;
+
+}
+
+
+.login-card-title {
+
+    text-align: center;
+
+    margin-bottom: 20px;
+
+}
+
+
+.login-card-title h2 {
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+    color:
+        var(--text);
+
+}
+
+
+.login-card-title p {
+
+    margin-top: 7px;
+
+    font-size: 14px;
+
+    color:
+        var(--text-soft);
+
+}
+
+
+
+/* =========================================================
+   حقل الكود
+========================================================= */
+
+.code-input-box {
+
+    width: 100%;
+
+}
+
+
+.code-input-box input {
+
+    width: 100%;
+
+    height: 58px;
+
+    padding:
+        0 18px;
+
+    border-radius: 17px;
+
+    border:
+        1.5px solid
+        var(--border);
+
+    outline: none;
+
+    background:
+        #ffffff;
+
+    color:
+        var(--text);
+
+    text-align: center;
+
+    direction: ltr;
+
+    font-size: 17px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    transition:
+        .25s ease;
+
+}
+
+
+.code-input-box input::placeholder {
+
+    direction: rtl;
+
+    letter-spacing: 0;
+
+    font-weight: 500;
+
+    color:
+        #98a2b3;
+
+}
+
+
+.code-input-box input:focus {
+
+    border-color:
+        var(--primary);
+
+    box-shadow:
+
+        0 0 0 4px
+        rgba(11, 99, 216, .08);
+
+}
+
+
+
+/* =========================================================
+   زر الدخول
+========================================================= */
+
+.login-btn {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 57px;
+
+    border: 0;
+
+    border-radius: 17px;
+
+    margin-top: 15px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #0b63d8,
+            #0752ba
+        );
+
+    color:
+        #ffffff;
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+
+        0 12px 26px
+        rgba(11, 99, 216, .24);
+
+    transition:
+
+        transform .2s ease,
+        box-shadow .2s ease,
+        opacity .2s ease;
+
+}
+
+
+.login-btn:active {
+
+    transform:
+        scale(.985);
+
+}
+
+
+.login-btn:disabled {
+
+    cursor: default;
+
+    opacity: .85;
+
+}
+
+
+.button-loader {
+
+    width: 18px;
+
+    height: 18px;
+
+    margin-right: 9px;
+
+    vertical-align: middle;
+
+    display: none;
+
+    border-radius: 50%;
+
+    border:
+        2px solid
+        rgba(255,255,255,.35);
+
+    border-top-color:
+        #ffffff;
+
+    animation:
+
+        spinner
+        .75s
+        linear
+        infinite;
+
+}
+
+
+
+/* =========================================================
+   الرسائل
+========================================================= */
+
+.message-box {
+
+    display: none;
+
+    width: 100%;
+
+    margin-bottom: 13px;
+
+    padding:
+        11px 12px;
+
+    border-radius: 13px;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+}
+
+
+.message-box.show {
+
+    display: block;
+
+    animation:
+        messageEnter
+        .25s
+        ease;
+
+}
+
+
+.message-box.error {
+
+    color:
+        #b42318;
+
+    background:
+        #fef3f2;
+
+    border:
+        1px solid
+        #fecdca;
+
+}
+
+
+.message-box.success {
+
+    color:
+        #067647;
+
+    background:
+        #ecfdf3;
+
+    border:
+        1px solid
+        #abefc6;
+
+}
+
+
+
+/* =========================================================
+   أسفل الصفحة
+========================================================= */
+
+.login-footer {
+
+    text-align: center;
+
+    padding-top: 22px;
+
+    font-size: 12px;
+
+    color:
+        #98a2b3;
+
+}
+
+
+
+/* =========================================================
+   Splash
+========================================================= */
+
+.splash-screen {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 24px;
+
+    background:
+
+        radial-gradient(
+            circle at 50% 30%,
+            #1776e7,
+            #0b63d8 42%,
+            #073e8e 100%
+        );
+
+    transition:
+        opacity .6s ease,
+        visibility .6s ease;
+
+}
+
+
+.splash-screen.show {
+
+    display: flex;
+
+}
+
+
+.splash-screen.hide {
+
+    opacity: 0;
+
+    visibility: hidden;
+
+}
+
+
+.splash-content {
+
+    text-align: center;
+
+    color:
+        #ffffff;
+
+}
+
+
+.splash-logo-box {
+
+    display: flex;
+
+    justify-content: center;
+
+}
+
+
+.splash-logo {
+
+    width: 132px;
+
+    height: 132px;
+
+    object-fit: contain;
+
+    animation:
+
+        splashLogo
+        1s
+        cubic-bezier(.16,1,.3,1)
+        both;
+
+}
+
+
+.splash-school {
+
+    margin-top: 21px;
+
+    font-size: 22px;
+
+    line-height: 1.6;
+
+    font-weight: 800;
+
+    animation:
+
+        splashText
+        .8s
+        .25s
+        ease
+        both;
+
+}
+
+
+.splash-line {
+
+    width: 45px;
+
+    height: 3px;
+
+    margin:
+        14px auto;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255,255,255,.8);
+
+    animation:
+
+        splashLine
+        .8s
+        .45s
+        ease
+        both;
+
+}
+
+
+.splash-section {
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    opacity: .9;
+
+    animation:
+
+        splashText
+        .8s
+        .5s
+        ease
+        both;
+
+}
+
+
+
+/* =========================================================
+   عدم وجود إنترنت
+========================================================= */
+
+.offline-page {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 20000;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 24px;
+
+    background:
+        #ffffff;
+
+}
+
+
+.offline-page.show {
+
+    display: flex;
+
+}
+
+
+.offline-box {
+
+    width: 100%;
+
+    max-width: 380px;
+
+    text-align: center;
+
+}
+
+
+.offline-image {
+
+    width: 220px;
+
+    max-width: 75%;
+
+    height: auto;
+
+    object-fit: contain;
+
+    margin-bottom: 26px;
+
+}
+
+
+.offline-box h2 {
+
+    font-size: 21px;
+
+    font-weight: 800;
+
+    color:
+        var(--text);
+
+}
+
+
+.offline-box p {
+
+    margin-top: 8px;
+
+    font-size: 14px;
+
+    color:
+        var(--text-soft);
+
+}
+
+
+.offline-loader {
+
+    width: 25px;
+
+    height: 25px;
+
+    margin:
+        24px auto
+        0;
+
+    border-radius: 50%;
+
+    border:
+        3px solid
+        #e4e7ec;
+
+    border-top-color:
+        var(--primary);
+
+    animation:
+
+        spinner
+        .85s
+        linear
+        infinite;
+
+}
+
+
+
+/* =========================================================
+   الأنيميشن
+========================================================= */
+
+@keyframes spinner {
+
+    to {
+
+        transform:
+            rotate(360deg);
+
+    }
+
+}
+
+
+@keyframes pageFadeIn {
+
+    from {
+
+        opacity: 0;
+
+    }
+
+    to {
+
+        opacity: 1;
+
+    }
+
+}
+
+
+@keyframes logoEnter {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(-16px)
+            scale(.9);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+@keyframes cardEnter {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(25px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+@keyframes messageEnter {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(-5px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+@keyframes splashLogo {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            scale(.55)
+            translateY(20px);
+
+    }
+
+    70% {
+
+        transform:
+            scale(1.06);
+
+    }
+
+    100% {
+
+        opacity: 1;
+
+        transform:
+            scale(1);
+
+    }
+
+}
+
+
+@keyframes splashText {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(14px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+@keyframes splashLine {
+
+    from {
+
+        opacity: 0;
+
+        width: 0;
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        width: 45px;
+
+    }
+
+}
+
+
+
+/* =========================================================
+   الشاشات الصغيرة
+========================================================= */
+
+@media
+(max-width: 360px) {
+
+    .login-page {
+
+        padding:
+            22px 14px;
+
+    }
+
+
+    .login-logo {
+
+        width: 92px;
+
+        height: 92px;
+
+    }
+
+
+    .school-title h1 {
+
+        font-size: 19px;
+
+    }
+
+
+    .login-card {
+
+        padding:
+            22px 16px;
+
+        border-radius: 22px;
+
+    }
+
+
+    .splash-logo {
+
+        width: 115px;
+
+        height: 115px;
+
+    }
+
+
+    .splash-school {
+
+        font-size: 19px;
+
+    }
+
+}
