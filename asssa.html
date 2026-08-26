@@ -2765,7 +2765,7 @@ tbody tr:hover td {
             class="pdf-export-button"
             type="button">
 
-            PDF النتائج الظاهرة
+            تنزيل PDF للنتائج
 
         </button>
 
@@ -7749,29 +7749,95 @@ function exportFilteredApplicantsToPdf() {
         </div>
     </div>
 
-    <button onclick="window.print()">
-        طباعة / حفظ PDF
-    </button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+        <button id="downloadPdfBtn" type="button" style="background:#079455">
+            تنزيل PDF
+        </button>
+        <button type="button" onclick="window.print()">
+            طباعة
+        </button>
+    </div>
 </div>
 
 <main class="pdf-pages">
     ${pages}
 </main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\/script>
 <script>
-    window.addEventListener("load", function() {
-        if (document.fonts && document.fonts.ready) {
-            document.fonts.ready.then(function() {
-                setTimeout(function() {
-                    window.print();
-                }, 250);
-            });
-        } else {
-            setTimeout(function() {
-                window.print();
-            }, 600);
+    function sanitizeFileName(value) {
+        return String(value || "")
+            .replace(/[\\/:*?"<>|]/g, "-")
+            .replace(/\s+/g, " ")
+            .trim();
+    }
+
+    async function downloadPdfFile() {
+        const button = document.getElementById("downloadPdfBtn");
+        const pages = document.querySelector(".pdf-pages");
+        const originalText = button.textContent;
+
+        if (typeof html2pdf === "undefined") {
+            alert("تعذر تحميل أداة تنزيل PDF. استخدم زر الطباعة مؤقتاً.");
+            return;
         }
-    });
+
+        try {
+            button.disabled = true;
+            button.textContent = "جارٍ إنشاء PDF...";
+
+            if (document.fonts && document.fonts.ready) {
+                await document.fonts.ready;
+            }
+
+            const fileName = sanitizeFileName(
+                "طلبات التوظيف - مدرسة التحدي - ${applicants.length} متقدم.pdf"
+            );
+
+            const options = {
+                margin: 0,
+                filename: fileName,
+                image: { type: "jpeg", quality: 0.98 },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: "#ffffff",
+                    logging: false,
+                    letterRendering: true
+                },
+                jsPDF: {
+                    unit: "mm",
+                    format: "a4",
+                    orientation: "portrait",
+                    compress: true
+                },
+                pagebreak: {
+                    mode: ["css", "legacy"],
+                    before: ".pdf-page:not(:first-child)",
+                    avoid: [".pdf-info-item", ".pdf-status-row"]
+                }
+            };
+
+            await html2pdf()
+                .set(options)
+                .from(pages)
+                .save();
+
+            button.textContent = "تم تنزيل PDF";
+            setTimeout(function() {
+                button.textContent = originalText;
+                button.disabled = false;
+            }, 1200);
+        } catch (error) {
+            console.error(error);
+            button.disabled = false;
+            button.textContent = originalText;
+            alert("تعذر تنزيل PDF مباشرة. استخدم زر الطباعة كخيار احتياطي.");
+        }
+    }
+
+    document.getElementById("downloadPdfBtn")
+        .addEventListener("click", downloadPdfFile);
 <\/script>
 
 </body>
