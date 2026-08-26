@@ -41,7 +41,8 @@
     -webkit-tap-highlight-color:transparent;
 }
 
-html,body{
+html,
+body{
     width:100%;
     min-height:100%;
 }
@@ -53,7 +54,8 @@ body{
     overflow-x:hidden;
 }
 
-button,input{
+button,
+input{
     font:inherit;
 }
 
@@ -69,20 +71,39 @@ button,input{
     min-height:100dvh;
     align-items:center;
     justify-content:center;
+
     padding:
         max(26px,env(safe-area-inset-top))
         16px
         max(26px,env(safe-area-inset-bottom));
+
     overflow:hidden;
+
     background:
-        radial-gradient(circle at 85% 5%,rgba(7,95,207,.17),transparent 30%),
-        radial-gradient(circle at 3% 90%,rgba(7,95,207,.09),transparent 33%),
-        linear-gradient(180deg,#f8fbff,#f1f6fc);
+        radial-gradient(
+            circle at 85% 5%,
+            rgba(7,95,207,.17),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 3% 90%,
+            rgba(7,95,207,.09),
+            transparent 33%
+        ),
+        linear-gradient(
+            180deg,
+            #f8fbff,
+            #f1f6fc
+        );
 }
 
 .login-page.show{
     display:flex;
-    animation:loginReveal .9s cubic-bezier(.16,1,.3,1) both;
+
+    animation:
+        loginReveal .9s
+        cubic-bezier(.16,1,.3,1)
+        both;
 }
 
 .bg-grid{
@@ -90,11 +111,26 @@ button,input{
     inset:0;
     opacity:.3;
     pointer-events:none;
+
     background-image:
-        linear-gradient(rgba(7,95,207,.04) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(7,95,207,.04) 1px,transparent 1px);
+        linear-gradient(
+            rgba(7,95,207,.04) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(7,95,207,.04) 1px,
+            transparent 1px
+        );
+
     background-size:35px 35px;
-    mask-image:linear-gradient(to bottom,rgba(0,0,0,.4),transparent 80%);
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,.4),
+            transparent 80%
+        );
 }
 
 .orb{
@@ -136,9 +172,14 @@ button,input{
 
 .logo-shell{
     position:relative;
+
     width:132px;
     height:132px;
-    margin:0 auto 15px;
+
+    margin:
+        0 auto
+        15px;
+
     display:flex;
     align-items:center;
     justify-content:center;
@@ -147,31 +188,58 @@ button,input{
 .logo-ring{
     position:absolute;
     inset:8px;
+
     border-radius:50%;
-    border:1px solid rgba(7,95,207,.14);
-    background:rgba(255,255,255,.62);
+
+    border:
+        1px solid
+        rgba(7,95,207,.14);
+
+    background:
+        rgba(255,255,255,.62);
+
     box-shadow:
-        0 12px 35px rgba(7,95,207,.1),
-        inset 0 0 0 9px rgba(7,95,207,.035);
-    animation:ringPulse 2.5s ease-in-out infinite;
+        0 12px 35px
+        rgba(7,95,207,.1),
+        inset 0 0 0 9px
+        rgba(7,95,207,.035);
+
+    animation:
+        ringPulse
+        2.5s
+        ease-in-out
+        infinite;
 }
 
 .logo-glow{
     position:absolute;
+
     width:88px;
     height:88px;
+
     border-radius:50%;
-    background:rgba(7,95,207,.12);
-    filter:blur(14px);
+
+    background:
+        rgba(7,95,207,.12);
+
+    filter:
+        blur(14px);
 }
 
 .main-logo{
     position:relative;
     z-index:2;
+
     width:112px;
     height:112px;
+
     object-fit:contain;
-    filter:drop-shadow(0 13px 22px rgba(7,95,207,.16));
+
+    filter:
+        drop-shadow(
+            0 13px 22px
+            rgba(7,95,207,.16)
+        );
 }
 
 .school-name{
@@ -183,23 +251,41 @@ button,input{
 
 .governance{
     margin-top:3px;
+
     color:var(--blue);
+
     font-size:13px;
     font-weight:900;
 }
 
 .year-badge{
     width:max-content;
-    margin:13px auto 0;
-    padding:8px 18px;
+
+    margin:
+        13px auto
+        0;
+
+    padding:
+        8px 18px;
+
     display:flex;
     align-items:center;
     gap:8px;
+
     border-radius:999px;
+
     color:var(--blue-dark);
-    background:rgba(255,255,255,.9);
-    border:1px solid rgba(7,95,207,.13);
-    box-shadow:0 8px 24px rgba(7,95,207,.08);
+
+    background:
+        rgba(255,255,255,.9);
+
+    border:
+        1px solid
+        rgba(7,95,207,.13);
+
+    box-shadow:
+        0 8px 24px
+        rgba(7,95,207,.08);
 }
 
 .year-badge span{
@@ -210,6 +296,7 @@ button,input{
 
 .year-badge strong{
     direction:ltr;
+
     font-size:15px;
     letter-spacing:1px;
     font-weight:900;
@@ -221,13 +308,28 @@ button,input{
 
 .login-card{
     width:100%;
-    padding:24px 20px 21px;
+
+    padding:
+        24px 20px
+        21px;
+
     border-radius:26px;
-    border:1px solid rgba(255,255,255,.9);
-    background:rgba(255,255,255,.93);
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
-    box-shadow:var(--shadow);
+
+    border:
+        1px solid
+        rgba(255,255,255,.9);
+
+    background:
+        rgba(255,255,255,.93);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    box-shadow:
+        var(--shadow);
 }
 
 .welcome{
@@ -239,12 +341,19 @@ button,input{
     display:inline-flex;
     align-items:center;
     justify-content:center;
+
     min-height:27px;
-    padding:0 10px;
+
+    padding:
+        0 10px;
+
     margin-bottom:8px;
+
     border-radius:99px;
+
     color:var(--blue);
     background:var(--blue-soft);
+
     font-size:8px;
     font-weight:900;
 }
@@ -256,7 +365,9 @@ button,input{
 
 .welcome p{
     margin-top:7px;
+
     color:var(--muted);
+
     font-size:12px;
     line-height:1.75;
 }
@@ -267,11 +378,18 @@ button,input{
 
 .message{
     display:none;
+
     width:100%;
+
     margin-bottom:12px;
-    padding:11px 12px;
+
+    padding:
+        11px 12px;
+
     border-radius:12px;
+
     text-align:center;
+
     font-size:11px;
     line-height:1.7;
     font-weight:800;
@@ -279,19 +397,29 @@ button,input{
 
 .message.show{
     display:block;
-    animation:messageIn .2s ease both;
+
+    animation:
+        messageIn .2s
+        ease
+        both;
 }
 
 .message.error{
     color:var(--danger);
     background:var(--danger-bg);
-    border:1px solid #ffd3d3;
+
+    border:
+        1px solid
+        #ffd3d3;
 }
 
 .message.success{
     color:var(--success);
     background:var(--success-bg);
-    border:1px solid #bceccb;
+
+    border:
+        1px solid
+        #bceccb;
 }
 
 /* =========================================================
@@ -300,8 +428,13 @@ button,input{
 
 .input-label{
     display:block;
-    margin:0 4px 7px;
+
+    margin:
+        0 4px
+        7px;
+
     color:#344054;
+
     font-size:9px;
     font-weight:900;
 }
@@ -309,33 +442,53 @@ button,input{
 .code-input{
     width:100%;
     height:60px;
-    padding:0 16px;
-    border:1.5px solid var(--border);
+
+    padding:
+        0 16px;
+
+    border:
+        1.5px solid
+        var(--border);
+
     border-radius:17px;
+
     outline:none;
+
     color:var(--text);
     background:#fff;
+
     direction:ltr;
     text-align:center;
     text-transform:uppercase;
+
     letter-spacing:1.8px;
+
     font-size:18px;
     font-weight:900;
+
     transition:.2s;
 }
 
 .code-input::placeholder{
     direction:rtl;
     letter-spacing:0;
+
     color:#98a2b3;
+
     font-size:13px;
     font-weight:500;
 }
 
 .code-input:focus{
-    border-color:var(--blue);
-    box-shadow:0 0 0 4px rgba(7,95,207,.07);
-    transform:translateY(-1px);
+    border-color:
+        var(--blue);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(7,95,207,.07);
+
+    transform:
+        translateY(-1px);
 }
 
 /* =========================================================
@@ -345,22 +498,37 @@ button,input{
 .login-btn{
     width:100%;
     height:58px;
+
     margin-top:14px;
+
     border:0;
     border-radius:17px;
+
     display:flex;
     align-items:center;
     justify-content:center;
     gap:8px;
+
     color:#fff;
-    background:linear-gradient(135deg,#0870e8,#0757c8);
-    box-shadow:0 14px 30px rgba(7,95,207,.25);
+
+    background:
+        linear-gradient(
+            135deg,
+            #0870e8,
+            #0757c8
+        );
+
+    box-shadow:
+        0 14px 30px
+        rgba(7,95,207,.25);
+
     font-size:15px;
     font-weight:900;
 }
 
 .login-btn:active{
-    transform:scale(.985);
+    transform:
+        scale(.985);
 }
 
 .login-btn:disabled{
@@ -369,27 +537,46 @@ button,input{
 
 .spinner{
     display:none;
+
     width:18px;
     height:18px;
-    border:2px solid rgba(255,255,255,.35);
+
+    border:
+        2px solid
+        rgba(255,255,255,.35);
+
     border-top-color:#fff;
+
     border-radius:50%;
-    animation:spin .7s linear infinite;
+
+    animation:
+        spin .7s
+        linear
+        infinite;
 }
 
 .security-note{
     margin-top:14px;
     padding-top:13px;
-    border-top:1px solid #eef1f5;
+
+    border-top:
+        1px solid
+        #eef1f5;
+
     text-align:center;
+
     color:#98a2b3;
+
     font-size:8px;
 }
 
 .footer{
     margin-top:18px;
+
     text-align:center;
+
     color:#98a2b3;
+
     font-size:9px;
     line-height:1.8;
 }
@@ -404,10 +591,14 @@ button,input{
 
 .splash{
     display:none;
+
     position:fixed;
     inset:0;
+
     z-index:10000;
+
     overflow:hidden;
+
     background:
         linear-gradient(
             180deg,
@@ -416,6 +607,7 @@ button,input{
             #8ed1f5 65%,
             #d9f1ff 100%
         );
+
     perspective:1000px;
 }
 
@@ -426,6 +618,7 @@ button,input{
 .sky-light{
     position:absolute;
     inset:0;
+
     background:
         radial-gradient(
             circle at 50% 44%,
@@ -442,36 +635,48 @@ button,input{
 .cloud-layer{
     position:absolute;
     inset:-15%;
+
     pointer-events:none;
-    transform-style:preserve-3d;
+
+    transform-style:
+        preserve-3d;
 }
 
 .cloud{
     position:absolute;
+
     width:250px;
     height:88px;
+
     border-radius:999px;
+
     background:
         linear-gradient(
             180deg,
             rgba(255,255,255,.98),
             rgba(235,247,255,.93)
         );
+
     box-shadow:
-        0 18px 45px rgba(28,111,169,.12);
+        0 18px 45px
+        rgba(28,111,169,.12);
 }
 
 .cloud:before,
 .cloud:after{
     content:"";
+
     position:absolute;
+
     border-radius:50%;
+
     background:inherit;
 }
 
 .cloud:before{
     width:120px;
     height:120px;
+
     left:35px;
     bottom:20px;
 }
@@ -479,37 +684,56 @@ button,input{
 .cloud:after{
     width:150px;
     height:150px;
+
     right:30px;
     bottom:10px;
 }
 
-/* خلفية بعيدة */
+/* بعيد */
 
 .back .c1{
     width:220px;
     height:72px;
+
     top:10%;
     left:-70px;
+
     opacity:.45;
-    animation:cloudRight 15s linear infinite;
+
+    animation:
+        cloudRight
+        15s linear
+        infinite;
 }
 
 .back .c2{
     width:260px;
     height:78px;
+
     top:24%;
     right:-100px;
+
     opacity:.42;
-    animation:cloudLeft 19s linear infinite;
+
+    animation:
+        cloudLeft
+        19s linear
+        infinite;
 }
 
 .back .c3{
     width:200px;
     height:65px;
+
     bottom:23%;
     left:8%;
+
     opacity:.38;
-    animation:cloudDrift 11s ease-in-out infinite alternate;
+
+    animation:
+        cloudDrift
+        11s ease-in-out
+        infinite alternate;
 }
 
 /* وسط */
@@ -517,90 +741,144 @@ button,input{
 .middle .c1{
     width:330px;
     height:105px;
+
     top:15%;
     left:-145px;
+
     opacity:.82;
-    animation:cloudRight 11s linear infinite;
+
+    animation:
+        cloudRight
+        11s linear
+        infinite;
 }
 
 .middle .c2{
     width:350px;
     height:108px;
+
     top:40%;
     right:-190px;
+
     opacity:.84;
-    animation:cloudLeft 13s linear infinite;
+
+    animation:
+        cloudLeft
+        13s linear
+        infinite;
 }
 
 .middle .c3{
     width:310px;
     height:96px;
+
     bottom:10%;
     left:-120px;
+
     opacity:.76;
-    animation:cloudRight 14s linear infinite;
+
+    animation:
+        cloudRight
+        14s linear
+        infinite;
 }
 
 /* أمامية */
 
 .front .cloud{
-    filter:blur(.6px);
+    filter:
+        blur(.6px);
 }
 
 .front .c1{
     width:430px;
     height:135px;
+
     top:2%;
     left:-250px;
+
     opacity:.96;
-    animation:frontCloud1 9s ease-in-out infinite alternate;
+
+    animation:
+        frontCloud1
+        9s ease-in-out
+        infinite alternate;
 }
 
 .front .c2{
     width:430px;
     height:135px;
+
     top:15%;
     right:-280px;
+
     opacity:.96;
-    animation:frontCloud2 10s ease-in-out infinite alternate;
+
+    animation:
+        frontCloud2
+        10s ease-in-out
+        infinite alternate;
 }
 
 .front .c3{
     width:470px;
     height:145px;
+
     bottom:-15px;
     left:-270px;
+
     opacity:.97;
-    animation:frontCloud3 11s ease-in-out infinite alternate;
+
+    animation:
+        frontCloud3
+        11s ease-in-out
+        infinite alternate;
 }
 
 .front .c4{
     width:450px;
     height:140px;
+
     bottom:4%;
     right:-280px;
+
     opacity:.97;
-    animation:frontCloud4 9.5s ease-in-out infinite alternate;
+
+    animation:
+        frontCloud4
+        9.5s ease-in-out
+        infinite alternate;
 }
 
 /* =========================================================
-   CENTER PORTAL
+   CENTER
 ========================================================= */
 
 .cloud-center{
     position:absolute;
+
     z-index:3;
+
     top:50%;
     left:50%;
+
     width:40vw;
     height:40vw;
+
     max-width:330px;
     max-height:330px;
+
     min-width:210px;
     min-height:210px;
-    transform:translate(-50%,-50%) scale(.72);
+
+    transform:
+        translate(-50%,-50%)
+        scale(.72);
+
     border-radius:50%;
+
     opacity:0;
+
     background:
         radial-gradient(
             circle,
@@ -609,9 +887,13 @@ button,input{
             rgba(180,226,252,.15) 62%,
             transparent 72%
         );
-    filter:blur(4px);
+
+    filter:
+        blur(4px);
+
     box-shadow:
-        0 0 90px rgba(255,255,255,.75);
+        0 0 90px
+        rgba(255,255,255,.75);
 }
 
 /* =========================================================
@@ -620,23 +902,33 @@ button,input{
 
 .splash-brand{
     position:absolute;
+
     z-index:6;
+
     top:50%;
     left:50%;
+
     width:min(430px,88%);
+
     text-align:center;
+
     transform:
         translate(-50%,-50%)
         scale(.55);
+
     opacity:0;
+
     pointer-events:none;
 }
 
 .splash-logo-box{
     position:relative;
+
     width:165px;
     height:165px;
+
     margin:auto;
+
     display:flex;
     align-items:center;
     justify-content:center;
@@ -644,21 +936,32 @@ button,input{
 
 .splash-logo-glow{
     position:absolute;
+
     width:150px;
     height:150px;
+
     border-radius:50%;
-    background:rgba(255,255,255,.25);
+
+    background:
+        rgba(255,255,255,.25);
+
     box-shadow:
-        0 0 55px rgba(255,255,255,.35),
-        0 0 110px rgba(126,205,255,.3);
+        0 0 55px
+        rgba(255,255,255,.35),
+        0 0 110px
+        rgba(126,205,255,.3);
 }
 
 .splash-logo{
     position:relative;
+
     z-index:2;
+
     width:132px;
     height:132px;
+
     object-fit:contain;
+
     filter:
         drop-shadow(
             0 18px 30px
@@ -668,31 +971,54 @@ button,input{
 
 .splash-brand h1{
     margin-top:18px;
+
     color:#fff;
+
     font-size:23px;
     line-height:1.65;
     font-weight:900;
+
     text-shadow:
-        0 4px 15px rgba(4,57,108,.3);
+        0 4px 15px
+        rgba(4,57,108,.3);
 }
 
 .splash-brand p{
     margin-top:5px;
-    color:rgba(255,255,255,.95);
+
+    color:
+        rgba(255,255,255,.95);
+
     font-size:12px;
     font-weight:800;
 }
 
 .splash-year{
     width:max-content;
-    margin:14px auto 0;
-    padding:8px 18px;
+
+    margin:
+        14px auto
+        0;
+
+    padding:
+        8px 18px;
+
     direction:ltr;
+
     border-radius:99px;
+
     color:#fff;
-    border:1px solid rgba(255,255,255,.32);
-    background:rgba(255,255,255,.14);
-    backdrop-filter:blur(8px);
+
+    border:
+        1px solid
+        rgba(255,255,255,.32);
+
+    background:
+        rgba(255,255,255,.14);
+
+    backdrop-filter:
+        blur(8px);
+
     font-size:16px;
     letter-spacing:1px;
     font-weight:900;
@@ -703,29 +1029,44 @@ button,input{
 ========================================================= */
 
 .splash.focus .cloud-center{
-    animation:centerAppear 1.5s ease forwards;
+    animation:
+        centerAppear
+        1.5s ease
+        forwards;
 }
 
 .splash.focus .back{
-    animation:backZoom 5.7s cubic-bezier(.4,0,.15,1) forwards;
+    animation:
+        backZoom
+        5.7s
+        cubic-bezier(.4,0,.15,1)
+        forwards;
 }
 
 .splash.focus .middle{
-    animation:middleZoom 5.7s cubic-bezier(.4,0,.15,1) forwards;
+    animation:
+        middleZoom
+        5.7s
+        cubic-bezier(.4,0,.15,1)
+        forwards;
 }
 
 .splash.focus .front{
-    animation:frontZoom 5.7s cubic-bezier(.4,0,.15,1) forwards;
+    animation:
+        frontZoom
+        5.7s
+        cubic-bezier(.4,0,.15,1)
+        forwards;
 }
 
 .splash.focus .splash-brand{
     animation:
-        brandReveal 1.5s .9s
+        brandReveal
+        1.5s .9s
         cubic-bezier(.16,1,.3,1)
         forwards;
 }
 
-/* آخر زوم */
 .splash.final-zoom .splash-brand{
     animation:
         brandFinalZoom
@@ -756,12 +1097,17 @@ button,input{
 
 .offline-screen{
     display:none;
+
     position:fixed;
     inset:0;
+
     z-index:20000;
+
     align-items:center;
     justify-content:center;
+
     padding:24px;
+
     background:#fff;
 }
 
@@ -771,14 +1117,18 @@ button,input{
 
 .offline-box{
     width:min(390px,100%);
+
     text-align:center;
 }
 
 .offline-image{
     width:210px;
     max-width:72%;
+
     height:auto;
+
     object-fit:contain;
+
     margin-bottom:20px;
 }
 
@@ -789,7 +1139,9 @@ button,input{
 
 .offline-box p{
     margin-top:7px;
+
     color:var(--muted);
+
     font-size:12px;
     line-height:1.8;
 }
@@ -797,11 +1149,24 @@ button,input{
 .network-spinner{
     width:27px;
     height:27px;
-    margin:20px auto 0;
-    border:3px solid #e7ebf0;
-    border-top-color:var(--blue);
+
+    margin:
+        20px auto
+        0;
+
+    border:
+        3px solid
+        #e7ebf0;
+
+    border-top-color:
+        var(--blue);
+
     border-radius:50%;
-    animation:spin .8s linear infinite;
+
+    animation:
+        spin .8s
+        linear
+        infinite;
 }
 
 .waiting-text{
@@ -815,17 +1180,22 @@ button,input{
 ========================================================= */
 
 @keyframes spin{
-    to{transform:rotate(360deg)}
+    to{
+        transform:
+            rotate(360deg);
+    }
 }
 
 @keyframes messageIn{
     from{
         opacity:0;
-        transform:translateY(-5px)
+        transform:
+            translateY(-5px);
     }
+
     to{
         opacity:1;
-        transform:none
+        transform:none;
     }
 }
 
@@ -846,73 +1216,111 @@ button,input{
 @keyframes ringPulse{
     0%,100%{
         transform:scale(.96);
-        opacity:.7
+        opacity:.7;
     }
 
     50%{
         transform:scale(1.05);
-        opacity:1
+        opacity:1;
     }
 }
 
 @keyframes cloudRight{
-    from{transform:translateX(-35px)}
-    to{transform:translateX(90px)}
+    from{
+        transform:
+            translateX(-35px);
+    }
+
+    to{
+        transform:
+            translateX(90px);
+    }
 }
 
 @keyframes cloudLeft{
-    from{transform:translateX(45px)}
-    to{transform:translateX(-90px)}
+    from{
+        transform:
+            translateX(45px);
+    }
+
+    to{
+        transform:
+            translateX(-90px);
+    }
 }
 
 @keyframes cloudDrift{
     from{
-        transform:translate(-20px,6px)
+        transform:
+            translate(-20px,6px);
     }
+
     to{
-        transform:translate(28px,-12px)
+        transform:
+            translate(28px,-12px);
     }
 }
 
 @keyframes frontCloud1{
     from{
-        transform:translate(-20px,-10px) scale(1)
+        transform:
+            translate(-20px,-10px)
+            scale(1);
     }
+
     to{
-        transform:translate(55px,20px) scale(1.08)
+        transform:
+            translate(55px,20px)
+            scale(1.08);
     }
 }
 
 @keyframes frontCloud2{
     from{
-        transform:translate(20px,0) scale(1)
+        transform:
+            translate(20px,0)
+            scale(1);
     }
+
     to{
-        transform:translate(-55px,18px) scale(1.08)
+        transform:
+            translate(-55px,18px)
+            scale(1.08);
     }
 }
 
 @keyframes frontCloud3{
     from{
-        transform:translate(-15px,10px) scale(1)
+        transform:
+            translate(-15px,10px)
+            scale(1);
     }
+
     to{
-        transform:translate(60px,-12px) scale(1.09)
+        transform:
+            translate(60px,-12px)
+            scale(1.09);
     }
 }
 
 @keyframes frontCloud4{
     from{
-        transform:translate(20px,8px) scale(1)
+        transform:
+            translate(20px,8px)
+            scale(1);
     }
+
     to{
-        transform:translate(-60px,-16px) scale(1.09)
+        transform:
+            translate(-60px,-16px)
+            scale(1.09);
     }
 }
 
 @keyframes centerAppear{
     from{
         opacity:0;
+
         transform:
             translate(-50%,-50%)
             scale(.55);
@@ -920,6 +1328,7 @@ button,input{
 
     to{
         opacity:1;
+
         transform:
             translate(-50%,-50%)
             scale(1);
@@ -928,46 +1337,63 @@ button,input{
 
 @keyframes backZoom{
     from{
-        transform:scale(1);
-        filter:blur(0);
+        transform:
+            scale(1);
+
+        filter:
+            blur(0);
     }
 
     to{
-        transform:scale(1.45);
-        filter:blur(2px);
+        transform:
+            scale(1.45);
+
+        filter:
+            blur(2px);
     }
 }
 
 @keyframes middleZoom{
     from{
-        transform:scale(1);
+        transform:
+            scale(1);
     }
 
     to{
-        transform:scale(2);
+        transform:
+            scale(2);
     }
 }
 
 @keyframes frontZoom{
     0%{
-        transform:scale(1);
+        transform:
+            scale(1);
+
         opacity:1;
     }
 
     100%{
-        transform:scale(3.1);
+        transform:
+            scale(3.1);
+
         opacity:.28;
-        filter:blur(4px);
+
+        filter:
+            blur(4px);
     }
 }
 
 @keyframes brandReveal{
     0%{
         opacity:0;
+
         transform:
             translate(-50%,-50%)
             scale(.5);
-        filter:blur(12px);
+
+        filter:
+            blur(12px);
     }
 
     55%{
@@ -976,24 +1402,31 @@ button,input{
 
     100%{
         opacity:1;
+
         transform:
             translate(-50%,-50%)
             scale(1);
-        filter:blur(0);
+
+        filter:
+            blur(0);
     }
 }
 
 @keyframes brandFinalZoom{
     0%{
         opacity:1;
+
         transform:
             translate(-50%,-50%)
             scale(1);
-        filter:blur(0);
+
+        filter:
+            blur(0);
     }
 
     55%{
         opacity:1;
+
         transform:
             translate(-50%,-50%)
             scale(1.7);
@@ -1001,16 +1434,20 @@ button,input{
 
     100%{
         opacity:0;
+
         transform:
             translate(-50%,-50%)
             scale(7);
-        filter:blur(13px);
+
+        filter:
+            blur(13px);
     }
 }
 
 @keyframes centerFinalZoom{
     from{
         opacity:1;
+
         transform:
             translate(-50%,-50%)
             scale(1);
@@ -1018,6 +1455,7 @@ button,input{
 
     to{
         opacity:1;
+
         transform:
             translate(-50%,-50%)
             scale(9);
@@ -1061,7 +1499,10 @@ button,input{
     }
 
     .login-card{
-        padding:21px 16px 18px;
+        padding:
+            21px 16px
+            18px;
+
         border-radius:22px;
     }
 
@@ -1104,7 +1545,10 @@ button,input{
      OFFLINE
 ========================================================= -->
 
-<div id="offlineScreen" class="offline-screen">
+<div
+    id="offlineScreen"
+    class="offline-screen"
+>
 
     <div class="offline-box">
 
@@ -1139,12 +1583,13 @@ button,input{
      SPLASH
 ========================================================= -->
 
-<div id="splashScreen" class="splash">
+<div
+    id="splashScreen"
+    class="splash"
+>
 
     <div class="sky-light"></div>
 
-
-    <!-- سحب بعيدة -->
 
     <div class="cloud-layer back">
 
@@ -1155,8 +1600,6 @@ button,input{
     </div>
 
 
-    <!-- سحب متوسطة -->
-
     <div class="cloud-layer middle">
 
         <div class="cloud c1"></div>
@@ -1165,8 +1608,6 @@ button,input{
 
     </div>
 
-
-    <!-- سحب أمامية -->
 
     <div class="cloud-layer front">
 
@@ -1178,12 +1619,8 @@ button,input{
     </div>
 
 
-    <!-- مركز الدخول -->
-
     <div class="cloud-center"></div>
 
-
-    <!-- لا يظهر إلا بعد بداية الزوم -->
 
     <div class="splash-brand">
 
@@ -1220,7 +1657,10 @@ button,input{
      LOGIN
 ========================================================= -->
 
-<main id="loginPage" class="login-page">
+<main
+    id="loginPage"
+    class="login-page"
+>
 
     <div class="bg-grid"></div>
 
@@ -1385,7 +1825,8 @@ button,input{
 const DATABASE_URL=
     "https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
 
-const USERS_PATH="users";
+const USERS_PATH=
+    "users";
 
 
 /* =========================================================
@@ -1393,35 +1834,56 @@ const USERS_PATH="users";
 ========================================================= */
 
 const offlineScreen=
-    document.getElementById("offlineScreen");
+    document.getElementById(
+        "offlineScreen"
+    );
 
 const splashScreen=
-    document.getElementById("splashScreen");
+    document.getElementById(
+        "splashScreen"
+    );
 
 const loginPage=
-    document.getElementById("loginPage");
+    document.getElementById(
+        "loginPage"
+    );
 
 const userCodeInput=
-    document.getElementById("userCode");
+    document.getElementById(
+        "userCode"
+    );
 
 const loginButton=
-    document.getElementById("loginButton");
+    document.getElementById(
+        "loginButton"
+    );
 
 const loginButtonText=
-    document.getElementById("loginButtonText");
+    document.getElementById(
+        "loginButtonText"
+    );
 
 const loginSpinner=
-    document.getElementById("loginSpinner");
+    document.getElementById(
+        "loginSpinner"
+    );
 
 const messageBox=
-    document.getElementById("messageBox");
+    document.getElementById(
+        "messageBox"
+    );
 
 const startupSound=
-    document.getElementById("startupSound");
+    document.getElementById(
+        "startupSound"
+    );
 
 
-let splashPlayed=false;
-let loginRunning=false;
+let splashPlayed=
+    false;
+
+let loginRunning=
+    false;
 
 
 /* =========================================================
@@ -1430,12 +1892,30 @@ let loginRunning=false;
 
 function normalizeNumbers(value){
 
-    const arabic="٠١٢٣٤٥٦٧٨٩";
-    const persian="۰۱۲۳۴۵۶۷۸۹";
+    const arabic=
+        "٠١٢٣٤٥٦٧٨٩";
+
+    const persian=
+        "۰۱۲۳۴۵۶۷۸۹";
+
 
     return String(value||"")
-        .replace(/[٠-٩]/g,n=>arabic.indexOf(n))
-        .replace(/[۰-۹]/g,n=>persian.indexOf(n));
+
+        .replace(
+            /[٠-٩]/g,
+            number =>
+                arabic.indexOf(
+                    number
+                )
+        )
+
+        .replace(
+            /[۰-۹]/g,
+            number =>
+                persian.indexOf(
+                    number
+                )
+        );
 
 }
 
@@ -1446,10 +1926,33 @@ function normalizeNumbers(value){
 
 function cleanCode(value){
 
-    return normalizeNumbers(value)
-        .trim()
-        .replace(/\s+/g,"")
-        .toUpperCase();
+    return normalizeNumbers(
+        value
+    )
+
+    .trim()
+
+    .replace(
+        /\s+/g,
+        ""
+    )
+
+    .toUpperCase();
+
+}
+
+
+/* =========================================================
+   ROLE NORMALIZATION
+========================================================= */
+
+function cleanRole(value){
+
+    return String(
+        value||""
+    )
+    .trim()
+    .toLowerCase();
 
 }
 
@@ -1458,19 +1961,30 @@ function cleanCode(value){
    MESSAGE
 ========================================================= */
 
-function showMessage(text,type="error"){
+function showMessage(
+    text,
+    type="error"
+){
 
-    messageBox.textContent=text;
+    messageBox.textContent=
+        text;
+
 
     messageBox.className=
-        "message show "+type;
+        "message show "+
+        type;
 
 }
 
+
 function hideMessage(){
 
-    messageBox.textContent="";
-    messageBox.className="message";
+    messageBox.textContent=
+        "";
+
+
+    messageBox.className=
+        "message";
 
 }
 
@@ -1481,14 +1995,19 @@ function hideMessage(){
 
 function setLoginLoading(status){
 
-    loginRunning=status;
+    loginRunning=
+        status;
 
-    loginButton.disabled=status;
+
+    loginButton.disabled=
+        status;
+
 
     loginButtonText.textContent=
         status
         ?"جاري التحقق من الحساب"
         :"الدخول إلى المنصة";
+
 
     loginSpinner.style.display=
         status
@@ -1504,19 +2023,38 @@ function setLoginLoading(status){
 
 function showOfflineScreen(){
 
-    offlineScreen.classList.add("show");
+    offlineScreen.classList.add(
+        "show"
+    );
 
-    loginPage.classList.remove("show");
 
-    splashScreen.classList.remove("show");
-    splashScreen.classList.remove("focus");
-    splashScreen.classList.remove("final-zoom");
+    loginPage.classList.remove(
+        "show"
+    );
+
+
+    splashScreen.classList.remove(
+        "show"
+    );
+
+
+    splashScreen.classList.remove(
+        "focus"
+    );
+
+
+    splashScreen.classList.remove(
+        "final-zoom"
+    );
 
 }
 
+
 function hideOfflineScreen(){
 
-    offlineScreen.classList.remove("show");
+    offlineScreen.classList.remove(
+        "show"
+    );
 
 }
 
@@ -1527,27 +2065,42 @@ function hideOfflineScreen(){
 
 function playStartupSound(){
 
-    if(!startupSound){
+    if(
+        !startupSound
+    ){
         return;
     }
+
 
     try{
 
         startupSound.pause();
 
-        startupSound.currentTime=0;
 
-        startupSound.volume=.48;
+        startupSound.currentTime=
+            0;
+
+
+        startupSound.volume=
+            .48;
+
 
         const request=
             startupSound.play();
 
+
         if(
             request &&
-            typeof request.catch==="function"
+            typeof request.catch===
+            "function"
         ){
-            request.catch(()=>{});
+
+            request.catch(
+                ()=>{}
+            );
+
         }
+
 
     }catch{}
 
@@ -1562,28 +2115,39 @@ function showLoginPage(){
 
     hideOfflineScreen();
 
-    loginPage.classList.add("show");
 
-    setTimeout(()=>{
+    loginPage.classList.add(
+        "show"
+    );
 
-        if(!userCodeInput.value){
 
-            userCodeInput.focus();
+    setTimeout(
+        ()=>{
 
-        }
+            if(
+                !userCodeInput.value
+            ){
 
-    },500);
+                userCodeInput.focus();
+
+            }
+
+        },
+        500
+    );
 
 }
 
 
 /* =========================================================
-   SPLASH SEQUENCE
+   SPLASH
 ========================================================= */
 
 function playSplash(){
 
-    if(!navigator.onLine){
+    if(
+        !navigator.onLine
+    ){
 
         showOfflineScreen();
 
@@ -1595,7 +2159,9 @@ function playSplash(){
     hideOfflineScreen();
 
 
-    if(splashPlayed){
+    if(
+        splashPlayed
+    ){
 
         showLoginPage();
 
@@ -1604,7 +2170,8 @@ function playSplash(){
     }
 
 
-    splashPlayed=true;
+    splashPlayed=
+        true;
 
 
     loginPage.classList.remove(
@@ -1617,88 +2184,73 @@ function playSplash(){
     );
 
 
-    /*
-       0 - 1.7 ثانية:
-       فقط سماء وسحب متحركة.
-       لا شعار ولا كتابة.
-    */
+    setTimeout(
+        ()=>{
 
-    setTimeout(()=>{
-
-        /*
-           تبدأ الكاميرا تدخل بالغيوم.
-           هنا يبدأ الصوت.
-        */
-
-        splashScreen.classList.add(
-            "focus"
-        );
+            splashScreen.classList.add(
+                "focus"
+            );
 
 
-        playStartupSound();
+            playStartupSound();
 
-    },1700);
-
-
-    /*
-       بعد ظهور الشعار والكتابة
-       نخلي المستخدم يشوفهم فترة.
-    */
-
-    setTimeout(()=>{
-
-        /*
-           آخر Zoom على الشعار.
-        */
-
-        splashScreen.classList.add(
-            "final-zoom"
-        );
+        },
+        1700
+    );
 
 
-        /*
-           نجهز صفحة التسجيل خلفه.
-        */
+    setTimeout(
+        ()=>{
 
-        loginPage.classList.add(
-            "show"
-        );
-
-    },6800);
+            splashScreen.classList.add(
+                "final-zoom"
+            );
 
 
-    /*
-       إزالة شاشة الغيوم.
-    */
+            loginPage.classList.add(
+                "show"
+            );
 
-    setTimeout(()=>{
-
-        splashScreen.classList.remove(
-            "show"
-        );
-
-        splashScreen.classList.remove(
-            "focus"
-        );
-
-        splashScreen.classList.remove(
-            "final-zoom"
-        );
+        },
+        6800
+    );
 
 
-        if(!userCodeInput.value){
+    setTimeout(
+        ()=>{
 
-            userCodeInput.focus();
+            splashScreen.classList.remove(
+                "show"
+            );
 
-        }
 
-    },8050);
+            splashScreen.classList.remove(
+                "focus"
+            );
+
+
+            splashScreen.classList.remove(
+                "final-zoom"
+            );
+
+
+            if(
+                !userCodeInput.value
+            ){
+
+                userCodeInput.focus();
+
+            }
+
+        },
+        8050
+    );
 
 }
 
 
 /* =========================================================
-   FIREBASE
+   FIREBASE USER
 ========================================================= */
 
 async function readUser(code){
@@ -1710,13 +2262,16 @@ async function readUser(code){
                 method:"GET",
                 cache:"no-store",
                 headers:{
-                    Accept:"application/json"
+                    Accept:
+                        "application/json"
                 }
             }
         );
 
 
-    if(!response.ok){
+    if(
+        !response.ok
+    ){
 
         throw new Error(
             "FIREBASE_READ_FAILED"
@@ -1736,19 +2291,29 @@ async function readUser(code){
 
 function isAccountDisabled(user){
 
-    if(user.active===false){
+    /*
+       فقط الحسابات التي صراحة active=false
+       تعتبر غير فعالة.
+    */
+
+    if(
+        user.active === false
+    ){
         return true;
     }
 
-    if(user.hidden===true){
+
+    if(
+        user.hidden === true
+    ){
         return true;
     }
 
 
     const status=
-        String(user.status||"")
-        .trim()
-        .toLowerCase();
+        cleanRole(
+            user.status
+        );
 
 
     return [
@@ -1757,7 +2322,9 @@ function isAccountDisabled(user){
         "blocked",
         "banned",
         "suspended"
-    ].includes(status);
+    ].includes(
+        status
+    );
 
 }
 
@@ -1766,19 +2333,39 @@ function isAccountDisabled(user){
    SESSION
 ========================================================= */
 
-function saveSession(code,user){
+function saveSession(
+    code,
+    user
+){
+
+    const normalizedRole=
+        cleanRole(
+            user.role
+        );
+
 
     const data={
-        code,
-        role:user.role||"",
-        name:user.name||"",
-        loginTime:Date.now()
+
+        code:
+            code,
+
+        role:
+            normalizedRole,
+
+        name:
+            user.name||"",
+
+        loginTime:
+            Date.now()
+
     };
 
 
     sessionStorage.setItem(
         "tahadi_session",
-        JSON.stringify(data)
+        JSON.stringify(
+            data
+        )
     );
 
 
@@ -1790,7 +2377,7 @@ function saveSession(code,user){
 
     sessionStorage.setItem(
         "tahadi_role",
-        String(user.role||"")
+        normalizedRole
     );
 
 }
@@ -1803,36 +2390,93 @@ function saveSession(code,user){
 function redirectByRole(role){
 
     const value=
-        String(role||"")
-        .trim()
-        .toLowerCase();
+        cleanRole(
+            role
+        );
 
 
     const routes={
 
-        admin:"add.html",
-        administrator:"add.html",
-        add:"add.html",
+        /* الإدارة */
 
-        student:"st.html",
-        st:"st.html",
+        admin:
+            "add.html",
 
-        teacher:"th.html",
-        th:"th.html",
+        administrator:
+            "add.html",
 
-        attendance:"msh.html",
-        attendance_supervisor:"msh.html",
-        supervisor:"msh.html",
-        msh:"msh.html"
+        add:
+            "add.html",
+
+
+        /* الطالب */
+
+        student:
+            "st.html",
+
+        st:
+            "st.html",
+
+
+        /* الأستاذ */
+
+        teacher:
+            "th.html",
+
+        th:
+            "th.html",
+
+
+        /* المحاسب */
+
+        accountant:
+            "mn.html",
+
+        accounting:
+            "mn.html",
+
+        accountant_user:
+            "mn.html",
+
+        mn:
+            "mn.html",
+
+
+        /* مشرف الحضور والغياب */
+
+        attendance:
+            "msh.html",
+
+        attendance_supervisor:
+            "msh.html",
+
+        attendance_supervisor_user:
+            "msh.html",
+
+        supervisor:
+            "msh.html",
+
+        msh:
+            "msh.html"
 
     };
 
 
     const route=
-        routes[value];
+        routes[
+            value
+        ];
 
 
-    if(!route){
+    if(
+        !route
+    ){
+
+        console.error(
+            "Unknown account role:",
+            value
+        );
+
 
         throw new Error(
             "UNKNOWN_ROLE"
@@ -1854,7 +2498,9 @@ function redirectByRole(role){
 
 async function login(){
 
-    if(loginRunning){
+    if(
+        loginRunning
+    ){
         return;
     }
 
@@ -1862,7 +2508,9 @@ async function login(){
     hideMessage();
 
 
-    if(!navigator.onLine){
+    if(
+        !navigator.onLine
+    ){
 
         showOfflineScreen();
 
@@ -1877,74 +2525,166 @@ async function login(){
         );
 
 
-    if(!code){
+    if(
+        !code
+    ){
 
         showMessage(
             "يرجى إدخال الكود الخاص بك"
         );
 
+
         userCodeInput.focus();
+
 
         return;
 
     }
 
 
-    userCodeInput.value=code;
+    userCodeInput.value=
+        code;
 
 
-    setLoginLoading(true);
+    setLoginLoading(
+        true
+    );
 
 
     try{
 
         const user=
-            await readUser(code);
+            await readUser(
+                code
+            );
 
 
         if(
             !user ||
-            typeof user!=="object"
+            typeof user!==
+            "object"
         ){
 
             showMessage(
                 "الكود الذي أدخلته غير صحيح"
             );
 
+
             userCodeInput.select();
+
 
             return;
 
         }
 
 
+        /*
+           الحساب موجود لكن غير فعال.
+        */
+
         if(
-            isAccountDisabled(user)
+            isAccountDisabled(
+                user
+            )
         ){
 
             showMessage(
                 "هذا الحساب غير فعال، يرجى مراجعة إدارة المدرسة"
             );
 
+
             return;
 
         }
 
 
-        if(!user.role){
+        /*
+           الدور غير موجود.
+        */
+
+        if(
+            !user.role
+        ){
 
             showMessage(
                 "بيانات الحساب غير مكتملة، يرجى مراجعة الإدارة"
             );
 
+
             return;
 
         }
 
 
+        const role=
+            cleanRole(
+                user.role
+            );
+
+
+        /*
+           نتأكد قبل تخزين الجلسة أن الدور معروف.
+        */
+
+        const allowedRoles=[
+
+            "admin",
+            "administrator",
+            "add",
+
+            "student",
+            "st",
+
+            "teacher",
+            "th",
+
+            "accountant",
+            "accounting",
+            "accountant_user",
+            "mn",
+
+            "attendance",
+            "attendance_supervisor",
+            "attendance_supervisor_user",
+            "supervisor",
+            "msh"
+
+        ];
+
+
+        if(
+            !allowedRoles.includes(
+                role
+            )
+        ){
+
+            console.error(
+                "Unsupported role:",
+                role,
+                user
+            );
+
+
+            showMessage(
+                "نوع الحساب غير معرف في النظام، يرجى مراجعة الإدارة"
+            );
+
+
+            return;
+
+        }
+
+
+        /*
+           نخزن الجلسة.
+        */
+
         saveSession(
             code,
-            user
+            {
+                ...user,
+                role
+            }
         );
 
 
@@ -1958,17 +2698,23 @@ async function login(){
 
         await new Promise(
             resolve=>
-                setTimeout(resolve,350)
+                setTimeout(
+                    resolve,
+                    350
+                )
         );
 
+
+        /*
+           توجيه الصفحة.
+        */
 
         redirectByRole(
-            user.role
+            role
         );
 
-    }
 
-    catch(error){
+    }catch(error){
 
         console.error(
             "Login Error:",
@@ -1976,18 +2722,21 @@ async function login(){
         );
 
 
-        if(!navigator.onLine){
+        if(
+            !navigator.onLine
+        ){
 
             showOfflineScreen();
 
         }
 
         else if(
-            error.message==="UNKNOWN_ROLE"
+            error.message===
+            "UNKNOWN_ROLE"
         ){
 
             showMessage(
-                "نوع الحساب غير معرف في النظام"
+                "نوع الحساب غير مربوط بصفحة داخل المنصة، يرجى مراجعة الإدارة"
             );
 
         }
@@ -2000,11 +2749,12 @@ async function login(){
 
         }
 
-    }
 
-    finally{
+    }finally{
 
-        setLoginLoading(false);
+        setLoginLoading(
+            false
+        );
 
     }
 
@@ -2025,7 +2775,10 @@ userCodeInput.addEventListener(
     "keydown",
     event=>{
 
-        if(event.key==="Enter"){
+        if(
+            event.key===
+            "Enter"
+        ){
 
             event.preventDefault();
 
@@ -2042,6 +2795,7 @@ userCodeInput.addEventListener(
     function(){
 
         hideMessage();
+
 
         this.value=
             cleanCode(
@@ -2066,16 +2820,20 @@ async function handleQRLogin(){
 
     const code=
         cleanCode(
-            params.get("code")||""
+            params.get("code")||
+            ""
         );
 
 
-    if(!code){
+    if(
+        !code
+    ){
         return false;
     }
 
 
-    userCodeInput.value=code;
+    userCodeInput.value=
+        code;
 
 
     try{
@@ -2091,7 +2849,10 @@ async function handleQRLogin(){
 
     await new Promise(
         resolve=>
-            setTimeout(resolve,180)
+            setTimeout(
+                resolve,
+                180
+            )
     );
 
 
@@ -2111,7 +2872,10 @@ window.addEventListener(
     "offline",
     ()=>{
 
-        setLoginLoading(false);
+        setLoginLoading(
+            false
+        );
+
 
         showOfflineScreen();
 
@@ -2137,44 +2901,60 @@ window.addEventListener(
    AUDIO UNLOCK
 ========================================================= */
 
-let audioUnlocked=false;
+let audioUnlocked=
+    false;
 
 
 function unlockAudio(){
 
-    if(audioUnlocked){
+    if(
+        audioUnlocked
+    ){
         return;
     }
 
 
-    audioUnlocked=true;
+    audioUnlocked=
+        true;
 
 
-    if(!startupSound){
+    if(
+        !startupSound
+    ){
         return;
     }
 
 
     try{
 
-        startupSound.volume=.01;
+        startupSound.volume=
+            .01;
 
 
         const request=
             startupSound.play();
 
 
-        if(request){
+        if(
+            request
+        ){
 
-            request.then(()=>{
+            request.then(
+                ()=>{
 
-                startupSound.pause();
+                    startupSound.pause();
 
-                startupSound.currentTime=0;
+                    startupSound.currentTime=
+                        0;
 
-                startupSound.volume=.48;
+                    startupSound.volume=
+                        .48;
 
-            }).catch(()=>{});
+                }
+            )
+            .catch(
+                ()=>{}
+            );
 
         }
 
@@ -2186,14 +2966,18 @@ function unlockAudio(){
 document.addEventListener(
     "touchstart",
     unlockAudio,
-    {once:true}
+    {
+        once:true
+    }
 );
 
 
 document.addEventListener(
     "click",
     unlockAudio,
-    {once:true}
+    {
+        once:true
+    }
 );
 
 
@@ -2205,8 +2989,9 @@ window.addEventListener(
     "load",
     async()=>{
 
-
-        if(!navigator.onLine){
+        if(
+            !navigator.onLine
+        ){
 
             showOfflineScreen();
 
@@ -2223,7 +3008,8 @@ window.addEventListener(
 
         const qrCode=
             cleanCode(
-                params.get("code")||""
+                params.get("code")||
+                ""
             );
 
 
@@ -2232,13 +3018,19 @@ window.addEventListener(
            يدخل مباشرة بدون مشهد البداية.
         */
 
-        if(qrCode){
+        if(
+            qrCode
+        ){
 
-            splashPlayed=true;
+            splashPlayed=
+                true;
+
 
             showLoginPage();
 
+
             await handleQRLogin();
+
 
             return;
 
