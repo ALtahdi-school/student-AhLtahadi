@@ -1,1 +1,3955 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
+>
+
+<meta name="theme-color" content="#075fcf">
+
+<title>منصة الأستاذ | مدرسة التحدي الأهلية المختلطة</title>
+
+<style>
+
+:root{
+    --blue:#075fcf;
+    --blue2:#064ca8;
+    --soft:#eef6ff;
+    --bg:#f5f8fc;
+    --white:#fff;
+    --text:#172033;
+    --muted:#667085;
+    --border:#e3e9f1;
+
+    --green:#078746;
+    --green-bg:#ecfdf3;
+
+    --red:#c62828;
+    --red-bg:#fff1f1;
+
+    --orange:#dd7400;
+    --orange-bg:#fff5e8;
+
+    --shadow:0 14px 40px rgba(30,55,88,.09);
+
+    --seq-width:48px;
+    --name-width:190px;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+    width:100%;
+    min-height:100%;
+}
+
+body{
+    font-family:Tahoma,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+.loader-screen{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#fff;
+}
+
+.loader-box{
+    text-align:center;
+}
+
+.loader-logo{
+    width:86px;
+    height:86px;
+    object-fit:contain;
+    margin-bottom:15px;
+}
+
+.spinner{
+    width:38px;
+    height:38px;
+    margin:auto;
+
+    border-radius:50%;
+
+    border:4px solid #e5edf7;
+    border-top-color:var(--blue);
+
+    animation:spin .8s linear infinite;
+}
+
+.loader-box p{
+    margin-top:12px;
+    color:var(--muted);
+    font-size:10px;
+    font-weight:800;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:90;
+
+    min-height:72px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+
+    padding:
+        max(10px,env(safe-area-inset-top))
+        15px
+        10px;
+
+    background:rgba(255,255,255,.96);
+
+    backdrop-filter:blur(17px);
+    -webkit-backdrop-filter:blur(17px);
+
+    border-bottom:1px solid var(--border);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-width:0;
+}
+
+.logo{
+    width:49px;
+    height:49px;
+    object-fit:contain;
+    flex:none;
+}
+
+.brand-text{
+    min-width:0;
+}
+
+.brand-text h1{
+    font-size:13px;
+    font-weight:900;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.brand-text p{
+    margin-top:3px;
+    color:var(--blue);
+    font-size:9px;
+    font-weight:900;
+}
+
+.logout{
+    flex:none;
+
+    border:0;
+    border-radius:12px;
+
+    padding:9px 11px;
+
+    background:#f1f4f7;
+    color:#475467;
+
+    font-size:9px;
+    font-weight:900;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main{
+    width:100%;
+    max-width:1400px;
+    margin:auto;
+    padding:16px;
+}
+
+/* =========================================================
+   TEACHER HERO
+========================================================= */
+
+.teacher-card{
+    position:relative;
+    overflow:hidden;
+
+    padding:21px;
+
+    color:#fff;
+
+    border-radius:24px;
+
+    background:
+        radial-gradient(
+            circle at 0 0,
+            rgba(255,255,255,.18),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #0870e6,
+            #0758c6 55%,
+            #064494
+        );
+
+    box-shadow:
+        0 19px 45px
+        rgba(7,95,207,.18);
+}
+
+.teacher-card:before{
+    content:"";
+
+    position:absolute;
+
+    width:190px;
+    height:190px;
+
+    top:-110px;
+    left:-70px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.08);
+}
+
+.teacher-content{
+    position:relative;
+    z-index:2;
+}
+
+.teacher-label{
+    font-size:8px;
+    opacity:.85;
+    font-weight:800;
+}
+
+.teacher-name{
+    margin-top:5px;
+
+    font-size:19px;
+    font-weight:900;
+}
+
+.teacher-subject{
+    width:max-content;
+
+    margin-top:12px;
+
+    padding:7px 11px;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.14);
+
+    border:
+        1px solid
+        rgba(255,255,255,.15);
+
+    font-size:9px;
+    font-weight:900;
+}
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.section-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+
+    margin:22px 2px 10px;
+}
+
+.section-head h3{
+    font-size:14px;
+    font-weight:900;
+}
+
+.section-head span{
+    color:var(--muted);
+    font-size:8px;
+}
+
+/* =========================================================
+   CLASSES
+========================================================= */
+
+.classes-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.class-card{
+    position:relative;
+
+    min-height:105px;
+
+    padding:15px;
+
+    text-align:right;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:19px;
+
+    background:#fff;
+
+    box-shadow:var(--shadow);
+
+    transition:.2s;
+}
+
+.class-card:active{
+    transform:scale(.98);
+}
+
+.class-card.active{
+    border-color:var(--blue);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(7,95,207,.06),
+        var(--shadow);
+}
+
+.class-icon{
+    width:38px;
+    height:38px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:12px;
+
+    color:var(--blue);
+    background:var(--soft);
+
+    font-size:14px;
+    font-weight:900;
+}
+
+.class-card h4{
+    margin-top:10px;
+    font-size:11px;
+    font-weight:900;
+}
+
+.class-card p{
+    margin-top:4px;
+    color:var(--muted);
+    font-size:8px;
+}
+
+.class-count{
+    position:absolute;
+    left:12px;
+    top:12px;
+
+    min-width:28px;
+    height:28px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0 7px;
+
+    border-radius:99px;
+
+    background:#f4f7fa;
+    color:#475467;
+
+    font-size:8px;
+    font-weight:900;
+}
+
+/* =========================================================
+   PERIOD BUTTONS
+========================================================= */
+
+.period-tools{
+    display:flex;
+    gap:7px;
+
+    overflow-x:auto;
+
+    padding:
+        3px 1px
+        8px;
+
+    scrollbar-width:none;
+}
+
+.period-tools::-webkit-scrollbar{
+    display:none;
+}
+
+.period-btn{
+    flex:none;
+
+    min-height:42px;
+
+    padding:
+        0 13px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:13px;
+
+    background:#fff;
+    color:#475467;
+
+    font-size:8.5px;
+    font-weight:900;
+}
+
+.period-btn.configured{
+    color:var(--green);
+    border-color:#bde6ce;
+    background:var(--green-bg);
+}
+
+.period-btn.selected{
+    color:#fff;
+    border-color:var(--blue);
+    background:var(--blue);
+}
+
+/* =========================================================
+   INFO BAR
+========================================================= */
+
+.formula-info{
+    margin-bottom:10px;
+
+    padding:12px 13px;
+
+    border-radius:15px;
+
+    border:
+        1px solid
+        #dce9f9;
+
+    background:#f4f9ff;
+
+    color:#475467;
+
+    font-size:8.5px;
+    line-height:1.8;
+}
+
+.formula-info strong{
+    color:var(--blue);
+}
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search{
+    width:100%;
+    height:46px;
+
+    margin-bottom:10px;
+
+    padding:0 13px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:14px;
+
+    outline:none;
+
+    background:#fff;
+
+    font-size:11px;
+}
+
+.search:focus{
+    border-color:var(--blue);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(7,95,207,.06);
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-wrap{
+    position:relative;
+
+    width:100%;
+    overflow:auto;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:18px;
+
+    background:#fff;
+
+    box-shadow:var(--shadow);
+
+    -webkit-overflow-scrolling:touch;
+}
+
+.grade-table{
+    width:max-content;
+    min-width:100%;
+
+    border-collapse:separate;
+    border-spacing:0;
+
+    direction:rtl;
+}
+
+.grade-table th,
+.grade-table td{
+    height:58px;
+
+    padding:7px;
+
+    text-align:center;
+
+    border-bottom:
+        1px solid
+        #edf0f4;
+
+    border-left:
+        1px solid
+        #f0f2f5;
+
+    background:#fff;
+
+    font-size:9px;
+}
+
+.grade-table th{
+    height:52px;
+
+    position:sticky;
+    top:0;
+    z-index:5;
+
+    color:#475467;
+    background:#f7f9fc;
+
+    font-weight:900;
+}
+
+.grade-table tbody tr:last-child td{
+    border-bottom:0;
+}
+
+/* =========================================================
+   FIXED SEQUENCE
+========================================================= */
+
+.seq-col{
+    position:sticky!important;
+    right:0!important;
+
+    width:var(--seq-width);
+    min-width:var(--seq-width);
+    max-width:var(--seq-width);
+
+    z-index:12!important;
+
+    background:#fff!important;
+}
+
+thead .seq-col{
+    z-index:20!important;
+    background:#f7f9fc!important;
+}
+
+/* =========================================================
+   FIXED STUDENT NAME
+========================================================= */
+
+.name-col{
+    position:sticky!important;
+
+    right:var(--seq-width)!important;
+
+    width:var(--name-width);
+    min-width:var(--name-width);
+    max-width:var(--name-width);
+
+    z-index:11!important;
+
+    text-align:right!important;
+
+    background:#fff!important;
+
+    box-shadow:
+        -6px 0 12px
+        rgba(26,50,80,.04);
+}
+
+thead .name-col{
+    z-index:19!important;
+    background:#f7f9fc!important;
+}
+
+.student-name{
+    font-size:9px;
+    font-weight:900;
+    line-height:1.5;
+}
+
+/* =========================================================
+   SCORE COLUMNS
+========================================================= */
+
+.score-col{
+    width:105px;
+    min-width:105px;
+}
+
+.total-col{
+    width:110px;
+    min-width:110px;
+
+    background:#f4f9ff!important;
+
+    color:var(--blue);
+
+    font-weight:900;
+}
+
+.score-input{
+    width:72px;
+    height:38px;
+
+    padding:0 5px;
+
+    border:
+        1px solid
+        #dfe5ec;
+
+    border-radius:10px;
+
+    outline:none;
+
+    text-align:center;
+
+    direction:ltr;
+
+    background:#fff;
+
+    font-size:12px;
+    font-weight:900;
+}
+
+.score-input:focus{
+    border-color:var(--blue);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(7,95,207,.05);
+}
+
+.score-input.invalid{
+    border-color:var(--red);
+    background:var(--red-bg);
+    color:var(--red);
+}
+
+.column-title{
+    display:block;
+    font-size:8px;
+    font-weight:900;
+}
+
+.column-max{
+    display:block;
+    margin-top:3px;
+
+    color:var(--muted);
+
+    font-size:7px;
+    direction:ltr;
+}
+
+/* =========================================================
+   SAVE BAR
+========================================================= */
+
+.save-bar{
+    position:sticky;
+    bottom:10px;
+    z-index:50;
+
+    display:flex;
+    gap:8px;
+
+    margin-top:12px;
+
+    padding:8px;
+
+    border-radius:17px;
+
+    background:
+        rgba(255,255,255,.96);
+
+    border:
+        1px solid
+        var(--border);
+
+    backdrop-filter:blur(14px);
+
+    box-shadow:
+        0 14px 35px
+        rgba(30,55,88,.13);
+}
+
+.save-btn{
+    flex:1;
+    height:49px;
+
+    border:0;
+    border-radius:14px;
+
+    color:#fff;
+    background:var(--blue);
+
+    font-size:10px;
+    font-weight:900;
+}
+
+.save-btn:disabled{
+    opacity:.55;
+}
+
+.reload-btn{
+    width:50px;
+
+    border:0;
+    border-radius:14px;
+
+    background:#f1f4f7;
+    color:#475467;
+
+    font-size:18px;
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty{
+    padding:30px 15px;
+
+    text-align:center;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:18px;
+
+    background:#fff;
+    color:var(--muted);
+
+    font-size:9px;
+    line-height:1.8;
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal{
+    display:none;
+
+    position:fixed;
+    inset:0;
+
+    z-index:10000;
+
+    align-items:flex-end;
+    justify-content:center;
+
+    background:
+        rgba(17,32,51,.48);
+
+    backdrop-filter:blur(5px);
+    -webkit-backdrop-filter:blur(5px);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-card{
+    width:100%;
+    max-width:560px;
+    max-height:92vh;
+
+    overflow:auto;
+
+    padding:
+        19px 16px
+        max(20px,env(safe-area-inset-bottom));
+
+    border-radius:
+        25px 25px
+        0 0;
+
+    background:#fff;
+
+    box-shadow:
+        0 -20px 60px
+        rgba(0,0,0,.16);
+
+    animation:
+        modalUp .3s
+        cubic-bezier(.16,1,.3,1);
+}
+
+.modal-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+
+    margin-bottom:8px;
+}
+
+.modal-head h3{
+    font-size:15px;
+    font-weight:900;
+}
+
+.close{
+    width:35px;
+    height:35px;
+
+    border:0;
+    border-radius:11px;
+
+    background:#f1f4f7;
+
+    color:#475467;
+
+    font-size:17px;
+}
+
+.modal-desc{
+    color:var(--muted);
+
+    font-size:9px;
+    line-height:1.8;
+
+    margin-bottom:14px;
+}
+
+/* =========================================================
+   COMPONENT SELECTOR
+========================================================= */
+
+.component-list{
+    display:grid;
+    gap:8px;
+}
+
+.component-item{
+    display:grid;
+
+    grid-template-columns:
+        34px 1fr 90px;
+
+    align-items:center;
+    gap:8px;
+
+    padding:10px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:14px;
+
+    background:#fff;
+}
+
+.component-check{
+    width:21px;
+    height:21px;
+    accent-color:var(--blue);
+}
+
+.component-name{
+    font-size:10px;
+    font-weight:900;
+}
+
+.max-input{
+    width:100%;
+    height:40px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:11px;
+
+    outline:none;
+
+    text-align:center;
+    direction:ltr;
+
+    font-size:12px;
+    font-weight:900;
+}
+
+.max-input:disabled{
+    opacity:.45;
+    background:#f5f6f7;
+}
+
+.max-input:focus{
+    border-color:var(--blue);
+}
+
+.formula-total{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin-top:12px;
+
+    padding:13px;
+
+    border-radius:14px;
+
+    background:#f7f9fc;
+
+    font-size:10px;
+    font-weight:900;
+}
+
+.formula-total strong{
+    font-size:16px;
+    direction:ltr;
+}
+
+.formula-total.valid{
+    background:var(--green-bg);
+    color:var(--green);
+}
+
+.formula-total.invalid{
+    background:var(--red-bg);
+    color:var(--red);
+}
+
+.modal-save{
+    width:100%;
+    height:50px;
+
+    margin-top:13px;
+
+    border:0;
+    border-radius:14px;
+
+    background:var(--blue);
+    color:#fff;
+
+    font-size:10px;
+    font-weight:900;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+    position:fixed;
+
+    z-index:30000;
+
+    left:15px;
+    right:15px;
+    bottom:max(20px,env(safe-area-inset-bottom));
+
+    max-width:430px;
+
+    margin:auto;
+
+    padding:12px 14px;
+
+    text-align:center;
+
+    border-radius:14px;
+
+    background:#172033;
+    color:#fff;
+
+    font-size:9px;
+    font-weight:800;
+
+    opacity:0;
+    pointer-events:none;
+
+    transform:translateY(10px);
+
+    transition:.25s;
+}
+
+.toast.show{
+    opacity:1;
+    transform:none;
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes modalUp{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(min-width:700px){
+
+    .classes-grid{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .modal{
+        align-items:center;
+        padding:20px;
+    }
+
+    .modal-card{
+        border-radius:25px;
+    }
+
+}
+
+@media(max-width:390px){
+
+    :root{
+        --name-width:155px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- =========================================================
+     LOADER
+========================================================= -->
+
+<div
+    id="loaderScreen"
+    class="loader-screen"
+>
+
+    <div class="loader-box">
+
+        <img
+            src="logo.png"
+            class="loader-logo"
+            alt="شعار المدرسة"
+        >
+
+        <div class="spinner"></div>
+
+        <p>
+            جاري تحميل منصة الأستاذ
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <img
+            src="logo.png"
+            class="logo"
+            alt="شعار المدرسة"
+        >
+
+        <div class="brand-text">
+
+            <h1>
+                مدرسة التحدي الأهلية المختلطة
+            </h1>
+
+            <p>
+                منصة الأستاذ
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <button
+        id="logoutBtn"
+        class="logout"
+        type="button"
+    >
+        خروج
+    </button>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+
+<!-- =========================================================
+     TEACHER
+========================================================= -->
+
+<section class="teacher-card">
+
+    <div class="teacher-content">
+
+        <div class="teacher-label">
+            الأستاذ
+        </div>
+
+        <div
+            id="teacherName"
+            class="teacher-name"
+        >
+            —
+        </div>
+
+        <div
+            id="teacherSubject"
+            class="teacher-subject"
+        >
+            المادة: —
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CLASSES
+========================================================= -->
+
+<div class="section-head">
+
+    <h3>
+        الصفوف
+    </h3>
+
+    <span>
+        اختر الصف لإدخال الدرجات
+    </span>
+
+</div>
+
+
+<section
+    id="classesGrid"
+    class="classes-grid"
+></section>
+
+
+<!-- =========================================================
+     GRADES SECTION
+========================================================= -->
+
+<section
+    id="gradesSection"
+    class="hidden"
+>
+
+
+    <div class="section-head">
+
+        <h3 id="selectedClassTitle">
+            درجات الصف
+        </h3>
+
+        <span id="studentCount">
+            0 طالب
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         PERIOD SETTINGS
+    ====================================================== -->
+
+    <div
+        id="periodTools"
+        class="period-tools"
+    ></div>
+
+
+    <div
+        id="formulaInfo"
+        class="formula-info"
+    ></div>
+
+
+    <input
+        id="searchInput"
+        class="search"
+        type="text"
+        placeholder="بحث باسم الطالب..."
+        autocomplete="off"
+    >
+
+
+    <div
+        id="tableArea"
+    ></div>
+
+
+    <div class="save-bar">
+
+        <button
+            id="saveGradesBtn"
+            class="save-btn"
+            type="button"
+        >
+            حفظ درجات الصف
+        </button>
+
+        <button
+            id="reloadBtn"
+            class="reload-btn"
+            type="button"
+            title="إعادة تحميل"
+        >
+            ↻
+        </button>
+
+    </div>
+
+
+</section>
+
+
+</main>
+
+
+<!-- =========================================================
+     FORMULA MODAL
+========================================================= -->
+
+<div
+    id="formulaModal"
+    class="modal"
+>
+
+    <div class="modal-card">
+
+
+        <div class="modal-head">
+
+            <h3 id="formulaModalTitle">
+                إعداد الدرجة
+            </h3>
+
+            <button
+                id="closeFormulaModal"
+                class="close"
+                type="button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <p class="modal-desc">
+
+            اختر مفردات التقييم وحدد الدرجة المخصصة لكل مفردة.
+            يجب أن يكون مجموع الدرجات 100.
+
+        </p>
+
+
+        <div
+            id="componentList"
+            class="component-list"
+        ></div>
+
+
+        <div
+            id="formulaTotal"
+            class="formula-total"
+        >
+
+            <span>
+                مجموع الدرجات
+            </span>
+
+            <strong>
+                0 / 100
+            </strong>
+
+        </div>
+
+
+        <button
+            id="saveFormulaBtn"
+            class="modal-save"
+            type="button"
+        >
+            اعتماد هذا التقسيم
+        </button>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+<script>
+
+/* =========================================================
+   FIREBASE
+========================================================= */
+
+const DB =
+    "https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let session = {};
+
+let teacherUser = {};
+
+let teacher = {};
+
+let classes = {};
+
+let students = {};
+
+let grades = {};
+
+let formulas = {};
+
+let TEACHER_CODE = "";
+
+let selectedClassId = "";
+
+let selectedPeriod = "term1";
+
+let editingPeriod = "term1";
+
+
+/* =========================================================
+   PERIODS
+========================================================= */
+
+const PERIODS = {
+
+    term1:{
+        label:"الفصل الأول",
+        gradeField:"term1"
+    },
+
+    midyear:{
+        label:"نصف السنة",
+        gradeField:"midyear"
+    },
+
+    term2:{
+        label:"الفصل الثاني",
+        gradeField:"term2"
+    },
+
+    finalExam:{
+        label:"الامتحانات النهائية",
+        gradeField:"finalExam"
+    },
+
+    secondRound:{
+        label:"الدور الثاني",
+        gradeField:"secondRound"
+    }
+
+};
+
+
+/* =========================================================
+   COMPONENTS
+========================================================= */
+
+const COMPONENTS = [
+
+    {
+        key:"grammar",
+        label:"قواعد"
+    },
+
+    {
+        key:"literature",
+        label:"أدب"
+    },
+
+    {
+        key:"composition",
+        label:"إنشاء"
+    },
+
+    {
+        key:"drawing",
+        label:"رسم"
+    },
+
+    {
+        key:"preparation",
+        label:"تحضير"
+    },
+
+    {
+        key:"homework",
+        label:"واجب"
+    },
+
+    {
+        key:"behavior",
+        label:"سلوك"
+    },
+
+    {
+        key:"daily",
+        label:"يومي"
+    },
+
+    {
+        key:"monthly",
+        label:"شهري"
+    }
+
+];
+
+
+/* =========================================================
+   DOM
+========================================================= */
+
+const $ =
+    id =>
+        document.getElementById(id);
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function esc(value){
+
+    return String(value ?? "")
+
+        .replace(
+            /[&<>"']/g,
+            character => ({
+                "&":"&amp;",
+                "<":"&lt;",
+                ">":"&gt;",
+                '"':"&quot;",
+                "'":"&#039;"
+            })[character]
+        );
+
+}
+
+
+function norm(value){
+
+    return String(value ?? "")
+        .trim()
+        .toLowerCase();
+
+}
+
+
+function numOrNull(value){
+
+    if(
+        value === "" ||
+        value === null ||
+        value === undefined
+    ){
+        return null;
+    }
+
+
+    const number =
+        Number(value);
+
+
+    return Number.isFinite(number)
+        ? number
+        : null;
+
+}
+
+
+function safeKey(value){
+
+    return String(value || "")
+
+        .trim()
+
+        .toLowerCase()
+
+        .replace(
+            /[أإآ]/g,
+            "ا"
+        )
+
+        .replace(
+            /ة/g,
+            "ه"
+        )
+
+        .replace(
+            /ى/g,
+            "ي"
+        )
+
+        .replace(
+            /[^a-z0-9\u0600-\u06ff]+/gi,
+            "_"
+        )
+
+        .replace(
+            /^_+|_+$/g,
+            ""
+        );
+
+}
+
+
+function safeJS(value){
+
+    return String(value || "")
+
+        .replace(
+            /\\/g,
+            "\\\\"
+        )
+
+        .replace(
+            /'/g,
+            "\\'"
+        );
+
+}
+
+
+function toast(text){
+
+    $("toast").textContent =
+        text;
+
+
+    $("toast")
+        .classList.add(
+            "show"
+        );
+
+
+    clearTimeout(
+        window.toastTimer
+    );
+
+
+    window.toastTimer =
+        setTimeout(
+            () => {
+
+                $("toast")
+                    .classList.remove(
+                        "show"
+                    );
+
+            },
+            2300
+        );
+
+}
+
+
+/* =========================================================
+   FIREBASE REST
+========================================================= */
+
+async function dbGet(path){
+
+    const response =
+        await fetch(
+            `${DB}/${path}.json`,
+            {
+                cache:"no-store"
+            }
+        );
+
+
+    if(!response.ok){
+
+        throw new Error(
+            "GET_FAILED"
+        );
+
+    }
+
+
+    return response.json();
+
+}
+
+
+async function dbPatch(
+    path,
+    data
+){
+
+    const response =
+        await fetch(
+            `${DB}/${path}.json`,
+            {
+                method:"PATCH",
+
+                headers:{
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify(
+                        data
+                    )
+            }
+        );
+
+
+    if(!response.ok){
+
+        throw new Error(
+            "PATCH_FAILED"
+        );
+
+    }
+
+
+    return response.json();
+
+}
+
+
+/* =========================================================
+   SESSION
+========================================================= */
+
+function loadSession(){
+
+    try{
+
+        session =
+            JSON.parse(
+                sessionStorage.getItem(
+                    "tahadi_session"
+                ) || "{}"
+            );
+
+    }
+
+    catch{
+
+        session = {};
+
+    }
+
+
+    if(
+        !session.code
+    ){
+
+        location.replace(
+            "index.html"
+        );
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   VERIFY TEACHER
+========================================================= */
+
+async function verifyTeacher(){
+
+    if(
+        !loadSession()
+    ){
+        return false;
+    }
+
+
+    teacherUser =
+        await dbGet(
+            `users/${encodeURIComponent(session.code)}`
+        );
+
+
+    if(
+        !teacherUser
+    ){
+
+        logout();
+
+        return false;
+
+    }
+
+
+    const role =
+        norm(
+            teacherUser.role
+        );
+
+
+    if(
+        ![
+            "teacher",
+            "th"
+        ].includes(role)
+    ){
+
+        logout();
+
+        return false;
+
+    }
+
+
+    if(
+        teacherUser.active === false ||
+        teacherUser.hidden === true
+    ){
+
+        logout();
+
+        return false;
+
+    }
+
+
+    TEACHER_CODE =
+        teacherUser.teacherId ||
+        session.code;
+
+
+    teacher =
+        await dbGet(
+            `teachers/${encodeURIComponent(TEACHER_CODE)}`
+        );
+
+
+    if(
+        !teacher
+    ){
+
+        throw new Error(
+            "TEACHER_NOT_FOUND"
+        );
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout(){
+
+    sessionStorage.clear();
+
+    location.replace(
+        "index.html"
+    );
+
+}
+
+
+/* =========================================================
+   SUBJECT
+========================================================= */
+
+function subjectName(){
+
+    return (
+        teacher.subject ||
+        "المادة"
+    );
+
+}
+
+
+function subjectKey(){
+
+    return safeKey(
+        subjectName()
+    ) || "subject";
+
+}
+
+
+/* =========================================================
+   LOAD BASE DATA
+========================================================= */
+
+async function loadBaseData(){
+
+    const data =
+        await Promise.all([
+
+            dbGet(
+                "classes"
+            ),
+
+            dbGet(
+                "students"
+            )
+
+        ]);
+
+
+    classes =
+        data[0] || {};
+
+
+    students =
+        data[1] || {};
+
+
+    const assignedClasses =
+        Array.isArray(
+            teacher.classIds
+        )
+        ? teacher.classIds
+        : (
+            teacher.classIds &&
+            typeof teacher.classIds === "object"
+        )
+            ? Object.keys(
+                teacher.classIds
+            )
+            : [];
+
+
+    /*
+       نحذف أي صف غير موجود.
+    */
+
+    teacher.classIds =
+        assignedClasses.filter(
+            classId =>
+                classes[classId]
+        );
+
+}
+
+
+/* =========================================================
+   TEACHER HEADER
+========================================================= */
+
+function renderTeacher(){
+
+    $("teacherName").textContent =
+        teacher.name ||
+        teacherUser.name ||
+        "—";
+
+
+    $("teacherSubject").textContent =
+        `المادة: ${subjectName()}`;
+
+}
+
+
+/* =========================================================
+   CLASS STUDENTS
+========================================================= */
+
+function studentsOfClass(
+    classId
+){
+
+    return Object.entries(
+        students
+    )
+
+    .map(
+        ([code,value]) => ({
+            code,
+            ...value
+        })
+    )
+
+    .filter(
+        student =>
+            student.classId ===
+                classId &&
+            student.deleted !==
+                true
+    )
+
+    .sort(
+        (a,b) =>
+            String(
+                a.name || ""
+            )
+            .localeCompare(
+                String(
+                    b.name || ""
+                ),
+                "ar",
+                {
+                    sensitivity:"base"
+                }
+            )
+    );
+
+}
+
+
+/* =========================================================
+   RENDER CLASSES
+========================================================= */
+
+function renderClasses(){
+
+    const assigned =
+        teacher.classIds || [];
+
+
+    if(
+        !assigned.length
+    ){
+
+        $("classesGrid").innerHTML = `
+
+            <div class="empty">
+                لا توجد صفوف مرتبطة بحسابك حالياً.
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    $("classesGrid").innerHTML =
+        assigned.map(
+            classId => {
+
+                const item =
+                    classes[
+                        classId
+                    ] || {};
+
+
+                const count =
+                    studentsOfClass(
+                        classId
+                    ).length;
+
+
+                return `
+
+                    <button
+                        type="button"
+                        class="
+                            class-card
+                            ${
+                                selectedClassId === classId
+                                    ? "active"
+                                    : ""
+                            }
+                        "
+                        onclick="
+                            selectClass(
+                                '${safeJS(classId)}'
+                            )
+                        "
+                    >
+
+                        <div class="class-count">
+                            ${count}
+                        </div>
+
+                        <div class="class-icon">
+                            ص
+                        </div>
+
+                        <h4>
+                            ${esc(item.name || classId)}
+                        </h4>
+
+                        <p>
+                            ${count} طالب
+                        </p>
+
+                    </button>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* =========================================================
+   SELECT CLASS
+========================================================= */
+
+async function selectClass(
+    classId
+){
+
+    selectedClassId =
+        classId;
+
+
+    selectedPeriod =
+        "term1";
+
+
+    $("searchInput").value =
+        "";
+
+
+    $("gradesSection")
+        .classList.remove(
+            "hidden"
+        );
+
+
+    renderClasses();
+
+
+    await loadClassGrades();
+
+    await loadFormulas();
+
+
+    renderPeriodButtons();
+
+    renderFormulaInfo();
+
+    renderGradeTable();
+
+
+    $("selectedClassTitle").textContent =
+        `${classes[classId]?.name || "الصف"} - ${subjectName()}`;
+
+
+    $("studentCount").textContent =
+        `${studentsOfClass(classId).length} طالب`;
+
+
+    setTimeout(
+        () => {
+
+            $("gradesSection")
+                .scrollIntoView({
+                    behavior:"smooth",
+                    block:"start"
+                });
+
+        },
+        100
+    );
+
+}
+
+
+/* =========================================================
+   LOAD CLASS GRADES
+========================================================= */
+
+async function loadClassGrades(){
+
+    grades = {};
+
+
+    const list =
+        studentsOfClass(
+            selectedClassId
+        );
+
+
+    const results =
+        await Promise.all(
+            list.map(
+                student =>
+                    dbGet(
+                        `grades/${encodeURIComponent(student.code)}/${encodeURIComponent(subjectKey())}`
+                    )
+            )
+        );
+
+
+    list.forEach(
+        (student,index) => {
+
+            grades[
+                student.code
+            ] =
+                results[index] || {};
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   FORMULA STORAGE
+========================================================= */
+
+function formulaPath(){
+
+    return (
+        `gradeSchemas/` +
+        `${encodeURIComponent(TEACHER_CODE)}/` +
+        `${encodeURIComponent(selectedClassId)}/` +
+        `${encodeURIComponent(subjectKey())}`
+    );
+
+}
+
+
+/* =========================================================
+   LOAD FORMULAS
+========================================================= */
+
+async function loadFormulas(){
+
+    formulas =
+        await dbGet(
+            formulaPath()
+        ) || {};
+
+}
+
+
+/* =========================================================
+   FORMULA FOR PERIOD
+========================================================= */
+
+function formulaFor(
+    period
+){
+
+    return (
+        formulas[
+            period
+        ] || {}
+    );
+
+}
+
+
+/* =========================================================
+   COMPONENT ENTRIES
+========================================================= */
+
+function activeComponents(
+    period
+){
+
+    const formula =
+        formulaFor(
+            period
+        );
+
+
+    const components =
+        formula.components ||
+        {};
+
+
+    return COMPONENTS
+
+        .filter(
+            component =>
+                numOrNull(
+                    components[
+                        component.key
+                    ]
+                ) !== null &&
+                Number(
+                    components[
+                        component.key
+                    ]
+                ) > 0
+        )
+
+        .map(
+            component => ({
+                ...component,
+
+                max:
+                    Number(
+                        components[
+                            component.key
+                        ]
+                    )
+            })
+        );
+
+}
+
+
+/* =========================================================
+   FORMULA CONFIGURED
+========================================================= */
+
+function formulaConfigured(
+    period
+){
+
+    const list =
+        activeComponents(
+            period
+        );
+
+
+    if(
+        !list.length
+    ){
+        return false;
+    }
+
+
+    const total =
+        list.reduce(
+            (sum,item) =>
+                sum +
+                item.max,
+            0
+        );
+
+
+    return total === 100;
+
+}
+
+
+/* =========================================================
+   PERIOD BUTTONS
+========================================================= */
+
+function renderPeriodButtons(){
+
+    $("periodTools").innerHTML =
+        Object.entries(
+            PERIODS
+        )
+        .map(
+            ([key,period]) => `
+
+                <button
+                    type="button"
+                    class="
+                        period-btn
+                        ${
+                            formulaConfigured(key)
+                                ? "configured"
+                                : ""
+                        }
+                        ${
+                            selectedPeriod === key
+                                ? "selected"
+                                : ""
+                        }
+                    "
+                    onclick="
+                        selectPeriod(
+                            '${key}'
+                        )
+                    "
+                >
+                    ${esc(period.label)}
+                </button>
+
+            `
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   SELECT PERIOD
+========================================================= */
+
+function selectPeriod(
+    period
+){
+
+    selectedPeriod =
+        period;
+
+
+    renderPeriodButtons();
+
+    renderFormulaInfo();
+
+    renderGradeTable();
+
+}
+
+
+/* =========================================================
+   FORMULA INFO
+========================================================= */
+
+function renderFormulaInfo(){
+
+    const period =
+        PERIODS[
+            selectedPeriod
+        ];
+
+
+    const components =
+        activeComponents(
+            selectedPeriod
+        );
+
+
+    if(
+        !formulaConfigured(
+            selectedPeriod
+        )
+    ){
+
+        $("formulaInfo").innerHTML = `
+
+            لم يتم إعداد درجة
+            <strong>
+                ${esc(period.label)}
+            </strong>
+            بعد.
+
+            اضغط على زر
+            <strong>
+                ${esc(period.label)}
+            </strong>
+            بالأعلى لإعداد تقسيم الدرجة من 100.
+
+        `;
+
+        return;
+
+    }
+
+
+    $("formulaInfo").innerHTML = `
+
+        <strong>
+            ${esc(period.label)}:
+        </strong>
+
+        ${
+            components.map(
+                item =>
+                    `${esc(item.label)} (${item.max})`
+            ).join(" + ")
+        }
+
+        =
+
+        <strong>
+            100
+        </strong>
+
+        <br>
+
+        اضغط مرة أخرى على
+        <strong>
+            ${esc(period.label)}
+        </strong>
+        لتعديل التقسيم.
+
+    `;
+
+}
+
+
+/* =========================================================
+   PERIOD BUTTON DOUBLE PURPOSE
+
+   ضغطة أولى: اختيار.
+   إذا هو مختار أصلاً: فتح الإعداد.
+========================================================= */
+
+document
+.getElementById(
+    "periodTools"
+)
+.addEventListener(
+    "click",
+    event => {
+
+        const button =
+            event.target.closest(
+                ".period-btn"
+            );
+
+
+        if(
+            !button
+        ){
+            return;
+        }
+
+
+        /*
+           handled by onclick
+        */
+
+    }
+);
+
+
+/* =========================================================
+   REPLACE SELECT PERIOD WITH SMART BEHAVIOR
+========================================================= */
+
+window.selectPeriod =
+function(period){
+
+    if(
+        selectedPeriod === period
+    ){
+
+        openFormulaModal(
+            period
+        );
+
+        return;
+
+    }
+
+
+    selectedPeriod =
+        period;
+
+
+    renderPeriodButtons();
+
+    renderFormulaInfo();
+
+    renderGradeTable();
+
+};
+
+
+/* =========================================================
+   FILTERED STUDENTS
+========================================================= */
+
+function filteredStudents(){
+
+    const search =
+        norm(
+            $("searchInput").value
+        );
+
+
+    return studentsOfClass(
+        selectedClassId
+    )
+    .filter(
+        student => {
+
+            if(
+                !search
+            ){
+                return true;
+            }
+
+
+            return norm(
+                student.name
+            ).includes(
+                search
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   COMPONENT VALUE
+========================================================= */
+
+function componentValue(
+    studentCode,
+    period,
+    componentKey
+){
+
+    return (
+        grades[
+            studentCode
+        ]?.components?.[
+            period
+        ]?.[
+            componentKey
+        ] ?? ""
+    );
+
+}
+
+
+/* =========================================================
+   PERIOD TOTAL
+========================================================= */
+
+function calculatePeriodTotal(
+    studentCode,
+    period
+){
+
+    const components =
+        activeComponents(
+            period
+        );
+
+
+    if(
+        !components.length
+    ){
+        return null;
+    }
+
+
+    let total =
+        0;
+
+
+    let hasAny =
+        false;
+
+
+    for(
+        const component
+        of components
+    ){
+
+        const value =
+            numOrNull(
+                componentValue(
+                    studentCode,
+                    period,
+                    component.key
+                )
+            );
+
+
+        if(
+            value === null
+        ){
+            continue;
+        }
+
+
+        hasAny =
+            true;
+
+
+        total +=
+            value;
+
+    }
+
+
+    return hasAny
+        ? Math.round(total)
+        : null;
+
+}
+
+
+/* =========================================================
+   RENDER TABLE
+========================================================= */
+
+function renderGradeTable(){
+
+    const list =
+        filteredStudents();
+
+
+    const period =
+        PERIODS[
+            selectedPeriod
+        ];
+
+
+    const components =
+        activeComponents(
+            selectedPeriod
+        );
+
+
+    if(
+        !formulaConfigured(
+            selectedPeriod
+        )
+    ){
+
+        $("tableArea").innerHTML = `
+
+            <div class="empty">
+
+                يجب إعداد تقسيم درجة
+                <strong>
+                    ${esc(period.label)}
+                </strong>
+                أولاً.
+
+                <br><br>
+
+                اضغط على زر
+                <strong>
+                    ${esc(period.label)}
+                </strong>
+                مرة أخرى لإعداد الدرجة.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    if(
+        !list.length
+    ){
+
+        $("tableArea").innerHTML = `
+
+            <div class="empty">
+                لا توجد أسماء مطابقة.
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    $("tableArea").innerHTML = `
+
+        <div class="table-wrap">
+
+            <table class="grade-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th class="seq-col">
+                            ت
+                        </th>
+
+                        <th class="name-col">
+                            اسم الطالب
+                        </th>
+
+
+                        ${
+                            components.map(
+                                component => `
+
+                                    <th class="score-col">
+
+                                        <span class="column-title">
+                                            ${esc(component.label)}
+                                        </span>
+
+                                        <span class="column-max">
+                                            من ${component.max}
+                                        </span>
+
+                                    </th>
+
+                                `
+                            ).join("")
+                        }
+
+
+                        <th class="total-col">
+
+                            <span class="column-title">
+                                ${esc(period.label)}
+                            </span>
+
+                            <span class="column-max">
+                                من 100
+                            </span>
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    ${
+                        list.map(
+                            (student,index) => `
+
+                                <tr>
+
+                                    <td class="seq-col">
+                                        ${index + 1}
+                                    </td>
+
+
+                                    <td class="name-col">
+
+                                        <div class="student-name">
+                                            ${esc(student.name || "—")}
+                                        </div>
+
+                                    </td>
+
+
+                                    ${
+                                        components.map(
+                                            component => {
+
+                                                const value =
+                                                    componentValue(
+                                                        student.code,
+                                                        selectedPeriod,
+                                                        component.key
+                                                    );
+
+
+                                                return `
+
+                                                    <td class="score-col">
+
+                                                        <input
+                                                            class="score-input"
+                                                            type="number"
+                                                            inputmode="decimal"
+                                                            min="0"
+                                                            max="${component.max}"
+                                                            step="0.5"
+
+                                                            data-student="${esc(student.code)}"
+                                                            data-component="${esc(component.key)}"
+                                                            data-max="${component.max}"
+
+                                                            value="${esc(value)}"
+
+                                                            oninput="
+                                                                scoreChanged(this)
+                                                            "
+                                                        >
+
+                                                    </td>
+
+                                                `;
+
+                                            }
+                                        ).join("")
+                                    }
+
+
+                                    <td
+                                        class="total-col"
+                                        id="
+                                            total_${safeId(student.code)}
+                                        "
+                                    >
+
+                                        ${
+                                            displayTotal(
+                                                calculatePeriodTotal(
+                                                    student.code,
+                                                    selectedPeriod
+                                                )
+                                            )
+                                        }
+
+                                    </td>
+
+                                </tr>
+
+                            `
+                        ).join("")
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   SAFE ELEMENT ID
+========================================================= */
+
+function safeId(value){
+
+    return String(value || "")
+        .replace(
+            /[^a-zA-Z0-9_-]/g,
+            "_"
+        );
+
+}
+
+
+/* =========================================================
+   TOTAL DISPLAY
+========================================================= */
+
+function displayTotal(
+    value
+){
+
+    return (
+        value === null ||
+        value === undefined
+    )
+        ? "—"
+        : value;
+
+}
+
+
+/* =========================================================
+   SCORE CHANGE
+========================================================= */
+
+function scoreChanged(
+    input
+){
+
+    const studentCode =
+        input.dataset.student;
+
+
+    const componentKey =
+        input.dataset.component;
+
+
+    const max =
+        Number(
+            input.dataset.max
+        );
+
+
+    const raw =
+        input.value;
+
+
+    const value =
+        numOrNull(
+            raw
+        );
+
+
+    input.classList.remove(
+        "invalid"
+    );
+
+
+    if(
+        value !== null &&
+        (
+            value < 0 ||
+            value > max
+        )
+    ){
+
+        input.classList.add(
+            "invalid"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !grades[
+            studentCode
+        ]
+    ){
+
+        grades[
+            studentCode
+        ] = {};
+
+    }
+
+
+    if(
+        !grades[
+            studentCode
+        ].components
+    ){
+
+        grades[
+            studentCode
+        ].components = {};
+
+    }
+
+
+    if(
+        !grades[
+            studentCode
+        ].components[
+            selectedPeriod
+        ]
+    ){
+
+        grades[
+            studentCode
+        ].components[
+            selectedPeriod
+        ] = {};
+
+    }
+
+
+    if(
+        value === null
+    ){
+
+        delete grades[
+            studentCode
+        ].components[
+            selectedPeriod
+        ][
+            componentKey
+        ];
+
+    }
+
+    else{
+
+        grades[
+            studentCode
+        ].components[
+            selectedPeriod
+        ][
+            componentKey
+        ] =
+            value;
+
+    }
+
+
+    const total =
+        calculatePeriodTotal(
+            studentCode,
+            selectedPeriod
+        );
+
+
+    const totalCell =
+        $(
+            `total_${safeId(studentCode)}`
+        );
+
+
+    if(
+        totalCell
+    ){
+
+        totalCell.textContent =
+            displayTotal(
+                total
+            );
+
+    }
+
+}
+
+
+/* =========================================================
+   OPEN FORMULA
+========================================================= */
+
+function openFormulaModal(
+    period
+){
+
+    editingPeriod =
+        period;
+
+
+    const config =
+        formulaFor(
+            period
+        );
+
+
+    const values =
+        config.components ||
+        {};
+
+
+    $("formulaModalTitle").textContent =
+        `إعداد ${PERIODS[period].label}`;
+
+
+    $("componentList").innerHTML =
+        COMPONENTS.map(
+            component => {
+
+                const max =
+                    numOrNull(
+                        values[
+                            component.key
+                        ]
+                    );
+
+
+                const checked =
+                    max !== null &&
+                    max > 0;
+
+
+                return `
+
+                    <div class="component-item">
+
+                        <input
+                            type="checkbox"
+                            class="component-check"
+                            data-key="${esc(component.key)}"
+                            ${checked ? "checked" : ""}
+                            onchange="
+                                componentToggle(this)
+                            "
+                        >
+
+                        <div class="component-name">
+                            ${esc(component.label)}
+                        </div>
+
+                        <input
+                            type="number"
+                            class="max-input"
+                            data-max-key="${esc(component.key)}"
+                            min="1"
+                            max="100"
+                            inputmode="numeric"
+                            value="${checked ? max : ""}"
+                            ${checked ? "" : "disabled"}
+                            oninput="
+                                updateFormulaTotal()
+                            "
+                            placeholder="الدرجة"
+                        >
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+
+    updateFormulaTotal();
+
+
+    $("formulaModal")
+        .classList.add(
+            "show"
+        );
+
+}
+
+
+/* =========================================================
+   COMPONENT TOGGLE
+========================================================= */
+
+function componentToggle(
+    checkbox
+){
+
+    const key =
+        checkbox.dataset.key;
+
+
+    const input =
+        document.querySelector(
+            `[data-max-key="${key}"]`
+        );
+
+
+    if(
+        !input
+    ){
+        return;
+    }
+
+
+    input.disabled =
+        !checkbox.checked;
+
+
+    if(
+        !checkbox.checked
+    ){
+
+        input.value =
+            "";
+
+    }
+
+    else{
+
+        input.focus();
+
+    }
+
+
+    updateFormulaTotal();
+
+}
+
+
+/* =========================================================
+   FORMULA TOTAL
+========================================================= */
+
+function updateFormulaTotal(){
+
+    const inputs =
+        [
+            ...document.querySelectorAll(
+                ".max-input:not(:disabled)"
+            )
+        ];
+
+
+    const total =
+        inputs.reduce(
+            (sum,input) =>
+                sum +
+                (
+                    Number(
+                        input.value
+                    ) || 0
+                ),
+            0
+        );
+
+
+    const box =
+        $("formulaTotal");
+
+
+    box.className =
+        "formula-total";
+
+
+    if(
+        total === 100
+    ){
+
+        box.classList.add(
+            "valid"
+        );
+
+    }
+
+    else{
+
+        box.classList.add(
+            "invalid"
+        );
+
+    }
+
+
+    box.innerHTML = `
+
+        <span>
+            مجموع الدرجات
+        </span>
+
+        <strong>
+            ${total} / 100
+        </strong>
+
+    `;
+
+}
+
+
+/* =========================================================
+   SAVE FORMULA
+========================================================= */
+
+$("saveFormulaBtn").onclick =
+async () => {
+
+    const enabled =
+        [
+            ...document.querySelectorAll(
+                ".component-check:checked"
+            )
+        ];
+
+
+    if(
+        !enabled.length
+    ){
+
+        toast(
+            "اختر مفردة واحدة على الأقل"
+        );
+
+        return;
+
+    }
+
+
+    const components =
+        {};
+
+
+    let total =
+        0;
+
+
+    for(
+        const checkbox
+        of enabled
+    ){
+
+        const key =
+            checkbox.dataset.key;
+
+
+        const input =
+            document.querySelector(
+                `[data-max-key="${key}"]`
+            );
+
+
+        const value =
+            Number(
+                input.value
+            );
+
+
+        if(
+            !Number.isFinite(value) ||
+            value <= 0
+        ){
+
+            toast(
+                "أدخل الدرجة لكل مفردة مختارة"
+            );
+
+            input.focus();
+
+            return;
+
+        }
+
+
+        components[
+            key
+        ] =
+            value;
+
+
+        total +=
+            value;
+
+    }
+
+
+    if(
+        total !== 100
+    ){
+
+        toast(
+            "يجب أن يكون مجموع الدرجات 100"
+        );
+
+        return;
+
+    }
+
+
+    $("saveFormulaBtn").disabled =
+        true;
+
+
+    $("saveFormulaBtn").textContent =
+        "جاري الحفظ";
+
+
+    try{
+
+
+        const data = {
+
+            label:
+                PERIODS[
+                    editingPeriod
+                ].label,
+
+            components:
+                components,
+
+            total:
+                100,
+
+            updatedAt:
+                Date.now(),
+
+            updatedBy:
+                TEACHER_CODE
+
+        };
+
+
+        await dbPatch(
+            `${formulaPath()}/${encodeURIComponent(editingPeriod)}`,
+            data
+        );
+
+
+        formulas[
+            editingPeriod
+        ] =
+            data;
+
+
+        selectedPeriod =
+            editingPeriod;
+
+
+        $("formulaModal")
+            .classList.remove(
+                "show"
+            );
+
+
+        renderPeriodButtons();
+
+        renderFormulaInfo();
+
+        renderGradeTable();
+
+
+        toast(
+            "تم اعتماد تقسيم الدرجة"
+        );
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            error
+        );
+
+
+        toast(
+            "تعذر حفظ إعداد الدرجة"
+        );
+
+    }
+
+    finally{
+
+        $("saveFormulaBtn").disabled =
+            false;
+
+
+        $("saveFormulaBtn").textContent =
+            "اعتماد هذا التقسيم";
+
+    }
+
+};
+
+
+/* =========================================================
+   CLOSE FORMULA
+========================================================= */
+
+$("closeFormulaModal").onclick =
+    () => {
+
+        $("formulaModal")
+            .classList.remove(
+                "show"
+            );
+
+    };
+
+
+$("formulaModal").addEventListener(
+    "click",
+    event => {
+
+        if(
+            event.target ===
+            $("formulaModal")
+        ){
+
+            $("formulaModal")
+                .classList.remove(
+                    "show"
+                );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   VALIDATE TABLE
+========================================================= */
+
+function validateCurrentScores(){
+
+    const inputs =
+        [
+            ...document.querySelectorAll(
+                ".score-input"
+            )
+        ];
+
+
+    for(
+        const input
+        of inputs
+    ){
+
+        const value =
+            numOrNull(
+                input.value
+            );
+
+
+        const max =
+            Number(
+                input.dataset.max
+            );
+
+
+        if(
+            value !== null &&
+            (
+                value < 0 ||
+                value > max
+            )
+        ){
+
+            input.classList.add(
+                "invalid"
+            );
+
+
+            input.scrollIntoView({
+                behavior:"smooth",
+                block:"center",
+                inline:"center"
+            });
+
+
+            toast(
+                `الدرجة يجب أن تكون بين 0 و ${max}`
+            );
+
+
+            return false;
+
+        }
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   SAVE GRADES
+========================================================= */
+
+$("saveGradesBtn").onclick =
+async () => {
+
+    if(
+        !selectedClassId
+    ){
+        return;
+    }
+
+
+    if(
+        !formulaConfigured(
+            selectedPeriod
+        )
+    ){
+
+        toast(
+            "يجب إعداد تقسيم الدرجة أولاً"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !validateCurrentScores()
+    ){
+        return;
+    }
+
+
+    $("saveGradesBtn").disabled =
+        true;
+
+
+    $("saveGradesBtn").textContent =
+        "جاري حفظ الدرجات";
+
+
+    try{
+
+
+        const studentsList =
+            studentsOfClass(
+                selectedClassId
+            );
+
+
+        const periodField =
+            PERIODS[
+                selectedPeriod
+            ].gradeField;
+
+
+        const updates =
+            {};
+
+
+        for(
+            const student
+            of studentsList
+        ){
+
+            const record =
+                grades[
+                    student.code
+                ] || {};
+
+
+            const components =
+                record.components?.[
+                    selectedPeriod
+                ] || {};
+
+
+            const total =
+                calculatePeriodTotal(
+                    student.code,
+                    selectedPeriod
+                );
+
+
+            const basePath =
+                `grades/` +
+                `${student.code}/` +
+                `${subjectKey()}`;
+
+
+            updates[
+                `${basePath}/subjectName`
+            ] =
+                subjectName();
+
+
+            updates[
+                `${basePath}/teacherCode`
+            ] =
+                TEACHER_CODE;
+
+
+            updates[
+                `${basePath}/classId`
+            ] =
+                selectedClassId;
+
+
+            updates[
+                `${basePath}/updatedAt`
+            ] =
+                Date.now();
+
+
+            updates[
+                `${basePath}/components/${selectedPeriod}`
+            ] =
+                components;
+
+
+            updates[
+                `${basePath}/${periodField}`
+            ] =
+                total;
+
+        }
+
+
+        /*
+           PATCH من الجذر حتى نحفظ الكل دفعة واحدة.
+        */
+
+        await dbPatch(
+            "",
+            updates
+        );
+
+
+        toast(
+            `تم حفظ درجات ${PERIODS[selectedPeriod].label}`
+        );
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            error
+        );
+
+
+        toast(
+            "تعذر حفظ الدرجات"
+        );
+
+    }
+
+    finally{
+
+        $("saveGradesBtn").disabled =
+            false;
+
+
+        $("saveGradesBtn").textContent =
+            "حفظ درجات الصف";
+
+    }
+
+};
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+$("searchInput").addEventListener(
+    "input",
+    renderGradeTable
+);
+
+
+/* =========================================================
+   RELOAD
+========================================================= */
+
+$("reloadBtn").onclick =
+async () => {
+
+    if(
+        !selectedClassId
+    ){
+        return;
+    }
+
+
+    $("reloadBtn").disabled =
+        true;
+
+
+    try{
+
+        await loadClassGrades();
+
+        await loadFormulas();
+
+        renderPeriodButtons();
+
+        renderFormulaInfo();
+
+        renderGradeTable();
+
+
+        toast(
+            "تم تحديث البيانات"
+        );
+
+    }
+
+    catch{
+
+        toast(
+            "تعذر تحديث البيانات"
+        );
+
+    }
+
+    finally{
+
+        $("reloadBtn").disabled =
+            false;
+
+    }
+
+};
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+$("logoutBtn").onclick =
+    logout;
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+async function init(){
+
+    try{
+
+
+        const verified =
+            await verifyTeacher();
+
+
+        if(
+            !verified
+        ){
+            return;
+        }
+
+
+        await loadBaseData();
+
+
+        renderTeacher();
+
+        renderClasses();
+
+
+        $("loaderScreen")
+            .classList.add(
+                "hidden"
+            );
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            error
+        );
+
+
+        $("loaderScreen")
+            .classList.add(
+                "hidden"
+            );
+
+
+        toast(
+            "تعذر تحميل حساب الأستاذ"
+        );
+
+    }
+
+}
+
+
+window.addEventListener(
+    "load",
+    init
+);
+
+</script>
+
+</body>
+
+</html>
