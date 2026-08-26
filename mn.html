@@ -1,1 +1,2995 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
+>
+
+<meta name="theme-color" content="#075fcf">
+
+<title>قسم الحسابات | مدرسة التحدي الأهلية المختلطة</title>
+
+<style>
+
+:root{
+    --blue:#075fcf;
+    --blue2:#064ca8;
+    --blue-soft:#eef6ff;
+
+    --bg:#f5f8fc;
+    --white:#fff;
+
+    --text:#172033;
+    --muted:#667085;
+    --border:#e3e9f1;
+
+    --green:#078746;
+    --green-bg:#ecfdf3;
+
+    --red:#c62828;
+    --red-bg:#fff1f1;
+
+    --orange:#dd7400;
+    --orange-bg:#fff5e8;
+
+    --shadow:
+        0 15px 45px
+        rgba(31,55,86,.10);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+    width:100%;
+    min-height:100%;
+}
+
+body{
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+
+    background:var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+.loader-screen{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#fff;
+}
+
+.loader-box{
+    text-align:center;
+}
+
+.loader-logo{
+    width:86px;
+    height:86px;
+    object-fit:contain;
+    margin-bottom:15px;
+}
+
+.loader{
+    width:38px;
+    height:38px;
+    margin:auto;
+
+    border-radius:50%;
+
+    border:
+        4px solid
+        #e5edf7;
+
+    border-top-color:
+        var(--blue);
+
+    animation:
+        spin .8s
+        linear
+        infinite;
+}
+
+.loader-box p{
+    margin-top:12px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:800;
+}
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:80;
+
+    min-height:72px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+
+    padding:
+        max(10px,env(safe-area-inset-top))
+        15px
+        10px;
+
+    background:
+        rgba(255,255,255,.95);
+
+    backdrop-filter:
+        blur(17px);
+
+    -webkit-backdrop-filter:
+        blur(17px);
+
+    border-bottom:
+        1px solid
+        var(--border);
+}
+
+.brand{
+    min-width:0;
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo{
+    width:49px;
+    height:49px;
+    object-fit:contain;
+    flex:none;
+}
+
+.brand-text{
+    min-width:0;
+}
+
+.brand-text h1{
+    font-size:13px;
+    font-weight:900;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.brand-text p{
+    margin-top:3px;
+
+    color:var(--blue);
+
+    font-size:9px;
+    font-weight:900;
+}
+
+.logout{
+    flex:none;
+
+    padding:9px 11px;
+
+    border:0;
+    border-radius:12px;
+
+    background:#f1f4f7;
+    color:#475467;
+
+    font-size:9px;
+    font-weight:900;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.main{
+    width:100%;
+    max-width:1100px;
+
+    margin:auto;
+
+    padding:16px;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    position:relative;
+
+    overflow:hidden;
+
+    padding:21px;
+
+    border-radius:24px;
+
+    color:#fff;
+
+    background:
+        radial-gradient(
+            circle at 0 0,
+            rgba(255,255,255,.18),
+            transparent 34%
+        ),
+        linear-gradient(
+            135deg,
+            #0870e6,
+            #0758c6 55%,
+            #064494
+        );
+
+    box-shadow:
+        0 19px 45px
+        rgba(7,95,207,.18);
+}
+
+.hero:before{
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    top:-100px;
+    left:-65px;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.08);
+}
+
+.hero h2{
+    position:relative;
+    z-index:2;
+
+    font-size:19px;
+    font-weight:900;
+}
+
+.hero p{
+    position:relative;
+    z-index:2;
+
+    margin-top:5px;
+
+    font-size:10px;
+    line-height:1.8;
+    opacity:.92;
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:9px;
+
+    margin-top:13px;
+}
+
+.stat{
+    padding:14px;
+
+    border-radius:17px;
+
+    background:#fff;
+
+    border:
+        1px solid
+        var(--border);
+
+    box-shadow:
+        0 6px 20px
+        rgba(20,40,70,.04);
+}
+
+.stat span{
+    display:block;
+
+    color:var(--muted);
+
+    font-size:8px;
+    font-weight:800;
+}
+
+.stat strong{
+    display:block;
+
+    margin-top:5px;
+
+    font-size:18px;
+    font-weight:900;
+}
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+.section-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+
+    margin:
+        22px 2px
+        10px;
+}
+
+.section-head h3{
+    font-size:14px;
+    font-weight:900;
+}
+
+.section-head span{
+    color:var(--muted);
+
+    font-size:9px;
+}
+
+.filters{
+    display:grid;
+    gap:9px;
+
+    padding:13px;
+
+    border-radius:18px;
+
+    background:#fff;
+
+    border:
+        1px solid
+        var(--border);
+
+    box-shadow:
+        var(--shadow);
+}
+
+.filter-row{
+    display:grid;
+    gap:9px;
+}
+
+.field label{
+    display:block;
+
+    margin:
+        0 3px
+        6px;
+
+    color:#475467;
+
+    font-size:8px;
+    font-weight:900;
+}
+
+.field input,
+.field select{
+    width:100%;
+    height:48px;
+
+    padding:
+        0 12px;
+
+    outline:none;
+
+    border-radius:14px;
+
+    border:
+        1px solid
+        var(--border);
+
+    background:#fff;
+
+    color:var(--text);
+
+    font-size:12px;
+}
+
+.field input:focus,
+.field select:focus{
+    border-color:var(--blue);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(7,95,207,.06);
+}
+
+/* =========================================================
+   STUDENT LIST
+========================================================= */
+
+.student-list{
+    display:grid;
+    gap:10px;
+
+    margin-top:12px;
+}
+
+.student-card{
+    overflow:hidden;
+
+    border-radius:20px;
+
+    background:#fff;
+
+    border:
+        1px solid
+        var(--border);
+
+    box-shadow:
+        0 8px 24px
+        rgba(20,40,70,.05);
+}
+
+.student-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:10px;
+
+    padding:15px;
+}
+
+.student-ident{
+    display:flex;
+    align-items:center;
+    gap:11px;
+
+    min-width:0;
+}
+
+.avatar{
+    width:48px;
+    height:48px;
+
+    flex:none;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:15px;
+
+    background:var(--blue-soft);
+    color:var(--blue);
+
+    font-size:18px;
+    font-weight:900;
+}
+
+.student-name{
+    min-width:0;
+}
+
+.student-name h4{
+    font-size:12px;
+    font-weight:900;
+
+    line-height:1.5;
+}
+
+.student-name p{
+    margin-top:3px;
+
+    color:var(--muted);
+
+    font-size:8px;
+}
+
+.badge{
+    flex:none;
+
+    padding:6px 9px;
+
+    border-radius:999px;
+
+    font-size:8px;
+    font-weight:900;
+}
+
+.badge.green{
+    color:var(--green);
+    background:var(--green-bg);
+}
+
+.badge.red{
+    color:var(--red);
+    background:var(--red-bg);
+}
+
+.badge.orange{
+    color:var(--orange);
+    background:var(--orange-bg);
+}
+
+.badge.blue{
+    color:var(--blue);
+    background:var(--blue-soft);
+}
+
+/* =========================================================
+   STUDENT INFO
+========================================================= */
+
+.student-info{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:8px;
+
+    padding:
+        0 15px
+        14px;
+}
+
+.info{
+    padding:10px;
+
+    border-radius:12px;
+
+    background:#f8fafc;
+}
+
+.info span{
+    display:block;
+
+    color:var(--muted);
+
+    font-size:7px;
+    font-weight:800;
+}
+
+.info strong{
+    display:block;
+
+    margin-top:4px;
+
+    font-size:10px;
+    font-weight:900;
+
+    word-break:break-word;
+}
+
+/* =========================================================
+   MONEY
+========================================================= */
+
+.money{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:7px;
+
+    padding:
+        12px 15px;
+
+    border-top:
+        1px solid
+        #edf0f4;
+
+    border-bottom:
+        1px solid
+        #edf0f4;
+}
+
+.money-box{
+    text-align:center;
+
+    padding:10px 5px;
+
+    border-radius:12px;
+
+    background:#f8fafc;
+}
+
+.money-box span{
+    display:block;
+
+    color:var(--muted);
+
+    font-size:7px;
+}
+
+.money-box strong{
+    display:block;
+
+    margin-top:4px;
+
+    font-size:11px;
+    font-weight:900;
+}
+
+/* =========================================================
+   ACCESS INFO
+========================================================= */
+
+.access-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:7px;
+
+    padding:
+        12px 15px;
+}
+
+.access-item{
+    text-align:center;
+
+    padding:9px 5px;
+
+    border-radius:12px;
+
+    background:#f8fafc;
+}
+
+.access-item span{
+    display:block;
+
+    color:var(--muted);
+
+    font-size:7px;
+    line-height:1.4;
+}
+
+.access-item b{
+    display:inline-block;
+
+    margin-top:5px;
+
+    padding:5px 7px;
+
+    border-radius:999px;
+
+    font-size:7px;
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.student-actions{
+    display:flex;
+    gap:8px;
+
+    padding:
+        13px 15px
+        15px;
+}
+
+.action{
+    flex:1;
+
+    min-height:45px;
+
+    border:0;
+
+    border-radius:13px;
+
+    font-size:9px;
+    font-weight:900;
+}
+
+.action.activate{
+    color:#fff;
+    background:var(--green);
+}
+
+.action.disable{
+    color:#fff;
+    background:var(--red);
+}
+
+.action.details{
+    color:var(--blue);
+    background:var(--blue-soft);
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty{
+    padding:30px 18px;
+
+    text-align:center;
+
+    border-radius:20px;
+
+    background:#fff;
+
+    border:
+        1px solid
+        var(--border);
+
+    color:var(--muted);
+
+    font-size:10px;
+    line-height:1.8;
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal{
+    display:none;
+
+    position:fixed;
+    inset:0;
+
+    z-index:10000;
+
+    align-items:flex-end;
+    justify-content:center;
+
+    padding:0;
+
+    background:
+        rgba(17,32,51,.45);
+
+    backdrop-filter:
+        blur(5px);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-card{
+    width:100%;
+    max-width:600px;
+
+    max-height:88vh;
+    overflow:auto;
+
+    padding:
+        18px 16px
+        max(18px,env(safe-area-inset-bottom));
+
+    border-radius:
+        24px 24px
+        0 0;
+
+    background:#fff;
+
+    box-shadow:
+        0 -20px 60px
+        rgba(0,0,0,.15);
+
+    animation:
+        modalUp .3s
+        cubic-bezier(.16,1,.3,1);
+}
+
+.modal-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+
+    margin-bottom:14px;
+}
+
+.modal-head h3{
+    font-size:15px;
+    font-weight:900;
+}
+
+.close{
+    width:35px;
+    height:35px;
+
+    border:0;
+    border-radius:11px;
+
+    background:#f1f4f7;
+    color:#475467;
+
+    font-size:16px;
+}
+
+.modal-section{
+    margin-top:15px;
+}
+
+.modal-section h4{
+    margin-bottom:8px;
+
+    font-size:11px;
+    font-weight:900;
+}
+
+.modal-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:8px;
+}
+
+.modal-info{
+    padding:10px;
+
+    border-radius:12px;
+
+    background:#f8fafc;
+}
+
+.modal-info span{
+    display:block;
+
+    color:var(--muted);
+
+    font-size:7px;
+}
+
+.modal-info strong{
+    display:block;
+
+    margin-top:4px;
+
+    font-size:10px;
+    font-weight:900;
+}
+
+.payment-list{
+    display:grid;
+    gap:7px;
+}
+
+.payment{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+
+    padding:10px;
+
+    border-radius:12px;
+
+    background:#f8fafc;
+}
+
+.payment div:first-child strong{
+    display:block;
+
+    font-size:10px;
+}
+
+.payment div:first-child span{
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted);
+
+    font-size:7px;
+}
+
+.payment > strong{
+    color:var(--green);
+
+    font-size:11px;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+    position:fixed;
+
+    z-index:30000;
+
+    left:15px;
+    right:15px;
+
+    bottom:
+        max(20px,env(safe-area-inset-bottom));
+
+    max-width:430px;
+
+    margin:auto;
+
+    padding:
+        12px 14px;
+
+    text-align:center;
+
+    border-radius:14px;
+
+    background:#172033;
+    color:#fff;
+
+    font-size:9px;
+    font-weight:800;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transform:
+        translateY(10px);
+
+    transition:.25s;
+}
+
+.toast.show{
+    opacity:1;
+
+    transform:none;
+}
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes spin{
+    to{
+        transform:
+            rotate(360deg);
+    }
+}
+
+@keyframes modalUp{
+    from{
+        opacity:0;
+
+        transform:
+            translateY(25px);
+    }
+
+    to{
+        opacity:1;
+
+        transform:none;
+    }
+}
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media(min-width:700px){
+
+    .stats{
+        grid-template-columns:
+            repeat(4,1fr);
+    }
+
+    .filter-row{
+        grid-template-columns:
+            2fr 1fr 1fr;
+    }
+
+    .student-list{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .modal{
+        align-items:center;
+        padding:20px;
+    }
+
+    .modal-card{
+        border-radius:24px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- =========================================================
+     LOADER
+========================================================= -->
+
+<div
+    id="loaderScreen"
+    class="loader-screen"
+>
+
+    <div class="loader-box">
+
+        <img
+            src="logo.png"
+            class="loader-logo"
+            alt="شعار المدرسة"
+        >
+
+        <div class="loader"></div>
+
+        <p>
+            جاري تحميل قسم الحسابات
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <img
+            src="logo.png"
+            class="logo"
+            alt="شعار المدرسة"
+        >
+
+        <div class="brand-text">
+
+            <h1>
+                مدرسة التحدي الأهلية المختلطة
+            </h1>
+
+            <p>
+                قسم الحسابات
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <button
+        id="logoutBtn"
+        class="logout"
+    >
+        خروج
+    </button>
+
+</header>
+
+
+<!-- =========================================================
+     CONTENT
+========================================================= -->
+
+<main class="main">
+
+
+    <section class="hero">
+
+        <h2>
+            لوحة المحاسب
+        </h2>
+
+        <p>
+            إدارة صلاحية الحسابات للطلاب ومتابعة الأقساط والمدفوعات.
+            تفعيل الدرجات والدردشة يحتاج أيضاً إلى موافقة الإدارة.
+        </p>
+
+    </section>
+
+
+    <!-- =====================================================
+         STATS
+    ====================================================== -->
+
+    <section class="stats">
+
+        <div class="stat">
+
+            <span>
+                جميع الطلاب
+            </span>
+
+            <strong id="statAll">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                مفعّلون من الحسابات
+            </span>
+
+            <strong id="statApproved">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                غير مفعّلين
+            </span>
+
+            <strong id="statNotApproved">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                مجموع المتبقي
+            </span>
+
+            <strong id="statRemaining">
+                0
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FILTERS
+    ====================================================== -->
+
+    <div class="section-head">
+
+        <h3>
+            الطلاب
+        </h3>
+
+        <span id="resultsCount">
+            0 طالب
+        </span>
+
+    </div>
+
+
+    <section class="filters">
+
+        <div class="filter-row">
+
+            <div class="field">
+
+                <label>
+                    البحث
+                </label>
+
+                <input
+                    id="searchInput"
+                    type="text"
+                    placeholder="الاسم أو الكود أو رقم الهاتف"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    الصف
+                </label>
+
+                <select id="classFilter">
+
+                    <option value="">
+                        جميع الصفوف
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    صلاحية الحسابات
+                </label>
+
+                <select id="accessFilter">
+
+                    <option value="">
+                        الجميع
+                    </option>
+
+                    <option value="approved">
+                        مفعّل
+                    </option>
+
+                    <option value="notApproved">
+                        غير مفعّل
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         STUDENTS
+    ====================================================== -->
+
+    <section
+        id="studentList"
+        class="student-list"
+    ></section>
+
+
+</main>
+
+
+<!-- =========================================================
+     STUDENT DETAILS MODAL
+========================================================= -->
+
+<div
+    id="studentModal"
+    class="modal"
+>
+
+    <div class="modal-card">
+
+        <div class="modal-head">
+
+            <h3 id="modalStudentName">
+                بيانات الطالب
+            </h3>
+
+            <button
+                id="closeModal"
+                class="close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div
+            id="modalStudentInfo"
+            class="modal-grid"
+        ></div>
+
+
+        <div class="modal-section">
+
+            <h4>
+                الأقساط
+            </h4>
+
+            <div
+                id="modalPaymentSummary"
+                class="modal-grid"
+            ></div>
+
+        </div>
+
+
+        <div class="modal-section">
+
+            <h4>
+                الدفعات
+            </h4>
+
+            <div
+                id="modalPaymentList"
+                class="payment-list"
+            ></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+<script>
+
+/* =========================================================
+   DATABASE
+========================================================= */
+
+const DB =
+    "https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let session = {};
+
+let currentUser = {};
+
+let students = {};
+
+let classes = {};
+
+let payments = {};
+
+let studentPaymentTotals = {};
+
+
+/* =========================================================
+   SHORTCUT
+========================================================= */
+
+const $ =
+    id =>
+        document.getElementById(id);
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function esc(value){
+
+    return String(value ?? "")
+
+        .replace(
+            /[&<>"']/g,
+            char => ({
+                "&":"&amp;",
+                "<":"&lt;",
+                ">":"&gt;",
+                '"':"&quot;",
+                "'":"&#039;"
+            })[char]
+        );
+
+}
+
+
+function norm(value){
+
+    return String(value ?? "")
+        .trim()
+        .toLowerCase();
+
+}
+
+
+function number(value){
+
+    const n =
+        Number(value);
+
+    return Number.isFinite(n)
+        ? n
+        : 0;
+
+}
+
+
+function money(value){
+
+    return new Intl.NumberFormat(
+        "ar-IQ"
+    ).format(
+        Math.round(
+            number(value)
+        )
+    ) + " د.ع";
+
+}
+
+
+function dateText(value){
+
+    if(!value){
+        return "—";
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    ){
+
+        return String(value);
+
+    }
+
+
+    return date.toLocaleDateString(
+        "ar-IQ",
+        {
+            year:"numeric",
+            month:"2-digit",
+            day:"2-digit"
+        }
+    );
+
+}
+
+
+function toast(text){
+
+    $("toast").textContent =
+        text;
+
+
+    $("toast")
+        .classList.add(
+            "show"
+        );
+
+
+    clearTimeout(
+        window.toastTimer
+    );
+
+
+    window.toastTimer =
+        setTimeout(
+            () => {
+
+                $("toast")
+                    .classList.remove(
+                        "show"
+                    );
+
+            },
+            2200
+        );
+
+}
+
+
+/* =========================================================
+   FIREBASE
+========================================================= */
+
+async function dbGet(path){
+
+    const response =
+        await fetch(
+            `${DB}/${path}.json`,
+            {
+                cache:"no-store"
+            }
+        );
+
+
+    if(!response.ok){
+
+        throw new Error(
+            "DB_GET_FAILED"
+        );
+
+    }
+
+
+    return response.json();
+
+}
+
+
+async function dbPatch(
+    path,
+    data
+){
+
+    const response =
+        await fetch(
+            `${DB}/${path}.json`,
+            {
+                method:"PATCH",
+
+                headers:{
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify(
+                        data
+                    )
+            }
+        );
+
+
+    if(!response.ok){
+
+        throw new Error(
+            "DB_PATCH_FAILED"
+        );
+
+    }
+
+
+    return response.json();
+
+}
+
+
+/* =========================================================
+   SESSION
+========================================================= */
+
+function loadSession(){
+
+    try{
+
+        session =
+            JSON.parse(
+                sessionStorage.getItem(
+                    "tahadi_session"
+                ) || "{}"
+            );
+
+    }
+
+    catch{
+
+        session = {};
+
+    }
+
+
+    if(!session.code){
+
+        location.replace(
+            "index.html"
+        );
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   VERIFY ACCOUNTANT
+========================================================= */
+
+async function verifyAccountant(){
+
+    if(
+        !loadSession()
+    ){
+        return false;
+    }
+
+
+    currentUser =
+        await dbGet(
+            `users/${encodeURIComponent(session.code)}`
+        );
+
+
+    if(!currentUser){
+
+        logout();
+
+        return false;
+
+    }
+
+
+    const role =
+        norm(
+            currentUser.role
+        );
+
+
+    const allowedRoles = [
+
+        "accountant",
+        "accounting",
+        "mn"
+
+    ];
+
+
+    if(
+        !allowedRoles.includes(
+            role
+        )
+    ){
+
+        logout();
+
+        return false;
+
+    }
+
+
+    if(
+        currentUser.active === false ||
+        currentUser.hidden === true
+    ){
+
+        logout();
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout(){
+
+    sessionStorage.clear();
+
+    location.replace(
+        "index.html"
+    );
+
+}
+
+
+/* =========================================================
+   LOAD DATA
+========================================================= */
+
+async function loadData(){
+
+    const results =
+        await Promise.all([
+
+            dbGet(
+                "students"
+            ),
+
+            dbGet(
+                "classes"
+            ),
+
+            dbGet(
+                "payments"
+            )
+
+        ]);
+
+
+    students =
+        results[0] || {};
+
+
+    classes =
+        results[1] || {};
+
+
+    payments =
+        results[2] || {};
+
+
+    calculatePayments();
+
+    fillClassFilter();
+
+    render();
+
+}
+
+
+/* =========================================================
+   PAYMENT TOTALS
+========================================================= */
+
+function calculatePayments(){
+
+    studentPaymentTotals = {};
+
+
+    Object.entries(
+        students
+    )
+    .forEach(
+        ([code,student]) => {
+
+            const studentPayments =
+                payments[code] || {};
+
+
+            const paid =
+                Object.values(
+                    studentPayments
+                )
+                .reduce(
+                    (sum,item) =>
+                        sum +
+                        number(
+                            item.amount
+                        ),
+                    0
+                );
+
+
+            const total =
+                number(
+                    student.tuitionTotal
+                );
+
+
+            studentPaymentTotals[
+                code
+            ] = {
+
+                total,
+
+                paid,
+
+                remaining:
+                    Math.max(
+                        0,
+                        total -
+                        paid
+                    )
+
+            };
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CLASS NAME
+========================================================= */
+
+function className(
+    classId
+){
+
+    return (
+        classes[classId]?.name ||
+        "—"
+    );
+
+}
+
+
+/* =========================================================
+   CLASS FILTER
+========================================================= */
+
+function fillClassFilter(){
+
+    const current =
+        $("classFilter").value;
+
+
+    const options =
+        Object.entries(
+            classes
+        )
+
+        .filter(
+            ([id,item]) =>
+                item &&
+                item.active !== false
+        )
+
+        .sort(
+            (a,b) =>
+                String(
+                    a[1].name || ""
+                )
+                .localeCompare(
+                    String(
+                        b[1].name || ""
+                    ),
+                    "ar"
+                )
+        );
+
+
+    $("classFilter").innerHTML =
+        `
+
+            <option value="">
+                جميع الصفوف
+            </option>
+
+        `
+
+        +
+
+        options.map(
+            ([id,item]) => `
+
+                <option
+                    value="${esc(id)}"
+                >
+                    ${esc(item.name || id)}
+                </option>
+
+            `
+        ).join("");
+
+
+    $("classFilter").value =
+        current;
+
+}
+
+
+/* =========================================================
+   FILTERED STUDENTS
+========================================================= */
+
+function filteredStudents(){
+
+    const search =
+        norm(
+            $("searchInput").value
+        );
+
+
+    const classId =
+        $("classFilter").value;
+
+
+    const access =
+        $("accessFilter").value;
+
+
+    return Object.entries(
+        students
+    )
+
+    .map(
+        ([code,value]) => ({
+            code,
+            ...value
+        })
+    )
+
+    .filter(
+        student => {
+
+            /*
+               نخفي السجلات المحذوفة
+               إذا استخدمت deleted لاحقاً.
+            */
+
+            if(
+                student.deleted === true
+            ){
+                return false;
+            }
+
+
+            if(
+                classId &&
+                student.classId !==
+                classId
+            ){
+                return false;
+            }
+
+
+            if(
+                access === "approved" &&
+                student.accountantApproved !== true
+            ){
+                return false;
+            }
+
+
+            if(
+                access === "notApproved" &&
+                student.accountantApproved === true
+            ){
+                return false;
+            }
+
+
+            if(search){
+
+                const haystack =
+                    norm(
+                        [
+                            student.name,
+                            student.code,
+                            student.guardianPhone,
+                            student.studentPhone,
+                            student.lineNumber
+                        ].join(" ")
+                    );
+
+
+                if(
+                    !haystack.includes(
+                        search
+                    )
+                ){
+                    return false;
+                }
+
+            }
+
+
+            return true;
+
+        }
+    )
+
+    .sort(
+        (a,b) =>
+            String(
+                a.name || ""
+            )
+            .localeCompare(
+                String(
+                    b.name || ""
+                ),
+                "ar"
+            )
+    );
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render(){
+
+    const list =
+        filteredStudents();
+
+
+    renderStats();
+
+    $("resultsCount").textContent =
+        `${list.length} طالب`;
+
+
+    if(
+        !list.length
+    ){
+
+        $("studentList").innerHTML = `
+
+            <div class="empty">
+
+                لا توجد نتائج مطابقة للفلاتر الحالية.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    $("studentList").innerHTML =
+        list.map(
+            student =>
+                studentCard(
+                    student
+                )
+        ).join("");
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function renderStats(){
+
+    const all =
+        Object.entries(
+            students
+        )
+        .filter(
+            ([code,s]) =>
+                s &&
+                s.deleted !== true
+        );
+
+
+    const approved =
+        all.filter(
+            ([code,s]) =>
+                s.accountantApproved ===
+                true
+        ).length;
+
+
+    const remaining =
+        all.reduce(
+            (sum,[code]) =>
+                sum +
+                (
+                    studentPaymentTotals[
+                        code
+                    ]?.remaining ||
+                    0
+                ),
+            0
+        );
+
+
+    $("statAll").textContent =
+        all.length;
+
+
+    $("statApproved").textContent =
+        approved;
+
+
+    $("statNotApproved").textContent =
+        all.length -
+        approved;
+
+
+    $("statRemaining").textContent =
+        new Intl.NumberFormat(
+            "ar-IQ"
+        ).format(
+            Math.round(
+                remaining
+            )
+        );
+
+}
+
+
+/* =========================================================
+   STUDENT CARD
+========================================================= */
+
+function studentCard(
+    student
+){
+
+    const pay =
+        studentPaymentTotals[
+            student.code
+        ] || {
+            total:0,
+            paid:0,
+            remaining:0
+        };
+
+
+    const accountantActive =
+        student.accountantApproved ===
+        true;
+
+
+    const adminActive =
+        student.adminApproved ===
+        true;
+
+
+    const behaviorBlocked =
+        student.behaviorBlocked ===
+        true;
+
+
+    const accountActive =
+        student.accountActive !==
+        false;
+
+
+    return `
+
+        <article class="student-card">
+
+
+            <div class="student-top">
+
+
+                <div class="student-ident">
+
+                    <div class="avatar">
+
+                        ${esc(
+                            (
+                                student.name ||
+                                "ط"
+                            )
+                            .trim()
+                            .charAt(0) ||
+                            "ط"
+                        )}
+
+                    </div>
+
+
+                    <div class="student-name">
+
+                        <h4>
+                            ${esc(student.name || "—")}
+                        </h4>
+
+                        <p>
+
+                            ${esc(student.code)}
+
+                            ·
+
+                            ${esc(
+                                className(
+                                    student.classId
+                                )
+                            )}
+
+                            ·
+
+                            القاعة
+                            ${esc(
+                                student.roomNumber ||
+                                "—"
+                            )}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <span
+                    class="badge ${
+                        accountantActive
+                            ? "green"
+                            : "orange"
+                    }"
+                >
+
+                    ${
+                        accountantActive
+                            ? "الحسابات مفعلة"
+                            : "الحسابات غير مفعلة"
+                    }
+
+                </span>
+
+
+            </div>
+
+
+            <div class="student-info">
+
+
+                <div class="info">
+
+                    <span>
+                        رقم ولي الأمر
+                    </span>
+
+                    <strong>
+                        ${esc(student.guardianPhone || "—")}
+                    </strong>
+
+                </div>
+
+
+                <div class="info">
+
+                    <span>
+                        رقم الطالب
+                    </span>
+
+                    <strong>
+                        ${esc(student.studentPhone || "—")}
+                    </strong>
+
+                </div>
+
+
+                <div class="info">
+
+                    <span>
+                        حالة الحساب الرئيسي
+                    </span>
+
+                    <strong>
+                        ${accountActive ? "فعال" : "غير فعال"}
+                    </strong>
+
+                </div>
+
+
+                <div class="info">
+
+                    <span>
+                        حالة الملف
+                    </span>
+
+                    <strong>
+                        ${
+                            student.fileStatus === "accepted"
+                                ? "تم القبول"
+                                : "لم يستلم الملف"
+                        }
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="money">
+
+
+                <div class="money-box">
+
+                    <span>
+                        القسط الكلي
+                    </span>
+
+                    <strong>
+                        ${esc(money(pay.total))}
+                    </strong>
+
+                </div>
+
+
+                <div class="money-box">
+
+                    <span>
+                        المدفوع
+                    </span>
+
+                    <strong>
+                        ${esc(money(pay.paid))}
+                    </strong>
+
+                </div>
+
+
+                <div class="money-box">
+
+                    <span>
+                        المتبقي
+                    </span>
+
+                    <strong>
+                        ${esc(money(pay.remaining))}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="access-grid">
+
+
+                <div class="access-item">
+
+                    <span>
+                        صلاحية الحسابات
+                    </span>
+
+                    <b
+                        class="badge ${
+                            accountantActive
+                                ? "green"
+                                : "orange"
+                        }"
+                    >
+
+                        ${
+                            accountantActive
+                                ? "مفعلة"
+                                : "غير مفعلة"
+                        }
+
+                    </b>
+
+                </div>
+
+
+                <div class="access-item">
+
+                    <span>
+                        صلاحية الإدارة
+                    </span>
+
+                    <b
+                        class="badge ${
+                            adminActive
+                                ? "green"
+                                : "orange"
+                        }"
+                    >
+
+                        ${
+                            adminActive
+                                ? "مفعلة"
+                                : "غير مفعلة"
+                        }
+
+                    </b>
+
+                </div>
+
+
+                <div class="access-item">
+
+                    <span>
+                        الحالة السلوكية
+                    </span>
+
+                    <b
+                        class="badge ${
+                            behaviorBlocked
+                                ? "red"
+                                : "green"
+                        }"
+                    >
+
+                        ${
+                            behaviorBlocked
+                                ? "محظور"
+                                : "سليم"
+                        }
+
+                    </b>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="student-actions">
+
+
+                ${
+                    accountantActive
+                        ? `
+
+                            <button
+                                class="action disable"
+                                onclick="setAccountantApproval(
+                                    '${safeJS(student.code)}',
+                                    false
+                                )"
+                            >
+                                إلغاء تفعيل الحسابات
+                            </button>
+
+                        `
+                        : `
+
+                            <button
+                                class="action activate"
+                                onclick="setAccountantApproval(
+                                    '${safeJS(student.code)}',
+                                    true
+                                )"
+                            >
+                                تفعيل من الحسابات
+                            </button>
+
+                        `
+                }
+
+
+                <button
+                    class="action details"
+                    onclick="openStudentDetails(
+                        '${safeJS(student.code)}'
+                    )"
+                >
+                    التفاصيل
+                </button>
+
+
+            </div>
+
+
+        </article>
+
+    `;
+
+}
+
+
+/* =========================================================
+   SAFE JS STRING
+========================================================= */
+
+function safeJS(value){
+
+    return String(value || "")
+        .replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'");
+
+}
+
+
+/* =========================================================
+   ACCOUNTANT APPROVAL
+========================================================= */
+
+async function setAccountantApproval(
+    code,
+    value
+){
+
+    const student =
+        students[code];
+
+
+    if(!student){
+        return;
+    }
+
+
+    /*
+       المحاسب يعدل فقط accountantApproved.
+       لا نغير:
+       adminApproved
+       behaviorBlocked
+       accountActive
+    */
+
+
+    try{
+
+
+        await dbPatch(
+            `students/${encodeURIComponent(code)}`,
+            {
+
+                accountantApproved:
+                    value,
+
+                accountantApprovedAt:
+                    Date.now(),
+
+                accountantApprovedBy:
+                    session.code
+
+            }
+        );
+
+
+        students[code]
+            .accountantApproved =
+            value;
+
+
+        students[code]
+            .accountantApprovedAt =
+            Date.now();
+
+
+        students[code]
+            .accountantApprovedBy =
+            session.code;
+
+
+        render();
+
+
+        toast(
+            value
+                ? "تم تفعيل صلاحية الحسابات للطالب"
+                : "تم إلغاء صلاحية الحسابات للطالب"
+        );
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            error
+        );
+
+
+        toast(
+            "تعذر تحديث صلاحية الطالب"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   STUDENT DETAILS
+========================================================= */
+
+async function openStudentDetails(
+    code
+){
+
+    const student =
+        students[code];
+
+
+    if(!student){
+        return;
+    }
+
+
+    $("modalStudentName").textContent =
+        student.name ||
+        "بيانات الطالب";
+
+
+    const info = [
+
+        [
+            "كود الطالب",
+            code
+        ],
+
+        [
+            "الصف",
+            className(
+                student.classId
+            )
+        ],
+
+        [
+            "القاعة",
+            student.roomNumber
+        ],
+
+        [
+            "رقم ولي الأمر",
+            student.guardianPhone
+        ],
+
+        [
+            "رقم الطالب",
+            student.studentPhone
+        ],
+
+        [
+            "رقم الخط",
+            student.lineNumber
+        ],
+
+        [
+            "تاريخ المباشرة",
+            dateText(
+                student.startDate
+            )
+        ],
+
+        [
+            "المدرسة السابقة",
+            student.previousSchool
+        ],
+
+        [
+            "صلاحية الحسابات",
+            student.accountantApproved === true
+                ? "مفعلة"
+                : "غير مفعلة"
+        ],
+
+        [
+            "صلاحية الإدارة",
+            student.adminApproved === true
+                ? "مفعلة"
+                : "غير مفعلة"
+        ],
+
+        [
+            "الحالة السلوكية",
+            student.behaviorBlocked === true
+                ? "محظور"
+                : "سليم"
+        ],
+
+        [
+            "حالة الحساب الرئيسي",
+            student.accountActive === false
+                ? "غير فعال"
+                : "فعال"
+        ]
+
+    ];
+
+
+    $("modalStudentInfo").innerHTML =
+        info.map(
+            ([label,value]) => `
+
+                <div class="modal-info">
+
+                    <span>
+                        ${esc(label)}
+                    </span>
+
+                    <strong>
+                        ${esc(value || "—")}
+                    </strong>
+
+                </div>
+
+            `
+        ).join("");
+
+
+    const pay =
+        studentPaymentTotals[
+            code
+        ] || {
+            total:0,
+            paid:0,
+            remaining:0
+        };
+
+
+    $("modalPaymentSummary").innerHTML = `
+
+        <div class="modal-info">
+
+            <span>
+                القسط الكلي
+            </span>
+
+            <strong>
+                ${esc(money(pay.total))}
+            </strong>
+
+        </div>
+
+
+        <div class="modal-info">
+
+            <span>
+                المدفوع
+            </span>
+
+            <strong>
+                ${esc(money(pay.paid))}
+            </strong>
+
+        </div>
+
+
+        <div class="modal-info">
+
+            <span>
+                المتبقي
+            </span>
+
+            <strong>
+                ${esc(money(pay.remaining))}
+            </strong>
+
+        </div>
+
+    `;
+
+
+    const studentPayments =
+        payments[code] || {};
+
+
+    const list =
+        Object.entries(
+            studentPayments
+        )
+
+        .map(
+            ([id,value]) => ({
+                id,
+                ...value
+            })
+        )
+
+        .sort(
+            (a,b) =>
+                (
+                    b.timestamp ||
+                    b.createdAt ||
+                    0
+                )
+                -
+                (
+                    a.timestamp ||
+                    a.createdAt ||
+                    0
+                )
+        );
+
+
+    if(
+        !list.length
+    ){
+
+        $("modalPaymentList").innerHTML = `
+
+            <div class="empty">
+                لا توجد دفعات مسجلة لهذا الطالب.
+            </div>
+
+        `;
+
+    }
+
+    else{
+
+        $("modalPaymentList").innerHTML =
+            list.map(
+                item => `
+
+                    <div class="payment">
+
+                        <div>
+
+                            <strong>
+                                ${esc(
+                                    item.note ||
+                                    "دفعة قسط"
+                                )}
+                            </strong>
+
+                            <span>
+                                ${esc(
+                                    dateText(
+                                        item.date ||
+                                        item.timestamp ||
+                                        item.createdAt
+                                    )
+                                )}
+                            </span>
+
+                        </div>
+
+                        <strong>
+                            ${esc(
+                                money(
+                                    item.amount
+                                )
+                            )}
+                        </strong>
+
+                    </div>
+
+                `
+            ).join("");
+
+    }
+
+
+    $("studentModal")
+        .classList.add(
+            "show"
+        );
+
+}
+
+
+/* =========================================================
+   CLOSE MODAL
+========================================================= */
+
+$("closeModal").onclick =
+    () => {
+
+        $("studentModal")
+            .classList.remove(
+                "show"
+            );
+
+    };
+
+
+$("studentModal").addEventListener(
+    "click",
+    event => {
+
+        if(
+            event.target ===
+            $("studentModal")
+        ){
+
+            $("studentModal")
+                .classList.remove(
+                    "show"
+                );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   FILTER EVENTS
+========================================================= */
+
+$("searchInput").addEventListener(
+    "input",
+    render
+);
+
+
+$("classFilter").addEventListener(
+    "change",
+    render
+);
+
+
+$("accessFilter").addEventListener(
+    "change",
+    render
+);
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+$("logoutBtn").onclick =
+    logout;
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+async function init(){
+
+    try{
+
+
+        const verified =
+            await verifyAccountant();
+
+
+        if(!verified){
+            return;
+        }
+
+
+        await loadData();
+
+
+        $("loaderScreen")
+            .classList.add(
+                "hidden"
+            );
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            error
+        );
+
+
+        $("loaderScreen")
+            .classList.add(
+                "hidden"
+            );
+
+
+        toast(
+            "تعذر تحميل قسم الحسابات"
+        );
+
+    }
+
+}
+
+
+window.addEventListener(
+    "load",
+    init
+);
+
+</script>
+
+</body>
+
+</html>
