@@ -1,4390 +1,1264 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
->
-
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#075fcf">
-
-<title>منصة الطالب | مدرسة التحدي الأهلية المختلطة</title>
-
+<title>منصة الطالب | مدرسة التحدي</title>
 
 <style>
-
-/* =========================================================
-   ROOT
-========================================================= */
-
 :root{
-
-    --primary:#075fcf;
-    --primary-dark:#0548a0;
-    --primary-soft:#edf5ff;
-
-    --green:#079455;
-    --green-soft:#ecfdf3;
-
-    --red:#d92d20;
-    --red-soft:#fef3f2;
-
-    --orange:#dc6803;
-    --orange-soft:#fff6ed;
-
-    --purple:#6938ef;
-    --purple-soft:#f4f3ff;
-
-    --yellow:#b54708;
-    --yellow-soft:#fffaeb;
-
-    --bg:#f4f7fb;
-    --card:#ffffff;
-
-    --text:#172033;
-    --muted:#667085;
-    --border:#e4e7ec;
-
-    --shadow:
-        0 12px 35px
-        rgba(16,24,40,.07);
-
+  --blue:#075fcf;
+  --blue2:#064ca8;
+  --soft:#eef6ff;
+  --bg:#f5f8fc;
+  --card:#fff;
+  --text:#172033;
+  --muted:#667085;
+  --border:#e4e9f0;
+  --green:#078746;
+  --greenbg:#ecfdf3;
+  --red:#c62828;
+  --redbg:#fff1f1;
+  --orange:#e97800;
+  --shadow:0 15px 45px rgba(32,60,95,.12);
 }
 
-
-/* =========================================================
-   RESET
-========================================================= */
-
-*{
-
-    margin:0;
-    padding:0;
-
-    box-sizing:border-box;
-
-    -webkit-tap-highlight-color:
-        transparent;
-
-}
-
-
-html{
-
-    scroll-behavior:smooth;
-
-}
-
-
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;min-height:100%}
 body{
+  font-family:Tahoma,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
 
-    min-height:100vh;
+/* loader */
+.loader-screen{
+  position:fixed;inset:0;z-index:99999;
+  display:flex;align-items:center;justify-content:center;
+  background:#fff
+}
+.loader-box{text-align:center}
+.loader{
+  width:42px;height:42px;border-radius:50%;
+  border:4px solid #e5edf7;border-top-color:var(--blue);
+  animation:spin .8s linear infinite;margin:auto
+}
+.loader-box p{margin-top:13px;color:var(--muted);font-size:13px;font-weight:700}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-    font-family:
-        Tahoma,
-        Arial,
-        sans-serif;
-
-    background:
-        var(--bg);
-
-    color:
-        var(--text);
-
+/* app */
+.app{
+  min-height:100vh;
+  padding-bottom:88px;
 }
 
-
-button,
-input,
-textarea{
-
-    font:inherit;
-
+.topbar{
+  position:sticky;top:0;z-index:50;
+  min-height:72px;
+  padding:13px 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border)
+}
+.top-brand{display:flex;align-items:center;gap:10px;min-width:0}
+.top-logo{width:48px;height:48px;object-fit:contain}
+.top-title{min-width:0}
+.top-title h1{font-size:14px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-title p{font-size:10px;color:var(--blue);font-weight:800;margin-top:3px}
+.logout{
+  border:0;background:#f2f5f8;color:#475467;
+  border-radius:12px;padding:9px 12px;font-size:10px;font-weight:800
 }
 
-
-button{
-
-    cursor:pointer;
-
+.content{padding:16px;max-width:900px;margin:auto}
+.page{display:none;animation:pageIn .3s ease}
+.page.active{display:block}
+@keyframes pageIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:none}
 }
 
-
-.hidden{
-
-    display:none !important;
-
+/* profile */
+.student-hero{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#086bdc,#064a9f);
+  color:#fff;border-radius:24px;padding:22px;
+  box-shadow:0 18px 45px rgba(7,95,207,.2)
 }
-
-
-/* =========================================================
-   LOADING
-========================================================= */
-
-.loading-screen{
-
-    position:fixed;
-
-    inset:0;
-
-    z-index:50000;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    background:#ffffff;
-
+.student-hero:before{
+  content:"";position:absolute;width:180px;height:180px;border-radius:50%;
+  background:rgba(255,255,255,.08);top:-90px;left:-65px
 }
-
-
-.loading-box{
-
-    text-align:center;
-
+.student-hero:after{
+  content:"";position:absolute;width:150px;height:150px;border-radius:50%;
+  background:rgba(255,255,255,.06);bottom:-85px;right:-60px
 }
-
-
-.loading-spinner{
-
-    width:48px;
-    height:48px;
-
-    margin:
-        0 auto
-        15px;
-
-    border-radius:50%;
-
-    border:
-        4px solid
-        #e4eaf2;
-
-    border-top-color:
-        var(--primary);
-
-    animation:
-        spin .8s
-        linear
-        infinite;
-
+.hero-inner{position:relative;z-index:2}
+.hero-head{display:flex;align-items:center;gap:13px}
+.hero-avatar{
+  width:62px;height:62px;border-radius:18px;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.2);
+  font-size:23px;font-weight:900
 }
-
-
-.loading-box p{
-
-    font-size:13px;
-
-    color:
-        var(--muted);
-
-}
-
-
-/* =========================================================
-   OFFLINE
-========================================================= */
-
-.offline-screen{
-
-    position:fixed;
-
-    inset:0;
-
-    z-index:60000;
-
-    display:none;
-
-    align-items:center;
-    justify-content:center;
-
-    padding:25px;
-
-    background:#ffffff;
-
-}
-
-
-.offline-screen.show{
-
-    display:flex;
-
-}
-
-
-.offline-box{
-
-    width:min(370px,100%);
-
-    text-align:center;
-
-}
-
-
-.offline-box img{
-
-    width:200px;
-
-    max-width:70%;
-
-    margin-bottom:20px;
-
-}
-
-
-.offline-box h2{
-
-    font-size:20px;
-
-    font-weight:900;
-
-}
-
-
-.offline-box p{
-
-    margin-top:8px;
-
-    font-size:13px;
-
-    line-height:1.8;
-
-    color:
-        var(--muted);
-
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.header{
-
-    position:sticky;
-
-    top:0;
-
-    z-index:1000;
-
-    background:
-        rgba(255,255,255,.97);
-
-    backdrop-filter:
-        blur(15px);
-
-    -webkit-backdrop-filter:
-        blur(15px);
-
-    border-bottom:
-        1px solid
-        var(--border);
-
-}
-
-
-.header-inner{
-
-    width:min(1200px,100%);
-
-    min-height:68px;
-
-    margin:auto;
-
-    padding:
-        8px 16px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:space-between;
-
-    gap:12px;
-
-}
-
-
-.brand{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    min-width:0;
-
-}
-
-
-.brand-logo{
-
-    width:45px;
-    height:45px;
-
-    object-fit:contain;
-
-}
-
-
-.brand h1{
-
-    font-size:14px;
-
-    font-weight:900;
-
-}
-
-
-.brand p{
-
-    margin-top:3px;
-
-    color:
-        var(--primary);
-
-    font-size:10px;
-
-    font-weight:800;
-
-}
-
-
-.logout-btn{
-
-    min-height:39px;
-
-    padding:
-        0 12px;
-
-    border:0;
-
-    border-radius:11px;
-
-    background:
-        var(--red-soft);
-
-    color:
-        var(--red);
-
-    font-size:11px;
-
-    font-weight:900;
-
-}
-
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.main{
-
-    width:min(1200px,100%);
-
-    margin:auto;
-
-    padding:
-        17px 14px
-        100px;
-
-}
-
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.hero{
-
-    position:relative;
-
-    overflow:hidden;
-
-    padding:
-        21px;
-
-    border-radius:22px;
-
-    margin-bottom:14px;
-
-    color:#ffffff;
-
-    background:
-
-        linear-gradient(
-            135deg,
-            #0870ea,
-            #06489f
-        );
-
-    box-shadow:
-
-        0 17px 35px
-        rgba(7,95,207,.18);
-
-}
-
-
-.hero:before{
-
-    content:"";
-
-    position:absolute;
-
-    width:230px;
-    height:230px;
-
-    border-radius:50%;
-
-    left:-100px;
-    top:-130px;
-
-    background:
-        rgba(255,255,255,.08);
-
-}
-
-
-.hero-top{
-
-    position:relative;
-
-    z-index:2;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:13px;
-
-}
-
-
-.student-avatar{
-
-    width:58px;
-    height:58px;
-
-    flex:0 0 auto;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    border-radius:17px;
-
-    background:
-        rgba(255,255,255,.16);
-
-    border:
-        1px solid
-        rgba(255,255,255,.18);
-
-    font-size:23px;
-
-    font-weight:900;
-
-}
-
-
-.hero-name{
-
-    min-width:0;
-
-}
-
-
-.hero-name small{
-
-    font-size:11px;
-
-    opacity:.85;
-
-}
-
-
-.hero-name h2{
-
-    margin-top:4px;
-
-    font-size:20px;
-
-    line-height:1.5;
-
-    font-weight:900;
-
-}
-
-
-.hero-code{
-
-    direction:ltr;
-
-    display:inline-block;
-
-    margin-top:5px;
-
-    font-size:11px;
-
-    font-weight:800;
-
-    opacity:.9;
-
-}
-
-
-.hero-details{
-
-    position:relative;
-
-    z-index:2;
-
-    display:flex;
-
-    gap:7px;
-
-    flex-wrap:wrap;
-
-    margin-top:18px;
-
-}
-
-
+.hero-info h2{font-size:18px;font-weight:900;line-height:1.5}
+.hero-info p{font-size:11px;opacity:.9;margin-top:3px}
+.hero-badges{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
 .hero-badge{
-
-    min-height:30px;
-
-    padding:
-        0 10px;
-
-    display:inline-flex;
-
-    align-items:center;
-
-    border-radius:20px;
-
-    background:
-        rgba(255,255,255,.15);
-
-    border:
-        1px solid
-        rgba(255,255,255,.14);
-
-    font-size:10px;
-
-    font-weight:800;
-
+  padding:7px 10px;border-radius:999px;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.13);
+  font-size:9px;font-weight:800
 }
 
+.section-title{
+  margin:22px 2px 11px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px
+}
+.section-title h3{font-size:15px;font-weight:900}
+.section-title span{font-size:10px;color:var(--muted)}
 
-/* =========================================================
-   SUMMARY
-========================================================= */
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px
+}
+.info-card{
+  background:#fff;border:1px solid var(--border);border-radius:17px;padding:14px;
+  box-shadow:0 7px 22px rgba(20,40,70,.05)
+}
+.info-card span{display:block;font-size:9px;color:var(--muted);font-weight:700;margin-bottom:5px}
+.info-card strong{display:block;font-size:12px;font-weight:900;word-break:break-word}
 
-.summary{
+/* status */
+.status-box{
+  border-radius:20px;padding:17px;background:#fff;border:1px solid var(--border);
+  box-shadow:var(--shadow)
+}
+.status-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #f0f2f5}
+.status-row:last-child{border-bottom:0}
+.status-row span{font-size:11px;color:var(--muted)}
+.badge{padding:6px 10px;border-radius:999px;font-size:9px;font-weight:900}
+.badge.green{background:var(--greenbg);color:var(--green)}
+.badge.red{background:var(--redbg);color:var(--red)}
+.badge.blue{background:var(--soft);color:var(--blue)}
+.badge.orange{background:#fff4e5;color:var(--orange)}
 
-    display:grid;
+/* notifications */
+.notice-list{display:grid;gap:11px}
+.notice{
+  position:relative;
+  background:#fff;border:1px solid var(--border);border-radius:18px;
+  padding:15px;box-shadow:0 7px 22px rgba(30,50,80,.05)
+}
+.notice.unread{border-right:4px solid var(--blue);background:#fbfdff}
+.notice-head{display:flex;justify-content:space-between;gap:10px}
+.notice h4{font-size:13px;font-weight:900}
+.notice-time{font-size:9px;color:#98a2b3;white-space:nowrap}
+.notice p{margin-top:8px;font-size:11px;color:#475467;line-height:1.9;white-space:pre-wrap}
+.notice-footer{margin-top:9px;font-size:9px;color:var(--blue);font-weight:800}
 
-    grid-template-columns:
-        repeat(4,1fr);
+/* grades */
+.grade-toolbar{
+  display:flex;gap:8px;overflow:auto;padding-bottom:4px;
+  scrollbar-width:none
+}
+.grade-toolbar::-webkit-scrollbar{display:none}
+.grade-tab{
+  flex:none;border:1px solid var(--border);background:#fff;color:#475467;
+  padding:9px 13px;border-radius:999px;font-size:10px;font-weight:900
+}
+.grade-tab.active{background:var(--blue);border-color:var(--blue);color:#fff}
 
-    gap:9px;
+.grade-cards{display:grid;gap:11px;margin-top:12px}
+.subject-card{
+  background:#fff;border:1px solid var(--border);border-radius:20px;
+  padding:15px;box-shadow:0 8px 26px rgba(20,40,70,.06)
+}
+.subject-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.subject-name{font-size:14px;font-weight:900}
+.subject-result{font-size:9px;font-weight:900;padding:6px 9px;border-radius:999px}
+.subject-result.pass{background:var(--greenbg);color:var(--green)}
+.subject-result.fail{background:var(--redbg);color:var(--red)}
 
-    margin-bottom:14px;
+.grade-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;margin-top:13px
+}
+.grade-cell{
+  padding:10px 5px;border-radius:12px;background:#f8fafc;text-align:center
+}
+.grade-cell span{display:block;font-size:7.5px;color:var(--muted);min-height:20px}
+.grade-cell strong{display:block;margin-top:4px;font-size:12px;font-weight:900}
 
+.grade-table-wrap{
+  margin-top:15px;overflow:auto;background:#fff;border:1px solid var(--border);
+  border-radius:18px
+}
+.grade-table{width:100%;border-collapse:collapse;min-width:900px}
+.grade-table th,.grade-table td{
+  border-bottom:1px solid #edf0f4;padding:11px 8px;text-align:center;font-size:10px
+}
+.grade-table th{background:#f7f9fc;color:#475467;font-weight:900;position:sticky;top:0}
+.grade-table td:first-child,.grade-table th:first-child{position:sticky;right:0;background:#fff;font-weight:900}
+.grade-table tfoot td{background:#f8fafc;font-weight:900}
+
+.result-card{
+  margin-top:16px;border-radius:24px;padding:22px;text-align:center;
+  color:#fff;background:linear-gradient(135deg,#099552,#05743e);
+  box-shadow:0 18px 40px rgba(5,130,71,.18)
+}
+.result-card.fail{background:linear-gradient(135deg,#d63b3b,#a91e1e)}
+.result-card h3{font-size:13px}
+.result-card h2{font-size:27px;margin:9px 0 5px}
+.result-card p{font-size:11px;line-height:1.8}
+
+/* chat */
+.chat-page{
+  height:calc(100vh - 165px);
+  min-height:480px;
+  display:flex;flex-direction:column;
+  background:#eef3f7;border:1px solid var(--border);border-radius:22px;overflow:hidden
+}
+.chat-head{
+  padding:12px 14px;background:#fff;border-bottom:1px solid var(--border)
+}
+.chat-head h3{font-size:13px;font-weight:900}
+.chat-head p{font-size:9px;color:var(--muted);margin-top:3px}
+.messages{
+  flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:8px
+}
+.msg{
+  max-width:82%;padding:9px 11px;border-radius:15px;
+  background:#fff;align-self:flex-start;box-shadow:0 3px 9px rgba(20,40,70,.06)
+}
+.msg.mine{align-self:flex-end;background:#dff2ff}
+.msg-name{font-size:8px;color:var(--blue);font-weight:900;margin-bottom:4px}
+.msg-text{font-size:11px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.msg-meta{font-size:7px;color:#98a2b3;margin-top:4px;text-align:left}
+.chat-compose{
+  display:flex;gap:8px;padding:10px;background:#fff;border-top:1px solid var(--border)
+}
+.chat-input{
+  flex:1;height:46px;border:1px solid var(--border);border-radius:14px;
+  padding:0 13px;outline:none;font-size:13px;background:#f9fbfd
+}
+.chat-input:focus{border-color:var(--blue)}
+.send-btn{
+  width:48px;border:0;border-radius:14px;background:var(--blue);color:#fff;font-size:17px;font-weight:900
 }
 
-
-.summary-card{
-
-    min-height:98px;
-
-    padding:13px;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius:16px;
-
-    background:#ffffff;
-
-    box-shadow:
-
-        0 5px 18px
-        rgba(16,24,40,.035);
-
+/* bottom nav */
+.bottom-nav{
+  position:fixed;z-index:80;
+  left:12px;right:12px;
+  bottom:max(10px,env(safe-area-inset-bottom));
+  height:67px;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  padding:5px;
+  border:1px solid rgba(220,227,236,.9);
+  border-radius:22px;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(16px);
+  box-shadow:0 18px 45px rgba(32,55,84,.18)
 }
-
-
-.summary-card span{
-
-    color:
-        var(--muted);
-
-    font-size:10px;
-
-    font-weight:800;
-
+.nav-item{
+  position:relative;border:0;background:none;border-radius:16px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:#7b8798;gap:3px
 }
-
-
-.summary-card strong{
-
-    display:block;
-
-    margin-top:8px;
-
-    font-size:17px;
-
-    line-height:1.5;
-
-    font-weight:900;
-
+.nav-item.active{background:var(--soft);color:var(--blue)}
+.nav-icon{font-size:18px;font-weight:900;line-height:1}
+.nav-label{font-size:8px;font-weight:900}
+.nav-badge{
+  display:none;position:absolute;top:4px;left:50%;
+  transform:translateX(-14px);
+  min-width:17px;height:17px;padding:0 5px;border-radius:99px;
+  background:#e32636;color:#fff;font-size:8px;font-weight:900;
+  align-items:center;justify-content:center;border:2px solid #fff
 }
+.nav-badge.show{display:flex}
 
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-.nav-tabs{
-
-    display:flex;
-
-    gap:7px;
-
-    overflow-x:auto;
-
-    padding-bottom:5px;
-
-    margin-bottom:14px;
-
-    scrollbar-width:none;
-
+/* onboarding */
+.complete-screen,.inactive-screen{
+  position:fixed;inset:0;z-index:5000;
+  overflow:auto;padding:24px 16px;
+  background:linear-gradient(180deg,#f5f9ff,#eef4fb)
 }
-
-
-.nav-tabs::-webkit-scrollbar{
-
-    display:none;
-
+.form-card,.inactive-card{
+  width:min(500px,100%);margin:auto;background:#fff;border-radius:26px;
+  padding:22px;border:1px solid var(--border);box-shadow:var(--shadow)
 }
-
-
-.nav-btn{
-
-    flex:
-        0 0 auto;
-
-    min-height:43px;
-
-    padding:
-        0 15px;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius:11px;
-
-    background:#fff;
-
-    color:
-        var(--muted);
-
-    font-size:11px;
-
-    font-weight:900;
-
+.form-logo{display:block;width:85px;height:85px;object-fit:contain;margin:0 auto 12px}
+.form-card h2,.inactive-card h2{text-align:center;font-size:19px;font-weight:900}
+.form-card .lead,.inactive-card p{
+  text-align:center;color:var(--muted);font-size:11px;line-height:1.8;margin-top:7px
 }
-
-
-.nav-btn.active{
-
-    color:#ffffff;
-
-    background:
-        var(--primary);
-
-    border-color:
-        var(--primary);
-
-}
-
-
-/* =========================================================
-   SECTIONS
-========================================================= */
-
-.section{
-
-    display:none;
-
-}
-
-
-.section.active{
-
-    display:block;
-
-    animation:
-        fadeIn .25s ease;
-
-}
-
-
-/* =========================================================
-   PANEL
-========================================================= */
-
-.panel{
-
-    margin-bottom:13px;
-
-    overflow:hidden;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius:18px;
-
-    background:#ffffff;
-
-    box-shadow:
-        var(--shadow);
-
-}
-
-
-.panel-head{
-
-    min-height:62px;
-
-    padding:
-        14px 16px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:space-between;
-
-    gap:10px;
-
-    border-bottom:
-        1px solid
-        var(--border);
-
-}
-
-
-.panel-head h3{
-
-    font-size:14px;
-
-    font-weight:900;
-
-}
-
-
-.panel-head p{
-
-    margin-top:4px;
-
-    color:
-        var(--muted);
-
-    font-size:10px;
-
-    line-height:1.7;
-
-}
-
-
-.panel-body{
-
-    padding:16px;
-
-}
-
-
-/* =========================================================
-   PROFILE DATA
-========================================================= */
-
-.data-grid{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
-    gap:9px;
-
-}
-
-
-.data-item{
-
-    min-height:73px;
-
-    padding:
-        11px;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius:12px;
-
-    background:
-        #fbfcfe;
-
-}
-
-
-.data-item.full{
-
-    grid-column:1/-1;
-
-}
-
-
-.data-item small{
-
-    display:block;
-
-    margin-bottom:5px;
-
-    color:
-        var(--muted);
-
-    font-size:9px;
-
-    font-weight:800;
-
-}
-
-
-.data-item strong{
-
-    font-size:12px;
-
-    line-height:1.7;
-
-    word-break:break-word;
-
-}
-
-
-/* =========================================================
-   BADGES
-========================================================= */
-
-.badge{
-
-    display:inline-flex;
-
-    align-items:center;
-    justify-content:center;
-
-    min-height:25px;
-
-    padding:
-        0 8px;
-
-    border-radius:20px;
-
-    font-size:9px;
-
-    font-weight:900;
-
-}
-
-
-.green{
-
-    color:
-        var(--green);
-
-    background:
-        var(--green-soft);
-
-}
-
-
-.red{
-
-    color:
-        var(--red);
-
-    background:
-        var(--red-soft);
-
-}
-
-
-.orange{
-
-    color:
-        var(--orange);
-
-    background:
-        var(--orange-soft);
-
-}
-
-
-.blue{
-
-    color:
-        var(--primary);
-
-    background:
-        var(--primary-soft);
-
-}
-
-
-.purple{
-
-    color:
-        var(--purple);
-
-    background:
-        var(--purple-soft);
-
-}
-
-
-/* =========================================================
-   BUTTON
-========================================================= */
-
-.btn{
-
-    min-height:42px;
-
-    padding:
-        0 14px;
-
-    border:0;
-
-    border-radius:11px;
-
-    font-size:11px;
-
-    font-weight:900;
-
-}
-
-
-.btn-primary{
-
-    color:#ffffff;
-
-    background:
-        var(--primary);
-
-}
-
-
-.btn-soft{
-
-    color:
-        var(--primary);
-
-    background:
-        var(--primary-soft);
-
-}
-
-
-.btn:disabled{
-
-    opacity:.55;
-
-}
-
-
-/* =========================================================
-   FORM
-========================================================= */
-
-.form-grid{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
-    gap:12px;
-
-}
-
-
-.field{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:6px;
-
-}
-
-
-.field.full{
-
-    grid-column:1/-1;
-
-}
-
-
-.field label{
-
-    color:#344054;
-
-    font-size:10px;
-
-    font-weight:900;
-
-}
-
-
-.field input,
-.field textarea{
-
-    width:100%;
-
-    border:
-        1.5px solid
-        var(--border);
-
-    border-radius:11px;
-
-    outline:none;
-
-    background:#ffffff;
-
-}
-
-
+.fields{display:grid;gap:11px;margin-top:20px}
+.field label{display:block;font-size:9px;font-weight:900;color:#475467;margin:0 3px 6px}
 .field input{
-
-    height:47px;
-
-    padding:
-        0 12px;
-
+  width:100%;height:50px;border:1px solid var(--border);border-radius:14px;
+  padding:0 13px;outline:none;font-size:13px
+}
+.field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(7,95,207,.06)}
+.save-profile{
+  width:100%;height:54px;margin-top:17px;border:0;border-radius:15px;
+  background:var(--blue);color:#fff;font-size:13px;font-weight:900
+}
+.form-warning{
+  margin-top:13px;padding:11px;border-radius:12px;background:#fff8e8;color:#9a6500;
+  font-size:9px;line-height:1.8;text-align:center
+}
+.inactive-card{margin-top:12vh;text-align:center}
+.inactive-icon{
+  width:80px;height:80px;border-radius:22px;background:var(--redbg);color:var(--red);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 15px;font-size:30px;font-weight:900
+}
+.inactive-card .logout2{
+  width:100%;height:50px;border:0;border-radius:14px;background:#f2f4f7;
+  color:#344054;font-size:11px;font-weight:900;margin-top:18px
 }
 
-
-.field textarea{
-
-    min-height:90px;
-
-    padding:11px;
-
-    resize:vertical;
-
-}
-
-
-.field input:focus,
-.field textarea:focus{
-
-    border-color:
-        var(--primary);
-
-    box-shadow:
-
-        0 0 0 4px
-        rgba(7,95,207,.06);
-
-}
-
-
-.form-actions{
-
-    grid-column:1/-1;
-
-    display:flex;
-
-    justify-content:flex-end;
-
-}
-
-
-.message{
-
-    display:none;
-
-    margin-bottom:12px;
-
-    padding:
-        11px 12px;
-
-    border-radius:11px;
-
-    font-size:11px;
-
-    font-weight:800;
-
-}
-
-
-.message.show{
-
-    display:block;
-
-}
-
-
-.message.success{
-
-    color:#067647;
-
-    background:
-        var(--green-soft);
-
-}
-
-
-.message.error{
-
-    color:#b42318;
-
-    background:
-        var(--red-soft);
-
-}
-
-
-/* =========================================================
-   GRADES
-========================================================= */
-
-.table-wrap{
-
-    overflow:auto;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius:13px;
-
-}
-
-
-table{
-
-    width:100%;
-
-    min-width:700px;
-
-    border-collapse:collapse;
-
-}
-
-
-th{
-
-    padding:11px;
-
-    text-align:right;
-
-    white-space:nowrap;
-
-    background:
-        #f8fafc;
-
-    border-bottom:
-        1px solid
-        var(--border);
-
-    color:#475467;
-
-    font-size:9px;
-
-    font-weight:900;
-
-}
-
-
-td{
-
-    padding:11px;
-
-    border-bottom:
-        1px solid
-        #f0f2f5;
-
-    font-size:10px;
-
-    vertical-align:middle;
-
-}
-
-
-tr:last-child td{
-
-    border-bottom:0;
-
-}
-
-
-.grade-value{
-
-    min-width:32px;
-
-    display:inline-flex;
-
-    align-items:center;
-    justify-content:center;
-
-    min-height:27px;
-
-    padding:
-        0 7px;
-
-    border-radius:7px;
-
-    font-weight:900;
-
-}
-
-
-.grade-high{
-
-    color:
-        var(--green);
-
-    background:
-        var(--green-soft);
-
-}
-
-
-.grade-fail{
-
-    color:
-        var(--red);
-
-    background:
-        var(--red-soft);
-
-}
-
-
-.grade-normal{
-
-    color:
-        var(--text);
-
-    background:#f4f6f8;
-
-}
-
-
-/* =========================================================
-   ATTENDANCE
-========================================================= */
-
-.attendance-list{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:8px;
-
-}
-
-
-.attendance-item{
-
-    padding:12px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:space-between;
-
-    gap:10px;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius:12px;
-
-}
-
-
-.attendance-info strong{
-
-    display:block;
-
-    font-size:11px;
-
-}
-
-
-.attendance-info span{
-
-    display:block;
-
-    margin-top:4px;
-
-    color:
-        var(--muted);
-
-    font-size:9px;
-
-}
-
-
-/* =========================================================
-   PAYMENTS
-========================================================= */
-
-.payment-progress{
-
-    margin-bottom:17px;
-
-}
-
-
-.progress-top{
-
-    display:flex;
-
-    align-items:center;
-    justify-content:space-between;
-
-    gap:10px;
-
-    margin-bottom:8px;
-
-    font-size:10px;
-
-    font-weight:800;
-
-}
-
-
-.progress-bar{
-
-    width:100%;
-
-    height:11px;
-
-    overflow:hidden;
-
-    border-radius:20px;
-
-    background:#edf1f5;
-
-}
-
-
-.progress-fill{
-
-    width:0;
-
-    height:100%;
-
-    border-radius:20px;
-
-    background:
-
-        linear-gradient(
-            90deg,
-            #079455,
-            #12b76a
-        );
-
-    transition:.4s;
-
-}
-
-
-.payments-list{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:8px;
-
-}
-
-
-.payment-item{
-
-    padding:12px;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius:12px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:space-between;
-
-    gap:10px;
-
-}
-
-
-.payment-item strong{
-
-    display:block;
-
-    color:
-        var(--green);
-
-    font-size:12px;
-
-}
-
-
-.payment-item small{
-
-    display:block;
-
-    margin-top:3px;
-
-    color:
-        var(--muted);
-
-    font-size:9px;
-
-}
-
-
-/* =========================================================
-   NOTIFICATION
-========================================================= */
-
-.notifications{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:9px;
-
-}
-
-
-.notification{
-
-    position:relative;
-
-    padding:13px;
-
-    border:
-        1px solid
-        var(--border);
-
-    border-radius:13px;
-
-    background:#fff;
-
-}
-
-
-.notification.unread{
-
-    border-color:
-        #b9d5f7;
-
-    background:
-        #f7fbff;
-
-}
-
-
-.notification h4{
-
-    font-size:11px;
-
-    font-weight:900;
-
-}
-
-
-.notification p{
-
-    margin-top:6px;
-
-    color:
-        var(--muted);
-
-    font-size:10px;
-
-    line-height:1.8;
-
-}
-
-
-.notification time{
-
-    display:block;
-
-    margin-top:8px;
-
-    color:#98a2b3;
-
-    font-size:8px;
-
-}
-
-
-/* =========================================================
-   EMPTY
-========================================================= */
-
-.empty{
-
-    padding:
-        30px 15px;
-
-    text-align:center;
-
-    color:
-        var(--muted);
-
-    font-size:11px;
-
-}
-
-
-/* =========================================================
-   TOAST
-========================================================= */
-
+/* toast */
 .toast{
-
-    position:fixed;
-
-    z-index:40000;
-
-    left:50%;
-    bottom:24px;
-
-    transform:
-        translate(-50%,30px);
-
-    min-width:220px;
-
-    max-width:
-        calc(100% - 25px);
-
-    padding:
-        12px 15px;
-
-    border-radius:11px;
-
-    background:#101828;
-
-    color:#ffffff;
-
-    text-align:center;
-
-    font-size:10px;
-
-    font-weight:800;
-
-    opacity:0;
-
-    visibility:hidden;
-
-    transition:.22s;
-
+  position:fixed;z-index:99999;left:15px;right:15px;bottom:95px;
+  max-width:430px;margin:auto;padding:12px 14px;border-radius:14px;
+  background:#172033;color:#fff;font-size:10px;font-weight:800;text-align:center;
+  opacity:0;pointer-events:none;transform:translateY(10px);transition:.25s
 }
+.toast.show{opacity:1;transform:none}
 
-
-.toast.show{
-
-    opacity:1;
-
-    visibility:visible;
-
-    transform:
-        translate(-50%,0);
-
+/* responsive */
+@media(min-width:700px){
+  .info-grid{grid-template-columns:repeat(3,1fr)}
+  .grade-grid{grid-template-columns:repeat(8,1fr)}
+  .bottom-nav{max-width:560px;margin:auto}
 }
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:750px){
-
-    .summary{
-
-        grid-template-columns:
-            repeat(2,1fr);
-
-    }
-
-}
-
-
-@media(max-width:580px){
-
-    .header-inner{
-
-        padding:
-            7px 10px;
-
-    }
-
-
-    .brand-logo{
-
-        width:39px;
-        height:39px;
-
-    }
-
-
-    .brand h1{
-
-        font-size:11px;
-
-    }
-
-
-    .brand p{
-
-        font-size:8px;
-
-    }
-
-
-    .logout-btn{
-
-        min-height:36px;
-
-        padding:
-            0 9px;
-
-        font-size:9px;
-
-    }
-
-
-    .main{
-
-        padding:
-            11px 9px
-            90px;
-
-    }
-
-
-    .hero{
-
-        padding:17px;
-
-        border-radius:18px;
-
-    }
-
-
-    .student-avatar{
-
-        width:50px;
-        height:50px;
-
-        font-size:19px;
-
-    }
-
-
-    .hero-name h2{
-
-        font-size:16px;
-
-    }
-
-
-    .summary-card{
-
-        min-height:88px;
-
-        padding:11px;
-
-    }
-
-
-    .summary-card strong{
-
-        font-size:14px;
-
-    }
-
-
-    .form-grid{
-
-        grid-template-columns:1fr;
-
-    }
-
-
-    .field.full,
-    .form-actions{
-
-        grid-column:auto;
-
-    }
-
-
-    .form-actions .btn{
-
-        width:100%;
-
-    }
-
-
-    .data-grid{
-
-        grid-template-columns:1fr;
-
-    }
-
-
-    .data-item.full{
-
-        grid-column:auto;
-
-    }
-
-}
-
-
-/* =========================================================
-   ANIMATION
-========================================================= */
-
-@keyframes spin{
-
-    to{
-
-        transform:
-            rotate(360deg);
-
-    }
-
-}
-
-
-@keyframes fadeIn{
-
-    from{
-
-        opacity:0;
-
-        transform:
-            translateY(4px);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:none;
-
-    }
-
-}
-
 </style>
-
 </head>
-
 
 <body>
 
+<div id="loaderScreen" class="loader-screen">
+  <div class="loader-box">
+    <div class="loader"></div>
+    <p>جاري تحميل حساب الطالب</p>
+  </div>
+</div>
 
-<!-- =========================================================
-     LOADING
-========================================================= -->
+<!-- إكمال البيانات -->
+<section id="completeScreen" class="complete-screen hidden">
+  <div class="form-card">
+    <img src="logo.png" class="form-logo" alt="شعار المدرسة">
+    <h2>إكمال بيانات الطالب</h2>
+    <p class="lead">
+      يرجى إكمال البيانات الناقصة قبل الدخول إلى المنصة.
+    </p>
 
-<div
-    id="loadingScreen"
-    class="loading-screen"
->
+    <div id="completeFields" class="fields"></div>
 
-    <div class="loading-box">
-
-        <div class="loading-spinner"></div>
-
-        <p>
-            جاري تحميل بيانات الطالب
-        </p>
-
+    <div class="form-warning">
+      بعد حفظ البيانات لن تتمكن من تعديلها من حساب الطالب،
+      وأي تعديل لاحق يكون عن طريق إدارة المدرسة.
     </div>
+
+    <button id="saveProfileBtn" class="save-profile">حفظ ومتابعة</button>
+  </div>
+</section>
+
+<!-- الحساب غير فعال -->
+<section id="inactiveScreen" class="inactive-screen hidden">
+  <div class="inactive-card">
+    <img src="logo.png" class="form-logo" alt="شعار المدرسة">
+    <div class="inactive-icon">!</div>
+    <h2>الحساب غير فعال</h2>
+    <p>
+      حسابك موجود في النظام لكنه غير فعال حالياً.
+      يرجى مراجعة إدارة مدرسة التحدي الأهلية المختلطة.
+    </p>
+    <button id="inactiveLogout" class="logout2">تسجيل الخروج</button>
+  </div>
+</section>
+
+<!-- التطبيق -->
+<div id="app" class="app hidden">
+
+  <header class="topbar">
+    <div class="top-brand">
+      <img src="logo.png" class="top-logo" alt="شعار المدرسة">
+      <div class="top-title">
+        <h1>مدرسة التحدي الأهلية المختلطة</h1>
+        <p id="topStudentName">منصة الطالب</p>
+      </div>
+    </div>
+    <button id="logoutBtn" class="logout">خروج</button>
+  </header>
+
+  <main class="content">
+
+    <!-- الرئيسية -->
+    <section id="pageHome" class="page active">
+
+      <div class="student-hero">
+        <div class="hero-inner">
+          <div class="hero-head">
+            <div id="studentAvatar" class="hero-avatar">ط</div>
+            <div class="hero-info">
+              <h2 id="heroName">—</h2>
+              <p id="heroCode">—</p>
+            </div>
+          </div>
+
+          <div class="hero-badges">
+            <span id="heroClass" class="hero-badge">الصف: —</span>
+            <span id="heroRoom" class="hero-badge">القاعة: —</span>
+            <span id="heroYear" class="hero-badge">2026-2027</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <h3>بيانات الطالب</h3>
+        <span>بيانات رسمية</span>
+      </div>
+
+      <div id="studentInfoGrid" class="info-grid"></div>
+
+      <div class="section-title">
+        <h3>حالة الحساب</h3>
+      </div>
+
+      <div id="studentStatusBox" class="status-box"></div>
+
+    </section>
+
+    <!-- التبليغات -->
+    <section id="pageNotices" class="page">
+      <div class="section-title">
+        <h3>التبليغات</h3>
+        <span id="noticeCountText">0 تبليغ</span>
+      </div>
+      <div id="noticeList" class="notice-list"></div>
+    </section>
+
+    <!-- الدرجات -->
+    <section id="pageGrades" class="page">
+      <div class="section-title">
+        <h3>الدرجات والنتائج</h3>
+        <span>العام الدراسي 2026-2027</span>
+      </div>
+
+      <div id="gradeCards" class="grade-cards"></div>
+
+      <div class="grade-table-wrap">
+        <table class="grade-table">
+          <thead>
+            <tr>
+              <th>المادة</th>
+              <th>الفصل الأول</th>
+              <th>نصف السنة</th>
+              <th>الفصل الثاني</th>
+              <th>السعي السنوي</th>
+              <th>الامتحان النهائي</th>
+              <th>الدرجة النهائية</th>
+              <th>الدور الثاني</th>
+              <th>النتيجة</th>
+            </tr>
+          </thead>
+          <tbody id="gradeTableBody"></tbody>
+          <tfoot id="gradeTableFoot"></tfoot>
+        </table>
+      </div>
+
+      <div id="finalResultCard"></div>
+    </section>
+
+    <!-- الدردشة -->
+    <section id="pageChat" class="page">
+      <div class="chat-page">
+        <div class="chat-head">
+          <h3>دردشة الصف</h3>
+          <p id="chatRoomName">—</p>
+        </div>
+
+        <div id="messages" class="messages"></div>
+
+        <div class="chat-compose">
+          <input id="chatInput" class="chat-input" placeholder="اكتب رسالة..." maxlength="500">
+          <button id="sendBtn" class="send-btn">➤</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="bottom-nav">
+
+    <button class="nav-item active" data-page="home">
+      <span class="nav-icon">⌂</span>
+      <span class="nav-label">الرئيسية</span>
+    </button>
+
+    <button class="nav-item" data-page="notices">
+      <span id="noticeBadge" class="nav-badge">0</span>
+      <span class="nav-icon">●</span>
+      <span class="nav-label">التبليغات</span>
+    </button>
+
+    <button class="nav-item" data-page="grades">
+      <span class="nav-icon">▤</span>
+      <span class="nav-label">الدرجات</span>
+    </button>
+
+    <button class="nav-item" data-page="chat">
+      <span id="chatBadge" class="nav-badge">0</span>
+      <span class="nav-icon">◉</span>
+      <span class="nav-label">الدردشة</span>
+    </button>
+
+  </nav>
 
 </div>
 
-
-
-<!-- =========================================================
-     OFFLINE
-========================================================= -->
-
-<div
-    id="offlineScreen"
-    class="offline-screen"
->
-
-    <div class="offline-box">
-
-        <img
-            src="images/no-internet.png"
-            alt="لا يوجد إنترنت"
-        >
-
-        <h2>
-            لا يوجد اتصال بالإنترنت
-        </h2>
-
-        <p>
-            يرجى التحقق من اتصالك بالشبكة.
-            سيتم تحديث الصفحة تلقائياً عند عودة الإنترنت.
-        </p>
-
-    </div>
-
-</div>
-
-
-
-<!-- =========================================================
-     HEADER
-========================================================= -->
-
-<header class="header">
-
-    <div class="header-inner">
-
-        <div class="brand">
-
-            <img
-                src="images/logo.png"
-                class="brand-logo"
-                alt="شعار مدرسة التحدي"
-            >
-
-            <div>
-
-                <h1>
-                    مدرسة التحدي الأهلية المختلطة
-                </h1>
-
-                <p>
-                    قسم الحوكمة - منصة الطالب
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <button
-            class="logout-btn"
-            onclick="logout()"
-        >
-            تسجيل الخروج
-        </button>
-
-    </div>
-
-</header>
-
-
-
-<!-- =========================================================
-     MAIN
-========================================================= -->
-
-<main class="main">
-
-
-<!-- =========================================================
-     HERO
-========================================================= -->
-
-<section class="hero">
-
-    <div class="hero-top">
-
-        <div
-            id="studentAvatar"
-            class="student-avatar"
-        >
-            ط
-        </div>
-
-
-        <div class="hero-name">
-
-            <small>
-                أهلاً بك
-            </small>
-
-            <h2 id="studentNameHero">
-                الطالب
-            </h2>
-
-            <span
-                id="studentCodeHero"
-                class="hero-code"
-            >
-                —
-            </span>
-
-        </div>
-
-    </div>
-
-
-    <div class="hero-details">
-
-        <span
-            id="heroClass"
-            class="hero-badge"
-        >
-            الصف: —
-        </span>
-
-
-        <span
-            id="heroRoom"
-            class="hero-badge"
-        >
-            القاعة: —
-        </span>
-
-
-        <span
-            id="heroGender"
-            class="hero-badge"
-        >
-            —
-        </span>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     SUMMARY
-========================================================= -->
-
-<section class="summary">
-
-
-    <div class="summary-card">
-
-        <span>
-            حالة الملف
-        </span>
-
-        <strong id="summaryFile">
-            —
-        </strong>
-
-    </div>
-
-
-    <div class="summary-card">
-
-        <span>
-            القسط الكلي
-        </span>
-
-        <strong id="summaryTuition">
-            —
-        </strong>
-
-    </div>
-
-
-    <div class="summary-card">
-
-        <span>
-            المبلغ المدفوع
-        </span>
-
-        <strong id="summaryPaid">
-            0 د.ع
-        </strong>
-
-    </div>
-
-
-    <div class="summary-card">
-
-        <span>
-            المتبقي
-        </span>
-
-        <strong id="summaryRemaining">
-            —
-        </strong>
-
-    </div>
-
-
-</section>
-
-
-
-<!-- =========================================================
-     NAV
-========================================================= -->
-
-<nav class="nav-tabs">
-
-    <button
-        class="nav-btn active"
-        data-target="homeSection"
-    >
-        الرئيسية
-    </button>
-
-
-    <button
-        class="nav-btn"
-        data-target="gradesSection"
-    >
-        الدرجات
-    </button>
-
-
-    <button
-        class="nav-btn"
-        data-target="attendanceSection"
-    >
-        الحضور والغياب
-    </button>
-
-
-    <button
-        class="nav-btn"
-        data-target="paymentsSection"
-    >
-        الأقساط
-    </button>
-
-
-    <button
-        class="nav-btn"
-        data-target="notificationsSection"
-    >
-        الإشعارات
-    </button>
-
-
-    <button
-        class="nav-btn"
-        data-target="profileSection"
-    >
-        بياناتي
-    </button>
-
-</nav>
-
-
-
-<!-- =========================================================
-     HOME
-========================================================= -->
-
-<section
-    id="homeSection"
-    class="section active"
->
-
-
-    <div class="panel">
-
-        <div class="panel-head">
-
-            <div>
-
-                <h3>
-                    بيانات الطالب
-                </h3>
-
-                <p>
-                    البيانات الأساسية المسجلة لدى إدارة المدرسة.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="panel-body">
-
-            <div class="data-grid">
-
-
-                <div class="data-item">
-
-                    <small>
-                        الاسم الرباعي
-                    </small>
-
-                    <strong id="viewName">
-                        —
-                    </strong>
-
-                </div>
-
-
-                <div class="data-item">
-
-                    <small>
-                        اسم الأم
-                    </small>
-
-                    <strong id="viewMother">
-                        —
-                    </strong>
-
-                </div>
-
-
-                <div class="data-item">
-
-                    <small>
-                        الجنس
-                    </small>
-
-                    <strong id="viewGender">
-                        —
-                    </strong>
-
-                </div>
-
-
-                <div class="data-item">
-
-                    <small>
-                        الصف
-                    </small>
-
-                    <strong id="viewClass">
-                        —
-                    </strong>
-
-                </div>
-
-
-                <div class="data-item">
-
-                    <small>
-                        رقم القاعة
-                    </small>
-
-                    <strong id="viewRoom">
-                        —
-                    </strong>
-
-                </div>
-
-
-                <div class="data-item">
-
-                    <small>
-                        تاريخ المباشرة
-                    </small>
-
-                    <strong id="viewStartDate">
-                        —
-                    </strong>
-
-                </div>
-
-
-                <div class="data-item">
-
-                    <small>
-                        المدرسة القادم منها
-                    </small>
-
-                    <strong id="viewPreviousSchool">
-                        —
-                    </strong>
-
-                </div>
-
-
-                <div class="data-item">
-
-                    <small>
-                        حالة الحساب
-                    </small>
-
-                    <strong id="viewAccountStatus">
-                        —
-                    </strong>
-
-                </div>
-
-
-                <div class="data-item full">
-
-                    <small>
-                        عنوان السكن
-                    </small>
-
-                    <strong id="viewAddress">
-                        —
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-</section>
-
-
-
-<!-- =========================================================
-     GRADES
-========================================================= -->
-
-<section
-    id="gradesSection"
-    class="section"
->
-
-    <div class="panel">
-
-        <div class="panel-head">
-
-            <div>
-
-                <h3>
-                    الدرجات
-                </h3>
-
-                <p>
-                    الدرجات للعرض فقط ولا يمكن للطالب تعديلها.
-                </p>
-
-            </div>
-
-
-            <span class="badge blue">
-                قراءة فقط
-            </span>
-
-        </div>
-
-
-        <div class="panel-body">
-
-
-            <div
-                id="gradesEmpty"
-                class="empty hidden"
-            >
-                لم يتم نشر درجاتك بعد.
-            </div>
-
-
-            <div
-                id="gradesTable"
-                class="table-wrap"
-            >
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                المادة
-                            </th>
-
-                            <th>
-                                الفصل الأول
-                            </th>
-
-                            <th>
-                                نصف السنة
-                            </th>
-
-                            <th>
-                                الفصل الثاني
-                            </th>
-
-                            <th>
-                                السعي السنوي
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody id="gradesBody"></tbody>
-
-                </table>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     ATTENDANCE
-========================================================= -->
-
-<section
-    id="attendanceSection"
-    class="section"
->
-
-    <div class="panel">
-
-        <div class="panel-head">
-
-            <div>
-
-                <h3>
-                    سجل الحضور والغياب
-                </h3>
-
-                <p>
-                    السجل المثبت من مشرف الحضور والغيابات.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="panel-body">
-
-
-            <div
-                id="attendanceList"
-                class="attendance-list"
-            ></div>
-
-
-            <div
-                id="attendanceEmpty"
-                class="empty hidden"
-            >
-                لا توجد سجلات حضور أو غياب.
-            </div>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     PAYMENTS
-========================================================= -->
-
-<section
-    id="paymentsSection"
-    class="section"
->
-
-    <div class="panel">
-
-        <div class="panel-head">
-
-            <div>
-
-                <h3>
-                    الأقساط والمدفوعات
-                </h3>
-
-                <p>
-                    تفاصيل القسط والمبالغ المسجلة من الإدارة.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="panel-body">
-
-
-            <div class="payment-progress">
-
-                <div class="progress-top">
-
-                    <span id="paymentProgressText">
-                        0%
-                    </span>
-
-                    <span id="paymentProgressAmount">
-                        0 / 0
-                    </span>
-
-                </div>
-
-
-                <div class="progress-bar">
-
-                    <div
-                        id="paymentProgressFill"
-                        class="progress-fill"
-                    ></div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                id="paymentsList"
-                class="payments-list"
-            ></div>
-
-
-            <div
-                id="paymentsEmpty"
-                class="empty hidden"
-            >
-                لا توجد دفعات مسجلة حتى الآن.
-            </div>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     NOTIFICATIONS
-========================================================= -->
-
-<section
-    id="notificationsSection"
-    class="section"
->
-
-    <div class="panel">
-
-        <div class="panel-head">
-
-            <div>
-
-                <h3>
-                    الإشعارات
-                </h3>
-
-                <p>
-                    إشعارات وتنبيهات إدارة المدرسة.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="panel-body">
-
-
-            <div
-                id="notificationsList"
-                class="notifications"
-            ></div>
-
-
-            <div
-                id="notificationsEmpty"
-                class="empty hidden"
-            >
-                لا توجد إشعارات حالياً.
-            </div>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     PROFILE / EDIT ALLOWED DATA
-========================================================= -->
-
-<section
-    id="profileSection"
-    class="section"
->
-
-    <div class="panel">
-
-        <div class="panel-head">
-
-            <div>
-
-                <h3>
-                    تحديث بيانات التواصل
-                </h3>
-
-                <p>
-                    يمكنك تعديل بيانات التواصل فقط. بيانات الصف والدرجات والقسط تتحكم بها الإدارة.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="panel-body">
-
-
-            <div
-                id="profileMessage"
-                class="message"
-            ></div>
-
-
-            <form
-                id="profileForm"
-                class="form-grid"
-            >
-
-
-                <div class="field">
-
-                    <label>
-                        رقم الطالب
-                    </label>
-
-                    <input
-                        id="editStudentPhone"
-                        type="tel"
-                        placeholder="رقم هاتف الطالب"
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        رقم ولي الأمر
-                    </label>
-
-                    <input
-                        id="editGuardianPhone"
-                        type="tel"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        رقم الخط
-                    </label>
-
-                    <input
-                        id="editLineNumber"
-                        placeholder="رقم خط النقل"
-                    >
-
-                </div>
-
-
-                <div class="field full">
-
-                    <label>
-                        عنوان السكن
-                    </label>
-
-                    <textarea
-                        id="editAddress"
-                        required
-                    ></textarea>
-
-                </div>
-
-
-                <div class="form-actions">
-
-                    <button
-                        id="saveProfileBtn"
-                        type="submit"
-                        class="btn btn-primary"
-                    >
-                        حفظ التعديلات
-                    </button>
-
-                </div>
-
-
-            </form>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-</main>
-
-
-
-<!-- =========================================================
-     TOAST
-========================================================= -->
-
-<div
-    id="toast"
-    class="toast"
-></div>
-
-
+<div id="toast" class="toast"></div>
 
 <script>
+const DB="https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
 
-/* =========================================================
-   FIREBASE
-========================================================= */
+const $=id=>document.getElementById(id);
 
-const DB =
-    "https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
+let session={};
+let user={};
+let student={};
+let STUDENT_CODE="";
+let classData={};
+let grades={};
+let notices=[];
+let chatMessages={};
+let chatListener=null;
+let noticeListener=null;
 
+const REQUIRED_FIELDS=[
+  ["motherName","اسم الأم"],
+  ["guardianPhone","رقم ولي الأمر"],
+  ["studentPhone","رقم الطالب"],
+  ["lineNumber","رقم الخط"],
+  ["address","عنوان السكن"],
+  ["previousSchool","المدرسة القادم منها"]
+];
 
-const PATH = {
+const SUBJECT_ORDER=[
+  "اسلامية","إسلامية","عربي","اللغة العربية","إنكليزي","اللغة الانكليزية",
+  "رياضيات","كيمياء","فيزياء","أحياء","اجتماعيات","حاسوب","رياضة","فنية","سلوك"
+];
 
-    users:
-        "users",
-
-    students:
-        "students",
-
-    classes:
-        "classes",
-
-    grades:
-        "grades",
-
-    attendance:
-        "attendance",
-
-    payments:
-        "payments",
-
-    notifications:
-        "notifications"
-
-};
-
-
-/* =========================================================
-   DATA
-========================================================= */
-
-let STUDENT_CODE = "";
-
-let STUDENT = null;
-
-let CLASS = null;
-
-let GRADES = {};
-
-let ATTENDANCE = {};
-
-let PAYMENTS = {};
-
-let NOTIFICATIONS = {};
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-const $ =
-    id =>
-        document.getElementById(id);
-
-
-function norm(value){
-
-    return String(
-        value || ""
-    )
-    .trim()
-    .toLowerCase();
-
+function esc(v){
+  return String(v??"").replace(/[&<>"']/g,m=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[m]));
 }
 
-
-function esc(value){
-
-    return String(
-        value ?? ""
-    )
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
+function norm(v){
+  return String(v??"").trim().toLowerCase();
 }
 
-
-function genderText(gender){
-
-    return gender === "female"
-        ? "أنثى"
-        : "ذكر";
-
+function num(v){
+  const n=Number(v);
+  return Number.isFinite(n)?n:null;
 }
 
-
-function money(value){
-
-    const number =
-        Number(value || 0);
-
-
-    if(!number){
-
-        return "0 د.ع";
-
-    }
-
-
-    return number.toLocaleString(
-        "en-US"
-    ) + " د.ع";
-
+function rounded(v){
+  const n=num(v);
+  return n===null?null:Math.round(n);
 }
 
-
-function displayDate(value){
-
-    if(!value){
-
-        return "—";
-
-    }
-
-
-    if(
-        typeof value ===
-        "number"
-    ){
-
-        return new Date(
-            value
-        ).toLocaleDateString(
-            "ar-IQ"
-        );
-
-    }
-
-
-    const parts =
-        String(value)
-        .split("-");
-
-
-    if(parts.length === 3){
-
-        return `${parts[2]}/${parts[1]}/${parts[0]}`;
-
-    }
-
-
-    return value;
-
+function fmt(v){
+  return v===null||v===undefined||v===""?"—":v;
 }
 
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-let toastTimer = null;
-
-
-function toast(text){
-
-    const element =
-        $("toast");
-
-
-    element.textContent =
-        text;
-
-
-    element.classList.add(
-        "show"
-    );
-
-
-    clearTimeout(
-        toastTimer
-    );
-
-
-    toastTimer =
-        setTimeout(
-            () => {
-
-                element.classList.remove(
-                    "show"
-                );
-
-            },
-            2200
-        );
-
+function dateText(v){
+  if(!v)return "—";
+  const d=new Date(v);
+  if(isNaN(d))return String(v);
+  return d.toLocaleDateString("ar-IQ",{year:"numeric",month:"2-digit",day:"2-digit"});
 }
 
-
-/* =========================================================
-   MESSAGE
-========================================================= */
-
-function showMessage(
-    id,
-    text,
-    type="error"
-){
-
-    const element =
-        $(id);
-
-
-    element.textContent =
-        text;
-
-
-    element.className =
-        `message show ${type}`;
-
+function timeText(v){
+  const d=new Date(Number(v)||v);
+  if(isNaN(d))return "";
+  return d.toLocaleTimeString("ar-IQ",{hour:"2-digit",minute:"2-digit"});
 }
 
-
-function hideMessage(id){
-
-    const element =
-        $(id);
-
-
-    element.textContent =
-        "";
-
-
-    element.className =
-        "message";
-
+function toast(msg){
+  $("toast").textContent=msg;
+  $("toast").classList.add("show");
+  clearTimeout(window._toastTimer);
+  window._toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2200);
 }
 
-
-/* =========================================================
-   FIREBASE REST
-========================================================= */
-
-async function firebaseRequest(
-    path,
-    method="GET",
-    body=null
-){
-
-    const options = {
-
-        method,
-
-        cache:
-            "no-store"
-
-    };
-
-
-    if(body !== null){
-
-        options.headers = {
-
-            "Content-Type":
-                "application/json"
-
-        };
-
-
-        options.body =
-            JSON.stringify(
-                body
-            );
-
-    }
-
-
-    const response =
-        await fetch(
-
-            `${DB}/${path}.json`,
-
-            options
-
-        );
-
-
-    if(!response.ok){
-
-        throw new Error(
-            `${method}_${path}`
-        );
-
-    }
-
-
-    if(method === "DELETE"){
-
-        return true;
-
-    }
-
-
-    return response.json();
-
+/* Firebase REST */
+async function dbGet(path){
+  const r=await fetch(`${DB}/${path}.json`,{cache:"no-store"});
+  if(!r.ok)throw Error("DB_GET");
+  return r.json();
 }
 
-
-const dbGet =
-    path =>
-        firebaseRequest(
-            path
-        );
-
-
-const dbPatch =
-    (path,data) =>
-        firebaseRequest(
-            path,
-            "PATCH",
-            data
-        );
-
-
-/* =========================================================
-   SESSION
-========================================================= */
-
-function getSession(){
-
-    try{
-
-        return JSON.parse(
-
-            sessionStorage.getItem(
-                "tahadi_session"
-            ) || "{}"
-
-        );
-
-    }
-
-    catch{
-
-        return {};
-
-    }
-
+async function dbPatch(path,data){
+  const r=await fetch(`${DB}/${path}.json`,{
+    method:"PATCH",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(data)
+  });
+  if(!r.ok)throw Error("DB_PATCH");
+  return r.json();
 }
 
-
-/* =========================================================
-   VERIFY STUDENT
-========================================================= */
-
-async function verifyStudent(){
-
-    const session =
-        getSession();
-
-
-    if(!session.code){
-
-        location.replace(
-            "index.html"
-        );
-
-        return false;
-
-    }
-
-
-    const user =
-        await dbGet(
-
-            `${PATH.users}/${encodeURIComponent(session.code)}`
-
-        );
-
-
-    if(!user){
-
-        clearSession();
-
-        return false;
-
-    }
-
-
-    const role =
-        norm(
-            user.role
-        );
-
-
-    if(
-        ![
-            "student",
-            "st"
-        ].includes(role)
-    ){
-
-        clearSession();
-
-        return false;
-
-    }
-
-
-    if(
-        user.active === false ||
-        user.hidden === true
-    ){
-
-        sessionStorage.clear();
-
-        alert(
-            "حساب الطالب غير فعال. يرجى مراجعة إدارة المدرسة."
-        );
-
-        location.replace(
-            "index.html"
-        );
-
-        return false;
-
-    }
-
-
-    STUDENT_CODE =
-        user.studentId ||
-        session.code;
-
-
-    return true;
-
+async function dbPut(path,data){
+  const r=await fetch(`${DB}/${path}.json`,{
+    method:"PUT",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(data)
+  });
+  if(!r.ok)throw Error("DB_PUT");
+  return r.json();
 }
 
-
-function clearSession(){
-
-    sessionStorage.clear();
-
-    location.replace(
-        "index.html"
-    );
-
+async function dbPost(path,data){
+  const r=await fetch(`${DB}/${path}.json`,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(data)
+  });
+  if(!r.ok)throw Error("DB_POST");
+  return r.json();
 }
 
+/* Session */
+function loadSession(){
+  try{
+    session=JSON.parse(sessionStorage.getItem("tahadi_session")||"{}");
+  }catch{
+    session={};
+  }
+  if(!session.code){
+    location.replace("index.html");
+    return false;
+  }
+  return true;
+}
 
 function logout(){
-
-    sessionStorage.clear();
-
-    location.replace(
-        "index.html"
-    );
-
+  sessionStorage.clear();
+  location.replace("index.html");
 }
 
+/* Initialize */
+async function init(){
+  try{
+    if(!loadSession())return;
 
-/* =========================================================
-   LOAD STUDENT DATA
-========================================================= */
+    user=await dbGet(`users/${encodeURIComponent(session.code)}`);
 
-async function loadStudent(){
-
-    STUDENT =
-        await dbGet(
-
-            `${PATH.students}/${encodeURIComponent(STUDENT_CODE)}`
-
-        );
-
-
-    if(!STUDENT){
-
-        throw new Error(
-            "STUDENT_NOT_FOUND"
-        );
-
+    if(!user || !["student","st"].includes(norm(user.role))){
+      logout();
+      return;
     }
 
+    STUDENT_CODE=user.studentId||session.code;
+    student=await dbGet(`students/${encodeURIComponent(STUDENT_CODE)}`);
 
-    if(
-        STUDENT.hidden === true ||
-        STUDENT.accountActive === false
-    ){
-
-        sessionStorage.clear();
-
-
-        alert(
-            "حسابك غير فعال حالياً. يرجى مراجعة إدارة المدرسة."
-        );
-
-
-        location.replace(
-            "index.html"
-        );
-
-
-        return;
-
+    if(!student){
+      toast("بيانات الطالب غير موجودة");
+      setTimeout(logout,1200);
+      return;
     }
 
+    if(student.classId){
+      classData=await dbGet(`classes/${encodeURIComponent(student.classId)}`)||{};
+    }
 
-    CLASS =
-        STUDENT.classId
+    $("loaderScreen").classList.add("hidden");
 
-        ? await dbGet(
-            `${PATH.classes}/${STUDENT.classId}`
-          )
+    const missing=getMissingFields();
 
-        : null;
+    if(!student.profileCompleted && missing.length){
+      renderCompletionForm(missing);
+      $("completeScreen").classList.remove("hidden");
+      return;
+    }
 
+    if(!student.profileCompleted && !missing.length){
+      await dbPatch(`students/${encodeURIComponent(STUDENT_CODE)}`,{
+        profileCompleted:true,
+        profileCompletedAt:Date.now()
+      });
+      student.profileCompleted=true;
+    }
+
+    if(user.active===false || user.hidden===true || student.hidden===true || student.accountActive===false){
+      $("inactiveScreen").classList.remove("hidden");
+      return;
+    }
+
+    openApp();
+
+  }catch(e){
+    console.error(e);
+    $("loaderScreen").classList.add("hidden");
+    toast("تعذر تحميل حساب الطالب");
+  }
 }
 
-
-/* =========================================================
-   LOAD PORTAL DATA
-========================================================= */
-
-async function loadPortalData(){
-
-    const [
-        grades,
-        attendance,
-        payments,
-        notifications
-    ] =
-        await Promise.all([
-
-            dbGet(
-                `${PATH.grades}/${encodeURIComponent(STUDENT_CODE)}`
-            ),
-
-            dbGet(
-                `${PATH.attendance}/${encodeURIComponent(STUDENT_CODE)}`
-            ),
-
-            dbGet(
-                `${PATH.payments}/${encodeURIComponent(STUDENT_CODE)}`
-            ),
-
-            loadNotifications()
-
-        ]);
-
-
-    GRADES =
-        grades || {};
-
-
-    ATTENDANCE =
-        attendance || {};
-
-
-    PAYMENTS =
-        payments || {};
-
-
-    NOTIFICATIONS =
-        notifications || {};
-
+function getMissingFields(){
+  return REQUIRED_FIELDS.filter(([key])=>{
+    const v=student[key];
+    return v===undefined || v===null || String(v).trim()==="";
+  });
 }
 
+/* First-time completion */
+function renderCompletionForm(fields){
+  $("completeFields").innerHTML=fields.map(([key,label])=>`
+    <div class="field">
+      <label>${esc(label)}</label>
+      <input
+        id="complete_${esc(key)}"
+        data-key="${esc(key)}"
+        type="text"
+        autocomplete="off"
+      >
+    </div>
+  `).join("");
+}
 
-/* =========================================================
-   NOTIFICATIONS
-========================================================= */
+$("saveProfileBtn").onclick=async()=>{
+  const inputs=[...$("completeFields").querySelectorAll("input")];
+  const patch={};
 
-async function loadNotifications(){
+  for(const input of inputs){
+    const v=input.value.trim();
+    if(!v){
+      input.focus();
+      toast("يرجى إكمال جميع الحقول");
+      return;
+    }
+    patch[input.dataset.key]=v;
+  }
 
-    const [
-        globalNotifications,
-        studentNotifications
-    ] =
-        await Promise.all([
+  patch.profileCompleted=true;
+  patch.profileCompletedAt=Date.now();
 
-            dbGet(
-                `${PATH.notifications}/global`
-            ),
+  $("saveProfileBtn").disabled=true;
+  $("saveProfileBtn").textContent="جاري الحفظ";
 
-            dbGet(
-                `${PATH.notifications}/students/${encodeURIComponent(STUDENT_CODE)}`
-            )
+  try{
+    await dbPatch(`students/${encodeURIComponent(STUDENT_CODE)}`,patch);
+    Object.assign(student,patch);
 
-        ]);
+    $("completeScreen").classList.add("hidden");
 
+    if(user.active===false || user.hidden===true || student.accountActive===false){
+      $("inactiveScreen").classList.remove("hidden");
+      return;
+    }
 
-    return {
+    openApp();
 
-        ...(globalNotifications || {}),
+  }catch(e){
+    toast("تعذر حفظ البيانات");
+  }finally{
+    $("saveProfileBtn").disabled=false;
+    $("saveProfileBtn").textContent="حفظ ومتابعة";
+  }
+};
 
-        ...(studentNotifications || {})
+/* App */
+async function openApp(){
+  $("app").classList.remove("hidden");
+  renderHome();
 
+  await Promise.all([
+    loadGrades(),
+    loadNotifications(),
+    loadChat()
+  ]);
+}
+
+/* Home */
+function className(){
+  return classData.name || student.className || "—";
+}
+
+function genderText(){
+  return student.gender==="female"?"أنثى":"ذكر";
+}
+
+function renderHome(){
+  $("topStudentName").textContent=student.name||"منصة الطالب";
+  $("heroName").textContent=student.name||"—";
+  $("heroCode").textContent=`الكود: ${STUDENT_CODE}`;
+  $("heroClass").textContent=`الصف: ${className()}`;
+  $("heroRoom").textContent=`القاعة: ${student.roomNumber||"—"}`;
+
+  const first=(student.name||"ط").trim().charAt(0);
+  $("studentAvatar").textContent=first||"ط";
+
+  const fields=[
+    ["الاسم الرباعي",student.name],
+    ["اسم الأم",student.motherName],
+    ["الجنس",genderText()],
+    ["الصف",className()],
+    ["القاعة / الشعبة",student.roomNumber],
+    ["رقم ولي الأمر",student.guardianPhone],
+    ["رقم الطالب",student.studentPhone],
+    ["رقم الخط",student.lineNumber],
+    ["المدرسة السابقة",student.previousSchool],
+    ["تاريخ المباشرة",dateText(student.startDate)],
+    ["عنوان السكن",student.address],
+    ["الكود",STUDENT_CODE]
+  ];
+
+  $("studentInfoGrid").innerHTML=fields.map(([k,v])=>`
+    <div class="info-card">
+      <span>${esc(k)}</span>
+      <strong>${esc(fmt(v))}</strong>
+    </div>
+  `).join("");
+
+  const statusRows=[
+    ["الحساب",student.accountActive===false?["غير فعال","red"]:["فعال","green"]],
+    ["الملف",student.fileStatus==="accepted"?["تم القبول","green"]:["لم يستلم الملف","orange"]],
+    ["الكتب",student.booksReceived?["تم الاستلام","green"]:["لم يستلم","orange"]]
+  ];
+
+  $("studentStatusBox").innerHTML=statusRows.map(([label,[value,color]])=>`
+    <div class="status-row">
+      <span>${label}</span>
+      <b class="badge ${color}">${value}</b>
+    </div>
+  `).join("");
+}
+
+/* Navigation */
+document.querySelectorAll(".nav-item").forEach(btn=>{
+  btn.onclick=()=>{
+    const p=btn.dataset.page;
+
+    document.querySelectorAll(".nav-item").forEach(x=>x.classList.toggle("active",x===btn));
+    document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+
+    const map={
+      home:"pageHome",
+      notices:"pageNotices",
+      grades:"pageGrades",
+      chat:"pageChat"
     };
 
+    $(map[p]).classList.add("active");
+
+    if(p==="notices")markNotificationsRead();
+    if(p==="chat"){
+      markChatRead();
+      scrollChat();
+    }
+  };
+});
+
+/* Notifications */
+async function loadNotifications(){
+  const all=await dbGet("notifications")||{};
+
+  notices=Object.entries(all).map(([id,n])=>({id,...n})).filter(n=>{
+    if(n.active===false)return false;
+
+    const direct=!n.studentCode || n.studentCode===STUDENT_CODE;
+    const classMatch=!n.classId || n.classId===student.classId;
+
+    return direct && classMatch;
+  }).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+
+  renderNotifications();
 }
 
-
-/* =========================================================
-   RENDER MAIN STUDENT
-========================================================= */
-
-function renderStudent(){
-
-    if(!STUDENT){
-
-        return;
-
-    }
-
-
-    const className =
-        CLASS?.name ||
-        "غير محدد";
-
-
-    const name =
-        STUDENT.name ||
-        "الطالب";
-
-
-    $("studentNameHero").textContent =
-        name;
-
-
-    $("studentCodeHero").textContent =
-        STUDENT_CODE;
-
-
-    $("studentAvatar").textContent =
-        name.trim()
-        .charAt(0) ||
-        "ط";
-
-
-    $("heroClass").textContent =
-        `الصف: ${className}`;
-
-
-    $("heroRoom").textContent =
-        `القاعة: ${STUDENT.roomNumber || "—"}`;
-
-
-    $("heroGender").textContent =
-        genderText(
-            STUDENT.gender
-        );
-
-
-    /* =======================
-       SUMMARY
-    ======================= */
-
-    if(
-        STUDENT.fileStatus ===
-        "accepted"
-    ){
-
-        $("summaryFile").innerHTML = `
-
-            <span class="badge green">
-                تم القبول
-            </span>
-
-        `;
-
-    }
-
-    else{
-
-        $("summaryFile").innerHTML = `
-
-            <span class="badge orange">
-                لم يجلب الملف
-            </span>
-
-        `;
-
-    }
-
-
-    $("summaryTuition").textContent =
-        money(
-            STUDENT.tuitionTotal
-        );
-
-
-    /* =======================
-       PROFILE
-    ======================= */
-
-    $("viewName").textContent =
-        name;
-
-
-    $("viewMother").textContent =
-        STUDENT.motherName ||
-        "—";
-
-
-    $("viewGender").textContent =
-        genderText(
-            STUDENT.gender
-        );
-
-
-    $("viewClass").textContent =
-        className;
-
-
-    $("viewRoom").textContent =
-        STUDENT.roomNumber ||
-        "—";
-
-
-    $("viewStartDate").textContent =
-        displayDate(
-            STUDENT.startDate
-        );
-
-
-    $("viewPreviousSchool").textContent =
-        STUDENT.previousSchool ||
-        "—";
-
-
-    $("viewAddress").textContent =
-        STUDENT.address ||
-        "—";
-
-
-    $("viewAccountStatus").innerHTML =
-
-        STUDENT.accountActive
-
-        ? `
-            <span class="badge green">
-                الحساب فعال
-            </span>
-          `
-
-        : `
-            <span class="badge red">
-                الحساب غير فعال
-            </span>
-          `;
-
-
-    /* =======================
-       EDIT FORM
-    ======================= */
-
-    $("editStudentPhone").value =
-        STUDENT.studentPhone ||
-        "";
-
-
-    $("editGuardianPhone").value =
-        STUDENT.guardianPhone ||
-        "";
-
-
-    $("editLineNumber").value =
-        STUDENT.lineNumber ||
-        "";
-
-
-    $("editAddress").value =
-        STUDENT.address ||
-        "";
-
+function notificationReadKey(id){
+  return `${STUDENT_CODE}_${id}`;
 }
 
-
-/* =========================================================
-   GRADE
-========================================================= */
-
-function gradeClass(value){
-
-    const number =
-        Number(value);
-
-
-    if(
-        value === "" ||
-        value === null ||
-        value === undefined ||
-        Number.isNaN(number)
-    ){
-
-        return "grade-normal";
-
-    }
-
-
-    if(number < 50){
-
-        return "grade-fail";
-
-    }
-
-
-    if(number >= 90){
-
-        return "grade-high";
-
-    }
-
-
-    return "grade-normal";
-
+async function getReadMap(){
+  return await dbGet(`notificationReads/${encodeURIComponent(STUDENT_CODE)}`)||{};
 }
 
+async function renderNotifications(){
+  const reads=await getReadMap();
+  let unread=0;
 
-function gradeValue(value){
+  $("noticeList").innerHTML=notices.length?notices.map(n=>{
+    const isRead=!!reads[n.id];
+    if(!isRead)unread++;
 
-    if(
-        value === undefined ||
-        value === null ||
-        value === ""
-    ){
+    return `
+      <article class="notice ${isRead?"":"unread"}">
+        <div class="notice-head">
+          <h4>${esc(n.title||"تبليغ")}</h4>
+          <span class="notice-time">${esc(dateText(n.createdAt))}</span>
+        </div>
+        <p>${esc(n.message||n.text||"")}</p>
+        <div class="notice-footer">
+          ${esc(n.senderName||roleName(n.senderRole))}
+        </div>
+      </article>
+    `;
+  }).join(""):`<div class="status-box">لا توجد تبليغات حالياً</div>`;
 
-        return "—";
-
-    }
-
-
-    return value;
-
+  $("noticeCountText").textContent=`${notices.length} تبليغ`;
+  setNavBadge("noticeBadge",unread);
 }
 
+function roleName(role){
+  const r=norm(role);
+  if(["admin","administrator"].includes(r))return "إدارة المدرسة";
+  if(r==="teacher")return "الأستاذ";
+  if(r==="accountant")return "المحاسب";
+  return "مدرسة التحدي";
+}
+
+async function markNotificationsRead(){
+  const patch={};
+  notices.forEach(n=>patch[n.id]=Date.now());
+
+  if(!notices.length)return;
+
+  try{
+    await dbPatch(`notificationReads/${encodeURIComponent(STUDENT_CODE)}`,patch);
+    setNavBadge("noticeBadge",0);
+    renderNotifications();
+  }catch{}
+}
+
+/* Grades */
+async function loadGrades(){
+  grades=await dbGet(`grades/${encodeURIComponent(STUDENT_CODE)}`)||{};
+  renderGrades();
+}
+
+function annualGrade(g){
+  const vals=[num(g.term1),num(g.midyear),num(g.term2)];
+  if(vals.some(v=>v===null))return null;
+  return Math.round((vals[0]+vals[1]+vals[2])/3);
+}
+
+function finalGrade(g){
+  const annual=annualGrade(g);
+  const exam=num(g.finalExam);
+  if(annual===null || exam===null)return null;
+  return Math.round((annual+exam)/2);
+}
+
+function subjectResult(g){
+  const second=num(g.secondRound);
+  if(second!==null)return second>=50?"ناجح":"راسب";
+
+  const f=finalGrade(g);
+  if(f===null)return "—";
+  return f>=50?"ناجح":"راسب";
+}
+
+function subjectName(g,key){
+  return g.subjectName||key;
+}
+
+function sortedGradeEntries(){
+  return Object.entries(grades).sort((a,b)=>{
+    const an=subjectName(a[1],a[0]);
+    const bn=subjectName(b[1],b[0]);
+    const ai=SUBJECT_ORDER.findIndex(x=>norm(x)===norm(an));
+    const bi=SUBJECT_ORDER.findIndex(x=>norm(x)===norm(bn));
+    return (ai<0?999:ai)-(bi<0?999:bi);
+  });
+}
 
 function renderGrades(){
+  const entries=sortedGradeEntries();
 
-    const rows =
-        Object.values(
-            GRADES
-        );
+  $("gradeCards").innerHTML=entries.length?entries.map(([key,g])=>{
+    const a=annualGrade(g);
+    const f=finalGrade(g);
+    const result=subjectResult(g);
 
+    return `
+      <div class="subject-card">
+        <div class="subject-top">
+          <div class="subject-name">${esc(subjectName(g,key))}</div>
+          <span class="subject-result ${result==="ناجح"?"pass":result==="راسب"?"fail":""}">
+            ${esc(result)}
+          </span>
+        </div>
 
-    $("gradesEmpty")
-        .classList.toggle(
-            "hidden",
-            rows.length > 0
-        );
+        <div class="grade-grid">
+          ${gradeCell("الفصل الأول",g.term1)}
+          ${gradeCell("نصف السنة",g.midyear)}
+          ${gradeCell("الفصل الثاني",g.term2)}
+          ${gradeCell("السعي السنوي",a)}
+          ${gradeCell("الامتحان النهائي",g.finalExam)}
+          ${gradeCell("الدرجة النهائية",f)}
+          ${gradeCell("الدور الثاني",g.secondRound)}
+          ${gradeCell("النتيجة",result)}
+        </div>
+      </div>
+    `;
+  }).join(""):`<div class="status-box">لا توجد درجات منشورة حالياً</div>`;
 
+  $("gradeTableBody").innerHTML=entries.map(([key,g])=>`
+    <tr>
+      <td>${esc(subjectName(g,key))}</td>
+      <td>${fmtGrade(g.term1)}</td>
+      <td>${fmtGrade(g.midyear)}</td>
+      <td>${fmtGrade(g.term2)}</td>
+      <td>${fmtGrade(annualGrade(g))}</td>
+      <td>${fmtGrade(g.finalExam)}</td>
+      <td>${fmtGrade(finalGrade(g))}</td>
+      <td>${fmtGrade(g.secondRound)}</td>
+      <td>${esc(subjectResult(g))}</td>
+    </tr>
+  `).join("");
 
-    $("gradesTable")
-        .classList.toggle(
-            "hidden",
-            !rows.length
-        );
-
-
-    $("gradesBody").innerHTML =
-        rows.map(
-            grade => `
-
-                <tr>
-
-                    <td>
-
-                        <strong>
-                            ${esc(
-                                grade.subjectName ||
-                                grade.subject ||
-                                "مادة"
-                            )}
-                        </strong>
-
-                    </td>
-
-
-                    <td>
-
-                        <span class="grade-value ${gradeClass(grade.term1)}">
-
-                            ${esc(
-                                gradeValue(
-                                    grade.term1
-                                )
-                            )}
-
-                        </span>
-
-                    </td>
-
-
-                    <td>
-
-                        <span class="grade-value ${gradeClass(grade.midyear)}">
-
-                            ${esc(
-                                gradeValue(
-                                    grade.midyear
-                                )
-                            )}
-
-                        </span>
-
-                    </td>
-
-
-                    <td>
-
-                        <span class="grade-value ${gradeClass(grade.term2)}">
-
-                            ${esc(
-                                gradeValue(
-                                    grade.term2
-                                )
-                            )}
-
-                        </span>
-
-                    </td>
-
-
-                    <td>
-
-                        <span class="grade-value ${gradeClass(grade.annual)}">
-
-                            ${esc(
-                                gradeValue(
-                                    grade.annual
-                                )
-                            )}
-
-                        </span>
-
-                    </td>
-
-                </tr>
-
-            `
-        )
-        .join("");
-
+  renderTotals(entries);
+  renderFinalResult(entries);
 }
 
-
-/* =========================================================
-   ATTENDANCE
-========================================================= */
-
-function attendanceBadge(status){
-
-    switch(
-        norm(status)
-    ){
-
-        case "present":
-        case "حاضر":
-
-            return `
-                <span class="badge green">
-                    حاضر
-                </span>
-            `;
-
-
-        case "absent":
-        case "غائب":
-
-            return `
-                <span class="badge red">
-                    غائب
-                </span>
-            `;
-
-
-        case "leave":
-        case "excused":
-        case "اجازة":
-        case "إجازة":
-
-            return `
-                <span class="badge blue">
-                    إجازة
-                </span>
-            `;
-
-
-        case "late":
-        case "متأخر":
-
-            return `
-                <span class="badge orange">
-                    متأخر
-                </span>
-            `;
-
-
-        default:
-
-            return `
-                <span class="badge purple">
-                    ${esc(status || "غير محدد")}
-                </span>
-            `;
-
-    }
-
+function gradeCell(label,value){
+  return `
+    <div class="grade-cell">
+      <span>${esc(label)}</span>
+      <strong>${esc(fmtGrade(value))}</strong>
+    </div>
+  `;
 }
 
-
-function renderAttendance(){
-
-    const rows =
-        Object.values(
-            ATTENDANCE
-        )
-        .sort(
-            (a,b) =>
-                Number(b.timestamp || 0) -
-                Number(a.timestamp || 0)
-        );
-
-
-    $("attendanceEmpty")
-        .classList.toggle(
-            "hidden",
-            rows.length > 0
-        );
-
-
-    $("attendanceList").innerHTML =
-        rows.map(
-            item => `
-
-                <div class="attendance-item">
-
-                    <div class="attendance-info">
-
-                        <strong>
-
-                            ${esc(
-                                displayDate(
-                                    item.date ||
-                                    item.timestamp
-                                )
-                            )}
-
-                        </strong>
-
-                        <span>
-
-                            ${esc(
-                                item.note ||
-                                "بدون ملاحظات"
-                            )}
-
-                        </span>
-
-                    </div>
-
-
-                    ${attendanceBadge(
-                        item.status
-                    )}
-
-                </div>
-
-            `
-        )
-        .join("");
-
+function fmtGrade(v){
+  if(v===null||v===undefined||v==="")return "—";
+  if(typeof v==="string" && isNaN(Number(v)))return v;
+  return String(Math.round(Number(v)));
 }
 
-
-/* =========================================================
-   PAYMENTS
-========================================================= */
-
-function renderPayments(){
-
-    const rows =
-        Object.values(
-            PAYMENTS
-        )
-        .sort(
-            (a,b) =>
-                Number(b.timestamp || 0) -
-                Number(a.timestamp || 0)
-        );
-
-
-    const paid =
-        rows.reduce(
-            (total,item) =>
-                total +
-                Number(
-                    item.amount || 0
-                ),
-            0
-        );
-
-
-    const total =
-        Number(
-            STUDENT?.tuitionTotal || 0
-        );
-
-
-    const remaining =
-        Math.max(
-            0,
-            total - paid
-        );
-
-
-    const percent =
-        total > 0
-
-        ? Math.min(
-            100,
-            Math.round(
-                (paid / total) *
-                100
-            )
-          )
-
-        : 0;
-
-
-    $("summaryPaid").textContent =
-        money(paid);
-
-
-    $("summaryRemaining").textContent =
-        money(remaining);
-
-
-    $("paymentProgressText").textContent =
-        `${percent}%`;
-
-
-    $("paymentProgressAmount").textContent =
-        `${money(paid)} / ${money(total)}`;
-
-
-    $("paymentProgressFill").style.width =
-        `${percent}%`;
-
-
-    $("paymentsEmpty")
-        .classList.toggle(
-            "hidden",
-            rows.length > 0
-        );
-
-
-    $("paymentsList").innerHTML =
-        rows.map(
-            item => `
-
-                <div class="payment-item">
-
-                    <div>
-
-                        <strong>
-                            ${money(item.amount)}
-                        </strong>
-
-                        <small>
-
-                            ${esc(
-                                item.note ||
-                                "دفعة قسط"
-                            )}
-
-                        </small>
-
-                    </div>
-
-
-                    <span class="badge green">
-
-                        ${esc(
-                            displayDate(
-                                item.date ||
-                                item.timestamp
-                            )
-                        )}
-
-                    </span>
-
-                </div>
-
-            `
-        )
-        .join("");
-
-}
-
-
-/* =========================================================
-   NOTIFICATIONS
-========================================================= */
-
-function renderNotifications(){
-
-    const rows =
-        Object.entries(
-            NOTIFICATIONS
-        )
-        .map(
-            ([id,item]) => ({
-                id,
-                ...item
-            })
-        )
-        .filter(
-            item =>
-                item.active !== false
-        )
-        .sort(
-            (a,b) =>
-                Number(
-                    b.createdAt ||
-                    b.timestamp ||
-                    0
-                ) -
-                Number(
-                    a.createdAt ||
-                    a.timestamp ||
-                    0
-                )
-        );
-
-
-    $("notificationsEmpty")
-        .classList.toggle(
-            "hidden",
-            rows.length > 0
-        );
-
-
-    $("notificationsList").innerHTML =
-        rows.map(
-            item => `
-
-                <article class="notification">
-
-                    <h4>
-
-                        ${esc(
-                            item.title ||
-                            "إشعار"
-                        )}
-
-                    </h4>
-
-                    <p>
-
-                        ${esc(
-                            item.message ||
-                            item.text ||
-                            ""
-                        )}
-
-                    </p>
-
-                    <time>
-
-                        ${
-                            item.createdAt ||
-                            item.timestamp
-
-                            ? new Date(
-                                item.createdAt ||
-                                item.timestamp
-                              )
-                              .toLocaleString(
-                                "ar-IQ"
-                              )
-
-                            : ""
-                        }
-
-                    </time>
-
-                </article>
-
-            `
-        )
-        .join("");
-
-}
-
-
-/* =========================================================
-   UPDATE PROFILE
-========================================================= */
-
-$("profileForm").onsubmit =
-    async event => {
-
-        event.preventDefault();
-
-
-        hideMessage(
-            "profileMessage"
-        );
-
-
-        const studentPhone =
-            $("editStudentPhone")
-            .value
-            .trim();
-
-
-        const guardianPhone =
-            $("editGuardianPhone")
-            .value
-            .trim();
-
-
-        const lineNumber =
-            $("editLineNumber")
-            .value
-            .trim();
-
-
-        const address =
-            $("editAddress")
-            .value
-            .trim();
-
-
-        if(
-            !guardianPhone ||
-            !address
-        ){
-
-            showMessage(
-                "profileMessage",
-                "رقم ولي الأمر وعنوان السكن مطلوبان"
-            );
-
-            return;
-
-        }
-
-
-        const button =
-            $("saveProfileBtn");
-
-
-        button.disabled =
-            true;
-
-
-        button.textContent =
-            "جاري الحفظ...";
-
-
-        try{
-
-            /*
-                ملاحظة أمنية:
-                هذه هي الحقول الوحيدة التي
-                يسمح لهذه الصفحة بإرسال تعديل عليها.
-                لا يوجد أي كود هنا لتعديل الدرجات.
-            */
-
-            const update = {
-
-                studentPhone,
-
-                guardianPhone,
-
-                lineNumber,
-
-                address,
-
-                studentUpdatedAt:
-                    Date.now()
-
-            };
-
-
-            await dbPatch(
-
-                `${PATH.students}/${STUDENT_CODE}`,
-
-                update
-
-            );
-
-
-            STUDENT = {
-
-                ...STUDENT,
-
-                ...update
-
-            };
-
-
-            renderStudent();
-
-
-            showMessage(
-
-                "profileMessage",
-
-                "تم تحديث بياناتك بنجاح",
-
-                "success"
-
-            );
-
-
-            toast(
-                "تم حفظ التعديلات"
-            );
-
-        }
-
-        catch(error){
-
-            console.error(error);
-
-
-            showMessage(
-                "profileMessage",
-                "تعذر حفظ التعديلات، حاول مرة أخرى"
-            );
-
-        }
-
-        finally{
-
-            button.disabled =
-                false;
-
-
-            button.textContent =
-                "حفظ التعديلات";
-
-        }
-
+function renderTotals(entries){
+  const cols=[
+    g=>num(g.term1),
+    g=>num(g.midyear),
+    g=>num(g.term2),
+    g=>annualGrade(g),
+    g=>num(g.finalExam),
+    g=>finalGrade(g),
+    g=>num(g.secondRound)
+  ];
+
+  const sums=cols.map(fn=>{
+    const vals=entries.map(([,g])=>fn(g)).filter(v=>v!==null);
+    return {
+      sum:vals.reduce((a,b)=>a+b,0),
+      avg:vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):null
     };
+  });
 
-
-/* =========================================================
-   TABS
-========================================================= */
-
-document
-.querySelectorAll(
-    ".nav-btn"
-)
-.forEach(
-    button => {
-
-        button.onclick =
-            () => {
-
-                document
-                .querySelectorAll(
-                    ".nav-btn"
-                )
-                .forEach(
-                    item =>
-                        item.classList.remove(
-                            "active"
-                        )
-                );
-
-
-                document
-                .querySelectorAll(
-                    ".section"
-                )
-                .forEach(
-                    item =>
-                        item.classList.remove(
-                            "active"
-                        )
-                );
-
-
-                button.classList.add(
-                    "active"
-                );
-
-
-                $(
-                    button.dataset.target
-                )
-                .classList.add(
-                    "active"
-                );
-
-
-                window.scrollTo({
-                    top:0,
-                    behavior:"smooth"
-                });
-
-            };
-
-    }
-);
-
-
-/* =========================================================
-   RENDER ALL
-========================================================= */
-
-function renderAll(){
-
-    renderStudent();
-
-    renderGrades();
-
-    renderAttendance();
-
-    renderPayments();
-
-    renderNotifications();
-
+  $("gradeTableFoot").innerHTML=`
+    <tr>
+      <td>المجموع</td>
+      ${sums.map(x=>`<td>${x.sum||"—"}</td>`).join("")}
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>المعدل</td>
+      ${sums.map(x=>`<td>${x.avg??"—"}</td>`).join("")}
+      <td>—</td>
+    </tr>
+  `;
 }
 
-
-/* =========================================================
-   OFFLINE
-========================================================= */
-
-function showOffline(){
-
-    $("offlineScreen")
-        .classList.add(
-            "show"
-        );
-
+function isMinisterial(){
+  return classData.ministerial===true || student.ministerial===true;
 }
 
+function renderFinalResult(entries){
+  if(!entries.length){
+    $("finalResultCard").innerHTML="";
+    return;
+  }
 
-function hideOffline(){
+  const finals=entries.map(([,g])=>{
+    const second=num(g.secondRound);
+    if(second!==null)return second;
+    return finalGrade(g);
+  }).filter(v=>v!==null);
 
-    $("offlineScreen")
-        .classList.remove(
-            "show"
-        );
+  const avg=finals.length?Math.round(finals.reduce((a,b)=>a+b,0)/finals.length):null;
+  const failed=finals.filter(v=>v<50).length;
 
+  let title="";
+  let desc="";
+  let failClass="";
+
+  if(isMinisterial()){
+    const qualified=student.ministerialQualified ?? classData.defaultQualified;
+    title=qualified===false?"غير مؤهل":"مؤهل";
+    desc=qualified===false
+      ?"يرجى مراجعة إدارة المدرسة لمعرفة تفاصيل التأهيل."
+      :"أنت مؤهل حسب إعدادات المدرسة والقاعة.";
+    failClass=qualified===false?"fail":"";
+  }else{
+    const minAvg=num(classData.exemptionMinAverage)??85;
+    const minSubject=num(classData.exemptionMinSubject)??75;
+    const exemption=avg!==null && avg>=minAvg && finals.every(v=>v>=minSubject);
+
+    if(exemption){
+      title="إعفاء عام";
+      desc=student.gender==="female"?"أحسنتِ، ألف مبارك":"أحسنت، ألف مبارك";
+    }else if(failed===0){
+      title=student.gender==="female"?"ناجحة":"ناجح";
+      desc=student.gender==="female"?"ألف مبارك، أحسنتِ":"ألف مبارك، أحسنت";
+    }else{
+      title="راسب";
+      desc=`عدد المواد الراسبة: ${failed}`;
+      failClass="fail";
+    }
+  }
+
+  $("finalResultCard").innerHTML=`
+    <div class="result-card ${failClass}">
+      <h3>مدرسة التحدي الأهلية المختلطة</h3>
+      <h2>${esc(title)}</h2>
+      <p>
+        ${esc(student.name||"")}<br>
+        ${esc(className())} - القاعة ${esc(student.roomNumber||"—")}<br>
+        ${esc(desc)}
+        ${avg!==null?`<br>المعدل العام: ${avg}`:""}
+      </p>
+    </div>
+  `;
 }
 
+/* Chat */
+async function loadChat(){
+  const room=student.classId||"general";
+  $("chatRoomName").textContent=className();
 
-window.addEventListener(
-    "offline",
-    showOffline
-);
+  chatMessages=await dbGet(`chats/${encodeURIComponent(room)}/messages`)||{};
+  renderChat();
 
+  startChatPolling(room);
+}
 
-window.addEventListener(
-    "online",
-    async () => {
+function startChatPolling(room){
+  clearInterval(chatListener);
 
-        hideOffline();
+  chatListener=setInterval(async()=>{
+    if(document.hidden)return;
 
+    try{
+      const fresh=await dbGet(`chats/${encodeURIComponent(room)}/messages`)||{};
+      const oldCount=Object.keys(chatMessages).length;
+      const newCount=Object.keys(fresh).length;
 
-        toast(
-            "تم استعادة الاتصال"
-        );
+      chatMessages=fresh;
+      renderChat();
 
+      const chatActive=$("pageChat").classList.contains("active");
 
-        try{
+      if(newCount>oldCount && !chatActive){
+        setNavBadge("chatBadge",newCount-oldCount);
+      }
+    }catch{}
+  },5000);
+}
 
-            await loadStudent();
+function renderChat(){
+  const arr=Object.entries(chatMessages)
+    .map(([id,m])=>({id,...m}))
+    .sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));
 
-            await loadPortalData();
+  $("messages").innerHTML=arr.length?arr.map(m=>{
+    const mine=m.senderCode===STUDENT_CODE;
 
-            renderAll();
+    return `
+      <div class="msg ${mine?"mine":""}">
+        ${mine?"":`<div class="msg-name">${esc(m.senderName||"طالب")}</div>`}
+        <div class="msg-text">${esc(m.text||"")}</div>
+        <div class="msg-meta">
+          ${esc(timeText(m.createdAt))}
+          ${mine?" ✓✓":""}
+        </div>
+      </div>
+    `;
+  }).join(""):`<div style="text-align:center;color:#98a2b3;font-size:10px;margin-top:30px">لا توجد رسائل بعد</div>`;
 
-        }
+  if($("pageChat").classList.contains("active"))scrollChat();
+}
 
-        catch(error){
+function scrollChat(){
+  requestAnimationFrame(()=>{
+    $("messages").scrollTop=$("messages").scrollHeight;
+  });
+}
 
-            console.error(error);
+async function sendMessage(){
+  const text=$("chatInput").value.trim();
+  if(!text)return;
 
-        }
+  const room=student.classId||"general";
 
-    }
-);
+  $("sendBtn").disabled=true;
 
+  try{
+    await dbPost(`chats/${encodeURIComponent(room)}/messages`,{
+      senderCode:STUDENT_CODE,
+      senderName:student.name||"",
+      classId:student.classId||"",
+      text,
+      createdAt:Date.now()
+    });
 
-/* =========================================================
-   START
-========================================================= */
+    $("chatInput").value="";
 
-window.addEventListener(
-    "load",
-    async () => {
+    chatMessages=await dbGet(`chats/${encodeURIComponent(room)}/messages`)||{};
+    renderChat();
 
-        if(!navigator.onLine){
+  }catch{
+    toast("تعذر إرسال الرسالة");
+  }finally{
+    $("sendBtn").disabled=false;
+  }
+}
 
-            showOffline();
+$("sendBtn").onclick=sendMessage;
+$("chatInput").addEventListener("keydown",e=>{
+  if(e.key==="Enter"){
+    e.preventDefault();
+    sendMessage();
+  }
+});
 
-            $("loadingScreen")
-                .classList.add(
-                    "hidden"
-                );
+function markChatRead(){
+  setNavBadge("chatBadge",0);
+}
 
-            return;
+function setNavBadge(id,n){
+  const el=$(id);
+  el.textContent=n>99?"99+":n;
+  el.classList.toggle("show",n>0);
+}
 
-        }
+/* Logout */
+$("logoutBtn").onclick=logout;
+$("inactiveLogout").onclick=logout;
 
-
-        try{
-
-            const allowed =
-                await verifyStudent();
-
-
-            if(!allowed){
-
-                return;
-
-            }
-
-
-            await loadStudent();
-
-
-            await loadPortalData();
-
-
-            renderAll();
-
-        }
-
-        catch(error){
-
-            console.error(error);
-
-
-            if(
-                error.message ===
-                "STUDENT_NOT_FOUND"
-            ){
-
-                alert(
-                    "ملف الطالب غير موجود. يرجى مراجعة إدارة المدرسة."
-                );
-
-
-                logout();
-
-                return;
-
-            }
-
-
-            toast(
-                "تعذر تحميل بيانات الطالب"
-            );
-
-        }
-
-        finally{
-
-            $("loadingScreen")
-                .classList.add(
-                    "hidden"
-                );
-
-        }
-
-    }
-);
-
+window.addEventListener("load",init);
 </script>
 
-
 </body>
-
 </html>
