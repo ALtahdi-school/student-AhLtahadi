@@ -2287,6 +2287,55 @@ tbody tr:hover td {
     }
 }
 
+
+/* =========================================================
+   PDF EXPORT BUTTON
+========================================================= */
+
+.results-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.pdf-export-button {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 10px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--red), #a80f17);
+    box-shadow: 0 7px 18px rgba(215,25,32,.16);
+    font-size: 9px;
+    font-weight: 900;
+}
+
+.pdf-export-button:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+@media (max-width: 520px) {
+    .results-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .results-actions {
+        width: 100%;
+    }
+
+    .pdf-export-button {
+        flex: 1;
+    }
+}
+
 </style>
 
 </head>
@@ -2701,11 +2750,24 @@ tbody tr:hover td {
     </div>
 
 
-    <div
-        id="resultsCount"
-        class="results-count">
+    <div class="results-actions">
 
-        0 متقدم
+        <div
+            id="resultsCount"
+            class="results-count">
+
+            0 متقدم
+
+        </div>
+
+        <button
+            id="exportPdfButton"
+            class="pdf-export-button"
+            type="button">
+
+            PDF النتائج الظاهرة
+
+        </button>
 
     </div>
 
@@ -3493,6 +3555,12 @@ const resultsCount =
 const resultsTitle =
     document.getElementById(
         "resultsTitle"
+    );
+
+
+const exportPdfButton =
+    document.getElementById(
+        "exportPdfButton"
     );
 
 
@@ -7064,6 +7132,660 @@ function closeApplicantModal() {
         null;
 
 }
+
+
+
+
+/* =========================================================
+   FILTERED PDF EXPORT
+   يطبع فقط النتائج الظاهرة بعد البحث + الفلاتر + تبويب المرحلة
+   كل متقدم في ورقة A4 مستقلة
+========================================================= */
+
+function pdfSafeValue(value) {
+
+    if (
+        value === null ||
+        value === undefined ||
+        String(value).trim() === ""
+    ) {
+        return "غير متوفر";
+    }
+
+    return String(value);
+}
+
+
+function pdfInfoItem(label, value, extraClass = "") {
+
+    return `
+        <div class="pdf-info-item ${extraClass}">
+            <div class="pdf-info-label">
+                ${escapeHTML(label)}
+            </div>
+            <div class="pdf-info-value">
+                ${escapeHTML(pdfSafeValue(value))}
+            </div>
+        </div>
+    `;
+}
+
+
+function pdfStatusItem(label, value) {
+
+    const display = pdfSafeValue(value);
+    const normalized = normalizeText(display);
+
+    let statusClass = "status-neutral";
+
+    if (
+        normalized.includes("مقبول") ||
+        normalized.includes("قبول") ||
+        normalized.includes("تم التدقيق") ||
+        normalized.includes("توجد حاجه") ||
+        normalized.includes("مؤهل للمقابله")
+    ) {
+        statusClass = "status-success";
+    }
+    else if (
+        normalized.includes("رفض") ||
+        normalized.includes("عدم قبول") ||
+        normalized.includes("لم يجتز") ||
+        normalized.includes("لا توجد حاجه") ||
+        normalized.includes("غير مؤهل") ||
+        normalized.includes("حظ اوفر")
+    ) {
+        statusClass = "status-danger";
+    }
+    else if (
+        normalized.includes("قيد") ||
+        normalized.includes("بانتظار")
+    ) {
+        statusClass = "status-warning";
+    }
+
+    return `
+        <div class="pdf-status-row">
+            <div class="pdf-status-label">
+                ${escapeHTML(label)}
+            </div>
+            <div class="pdf-status-value ${statusClass}">
+                ${escapeHTML(display)}
+            </div>
+        </div>
+    `;
+}
+
+
+function getCurrentFilterSummary() {
+
+    const parts = [];
+
+    const stageConfig =
+        stageFilters[currentStageFilter];
+
+    if (
+        stageConfig &&
+        currentStageFilter !== "all"
+    ) {
+        parts.push(
+            `القسم: ${stageConfig.label}`
+        );
+    }
+
+    const search =
+        String(searchInput.value || "").trim();
+
+    if (search) {
+        parts.push(
+            `البحث: ${search}`
+        );
+    }
+
+    filterFields.forEach(
+        function(field) {
+
+            const selected =
+                activeFilters[field.key];
+
+            if (
+                selected &&
+                selected.size
+            ) {
+                parts.push(
+                    `${field.label}: ${Array.from(selected).join("، ")}`
+                );
+            }
+        }
+    );
+
+    return parts.length
+        ? parts.join(" | ")
+        : "جميع المتقدمين";
+}
+
+
+function buildApplicantPdfPage(applicant, index, total) {
+
+    const personal =
+        applicant.personal || {};
+
+    const job =
+        applicant.job || {};
+
+    const education =
+        applicant.education || {};
+
+    const experience =
+        applicant.experience || {};
+
+    const committeeDisplay =
+        applicant.committeeDecision === "رفض"
+            ? "عدم قبول"
+            : applicant.committeeDecision;
+
+    const interviewDate =
+        applicant.interviewDate
+            ? formatDate(applicant.interviewDate)
+            : "غير محدد";
+
+    const startDate =
+        applicant.startDate
+            ? formatDateOnly(applicant.startDate)
+            : "غير محدد";
+
+    const submittedAt =
+        applicant.submittedAt
+            ? formatDate(applicant.submittedAt)
+            : "غير متوفر";
+
+    return `
+        <section class="pdf-page">
+
+            <div class="pdf-top-line"></div>
+
+            <header class="pdf-header">
+                <div>
+                    <div class="pdf-brand">وظائف التحدي</div>
+                    <div class="pdf-school">مدرسة التحدي الأهلية المختلطة</div>
+                    <div class="pdf-department">قسم الحوكمة — استمارة بيانات متقدم</div>
+                </div>
+
+                <div class="pdf-page-number">
+                    ${index + 1} / ${total}
+                </div>
+            </header>
+
+            <div class="pdf-applicant-title">
+                <div>
+                    <div class="pdf-name">
+                        ${escapeHTML(pdfSafeValue(personal.fullName))}
+                    </div>
+                    <div class="pdf-subtitle">
+                        بيانات طلب التوظيف
+                    </div>
+                </div>
+
+                <div class="pdf-uid-box">
+                    <span>UID</span>
+                    <strong>${escapeHTML(pdfSafeValue(applicant.uid))}</strong>
+                </div>
+            </div>
+
+            <div class="pdf-section-title">البيانات الشخصية</div>
+            <div class="pdf-grid pdf-grid-3">
+                ${pdfInfoItem("الاسم", personal.fullName, "span-2")}
+                ${pdfInfoItem("الجنس", personal.gender)}
+                ${pdfInfoItem("المواليد", personal.birthDate)}
+                ${pdfInfoItem("رقم الهاتف", personal.phone)}
+                ${pdfInfoItem("عنوان السكن", personal.address, "span-3")}
+            </div>
+
+            <div class="pdf-section-title">بيانات الوظيفة المطلوبة</div>
+            <div class="pdf-grid pdf-grid-2">
+                ${pdfInfoItem("المرحلة", job.schoolLevel)}
+                ${pdfInfoItem("المادة / الاختصاص", job.specialization)}
+            </div>
+
+            <div class="pdf-section-title">المؤهل الدراسي</div>
+            <div class="pdf-grid pdf-grid-3">
+                ${pdfInfoItem("الشهادة", education.certificate)}
+                ${pdfInfoItem("الجامعة", education.university)}
+                ${pdfInfoItem("الكلية", education.college)}
+                ${pdfInfoItem("تخصص الدراسة", education.specialization, "span-2")}
+                ${pdfInfoItem("سنة التخرج", education.graduationYear)}
+                ${pdfInfoItem("المعدل", education.gpa)}
+                ${pdfInfoItem("تاريخ التقديم", submittedAt, "span-2")}
+            </div>
+
+            <div class="pdf-section-title">الخبرات والمعلومات الوظيفية</div>
+            <div class="pdf-grid pdf-grid-2">
+                ${pdfInfoItem("موظف حكومي", experience.governmentEmployee)}
+                ${pdfInfoItem("العمل السابق", experience.previousWork)}
+                ${pdfInfoItem("الخبرات", experience.experience, "span-2")}
+            </div>
+
+            <div class="pdf-section-title">مراحل الطلب</div>
+            <div class="pdf-status-box">
+                ${pdfStatusItem("مرحلة التدقيق", applicant.reviewStage)}
+                ${pdfStatusItem("الحاجة إليك", applicant.needStatus)}
+                ${pdfStatusItem("مرحلة المقابلة", applicant.interviewStage)}
+                ${pdfStatusItem("تاريخ المقابلة", interviewDate)}
+                ${pdfStatusItem("قرار لجنة المقابلات", committeeDisplay)}
+                ${pdfStatusItem("حالة القبول النهائية", applicant.acceptanceStatus)}
+                ${pdfStatusItem("تاريخ المباشرة", startDate)}
+            </div>
+
+            <footer class="pdf-footer">
+                <div>مدرسة التحدي الأهلية المختلطة — قسم الحوكمة</div>
+                <div>وثيقة داخلية لتنظيم ومراجعة طلبات التوظيف</div>
+            </footer>
+
+        </section>
+    `;
+}
+
+
+function exportFilteredApplicantsToPdf() {
+
+    const applicants =
+        getFilteredApplicants();
+
+    if (!applicants.length) {
+        showToast(
+            "لا توجد نتائج ظاهرة لتصديرها إلى PDF.",
+            "error"
+        );
+        return;
+    }
+
+    const printWindow =
+        window.open(
+            "",
+            "_blank",
+            "width=1100,height=850"
+        );
+
+    if (!printWindow) {
+        showToast(
+            "تعذر فتح نافذة PDF. اسمح بالنوافذ المنبثقة ثم أعد المحاولة.",
+            "error"
+        );
+        return;
+    }
+
+    const filterSummary =
+        getCurrentFilterSummary();
+
+    const pages =
+        applicants
+            .map(
+                (applicant, index) =>
+                    buildApplicantPdfPage(
+                        applicant,
+                        index,
+                        applicants.length
+                    )
+            )
+            .join("");
+
+    printWindow.document.open();
+
+    printWindow.document.write(`
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>بيانات المتقدمين - وظائف التحدي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+    * { box-sizing: border-box; }
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        background: #eef3f8;
+        color: #10233f;
+        font-family: "Cairo", Arial, sans-serif;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .pdf-toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 12px 18px;
+        background: #10233f;
+        color: white;
+        box-shadow: 0 5px 20px rgba(0,0,0,.16);
+    }
+
+    .pdf-toolbar-title {
+        font-size: 13px;
+        font-weight: 900;
+    }
+
+    .pdf-toolbar-summary {
+        margin-top: 2px;
+        color: #dce8f8;
+        font-size: 8px;
+        font-weight: 600;
+        max-width: 760px;
+    }
+
+    .pdf-toolbar button {
+        min-width: 130px;
+        height: 40px;
+        border: 0;
+        border-radius: 10px;
+        color: white;
+        background: #d71920;
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 900;
+        cursor: pointer;
+    }
+
+    .pdf-pages {
+        padding: 18px 0 35px;
+    }
+
+    .pdf-page {
+        position: relative;
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0 auto 18px;
+        padding: 15mm 14mm 13mm;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 10px 35px rgba(16,35,63,.11);
+        page-break-after: always;
+        break-after: page;
+    }
+
+    .pdf-page:last-child {
+        page-break-after: auto;
+        break-after: auto;
+    }
+
+    .pdf-top-line {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 5mm;
+        background: linear-gradient(90deg, #0b63d8 0 76%, #d71920 76% 100%);
+    }
+
+    .pdf-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 20px;
+        padding-bottom: 6mm;
+        border-bottom: 1px solid #dfe7f1;
+    }
+
+    .pdf-brand {
+        color: #0b63d8;
+        font-size: 10px;
+        font-weight: 900;
+    }
+
+    .pdf-school {
+        margin-top: 1mm;
+        color: #10233f;
+        font-size: 16px;
+        font-weight: 900;
+    }
+
+    .pdf-department {
+        margin-top: 1mm;
+        color: #718096;
+        font-size: 8px;
+        font-weight: 700;
+    }
+
+    .pdf-page-number {
+        min-width: 18mm;
+        padding: 2.2mm 3mm;
+        border: 1px solid #d8e4f2;
+        border-radius: 3mm;
+        color: #0b63d8;
+        background: #edf5ff;
+        text-align: center;
+        direction: ltr;
+        font-size: 9px;
+        font-weight: 900;
+    }
+
+    .pdf-applicant-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 5mm;
+        padding: 4mm 4.5mm;
+        border: 1px solid #dce7f4;
+        border-radius: 4mm;
+        background: linear-gradient(135deg, #f7fbff, #ffffff);
+    }
+
+    .pdf-name {
+        color: #10233f;
+        font-size: 15px;
+        font-weight: 900;
+    }
+
+    .pdf-subtitle {
+        margin-top: .8mm;
+        color: #718096;
+        font-size: 7.5px;
+        font-weight: 700;
+    }
+
+    .pdf-uid-box {
+        min-width: 40mm;
+        padding: 2.5mm 3mm;
+        border-radius: 3mm;
+        background: #10233f;
+        color: #fff;
+        text-align: center;
+    }
+
+    .pdf-uid-box span {
+        display: block;
+        color: #b9c9dc;
+        font-size: 6.5px;
+        font-weight: 700;
+    }
+
+    .pdf-uid-box strong {
+        display: block;
+        margin-top: .5mm;
+        direction: ltr;
+        font-family: Arial, sans-serif;
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: .4px;
+    }
+
+    .pdf-section-title {
+        margin-top: 4.2mm;
+        margin-bottom: 2mm;
+        padding-right: 2.5mm;
+        border-right: 3px solid #0b63d8;
+        color: #10233f;
+        font-size: 9px;
+        font-weight: 900;
+    }
+
+    .pdf-grid {
+        display: grid;
+        gap: 2mm;
+    }
+
+    .pdf-grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .pdf-grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+    .pdf-info-item {
+        min-height: 14.5mm;
+        padding: 2.4mm 3mm;
+        border: 1px solid #e4ebf3;
+        border-radius: 2.5mm;
+        background: #fbfdff;
+    }
+
+    .pdf-info-label {
+        color: #7d8a9b;
+        font-size: 6.5px;
+        font-weight: 800;
+    }
+
+    .pdf-info-value {
+        margin-top: 1mm;
+        color: #24364f;
+        font-size: 8.2px;
+        font-weight: 800;
+        line-height: 1.55;
+        word-break: break-word;
+    }
+
+    .span-2 { grid-column: span 2; }
+    .span-3 { grid-column: span 3; }
+
+    .pdf-status-box {
+        overflow: hidden;
+        border: 1px solid #dfe7f0;
+        border-radius: 3mm;
+    }
+
+    .pdf-status-row {
+        display: grid;
+        grid-template-columns: 1fr 1.25fr;
+        min-height: 9.2mm;
+        border-bottom: 1px solid #e8eef5;
+    }
+
+    .pdf-status-row:last-child { border-bottom: 0; }
+
+    .pdf-status-label,
+    .pdf-status-value {
+        display: flex;
+        align-items: center;
+        padding: 1.8mm 3mm;
+        font-size: 7.3px;
+        font-weight: 800;
+    }
+
+    .pdf-status-label {
+        color: #526277;
+        background: #f7f9fc;
+        border-left: 1px solid #e5ebf2;
+    }
+
+    .pdf-status-value {
+        color: #34435a;
+        background: #fff;
+    }
+
+    .status-success { color: #067343; background: #edfff5; }
+    .status-danger { color: #b4232d; background: #fff1f2; }
+    .status-warning { color: #9a6700; background: #fff8e7; }
+    .status-neutral { color: #45566d; background: #f8fafc; }
+
+    .pdf-footer {
+        position: absolute;
+        right: 14mm;
+        left: 14mm;
+        bottom: 7mm;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding-top: 2mm;
+        border-top: 1px solid #e3eaf2;
+        color: #8793a3;
+        font-size: 6px;
+        font-weight: 700;
+    }
+
+    @page {
+        size: A4 portrait;
+        margin: 0;
+    }
+
+    @media print {
+        html, body { background: white; }
+        .pdf-toolbar { display: none !important; }
+        .pdf-pages { padding: 0; }
+        .pdf-page {
+            width: 210mm;
+            height: 297mm;
+            min-height: 297mm;
+            margin: 0;
+            box-shadow: none;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="pdf-toolbar">
+    <div>
+        <div class="pdf-toolbar-title">
+            ${applicants.length} متقدم — جاهز للحفظ PDF
+        </div>
+        <div class="pdf-toolbar-summary">
+            ${escapeHTML(filterSummary)}
+        </div>
+    </div>
+
+    <button onclick="window.print()">
+        طباعة / حفظ PDF
+    </button>
+</div>
+
+<main class="pdf-pages">
+    ${pages}
+</main>
+
+<script>
+    window.addEventListener("load", function() {
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(function() {
+                setTimeout(function() {
+                    window.print();
+                }, 250);
+            });
+        } else {
+            setTimeout(function() {
+                window.print();
+            }, 600);
+        }
+    });
+<\/script>
+
+</body>
+</html>
+    `);
+
+    printWindow.document.close();
+}
+
+
+exportPdfButton.addEventListener(
+    "click",
+    exportFilteredApplicantsToPdf
+);
 
 
 /* =========================================================
