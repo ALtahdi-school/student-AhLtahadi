@@ -1,1263 +1,6783 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
+>
+
 <meta name="theme-color" content="#075fcf">
-<title>منصة الطالب | مدرسة التحدي</title>
+
+<title>منصة الطالب | مدرسة التحدي الأهلية المختلطة</title>
 
 <style>
+
 :root{
-  --blue:#075fcf;
-  --blue2:#064ca8;
-  --soft:#eef6ff;
-  --bg:#f5f8fc;
-  --card:#fff;
-  --text:#172033;
-  --muted:#667085;
-  --border:#e4e9f0;
-  --green:#078746;
-  --greenbg:#ecfdf3;
-  --red:#c62828;
-  --redbg:#fff1f1;
-  --orange:#e97800;
-  --shadow:0 15px 45px rgba(32,60,95,.12);
+    --blue:#075fcf;
+    --blue2:#064ca8;
+    --blue3:#0b72e7;
+    --soft:#eef6ff;
+    --bg:#f5f8fc;
+    --white:#fff;
+    --text:#172033;
+    --muted:#667085;
+    --border:#e3e9f1;
+
+    --green:#078746;
+    --green-bg:#ecfdf3;
+
+    --red:#c62828;
+    --red-bg:#fff1f1;
+
+    --orange:#dd7400;
+    --orange-bg:#fff5e8;
+
+    --shadow:
+        0 15px 45px
+        rgba(31,55,86,.10);
 }
 
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{width:100%;min-height:100%}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,
 body{
-  font-family:Tahoma,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  overflow-x:hidden
+    width:100%;
+    min-height:100%;
 }
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-.hidden{display:none!important}
 
-/* loader */
+body{
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+
+    background:var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+}
+
+button,
+input,
+textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* =========================================================
+   LOADER
+========================================================= */
+
 .loader-screen{
-  position:fixed;inset:0;z-index:99999;
-  display:flex;align-items:center;justify-content:center;
-  background:#fff
-}
-.loader-box{text-align:center}
-.loader{
-  width:42px;height:42px;border-radius:50%;
-  border:4px solid #e5edf7;border-top-color:var(--blue);
-  animation:spin .8s linear infinite;margin:auto
-}
-.loader-box p{margin-top:13px;color:var(--muted);font-size:13px;font-weight:700}
-@keyframes spin{to{transform:rotate(360deg)}}
+    position:fixed;
+    inset:0;
+    z-index:99999;
 
-/* app */
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#fff;
+}
+
+.loader-box{
+    text-align:center;
+}
+
+.loader-logo{
+    width:85px;
+    height:85px;
+    object-fit:contain;
+    margin-bottom:18px;
+}
+
+.loader{
+    width:38px;
+    height:38px;
+    margin:auto;
+
+    border-radius:50%;
+
+    border:
+        4px solid
+        #e5edf7;
+
+    border-top-color:
+        var(--blue);
+
+    animation:
+        spin .8s
+        linear
+        infinite;
+}
+
+.loader-box p{
+    margin-top:13px;
+
+    color:var(--muted);
+
+    font-size:11px;
+    font-weight:800;
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
 .app{
-  min-height:100vh;
-  padding-bottom:88px;
+    min-height:100vh;
+    padding-bottom:94px;
 }
 
 .topbar{
-  position:sticky;top:0;z-index:50;
-  min-height:72px;
-  padding:13px 16px;
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  background:rgba(255,255,255,.94);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--border)
+    position:sticky;
+    top:0;
+
+    z-index:80;
+
+    min-height:72px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+
+    padding:
+        max(10px,env(safe-area-inset-top))
+        15px
+        10px;
+
+    background:
+        rgba(255,255,255,.95);
+
+    backdrop-filter:
+        blur(17px);
+
+    -webkit-backdrop-filter:
+        blur(17px);
+
+    border-bottom:
+        1px solid
+        var(--border);
 }
-.top-brand{display:flex;align-items:center;gap:10px;min-width:0}
-.top-logo{width:48px;height:48px;object-fit:contain}
-.top-title{min-width:0}
-.top-title h1{font-size:14px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.top-title p{font-size:10px;color:var(--blue);font-weight:800;margin-top:3px}
+
+.top-brand{
+    min-width:0;
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.top-logo{
+    width:49px;
+    height:49px;
+    object-fit:contain;
+    flex:none;
+}
+
+.top-title{
+    min-width:0;
+}
+
+.top-title h1{
+    font-size:13px;
+    font-weight:900;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.top-title p{
+    margin-top:3px;
+
+    color:var(--blue);
+
+    font-size:9px;
+    font-weight:900;
+}
+
 .logout{
-  border:0;background:#f2f5f8;color:#475467;
-  border-radius:12px;padding:9px 12px;font-size:10px;font-weight:800
+    flex:none;
+
+    border:0;
+
+    padding:9px 11px;
+
+    border-radius:12px;
+
+    background:#f1f4f7;
+    color:#475467;
+
+    font-size:9px;
+    font-weight:900;
 }
 
-.content{padding:16px;max-width:900px;margin:auto}
-.page{display:none;animation:pageIn .3s ease}
-.page.active{display:block}
-@keyframes pageIn{
-  from{opacity:0;transform:translateY(8px)}
-  to{opacity:1;transform:none}
+.content{
+    width:100%;
+    max-width:920px;
+
+    margin:auto;
+
+    padding:16px;
 }
 
-/* profile */
+.page{
+    display:none;
+
+    animation:
+        pageIn .32s
+        cubic-bezier(.16,1,.3,1);
+}
+
+.page.active{
+    display:block;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
 .student-hero{
-  position:relative;overflow:hidden;
-  background:linear-gradient(135deg,#086bdc,#064a9f);
-  color:#fff;border-radius:24px;padding:22px;
-  box-shadow:0 18px 45px rgba(7,95,207,.2)
-}
-.student-hero:before{
-  content:"";position:absolute;width:180px;height:180px;border-radius:50%;
-  background:rgba(255,255,255,.08);top:-90px;left:-65px
-}
-.student-hero:after{
-  content:"";position:absolute;width:150px;height:150px;border-radius:50%;
-  background:rgba(255,255,255,.06);bottom:-85px;right:-60px
-}
-.hero-inner{position:relative;z-index:2}
-.hero-head{display:flex;align-items:center;gap:13px}
-.hero-avatar{
-  width:62px;height:62px;border-radius:18px;
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.2);
-  font-size:23px;font-weight:900
-}
-.hero-info h2{font-size:18px;font-weight:900;line-height:1.5}
-.hero-info p{font-size:11px;opacity:.9;margin-top:3px}
-.hero-badges{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
-.hero-badge{
-  padding:7px 10px;border-radius:999px;
-  background:rgba(255,255,255,.14);
-  border:1px solid rgba(255,255,255,.13);
-  font-size:9px;font-weight:800
+    position:relative;
+
+    overflow:hidden;
+
+    padding:22px;
+
+    border-radius:25px;
+
+    color:#fff;
+
+    background:
+        radial-gradient(
+            circle at 0 0,
+            rgba(255,255,255,.17),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #0872e7,
+            #0758c6 55%,
+            #064494
+        );
+
+    box-shadow:
+        0 19px 45px
+        rgba(7,95,207,.20);
 }
 
-.section-title{
-  margin:22px 2px 11px;
-  display:flex;align-items:center;justify-content:space-between;gap:10px
+.student-hero::before{
+    content:"";
+
+    position:absolute;
+
+    width:190px;
+    height:190px;
+
+    top:-110px;
+    left:-70px;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.08);
 }
-.section-title h3{font-size:15px;font-weight:900}
-.section-title span{font-size:10px;color:var(--muted)}
+
+.student-hero::after{
+    content:"";
+
+    position:absolute;
+
+    width:150px;
+    height:150px;
+
+    right:-70px;
+    bottom:-90px;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.06);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+}
+
+.hero-head{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.avatar{
+    width:63px;
+    height:63px;
+
+    flex:none;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:19px;
+
+    background:
+        rgba(255,255,255,.17);
+
+    border:
+        1px solid
+        rgba(255,255,255,.20);
+
+    font-size:24px;
+    font-weight:900;
+}
+
+.hero-info{
+    min-width:0;
+}
+
+.hero-info h2{
+    font-size:18px;
+    font-weight:900;
+
+    line-height:1.5;
+
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.hero-info p{
+    margin-top:3px;
+
+    direction:ltr;
+    text-align:right;
+
+    font-size:10px;
+    opacity:.9;
+}
+
+.hero-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+
+    margin-top:17px;
+}
+
+.hero-tag{
+    padding:
+        7px 10px;
+
+    border-radius:999px;
+
+    background:
+        rgba(255,255,255,.14);
+
+    border:
+        1px solid
+        rgba(255,255,255,.13);
+
+    font-size:8px;
+    font-weight:900;
+}
+
+/* =========================================================
+   ACCESS WARNING
+========================================================= */
+
+.access-warning{
+    display:none;
+
+    margin-top:13px;
+
+    padding:13px 14px;
+
+    border-radius:16px;
+
+    background:
+        var(--orange-bg);
+
+    border:
+        1px solid
+        #f8d7aa;
+
+    color:
+        #915700;
+
+    font-size:10px;
+    line-height:1.8;
+    font-weight:800;
+}
+
+.access-warning.show{
+    display:block;
+}
+
+.access-warning.blocked{
+    background:
+        var(--red-bg);
+
+    border-color:
+        #f6c4c4;
+
+    color:
+        var(--red);
+}
+
+/* =========================================================
+   TITLES
+========================================================= */
+
+.section-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+
+    margin:
+        22px 2px
+        11px;
+}
+
+.section-head h3{
+    font-size:15px;
+    font-weight:900;
+}
+
+.section-head span{
+    color:var(--muted);
+
+    font-size:9px;
+}
+
+/* =========================================================
+   INFO
+========================================================= */
 
 .info-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0,1fr)
+        );
+
+    gap:9px;
 }
+
 .info-card{
-  background:#fff;border:1px solid var(--border);border-radius:17px;padding:14px;
-  box-shadow:0 7px 22px rgba(20,40,70,.05)
-}
-.info-card span{display:block;font-size:9px;color:var(--muted);font-weight:700;margin-bottom:5px}
-.info-card strong{display:block;font-size:12px;font-weight:900;word-break:break-word}
+    min-width:0;
 
-/* status */
+    padding:13px;
+
+    border-radius:17px;
+
+    background:#fff;
+
+    border:
+        1px solid
+        var(--border);
+
+    box-shadow:
+        0 6px 20px
+        rgba(20,40,70,.045);
+}
+
+.info-card small{
+    display:block;
+
+    margin-bottom:5px;
+
+    color:var(--muted);
+
+    font-size:8px;
+    font-weight:800;
+}
+
+.info-card strong{
+    display:block;
+
+    font-size:11px;
+    font-weight:900;
+
+    line-height:1.6;
+
+    word-break:break-word;
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
 .status-box{
-  border-radius:20px;padding:17px;background:#fff;border:1px solid var(--border);
-  box-shadow:var(--shadow)
-}
-.status-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #f0f2f5}
-.status-row:last-child{border-bottom:0}
-.status-row span{font-size:11px;color:var(--muted)}
-.badge{padding:6px 10px;border-radius:999px;font-size:9px;font-weight:900}
-.badge.green{background:var(--greenbg);color:var(--green)}
-.badge.red{background:var(--redbg);color:var(--red)}
-.badge.blue{background:var(--soft);color:var(--blue)}
-.badge.orange{background:#fff4e5;color:var(--orange)}
+    overflow:hidden;
 
-/* notifications */
-.notice-list{display:grid;gap:11px}
+    padding:
+        4px 14px;
+
+    border-radius:19px;
+
+    background:#fff;
+
+    border:
+        1px solid
+        var(--border);
+
+    box-shadow:
+        var(--shadow);
+}
+
+.status-row{
+    min-height:48px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+
+    border-bottom:
+        1px solid
+        #f0f2f5;
+}
+
+.status-row:last-child{
+    border-bottom:0;
+}
+
+.status-row > span{
+    color:var(--muted);
+
+    font-size:10px;
+    font-weight:700;
+}
+
+.badge{
+    padding:
+        6px 9px;
+
+    border-radius:999px;
+
+    font-size:8px;
+    font-weight:900;
+}
+
+.badge.green{
+    color:var(--green);
+    background:var(--green-bg);
+}
+
+.badge.red{
+    color:var(--red);
+    background:var(--red-bg);
+}
+
+.badge.blue{
+    color:var(--blue);
+    background:var(--soft);
+}
+
+.badge.orange{
+    color:var(--orange);
+    background:var(--orange-bg);
+}
+
+/* =========================================================
+   LOCKED PAGE
+========================================================= */
+
+.lock-box{
+    margin-top:35px;
+
+    padding:
+        28px 20px;
+
+    text-align:center;
+
+    border-radius:24px;
+
+    background:#fff;
+
+    border:
+        1px solid
+        var(--border);
+
+    box-shadow:
+        var(--shadow);
+}
+
+.lock-icon{
+    width:72px;
+    height:72px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    margin:
+        0 auto
+        14px;
+
+    border-radius:22px;
+
+    background:
+        var(--orange-bg);
+
+    color:
+        var(--orange);
+
+    font-size:29px;
+    font-weight:900;
+}
+
+.lock-box.blocked .lock-icon{
+    background:
+        var(--red-bg);
+
+    color:
+        var(--red);
+}
+
+.lock-box h3{
+    font-size:17px;
+    font-weight:900;
+}
+
+.lock-box p{
+    margin-top:8px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    line-height:1.9;
+}
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+.notice-list{
+    display:grid;
+    gap:10px;
+}
+
 .notice{
-  position:relative;
-  background:#fff;border:1px solid var(--border);border-radius:18px;
-  padding:15px;box-shadow:0 7px 22px rgba(30,50,80,.05)
-}
-.notice.unread{border-right:4px solid var(--blue);background:#fbfdff}
-.notice-head{display:flex;justify-content:space-between;gap:10px}
-.notice h4{font-size:13px;font-weight:900}
-.notice-time{font-size:9px;color:#98a2b3;white-space:nowrap}
-.notice p{margin-top:8px;font-size:11px;color:#475467;line-height:1.9;white-space:pre-wrap}
-.notice-footer{margin-top:9px;font-size:9px;color:var(--blue);font-weight:800}
+    position:relative;
 
-/* grades */
-.grade-toolbar{
-  display:flex;gap:8px;overflow:auto;padding-bottom:4px;
-  scrollbar-width:none
-}
-.grade-toolbar::-webkit-scrollbar{display:none}
-.grade-tab{
-  flex:none;border:1px solid var(--border);background:#fff;color:#475467;
-  padding:9px 13px;border-radius:999px;font-size:10px;font-weight:900
-}
-.grade-tab.active{background:var(--blue);border-color:var(--blue);color:#fff}
+    padding:15px;
 
-.grade-cards{display:grid;gap:11px;margin-top:12px}
+    border-radius:18px;
+
+    background:#fff;
+
+    border:
+        1px solid
+        var(--border);
+
+    box-shadow:
+        0 7px 22px
+        rgba(20,40,70,.045);
+}
+
+.notice.unread{
+    border-right:
+        4px solid
+        var(--blue);
+
+    background:
+        #fbfdff;
+}
+
+.notice-head{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.notice h4{
+    font-size:12px;
+    font-weight:900;
+}
+
+.notice-date{
+    flex:none;
+
+    color:#98a2b3;
+
+    font-size:8px;
+}
+
+.notice p{
+    margin-top:8px;
+
+    color:#475467;
+
+    font-size:10px;
+    line-height:1.9;
+
+    white-space:pre-wrap;
+}
+
+.notice-from{
+    margin-top:9px;
+
+    color:var(--blue);
+
+    font-size:8px;
+    font-weight:900;
+}
+
+/* =========================================================
+   GRADES
+========================================================= */
+
+.subject-list{
+    display:grid;
+    gap:10px;
+}
+
 .subject-card{
-  background:#fff;border:1px solid var(--border);border-radius:20px;
-  padding:15px;box-shadow:0 8px 26px rgba(20,40,70,.06)
-}
-.subject-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.subject-name{font-size:14px;font-weight:900}
-.subject-result{font-size:9px;font-weight:900;padding:6px 9px;border-radius:999px}
-.subject-result.pass{background:var(--greenbg);color:var(--green)}
-.subject-result.fail{background:var(--redbg);color:var(--red)}
+    padding:15px;
 
-.grade-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:7px;margin-top:13px
+    border-radius:19px;
+
+    background:#fff;
+
+    border:
+        1px solid
+        var(--border);
+
+    box-shadow:
+        0 7px 22px
+        rgba(20,40,70,.05);
 }
-.grade-cell{
-  padding:10px 5px;border-radius:12px;background:#f8fafc;text-align:center
+
+.subject-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
 }
-.grade-cell span{display:block;font-size:7.5px;color:var(--muted);min-height:20px}
-.grade-cell strong{display:block;margin-top:4px;font-size:12px;font-weight:900}
+
+.subject-name{
+    font-size:13px;
+    font-weight:900;
+}
+
+.subject-result{
+    padding:
+        6px 9px;
+
+    border-radius:999px;
+
+    font-size:8px;
+    font-weight:900;
+}
+
+.subject-result.pass{
+    color:var(--green);
+    background:var(--green-bg);
+}
+
+.subject-result.fail{
+    color:var(--red);
+    background:var(--red-bg);
+}
+
+.subject-result.wait{
+    color:var(--orange);
+    background:var(--orange-bg);
+}
+
+.mini-grades{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:6px;
+
+    margin-top:12px;
+}
+
+.mini-grade{
+    min-width:0;
+
+    padding:
+        9px 4px;
+
+    text-align:center;
+
+    border-radius:12px;
+
+    background:#f8fafc;
+}
+
+.mini-grade small{
+    display:block;
+
+    min-height:22px;
+
+    color:var(--muted);
+
+    font-size:7px;
+    line-height:1.4;
+}
+
+.mini-grade strong{
+    display:block;
+
+    margin-top:3px;
+
+    font-size:11px;
+    font-weight:900;
+}
 
 .grade-table-wrap{
-  margin-top:15px;overflow:auto;background:#fff;border:1px solid var(--border);
-  border-radius:18px
+    margin-top:15px;
+
+    overflow:auto;
+
+    border-radius:18px;
+
+    border:
+        1px solid
+        var(--border);
+
+    background:#fff;
 }
-.grade-table{width:100%;border-collapse:collapse;min-width:900px}
-.grade-table th,.grade-table td{
-  border-bottom:1px solid #edf0f4;padding:11px 8px;text-align:center;font-size:10px
+
+.grade-table{
+    width:100%;
+    min-width:950px;
+
+    border-collapse:collapse;
 }
-.grade-table th{background:#f7f9fc;color:#475467;font-weight:900;position:sticky;top:0}
-.grade-table td:first-child,.grade-table th:first-child{position:sticky;right:0;background:#fff;font-weight:900}
-.grade-table tfoot td{background:#f8fafc;font-weight:900}
+
+.grade-table th,
+.grade-table td{
+    padding:
+        11px 8px;
+
+    text-align:center;
+
+    border-bottom:
+        1px solid
+        #edf0f4;
+
+    font-size:9px;
+}
+
+.grade-table th{
+    position:sticky;
+    top:0;
+
+    z-index:2;
+
+    background:#f7f9fc;
+
+    color:#475467;
+
+    font-weight:900;
+}
+
+.grade-table th:first-child,
+.grade-table td:first-child{
+    position:sticky;
+    right:0;
+
+    z-index:3;
+
+    background:#fff;
+
+    font-weight:900;
+}
+
+.grade-table thead th:first-child{
+    background:#f7f9fc;
+}
+
+.grade-table tfoot td{
+    background:#f7f9fc;
+    font-weight:900;
+}
 
 .result-card{
-  margin-top:16px;border-radius:24px;padding:22px;text-align:center;
-  color:#fff;background:linear-gradient(135deg,#099552,#05743e);
-  box-shadow:0 18px 40px rgba(5,130,71,.18)
-}
-.result-card.fail{background:linear-gradient(135deg,#d63b3b,#a91e1e)}
-.result-card h3{font-size:13px}
-.result-card h2{font-size:27px;margin:9px 0 5px}
-.result-card p{font-size:11px;line-height:1.8}
+    margin-top:16px;
 
-/* chat */
-.chat-page{
-  height:calc(100vh - 165px);
-  min-height:480px;
-  display:flex;flex-direction:column;
-  background:#eef3f7;border:1px solid var(--border);border-radius:22px;overflow:hidden
+    padding:
+        22px 17px;
+
+    text-align:center;
+
+    border-radius:24px;
+
+    color:#fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #099552,
+            #05723e
+        );
+
+    box-shadow:
+        0 18px 40px
+        rgba(5,130,71,.18);
 }
+
+.result-card.fail{
+    background:
+        linear-gradient(
+            135deg,
+            #d64141,
+            #a91f1f
+        );
+}
+
+.result-card.special{
+    background:
+        linear-gradient(
+            135deg,
+            #0870e5,
+            #064a9d
+        );
+}
+
+.result-school{
+    font-size:10px;
+    font-weight:900;
+}
+
+.result-card h2{
+    margin:
+        9px 0
+        5px;
+
+    font-size:27px;
+    font-weight:900;
+}
+
+.result-card p{
+    font-size:10px;
+    line-height:1.9;
+}
+
+/* =========================================================
+   CHAT
+========================================================= */
+
+.chat-box{
+    height:
+        calc(100vh - 170px);
+
+    min-height:470px;
+
+    display:flex;
+    flex-direction:column;
+
+    overflow:hidden;
+
+    border-radius:22px;
+
+    background:#edf3f7;
+
+    border:
+        1px solid
+        var(--border);
+}
+
 .chat-head{
-  padding:12px 14px;background:#fff;border-bottom:1px solid var(--border)
+    padding:
+        12px 14px;
+
+    background:#fff;
+
+    border-bottom:
+        1px solid
+        var(--border);
 }
-.chat-head h3{font-size:13px;font-weight:900}
-.chat-head p{font-size:9px;color:var(--muted);margin-top:3px}
+
+.chat-head h3{
+    font-size:12px;
+    font-weight:900;
+}
+
+.chat-head p{
+    margin-top:3px;
+
+    color:var(--muted);
+
+    font-size:8px;
+}
+
 .messages{
-  flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:8px
+    flex:1;
+
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+
+    overflow:auto;
+
+    padding:14px;
+
+    scroll-behavior:smooth;
 }
+
+.chat-empty{
+    margin:auto;
+
+    color:#98a2b3;
+
+    text-align:center;
+
+    font-size:10px;
+}
+
 .msg{
-  max-width:82%;padding:9px 11px;border-radius:15px;
-  background:#fff;align-self:flex-start;box-shadow:0 3px 9px rgba(20,40,70,.06)
+    position:relative;
+
+    align-self:flex-start;
+
+    max-width:82%;
+
+    padding:
+        9px 11px;
+
+    border-radius:
+        5px 15px
+        15px 15px;
+
+    background:#fff;
+
+    box-shadow:
+        0 3px 9px
+        rgba(20,40,70,.06);
 }
-.msg.mine{align-self:flex-end;background:#dff2ff}
-.msg-name{font-size:8px;color:var(--blue);font-weight:900;margin-bottom:4px}
-.msg-text{font-size:11px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
-.msg-meta{font-size:7px;color:#98a2b3;margin-top:4px;text-align:left}
+
+.msg.mine{
+    align-self:flex-end;
+
+    border-radius:
+        15px 5px
+        15px 15px;
+
+    background:#dff1ff;
+}
+
+.msg-name{
+    margin-bottom:4px;
+
+    color:var(--blue);
+
+    font-size:7.5px;
+    font-weight:900;
+}
+
+.msg-text{
+    font-size:10.5px;
+    line-height:1.75;
+
+    white-space:pre-wrap;
+    word-break:break-word;
+}
+
+.msg-meta{
+    display:flex;
+    justify-content:flex-end;
+    gap:4px;
+
+    margin-top:4px;
+
+    color:#8995a5;
+
+    direction:ltr;
+
+    font-size:7px;
+}
+
+.read-mark{
+    color:#2788d8;
+    font-weight:900;
+}
+
 .chat-compose{
-  display:flex;gap:8px;padding:10px;background:#fff;border-top:1px solid var(--border)
+    display:flex;
+    align-items:center;
+    gap:7px;
+
+    padding:
+        9px
+        9px
+        max(9px,env(safe-area-inset-bottom));
+
+    background:#fff;
+
+    border-top:
+        1px solid
+        var(--border);
 }
+
 .chat-input{
-  flex:1;height:46px;border:1px solid var(--border);border-radius:14px;
-  padding:0 13px;outline:none;font-size:13px;background:#f9fbfd
-}
-.chat-input:focus{border-color:var(--blue)}
-.send-btn{
-  width:48px;border:0;border-radius:14px;background:var(--blue);color:#fff;font-size:17px;font-weight:900
+    min-width:0;
+    flex:1;
+
+    height:47px;
+
+    padding:
+        0 13px;
+
+    border-radius:15px;
+
+    border:
+        1px solid
+        var(--border);
+
+    outline:none;
+
+    background:#f9fbfd;
+
+    font-size:13px;
 }
 
-/* bottom nav */
+.chat-input:focus{
+    border-color:
+        var(--blue);
+}
+
+.send{
+    width:48px;
+    height:48px;
+
+    flex:none;
+
+    border:0;
+
+    border-radius:15px;
+
+    color:#fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0870e6,
+            #0758c5
+        );
+
+    font-size:18px;
+    font-weight:900;
+}
+
+.send:disabled{
+    opacity:.55;
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
 .bottom-nav{
-  position:fixed;z-index:80;
-  left:12px;right:12px;
-  bottom:max(10px,env(safe-area-inset-bottom));
-  height:67px;
-  display:grid;grid-template-columns:repeat(4,1fr);
-  padding:5px;
-  border:1px solid rgba(220,227,236,.9);
-  border-radius:22px;
-  background:rgba(255,255,255,.96);
-  backdrop-filter:blur(16px);
-  box-shadow:0 18px 45px rgba(32,55,84,.18)
+    position:fixed;
+
+    z-index:90;
+
+    left:12px;
+    right:12px;
+
+    bottom:
+        max(9px,env(safe-area-inset-bottom));
+
+    height:68px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:3px;
+
+    max-width:570px;
+
+    margin:auto;
+
+    padding:5px;
+
+    border-radius:22px;
+
+    border:
+        1px solid
+        rgba(220,227,236,.92);
+
+    background:
+        rgba(255,255,255,.96);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    box-shadow:
+        0 18px 45px
+        rgba(32,55,84,.17);
 }
+
 .nav-item{
-  position:relative;border:0;background:none;border-radius:16px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  color:#7b8798;gap:3px
+    position:relative;
+
+    border:0;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+
+    border-radius:16px;
+
+    color:#7b8798;
+    background:transparent;
+
+    transition:.22s;
 }
-.nav-item.active{background:var(--soft);color:var(--blue)}
-.nav-icon{font-size:18px;font-weight:900;line-height:1}
-.nav-label{font-size:8px;font-weight:900}
+
+.nav-item.active{
+    color:var(--blue);
+    background:var(--soft);
+}
+
+.nav-item svg{
+    width:19px;
+    height:19px;
+
+    fill:none;
+    stroke:currentColor;
+
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+.nav-label{
+    font-size:7.5px;
+    font-weight:900;
+}
+
 .nav-badge{
-  display:none;position:absolute;top:4px;left:50%;
-  transform:translateX(-14px);
-  min-width:17px;height:17px;padding:0 5px;border-radius:99px;
-  background:#e32636;color:#fff;font-size:8px;font-weight:900;
-  align-items:center;justify-content:center;border:2px solid #fff
-}
-.nav-badge.show{display:flex}
+    display:none;
 
-/* onboarding */
-.complete-screen,.inactive-screen{
-  position:fixed;inset:0;z-index:5000;
-  overflow:auto;padding:24px 16px;
-  background:linear-gradient(180deg,#f5f9ff,#eef4fb)
+    position:absolute;
+
+    top:3px;
+    left:50%;
+
+    transform:
+        translateX(-15px);
+
+    min-width:17px;
+    height:17px;
+
+    padding:
+        0 4px;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:99px;
+
+    border:
+        2px solid
+        #fff;
+
+    color:#fff;
+    background:#df2736;
+
+    font-size:7px;
+    font-weight:900;
 }
-.form-card,.inactive-card{
-  width:min(500px,100%);margin:auto;background:#fff;border-radius:26px;
-  padding:22px;border:1px solid var(--border);box-shadow:var(--shadow)
+
+.nav-badge.show{
+    display:flex;
 }
-.form-logo{display:block;width:85px;height:85px;object-fit:contain;margin:0 auto 12px}
-.form-card h2,.inactive-card h2{text-align:center;font-size:19px;font-weight:900}
-.form-card .lead,.inactive-card p{
-  text-align:center;color:var(--muted);font-size:11px;line-height:1.8;margin-top:7px
+
+/* =========================================================
+   COMPLETE PROFILE / INACTIVE
+========================================================= */
+
+.full-screen{
+    position:fixed;
+    inset:0;
+
+    z-index:5000;
+
+    overflow:auto;
+
+    padding:
+        max(24px,env(safe-area-inset-top))
+        15px
+        max(24px,env(safe-area-inset-bottom));
+
+    background:
+        linear-gradient(
+            180deg,
+            #f5f9ff,
+            #edf4fb
+        );
 }
-.fields{display:grid;gap:11px;margin-top:20px}
-.field label{display:block;font-size:9px;font-weight:900;color:#475467;margin:0 3px 6px}
+
+.screen-card{
+    width:100%;
+    max-width:500px;
+
+    margin:auto;
+
+    padding:
+        22px 19px;
+
+    border-radius:26px;
+
+    background:#fff;
+
+    border:
+        1px solid
+        var(--border);
+
+    box-shadow:
+        var(--shadow);
+}
+
+.screen-logo{
+    display:block;
+
+    width:86px;
+    height:86px;
+
+    margin:
+        0 auto
+        12px;
+
+    object-fit:contain;
+}
+
+.screen-card h2{
+    text-align:center;
+
+    font-size:19px;
+    font-weight:900;
+}
+
+.screen-card > p{
+    margin-top:7px;
+
+    text-align:center;
+
+    color:var(--muted);
+
+    font-size:10px;
+    line-height:1.9;
+}
+
+.fields{
+    display:grid;
+    gap:10px;
+
+    margin-top:19px;
+}
+
+.field label{
+    display:block;
+
+    margin:
+        0 3px
+        6px;
+
+    color:#475467;
+
+    font-size:8px;
+    font-weight:900;
+}
+
 .field input{
-  width:100%;height:50px;border:1px solid var(--border);border-radius:14px;
-  padding:0 13px;outline:none;font-size:13px
+    width:100%;
+    height:50px;
+
+    padding:
+        0 13px;
+
+    outline:none;
+
+    border-radius:14px;
+
+    border:
+        1px solid
+        var(--border);
+
+    font-size:13px;
 }
-.field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(7,95,207,.06)}
-.save-profile{
-  width:100%;height:54px;margin-top:17px;border:0;border-radius:15px;
-  background:var(--blue);color:#fff;font-size:13px;font-weight:900
+
+.field input:focus{
+    border-color:
+        var(--blue);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(7,95,207,.06);
 }
+
 .form-warning{
-  margin-top:13px;padding:11px;border-radius:12px;background:#fff8e8;color:#9a6500;
-  font-size:9px;line-height:1.8;text-align:center
-}
-.inactive-card{margin-top:12vh;text-align:center}
-.inactive-icon{
-  width:80px;height:80px;border-radius:22px;background:var(--redbg);color:var(--red);
-  display:flex;align-items:center;justify-content:center;margin:0 auto 15px;font-size:30px;font-weight:900
-}
-.inactive-card .logout2{
-  width:100%;height:50px;border:0;border-radius:14px;background:#f2f4f7;
-  color:#344054;font-size:11px;font-weight:900;margin-top:18px
+    margin-top:13px;
+
+    padding:11px;
+
+    border-radius:13px;
+
+    text-align:center;
+
+    background:
+        var(--orange-bg);
+
+    color:
+        #986000;
+
+    font-size:8.5px;
+    line-height:1.8;
 }
 
-/* toast */
+.primary-btn{
+    width:100%;
+    height:53px;
+
+    margin-top:16px;
+
+    border:0;
+
+    border-radius:15px;
+
+    color:#fff;
+    background:var(--blue);
+
+    font-size:12px;
+    font-weight:900;
+}
+
+.inactive-card{
+    margin-top:9vh;
+}
+
+.big-status-icon{
+    width:78px;
+    height:78px;
+
+    margin:
+        3px auto
+        15px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:23px;
+
+    color:var(--red);
+    background:var(--red-bg);
+
+    font-size:30px;
+    font-weight:900;
+}
+
+.secondary-btn{
+    width:100%;
+    height:49px;
+
+    margin-top:17px;
+
+    border:0;
+
+    border-radius:14px;
+
+    background:#f1f4f7;
+    color:#344054;
+
+    font-size:10px;
+    font-weight:900;
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal{
+    display:none;
+
+    position:fixed;
+    inset:0;
+
+    z-index:10000;
+
+    padding:16px;
+
+    align-items:center;
+    justify-content:center;
+
+    background:
+        rgba(17,32,51,.45);
+
+    backdrop-filter:
+        blur(5px);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-card{
+    width:100%;
+    max-width:390px;
+
+    padding:20px;
+
+    text-align:center;
+
+    border-radius:23px;
+
+    background:#fff;
+
+    box-shadow:
+        0 24px 65px
+        rgba(0,0,0,.20);
+
+    animation:
+        modalIn .3s
+        cubic-bezier(.16,1,.3,1);
+}
+
+.modal-icon{
+    width:67px;
+    height:67px;
+
+    margin:
+        0 auto
+        13px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:20px;
+
+    background:
+        var(--orange-bg);
+
+    color:
+        var(--orange);
+
+    font-size:27px;
+    font-weight:900;
+}
+
+.modal-card.blocked .modal-icon{
+    background:
+        var(--red-bg);
+
+    color:
+        var(--red);
+}
+
+.modal-card h3{
+    font-size:16px;
+    font-weight:900;
+}
+
+.modal-card p{
+    margin-top:8px;
+
+    color:var(--muted);
+
+    font-size:10px;
+    line-height:1.9;
+}
+
+.modal-card button{
+    width:100%;
+    height:47px;
+
+    margin-top:15px;
+
+    border:0;
+
+    border-radius:14px;
+
+    color:#fff;
+    background:var(--blue);
+
+    font-size:10px;
+    font-weight:900;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
 .toast{
-  position:fixed;z-index:99999;left:15px;right:15px;bottom:95px;
-  max-width:430px;margin:auto;padding:12px 14px;border-radius:14px;
-  background:#172033;color:#fff;font-size:10px;font-weight:800;text-align:center;
-  opacity:0;pointer-events:none;transform:translateY(10px);transition:.25s
-}
-.toast.show{opacity:1;transform:none}
+    position:fixed;
 
-/* responsive */
-@media(min-width:700px){
-  .info-grid{grid-template-columns:repeat(3,1fr)}
-  .grade-grid{grid-template-columns:repeat(8,1fr)}
-  .bottom-nav{max-width:560px;margin:auto}
+    z-index:30000;
+
+    left:15px;
+    right:15px;
+
+    bottom:95px;
+
+    width:auto;
+    max-width:430px;
+
+    margin:auto;
+
+    padding:
+        12px 14px;
+
+    text-align:center;
+
+    border-radius:14px;
+
+    color:#fff;
+    background:#172033;
+
+    font-size:9px;
+    font-weight:800;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transform:
+        translateY(10px);
+
+    transition:.25s;
 }
+
+.toast.show{
+    opacity:1;
+
+    transform:none;
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes spin{
+    to{
+        transform:
+            rotate(360deg);
+    }
+}
+
+@keyframes pageIn{
+    from{
+        opacity:0;
+
+        transform:
+            translateY(9px);
+    }
+
+    to{
+        opacity:1;
+
+        transform:none;
+    }
+}
+
+@keyframes modalIn{
+    from{
+        opacity:0;
+
+        transform:
+            scale(.92)
+            translateY(8px);
+    }
+
+    to{
+        opacity:1;
+
+        transform:none;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(min-width:700px){
+
+    .info-grid{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+    .mini-grades{
+        grid-template-columns:
+            repeat(8,1fr);
+    }
+
+}
+
 </style>
+
 </head>
 
 <body>
 
+
+<!-- =========================================================
+     LOADING
+========================================================= -->
+
 <div id="loaderScreen" class="loader-screen">
-  <div class="loader-box">
-    <div class="loader"></div>
-    <p>جاري تحميل حساب الطالب</p>
-  </div>
+
+    <div class="loader-box">
+
+        <img
+            src="logo.png"
+            class="loader-logo"
+            alt="شعار مدرسة التحدي"
+        >
+
+        <div class="loader"></div>
+
+        <p>
+            جاري تحميل حساب الطالب
+        </p>
+
+    </div>
+
 </div>
 
-<!-- إكمال البيانات -->
-<section id="completeScreen" class="complete-screen hidden">
-  <div class="form-card">
-    <img src="logo.png" class="form-logo" alt="شعار المدرسة">
-    <h2>إكمال بيانات الطالب</h2>
-    <p class="lead">
-      يرجى إكمال البيانات الناقصة قبل الدخول إلى المنصة.
-    </p>
 
-    <div id="completeFields" class="fields"></div>
+<!-- =========================================================
+     COMPLETE DATA
+========================================================= -->
 
-    <div class="form-warning">
-      بعد حفظ البيانات لن تتمكن من تعديلها من حساب الطالب،
-      وأي تعديل لاحق يكون عن طريق إدارة المدرسة.
+<section
+    id="completeScreen"
+    class="full-screen hidden"
+>
+
+    <div class="screen-card">
+
+        <img
+            src="logo.png"
+            class="screen-logo"
+            alt="شعار المدرسة"
+        >
+
+        <h2>
+            إكمال بيانات الطالب
+        </h2>
+
+        <p>
+            يرجى إكمال البيانات الناقصة للانتقال إلى منصة الطالب.
+        </p>
+
+        <div
+            id="completeFields"
+            class="fields"
+        ></div>
+
+        <div class="form-warning">
+
+            يرجى التأكد من صحة البيانات قبل الحفظ.
+            بعد الحفظ لن تستطيع تعديل هذه البيانات من حساب الطالب،
+            وأي تعديل لاحق يكون عن طريق إدارة المدرسة.
+
+        </div>
+
+        <button
+            id="saveProfileBtn"
+            class="primary-btn"
+        >
+            حفظ ومتابعة
+        </button>
+
     </div>
 
-    <button id="saveProfileBtn" class="save-profile">حفظ ومتابعة</button>
-  </div>
 </section>
 
-<!-- الحساب غير فعال -->
-<section id="inactiveScreen" class="inactive-screen hidden">
-  <div class="inactive-card">
-    <img src="logo.png" class="form-logo" alt="شعار المدرسة">
-    <div class="inactive-icon">!</div>
-    <h2>الحساب غير فعال</h2>
-    <p>
-      حسابك موجود في النظام لكنه غير فعال حالياً.
-      يرجى مراجعة إدارة مدرسة التحدي الأهلية المختلطة.
-    </p>
-    <button id="inactiveLogout" class="logout2">تسجيل الخروج</button>
-  </div>
+
+<!-- =========================================================
+     GLOBAL ACCOUNT INACTIVE
+========================================================= -->
+
+<section
+    id="inactiveScreen"
+    class="full-screen hidden"
+>
+
+    <div class="screen-card inactive-card">
+
+        <img
+            src="logo.png"
+            class="screen-logo"
+            alt="شعار المدرسة"
+        >
+
+        <div class="big-status-icon">
+            !
+        </div>
+
+        <h2>
+            الحساب غير فعال
+        </h2>
+
+        <p>
+            حسابك موجود في النظام لكنه غير فعال حالياً.
+            يرجى مراجعة إدارة مدرسة التحدي الأهلية المختلطة.
+        </p>
+
+        <button
+            id="inactiveLogout"
+            class="secondary-btn"
+        >
+            تسجيل الخروج
+        </button>
+
+    </div>
+
 </section>
 
-<!-- التطبيق -->
-<div id="app" class="app hidden">
 
-  <header class="topbar">
+<!-- =========================================================
+     APP
+========================================================= -->
+
+<div
+    id="app"
+    class="app hidden"
+>
+
+<header class="topbar">
+
     <div class="top-brand">
-      <img src="logo.png" class="top-logo" alt="شعار المدرسة">
-      <div class="top-title">
-        <h1>مدرسة التحدي الأهلية المختلطة</h1>
-        <p id="topStudentName">منصة الطالب</p>
-      </div>
+
+        <img
+            src="logo.png"
+            class="top-logo"
+            alt="شعار مدرسة التحدي"
+        >
+
+        <div class="top-title">
+
+            <h1>
+                مدرسة التحدي الأهلية المختلطة
+            </h1>
+
+            <p id="topStudentName">
+                منصة الطالب
+            </p>
+
+        </div>
+
     </div>
-    <button id="logoutBtn" class="logout">خروج</button>
-  </header>
 
-  <main class="content">
 
-    <!-- الرئيسية -->
-    <section id="pageHome" class="page active">
+    <button
+        id="logoutBtn"
+        class="logout"
+    >
+        خروج
+    </button>
 
-      <div class="student-hero">
-        <div class="hero-inner">
-          <div class="hero-head">
-            <div id="studentAvatar" class="hero-avatar">ط</div>
-            <div class="hero-info">
-              <h2 id="heroName">—</h2>
-              <p id="heroCode">—</p>
+</header>
+
+
+<main class="content">
+
+
+<!-- =========================================================
+     HOME
+========================================================= -->
+
+<section
+    id="pageHome"
+    class="page active"
+>
+
+    <div class="student-hero">
+
+        <div class="hero-content">
+
+            <div class="hero-head">
+
+                <div
+                    id="studentAvatar"
+                    class="avatar"
+                >
+                    ط
+                </div>
+
+                <div class="hero-info">
+
+                    <h2 id="heroName">
+                        —
+                    </h2>
+
+                    <p id="heroCode">
+                        —
+                    </p>
+
+                </div>
+
             </div>
-          </div>
 
-          <div class="hero-badges">
-            <span id="heroClass" class="hero-badge">الصف: —</span>
-            <span id="heroRoom" class="hero-badge">القاعة: —</span>
-            <span id="heroYear" class="hero-badge">2026-2027</span>
-          </div>
+
+            <div class="hero-tags">
+
+                <span
+                    id="heroClass"
+                    class="hero-tag"
+                >
+                    الصف: —
+                </span>
+
+                <span
+                    id="heroRoom"
+                    class="hero-tag"
+                >
+                    القاعة: —
+                </span>
+
+                <span class="hero-tag">
+                    2026-2027
+                </span>
+
+            </div>
+
         </div>
-      </div>
 
-      <div class="section-title">
-        <h3>بيانات الطالب</h3>
-        <span>بيانات رسمية</span>
-      </div>
+    </div>
 
-      <div id="studentInfoGrid" class="info-grid"></div>
 
-      <div class="section-title">
-        <h3>حالة الحساب</h3>
-      </div>
+    <div
+        id="homeAccessWarning"
+        class="access-warning"
+    ></div>
 
-      <div id="studentStatusBox" class="status-box"></div>
 
-    </section>
+    <div class="section-head">
 
-    <!-- التبليغات -->
-    <section id="pageNotices" class="page">
-      <div class="section-title">
-        <h3>التبليغات</h3>
-        <span id="noticeCountText">0 تبليغ</span>
-      </div>
-      <div id="noticeList" class="notice-list"></div>
-    </section>
+        <h3>
+            بيانات الطالب
+        </h3>
 
-    <!-- الدرجات -->
-    <section id="pageGrades" class="page">
-      <div class="section-title">
-        <h3>الدرجات والنتائج</h3>
-        <span>العام الدراسي 2026-2027</span>
-      </div>
+        <span>
+            بيانات رسمية
+        </span>
 
-      <div id="gradeCards" class="grade-cards"></div>
+    </div>
 
-      <div class="grade-table-wrap">
-        <table class="grade-table">
-          <thead>
-            <tr>
-              <th>المادة</th>
-              <th>الفصل الأول</th>
-              <th>نصف السنة</th>
-              <th>الفصل الثاني</th>
-              <th>السعي السنوي</th>
-              <th>الامتحان النهائي</th>
-              <th>الدرجة النهائية</th>
-              <th>الدور الثاني</th>
-              <th>النتيجة</th>
-            </tr>
-          </thead>
-          <tbody id="gradeTableBody"></tbody>
-          <tfoot id="gradeTableFoot"></tfoot>
-        </table>
-      </div>
 
-      <div id="finalResultCard"></div>
-    </section>
+    <div
+        id="studentInfoGrid"
+        class="info-grid"
+    ></div>
 
-    <!-- الدردشة -->
-    <section id="pageChat" class="page">
-      <div class="chat-page">
+
+    <div class="section-head">
+
+        <h3>
+            حالة الحساب والخدمات
+        </h3>
+
+    </div>
+
+
+    <div
+        id="studentStatusBox"
+        class="status-box"
+    ></div>
+
+</section>
+
+
+<!-- =========================================================
+     NOTIFICATIONS
+========================================================= -->
+
+<section
+    id="pageNotices"
+    class="page"
+>
+
+    <div class="section-head">
+
+        <h3>
+            التبليغات
+        </h3>
+
+        <span id="noticeCountText">
+            0 تبليغ
+        </span>
+
+    </div>
+
+    <div
+        id="noticeList"
+        class="notice-list"
+    ></div>
+
+</section>
+
+
+<!-- =========================================================
+     GRADES
+========================================================= -->
+
+<section
+    id="pageGrades"
+    class="page"
+>
+
+    <div id="gradesLocked"></div>
+
+    <div
+        id="gradesContent"
+        class="hidden"
+    >
+
+        <div class="section-head">
+
+            <h3>
+                الدرجات والنتائج
+            </h3>
+
+            <span>
+                2026-2027
+            </span>
+
+        </div>
+
+
+        <div
+            id="subjectList"
+            class="subject-list"
+        ></div>
+
+
+        <div class="grade-table-wrap">
+
+            <table class="grade-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            المادة
+                        </th>
+
+                        <th>
+                            الفصل الأول
+                        </th>
+
+                        <th>
+                            نصف السنة
+                        </th>
+
+                        <th>
+                            الفصل الثاني
+                        </th>
+
+                        <th>
+                            السعي السنوي
+                        </th>
+
+                        <th>
+                            الامتحان النهائي
+                        </th>
+
+                        <th>
+                            الدرجة النهائية
+                        </th>
+
+                        <th>
+                            الدور الثاني
+                        </th>
+
+                        <th>
+                            النتيجة
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody
+                    id="gradeTableBody"
+                ></tbody>
+
+                <tfoot
+                    id="gradeTableFoot"
+                ></tfoot>
+
+            </table>
+
+        </div>
+
+
+        <div
+            id="finalResultCard"
+        ></div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CHAT
+========================================================= -->
+
+<section
+    id="pageChat"
+    class="page"
+>
+
+    <div id="chatLocked"></div>
+
+
+    <div
+        id="chatContent"
+        class="chat-box hidden"
+    >
+
         <div class="chat-head">
-          <h3>دردشة الصف</h3>
-          <p id="chatRoomName">—</p>
+
+            <h3>
+                دردشة الصف
+            </h3>
+
+            <p id="chatRoomName">
+                —
+            </p>
+
         </div>
 
-        <div id="messages" class="messages"></div>
+
+        <div
+            id="messages"
+            class="messages"
+        ></div>
+
 
         <div class="chat-compose">
-          <input id="chatInput" class="chat-input" placeholder="اكتب رسالة..." maxlength="500">
-          <button id="sendBtn" class="send-btn">➤</button>
+
+            <input
+                id="chatInput"
+                class="chat-input"
+                type="text"
+                placeholder="اكتب رسالة..."
+                maxlength="500"
+                autocomplete="off"
+            >
+
+            <button
+                id="sendBtn"
+                class="send"
+                type="button"
+            >
+                ←
+            </button>
+
         </div>
-      </div>
-    </section>
 
-  </main>
+    </div>
 
-  <nav class="bottom-nav">
+</section>
 
-    <button class="nav-item active" data-page="home">
-      <span class="nav-icon">⌂</span>
-      <span class="nav-label">الرئيسية</span>
-    </button>
 
-    <button class="nav-item" data-page="notices">
-      <span id="noticeBadge" class="nav-badge">0</span>
-      <span class="nav-icon">●</span>
-      <span class="nav-label">التبليغات</span>
-    </button>
+</main>
 
-    <button class="nav-item" data-page="grades">
-      <span class="nav-icon">▤</span>
-      <span class="nav-label">الدرجات</span>
-    </button>
 
-    <button class="nav-item" data-page="chat">
-      <span id="chatBadge" class="nav-badge">0</span>
-      <span class="nav-icon">◉</span>
-      <span class="nav-label">الدردشة</span>
-    </button>
+<!-- =========================================================
+     BOTTOM NAV
+========================================================= -->
 
-  </nav>
+<nav class="bottom-nav">
+
+
+<button
+    class="nav-item active"
+    data-page="home"
+>
+
+    <svg viewBox="0 0 24 24">
+
+        <path d="M3 11.5L12 4l9 7.5"></path>
+        <path d="M5.5 10.5V20h13v-9.5"></path>
+        <path d="M9.5 20v-6h5v6"></path>
+
+    </svg>
+
+    <span class="nav-label">
+        الرئيسية
+    </span>
+
+</button>
+
+
+<button
+    class="nav-item"
+    data-page="notices"
+>
+
+    <span
+        id="noticeBadge"
+        class="nav-badge"
+    >
+        0
+    </span>
+
+    <svg viewBox="0 0 24 24">
+
+        <path d="M18 8a6 6 0 10-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+        <path d="M10 21h4"></path>
+
+    </svg>
+
+    <span class="nav-label">
+        التبليغات
+    </span>
+
+</button>
+
+
+<button
+    class="nav-item"
+    data-page="grades"
+>
+
+    <svg viewBox="0 0 24 24">
+
+        <path d="M5 4h14v16H5z"></path>
+        <path d="M8 8h8"></path>
+        <path d="M8 12h8"></path>
+        <path d="M8 16h5"></path>
+
+    </svg>
+
+    <span class="nav-label">
+        الدرجات
+    </span>
+
+</button>
+
+
+<button
+    class="nav-item"
+    data-page="chat"
+>
+
+    <span
+        id="chatBadge"
+        class="nav-badge"
+    >
+        0
+    </span>
+
+    <svg viewBox="0 0 24 24">
+
+        <path d="M21 12a8 8 0 01-8 8H5l-3 2 1-5a9 9 0 118-14"></path>
+
+    </svg>
+
+    <span class="nav-label">
+        الدردشة
+    </span>
+
+</button>
+
+
+</nav>
 
 </div>
 
-<div id="toast" class="toast"></div>
+
+<!-- =========================================================
+     ACCESS MODAL
+========================================================= -->
+
+<div
+    id="accessModal"
+    class="modal"
+>
+
+    <div
+        id="accessModalCard"
+        class="modal-card"
+    >
+
+        <div
+            id="accessModalIcon"
+            class="modal-icon"
+        >
+            !
+        </div>
+
+        <h3 id="accessModalTitle">
+            الخدمة غير متاحة
+        </h3>
+
+        <p id="accessModalText"></p>
+
+        <button
+            id="closeAccessModal"
+            type="button"
+        >
+            حسناً
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
 
 <script>
-const DB="https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
 
-const $=id=>document.getElementById(id);
+/* =========================================================
+   DATABASE
+========================================================= */
 
-let session={};
-let user={};
-let student={};
-let STUDENT_CODE="";
-let classData={};
-let grades={};
-let notices=[];
-let chatMessages={};
-let chatListener=null;
-let noticeListener=null;
+const DB =
+    "https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
 
-const REQUIRED_FIELDS=[
-  ["motherName","اسم الأم"],
-  ["guardianPhone","رقم ولي الأمر"],
-  ["studentPhone","رقم الطالب"],
-  ["lineNumber","رقم الخط"],
-  ["address","عنوان السكن"],
-  ["previousSchool","المدرسة القادم منها"]
+
+/* =========================================================
+   GLOBAL STATE
+========================================================= */
+
+let session = {};
+
+let user = {};
+
+let student = {};
+
+let classData = {};
+
+let academicSettings = {};
+
+let STUDENT_CODE = "";
+
+let grades = {};
+
+let notifications = [];
+
+let chatMessages = {};
+
+let chatPolling = null;
+
+let notificationPolling = null;
+
+let lastChatCount = 0;
+
+
+/* =========================================================
+   PROFILE FIELDS STUDENT MAY COMPLETE ONCE
+========================================================= */
+
+const COMPLETABLE_FIELDS = [
+
+    {
+        key:"motherName",
+        label:"اسم الأم",
+        type:"text"
+    },
+
+    {
+        key:"birthDate",
+        label:"تاريخ الميلاد",
+        type:"date"
+    },
+
+    {
+        key:"guardianPhone",
+        label:"رقم ولي الأمر",
+        type:"tel"
+    },
+
+    {
+        key:"studentPhone",
+        label:"رقم الطالب",
+        type:"tel"
+    },
+
+    {
+        key:"lineNumber",
+        label:"رقم الخط",
+        type:"text"
+    },
+
+    {
+        key:"previousSchool",
+        label:"المدرسة القادم منها",
+        type:"text"
+    },
+
+    {
+        key:"address",
+        label:"عنوان السكن بالتفصيل",
+        type:"text"
+    }
+
 ];
 
-const SUBJECT_ORDER=[
-  "اسلامية","إسلامية","عربي","اللغة العربية","إنكليزي","اللغة الانكليزية",
-  "رياضيات","كيمياء","فيزياء","أحياء","اجتماعيات","حاسوب","رياضة","فنية","سلوك"
+
+/* =========================================================
+   DEFAULT MODERATION WORDS
+
+   ويمكن إضافة كلمات إضافية من Firebase:
+   settings/chatModeration/blockedWords
+========================================================= */
+
+const DEFAULT_BLOCKED_WORDS = [
+
+    "حمار",
+    "كلب",
+    "قذر",
+    "تافه",
+    "غبي"
+
 ];
 
-function esc(v){
-  return String(v??"").replace(/[&<>"']/g,m=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-  }[m]));
+
+/* =========================================================
+   DOM SHORTCUT
+========================================================= */
+
+const $ =
+    id =>
+        document.getElementById(id);
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function esc(value){
+
+    return String(value ?? "")
+
+        .replace(
+            /[&<>"']/g,
+            char => ({
+                "&":"&amp;",
+                "<":"&lt;",
+                ">":"&gt;",
+                '"':"&quot;",
+                "'":"&#039;"
+            })[char]
+        );
+
 }
 
-function norm(v){
-  return String(v??"").trim().toLowerCase();
+
+function norm(value){
+
+    return String(value ?? "")
+        .trim()
+        .toLowerCase();
+
 }
 
-function num(v){
-  const n=Number(v);
-  return Number.isFinite(n)?n:null;
+
+function numberOrNull(value){
+
+    if(
+        value === "" ||
+        value === null ||
+        value === undefined
+    ){
+        return null;
+    }
+
+    const valueNumber =
+        Number(value);
+
+    return Number.isFinite(valueNumber)
+        ? valueNumber
+        : null;
+
 }
 
-function rounded(v){
-  const n=num(v);
-  return n===null?null:Math.round(n);
+
+function roundGrade(value){
+
+    const valueNumber =
+        numberOrNull(value);
+
+    if(valueNumber === null){
+        return null;
+    }
+
+    /*
+       87.49 -> 87
+       87.50 -> 88
+    */
+
+    return Math.round(
+        valueNumber
+    );
+
 }
 
-function fmt(v){
-  return v===null||v===undefined||v===""?"—":v;
+
+function display(value){
+
+    return (
+        value === null ||
+        value === undefined ||
+        value === ""
+    )
+        ? "—"
+        : value;
+
 }
 
-function dateText(v){
-  if(!v)return "—";
-  const d=new Date(v);
-  if(isNaN(d))return String(v);
-  return d.toLocaleDateString("ar-IQ",{year:"numeric",month:"2-digit",day:"2-digit"});
+
+function displayGrade(value){
+
+    if(
+        value === null ||
+        value === undefined ||
+        value === ""
+    ){
+        return "—";
+    }
+
+    if(
+        typeof value === "string" &&
+        Number.isNaN(
+            Number(value)
+        )
+    ){
+        return value;
+    }
+
+    return String(
+        Math.round(
+            Number(value)
+        )
+    );
+
 }
 
-function timeText(v){
-  const d=new Date(Number(v)||v);
-  if(isNaN(d))return "";
-  return d.toLocaleTimeString("ar-IQ",{hour:"2-digit",minute:"2-digit"});
+
+function dateText(value){
+
+    if(!value){
+        return "—";
+    }
+
+    const date =
+        new Date(value);
+
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    ){
+        return String(value);
+    }
+
+    return date.toLocaleDateString(
+        "ar-IQ",
+        {
+            year:"numeric",
+            month:"2-digit",
+            day:"2-digit"
+        }
+    );
+
 }
 
-function toast(msg){
-  $("toast").textContent=msg;
-  $("toast").classList.add("show");
-  clearTimeout(window._toastTimer);
-  window._toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2200);
+
+function timeText(value){
+
+    const date =
+        new Date(
+            Number(value) ||
+            value
+        );
+
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    ){
+        return "";
+    }
+
+    return date.toLocaleTimeString(
+        "ar-IQ",
+        {
+            hour:"2-digit",
+            minute:"2-digit"
+        }
+    );
+
 }
 
-/* Firebase REST */
+
+function toast(text){
+
+    $("toast").textContent =
+        text;
+
+    $("toast").classList.add(
+        "show"
+    );
+
+    clearTimeout(
+        window.toastTimer
+    );
+
+    window.toastTimer =
+        setTimeout(
+            () => {
+
+                $("toast").classList.remove(
+                    "show"
+                );
+
+            },
+            2400
+        );
+
+}
+
+
+/* =========================================================
+   FIREBASE REST
+========================================================= */
+
 async function dbGet(path){
-  const r=await fetch(`${DB}/${path}.json`,{cache:"no-store"});
-  if(!r.ok)throw Error("DB_GET");
-  return r.json();
+
+    const response =
+        await fetch(
+            `${DB}/${path}.json`,
+            {
+                cache:"no-store"
+            }
+        );
+
+    if(!response.ok){
+
+        throw new Error(
+            "DATABASE_GET_FAILED"
+        );
+
+    }
+
+    return response.json();
+
 }
 
-async function dbPatch(path,data){
-  const r=await fetch(`${DB}/${path}.json`,{
-    method:"PATCH",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify(data)
-  });
-  if(!r.ok)throw Error("DB_PATCH");
-  return r.json();
+
+async function dbPatch(
+    path,
+    data
+){
+
+    const response =
+        await fetch(
+            `${DB}/${path}.json`,
+            {
+                method:"PATCH",
+
+                headers:{
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify(
+                        data
+                    )
+            }
+        );
+
+    if(!response.ok){
+
+        throw new Error(
+            "DATABASE_PATCH_FAILED"
+        );
+
+    }
+
+    return response.json();
+
 }
 
-async function dbPut(path,data){
-  const r=await fetch(`${DB}/${path}.json`,{
-    method:"PUT",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify(data)
-  });
-  if(!r.ok)throw Error("DB_PUT");
-  return r.json();
+
+async function dbPost(
+    path,
+    data
+){
+
+    const response =
+        await fetch(
+            `${DB}/${path}.json`,
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify(
+                        data
+                    )
+            }
+        );
+
+    if(!response.ok){
+
+        throw new Error(
+            "DATABASE_POST_FAILED"
+        );
+
+    }
+
+    return response.json();
+
 }
 
-async function dbPost(path,data){
-  const r=await fetch(`${DB}/${path}.json`,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify(data)
-  });
-  if(!r.ok)throw Error("DB_POST");
-  return r.json();
-}
 
-/* Session */
+/* =========================================================
+   SESSION
+========================================================= */
+
 function loadSession(){
-  try{
-    session=JSON.parse(sessionStorage.getItem("tahadi_session")||"{}");
-  }catch{
-    session={};
-  }
-  if(!session.code){
-    location.replace("index.html");
-    return false;
-  }
-  return true;
-}
-
-function logout(){
-  sessionStorage.clear();
-  location.replace("index.html");
-}
-
-/* Initialize */
-async function init(){
-  try{
-    if(!loadSession())return;
-
-    user=await dbGet(`users/${encodeURIComponent(session.code)}`);
-
-    if(!user || !["student","st"].includes(norm(user.role))){
-      logout();
-      return;
-    }
-
-    STUDENT_CODE=user.studentId||session.code;
-    student=await dbGet(`students/${encodeURIComponent(STUDENT_CODE)}`);
-
-    if(!student){
-      toast("بيانات الطالب غير موجودة");
-      setTimeout(logout,1200);
-      return;
-    }
-
-    if(student.classId){
-      classData=await dbGet(`classes/${encodeURIComponent(student.classId)}`)||{};
-    }
-
-    $("loaderScreen").classList.add("hidden");
-
-    const missing=getMissingFields();
-
-    if(!student.profileCompleted && missing.length){
-      renderCompletionForm(missing);
-      $("completeScreen").classList.remove("hidden");
-      return;
-    }
-
-    if(!student.profileCompleted && !missing.length){
-      await dbPatch(`students/${encodeURIComponent(STUDENT_CODE)}`,{
-        profileCompleted:true,
-        profileCompletedAt:Date.now()
-      });
-      student.profileCompleted=true;
-    }
-
-    if(user.active===false || user.hidden===true || student.hidden===true || student.accountActive===false){
-      $("inactiveScreen").classList.remove("hidden");
-      return;
-    }
-
-    openApp();
-
-  }catch(e){
-    console.error(e);
-    $("loaderScreen").classList.add("hidden");
-    toast("تعذر تحميل حساب الطالب");
-  }
-}
-
-function getMissingFields(){
-  return REQUIRED_FIELDS.filter(([key])=>{
-    const v=student[key];
-    return v===undefined || v===null || String(v).trim()==="";
-  });
-}
-
-/* First-time completion */
-function renderCompletionForm(fields){
-  $("completeFields").innerHTML=fields.map(([key,label])=>`
-    <div class="field">
-      <label>${esc(label)}</label>
-      <input
-        id="complete_${esc(key)}"
-        data-key="${esc(key)}"
-        type="text"
-        autocomplete="off"
-      >
-    </div>
-  `).join("");
-}
-
-$("saveProfileBtn").onclick=async()=>{
-  const inputs=[...$("completeFields").querySelectorAll("input")];
-  const patch={};
-
-  for(const input of inputs){
-    const v=input.value.trim();
-    if(!v){
-      input.focus();
-      toast("يرجى إكمال جميع الحقول");
-      return;
-    }
-    patch[input.dataset.key]=v;
-  }
-
-  patch.profileCompleted=true;
-  patch.profileCompletedAt=Date.now();
-
-  $("saveProfileBtn").disabled=true;
-  $("saveProfileBtn").textContent="جاري الحفظ";
-
-  try{
-    await dbPatch(`students/${encodeURIComponent(STUDENT_CODE)}`,patch);
-    Object.assign(student,patch);
-
-    $("completeScreen").classList.add("hidden");
-
-    if(user.active===false || user.hidden===true || student.accountActive===false){
-      $("inactiveScreen").classList.remove("hidden");
-      return;
-    }
-
-    openApp();
-
-  }catch(e){
-    toast("تعذر حفظ البيانات");
-  }finally{
-    $("saveProfileBtn").disabled=false;
-    $("saveProfileBtn").textContent="حفظ ومتابعة";
-  }
-};
-
-/* App */
-async function openApp(){
-  $("app").classList.remove("hidden");
-  renderHome();
-
-  await Promise.all([
-    loadGrades(),
-    loadNotifications(),
-    loadChat()
-  ]);
-}
-
-/* Home */
-function className(){
-  return classData.name || student.className || "—";
-}
-
-function genderText(){
-  return student.gender==="female"?"أنثى":"ذكر";
-}
-
-function renderHome(){
-  $("topStudentName").textContent=student.name||"منصة الطالب";
-  $("heroName").textContent=student.name||"—";
-  $("heroCode").textContent=`الكود: ${STUDENT_CODE}`;
-  $("heroClass").textContent=`الصف: ${className()}`;
-  $("heroRoom").textContent=`القاعة: ${student.roomNumber||"—"}`;
-
-  const first=(student.name||"ط").trim().charAt(0);
-  $("studentAvatar").textContent=first||"ط";
-
-  const fields=[
-    ["الاسم الرباعي",student.name],
-    ["اسم الأم",student.motherName],
-    ["الجنس",genderText()],
-    ["الصف",className()],
-    ["القاعة / الشعبة",student.roomNumber],
-    ["رقم ولي الأمر",student.guardianPhone],
-    ["رقم الطالب",student.studentPhone],
-    ["رقم الخط",student.lineNumber],
-    ["المدرسة السابقة",student.previousSchool],
-    ["تاريخ المباشرة",dateText(student.startDate)],
-    ["عنوان السكن",student.address],
-    ["الكود",STUDENT_CODE]
-  ];
-
-  $("studentInfoGrid").innerHTML=fields.map(([k,v])=>`
-    <div class="info-card">
-      <span>${esc(k)}</span>
-      <strong>${esc(fmt(v))}</strong>
-    </div>
-  `).join("");
-
-  const statusRows=[
-    ["الحساب",student.accountActive===false?["غير فعال","red"]:["فعال","green"]],
-    ["الملف",student.fileStatus==="accepted"?["تم القبول","green"]:["لم يستلم الملف","orange"]],
-    ["الكتب",student.booksReceived?["تم الاستلام","green"]:["لم يستلم","orange"]]
-  ];
-
-  $("studentStatusBox").innerHTML=statusRows.map(([label,[value,color]])=>`
-    <div class="status-row">
-      <span>${label}</span>
-      <b class="badge ${color}">${value}</b>
-    </div>
-  `).join("");
-}
-
-/* Navigation */
-document.querySelectorAll(".nav-item").forEach(btn=>{
-  btn.onclick=()=>{
-    const p=btn.dataset.page;
-
-    document.querySelectorAll(".nav-item").forEach(x=>x.classList.toggle("active",x===btn));
-    document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
-
-    const map={
-      home:"pageHome",
-      notices:"pageNotices",
-      grades:"pageGrades",
-      chat:"pageChat"
-    };
-
-    $(map[p]).classList.add("active");
-
-    if(p==="notices")markNotificationsRead();
-    if(p==="chat"){
-      markChatRead();
-      scrollChat();
-    }
-  };
-});
-
-/* Notifications */
-async function loadNotifications(){
-  const all=await dbGet("notifications")||{};
-
-  notices=Object.entries(all).map(([id,n])=>({id,...n})).filter(n=>{
-    if(n.active===false)return false;
-
-    const direct=!n.studentCode || n.studentCode===STUDENT_CODE;
-    const classMatch=!n.classId || n.classId===student.classId;
-
-    return direct && classMatch;
-  }).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
-
-  renderNotifications();
-}
-
-function notificationReadKey(id){
-  return `${STUDENT_CODE}_${id}`;
-}
-
-async function getReadMap(){
-  return await dbGet(`notificationReads/${encodeURIComponent(STUDENT_CODE)}`)||{};
-}
-
-async function renderNotifications(){
-  const reads=await getReadMap();
-  let unread=0;
-
-  $("noticeList").innerHTML=notices.length?notices.map(n=>{
-    const isRead=!!reads[n.id];
-    if(!isRead)unread++;
-
-    return `
-      <article class="notice ${isRead?"":"unread"}">
-        <div class="notice-head">
-          <h4>${esc(n.title||"تبليغ")}</h4>
-          <span class="notice-time">${esc(dateText(n.createdAt))}</span>
-        </div>
-        <p>${esc(n.message||n.text||"")}</p>
-        <div class="notice-footer">
-          ${esc(n.senderName||roleName(n.senderRole))}
-        </div>
-      </article>
-    `;
-  }).join(""):`<div class="status-box">لا توجد تبليغات حالياً</div>`;
-
-  $("noticeCountText").textContent=`${notices.length} تبليغ`;
-  setNavBadge("noticeBadge",unread);
-}
-
-function roleName(role){
-  const r=norm(role);
-  if(["admin","administrator"].includes(r))return "إدارة المدرسة";
-  if(r==="teacher")return "الأستاذ";
-  if(r==="accountant")return "المحاسب";
-  return "مدرسة التحدي";
-}
-
-async function markNotificationsRead(){
-  const patch={};
-  notices.forEach(n=>patch[n.id]=Date.now());
-
-  if(!notices.length)return;
-
-  try{
-    await dbPatch(`notificationReads/${encodeURIComponent(STUDENT_CODE)}`,patch);
-    setNavBadge("noticeBadge",0);
-    renderNotifications();
-  }catch{}
-}
-
-/* Grades */
-async function loadGrades(){
-  grades=await dbGet(`grades/${encodeURIComponent(STUDENT_CODE)}`)||{};
-  renderGrades();
-}
-
-function annualGrade(g){
-  const vals=[num(g.term1),num(g.midyear),num(g.term2)];
-  if(vals.some(v=>v===null))return null;
-  return Math.round((vals[0]+vals[1]+vals[2])/3);
-}
-
-function finalGrade(g){
-  const annual=annualGrade(g);
-  const exam=num(g.finalExam);
-  if(annual===null || exam===null)return null;
-  return Math.round((annual+exam)/2);
-}
-
-function subjectResult(g){
-  const second=num(g.secondRound);
-  if(second!==null)return second>=50?"ناجح":"راسب";
-
-  const f=finalGrade(g);
-  if(f===null)return "—";
-  return f>=50?"ناجح":"راسب";
-}
-
-function subjectName(g,key){
-  return g.subjectName||key;
-}
-
-function sortedGradeEntries(){
-  return Object.entries(grades).sort((a,b)=>{
-    const an=subjectName(a[1],a[0]);
-    const bn=subjectName(b[1],b[0]);
-    const ai=SUBJECT_ORDER.findIndex(x=>norm(x)===norm(an));
-    const bi=SUBJECT_ORDER.findIndex(x=>norm(x)===norm(bn));
-    return (ai<0?999:ai)-(bi<0?999:bi);
-  });
-}
-
-function renderGrades(){
-  const entries=sortedGradeEntries();
-
-  $("gradeCards").innerHTML=entries.length?entries.map(([key,g])=>{
-    const a=annualGrade(g);
-    const f=finalGrade(g);
-    const result=subjectResult(g);
-
-    return `
-      <div class="subject-card">
-        <div class="subject-top">
-          <div class="subject-name">${esc(subjectName(g,key))}</div>
-          <span class="subject-result ${result==="ناجح"?"pass":result==="راسب"?"fail":""}">
-            ${esc(result)}
-          </span>
-        </div>
-
-        <div class="grade-grid">
-          ${gradeCell("الفصل الأول",g.term1)}
-          ${gradeCell("نصف السنة",g.midyear)}
-          ${gradeCell("الفصل الثاني",g.term2)}
-          ${gradeCell("السعي السنوي",a)}
-          ${gradeCell("الامتحان النهائي",g.finalExam)}
-          ${gradeCell("الدرجة النهائية",f)}
-          ${gradeCell("الدور الثاني",g.secondRound)}
-          ${gradeCell("النتيجة",result)}
-        </div>
-      </div>
-    `;
-  }).join(""):`<div class="status-box">لا توجد درجات منشورة حالياً</div>`;
-
-  $("gradeTableBody").innerHTML=entries.map(([key,g])=>`
-    <tr>
-      <td>${esc(subjectName(g,key))}</td>
-      <td>${fmtGrade(g.term1)}</td>
-      <td>${fmtGrade(g.midyear)}</td>
-      <td>${fmtGrade(g.term2)}</td>
-      <td>${fmtGrade(annualGrade(g))}</td>
-      <td>${fmtGrade(g.finalExam)}</td>
-      <td>${fmtGrade(finalGrade(g))}</td>
-      <td>${fmtGrade(g.secondRound)}</td>
-      <td>${esc(subjectResult(g))}</td>
-    </tr>
-  `).join("");
-
-  renderTotals(entries);
-  renderFinalResult(entries);
-}
-
-function gradeCell(label,value){
-  return `
-    <div class="grade-cell">
-      <span>${esc(label)}</span>
-      <strong>${esc(fmtGrade(value))}</strong>
-    </div>
-  `;
-}
-
-function fmtGrade(v){
-  if(v===null||v===undefined||v==="")return "—";
-  if(typeof v==="string" && isNaN(Number(v)))return v;
-  return String(Math.round(Number(v)));
-}
-
-function renderTotals(entries){
-  const cols=[
-    g=>num(g.term1),
-    g=>num(g.midyear),
-    g=>num(g.term2),
-    g=>annualGrade(g),
-    g=>num(g.finalExam),
-    g=>finalGrade(g),
-    g=>num(g.secondRound)
-  ];
-
-  const sums=cols.map(fn=>{
-    const vals=entries.map(([,g])=>fn(g)).filter(v=>v!==null);
-    return {
-      sum:vals.reduce((a,b)=>a+b,0),
-      avg:vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):null
-    };
-  });
-
-  $("gradeTableFoot").innerHTML=`
-    <tr>
-      <td>المجموع</td>
-      ${sums.map(x=>`<td>${x.sum||"—"}</td>`).join("")}
-      <td>—</td>
-    </tr>
-    <tr>
-      <td>المعدل</td>
-      ${sums.map(x=>`<td>${x.avg??"—"}</td>`).join("")}
-      <td>—</td>
-    </tr>
-  `;
-}
-
-function isMinisterial(){
-  return classData.ministerial===true || student.ministerial===true;
-}
-
-function renderFinalResult(entries){
-  if(!entries.length){
-    $("finalResultCard").innerHTML="";
-    return;
-  }
-
-  const finals=entries.map(([,g])=>{
-    const second=num(g.secondRound);
-    if(second!==null)return second;
-    return finalGrade(g);
-  }).filter(v=>v!==null);
-
-  const avg=finals.length?Math.round(finals.reduce((a,b)=>a+b,0)/finals.length):null;
-  const failed=finals.filter(v=>v<50).length;
-
-  let title="";
-  let desc="";
-  let failClass="";
-
-  if(isMinisterial()){
-    const qualified=student.ministerialQualified ?? classData.defaultQualified;
-    title=qualified===false?"غير مؤهل":"مؤهل";
-    desc=qualified===false
-      ?"يرجى مراجعة إدارة المدرسة لمعرفة تفاصيل التأهيل."
-      :"أنت مؤهل حسب إعدادات المدرسة والقاعة.";
-    failClass=qualified===false?"fail":"";
-  }else{
-    const minAvg=num(classData.exemptionMinAverage)??85;
-    const minSubject=num(classData.exemptionMinSubject)??75;
-    const exemption=avg!==null && avg>=minAvg && finals.every(v=>v>=minSubject);
-
-    if(exemption){
-      title="إعفاء عام";
-      desc=student.gender==="female"?"أحسنتِ، ألف مبارك":"أحسنت، ألف مبارك";
-    }else if(failed===0){
-      title=student.gender==="female"?"ناجحة":"ناجح";
-      desc=student.gender==="female"?"ألف مبارك، أحسنتِ":"ألف مبارك، أحسنت";
-    }else{
-      title="راسب";
-      desc=`عدد المواد الراسبة: ${failed}`;
-      failClass="fail";
-    }
-  }
-
-  $("finalResultCard").innerHTML=`
-    <div class="result-card ${failClass}">
-      <h3>مدرسة التحدي الأهلية المختلطة</h3>
-      <h2>${esc(title)}</h2>
-      <p>
-        ${esc(student.name||"")}<br>
-        ${esc(className())} - القاعة ${esc(student.roomNumber||"—")}<br>
-        ${esc(desc)}
-        ${avg!==null?`<br>المعدل العام: ${avg}`:""}
-      </p>
-    </div>
-  `;
-}
-
-/* Chat */
-async function loadChat(){
-  const room=student.classId||"general";
-  $("chatRoomName").textContent=className();
-
-  chatMessages=await dbGet(`chats/${encodeURIComponent(room)}/messages`)||{};
-  renderChat();
-
-  startChatPolling(room);
-}
-
-function startChatPolling(room){
-  clearInterval(chatListener);
-
-  chatListener=setInterval(async()=>{
-    if(document.hidden)return;
 
     try{
-      const fresh=await dbGet(`chats/${encodeURIComponent(room)}/messages`)||{};
-      const oldCount=Object.keys(chatMessages).length;
-      const newCount=Object.keys(fresh).length;
 
-      chatMessages=fresh;
-      renderChat();
+        session =
+            JSON.parse(
+                sessionStorage.getItem(
+                    "tahadi_session"
+                ) || "{}"
+            );
 
-      const chatActive=$("pageChat").classList.contains("active");
+    }
 
-      if(newCount>oldCount && !chatActive){
-        setNavBadge("chatBadge",newCount-oldCount);
-      }
-    }catch{}
-  },5000);
+    catch{
+
+        session = {};
+
+    }
+
+
+    if(!session.code){
+
+        location.replace(
+            "index.html"
+        );
+
+        return false;
+
+    }
+
+
+    return true;
+
 }
 
-function renderChat(){
-  const arr=Object.entries(chatMessages)
-    .map(([id,m])=>({id,...m}))
-    .sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));
 
-  $("messages").innerHTML=arr.length?arr.map(m=>{
-    const mine=m.senderCode===STUDENT_CODE;
+function logout(){
+
+    clearInterval(
+        chatPolling
+    );
+
+    clearInterval(
+        notificationPolling
+    );
+
+    sessionStorage.clear();
+
+    location.replace(
+        "index.html"
+    );
+
+}
+
+
+/* =========================================================
+   GLOBAL ACCOUNT
+========================================================= */
+
+function globalAccountActive(){
+
+    return !(
+        user.active === false ||
+        user.hidden === true ||
+        student.hidden === true ||
+        student.accountActive === false
+    );
+
+}
+
+
+/* =========================================================
+   PROTECTED ACCESS
+
+   accountantApproved:
+   فقط المحاسب
+
+   adminApproved:
+   فقط الإدارة
+
+   behaviorBlocked:
+   ترفعه الإدارة فقط
+========================================================= */
+
+function accessState(){
+
+    if(
+        student.behaviorBlocked === true
+    ){
+
+        return {
+            allowed:false,
+            type:"blocked",
+            title:"تم حظر حسابك",
+            message:
+                "تم حظر صلاحية الدردشة والدرجات بسبب تجاوز سلوكي في الدردشة. يرجى مراجعة إدارة مدرسة التحدي الأهلية المختلطة."
+        };
+
+    }
+
+
+    if(
+        student.accountantApproved !== true
+    ){
+
+        return {
+            allowed:false,
+            type:"accountant",
+            title:"صلاحية الحسابات غير مفعلة",
+            message:
+                "لم يتم تفعيل صلاحية الحسابات من قسم الحسابات بعد. لا يمكن فتح الدرجات أو الدردشة حتى يقوم المحاسب بتفعيل الصلاحية."
+        };
+
+    }
+
+
+    if(
+        student.adminApproved !== true
+    ){
+
+        return {
+            allowed:false,
+            type:"admin",
+            title:"صلاحية الإدارة غير مفعلة",
+            message:
+                "صلاحية الدرجات والدردشة غير مفعلة من إدارة المدرسة حالياً."
+        };
+
+    }
+
+
+    return {
+        allowed:true,
+        type:"allowed",
+        title:"",
+        message:""
+    };
+
+}
+
+
+function canUseProtectedFeatures(){
+
+    return accessState().allowed;
+
+}
+
+
+/* =========================================================
+   ACCESS MODAL
+========================================================= */
+
+function showAccessModal(){
+
+    const state =
+        accessState();
+
+
+    $("accessModalTitle").textContent =
+        state.title;
+
+
+    $("accessModalText").textContent =
+        state.message;
+
+
+    $("accessModalCard")
+        .classList.toggle(
+            "blocked",
+            state.type === "blocked"
+        );
+
+
+    $("accessModal").classList.add(
+        "show"
+    );
+
+}
+
+
+$("closeAccessModal").onclick =
+    () => {
+
+        $("accessModal")
+            .classList.remove(
+                "show"
+            );
+
+    };
+
+
+$("accessModal").addEventListener(
+    "click",
+    event => {
+
+        if(
+            event.target ===
+            $("accessModal")
+        ){
+
+            $("accessModal")
+                .classList.remove(
+                    "show"
+                );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
+async function init(){
+
+    try{
+
+
+        if(
+            !loadSession()
+        ){
+            return;
+        }
+
+
+        user =
+            await dbGet(
+                `users/${encodeURIComponent(session.code)}`
+            );
+
+
+        if(
+            !user ||
+            ![
+                "student",
+                "st"
+            ].includes(
+                norm(user.role)
+            )
+        ){
+
+            logout();
+
+            return;
+
+        }
+
+
+        STUDENT_CODE =
+            user.studentId ||
+            session.code;
+
+
+        student =
+            await dbGet(
+                `students/${encodeURIComponent(STUDENT_CODE)}`
+            );
+
+
+        if(!student){
+
+            throw new Error(
+                "STUDENT_NOT_FOUND"
+            );
+
+        }
+
+
+        if(student.classId){
+
+            classData =
+                await dbGet(
+                    `classes/${encodeURIComponent(student.classId)}`
+                ) || {};
+
+        }
+
+
+        academicSettings =
+            await dbGet(
+                "academicSettings"
+            ) || {};
+
+
+        $("loaderScreen").classList.add(
+            "hidden"
+        );
+
+
+        /*
+           أولاً:
+           إكمال البيانات الناقصة.
+        */
+
+        const missing =
+            getMissingProfileFields();
+
+
+        if(
+            student.profileCompleted !== true &&
+            missing.length
+        ){
+
+            renderCompletionForm(
+                missing
+            );
+
+            $("completeScreen")
+                .classList.remove(
+                    "hidden"
+                );
+
+            return;
+
+        }
+
+
+        /*
+           إذا كل البيانات موجودة أصلاً
+           نثبت أن الملف اكتمل.
+        */
+
+        if(
+            student.profileCompleted !== true &&
+            !missing.length
+        ){
+
+            await dbPatch(
+                `students/${encodeURIComponent(STUDENT_CODE)}`,
+                {
+                    profileCompleted:true,
+                    profileCompletedAt:
+                        Date.now()
+                }
+            );
+
+
+            student.profileCompleted =
+                true;
+
+        }
+
+
+        /*
+           الحساب العام
+        */
+
+        if(
+            !globalAccountActive()
+        ){
+
+            showInactiveAccount();
+
+            return;
+
+        }
+
+
+        await openApp();
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            error
+        );
+
+
+        $("loaderScreen")
+            .classList.add(
+                "hidden"
+            );
+
+
+        toast(
+            "تعذر تحميل حساب الطالب"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   COMPLETE PROFILE
+========================================================= */
+
+function getMissingProfileFields(){
+
+    return COMPLETABLE_FIELDS.filter(
+        field => {
+
+            const value =
+                student[field.key];
+
+
+            return (
+                value === undefined ||
+                value === null ||
+                String(value).trim() === ""
+            );
+
+        }
+    );
+
+}
+
+
+function renderCompletionForm(
+    fields
+){
+
+    $("completeFields").innerHTML =
+        fields.map(
+            field => `
+
+                <div class="field">
+
+                    <label>
+                        ${esc(field.label)}
+                    </label>
+
+                    <input
+                        type="${esc(field.type)}"
+                        data-key="${esc(field.key)}"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+            `
+        ).join("");
+
+}
+
+
+$("saveProfileBtn").onclick =
+async () => {
+
+    const inputs =
+        [
+            ...$("completeFields")
+                .querySelectorAll(
+                    "input"
+                )
+        ];
+
+
+    const update = {};
+
+
+    for(
+        const input
+        of inputs
+    ){
+
+        const value =
+            input.value.trim();
+
+
+        if(!value){
+
+            input.focus();
+
+            toast(
+                "يرجى إكمال جميع البيانات"
+            );
+
+            return;
+
+        }
+
+
+        update[
+            input.dataset.key
+        ] = value;
+
+    }
+
+
+    update.profileCompleted =
+        true;
+
+
+    update.profileCompletedAt =
+        Date.now();
+
+
+    $("saveProfileBtn").disabled =
+        true;
+
+
+    $("saveProfileBtn").textContent =
+        "جاري حفظ البيانات";
+
+
+    try{
+
+
+        await dbPatch(
+            `students/${encodeURIComponent(STUDENT_CODE)}`,
+            update
+        );
+
+
+        Object.assign(
+            student,
+            update
+        );
+
+
+        $("completeScreen")
+            .classList.add(
+                "hidden"
+            );
+
+
+        if(
+            !globalAccountActive()
+        ){
+
+            showInactiveAccount();
+
+            return;
+
+        }
+
+
+        await openApp();
+
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        toast(
+            "تعذر حفظ البيانات"
+        );
+
+    }
+
+    finally{
+
+        $("saveProfileBtn").disabled =
+            false;
+
+
+        $("saveProfileBtn").textContent =
+            "حفظ ومتابعة";
+
+    }
+
+};
+
+
+/* =========================================================
+   INACTIVE
+========================================================= */
+
+function showInactiveAccount(){
+
+    $("app")
+        .classList.add(
+            "hidden"
+        );
+
+
+    $("inactiveScreen")
+        .classList.remove(
+            "hidden"
+        );
+
+}
+
+
+/* =========================================================
+   OPEN APPLICATION
+========================================================= */
+
+async function openApp(){
+
+    $("app")
+        .classList.remove(
+            "hidden"
+        );
+
+
+    renderHome();
+
+
+    await loadNotifications();
+
+
+    /*
+       لا نسحب الدرجات والدردشة
+       إذا الصلاحيات غير مكتملة.
+    */
+
+    if(
+        canUseProtectedFeatures()
+    ){
+
+        await Promise.all([
+            loadGrades(),
+            loadChat()
+        ]);
+
+    }
+
+    else{
+
+        renderProtectedLocks();
+
+    }
+
+
+    startNotificationPolling();
+
+}
+
+
+/* =========================================================
+   CLASS / STUDENT INFO
+========================================================= */
+
+function className(){
+
+    return (
+        classData.name ||
+        student.className ||
+        "—"
+    );
+
+}
+
+
+function genderText(){
+
+    return (
+        student.gender === "female"
+    )
+        ? "أنثى"
+        : "ذكر";
+
+}
+
+
+/* =========================================================
+   HOME
+========================================================= */
+
+function renderHome(){
+
+    $("topStudentName").textContent =
+        student.name ||
+        "منصة الطالب";
+
+
+    $("heroName").textContent =
+        student.name ||
+        "—";
+
+
+    $("heroCode").textContent =
+        STUDENT_CODE;
+
+
+    $("heroClass").textContent =
+        `الصف: ${className()}`;
+
+
+    $("heroRoom").textContent =
+        `القاعة: ${student.roomNumber || "—"}`;
+
+
+    $("studentAvatar").textContent =
+        (
+            student.name ||
+            "ط"
+        )
+        .trim()
+        .charAt(0) ||
+        "ط";
+
+
+    const information = [
+
+        [
+            "الاسم الرباعي",
+            student.name
+        ],
+
+        [
+            "اسم الأم",
+            student.motherName
+        ],
+
+        [
+            "تاريخ الميلاد",
+            dateText(
+                student.birthDate
+            )
+        ],
+
+        [
+            "الجنس",
+            genderText()
+        ],
+
+        [
+            "الصف",
+            className()
+        ],
+
+        [
+            "القاعة / الشعبة",
+            student.roomNumber
+        ],
+
+        [
+            "رقم ولي الأمر",
+            student.guardianPhone
+        ],
+
+        [
+            "رقم الطالب",
+            student.studentPhone
+        ],
+
+        [
+            "رقم الخط",
+            student.lineNumber
+        ],
+
+        [
+            "المدرسة السابقة",
+            student.previousSchool
+        ],
+
+        [
+            "تاريخ المباشرة",
+            dateText(
+                student.startDate
+            )
+        ],
+
+        [
+            "عنوان السكن",
+            student.address
+        ],
+
+        [
+            "كود الطالب",
+            STUDENT_CODE
+        ]
+
+    ];
+
+
+    $("studentInfoGrid").innerHTML =
+        information.map(
+            ([label,value]) => `
+
+                <div class="info-card">
+
+                    <small>
+                        ${esc(label)}
+                    </small>
+
+                    <strong>
+                        ${esc(display(value))}
+                    </strong>
+
+                </div>
+
+            `
+        ).join("");
+
+
+    renderAccountStatus();
+
+    renderHomeAccessWarning();
+
+}
+
+
+/* =========================================================
+   ACCOUNT STATUS
+========================================================= */
+
+function renderAccountStatus(){
+
+    const status = [
+
+        [
+            "الحساب الرئيسي",
+
+            globalAccountActive()
+                ? [
+                    "فعال",
+                    "green"
+                ]
+                : [
+                    "غير فعال",
+                    "red"
+                ]
+        ],
+
+        [
+            "صلاحية الحسابات",
+
+            student.accountantApproved === true
+                ? [
+                    "مفعلة",
+                    "green"
+                ]
+                : [
+                    "غير مفعلة",
+                    "orange"
+                ]
+        ],
+
+        [
+            "صلاحية الإدارة للدرجات والدردشة",
+
+            student.adminApproved === true
+                ? [
+                    "مفعلة",
+                    "green"
+                ]
+                : [
+                    "غير مفعلة",
+                    "orange"
+                ]
+        ],
+
+        [
+            "الحالة السلوكية",
+
+            student.behaviorBlocked === true
+                ? [
+                    "محظور",
+                    "red"
+                ]
+                : [
+                    "سليم",
+                    "green"
+                ]
+        ],
+
+        [
+            "الملف",
+
+            student.fileStatus === "accepted"
+                ? [
+                    "تم القبول",
+                    "green"
+                ]
+                : [
+                    "لم يستلم الملف",
+                    "orange"
+                ]
+        ],
+
+        [
+            "الكتب",
+
+            student.booksReceived === true
+                ? [
+                    "تم الاستلام",
+                    "green"
+                ]
+                : [
+                    "لم يستلم",
+                    "orange"
+                ]
+        ]
+
+    ];
+
+
+    $("studentStatusBox").innerHTML =
+        status.map(
+            ([label,[value,color]]) => `
+
+                <div class="status-row">
+
+                    <span>
+                        ${esc(label)}
+                    </span>
+
+                    <b class="badge ${color}">
+                        ${esc(value)}
+                    </b>
+
+                </div>
+
+            `
+        ).join("");
+
+}
+
+
+/* =========================================================
+   HOME ACCESS WARNING
+========================================================= */
+
+function renderHomeAccessWarning(){
+
+    const state =
+        accessState();
+
+
+    const box =
+        $("homeAccessWarning");
+
+
+    box.className =
+        "access-warning";
+
+
+    if(
+        state.allowed
+    ){
+
+        box.textContent =
+            "";
+
+        return;
+
+    }
+
+
+    box.textContent =
+        state.message;
+
+
+    box.classList.add(
+        "show"
+    );
+
+
+    if(
+        state.type === "blocked"
+    ){
+
+        box.classList.add(
+            "blocked"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+document
+.querySelectorAll(
+    ".nav-item"
+)
+.forEach(
+    button => {
+
+        button.addEventListener(
+            "click",
+            async () => {
+
+                const page =
+                    button.dataset.page;
+
+
+                /*
+                   نعيد جلب حالة الطالب
+                   قبل الدخول للدرجات والدردشة.
+                */
+
+                if(
+                    [
+                        "grades",
+                        "chat"
+                    ].includes(page)
+                ){
+
+                    await refreshStudentAccess();
+
+
+                    if(
+                        !canUseProtectedFeatures()
+                    ){
+
+                        renderHome();
+                        renderProtectedLocks();
+
+                        showAccessModal();
+
+                    }
+
+                    else{
+
+                        if(
+                            page === "grades" &&
+                            !Object.keys(grades).length
+                        ){
+
+                            await loadGrades();
+
+                        }
+
+
+                        if(
+                            page === "chat" &&
+                            !chatPolling
+                        ){
+
+                            await loadChat();
+
+                        }
+
+                    }
+
+                }
+
+
+                document
+                    .querySelectorAll(
+                        ".nav-item"
+                    )
+                    .forEach(
+                        item =>
+                            item.classList.remove(
+                                "active"
+                            )
+                    );
+
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                document
+                    .querySelectorAll(
+                        ".page"
+                    )
+                    .forEach(
+                        item =>
+                            item.classList.remove(
+                                "active"
+                            )
+                    );
+
+
+                const pages = {
+
+                    home:
+                        "pageHome",
+
+                    notices:
+                        "pageNotices",
+
+                    grades:
+                        "pageGrades",
+
+                    chat:
+                        "pageChat"
+
+                };
+
+
+                $(
+                    pages[page]
+                )
+                .classList.add(
+                    "active"
+                );
+
+
+                if(
+                    page === "notices"
+                ){
+
+                    await markNotificationsRead();
+
+                }
+
+
+                if(
+                    page === "chat" &&
+                    canUseProtectedFeatures()
+                ){
+
+                    await markVisibleMessagesRead();
+
+                    setNavBadge(
+                        "chatBadge",
+                        0
+                    );
+
+                    scrollChat();
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   REFRESH ACCESS
+========================================================= */
+
+async function refreshStudentAccess(){
+
+    try{
+
+        const freshStudent =
+            await dbGet(
+                `students/${encodeURIComponent(STUDENT_CODE)}`
+            );
+
+
+        if(freshStudent){
+
+            student =
+                freshStudent;
+
+        }
+
+
+        const freshUser =
+            await dbGet(
+                `users/${encodeURIComponent(session.code)}`
+            );
+
+
+        if(freshUser){
+
+            user =
+                freshUser;
+
+        }
+
+
+        if(
+            !globalAccountActive()
+        ){
+
+            showInactiveAccount();
+
+        }
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =========================================================
+   PROTECTED LOCK UI
+========================================================= */
+
+function renderProtectedLocks(){
+
+    const state =
+        accessState();
+
+
+    if(
+        state.allowed
+    ){
+
+        $("gradesLocked").innerHTML =
+            "";
+
+
+        $("chatLocked").innerHTML =
+            "";
+
+
+        $("gradesContent")
+            .classList.remove(
+                "hidden"
+            );
+
+
+        $("chatContent")
+            .classList.remove(
+                "hidden"
+            );
+
+
+        return;
+
+    }
+
+
+    const blockedClass =
+        state.type === "blocked"
+            ? "blocked"
+            : "";
+
+
+    const html = `
+
+        <div class="lock-box ${blockedClass}">
+
+            <div class="lock-icon">
+                !
+            </div>
+
+            <h3>
+                ${esc(state.title)}
+            </h3>
+
+            <p>
+                ${esc(state.message)}
+            </p>
+
+        </div>
+
+    `;
+
+
+    $("gradesLocked").innerHTML =
+        html;
+
+
+    $("chatLocked").innerHTML =
+        html;
+
+
+    $("gradesContent")
+        .classList.add(
+            "hidden"
+        );
+
+
+    $("chatContent")
+        .classList.add(
+            "hidden"
+        );
+
+}
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+async function loadNotifications(){
+
+    const all =
+        await dbGet(
+            "notifications"
+        ) || {};
+
+
+    notifications =
+        Object.entries(all)
+
+        .map(
+            ([id,value]) => ({
+                id,
+                ...value
+            })
+        )
+
+        .filter(
+            notice => {
+
+                if(
+                    notice.active === false
+                ){
+                    return false;
+                }
+
+
+                /*
+                   إذا notification.studentCode موجود
+                   لازم يكون نفس الطالب.
+                */
+
+                if(
+                    notice.studentCode &&
+                    notice.studentCode !==
+                    STUDENT_CODE
+                ){
+                    return false;
+                }
+
+
+                /*
+                   إذا classId موجود
+                   لازم يكون نفس الصف.
+                */
+
+                if(
+                    notice.classId &&
+                    notice.classId !==
+                    student.classId
+                ){
+                    return false;
+                }
+
+
+                return true;
+
+            }
+        )
+
+        .sort(
+            (a,b) =>
+                (b.createdAt || 0) -
+                (a.createdAt || 0)
+        );
+
+
+    await renderNotifications();
+
+}
+
+
+/* =========================================================
+   NOTIFICATION READS
+========================================================= */
+
+async function notificationReadMap(){
+
+    return (
+        await dbGet(
+            `notificationReads/${encodeURIComponent(STUDENT_CODE)}`
+        )
+    ) || {};
+
+}
+
+
+async function renderNotifications(){
+
+    const reads =
+        await notificationReadMap();
+
+
+    let unread =
+        0;
+
+
+    if(
+        !notifications.length
+    ){
+
+        $("noticeList").innerHTML = `
+
+            <div class="lock-box">
+
+                <h3>
+                    لا توجد تبليغات
+                </h3>
+
+                <p>
+                    لا توجد تبليغات جديدة حالياً.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+    else{
+
+        $("noticeList").innerHTML =
+            notifications.map(
+                notice => {
+
+                    const isRead =
+                        Boolean(
+                            reads[
+                                notice.id
+                            ]
+                        );
+
+
+                    if(!isRead){
+                        unread++;
+                    }
+
+
+                    return `
+
+                        <article
+                            class="notice ${isRead ? "" : "unread"}"
+                        >
+
+                            <div class="notice-head">
+
+                                <h4>
+                                    ${esc(notice.title || "تبليغ")}
+                                </h4>
+
+                                <span class="notice-date">
+                                    ${esc(dateText(notice.createdAt))}
+                                </span>
+
+                            </div>
+
+
+                            <p>
+                                ${esc(notice.message || notice.text || "")}
+                            </p>
+
+
+                            <div class="notice-from">
+                                ${esc(
+                                    notice.senderName ||
+                                    senderRoleText(
+                                        notice.senderRole
+                                    )
+                                )}
+                            </div>
+
+                        </article>
+
+                    `;
+
+                }
+            ).join("");
+
+    }
+
+
+    $("noticeCountText").textContent =
+        `${notifications.length} تبليغ`;
+
+
+    setNavBadge(
+        "noticeBadge",
+        unread
+    );
+
+}
+
+
+function senderRoleText(role){
+
+    const value =
+        norm(role);
+
+
+    if(
+        [
+            "admin",
+            "administrator"
+        ].includes(value)
+    ){
+
+        return "إدارة المدرسة";
+
+    }
+
+
+    if(
+        [
+            "teacher",
+            "th"
+        ].includes(value)
+    ){
+
+        return "الأستاذ";
+
+    }
+
+
+    if(
+        [
+            "accountant",
+            "accounting"
+        ].includes(value)
+    ){
+
+        return "قسم الحسابات";
+
+    }
+
+
+    return "مدرسة التحدي";
+
+}
+
+
+async function markNotificationsRead(){
+
+    if(
+        !notifications.length
+    ){
+        return;
+    }
+
+
+    const update = {};
+
+
+    notifications.forEach(
+        notice => {
+
+            update[
+                notice.id
+            ] =
+                Date.now();
+
+        }
+    );
+
+
+    try{
+
+        await dbPatch(
+            `notificationReads/${encodeURIComponent(STUDENT_CODE)}`,
+            update
+        );
+
+
+        setNavBadge(
+            "noticeBadge",
+            0
+        );
+
+
+        await renderNotifications();
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =========================================================
+   NOTIFICATION POLLING
+========================================================= */
+
+function startNotificationPolling(){
+
+    clearInterval(
+        notificationPolling
+    );
+
+
+    notificationPolling =
+        setInterval(
+            async () => {
+
+                if(
+                    document.hidden
+                ){
+                    return;
+                }
+
+
+                try{
+
+                    await loadNotifications();
+
+                }
+
+                catch{}
+
+            },
+            15000
+        );
+
+}
+
+
+/* =========================================================
+   GRADE CALCULATIONS
+========================================================= */
+
+function annualGrade(grade){
+
+    const term1 =
+        numberOrNull(
+            grade.term1
+        );
+
+
+    const midyear =
+        numberOrNull(
+            grade.midyear
+        );
+
+
+    const term2 =
+        numberOrNull(
+            grade.term2
+        );
+
+
+    if(
+        term1 === null ||
+        midyear === null ||
+        term2 === null
+    ){
+        return null;
+    }
+
+
+    return roundGrade(
+        (
+            term1 +
+            midyear +
+            term2
+        ) / 3
+    );
+
+}
+
+
+/* =========================================================
+   FINAL GRADE
+
+   (السعي + الامتحان النهائي) ÷ 2
+========================================================= */
+
+function finalGrade(grade){
+
+    const annual =
+        annualGrade(
+            grade
+        );
+
+
+    const exam =
+        numberOrNull(
+            grade.finalExam
+        );
+
+
+    if(
+        annual === null ||
+        exam === null
+    ){
+        return null;
+    }
+
+
+    return roundGrade(
+        (
+            annual +
+            exam
+        ) / 2
+    );
+
+}
+
+
+/* =========================================================
+   SPORT / ART
+
+   إذا الأستاذ أدخل grade مباشرة تستخدم.
+   وإذا فقط حدد المستوى:
+   low -> 87
+   medium -> 93
+   excellent -> 100
+========================================================= */
+
+function performanceGrade(grade){
+
+    const direct =
+        numberOrNull(
+            grade.performanceGrade
+        );
+
+
+    if(
+        direct !== null
+    ){
+
+        return roundGrade(
+            direct
+        );
+
+    }
+
+
+    const level =
+        norm(
+            grade.performanceLevel
+        );
+
+
+    if(
+        [
+            "low",
+            "اقل",
+            "منخفض"
+        ].includes(level)
+    ){
+
+        return 87;
+
+    }
+
+
+    if(
+        [
+            "medium",
+            "متوسط"
+        ].includes(level)
+    ){
+
+        return 93;
+
+    }
+
+
+    if(
+        [
+            "excellent",
+            "100",
+            "ممتاز"
+        ].includes(level)
+    ){
+
+        return 100;
+
+    }
+
+
+    return null;
+
+}
+
+
+function isPerformanceSubject(
+    name
+){
+
+    const value =
+        norm(name);
+
+
+    return (
+        value.includes("رياض") ||
+        value.includes("فني")
+    );
+
+}
+
+
+/* =========================================================
+   EFFECTIVE GRADES
+========================================================= */
+
+function effectiveTerm1(
+    name,
+    grade
+){
+
+    if(
+        isPerformanceSubject(name)
+    ){
+
+        return (
+            numberOrNull(
+                grade.term1
+            ) ??
+            performanceGrade(
+                grade
+            )
+        );
+
+    }
+
+
+    return numberOrNull(
+        grade.term1
+    );
+
+}
+
+
+function effectiveMidyear(
+    name,
+    grade
+){
+
+    if(
+        isPerformanceSubject(name)
+    ){
+
+        return (
+            numberOrNull(
+                grade.midyear
+            ) ??
+            performanceGrade(
+                grade
+            )
+        );
+
+    }
+
+
+    return numberOrNull(
+        grade.midyear
+    );
+
+}
+
+
+function effectiveTerm2(
+    name,
+    grade
+){
+
+    if(
+        isPerformanceSubject(name)
+    ){
+
+        return (
+            numberOrNull(
+                grade.term2
+            ) ??
+            performanceGrade(
+                grade
+            )
+        );
+
+    }
+
+
+    return numberOrNull(
+        grade.term2
+    );
+
+}
+
+
+/* =========================================================
+   CALCULATED GRADE OBJECT
+========================================================= */
+
+function calculatedGrade(
+    name,
+    grade
+){
+
+    const term1 =
+        effectiveTerm1(
+            name,
+            grade
+        );
+
+
+    const midyear =
+        effectiveMidyear(
+            name,
+            grade
+        );
+
+
+    const term2 =
+        effectiveTerm2(
+            name,
+            grade
+        );
+
+
+    let annual =
+        null;
+
+
+    if(
+        term1 !== null &&
+        midyear !== null &&
+        term2 !== null
+    ){
+
+        annual =
+            roundGrade(
+                (
+                    term1 +
+                    midyear +
+                    term2
+                ) / 3
+            );
+
+    }
+
+
+    const finalExam =
+        numberOrNull(
+            grade.finalExam
+        );
+
+
+    let final =
+        null;
+
+
+    if(
+        annual !== null &&
+        finalExam !== null
+    ){
+
+        final =
+            roundGrade(
+                (
+                    annual +
+                    finalExam
+                ) / 2
+            );
+
+    }
+
+
+    const secondRound =
+        numberOrNull(
+            grade.secondRound
+        );
+
+
+    return {
+        term1,
+        midyear,
+        term2,
+        annual,
+        finalExam,
+        final,
+        secondRound
+    };
+
+}
+
+
+/* =========================================================
+   SUBJECT RESULT
+========================================================= */
+
+function subjectResult(
+    name,
+    grade
+){
+
+    const data =
+        calculatedGrade(
+            name,
+            grade
+        );
+
+
+    if(
+        data.secondRound !== null
+    ){
+
+        return (
+            data.secondRound >= 50
+        )
+            ? "ناجح"
+            : "راسب";
+
+    }
+
+
+    if(
+        data.final === null
+    ){
+
+        return "قيد الانتظار";
+
+    }
+
+
+    return (
+        data.final >= 50
+    )
+        ? "ناجح"
+        : "راسب";
+
+}
+
+
+/* =========================================================
+   LOAD GRADES
+========================================================= */
+
+async function loadGrades(){
+
+    if(
+        !canUseProtectedFeatures()
+    ){
+
+        renderProtectedLocks();
+
+        return;
+
+    }
+
+
+    grades =
+        await dbGet(
+            `grades/${encodeURIComponent(STUDENT_CODE)}`
+        ) || {};
+
+
+    renderGrades();
+
+}
+
+
+/* =========================================================
+   SORT GRADES
+========================================================= */
+
+function gradeEntries(){
+
+    return Object.entries(
+        grades
+    )
+    .map(
+        ([key,value]) => {
+
+            return [
+                key,
+                value,
+                value.subjectName ||
+                key
+            ];
+
+        }
+    )
+    .sort(
+        (a,b) =>
+            a[2].localeCompare(
+                b[2],
+                "ar"
+            )
+    );
+
+}
+
+
+/* =========================================================
+   RENDER GRADES
+========================================================= */
+
+function renderGrades(){
+
+    $("gradesLocked").innerHTML =
+        "";
+
+
+    $("gradesContent")
+        .classList.remove(
+            "hidden"
+        );
+
+
+    const entries =
+        gradeEntries();
+
+
+    if(
+        !entries.length
+    ){
+
+        $("subjectList").innerHTML = `
+
+            <div class="lock-box">
+
+                <h3>
+                    لا توجد درجات
+                </h3>
+
+                <p>
+                    لم يتم نشر درجاتك حتى الآن.
+                </p>
+
+            </div>
+
+        `;
+
+
+        $("gradeTableBody").innerHTML =
+            "";
+
+
+        $("gradeTableFoot").innerHTML =
+            "";
+
+
+        $("finalResultCard").innerHTML =
+            "";
+
+
+        return;
+
+    }
+
+
+    $("subjectList").innerHTML =
+        entries.map(
+            ([key,grade,name]) => {
+
+                const data =
+                    calculatedGrade(
+                        name,
+                        grade
+                    );
+
+
+                const result =
+                    subjectResult(
+                        name,
+                        grade
+                    );
+
+
+                let resultClass =
+                    "wait";
+
+
+                if(
+                    result === "ناجح"
+                ){
+                    resultClass =
+                        "pass";
+                }
+
+
+                if(
+                    result === "راسب"
+                ){
+                    resultClass =
+                        "fail";
+                }
+
+
+                return `
+
+                    <div class="subject-card">
+
+                        <div class="subject-head">
+
+                            <div class="subject-name">
+                                ${esc(name)}
+                            </div>
+
+                            <span
+                                class="subject-result ${resultClass}"
+                            >
+                                ${esc(result)}
+                            </span>
+
+                        </div>
+
+
+                        <div class="mini-grades">
+
+                            ${miniGrade(
+                                "الفصل الأول",
+                                data.term1
+                            )}
+
+                            ${miniGrade(
+                                "نصف السنة",
+                                data.midyear
+                            )}
+
+                            ${miniGrade(
+                                "الفصل الثاني",
+                                data.term2
+                            )}
+
+                            ${miniGrade(
+                                "السعي السنوي",
+                                data.annual
+                            )}
+
+                            ${miniGrade(
+                                "الامتحان النهائي",
+                                data.finalExam
+                            )}
+
+                            ${miniGrade(
+                                "الدرجة النهائية",
+                                data.final
+                            )}
+
+                            ${miniGrade(
+                                "الدور الثاني",
+                                data.secondRound
+                            )}
+
+                            ${miniGrade(
+                                "النتيجة",
+                                result
+                            )}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+
+    $("gradeTableBody").innerHTML =
+        entries.map(
+            ([key,grade,name]) => {
+
+                const data =
+                    calculatedGrade(
+                        name,
+                        grade
+                    );
+
+
+                return `
+
+                    <tr>
+
+                        <td>
+                            ${esc(name)}
+                        </td>
+
+                        <td>
+                            ${displayGrade(data.term1)}
+                        </td>
+
+                        <td>
+                            ${displayGrade(data.midyear)}
+                        </td>
+
+                        <td>
+                            ${displayGrade(data.term2)}
+                        </td>
+
+                        <td>
+                            ${displayGrade(data.annual)}
+                        </td>
+
+                        <td>
+                            ${displayGrade(data.finalExam)}
+                        </td>
+
+                        <td>
+                            ${displayGrade(data.final)}
+                        </td>
+
+                        <td>
+                            ${displayGrade(data.secondRound)}
+                        </td>
+
+                        <td>
+                            ${esc(subjectResult(name,grade))}
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        ).join("");
+
+
+    renderGradeTotals(
+        entries
+    );
+
+
+    renderFinalResult(
+        entries
+    );
+
+}
+
+
+function miniGrade(
+    title,
+    value
+){
 
     return `
-      <div class="msg ${mine?"mine":""}">
-        ${mine?"":`<div class="msg-name">${esc(m.senderName||"طالب")}</div>`}
-        <div class="msg-text">${esc(m.text||"")}</div>
-        <div class="msg-meta">
-          ${esc(timeText(m.createdAt))}
-          ${mine?" ✓✓":""}
+
+        <div class="mini-grade">
+
+            <small>
+                ${esc(title)}
+            </small>
+
+            <strong>
+                ${esc(displayGrade(value))}
+            </strong>
+
         </div>
-      </div>
+
     `;
-  }).join(""):`<div style="text-align:center;color:#98a2b3;font-size:10px;margin-top:30px">لا توجد رسائل بعد</div>`;
 
-  if($("pageChat").classList.contains("active"))scrollChat();
 }
 
-function scrollChat(){
-  requestAnimationFrame(()=>{
-    $("messages").scrollTop=$("messages").scrollHeight;
-  });
+
+/* =========================================================
+   TOTALS / AVERAGES
+========================================================= */
+
+function renderGradeTotals(
+    entries
+){
+
+    const columns = [
+
+        (
+            name,
+            grade
+        ) =>
+            calculatedGrade(
+                name,
+                grade
+            ).term1,
+
+        (
+            name,
+            grade
+        ) =>
+            calculatedGrade(
+                name,
+                grade
+            ).midyear,
+
+        (
+            name,
+            grade
+        ) =>
+            calculatedGrade(
+                name,
+                grade
+            ).term2,
+
+        (
+            name,
+            grade
+        ) =>
+            calculatedGrade(
+                name,
+                grade
+            ).annual,
+
+        (
+            name,
+            grade
+        ) =>
+            calculatedGrade(
+                name,
+                grade
+            ).finalExam,
+
+        (
+            name,
+            grade
+        ) =>
+            calculatedGrade(
+                name,
+                grade
+            ).final,
+
+        (
+            name,
+            grade
+        ) =>
+            calculatedGrade(
+                name,
+                grade
+            ).secondRound
+
+    ];
+
+
+    const data =
+        columns.map(
+            getValue => {
+
+                const values =
+                    entries
+                    .map(
+                        ([key,grade,name]) =>
+                            getValue(
+                                name,
+                                grade
+                            )
+                    )
+                    .filter(
+                        value =>
+                            value !== null
+                    );
+
+
+                const sum =
+                    values.reduce(
+                        (total,value) =>
+                            total + value,
+                        0
+                    );
+
+
+                const average =
+                    values.length
+                        ? Math.round(
+                            sum /
+                            values.length
+                        )
+                        : null;
+
+
+                return {
+                    sum,
+                    average,
+                    count:
+                        values.length
+                };
+
+            }
+        );
+
+
+    $("gradeTableFoot").innerHTML = `
+
+        <tr>
+
+            <td>
+                المجموع
+            </td>
+
+            ${data.map(
+                item =>
+                    `<td>${item.count ? item.sum : "—"}</td>`
+            ).join("")}
+
+            <td>
+                —
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                المعدل
+            </td>
+
+            ${data.map(
+                item =>
+                    `<td>${item.average ?? "—"}</td>`
+            ).join("")}
+
+            <td>
+                —
+            </td>
+
+        </tr>
+
+    `;
+
 }
 
-async function sendMessage(){
-  const text=$("chatInput").value.trim();
-  if(!text)return;
 
-  const room=student.classId||"general";
+/* =========================================================
+   MINISTERIAL
+========================================================= */
 
-  $("sendBtn").disabled=true;
+function isMinisterial(){
 
-  try{
-    await dbPost(`chats/${encodeURIComponent(room)}/messages`,{
-      senderCode:STUDENT_CODE,
-      senderName:student.name||"",
-      classId:student.classId||"",
-      text,
-      createdAt:Date.now()
-    });
+    return (
+        student.ministerial === true ||
+        classData.ministerial === true
+    );
 
-    $("chatInput").value="";
+}
 
-    chatMessages=await dbGet(`chats/${encodeURIComponent(room)}/messages`)||{};
+
+function ministerialQualified(){
+
+    if(
+        typeof student.ministerialQualified ===
+        "boolean"
+    ){
+
+        return student.ministerialQualified;
+
+    }
+
+
+    /*
+       يمكن للإدارة حفظ حالة التأهيل
+       حسب القاعة هكذا:
+
+       classes/classId/roomQualification/1 = true
+    */
+
+    if(
+        classData.roomQualification &&
+        student.roomNumber !== undefined
+    ){
+
+        const roomValue =
+            classData.roomQualification[
+                String(
+                    student.roomNumber
+                )
+            ];
+
+
+        if(
+            typeof roomValue ===
+            "boolean"
+        ){
+
+            return roomValue;
+
+        }
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================================================
+   EXEMPTION SETTINGS
+========================================================= */
+
+function exemptionSettings(){
+
+    const settings =
+        academicSettings.exemption ||
+        {};
+
+
+    return {
+
+        enabled:
+            settings.enabled !== false,
+
+        minAverage:
+            numberOrNull(
+                settings.minAverage
+            ) ?? 85,
+
+        minSubject:
+            numberOrNull(
+                settings.minSubjectGrade
+            ) ?? 75,
+
+        maxFailedSubjects:
+            numberOrNull(
+                settings.maxFailedSubjects
+            ) ?? 0
+
+    };
+
+}
+
+
+/* =========================================================
+   FINAL RESULT CARD
+========================================================= */
+
+function renderFinalResult(
+    entries
+){
+
+    if(
+        !entries.length
+    ){
+
+        $("finalResultCard")
+            .innerHTML =
+            "";
+
+        return;
+
+    }
+
+
+    /*
+       الدرجة النهائية الفعلية:
+       إذا عنده دور ثاني نعتمدها،
+       وإلا الدرجة النهائية.
+    */
+
+    const finals =
+        entries.map(
+            ([key,grade,name]) => {
+
+                const data =
+                    calculatedGrade(
+                        name,
+                        grade
+                    );
+
+
+                return (
+                    data.secondRound !== null
+                )
+                    ? data.secondRound
+                    : data.final;
+
+            }
+        )
+        .filter(
+            value =>
+                value !== null
+        );
+
+
+    const total =
+        finals.reduce(
+            (sum,value) =>
+                sum + value,
+            0
+        );
+
+
+    const average =
+        finals.length
+            ? Math.round(
+                total /
+                finals.length
+            )
+            : null;
+
+
+    const failedSubjects =
+        finals.filter(
+            value =>
+                value < 50
+        ).length;
+
+
+    let title = "";
+
+    let message = "";
+
+    let cardClass = "";
+
+
+    /*
+       الوزاري
+    */
+
+    if(
+        isMinisterial()
+    ){
+
+        const qualified =
+            ministerialQualified();
+
+
+        cardClass =
+            "special";
+
+
+        if(
+            qualified === true
+        ){
+
+            title =
+                "مؤهل";
+
+
+            message =
+                "مؤهل للامتحانات الوزارية حسب قرار إدارة المدرسة.";
+
+        }
+
+        else if(
+            qualified === false
+        ){
+
+            title =
+                "غير مؤهل";
+
+
+            message =
+                "غير مؤهل حالياً للامتحانات الوزارية. يرجى مراجعة إدارة المدرسة.";
+
+
+            cardClass =
+                "fail";
+
+        }
+
+        else{
+
+            title =
+                "قيد تحديد التأهيل";
+
+
+            message =
+                "لم يتم تحديد حالة التأهيل الوزاري من إدارة المدرسة حتى الآن.";
+
+        }
+
+    }
+
+    else{
+
+        const exemption =
+            exemptionSettings();
+
+
+        const allAboveMinimum =
+            finals.length &&
+            finals.every(
+                value =>
+                    value >=
+                    exemption.minSubject
+            );
+
+
+        const hasExemption =
+            exemption.enabled &&
+            average !== null &&
+            average >=
+                exemption.minAverage &&
+            allAboveMinimum &&
+            failedSubjects <=
+                exemption.maxFailedSubjects;
+
+
+        if(
+            hasExemption
+        ){
+
+            title =
+                "إعفاء عام";
+
+
+            message =
+                student.gender === "female"
+                    ? "ألف مبارك، أحسنتِ."
+                    : "ألف مبارك، أحسنت.";
+
+        }
+
+        else if(
+            finals.length &&
+            failedSubjects === 0
+        ){
+
+            title =
+                student.gender === "female"
+                    ? "ناجحة"
+                    : "ناجح";
+
+
+            message =
+                student.gender === "female"
+                    ? "ألف مبارك، أحسنتِ."
+                    : "ألف مبارك، أحسنت.";
+
+        }
+
+        else if(
+            finals.length
+        ){
+
+            title =
+                "راسب";
+
+
+            message =
+                `عدد المواد الراسبة: ${failedSubjects}`;
+
+
+            cardClass =
+                "fail";
+
+        }
+
+        else{
+
+            title =
+                "قيد الانتظار";
+
+
+            message =
+                "لم تكتمل الدرجات النهائية بعد.";
+
+
+            cardClass =
+                "special";
+
+        }
+
+    }
+
+
+    $("finalResultCard").innerHTML = `
+
+        <div
+            class="result-card ${cardClass}"
+        >
+
+            <div class="result-school">
+                مدرسة التحدي الأهلية المختلطة
+            </div>
+
+            <h2>
+                ${esc(title)}
+            </h2>
+
+            <p>
+
+                ${esc(student.name || "")}
+
+                <br>
+
+                ${esc(className())}
+                -
+                القاعة
+                ${esc(student.roomNumber || "—")}
+
+                <br>
+
+                العام الدراسي 2026-2027
+
+                <br>
+
+                ${esc(message)}
+
+                ${
+                    average !== null
+                        ? `<br>المعدل العام: ${average}`
+                        : ""
+                }
+
+                ${
+                    finals.length
+                        ? `<br>المجموع: ${total}`
+                        : ""
+                }
+
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   CHAT TEXT NORMALIZATION
+========================================================= */
+
+function normalizeChatText(
+    text
+){
+
+    return String(text || "")
+
+        .toLowerCase()
+
+        .replace(
+            /[ًٌٍَُِّْـ]/g,
+            ""
+        )
+
+        .replace(
+            /[أإآ]/g,
+            "ا"
+        )
+
+        .replace(
+            /ة/g,
+            "ه"
+        )
+
+        .replace(
+            /ى/g,
+            "ي"
+        )
+
+        .replace(
+            /(.)\1{2,}/g,
+            "$1$1"
+        );
+
+}
+
+
+function compactChatText(
+    text
+){
+
+    return normalizeChatText(
+        text
+    )
+
+    .replace(
+        /[^\u0600-\u06FFa-z0-9]/gi,
+        ""
+    );
+
+}
+
+
+/* =========================================================
+   LOAD MODERATION WORDS
+========================================================= */
+
+async function getBlockedWords(){
+
+    try{
+
+        const moderation =
+            await dbGet(
+                "settings/chatModeration"
+            ) || {};
+
+
+        if(
+            moderation.enabled === false
+        ){
+
+            return [];
+
+        }
+
+
+        let words =
+            [
+                ...DEFAULT_BLOCKED_WORDS
+            ];
+
+
+        if(
+            moderation.blockedWords
+        ){
+
+            if(
+                Array.isArray(
+                    moderation.blockedWords
+                )
+            ){
+
+                words.push(
+                    ...moderation.blockedWords
+                );
+
+            }
+
+            else if(
+                typeof moderation.blockedWords ===
+                "object"
+            ){
+
+                words.push(
+                    ...Object.values(
+                        moderation.blockedWords
+                    )
+                );
+
+            }
+
+        }
+
+
+        return [
+            ...new Set(
+                words
+                    .map(
+                        word =>
+                            String(word || "").trim()
+                    )
+                    .filter(Boolean)
+            )
+        ];
+
+    }
+
+    catch{
+
+        return [
+            ...DEFAULT_BLOCKED_WORDS
+        ];
+
+    }
+
+}
+
+
+/* =========================================================
+   DETECT BAD WORD
+========================================================= */
+
+function findBlockedWord(
+    message,
+    blockedWords
+){
+
+    const compactMessage =
+        compactChatText(
+            message
+        );
+
+
+    for(
+        const word
+        of blockedWords
+    ){
+
+        const normalizedWord =
+            compactChatText(
+                word
+            );
+
+
+        /*
+           نتجنب الكلمات القصيرة جداً
+           حتى نقلل الحظر الخاطئ.
+        */
+
+        if(
+            normalizedWord.length < 3
+        ){
+            continue;
+        }
+
+
+        if(
+            compactMessage.includes(
+                normalizedWord
+            )
+        ){
+
+            return word;
+
+        }
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================================================
+   REGISTER BEHAVIOR VIOLATION
+========================================================= */
+
+async function registerBehaviorViolation(
+    message,
+    detectedWord
+){
+
+    const now =
+        Date.now();
+
+
+    /*
+       الرسالة لا تنشر للطلاب.
+       تنرسل لسجل الإدارة فقط.
+    */
+
+    const violation = {
+
+        studentCode:
+            STUDENT_CODE,
+
+        studentName:
+            student.name || "",
+
+        gender:
+            student.gender || "",
+
+        classId:
+            student.classId || "",
+
+        className:
+            className(),
+
+        roomNumber:
+            student.roomNumber || "",
+
+        message:
+            message,
+
+        detectedWord:
+            detectedWord,
+
+        createdAt:
+            now,
+
+        status:
+            "blocked",
+
+        reviewed:
+            false,
+
+        source:
+            "student_chat"
+
+    };
+
+
+    /*
+       سجل دائم للمخالفات
+    */
+
+    await dbPost(
+        `behaviorViolations/${encodeURIComponent(STUDENT_CODE)}`,
+        violation
+    );
+
+
+    /*
+       صندوق موحد للإدارة
+       حتى يكون جلب المخالفات أسهل.
+    */
+
+    await dbPost(
+        "behaviorViolationInbox",
+        violation
+    );
+
+
+    /*
+       نحظر فقط الدردشة والدرجات.
+       لا نغير accountantApproved
+       ولا adminApproved.
+    */
+
+    const blockData = {
+
+        behaviorBlocked:
+            true,
+
+        behaviorBlockedAt:
+            now,
+
+        behaviorBlockedBy:
+            "system",
+
+        behaviorBlockReason:
+            "chat_behavior_violation",
+
+        behaviorViolationMessage:
+            message,
+
+        behaviorViolationWord:
+            detectedWord
+
+    };
+
+
+    await dbPatch(
+        `students/${encodeURIComponent(STUDENT_CODE)}`,
+        blockData
+    );
+
+
+    /*
+       نسخة للحساب حتى يمكن للإدارة
+       الاستفادة منها عند التحقق.
+    */
+
+    await dbPatch(
+        `users/${encodeURIComponent(session.code)}`,
+        {
+            behaviorBlocked:
+                true
+        }
+    );
+
+
+    Object.assign(
+        student,
+        blockData
+    );
+
+
+    clearInterval(
+        chatPolling
+    );
+
+
+    chatPolling =
+        null;
+
+
+    renderHome();
+
+    renderProtectedLocks();
+
+    showAccessModal();
+
+}
+
+
+/* =========================================================
+   CHAT ROOM
+========================================================= */
+
+function chatRoomId(){
+
+    return (
+        student.classId ||
+        "general"
+    );
+
+}
+
+
+/* =========================================================
+   LOAD CHAT
+========================================================= */
+
+async function loadChat(){
+
+    if(
+        !canUseProtectedFeatures()
+    ){
+
+        renderProtectedLocks();
+
+        return;
+
+    }
+
+
+    const room =
+        chatRoomId();
+
+
+    $("chatRoomName").textContent =
+        className();
+
+
+    chatMessages =
+        await dbGet(
+            `chats/${encodeURIComponent(room)}/messages`
+        ) || {};
+
+
+    lastChatCount =
+        Object.keys(
+            chatMessages
+        ).length;
+
+
     renderChat();
 
-  }catch{
-    toast("تعذر إرسال الرسالة");
-  }finally{
-    $("sendBtn").disabled=false;
-  }
+
+    await markVisibleMessagesRead();
+
+
+    startChatPolling();
+
 }
 
-$("sendBtn").onclick=sendMessage;
-$("chatInput").addEventListener("keydown",e=>{
-  if(e.key==="Enter"){
-    e.preventDefault();
-    sendMessage();
-  }
-});
 
-function markChatRead(){
-  setNavBadge("chatBadge",0);
+/* =========================================================
+   CHAT POLLING
+========================================================= */
+
+function startChatPolling(){
+
+    clearInterval(
+        chatPolling
+    );
+
+
+    chatPolling =
+        setInterval(
+            async () => {
+
+                if(
+                    document.hidden
+                ){
+                    return;
+                }
+
+
+                try{
+
+
+                    /*
+                       نفحص الصلاحيات
+                       بشكل دوري أيضاً.
+                    */
+
+                    await refreshStudentAccess();
+
+
+                    if(
+                        !canUseProtectedFeatures()
+                    ){
+
+                        clearInterval(
+                            chatPolling
+                        );
+
+
+                        chatPolling =
+                            null;
+
+
+                        renderProtectedLocks();
+
+                        renderHome();
+
+                        return;
+
+                    }
+
+
+                    const room =
+                        chatRoomId();
+
+
+                    const fresh =
+                        await dbGet(
+                            `chats/${encodeURIComponent(room)}/messages`
+                        ) || {};
+
+
+                    const newCount =
+                        Object.keys(
+                            fresh
+                        ).length;
+
+
+                    const chatActive =
+                        $("pageChat")
+                            .classList
+                            .contains(
+                                "active"
+                            );
+
+
+                    if(
+                        newCount >
+                        lastChatCount &&
+                        !chatActive
+                    ){
+
+                        setNavBadge(
+                            "chatBadge",
+                            newCount -
+                            lastChatCount
+                        );
+
+                    }
+
+
+                    chatMessages =
+                        fresh;
+
+
+                    lastChatCount =
+                        newCount;
+
+
+                    renderChat();
+
+
+                    if(
+                        chatActive
+                    ){
+
+                        await markVisibleMessagesRead();
+
+                    }
+
+                }
+
+                catch{}
+
+            },
+            4000
+        );
+
 }
 
-function setNavBadge(id,n){
-  const el=$(id);
-  el.textContent=n>99?"99+":n;
-  el.classList.toggle("show",n>0);
+
+/* =========================================================
+   CHAT READ STATUS
+========================================================= */
+
+function messageReadByOthers(
+    message
+){
+
+    const readBy =
+        message.readBy ||
+        {};
+
+
+    return Object.keys(
+        readBy
+    ).some(
+        code =>
+            code !==
+            STUDENT_CODE
+    );
+
 }
 
-/* Logout */
-$("logoutBtn").onclick=logout;
-$("inactiveLogout").onclick=logout;
 
-window.addEventListener("load",init);
+/* =========================================================
+   RENDER CHAT
+========================================================= */
+
+function renderChat(){
+
+    $("chatLocked").innerHTML =
+        "";
+
+
+    $("chatContent")
+        .classList.remove(
+            "hidden"
+        );
+
+
+    const messages =
+        Object.entries(
+            chatMessages
+        )
+
+        .map(
+            ([id,value]) => ({
+                id,
+                ...value
+            })
+        )
+
+        .sort(
+            (a,b) =>
+                (a.createdAt || 0) -
+                (b.createdAt || 0)
+        );
+
+
+    if(
+        !messages.length
+    ){
+
+        $("messages").innerHTML = `
+
+            <div class="chat-empty">
+                لا توجد رسائل بعد
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    $("messages").innerHTML =
+        messages.map(
+            message => {
+
+                const mine =
+                    message.senderCode ===
+                    STUDENT_CODE;
+
+
+                const read =
+                    mine &&
+                    messageReadByOthers(
+                        message
+                    );
+
+
+                return `
+
+                    <div
+                        class="msg ${mine ? "mine" : ""}"
+                    >
+
+                        ${
+                            mine
+                                ? ""
+                                : `
+
+                                    <div class="msg-name">
+                                        ${esc(message.senderName || "طالب")}
+                                    </div>
+
+                                `
+                        }
+
+
+                        <div class="msg-text">
+                            ${esc(message.text || "")}
+                        </div>
+
+
+                        <div class="msg-meta">
+
+                            <span>
+                                ${esc(timeText(message.createdAt))}
+                            </span>
+
+                            ${
+                                mine
+                                    ? `
+
+                                        <span
+                                            class="${read ? "read-mark" : ""}"
+                                        >
+                                            ${read ? "✓✓" : "✓"}
+                                        </span>
+
+                                    `
+                                    : ""
+                            }
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* =========================================================
+   MARK VISIBLE MESSAGES READ
+========================================================= */
+
+async function markVisibleMessagesRead(){
+
+    if(
+        !canUseProtectedFeatures()
+    ){
+        return;
+    }
+
+
+    const room =
+        chatRoomId();
+
+
+    const entries =
+        Object.entries(
+            chatMessages
+        );
+
+
+    const tasks =
+        entries
+
+        .filter(
+            ([id,message]) =>
+                message.senderCode !==
+                STUDENT_CODE &&
+                !(
+                    message.readBy &&
+                    message.readBy[
+                        STUDENT_CODE
+                    ]
+                )
+        )
+
+        .map(
+            ([id]) =>
+                dbPatch(
+                    `chats/${encodeURIComponent(room)}/messages/${encodeURIComponent(id)}/readBy`,
+                    {
+                        [STUDENT_CODE]:
+                            Date.now()
+                    }
+                )
+        );
+
+
+    if(
+        tasks.length
+    ){
+
+        try{
+
+            await Promise.all(
+                tasks
+            );
+
+        }
+
+        catch{}
+
+    }
+
+
+    setNavBadge(
+        "chatBadge",
+        0
+    );
+
+}
+
+
+/* =========================================================
+   SEND MESSAGE
+========================================================= */
+
+async function sendMessage(){
+
+    if(
+        !canUseProtectedFeatures()
+    ){
+
+        showAccessModal();
+
+        return;
+
+    }
+
+
+    const input =
+        $("chatInput");
+
+
+    const text =
+        input.value.trim();
+
+
+    if(!text){
+        return;
+    }
+
+
+    if(
+        text.length >
+        500
+    ){
+
+        toast(
+            "الرسالة طويلة جداً"
+        );
+
+        return;
+
+    }
+
+
+    $("sendBtn").disabled =
+        true;
+
+
+    try{
+
+
+        /*
+           نعيد فحص الطالب قبل الإرسال
+           حتى إذا الإدارة حظرته للتو.
+        */
+
+        await refreshStudentAccess();
+
+
+        if(
+            !canUseProtectedFeatures()
+        ){
+
+            renderHome();
+
+            renderProtectedLocks();
+
+            showAccessModal();
+
+            return;
+
+        }
+
+
+        /*
+           فحص الكلمات المسيئة
+        */
+
+        const blockedWords =
+            await getBlockedWords();
+
+
+        const detectedWord =
+            findBlockedWord(
+                text,
+                blockedWords
+            );
+
+
+        if(
+            detectedWord
+        ){
+
+            input.value =
+                "";
+
+
+            await registerBehaviorViolation(
+                text,
+                detectedWord
+            );
+
+
+            return;
+
+        }
+
+
+        const room =
+            chatRoomId();
+
+
+        const now =
+            Date.now();
+
+
+        await dbPost(
+            `chats/${encodeURIComponent(room)}/messages`,
+            {
+
+                senderCode:
+                    STUDENT_CODE,
+
+                senderName:
+                    student.name || "",
+
+                classId:
+                    student.classId || "",
+
+                roomNumber:
+                    student.roomNumber || "",
+
+                text:
+                    text,
+
+                createdAt:
+                    now,
+
+                deliveredAt:
+                    now,
+
+                readBy:{
+                    [STUDENT_CODE]:
+                        now
+                }
+
+            }
+        );
+
+
+        input.value =
+            "";
+
+
+        chatMessages =
+            await dbGet(
+                `chats/${encodeURIComponent(room)}/messages`
+            ) || {};
+
+
+        lastChatCount =
+            Object.keys(
+                chatMessages
+            ).length;
+
+
+        renderChat();
+
+        scrollChat();
+
+    }
+
+    catch(error){
+
+        console.error(
+            error
+        );
+
+
+        toast(
+            "تعذر إرسال الرسالة"
+        );
+
+    }
+
+    finally{
+
+        $("sendBtn").disabled =
+            false;
+
+    }
+
+}
+
+
+/* =========================================================
+   CHAT EVENTS
+========================================================= */
+
+$("sendBtn").onclick =
+    sendMessage;
+
+
+$("chatInput").addEventListener(
+    "keydown",
+    event => {
+
+        if(
+            event.key === "Enter"
+        ){
+
+            event.preventDefault();
+
+            sendMessage();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   CHAT SCROLL
+========================================================= */
+
+function scrollChat(){
+
+    requestAnimationFrame(
+        () => {
+
+            $("messages").scrollTop =
+                $("messages")
+                    .scrollHeight;
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   NAV BADGE
+========================================================= */
+
+function setNavBadge(
+    id,
+    number
+){
+
+    const badge =
+        $(id);
+
+
+    const value =
+        Math.max(
+            0,
+            Number(number) || 0
+        );
+
+
+    badge.textContent =
+        value > 99
+            ? "99+"
+            : value;
+
+
+    badge.classList.toggle(
+        "show",
+        value > 0
+    );
+
+}
+
+
+/* =========================================================
+   LOGOUT EVENTS
+========================================================= */
+
+$("logoutBtn").onclick =
+    logout;
+
+
+$("inactiveLogout").onclick =
+    logout;
+
+
+/* =========================================================
+   VISIBILITY
+========================================================= */
+
+document.addEventListener(
+    "visibilitychange",
+    async () => {
+
+        if(
+            document.visibilityState !==
+            "visible"
+        ){
+            return;
+        }
+
+
+        try{
+
+            await refreshStudentAccess();
+
+
+            if(
+                !globalAccountActive()
+            ){
+
+                showInactiveAccount();
+
+                return;
+
+            }
+
+
+            renderHome();
+
+            renderProtectedLocks();
+
+
+            if(
+                canUseProtectedFeatures()
+            ){
+
+                if(
+                    !chatPolling
+                ){
+
+                    await loadChat();
+
+                }
+
+            }
+
+        }
+
+        catch{}
+
+    }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+window.addEventListener(
+    "load",
+    init
+);
+
 </script>
 
 </body>
