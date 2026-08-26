@@ -18,7 +18,7 @@
 
 :root{
     --blue:#075fcf;
-    --blue2:#064ca8;
+    --blue-dark:#064ca8;
     --blue-soft:#eef6ff;
 
     --bg:#f5f8fc;
@@ -32,14 +32,12 @@
     --green-bg:#ecfdf3;
 
     --red:#c62828;
-    --red-bg:#fff1f1;
+    --red-bg:#fff0f0;
 
     --orange:#dd7400;
     --orange-bg:#fff5e8;
 
-    --shadow:
-        0 15px 45px
-        rgba(31,55,86,.10);
+    --shadow:0 14px 40px rgba(30,55,88,.09);
 }
 
 *{
@@ -49,26 +47,20 @@
     -webkit-tap-highlight-color:transparent;
 }
 
-html,
-body{
+html,body{
     width:100%;
     min-height:100%;
 }
 
 body{
-    font-family:
-        Tahoma,
-        Arial,
-        sans-serif;
-
+    font-family:Tahoma,Arial,sans-serif;
     background:var(--bg);
     color:var(--text);
     overflow-x:hidden;
 }
 
 button,
-input,
-select{
+input{
     font:inherit;
 }
 
@@ -101,43 +93,34 @@ button{
 }
 
 .loader-logo{
-    width:86px;
-    height:86px;
+    width:88px;
+    height:88px;
     object-fit:contain;
-    margin-bottom:15px;
+    margin-bottom:16px;
 }
 
-.loader{
+.spinner{
     width:38px;
     height:38px;
     margin:auto;
 
     border-radius:50%;
 
-    border:
-        4px solid
-        #e5edf7;
+    border:4px solid #e5edf7;
+    border-top-color:var(--blue);
 
-    border-top-color:
-        var(--blue);
-
-    animation:
-        spin .8s
-        linear
-        infinite;
+    animation:spin .75s linear infinite;
 }
 
 .loader-box p{
     margin-top:12px;
-
     color:var(--muted);
-
     font-size:10px;
     font-weight:800;
 }
 
 /* =========================================================
-   TOPBAR
+   HEADER
 ========================================================= */
 
 .topbar{
@@ -157,26 +140,19 @@ button{
         15px
         10px;
 
-    background:
-        rgba(255,255,255,.95);
+    background:rgba(255,255,255,.96);
 
-    backdrop-filter:
-        blur(17px);
+    backdrop-filter:blur(17px);
+    -webkit-backdrop-filter:blur(17px);
 
-    -webkit-backdrop-filter:
-        blur(17px);
-
-    border-bottom:
-        1px solid
-        var(--border);
+    border-bottom:1px solid var(--border);
 }
 
 .brand{
-    min-width:0;
-
     display:flex;
     align-items:center;
     gap:10px;
+    min-width:0;
 }
 
 .logo{
@@ -193,7 +169,6 @@ button{
 .brand-text h1{
     font-size:13px;
     font-weight:900;
-
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
@@ -201,20 +176,16 @@ button{
 
 .brand-text p{
     margin-top:3px;
-
     color:var(--blue);
-
     font-size:9px;
     font-weight:900;
 }
 
 .logout{
     flex:none;
-
-    padding:9px 11px;
-
     border:0;
     border-radius:12px;
+    padding:9px 11px;
 
     background:#f1f4f7;
     color:#475467;
@@ -224,15 +195,13 @@ button{
 }
 
 /* =========================================================
-   CONTENT
+   MAIN
 ========================================================= */
 
 .main{
     width:100%;
     max-width:1100px;
-
     margin:auto;
-
     padding:16px;
 }
 
@@ -242,7 +211,6 @@ button{
 
 .hero{
     position:relative;
-
     overflow:hidden;
 
     padding:21px;
@@ -255,13 +223,13 @@ button{
         radial-gradient(
             circle at 0 0,
             rgba(255,255,255,.18),
-            transparent 34%
+            transparent 35%
         ),
         linear-gradient(
             135deg,
-            #0870e6,
-            #0758c6 55%,
-            #064494
+            #0870e5,
+            #0757c7 55%,
+            #064493
         );
 
     box-shadow:
@@ -271,38 +239,35 @@ button{
 
 .hero:before{
     content:"";
-
     position:absolute;
 
-    width:180px;
-    height:180px;
+    width:190px;
+    height:190px;
 
-    top:-100px;
+    top:-115px;
     left:-65px;
 
     border-radius:50%;
+    background:rgba(255,255,255,.08);
+}
 
-    background:
-        rgba(255,255,255,.08);
+.hero-content{
+    position:relative;
+    z-index:2;
 }
 
 .hero h2{
-    position:relative;
-    z-index:2;
-
     font-size:19px;
     font-weight:900;
 }
 
 .hero p{
-    position:relative;
-    z-index:2;
-
     margin-top:5px;
+    max-width:600px;
+    opacity:.92;
 
     font-size:10px;
-    line-height:1.8;
-    opacity:.92;
+    line-height:1.85;
 }
 
 /* =========================================================
@@ -311,12 +276,8 @@ button{
 
 .stats{
     display:grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
+    grid-template-columns:repeat(2,1fr);
     gap:9px;
-
     margin-top:13px;
 }
 
@@ -326,10 +287,7 @@ button{
     border-radius:17px;
 
     background:#fff;
-
-    border:
-        1px solid
-        var(--border);
+    border:1px solid var(--border);
 
     box-shadow:
         0 6px 20px
@@ -338,24 +296,20 @@ button{
 
 .stat span{
     display:block;
-
     color:var(--muted);
-
     font-size:8px;
     font-weight:800;
 }
 
 .stat strong{
     display:block;
-
     margin-top:5px;
-
     font-size:18px;
     font-weight:900;
 }
 
 /* =========================================================
-   FILTERS
+   SECTION
 ========================================================= */
 
 .section-head{
@@ -364,9 +318,7 @@ button{
     justify-content:space-between;
     gap:10px;
 
-    margin:
-        22px 2px
-        10px;
+    margin:22px 2px 10px;
 }
 
 .section-head h3{
@@ -376,373 +328,216 @@ button{
 
 .section-head span{
     color:var(--muted);
-
-    font-size:9px;
+    font-size:8px;
 }
 
-.filters{
+/* =========================================================
+   CLASSES
+========================================================= */
+
+.classes{
     display:grid;
-    gap:9px;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
 
-    padding:13px;
+.class-card{
+    position:relative;
 
-    border-radius:18px;
+    min-height:110px;
+
+    padding:15px;
+
+    border:1px solid var(--border);
+    border-radius:20px;
 
     background:#fff;
+    text-align:right;
 
-    border:
-        1px solid
-        var(--border);
+    box-shadow:var(--shadow);
 
+    transition:.2s;
+}
+
+.class-card:active{
+    transform:scale(.98);
+}
+
+.class-card.active{
+    border-color:var(--blue);
     box-shadow:
+        0 0 0 3px rgba(7,95,207,.06),
         var(--shadow);
 }
 
-.filter-row{
-    display:grid;
-    gap:9px;
+.class-icon{
+    width:38px;
+    height:38px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:12px;
+
+    background:var(--blue-soft);
+    color:var(--blue);
+
+    font-size:15px;
+    font-weight:900;
 }
 
-.field label{
-    display:block;
+.class-card h4{
+    margin-top:11px;
+    font-size:11px;
+    font-weight:900;
+}
 
-    margin:
-        0 3px
-        6px;
+.class-card p{
+    margin-top:4px;
+    color:var(--muted);
+    font-size:8px;
+}
 
+.class-count{
+    position:absolute;
+    top:12px;
+    left:12px;
+
+    min-width:27px;
+    height:27px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0 7px;
+
+    border-radius:99px;
+
+    background:#f4f7fa;
     color:#475467;
 
     font-size:8px;
     font-weight:900;
 }
 
-.field input,
-.field select{
-    width:100%;
-    height:48px;
+/* =========================================================
+   SEARCH
+========================================================= */
 
-    padding:
-        0 12px;
+.table-tools{
+    display:flex;
+    gap:8px;
+    margin-bottom:10px;
+}
+
+.search{
+    width:100%;
+    height:47px;
+
+    padding:0 13px;
 
     outline:none;
 
+    border:1px solid var(--border);
     border-radius:14px;
 
-    border:
-        1px solid
-        var(--border);
-
     background:#fff;
-
     color:var(--text);
 
-    font-size:12px;
+    font-size:11px;
 }
 
-.field input:focus,
-.field select:focus{
+.search:focus{
     border-color:var(--blue);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(7,95,207,.06);
+    box-shadow:0 0 0 3px rgba(7,95,207,.06);
 }
 
 /* =========================================================
-   STUDENT LIST
+   TABLE
 ========================================================= */
 
-.student-list{
-    display:grid;
-    gap:10px;
+.table-wrap{
+    width:100%;
+    overflow:auto;
 
-    margin-top:12px;
-}
+    border-radius:18px;
 
-.student-card{
-    overflow:hidden;
-
-    border-radius:20px;
+    border:1px solid var(--border);
 
     background:#fff;
 
-    border:
-        1px solid
-        var(--border);
-
-    box-shadow:
-        0 8px 24px
-        rgba(20,40,70,.05);
+    box-shadow:var(--shadow);
 }
 
-.student-top{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    gap:10px;
+.students-table{
+    width:100%;
+    min-width:720px;
 
-    padding:15px;
+    border-collapse:collapse;
 }
 
-.student-ident{
-    display:flex;
-    align-items:center;
-    gap:11px;
+.students-table th,
+.students-table td{
+    padding:11px 9px;
 
-    min-width:0;
-}
-
-.avatar{
-    width:48px;
-    height:48px;
-
-    flex:none;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:15px;
-
-    background:var(--blue-soft);
-    color:var(--blue);
-
-    font-size:18px;
-    font-weight:900;
-}
-
-.student-name{
-    min-width:0;
-}
-
-.student-name h4{
-    font-size:12px;
-    font-weight:900;
-
-    line-height:1.5;
-}
-
-.student-name p{
-    margin-top:3px;
-
-    color:var(--muted);
-
-    font-size:8px;
-}
-
-.badge{
-    flex:none;
-
-    padding:6px 9px;
-
-    border-radius:999px;
-
-    font-size:8px;
-    font-weight:900;
-}
-
-.badge.green{
-    color:var(--green);
-    background:var(--green-bg);
-}
-
-.badge.red{
-    color:var(--red);
-    background:var(--red-bg);
-}
-
-.badge.orange{
-    color:var(--orange);
-    background:var(--orange-bg);
-}
-
-.badge.blue{
-    color:var(--blue);
-    background:var(--blue-soft);
-}
-
-/* =========================================================
-   STUDENT INFO
-========================================================= */
-
-.student-info{
-    display:grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
-    gap:8px;
-
-    padding:
-        0 15px
-        14px;
-}
-
-.info{
-    padding:10px;
-
-    border-radius:12px;
-
-    background:#f8fafc;
-}
-
-.info span{
-    display:block;
-
-    color:var(--muted);
-
-    font-size:7px;
-    font-weight:800;
-}
-
-.info strong{
-    display:block;
-
-    margin-top:4px;
-
-    font-size:10px;
-    font-weight:900;
-
-    word-break:break-word;
-}
-
-/* =========================================================
-   MONEY
-========================================================= */
-
-.money{
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:7px;
-
-    padding:
-        12px 15px;
-
-    border-top:
-        1px solid
-        #edf0f4;
-
-    border-bottom:
-        1px solid
-        #edf0f4;
-}
-
-.money-box{
     text-align:center;
 
-    padding:10px 5px;
+    border-bottom:1px solid #edf0f4;
 
-    border-radius:12px;
-
-    background:#f8fafc;
+    font-size:9px;
 }
 
-.money-box span{
-    display:block;
+.students-table th{
+    position:sticky;
+    top:0;
+    z-index:3;
 
-    color:var(--muted);
+    background:#f7f9fc;
+    color:#475467;
 
-    font-size:7px;
-}
-
-.money-box strong{
-    display:block;
-
-    margin-top:4px;
-
-    font-size:11px;
     font-weight:900;
 }
 
-/* =========================================================
-   ACCESS INFO
-========================================================= */
-
-.access-grid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:7px;
-
-    padding:
-        12px 15px;
+.students-table tbody tr:last-child td{
+    border-bottom:0;
 }
 
-.access-item{
-    text-align:center;
-
-    padding:9px 5px;
-
-    border-radius:12px;
-
-    background:#f8fafc;
+.students-table tbody tr:hover{
+    background:#fbfdff;
 }
 
-.access-item span{
-    display:block;
-
-    color:var(--muted);
-
-    font-size:7px;
-    line-height:1.4;
-}
-
-.access-item b{
-    display:inline-block;
-
-    margin-top:5px;
-
-    padding:5px 7px;
-
-    border-radius:999px;
-
-    font-size:7px;
-}
-
-/* =========================================================
-   ACTIONS
-========================================================= */
-
-.student-actions{
-    display:flex;
-    gap:8px;
-
-    padding:
-        13px 15px
-        15px;
-}
-
-.action{
-    flex:1;
-
-    min-height:45px;
-
+.student-name-btn{
     border:0;
+    background:transparent;
 
-    border-radius:13px;
+    color:var(--blue);
 
     font-size:9px;
     font-weight:900;
+
+    text-decoration:underline;
+    text-underline-offset:3px;
 }
 
-.action.activate{
-    color:#fff;
-    background:var(--green);
+.status-cell{
+    font-weight:900;
 }
 
-.action.disable{
-    color:#fff;
-    background:var(--red);
+.status-cell.active{
+    background:var(--green-bg);
+    color:var(--green);
 }
 
-.action.details{
-    color:var(--blue);
-    background:var(--blue-soft);
+.status-cell.inactive{
+    background:var(--red-bg);
+    color:var(--red);
+}
+
+.amount{
+    font-weight:900;
+    direction:ltr;
 }
 
 /* =========================================================
@@ -750,18 +545,14 @@ button{
 ========================================================= */
 
 .empty{
-    padding:30px 18px;
+    padding:30px 15px;
 
     text-align:center;
 
-    border-radius:20px;
+    border:1px solid var(--border);
+    border-radius:19px;
 
     background:#fff;
-
-    border:
-        1px solid
-        var(--border);
-
     color:var(--muted);
 
     font-size:10px;
@@ -777,19 +568,15 @@ button{
 
     position:fixed;
     inset:0;
-
     z-index:10000;
 
     align-items:flex-end;
     justify-content:center;
 
-    padding:0;
+    background:rgba(17,32,51,.46);
 
-    background:
-        rgba(17,32,51,.45);
-
-    backdrop-filter:
-        blur(5px);
+    backdrop-filter:blur(5px);
+    -webkit-backdrop-filter:blur(5px);
 }
 
 .modal.show{
@@ -798,24 +585,21 @@ button{
 
 .modal-card{
     width:100%;
-    max-width:600px;
-
-    max-height:88vh;
+    max-width:560px;
+    max-height:91vh;
     overflow:auto;
 
     padding:
-        18px 16px
-        max(18px,env(safe-area-inset-bottom));
+        19px 16px
+        max(20px,env(safe-area-inset-bottom));
 
-    border-radius:
-        24px 24px
-        0 0;
+    border-radius:25px 25px 0 0;
 
     background:#fff;
 
     box-shadow:
         0 -20px 60px
-        rgba(0,0,0,.15);
+        rgba(0,0,0,.16);
 
     animation:
         modalUp .3s
@@ -828,7 +612,7 @@ button{
     justify-content:space-between;
     gap:10px;
 
-    margin-bottom:14px;
+    margin-bottom:15px;
 }
 
 .modal-head h3{
@@ -849,89 +633,313 @@ button{
     font-size:16px;
 }
 
-.modal-section{
-    margin-top:15px;
+.student-profile{
+    display:flex;
+    align-items:center;
+    gap:11px;
+
+    padding:14px;
+
+    border-radius:17px;
+
+    background:var(--blue-soft);
 }
 
-.modal-section h4{
-    margin-bottom:8px;
+.avatar{
+    width:50px;
+    height:50px;
 
-    font-size:11px;
+    flex:none;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:15px;
+
+    background:#fff;
+    color:var(--blue);
+
+    font-size:18px;
     font-weight:900;
 }
+
+.profile-text h4{
+    font-size:12px;
+    font-weight:900;
+}
+
+.profile-text p{
+    margin-top:4px;
+    color:var(--muted);
+    font-size:8px;
+}
+
+/* =========================================================
+   MODAL INFO
+========================================================= */
 
 .modal-grid{
     display:grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
+    grid-template-columns:repeat(2,1fr);
     gap:8px;
+
+    margin-top:13px;
 }
 
-.modal-info{
-    padding:10px;
+.info{
+    padding:11px;
+
+    border-radius:13px;
+
+    background:#f8fafc;
+}
+
+.info span{
+    display:block;
+    color:var(--muted);
+    font-size:7px;
+}
+
+.info strong{
+    display:block;
+    margin-top:4px;
+    font-size:10px;
+    font-weight:900;
+}
+
+.payment-box{
+    margin-top:14px;
+
+    padding:14px;
+
+    border:1px solid var(--border);
+    border-radius:17px;
+
+    background:#fff;
+}
+
+.payment-box h4{
+    font-size:11px;
+    font-weight:900;
+}
+
+.payment-summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:7px;
+
+    margin-top:10px;
+}
+
+.money-box{
+    padding:10px 5px;
+
+    text-align:center;
 
     border-radius:12px;
 
     background:#f8fafc;
 }
 
-.modal-info span{
+.money-box span{
     display:block;
-
     color:var(--muted);
-
     font-size:7px;
 }
 
-.modal-info strong{
+.money-box strong{
+    display:block;
+    margin-top:4px;
+    font-size:10px;
+    font-weight:900;
+}
+
+/* =========================================================
+   ACTIVATION AMOUNT
+========================================================= */
+
+.activation-area{
+    margin-top:14px;
+
+    padding:14px;
+
+    border-radius:17px;
+
+    background:#f8fafc;
+}
+
+.activation-area label{
     display:block;
 
-    margin-top:4px;
+    margin-bottom:7px;
+
+    color:#475467;
+
+    font-size:8px;
+    font-weight:900;
+}
+
+.activation-input{
+    width:100%;
+    height:49px;
+
+    padding:0 13px;
+
+    border:1px solid var(--border);
+    border-radius:14px;
+
+    outline:none;
+
+    background:#fff;
+
+    direction:ltr;
+    text-align:center;
+
+    font-size:15px;
+    font-weight:900;
+}
+
+.activation-input:focus{
+    border-color:var(--blue);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(7,95,207,.06);
+}
+
+.activation-help{
+    margin-top:7px;
+
+    color:var(--muted);
+
+    font-size:7.5px;
+    line-height:1.7;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+
+    margin-top:14px;
+}
+
+.action{
+    min-height:49px;
+
+    border:0;
+    border-radius:14px;
 
     font-size:10px;
     font-weight:900;
 }
 
-.payment-list{
-    display:grid;
-    gap:7px;
+.action.activate{
+    background:var(--green);
+    color:#fff;
 }
 
-.payment{
+.action.disable{
+    background:var(--red);
+    color:#fff;
+}
+
+.action:disabled{
+    opacity:.55;
+    cursor:default;
+}
+
+/* =========================================================
+   CONFIRM MODAL
+========================================================= */
+
+.confirm-modal{
+    z-index:11000;
+    align-items:center;
+    padding:16px;
+}
+
+.confirm-card{
+    width:100%;
+    max-width:360px;
+
+    padding:20px;
+
+    text-align:center;
+
+    border-radius:22px;
+
+    background:#fff;
+
+    box-shadow:
+        0 25px 70px
+        rgba(0,0,0,.20);
+}
+
+.confirm-icon{
+    width:62px;
+    height:62px;
+
+    margin:0 auto 12px;
+
     display:flex;
     align-items:center;
-    justify-content:space-between;
-    gap:10px;
+    justify-content:center;
 
-    padding:10px;
+    border-radius:19px;
 
-    border-radius:12px;
+    background:var(--red-bg);
+    color:var(--red);
 
-    background:#f8fafc;
+    font-size:25px;
+    font-weight:900;
 }
 
-.payment div:first-child strong{
-    display:block;
-
-    font-size:10px;
+.confirm-card h3{
+    font-size:15px;
+    font-weight:900;
 }
 
-.payment div:first-child span{
-    display:block;
-
-    margin-top:3px;
+.confirm-card p{
+    margin-top:7px;
 
     color:var(--muted);
 
-    font-size:7px;
+    font-size:9px;
+    line-height:1.8;
 }
 
-.payment > strong{
-    color:var(--green);
+.confirm-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:7px;
 
-    font-size:11px;
+    margin-top:15px;
+}
+
+.confirm-actions button{
+    height:45px;
+
+    border:0;
+    border-radius:13px;
+
+    font-size:9px;
+    font-weight:900;
+}
+
+.confirm-cancel{
+    background:#f1f4f7;
+    color:#475467;
+}
+
+.confirm-ok{
+    background:var(--red);
+    color:#fff;
 }
 
 /* =========================================================
@@ -941,20 +949,16 @@ button{
 .toast{
     position:fixed;
 
-    z-index:30000;
-
     left:15px;
     right:15px;
+    bottom:max(20px,env(safe-area-inset-bottom));
 
-    bottom:
-        max(20px,env(safe-area-inset-bottom));
+    z-index:30000;
 
     max-width:430px;
-
     margin:auto;
 
-    padding:
-        12px 14px;
+    padding:12px 14px;
 
     text-align:center;
 
@@ -967,43 +971,36 @@ button{
     font-weight:800;
 
     opacity:0;
-
     pointer-events:none;
 
-    transform:
-        translateY(10px);
+    transform:translateY(10px);
 
     transition:.25s;
 }
 
 .toast.show{
     opacity:1;
-
     transform:none;
 }
 
 /* =========================================================
-   ANIMATION
+   ANIMATIONS
 ========================================================= */
 
 @keyframes spin{
     to{
-        transform:
-            rotate(360deg);
+        transform:rotate(360deg);
     }
 }
 
 @keyframes modalUp{
     from{
         opacity:0;
-
-        transform:
-            translateY(25px);
+        transform:translateY(25px);
     }
 
     to{
         opacity:1;
-
         transform:none;
     }
 }
@@ -1015,18 +1012,11 @@ button{
 @media(min-width:700px){
 
     .stats{
-        grid-template-columns:
-            repeat(4,1fr);
+        grid-template-columns:repeat(4,1fr);
     }
 
-    .filter-row{
-        grid-template-columns:
-            2fr 1fr 1fr;
-    }
-
-    .student-list{
-        grid-template-columns:
-            repeat(2,1fr);
+    .classes{
+        grid-template-columns:repeat(4,1fr);
     }
 
     .modal{
@@ -1035,7 +1025,7 @@ button{
     }
 
     .modal-card{
-        border-radius:24px;
+        border-radius:25px;
     }
 
 }
@@ -1064,7 +1054,7 @@ button{
             alt="شعار المدرسة"
         >
 
-        <div class="loader"></div>
+        <div class="spinner"></div>
 
         <p>
             جاري تحميل قسم الحسابات
@@ -1107,6 +1097,7 @@ button{
     <button
         id="logoutBtn"
         class="logout"
+        type="button"
     >
         خروج
     </button>
@@ -1115,184 +1106,160 @@ button{
 
 
 <!-- =========================================================
-     CONTENT
+     MAIN
 ========================================================= -->
 
 <main class="main">
 
 
-    <section class="hero">
+<section class="hero">
+
+    <div class="hero-content">
 
         <h2>
-            لوحة المحاسب
+            حسابات الطلبة
         </h2>
 
         <p>
-            إدارة صلاحية الحسابات للطلاب ومتابعة الأقساط والمدفوعات.
-            تفعيل الدرجات والدردشة يحتاج أيضاً إلى موافقة الإدارة.
+            اختر الصف لعرض الطلاب، ثم اضغط على اسم الطالب لإدارة
+            صلاحية الحسابات وتسجيل دفعة القسط.
         </p>
 
-    </section>
+    </div>
+
+</section>
 
 
-    <!-- =====================================================
-         STATS
-    ====================================================== -->
+<!-- =========================================================
+     STATS
+========================================================= -->
 
-    <section class="stats">
+<section class="stats">
 
-        <div class="stat">
+    <div class="stat">
 
-            <span>
-                جميع الطلاب
-            </span>
+        <span>
+            جميع الطلبة
+        </span>
 
-            <strong id="statAll">
-                0
-            </strong>
+        <strong id="statStudents">
+            0
+        </strong>
 
-        </div>
-
-
-        <div class="stat">
-
-            <span>
-                مفعّلون من الحسابات
-            </span>
-
-            <strong id="statApproved">
-                0
-            </strong>
-
-        </div>
+    </div>
 
 
-        <div class="stat">
+    <div class="stat">
 
-            <span>
-                غير مفعّلين
-            </span>
+        <span>
+            مفعّل من الحسابات
+        </span>
 
-            <strong id="statNotApproved">
-                0
-            </strong>
+        <strong id="statActive">
+            0
+        </strong>
 
-        </div>
-
-
-        <div class="stat">
-
-            <span>
-                مجموع المتبقي
-            </span>
-
-            <strong id="statRemaining">
-                0
-            </strong>
-
-        </div>
-
-    </section>
+    </div>
 
 
-    <!-- =====================================================
-         FILTERS
-    ====================================================== -->
+    <div class="stat">
+
+        <span>
+            غير مفعّل
+        </span>
+
+        <strong id="statInactive">
+            0
+        </strong>
+
+    </div>
+
+
+    <div class="stat">
+
+        <span>
+            مجموع المتبقي
+        </span>
+
+        <strong id="statRemaining">
+            0
+        </strong>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CLASSES
+========================================================= -->
+
+<div class="section-head">
+
+    <h3>
+        الصفوف
+    </h3>
+
+    <span>
+        اختر الصف
+    </span>
+
+</div>
+
+
+<section
+    id="classesGrid"
+    class="classes"
+></section>
+
+
+<!-- =========================================================
+     STUDENTS
+========================================================= -->
+
+<section
+    id="studentsSection"
+    class="hidden"
+>
 
     <div class="section-head">
 
-        <h3>
+        <h3 id="selectedClassTitle">
             الطلاب
         </h3>
 
-        <span id="resultsCount">
+        <span id="studentsCount">
             0 طالب
         </span>
 
     </div>
 
 
-    <section class="filters">
+    <div class="table-tools">
 
-        <div class="filter-row">
+        <input
+            id="searchInput"
+            class="search"
+            type="text"
+            placeholder="بحث باسم الطالب أو الكود"
+            autocomplete="off"
+        >
 
-            <div class="field">
-
-                <label>
-                    البحث
-                </label>
-
-                <input
-                    id="searchInput"
-                    type="text"
-                    placeholder="الاسم أو الكود أو رقم الهاتف"
-                    autocomplete="off"
-                >
-
-            </div>
+    </div>
 
 
-            <div class="field">
+    <div
+        id="tableArea"
+    ></div>
 
-                <label>
-                    الصف
-                </label>
-
-                <select id="classFilter">
-
-                    <option value="">
-                        جميع الصفوف
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    صلاحية الحسابات
-                </label>
-
-                <select id="accessFilter">
-
-                    <option value="">
-                        الجميع
-                    </option>
-
-                    <option value="approved">
-                        مفعّل
-                    </option>
-
-                    <option value="notApproved">
-                        غير مفعّل
-                    </option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         STUDENTS
-    ====================================================== -->
-
-    <section
-        id="studentList"
-        class="student-list"
-    ></section>
+</section>
 
 
 </main>
 
 
 <!-- =========================================================
-     STUDENT DETAILS MODAL
+     STUDENT MODAL
 ========================================================= -->
 
 <div
@@ -1302,15 +1269,17 @@ button{
 
     <div class="modal-card">
 
+
         <div class="modal-head">
 
-            <h3 id="modalStudentName">
-                بيانات الطالب
+            <h3>
+                حساب الطالب
             </h3>
 
             <button
-                id="closeModal"
+                id="closeStudentModal"
                 class="close"
+                type="button"
             >
                 ×
             </button>
@@ -1318,36 +1287,185 @@ button{
         </div>
 
 
-        <div
-            id="modalStudentInfo"
-            class="modal-grid"
-        ></div>
-
-
-        <div class="modal-section">
-
-            <h4>
-                الأقساط
-            </h4>
+        <div class="student-profile">
 
             <div
-                id="modalPaymentSummary"
-                class="modal-grid"
-            ></div>
+                id="modalAvatar"
+                class="avatar"
+            >
+                ط
+            </div>
+
+
+            <div class="profile-text">
+
+                <h4 id="modalName">
+                    —
+                </h4>
+
+                <p id="modalCode">
+                    —
+                </p>
+
+            </div>
 
         </div>
 
 
-        <div class="modal-section">
+        <div
+            id="modalInfo"
+            class="modal-grid"
+        ></div>
+
+
+        <div class="payment-box">
 
             <h4>
-                الدفعات
+                حالة الأقساط
             </h4>
 
+
+            <div class="payment-summary">
+
+                <div class="money-box">
+
+                    <span>
+                        القسط الكلي
+                    </span>
+
+                    <strong id="modalTotal">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="money-box">
+
+                    <span>
+                        المدفوع
+                    </span>
+
+                    <strong id="modalPaid">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="money-box">
+
+                    <span>
+                        المتبقي
+                    </span>
+
+                    <strong id="modalRemaining">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="activationArea"
+            class="activation-area"
+        >
+
+            <label>
+                مبلغ الدفعة
+            </label>
+
+            <input
+                id="paymentAmount"
+                class="activation-input"
+                type="number"
+                min="0"
+                step="250"
+                inputmode="numeric"
+                placeholder="أدخل المبلغ"
+            >
+
             <div
-                id="modalPaymentList"
-                class="payment-list"
-            ></div>
+                id="activationHelp"
+                class="activation-help"
+            >
+                يجب تسجيل مبلغ الدفعة قبل تفعيل الطالب من الحسابات.
+            </div>
+
+        </div>
+
+
+        <div class="actions">
+
+            <button
+                id="activateBtn"
+                class="action activate"
+                type="button"
+            >
+                تفعيل
+            </button>
+
+
+            <button
+                id="disableBtn"
+                class="action disable"
+                type="button"
+            >
+                إلغاء التفعيل
+            </button>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     CONFIRM DISABLE
+========================================================= -->
+
+<div
+    id="confirmModal"
+    class="modal confirm-modal"
+>
+
+    <div class="confirm-card">
+
+        <div class="confirm-icon">
+            !
+        </div>
+
+        <h3>
+            إلغاء تفعيل الحسابات
+        </h3>
+
+        <p>
+            هل أنت متأكد من إلغاء صلاحية الحسابات لهذا الطالب؟
+        </p>
+
+        <div class="confirm-actions">
+
+            <button
+                id="cancelDisable"
+                class="confirm-cancel"
+                type="button"
+            >
+                رجوع
+            </button>
+
+            <button
+                id="confirmDisable"
+                class="confirm-ok"
+                type="button"
+            >
+                إلغاء التفعيل
+            </button>
 
         </div>
 
@@ -1377,12 +1495,12 @@ const DB =
 
 
 /* =========================================================
-   STATE
+   GLOBAL STATE
 ========================================================= */
 
 let session = {};
 
-let currentUser = {};
+let accountantUser = {};
 
 let students = {};
 
@@ -1390,7 +1508,11 @@ let classes = {};
 
 let payments = {};
 
-let studentPaymentTotals = {};
+let paymentSummary = {};
+
+let selectedClassId = "";
+
+let selectedStudentCode = "";
 
 
 /* =========================================================
@@ -1433,7 +1555,7 @@ function norm(value){
 }
 
 
-function number(value){
+function num(value){
 
     const n =
         Number(value);
@@ -1447,47 +1569,26 @@ function number(value){
 
 function money(value){
 
-    return new Intl.NumberFormat(
-        "ar-IQ"
-    ).format(
-        Math.round(
-            number(value)
+    return (
+        new Intl.NumberFormat(
+            "ar-IQ"
+        ).format(
+            Math.round(
+                num(value)
+            )
         )
-    ) + " د.ع";
+        +
+        " د.ع"
+    );
 
 }
 
 
-function dateText(value){
+function genderText(value){
 
-    if(!value){
-        return "—";
-    }
-
-
-    const date =
-        new Date(value);
-
-
-    if(
-        Number.isNaN(
-            date.getTime()
-        )
-    ){
-
-        return String(value);
-
-    }
-
-
-    return date.toLocaleDateString(
-        "ar-IQ",
-        {
-            year:"numeric",
-            month:"2-digit",
-            day:"2-digit"
-        }
-    );
+    return value === "female"
+        ? "أنثى"
+        : "ذكر";
 
 }
 
@@ -1519,14 +1620,14 @@ function toast(text){
                     );
 
             },
-            2200
+            2400
         );
 
 }
 
 
 /* =========================================================
-   FIREBASE
+   FIREBASE REST
 ========================================================= */
 
 async function dbGet(path){
@@ -1543,7 +1644,7 @@ async function dbGet(path){
     if(!response.ok){
 
         throw new Error(
-            "DB_GET_FAILED"
+            "GET_FAILED"
         );
 
     }
@@ -1581,7 +1682,45 @@ async function dbPatch(
     if(!response.ok){
 
         throw new Error(
-            "DB_PATCH_FAILED"
+            "PATCH_FAILED"
+        );
+
+    }
+
+
+    return response.json();
+
+}
+
+
+async function dbPost(
+    path,
+    data
+){
+
+    const response =
+        await fetch(
+            `${DB}/${path}.json`,
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify(
+                        data
+                    )
+            }
+        );
+
+
+    if(!response.ok){
+
+        throw new Error(
+            "POST_FAILED"
         );
 
     }
@@ -1616,7 +1755,9 @@ function loadSession(){
     }
 
 
-    if(!session.code){
+    if(
+        !session.code
+    ){
 
         location.replace(
             "index.html"
@@ -1645,13 +1786,15 @@ async function verifyAccountant(){
     }
 
 
-    currentUser =
+    accountantUser =
         await dbGet(
             `users/${encodeURIComponent(session.code)}`
         );
 
 
-    if(!currentUser){
+    if(
+        !accountantUser
+    ){
 
         logout();
 
@@ -1662,23 +1805,16 @@ async function verifyAccountant(){
 
     const role =
         norm(
-            currentUser.role
+            accountantUser.role
         );
 
 
-    const allowedRoles = [
-
-        "accountant",
-        "accounting",
-        "mn"
-
-    ];
-
-
     if(
-        !allowedRoles.includes(
-            role
-        )
+        ![
+            "accountant",
+            "accounting",
+            "mn"
+        ].includes(role)
     ){
 
         logout();
@@ -1689,8 +1825,8 @@ async function verifyAccountant(){
 
 
     if(
-        currentUser.active === false ||
-        currentUser.hidden === true
+        accountantUser.active === false ||
+        accountantUser.hidden === true
     ){
 
         logout();
@@ -1724,9 +1860,9 @@ function logout(){
    LOAD DATA
 ========================================================= */
 
-async function loadData(){
+async function loadAll(){
 
-    const results =
+    const data =
         await Promise.all([
 
             dbGet(
@@ -1745,33 +1881,29 @@ async function loadData(){
 
 
     students =
-        results[0] || {};
+        data[0] || {};
 
 
     classes =
-        results[1] || {};
+        data[1] || {};
 
 
     payments =
-        results[2] || {};
+        data[2] || {};
 
 
-    calculatePayments();
-
-    fillClassFilter();
-
-    render();
+    calculatePaymentSummary();
 
 }
 
 
 /* =========================================================
-   PAYMENT TOTALS
+   PAYMENT SUMMARY
 ========================================================= */
 
-function calculatePayments(){
+function calculatePaymentSummary(){
 
-    studentPaymentTotals = {};
+    paymentSummary = {};
 
 
     Object.entries(
@@ -1780,18 +1912,18 @@ function calculatePayments(){
     .forEach(
         ([code,student]) => {
 
-            const studentPayments =
+            const list =
                 payments[code] || {};
 
 
             const paid =
                 Object.values(
-                    studentPayments
+                    list
                 )
                 .reduce(
                     (sum,item) =>
                         sum +
-                        number(
+                        num(
                             item.amount
                         ),
                     0
@@ -1799,27 +1931,239 @@ function calculatePayments(){
 
 
             const total =
-                number(
-                    student.tuitionTotal
+                Math.max(
+                    0,
+                    num(
+                        student.tuitionTotal
+                    )
                 );
 
 
-            studentPaymentTotals[
+            const remaining =
+                Math.max(
+                    0,
+                    total -
+                    paid
+                );
+
+
+            paymentSummary[
                 code
             ] = {
 
                 total,
-
                 paid,
-
-                remaining:
-                    Math.max(
-                        0,
-                        total -
-                        paid
-                    )
+                remaining
 
             };
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   MONTHLY RESET - DAY 29
+
+   مرة واحدة لكل شهر.
+
+   الاستثناء:
+   tuitionTotal == 0
+   remaining == 0
+========================================================= */
+
+async function runMonthlyAccountingReset(){
+
+    const now =
+        new Date();
+
+
+    if(
+        now.getDate() !== 29
+    ){
+        return;
+    }
+
+
+    const year =
+        now.getFullYear();
+
+
+    const month =
+        String(
+            now.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    const resetKey =
+        `${year}-${month}`;
+
+
+    const lastReset =
+        await dbGet(
+            `meta/accountingMonthlyReset/${resetKey}`
+        );
+
+
+    /*
+       سبق تنفيذ إعادة الضبط
+       لهذا الشهر.
+    */
+
+    if(
+        lastReset &&
+        lastReset.completed === true
+    ){
+        return;
+    }
+
+
+    const update = {};
+
+
+    let changed =
+        0;
+
+
+    Object.entries(
+        students
+    )
+    .forEach(
+        ([code,student]) => {
+
+
+            const summary =
+                paymentSummary[
+                    code
+                ] || {
+                    total:0,
+                    remaining:0
+                };
+
+
+            /*
+               الطالب المجاني:
+               القسط الكلي 0
+               والمتبقي 0
+
+               يبقى مفعلاً.
+            */
+
+            const freeStudent =
+
+                summary.total === 0 &&
+                summary.remaining === 0;
+
+
+            if(
+                freeStudent
+            ){
+                return;
+            }
+
+
+            if(
+                student.accountantApproved === true
+            ){
+
+                update[
+                    `${code}/accountantApproved`
+                ] =
+                    false;
+
+
+                update[
+                    `${code}/accountantDisabledAt`
+                ] =
+                    Date.now();
+
+
+                update[
+                    `${code}/accountantDisabledReason`
+                ] =
+                    "monthly_reset_day_29";
+
+
+                changed++;
+
+            }
+
+        }
+    );
+
+
+    /*
+       PATCH واحد لكل الطلاب.
+    */
+
+    if(
+        Object.keys(update).length
+    ){
+
+        await dbPatch(
+            "students",
+            update
+        );
+
+
+        Object.entries(
+            students
+        )
+        .forEach(
+            ([code,student]) => {
+
+                const summary =
+                    paymentSummary[
+                        code
+                    ] || {
+                        total:0,
+                        remaining:0
+                    };
+
+
+                const freeStudent =
+                    summary.total === 0 &&
+                    summary.remaining === 0;
+
+
+                if(
+                    !freeStudent
+                ){
+
+                    student.accountantApproved =
+                        false;
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /*
+       نحفظ أنه تم التنفيذ.
+    */
+
+    await dbPatch(
+        `meta/accountingMonthlyReset/${resetKey}`,
+        {
+
+            completed:
+                true,
+
+            timestamp:
+                Date.now(),
+
+            executedBy:
+                session.code,
+
+            disabledStudents:
+                changed
 
         }
     );
@@ -1831,9 +2175,7 @@ function calculatePayments(){
    CLASS NAME
 ========================================================= */
 
-function className(
-    classId
-){
+function className(classId){
 
     return (
         classes[classId]?.name ||
@@ -1844,16 +2186,58 @@ function className(
 
 
 /* =========================================================
-   CLASS FILTER
+   STUDENTS IN CLASS
 ========================================================= */
 
-function fillClassFilter(){
+function classStudents(
+    classId
+){
 
-    const current =
-        $("classFilter").value;
+    return Object.entries(
+        students
+    )
+
+    .map(
+        ([code,value]) => ({
+            code,
+            ...value
+        })
+    )
+
+    .filter(
+        student =>
+            student.classId ===
+                classId &&
+            student.deleted !==
+                true
+    )
+
+    .sort(
+        (a,b) =>
+            String(
+                a.name || ""
+            )
+            .localeCompare(
+                String(
+                    b.name || ""
+                ),
+                "ar",
+                {
+                    sensitivity:"base"
+                }
+            )
+    );
+
+}
 
 
-    const options =
+/* =========================================================
+   RENDER CLASSES
+========================================================= */
+
+function renderClasses(){
+
+    const classList =
         Object.entries(
             classes
         )
@@ -1878,179 +2262,14 @@ function fillClassFilter(){
         );
 
 
-    $("classFilter").innerHTML =
-        `
-
-            <option value="">
-                جميع الصفوف
-            </option>
-
-        `
-
-        +
-
-        options.map(
-            ([id,item]) => `
-
-                <option
-                    value="${esc(id)}"
-                >
-                    ${esc(item.name || id)}
-                </option>
-
-            `
-        ).join("");
-
-
-    $("classFilter").value =
-        current;
-
-}
-
-
-/* =========================================================
-   FILTERED STUDENTS
-========================================================= */
-
-function filteredStudents(){
-
-    const search =
-        norm(
-            $("searchInput").value
-        );
-
-
-    const classId =
-        $("classFilter").value;
-
-
-    const access =
-        $("accessFilter").value;
-
-
-    return Object.entries(
-        students
-    )
-
-    .map(
-        ([code,value]) => ({
-            code,
-            ...value
-        })
-    )
-
-    .filter(
-        student => {
-
-            /*
-               نخفي السجلات المحذوفة
-               إذا استخدمت deleted لاحقاً.
-            */
-
-            if(
-                student.deleted === true
-            ){
-                return false;
-            }
-
-
-            if(
-                classId &&
-                student.classId !==
-                classId
-            ){
-                return false;
-            }
-
-
-            if(
-                access === "approved" &&
-                student.accountantApproved !== true
-            ){
-                return false;
-            }
-
-
-            if(
-                access === "notApproved" &&
-                student.accountantApproved === true
-            ){
-                return false;
-            }
-
-
-            if(search){
-
-                const haystack =
-                    norm(
-                        [
-                            student.name,
-                            student.code,
-                            student.guardianPhone,
-                            student.studentPhone,
-                            student.lineNumber
-                        ].join(" ")
-                    );
-
-
-                if(
-                    !haystack.includes(
-                        search
-                    )
-                ){
-                    return false;
-                }
-
-            }
-
-
-            return true;
-
-        }
-    )
-
-    .sort(
-        (a,b) =>
-            String(
-                a.name || ""
-            )
-            .localeCompare(
-                String(
-                    b.name || ""
-                ),
-                "ar"
-            )
-    );
-
-}
-
-
-/* =========================================================
-   RENDER
-========================================================= */
-
-function render(){
-
-    const list =
-        filteredStudents();
-
-
-    renderStats();
-
-    $("resultsCount").textContent =
-        `${list.length} طالب`;
-
-
     if(
-        !list.length
+        !classList.length
     ){
 
-        $("studentList").innerHTML = `
+        $("classesGrid").innerHTML = `
 
             <div class="empty">
-
-                لا توجد نتائج مطابقة للفلاتر الحالية.
-
+                لا توجد صفوف في النظام.
             </div>
 
         `;
@@ -2060,15 +2279,933 @@ function render(){
     }
 
 
-    $("studentList").innerHTML =
-        list.map(
-            student =>
-                studentCard(
-                    student
-                )
+    $("classesGrid").innerHTML =
+        classList.map(
+            ([id,item]) => {
+
+                const count =
+                    classStudents(
+                        id
+                    ).length;
+
+
+                return `
+
+                    <button
+                        type="button"
+                        class="
+                            class-card
+                            ${
+                                selectedClassId === id
+                                    ? "active"
+                                    : ""
+                            }
+                        "
+                        onclick="
+                            selectClass(
+                                '${safeJS(id)}'
+                            )
+                        "
+                    >
+
+                        <div class="class-count">
+                            ${count}
+                        </div>
+
+                        <div class="class-icon">
+                            ص
+                        </div>
+
+                        <h4>
+                            ${esc(item.name || "صف")}
+                        </h4>
+
+                        <p>
+                            ${count} طالب
+                        </p>
+
+                    </button>
+
+                `;
+
+            }
         ).join("");
 
 }
+
+
+/* =========================================================
+   SELECT CLASS
+========================================================= */
+
+function selectClass(
+    classId
+){
+
+    selectedClassId =
+        classId;
+
+
+    $("studentsSection")
+        .classList.remove(
+            "hidden"
+        );
+
+
+    $("searchInput").value =
+        "";
+
+
+    renderClasses();
+
+    renderStudentsTable();
+
+
+    setTimeout(
+        () => {
+
+            $("studentsSection")
+                .scrollIntoView({
+                    behavior:"smooth",
+                    block:"start"
+                });
+
+        },
+        80
+    );
+
+}
+
+
+/* =========================================================
+   FILTER CURRENT CLASS
+========================================================= */
+
+function filteredCurrentStudents(){
+
+    const search =
+        norm(
+            $("searchInput").value
+        );
+
+
+    return classStudents(
+        selectedClassId
+    )
+    .filter(
+        student => {
+
+            if(!search){
+                return true;
+            }
+
+
+            const data =
+                norm(
+                    [
+                        student.name,
+                        student.code
+                    ].join(" ")
+                );
+
+
+            return data.includes(
+                search
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+function renderStudentsTable(){
+
+    if(
+        !selectedClassId
+    ){
+        return;
+    }
+
+
+    const list =
+        filteredCurrentStudents();
+
+
+    $("selectedClassTitle").textContent =
+        className(
+            selectedClassId
+        );
+
+
+    $("studentsCount").textContent =
+        `${list.length} طالب`;
+
+
+    if(
+        !list.length
+    ){
+
+        $("tableArea").innerHTML = `
+
+            <div class="empty">
+                لا يوجد طلاب في هذا الصف.
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    $("tableArea").innerHTML = `
+
+        <div class="table-wrap">
+
+            <table class="students-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            #
+                        </th>
+
+                        <th>
+                            اسم الطالب
+                        </th>
+
+                        <th>
+                            الجنس
+                        </th>
+
+                        <th>
+                            القاعة
+                        </th>
+
+                        <th>
+                            القسط الكلي
+                        </th>
+
+                        <th>
+                            المدفوع
+                        </th>
+
+                        <th>
+                            المتبقي
+                        </th>
+
+                        <th>
+                            حالة الحسابات
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    ${
+                        list.map(
+                            (student,index) => {
+
+                                const summary =
+                                    paymentSummary[
+                                        student.code
+                                    ] || {
+                                        total:0,
+                                        paid:0,
+                                        remaining:0
+                                    };
+
+
+                                const active =
+                                    student.accountantApproved ===
+                                    true;
+
+
+                                return `
+
+                                    <tr>
+
+                                        <td>
+                                            ${index + 1}
+                                        </td>
+
+
+                                        <td>
+
+                                            <button
+                                                type="button"
+                                                class="student-name-btn"
+                                                onclick="
+                                                    openStudent(
+                                                        '${safeJS(student.code)}'
+                                                    )
+                                                "
+                                            >
+                                                ${esc(student.name || "—")}
+                                            </button>
+
+                                        </td>
+
+
+                                        <td>
+                                            ${esc(genderText(student.gender))}
+                                        </td>
+
+
+                                        <td>
+                                            ${esc(student.roomNumber || "—")}
+                                        </td>
+
+
+                                        <td class="amount">
+                                            ${esc(money(summary.total))}
+                                        </td>
+
+
+                                        <td class="amount">
+                                            ${esc(money(summary.paid))}
+                                        </td>
+
+
+                                        <td class="amount">
+                                            ${esc(money(summary.remaining))}
+                                        </td>
+
+
+                                        <td
+                                            class="
+                                                status-cell
+                                                ${
+                                                    active
+                                                        ? "active"
+                                                        : "inactive"
+                                                }
+                                            "
+                                        >
+
+                                            ${
+                                                active
+                                                    ? "مفعّل"
+                                                    : "غير مفعّل"
+                                            }
+
+                                        </td>
+
+                                    </tr>
+
+                                `;
+
+                            }
+                        ).join("")
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   OPEN STUDENT
+========================================================= */
+
+function openStudent(
+    code
+){
+
+    const student =
+        students[
+            code
+        ];
+
+
+    if(
+        !student
+    ){
+        return;
+    }
+
+
+    selectedStudentCode =
+        code;
+
+
+    const summary =
+        paymentSummary[
+            code
+        ] || {
+            total:0,
+            paid:0,
+            remaining:0
+        };
+
+
+    $("modalAvatar").textContent =
+        (
+            student.name ||
+            "ط"
+        )
+        .trim()
+        .charAt(0) ||
+        "ط";
+
+
+    $("modalName").textContent =
+        student.name ||
+        "—";
+
+
+    $("modalCode").textContent =
+        code;
+
+
+    $("modalInfo").innerHTML = `
+
+        <div class="info">
+
+            <span>
+                الصف
+            </span>
+
+            <strong>
+                ${esc(className(student.classId))}
+            </strong>
+
+        </div>
+
+
+        <div class="info">
+
+            <span>
+                الجنس
+            </span>
+
+            <strong>
+                ${esc(genderText(student.gender))}
+            </strong>
+
+        </div>
+
+
+        <div class="info">
+
+            <span>
+                القاعة
+            </span>
+
+            <strong>
+                ${esc(student.roomNumber || "—")}
+            </strong>
+
+        </div>
+
+
+        <div class="info">
+
+            <span>
+                حالة الحسابات
+            </span>
+
+            <strong>
+
+                ${
+                    student.accountantApproved === true
+                        ? "مفعّل"
+                        : "غير مفعّل"
+                }
+
+            </strong>
+
+        </div>
+
+    `;
+
+
+    $("modalTotal").textContent =
+        money(
+            summary.total
+        );
+
+
+    $("modalPaid").textContent =
+        money(
+            summary.paid
+        );
+
+
+    $("modalRemaining").textContent =
+        money(
+            summary.remaining
+        );
+
+
+    $("paymentAmount").value =
+        "";
+
+
+    /*
+       الطالب المجاني:
+       القسط 0 والمتبقي 0.
+
+       لا يحتاج مبلغ عند التفعيل.
+    */
+
+    const freeStudent =
+        summary.total === 0 &&
+        summary.remaining === 0;
+
+
+    $("activationArea")
+        .classList.toggle(
+            "hidden",
+            freeStudent
+        );
+
+
+    if(
+        freeStudent
+    ){
+
+        $("activationHelp").textContent =
+            "الطالب قسطه الكلي صفر ولا يحتاج تسجيل دفعة.";
+
+    }
+
+
+    $("activateBtn").disabled =
+        student.accountantApproved ===
+        true;
+
+
+    $("disableBtn").disabled =
+        student.accountantApproved !==
+        true;
+
+
+    $("studentModal")
+        .classList.add(
+            "show"
+        );
+
+}
+
+
+/* =========================================================
+   ACTIVATE STUDENT
+========================================================= */
+
+$("activateBtn").onclick =
+async () => {
+
+    const code =
+        selectedStudentCode;
+
+
+    const student =
+        students[
+            code
+        ];
+
+
+    if(
+        !student
+    ){
+        return;
+    }
+
+
+    /*
+       نعيد حساب الدفعات قبل التفعيل.
+    */
+
+    const currentPayments =
+        await dbGet(
+            `payments/${encodeURIComponent(code)}`
+        ) || {};
+
+
+    payments[
+        code
+    ] =
+        currentPayments;
+
+
+    calculatePaymentSummary();
+
+
+    const summary =
+        paymentSummary[
+            code
+        ] || {
+            total:0,
+            paid:0,
+            remaining:0
+        };
+
+
+    const freeStudent =
+        summary.total === 0 &&
+        summary.remaining === 0;
+
+
+    let amount =
+        0;
+
+
+    /*
+       إذا مو طالب مجاني،
+       لازم المحاسب يدخل دفعة.
+    */
+
+    if(
+        !freeStudent
+    ){
+
+        amount =
+            num(
+                $("paymentAmount").value
+            );
+
+
+        if(
+            amount <= 0
+        ){
+
+            toast(
+                "يجب إدخال مبلغ الدفعة قبل تفعيل الطالب"
+            );
+
+
+            $("paymentAmount")
+                .focus();
+
+
+            return;
+
+        }
+
+
+        if(
+            summary.remaining > 0 &&
+            amount >
+            summary.remaining
+        ){
+
+            toast(
+                "مبلغ الدفعة أكبر من المبلغ المتبقي"
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    $("activateBtn").disabled =
+        true;
+
+
+    $("activateBtn").textContent =
+        "جاري التفعيل";
+
+
+    try{
+
+
+        const now =
+            Date.now();
+
+
+        /*
+           إذا توجد دفعة،
+           نسجلها أولاً.
+        */
+
+        if(
+            amount > 0
+        ){
+
+            await dbPost(
+                `payments/${encodeURIComponent(code)}`,
+                {
+
+                    amount:
+                        amount,
+
+                    date:
+                        now,
+
+                    timestamp:
+                        now,
+
+                    note:
+                        "دفعة تفعيل الحسابات",
+
+                    type:
+                        "account_activation",
+
+                    receivedBy:
+                        session.code,
+
+                    studentCode:
+                        code
+
+                }
+            );
+
+        }
+
+
+        /*
+           تفعيل صلاحية المحاسب فقط.
+           لا نغير:
+           adminApproved
+           behaviorBlocked
+           accountActive
+        */
+
+        await dbPatch(
+            `students/${encodeURIComponent(code)}`,
+            {
+
+                accountantApproved:
+                    true,
+
+                accountantApprovedAt:
+                    now,
+
+                accountantApprovedBy:
+                    session.code,
+
+                accountantLastPaymentAmount:
+                    amount
+
+            }
+        );
+
+
+        /*
+           تحديث النسخة المحلية.
+        */
+
+        students[
+            code
+        ].accountantApproved =
+            true;
+
+
+        students[
+            code
+        ].accountantApprovedAt =
+            now;
+
+
+        /*
+           إعادة جلب الدفعات.
+        */
+
+        payments[
+            code
+        ] =
+            await dbGet(
+                `payments/${encodeURIComponent(code)}`
+            ) || {};
+
+
+        calculatePaymentSummary();
+
+
+        renderStats();
+
+        renderStudentsTable();
+
+        openStudent(
+            code
+        );
+
+
+        toast(
+            amount > 0
+                ? "تم تسجيل الدفعة وتفعيل الطالب من الحسابات"
+                : "تم تفعيل الطالب من الحسابات"
+        );
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            error
+        );
+
+
+        toast(
+            "تعذر تفعيل الطالب"
+        );
+
+    }
+
+    finally{
+
+        $("activateBtn").textContent =
+            "تفعيل";
+
+    }
+
+};
+
+
+/* =========================================================
+   ASK TO DISABLE
+========================================================= */
+
+$("disableBtn").onclick =
+    () => {
+
+        if(
+            !selectedStudentCode
+        ){
+            return;
+        }
+
+
+        $("confirmModal")
+            .classList.add(
+                "show"
+            );
+
+    };
+
+
+/* =========================================================
+   CANCEL DISABLE
+========================================================= */
+
+$("cancelDisable").onclick =
+    () => {
+
+        $("confirmModal")
+            .classList.remove(
+                "show"
+            );
+
+    };
+
+
+/* =========================================================
+   CONFIRM DISABLE
+========================================================= */
+
+$("confirmDisable").onclick =
+async () => {
+
+    const code =
+        selectedStudentCode;
+
+
+    if(
+        !code ||
+        !students[
+            code
+        ]
+    ){
+        return;
+    }
+
+
+    $("confirmDisable").disabled =
+        true;
+
+
+    try{
+
+
+        await dbPatch(
+            `students/${encodeURIComponent(code)}`,
+            {
+
+                accountantApproved:
+                    false,
+
+                accountantDisabledAt:
+                    Date.now(),
+
+                accountantDisabledBy:
+                    session.code,
+
+                accountantDisabledReason:
+                    "manual"
+
+            }
+        );
+
+
+        students[
+            code
+        ].accountantApproved =
+            false;
+
+
+        $("confirmModal")
+            .classList.remove(
+                "show"
+            );
+
+
+        renderStats();
+
+        renderStudentsTable();
+
+        openStudent(
+            code
+        );
+
+
+        toast(
+            "تم إلغاء تفعيل الطالب من الحسابات"
+        );
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            error
+        );
+
+
+        toast(
+            "تعذر إلغاء التفعيل"
+        );
+
+    }
+
+    finally{
+
+        $("confirmDisable").disabled =
+            false;
+
+    }
+
+};
 
 
 /* =========================================================
@@ -2077,50 +3214,55 @@ function render(){
 
 function renderStats(){
 
-    const all =
+    const list =
         Object.entries(
             students
         )
         .filter(
-            ([code,s]) =>
-                s &&
-                s.deleted !== true
+            ([code,student]) =>
+                student &&
+                student.deleted !== true
         );
 
 
-    const approved =
-        all.filter(
-            ([code,s]) =>
-                s.accountantApproved ===
+    const active =
+        list.filter(
+            ([code,student]) =>
+                student.accountantApproved ===
                 true
         ).length;
 
 
     const remaining =
-        all.reduce(
-            (sum,[code]) =>
-                sum +
-                (
-                    studentPaymentTotals[
-                        code
-                    ]?.remaining ||
-                    0
-                ),
+        list.reduce(
+            (sum,[code]) => {
+
+                return (
+                    sum +
+                    (
+                        paymentSummary[
+                            code
+                        ]?.remaining ||
+                        0
+                    )
+                );
+
+            },
             0
         );
 
 
-    $("statAll").textContent =
-        all.length;
+    $("statStudents").textContent =
+        list.length;
 
 
-    $("statApproved").textContent =
-        approved;
+    $("statActive").textContent =
+        active;
 
 
-    $("statNotApproved").textContent =
-        all.length -
-        approved;
+    $("statInactive").textContent =
+        list.length -
+        active;
 
 
     $("statRemaining").textContent =
@@ -2136,742 +3278,31 @@ function renderStats(){
 
 
 /* =========================================================
-   STUDENT CARD
-========================================================= */
-
-function studentCard(
-    student
-){
-
-    const pay =
-        studentPaymentTotals[
-            student.code
-        ] || {
-            total:0,
-            paid:0,
-            remaining:0
-        };
-
-
-    const accountantActive =
-        student.accountantApproved ===
-        true;
-
-
-    const adminActive =
-        student.adminApproved ===
-        true;
-
-
-    const behaviorBlocked =
-        student.behaviorBlocked ===
-        true;
-
-
-    const accountActive =
-        student.accountActive !==
-        false;
-
-
-    return `
-
-        <article class="student-card">
-
-
-            <div class="student-top">
-
-
-                <div class="student-ident">
-
-                    <div class="avatar">
-
-                        ${esc(
-                            (
-                                student.name ||
-                                "ط"
-                            )
-                            .trim()
-                            .charAt(0) ||
-                            "ط"
-                        )}
-
-                    </div>
-
-
-                    <div class="student-name">
-
-                        <h4>
-                            ${esc(student.name || "—")}
-                        </h4>
-
-                        <p>
-
-                            ${esc(student.code)}
-
-                            ·
-
-                            ${esc(
-                                className(
-                                    student.classId
-                                )
-                            )}
-
-                            ·
-
-                            القاعة
-                            ${esc(
-                                student.roomNumber ||
-                                "—"
-                            )}
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <span
-                    class="badge ${
-                        accountantActive
-                            ? "green"
-                            : "orange"
-                    }"
-                >
-
-                    ${
-                        accountantActive
-                            ? "الحسابات مفعلة"
-                            : "الحسابات غير مفعلة"
-                    }
-
-                </span>
-
-
-            </div>
-
-
-            <div class="student-info">
-
-
-                <div class="info">
-
-                    <span>
-                        رقم ولي الأمر
-                    </span>
-
-                    <strong>
-                        ${esc(student.guardianPhone || "—")}
-                    </strong>
-
-                </div>
-
-
-                <div class="info">
-
-                    <span>
-                        رقم الطالب
-                    </span>
-
-                    <strong>
-                        ${esc(student.studentPhone || "—")}
-                    </strong>
-
-                </div>
-
-
-                <div class="info">
-
-                    <span>
-                        حالة الحساب الرئيسي
-                    </span>
-
-                    <strong>
-                        ${accountActive ? "فعال" : "غير فعال"}
-                    </strong>
-
-                </div>
-
-
-                <div class="info">
-
-                    <span>
-                        حالة الملف
-                    </span>
-
-                    <strong>
-                        ${
-                            student.fileStatus === "accepted"
-                                ? "تم القبول"
-                                : "لم يستلم الملف"
-                        }
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-
-            <div class="money">
-
-
-                <div class="money-box">
-
-                    <span>
-                        القسط الكلي
-                    </span>
-
-                    <strong>
-                        ${esc(money(pay.total))}
-                    </strong>
-
-                </div>
-
-
-                <div class="money-box">
-
-                    <span>
-                        المدفوع
-                    </span>
-
-                    <strong>
-                        ${esc(money(pay.paid))}
-                    </strong>
-
-                </div>
-
-
-                <div class="money-box">
-
-                    <span>
-                        المتبقي
-                    </span>
-
-                    <strong>
-                        ${esc(money(pay.remaining))}
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-
-            <div class="access-grid">
-
-
-                <div class="access-item">
-
-                    <span>
-                        صلاحية الحسابات
-                    </span>
-
-                    <b
-                        class="badge ${
-                            accountantActive
-                                ? "green"
-                                : "orange"
-                        }"
-                    >
-
-                        ${
-                            accountantActive
-                                ? "مفعلة"
-                                : "غير مفعلة"
-                        }
-
-                    </b>
-
-                </div>
-
-
-                <div class="access-item">
-
-                    <span>
-                        صلاحية الإدارة
-                    </span>
-
-                    <b
-                        class="badge ${
-                            adminActive
-                                ? "green"
-                                : "orange"
-                        }"
-                    >
-
-                        ${
-                            adminActive
-                                ? "مفعلة"
-                                : "غير مفعلة"
-                        }
-
-                    </b>
-
-                </div>
-
-
-                <div class="access-item">
-
-                    <span>
-                        الحالة السلوكية
-                    </span>
-
-                    <b
-                        class="badge ${
-                            behaviorBlocked
-                                ? "red"
-                                : "green"
-                        }"
-                    >
-
-                        ${
-                            behaviorBlocked
-                                ? "محظور"
-                                : "سليم"
-                        }
-
-                    </b>
-
-                </div>
-
-
-            </div>
-
-
-            <div class="student-actions">
-
-
-                ${
-                    accountantActive
-                        ? `
-
-                            <button
-                                class="action disable"
-                                onclick="setAccountantApproval(
-                                    '${safeJS(student.code)}',
-                                    false
-                                )"
-                            >
-                                إلغاء تفعيل الحسابات
-                            </button>
-
-                        `
-                        : `
-
-                            <button
-                                class="action activate"
-                                onclick="setAccountantApproval(
-                                    '${safeJS(student.code)}',
-                                    true
-                                )"
-                            >
-                                تفعيل من الحسابات
-                            </button>
-
-                        `
-                }
-
-
-                <button
-                    class="action details"
-                    onclick="openStudentDetails(
-                        '${safeJS(student.code)}'
-                    )"
-                >
-                    التفاصيل
-                </button>
-
-
-            </div>
-
-
-        </article>
-
-    `;
-
-}
-
-
-/* =========================================================
    SAFE JS STRING
 ========================================================= */
 
 function safeJS(value){
 
     return String(value || "")
-        .replace(/\\/g,"\\\\")
-        .replace(/'/g,"\\'");
 
-}
-
-
-/* =========================================================
-   ACCOUNTANT APPROVAL
-========================================================= */
-
-async function setAccountantApproval(
-    code,
-    value
-){
-
-    const student =
-        students[code];
-
-
-    if(!student){
-        return;
-    }
-
-
-    /*
-       المحاسب يعدل فقط accountantApproved.
-       لا نغير:
-       adminApproved
-       behaviorBlocked
-       accountActive
-    */
-
-
-    try{
-
-
-        await dbPatch(
-            `students/${encodeURIComponent(code)}`,
-            {
-
-                accountantApproved:
-                    value,
-
-                accountantApprovedAt:
-                    Date.now(),
-
-                accountantApprovedBy:
-                    session.code
-
-            }
-        );
-
-
-        students[code]
-            .accountantApproved =
-            value;
-
-
-        students[code]
-            .accountantApprovedAt =
-            Date.now();
-
-
-        students[code]
-            .accountantApprovedBy =
-            session.code;
-
-
-        render();
-
-
-        toast(
-            value
-                ? "تم تفعيل صلاحية الحسابات للطالب"
-                : "تم إلغاء صلاحية الحسابات للطالب"
-        );
-
-
-    }
-
-    catch(error){
-
-        console.error(
-            error
-        );
-
-
-        toast(
-            "تعذر تحديث صلاحية الطالب"
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   STUDENT DETAILS
-========================================================= */
-
-async function openStudentDetails(
-    code
-){
-
-    const student =
-        students[code];
-
-
-    if(!student){
-        return;
-    }
-
-
-    $("modalStudentName").textContent =
-        student.name ||
-        "بيانات الطالب";
-
-
-    const info = [
-
-        [
-            "كود الطالب",
-            code
-        ],
-
-        [
-            "الصف",
-            className(
-                student.classId
-            )
-        ],
-
-        [
-            "القاعة",
-            student.roomNumber
-        ],
-
-        [
-            "رقم ولي الأمر",
-            student.guardianPhone
-        ],
-
-        [
-            "رقم الطالب",
-            student.studentPhone
-        ],
-
-        [
-            "رقم الخط",
-            student.lineNumber
-        ],
-
-        [
-            "تاريخ المباشرة",
-            dateText(
-                student.startDate
-            )
-        ],
-
-        [
-            "المدرسة السابقة",
-            student.previousSchool
-        ],
-
-        [
-            "صلاحية الحسابات",
-            student.accountantApproved === true
-                ? "مفعلة"
-                : "غير مفعلة"
-        ],
-
-        [
-            "صلاحية الإدارة",
-            student.adminApproved === true
-                ? "مفعلة"
-                : "غير مفعلة"
-        ],
-
-        [
-            "الحالة السلوكية",
-            student.behaviorBlocked === true
-                ? "محظور"
-                : "سليم"
-        ],
-
-        [
-            "حالة الحساب الرئيسي",
-            student.accountActive === false
-                ? "غير فعال"
-                : "فعال"
-        ]
-
-    ];
-
-
-    $("modalStudentInfo").innerHTML =
-        info.map(
-            ([label,value]) => `
-
-                <div class="modal-info">
-
-                    <span>
-                        ${esc(label)}
-                    </span>
-
-                    <strong>
-                        ${esc(value || "—")}
-                    </strong>
-
-                </div>
-
-            `
-        ).join("");
-
-
-    const pay =
-        studentPaymentTotals[
-            code
-        ] || {
-            total:0,
-            paid:0,
-            remaining:0
-        };
-
-
-    $("modalPaymentSummary").innerHTML = `
-
-        <div class="modal-info">
-
-            <span>
-                القسط الكلي
-            </span>
-
-            <strong>
-                ${esc(money(pay.total))}
-            </strong>
-
-        </div>
-
-
-        <div class="modal-info">
-
-            <span>
-                المدفوع
-            </span>
-
-            <strong>
-                ${esc(money(pay.paid))}
-            </strong>
-
-        </div>
-
-
-        <div class="modal-info">
-
-            <span>
-                المتبقي
-            </span>
-
-            <strong>
-                ${esc(money(pay.remaining))}
-            </strong>
-
-        </div>
-
-    `;
-
-
-    const studentPayments =
-        payments[code] || {};
-
-
-    const list =
-        Object.entries(
-            studentPayments
+        .replace(
+            /\\/g,
+            "\\\\"
         )
 
-        .map(
-            ([id,value]) => ({
-                id,
-                ...value
-            })
-        )
-
-        .sort(
-            (a,b) =>
-                (
-                    b.timestamp ||
-                    b.createdAt ||
-                    0
-                )
-                -
-                (
-                    a.timestamp ||
-                    a.createdAt ||
-                    0
-                )
-        );
-
-
-    if(
-        !list.length
-    ){
-
-        $("modalPaymentList").innerHTML = `
-
-            <div class="empty">
-                لا توجد دفعات مسجلة لهذا الطالب.
-            </div>
-
-        `;
-
-    }
-
-    else{
-
-        $("modalPaymentList").innerHTML =
-            list.map(
-                item => `
-
-                    <div class="payment">
-
-                        <div>
-
-                            <strong>
-                                ${esc(
-                                    item.note ||
-                                    "دفعة قسط"
-                                )}
-                            </strong>
-
-                            <span>
-                                ${esc(
-                                    dateText(
-                                        item.date ||
-                                        item.timestamp ||
-                                        item.createdAt
-                                    )
-                                )}
-                            </span>
-
-                        </div>
-
-                        <strong>
-                            ${esc(
-                                money(
-                                    item.amount
-                                )
-                            )}
-                        </strong>
-
-                    </div>
-
-                `
-            ).join("");
-
-    }
-
-
-    $("studentModal")
-        .classList.add(
-            "show"
+        .replace(
+            /'/g,
+            "\\'"
         );
 
 }
 
 
 /* =========================================================
-   CLOSE MODAL
+   CLOSE STUDENT MODAL
 ========================================================= */
 
-$("closeModal").onclick =
+$("closeStudentModal").onclick =
     () => {
 
         $("studentModal")
@@ -2903,24 +3334,12 @@ $("studentModal").addEventListener(
 
 
 /* =========================================================
-   FILTER EVENTS
+   SEARCH
 ========================================================= */
 
 $("searchInput").addEventListener(
     "input",
-    render
-);
-
-
-$("classFilter").addEventListener(
-    "change",
-    render
-);
-
-
-$("accessFilter").addEventListener(
-    "change",
-    render
+    renderStudentsTable
 );
 
 
@@ -2945,12 +3364,37 @@ async function init(){
             await verifyAccountant();
 
 
-        if(!verified){
+        if(
+            !verified
+        ){
             return;
         }
 
 
-        await loadData();
+        /*
+           أولاً نسحب البيانات.
+        */
+
+        await loadAll();
+
+
+        /*
+           بعدها نفحص يوم 29.
+        */
+
+        await runMonthlyAccountingReset();
+
+
+        /*
+           إعادة حساب الملخص بعد reset.
+        */
+
+        calculatePaymentSummary();
+
+
+        renderClasses();
+
+        renderStats();
 
 
         $("loaderScreen")
