@@ -20,11 +20,14 @@
     --blue:#075fcf;
     --blue2:#064ca8;
     --blue3:#0b72e7;
+
     --soft:#eef6ff;
     --bg:#f5f8fc;
     --white:#fff;
+
     --text:#172033;
     --muted:#667085;
+
     --border:#e3e9f1;
 
     --green:#078746;
@@ -41,18 +44,28 @@
         rgba(31,55,86,.10);
 }
 
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+
+    -webkit-tap-highlight-color:
+        transparent;
 }
+
 
 html,
 body{
     width:100%;
     min-height:100%;
 }
+
+
+html{
+    background:var(--bg);
+}
+
 
 body{
     font-family:
@@ -62,8 +75,12 @@ body{
 
     background:var(--bg);
     color:var(--text);
+
     overflow-x:hidden;
+
+    -webkit-text-size-adjust:100%;
 }
+
 
 button,
 input,
@@ -71,9 +88,11 @@ textarea{
     font:inherit;
 }
 
+
 button{
     cursor:pointer;
 }
+
 
 .hidden{
     display:none!important;
@@ -87,6 +106,7 @@ button{
 .loader-screen{
     position:fixed;
     inset:0;
+
     z-index:99999;
 
     display:flex;
@@ -96,20 +116,26 @@ button{
     background:#fff;
 }
 
+
 .loader-box{
     text-align:center;
 }
 
+
 .loader-logo{
     width:85px;
     height:85px;
+
     object-fit:contain;
+
     margin-bottom:18px;
 }
+
 
 .loader{
     width:38px;
     height:38px;
+
     margin:auto;
 
     border-radius:50%;
@@ -127,6 +153,7 @@ button{
         infinite;
 }
 
+
 .loader-box p{
     margin-top:13px;
 
@@ -142,9 +169,22 @@ button{
 ========================================================= */
 
 .app{
+    width:100%;
+
     min-height:100vh;
-    padding-bottom:94px;
+    min-height:100dvh;
+
+    /*
+       مساحة كافية للشريط السفلي
+       حتى لا يغطي محتوى الصفحات.
+    */
+    padding-bottom:
+        calc(
+            92px +
+            env(safe-area-inset-bottom)
+        );
 }
+
 
 .topbar{
     position:sticky;
@@ -157,10 +197,14 @@ button{
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     gap:10px;
 
     padding:
-        max(10px,env(safe-area-inset-top))
+        max(
+            10px,
+            env(safe-area-inset-top)
+        )
         15px
         10px;
 
@@ -178,33 +222,42 @@ button{
         var(--border);
 }
 
+
 .top-brand{
     min-width:0;
 
     display:flex;
     align-items:center;
+
     gap:10px;
 }
+
 
 .top-logo{
     width:49px;
     height:49px;
-    object-fit:contain;
+
     flex:none;
+
+    object-fit:contain;
 }
+
 
 .top-title{
     min-width:0;
 }
+
 
 .top-title h1{
     font-size:13px;
     font-weight:900;
 
     white-space:nowrap;
+
     overflow:hidden;
     text-overflow:ellipsis;
 }
+
 
 .top-title p{
     margin-top:3px;
@@ -215,12 +268,15 @@ button{
     font-weight:900;
 }
 
+
 .logout{
     flex:none;
 
     border:0;
 
-    padding:9px 11px;
+    padding:
+        9px
+        11px;
 
     border-radius:12px;
 
@@ -231,6 +287,7 @@ button{
     font-weight:900;
 }
 
+
 .content{
     width:100%;
     max-width:920px;
@@ -240,6 +297,7 @@ button{
     padding:16px;
 }
 
+
 .page{
     display:none;
 
@@ -247,6 +305,7 @@ button{
         pageIn .32s
         cubic-bezier(.16,1,.3,1);
 }
+
 
 .page.active{
     display:block;
@@ -286,6 +345,7 @@ button{
         rgba(7,95,207,.20);
 }
 
+
 .student-hero::before{
     content:"";
 
@@ -302,6 +362,7 @@ button{
     background:
         rgba(255,255,255,.08);
 }
+
 
 .student-hero::after{
     content:"";
@@ -320,16 +381,21 @@ button{
         rgba(255,255,255,.06);
 }
 
+
 .hero-content{
     position:relative;
+
     z-index:2;
 }
+
 
 .hero-head{
     display:flex;
     align-items:center;
+
     gap:13px;
 }
+
 
 .avatar{
     width:63px;
@@ -356,6 +422,7 @@ button{
     font-weight:900;
 }
 
+
 .avatar img{
     width:100%;
     height:100%;
@@ -363,13 +430,13 @@ button{
     display:block;
 
     object-fit:cover;
-
-    border-radius:19px;
 }
+
 
 .hero-info{
     min-width:0;
 }
+
 
 .hero-info h2{
     font-size:18px;
@@ -381,6 +448,7 @@ button{
     text-overflow:ellipsis;
 }
 
+
 .hero-info p{
     margin-top:3px;
 
@@ -388,20 +456,25 @@ button{
     text-align:right;
 
     font-size:10px;
+
     opacity:.9;
 }
+
 
 .hero-tags{
     display:flex;
     flex-wrap:wrap;
+
     gap:7px;
 
     margin-top:17px;
 }
 
+
 .hero-tag{
     padding:
-        7px 10px;
+        7px
+        10px;
 
     border-radius:999px;
 
@@ -426,7 +499,9 @@ button{
 
     margin-top:13px;
 
-    padding:13px 14px;
+    padding:
+        13px
+        14px;
 
     border-radius:16px;
 
@@ -437,17 +512,19 @@ button{
         1px solid
         #f8d7aa;
 
-    color:
-        #915700;
+    color:#915700;
 
     font-size:10px;
     line-height:1.8;
+
     font-weight:800;
 }
+
 
 .access-warning.show{
     display:block;
 }
+
 
 .access-warning.blocked{
     background:
@@ -456,8 +533,7 @@ button{
     border-color:
         #f6c4c4;
 
-    color:
-        var(--red);
+    color:var(--red);
 }
 
 
@@ -469,6 +545,7 @@ button{
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     gap:10px;
 
     margin:
@@ -476,10 +553,12 @@ button{
         11px;
 }
 
+
 .section-head h3{
     font-size:15px;
     font-weight:900;
 }
+
 
 .section-head span{
     color:var(--muted);
@@ -504,6 +583,7 @@ button{
     gap:9px;
 }
 
+
 .info-card{
     min-width:0;
 
@@ -522,6 +602,7 @@ button{
         rgba(20,40,70,.045);
 }
 
+
 .info-card small{
     display:block;
 
@@ -532,6 +613,7 @@ button{
     font-size:8px;
     font-weight:800;
 }
+
 
 .info-card strong{
     display:block;
@@ -553,7 +635,8 @@ button{
     overflow:hidden;
 
     padding:
-        4px 14px;
+        4px
+        14px;
 
     border-radius:19px;
 
@@ -567,12 +650,14 @@ button{
         var(--shadow);
 }
 
+
 .status-row{
     min-height:48px;
 
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     gap:10px;
 
     border-bottom:
@@ -580,9 +665,11 @@ button{
         #f0f2f5;
 }
 
+
 .status-row:last-child{
     border-bottom:0;
 }
+
 
 .status-row > span{
     color:var(--muted);
@@ -591,9 +678,11 @@ button{
     font-weight:700;
 }
 
+
 .badge{
     padding:
-        6px 9px;
+        6px
+        9px;
 
     border-radius:999px;
 
@@ -601,20 +690,24 @@ button{
     font-weight:900;
 }
 
+
 .badge.green{
     color:var(--green);
     background:var(--green-bg);
 }
+
 
 .badge.red{
     color:var(--red);
     background:var(--red-bg);
 }
 
+
 .badge.blue{
     color:var(--blue);
     background:var(--soft);
 }
+
 
 .badge.orange{
     color:var(--orange);
@@ -623,14 +716,15 @@ button{
 
 
 /* =========================================================
-   LOCKED PAGE
+   LOCK
 ========================================================= */
 
 .lock-box{
     margin-top:35px;
 
     padding:
-        28px 20px;
+        28px
+        20px;
 
     text-align:center;
 
@@ -645,6 +739,7 @@ button{
     box-shadow:
         var(--shadow);
 }
+
 
 .lock-icon{
     width:72px;
@@ -670,6 +765,7 @@ button{
     font-weight:900;
 }
 
+
 .lock-box.blocked .lock-icon{
     background:
         var(--red-bg);
@@ -678,10 +774,12 @@ button{
         var(--red);
 }
 
+
 .lock-box h3{
     font-size:17px;
     font-weight:900;
 }
+
 
 .lock-box p{
     margin-top:8px;
@@ -699,8 +797,10 @@ button{
 
 .notice-list{
     display:grid;
+
     gap:10px;
 }
+
 
 .notice{
     position:relative;
@@ -720,25 +820,29 @@ button{
         rgba(20,40,70,.045);
 }
 
+
 .notice.unread{
     border-right:
         4px solid
         var(--blue);
 
-    background:
-        #fbfdff;
+    background:#fbfdff;
 }
+
 
 .notice-head{
     display:flex;
     justify-content:space-between;
+
     gap:10px;
 }
+
 
 .notice h4{
     font-size:12px;
     font-weight:900;
 }
+
 
 .notice-date{
     flex:none;
@@ -747,6 +851,7 @@ button{
 
     font-size:8px;
 }
+
 
 .notice p{
     margin-top:8px;
@@ -758,6 +863,7 @@ button{
 
     white-space:pre-wrap;
 }
+
 
 .notice-from{
     margin-top:9px;
@@ -775,8 +881,10 @@ button{
 
 .subject-list{
     display:grid;
+
     gap:10px;
 }
+
 
 .subject-card{
     padding:15px;
@@ -794,21 +902,26 @@ button{
         rgba(20,40,70,.05);
 }
 
+
 .subject-head{
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     gap:10px;
 }
+
 
 .subject-name{
     font-size:13px;
     font-weight:900;
 }
 
+
 .subject-result{
     padding:
-        6px 9px;
+        6px
+        9px;
 
     border-radius:999px;
 
@@ -816,20 +929,24 @@ button{
     font-weight:900;
 }
 
+
 .subject-result.pass{
     color:var(--green);
     background:var(--green-bg);
 }
+
 
 .subject-result.fail{
     color:var(--red);
     background:var(--red-bg);
 }
 
+
 .subject-result.wait{
     color:var(--orange);
     background:var(--orange-bg);
 }
+
 
 .mini-grades{
     display:grid;
@@ -841,6 +958,7 @@ button{
 
     margin-top:12px;
 }
+
 
 .mini-grade{
     min-width:0;
@@ -855,6 +973,7 @@ button{
     background:#f8fafc;
 }
 
+
 .mini-grade small{
     display:block;
 
@@ -866,6 +985,7 @@ button{
     line-height:1.4;
 }
 
+
 .mini-grade strong{
     display:block;
 
@@ -874,6 +994,7 @@ button{
     font-size:11px;
     font-weight:900;
 }
+
 
 .grade-table-wrap{
     margin-top:15px;
@@ -887,19 +1008,26 @@ button{
         var(--border);
 
     background:#fff;
+
+    -webkit-overflow-scrolling:
+        touch;
 }
+
 
 .grade-table{
     width:100%;
+
     min-width:950px;
 
     border-collapse:collapse;
 }
 
+
 .grade-table th,
 .grade-table td{
     padding:
-        11px 8px;
+        11px
+        8px;
 
     text-align:center;
 
@@ -909,6 +1037,7 @@ button{
 
     font-size:9px;
 }
+
 
 .grade-table th{
     position:sticky;
@@ -923,6 +1052,7 @@ button{
     font-weight:900;
 }
 
+
 .grade-table th:first-child,
 .grade-table td:first-child{
     position:sticky;
@@ -935,20 +1065,25 @@ button{
     font-weight:900;
 }
 
+
 .grade-table thead th:first-child{
     background:#f7f9fc;
 }
 
+
 .grade-table tfoot td{
     background:#f7f9fc;
+
     font-weight:900;
 }
+
 
 .result-card{
     margin-top:16px;
 
     padding:
-        22px 17px;
+        22px
+        17px;
 
     text-align:center;
 
@@ -968,6 +1103,7 @@ button{
         rgba(5,130,71,.18);
 }
 
+
 .result-card.fail{
     background:
         linear-gradient(
@@ -976,6 +1112,7 @@ button{
             #a91f1f
         );
 }
+
 
 .result-card.special{
     background:
@@ -986,10 +1123,12 @@ button{
         );
 }
 
+
 .result-school{
     font-size:10px;
     font-weight:900;
 }
+
 
 .result-card h2{
     margin:
@@ -1000,6 +1139,7 @@ button{
     font-weight:900;
 }
 
+
 .result-card p{
     font-size:10px;
     line-height:1.9;
@@ -1007,14 +1147,36 @@ button{
 
 
 /* =========================================================
-   CHAT
+   CHAT PAGE
 ========================================================= */
 
-.chat-box{
-    height:
-        calc(100vh - 170px);
+/*
+   هذا الجزء مرتب حتى يظهر صندوق الكتابة
+   بالكامل فوق شريط التنقل السفلي.
 
-    min-height:470px;
+   100dvh مهم على iPhone حتى لا ينقص
+   أسفل الدردشة عند ظهور/اختفاء شريط Safari.
+*/
+
+#pageChat{
+    padding-bottom:0;
+}
+
+
+.chat-box{
+    width:100%;
+
+    height:
+        calc(
+            100dvh
+            - 72px
+            - 32px
+            - 92px
+            - env(safe-area-inset-bottom)
+        );
+
+    min-height:480px;
+    max-height:850px;
 
     display:flex;
     flex-direction:column;
@@ -1028,11 +1190,19 @@ button{
     border:
         1px solid
         var(--border);
+
+    box-shadow:
+        0 10px 28px
+        rgba(32,55,84,.07);
 }
 
+
 .chat-head{
+    flex:none;
+
     padding:
-        12px 14px;
+        12px
+        14px;
 
     background:#fff;
 
@@ -1041,10 +1211,12 @@ button{
         var(--border);
 }
 
+
 .chat-head h3{
     font-size:12px;
     font-weight:900;
 }
+
 
 .chat-head p{
     margin-top:3px;
@@ -1054,19 +1226,31 @@ button{
     font-size:8px;
 }
 
+
 .messages{
+    min-height:0;
+
     flex:1;
 
     display:flex;
     flex-direction:column;
-    gap:8px;
 
-    overflow:auto;
+    gap:10px;
 
-    padding:14px;
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    padding:
+        14px
+        10px
+        18px;
 
     scroll-behavior:smooth;
+
+    -webkit-overflow-scrolling:
+        touch;
 }
+
 
 .chat-empty{
     margin:auto;
@@ -1078,19 +1262,131 @@ button{
     font-size:10px;
 }
 
+
+/* =========================================================
+   CHAT MESSAGE ROW
+========================================================= */
+
+.msg-row{
+    width:100%;
+
+    display:flex;
+    align-items:flex-end;
+
+    gap:7px;
+}
+
+
+.msg-row.other{
+    justify-content:flex-start;
+}
+
+
+.msg-row.mine{
+    justify-content:flex-start;
+
+    direction:ltr;
+}
+
+
+/*
+   صورة صاحب الرسالة
+*/
+
+.msg-avatar{
+    width:36px;
+    height:36px;
+
+    flex:
+        0 0
+        36px;
+
+    overflow:hidden;
+
+    border-radius:50%;
+
+    background:#dce8f6;
+
+    border:
+        2px solid
+        rgba(255,255,255,.9);
+
+    box-shadow:
+        0 2px 7px
+        rgba(20,40,70,.10);
+}
+
+
+.msg-avatar img{
+    width:100%;
+    height:100%;
+
+    display:block;
+
+    object-fit:cover;
+}
+
+
+.msg-avatar-letter{
+    width:100%;
+    height:100%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:var(--blue);
+
+    background:#e4f0ff;
+
+    font-size:12px;
+    font-weight:900;
+}
+
+
+/*
+   الغلاف الذي يحتوي الفقاعة
+*/
+
+.msg-content-wrap{
+    max-width:
+        calc(
+            86% - 43px
+        );
+
+    min-width:0;
+
+    direction:rtl;
+}
+
+
+/*
+   رسالتي تكون باتجاه اليسار في DOM
+   لكن نرجع توزيعها بصرياً إلى الجهة المقابلة.
+*/
+
+.msg-row.mine{
+    flex-direction:row-reverse;
+}
+
+
 .msg{
     position:relative;
 
-    align-self:flex-start;
+    width:fit-content;
 
-    max-width:82%;
+    max-width:100%;
 
     padding:
-        9px 11px;
+        9px
+        11px
+        7px;
 
     border-radius:
-        5px 15px
-        15px 15px;
+        5px
+        16px
+        16px
+        16px;
 
     background:#fff;
 
@@ -1099,77 +1395,307 @@ button{
         rgba(20,40,70,.06);
 }
 
+
 .msg.mine{
-    align-self:flex-end;
+    margin-right:auto;
 
     border-radius:
-        15px 5px
-        15px 15px;
+        16px
+        5px
+        16px
+        16px;
 
     background:#dff1ff;
 }
 
+
+/*
+   اسم + وقت
+*/
+
+.msg-user{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:10px;
+
+    margin-bottom:5px;
+}
+
+
 .msg-name{
-    margin-bottom:4px;
+    min-width:0;
 
     color:var(--blue);
 
-    font-size:7.5px;
+    font-size:8px;
     font-weight:900;
+
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
 }
+
+
+.msg.mine .msg-name{
+    color:#07529d;
+}
+
+
+.msg-time{
+    flex:none;
+
+    color:#98a2b3;
+
+    direction:ltr;
+
+    font-size:6.5px;
+}
+
 
 .msg-text{
     font-size:10.5px;
     line-height:1.75;
 
     white-space:pre-wrap;
+
     word-break:break-word;
 }
 
-.msg-meta{
+
+/* =========================================================
+   MESSAGE REACTIONS
+========================================================= */
+
+.reactions{
     display:flex;
-    justify-content:flex-end;
+    flex-wrap:wrap;
+
     gap:4px;
 
-    margin-top:4px;
-
-    color:#8995a5;
-
-    direction:ltr;
-
-    font-size:7px;
+    margin-top:6px;
 }
 
-.read-mark{
-    color:#2788d8;
+
+.reaction-pill{
+    min-width:30px;
+    height:25px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:3px;
+
+    padding:
+        0
+        7px;
+
+    border:
+        1px solid
+        #e5e9ef;
+
+    border-radius:999px;
+
+    background:#fff;
+
+    color:#344054;
+
+    font-size:11px;
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+
+.reaction-pill.mine{
+    border-color:
+        #8fc4fa;
+
+    background:
+        #eaf5ff;
+}
+
+
+/*
+   أزرار التفاعل
+*/
+
+.msg-actions{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+
+    gap:3px;
+
+    margin-top:6px;
+}
+
+
+.react-btn{
+    width:27px;
+    height:25px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0;
+
+    border:0;
+
+    border-radius:8px;
+
+    color:#667085;
+
+    background:
+        rgba(0,0,0,.035);
+
+    font-size:12px;
+}
+
+
+.react-btn:active{
+    transform:scale(.92);
+}
+
+
+/* =========================================================
+   SEEN BY
+========================================================= */
+
+.seen-row{
+    min-height:21px;
+
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+
+    margin-top:5px;
+}
+
+
+.seen-avatars{
+    display:flex;
+    align-items:center;
+
+    direction:ltr;
+}
+
+
+.seen-avatar{
+    width:20px;
+    height:20px;
+
+    margin-left:-6px;
+
+    overflow:hidden;
+
+    border:
+        2px solid
+        #dff1ff;
+
+    border-radius:50%;
+
+    background:#dce6f3;
+}
+
+
+.seen-avatar img{
+    width:100%;
+    height:100%;
+
+    display:block;
+
+    object-fit:cover;
+}
+
+
+.seen-avatar-letter{
+    width:100%;
+    height:100%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#e7eff8;
+
+    color:#526277;
+
+    font-size:6px;
     font-weight:900;
 }
 
+
+.seen-text{
+    margin-right:8px;
+
+    color:#2788d8;
+
+    font-size:6.5px;
+    font-weight:900;
+}
+
+
+/* =========================================================
+   CHAT COMPOSER
+========================================================= */
+
 .chat-compose{
+    /*
+       دائماً يبقى آخر عنصر داخل chat-box
+       ولا يغطيه bottom-nav.
+    */
+
+    position:relative;
+
+    z-index:10;
+
+    flex:
+        0 0
+        auto;
+
+    width:100%;
+
+    min-height:67px;
+
     display:flex;
     align-items:center;
+
     gap:7px;
 
     padding:
         9px
         9px
-        max(9px,env(safe-area-inset-bottom));
+        max(
+            9px,
+            env(safe-area-inset-bottom)
+        );
 
     background:#fff;
 
     border-top:
         1px solid
         var(--border);
+
+    box-shadow:
+        0 -3px 15px
+        rgba(30,50,70,.05);
 }
+
 
 .chat-input{
     min-width:0;
+
     flex:1;
 
-    height:47px;
+    height:48px;
 
     padding:
-        0 13px;
+        0
+        13px;
 
     border-radius:15px;
 
@@ -1181,19 +1707,33 @@ button{
 
     background:#f9fbfd;
 
+    color:var(--text);
+
     font-size:13px;
 }
+
 
 .chat-input:focus{
     border-color:
         var(--blue);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(7,95,207,.05);
 }
 
-.send{
-    width:48px;
-    height:48px;
 
-    flex:none;
+.send{
+    width:49px;
+    height:49px;
+
+    flex:
+        0 0
+        49px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
     border:0;
 
@@ -1210,7 +1750,12 @@ button{
 
     font-size:18px;
     font-weight:900;
+
+    box-shadow:
+        0 6px 16px
+        rgba(7,95,207,.18);
 }
+
 
 .send:disabled{
     opacity:.55;
@@ -1230,7 +1775,10 @@ button{
     right:12px;
 
     bottom:
-        max(9px,env(safe-area-inset-bottom));
+        max(
+            9px,
+            env(safe-area-inset-bottom)
+        );
 
     height:68px;
 
@@ -1267,6 +1815,7 @@ button{
         rgba(32,55,84,.17);
 }
 
+
 .nav-item{
     position:relative;
 
@@ -1276,20 +1825,25 @@ button{
     flex-direction:column;
     align-items:center;
     justify-content:center;
+
     gap:4px;
 
     border-radius:16px;
 
     color:#7b8798;
+
     background:transparent;
 
     transition:.22s;
 }
 
+
 .nav-item.active{
     color:var(--blue);
+
     background:var(--soft);
 }
+
 
 .nav-item svg{
     width:19px;
@@ -1303,10 +1857,12 @@ button{
     stroke-linejoin:round;
 }
 
+
 .nav-label{
     font-size:7.5px;
     font-weight:900;
 }
+
 
 .nav-badge{
     display:none;
@@ -1323,7 +1879,8 @@ button{
     height:17px;
 
     padding:
-        0 4px;
+        0
+        4px;
 
     align-items:center;
     justify-content:center;
@@ -1335,11 +1892,13 @@ button{
         #fff;
 
     color:#fff;
+
     background:#df2736;
 
     font-size:7px;
     font-weight:900;
 }
+
 
 .nav-badge.show{
     display:flex;
@@ -1347,7 +1906,7 @@ button{
 
 
 /* =========================================================
-   COMPLETE PROFILE / INACTIVE
+   COMPLETE PROFILE
 ========================================================= */
 
 .full-screen{
@@ -1359,9 +1918,15 @@ button{
     overflow:auto;
 
     padding:
-        max(24px,env(safe-area-inset-top))
+        max(
+            24px,
+            env(safe-area-inset-top)
+        )
         15px
-        max(24px,env(safe-area-inset-bottom));
+        max(
+            24px,
+            env(safe-area-inset-bottom)
+        );
 
     background:
         linear-gradient(
@@ -1369,7 +1934,11 @@ button{
             #f5f9ff,
             #edf4fb
         );
+
+    -webkit-overflow-scrolling:
+        touch;
 }
+
 
 .screen-card{
     width:100%;
@@ -1378,7 +1947,8 @@ button{
     margin:auto;
 
     padding:
-        22px 19px;
+        22px
+        19px;
 
     border-radius:26px;
 
@@ -1391,6 +1961,7 @@ button{
     box-shadow:
         var(--shadow);
 }
+
 
 .screen-logo{
     display:block;
@@ -1405,12 +1976,14 @@ button{
     object-fit:contain;
 }
 
+
 .screen-card h2{
     text-align:center;
 
     font-size:19px;
     font-weight:900;
 }
+
 
 .screen-card > p{
     margin-top:7px;
@@ -1423,12 +1996,15 @@ button{
     line-height:1.9;
 }
 
+
 .fields{
     display:grid;
+
     gap:10px;
 
     margin-top:19px;
 }
+
 
 .field label{
     display:block;
@@ -1443,12 +2019,15 @@ button{
     font-weight:900;
 }
 
+
 .field input{
     width:100%;
+
     height:50px;
 
     padding:
-        0 13px;
+        0
+        13px;
 
     outline:none;
 
@@ -1460,6 +2039,7 @@ button{
 
     font-size:13px;
 }
+
 
 .field input:focus{
     border-color:
@@ -1489,6 +2069,7 @@ button{
         #dbe9fb;
 }
 
+
 .profile-photo-title{
     color:var(--text);
 
@@ -1497,6 +2078,7 @@ button{
 
     margin-bottom:8px;
 }
+
 
 .profile-photo-note{
     color:#475467;
@@ -1507,14 +2089,17 @@ button{
     font-weight:700;
 }
 
+
 .profile-photo-note strong{
     color:var(--red);
 }
+
 
 .profile-photo-upload{
     position:relative;
 
     width:100%;
+
     min-height:54px;
 
     margin-top:13px;
@@ -1541,8 +2126,10 @@ button{
     cursor:pointer;
 }
 
+
 .profile-photo-upload input{
     position:absolute;
+
     inset:0;
 
     width:100%;
@@ -1553,6 +2140,7 @@ button{
     cursor:pointer;
 }
 
+
 .profile-photo-preview-wrap{
     display:none;
 
@@ -1561,9 +2149,11 @@ button{
     text-align:center;
 }
 
+
 .profile-photo-preview-wrap.show{
     display:block;
 }
+
 
 .profile-photo-preview{
     width:145px;
@@ -1584,6 +2174,7 @@ button{
         rgba(20,40,70,.16);
 }
 
+
 .profile-photo-status{
     margin-top:8px;
 
@@ -1594,6 +2185,7 @@ button{
 
     font-weight:900;
 }
+
 
 .profile-photo-required{
     margin-top:11px;
@@ -1614,8 +2206,6 @@ button{
 }
 
 
-/* ========================================================= */
-
 .form-warning{
     margin-top:13px;
 
@@ -1628,15 +2218,16 @@ button{
     background:
         var(--orange-bg);
 
-    color:
-        #986000;
+    color:#986000;
 
     font-size:8.5px;
     line-height:1.8;
 }
 
+
 .primary-btn{
     width:100%;
+
     height:53px;
 
     margin-top:16px;
@@ -1646,20 +2237,23 @@ button{
     border-radius:15px;
 
     color:#fff;
+
     background:var(--blue);
 
     font-size:12px;
     font-weight:900;
 }
 
+
 .primary-btn:disabled{
     opacity:.6;
-    cursor:not-allowed;
 }
+
 
 .inactive-card{
     margin-top:9vh;
 }
+
 
 .big-status-icon{
     width:78px;
@@ -1676,14 +2270,18 @@ button{
     border-radius:23px;
 
     color:var(--red);
-    background:var(--red-bg);
+
+    background:
+        var(--red-bg);
 
     font-size:30px;
     font-weight:900;
 }
 
+
 .secondary-btn{
     width:100%;
+
     height:49px;
 
     margin-top:17px;
@@ -1693,6 +2291,7 @@ button{
     border-radius:14px;
 
     background:#f1f4f7;
+
     color:#344054;
 
     font-size:10px;
@@ -1724,9 +2323,11 @@ button{
         blur(5px);
 }
 
+
 .modal.show{
     display:flex;
 }
+
 
 .modal-card{
     width:100%;
@@ -1748,6 +2349,7 @@ button{
         modalIn .3s
         cubic-bezier(.16,1,.3,1);
 }
+
 
 .modal-icon{
     width:67px;
@@ -1773,6 +2375,7 @@ button{
     font-weight:900;
 }
 
+
 .modal-card.blocked .modal-icon{
     background:
         var(--red-bg);
@@ -1781,10 +2384,12 @@ button{
         var(--red);
 }
 
+
 .modal-card h3{
     font-size:16px;
     font-weight:900;
 }
+
 
 .modal-card p{
     margin-top:8px;
@@ -1795,8 +2400,10 @@ button{
     line-height:1.9;
 }
 
+
 .modal-card button{
     width:100%;
+
     height:47px;
 
     margin-top:15px;
@@ -1806,6 +2413,7 @@ button{
     border-radius:14px;
 
     color:#fff;
+
     background:var(--blue);
 
     font-size:10px;
@@ -1825,7 +2433,11 @@ button{
     left:15px;
     right:15px;
 
-    bottom:95px;
+    bottom:
+        calc(
+            95px +
+            env(safe-area-inset-bottom)
+        );
 
     width:auto;
     max-width:430px;
@@ -1833,13 +2445,15 @@ button{
     margin:auto;
 
     padding:
-        12px 14px;
+        12px
+        14px;
 
     text-align:center;
 
     border-radius:14px;
 
     color:#fff;
+
     background:#172033;
 
     font-size:9px;
@@ -1855,6 +2469,7 @@ button{
     transition:.25s;
 }
 
+
 .toast.show{
     opacity:1;
 
@@ -1867,25 +2482,34 @@ button{
 ========================================================= */
 
 @keyframes spin{
+
     to{
-        transform:
-            rotate(360deg);
+        transform:rotate(360deg);
     }
+
 }
 
+
 @keyframes pageIn{
+
     from{
         opacity:0;
-        transform:translateY(9px);
+
+        transform:
+            translateY(9px);
     }
 
     to{
         opacity:1;
+
         transform:none;
     }
+
 }
 
+
 @keyframes modalIn{
+
     from{
         opacity:0;
 
@@ -1896,8 +2520,10 @@ button{
 
     to{
         opacity:1;
+
         transform:none;
     }
+
 }
 
 
@@ -1912,9 +2538,85 @@ button{
             repeat(3,1fr);
     }
 
+
     .mini-grades{
         grid-template-columns:
             repeat(8,1fr);
+    }
+
+}
+
+
+@media(max-width:430px){
+
+    .content{
+        padding:
+            12px
+            10px;
+    }
+
+
+    .chat-box{
+        height:
+            calc(
+                100dvh
+                - 72px
+                - 24px
+                - 90px
+                - env(safe-area-inset-bottom)
+            );
+
+        border-radius:19px;
+    }
+
+
+    .messages{
+        padding:
+            11px
+            7px
+            14px;
+    }
+
+
+    .msg-content-wrap{
+        max-width:
+            calc(
+                88% - 40px
+            );
+    }
+
+
+    .msg-avatar{
+        width:33px;
+        height:33px;
+
+        flex-basis:33px;
+    }
+
+
+    .chat-compose{
+        min-height:66px;
+
+        padding:
+            8px
+            8px
+            max(
+                8px,
+                env(safe-area-inset-bottom)
+            );
+    }
+
+
+    .chat-input{
+        height:48px;
+    }
+
+
+    .send{
+        width:48px;
+        height:48px;
+
+        flex-basis:48px;
     }
 
 }
@@ -1930,7 +2632,10 @@ button{
      LOADING
 ========================================================= -->
 
-<div id="loaderScreen" class="loader-screen">
+<div
+    id="loaderScreen"
+    class="loader-screen"
+>
 
     <div class="loader-box">
 
@@ -1983,17 +2688,15 @@ button{
         ></div>
 
 
-        <!-- =================================================
-             PROFILE PHOTO
-        ================================================== -->
-
         <div
             id="profilePhotoSection"
             class="profile-photo-section"
         >
 
             <div class="profile-photo-title">
+
                 الصورة الشخصية للطالب
+
             </div>
 
 
@@ -2017,8 +2720,11 @@ button{
             <label class="profile-photo-upload">
 
                 <span id="photoUploadText">
+
                     اختيار الصورة الشخصية
+
                 </span>
+
 
                 <input
                     id="studentProfileImage"
@@ -2040,11 +2746,14 @@ button{
                     alt="معاينة صورة الطالب"
                 >
 
+
                 <div
                     id="profilePhotoStatus"
                     class="profile-photo-status"
                 >
+
                     تم اختيار الصورة
+
                 </div>
 
             </div>
@@ -2066,7 +2775,7 @@ button{
 
             <br>
 
-            بعد الحفظ لا يستطيع الطالب تعديل البيانات أو الصورة من حسابه،
+            بعد الحفظ لا يستطيع الطالب تعديل هذه المعلومات من حسابه،
             وأي تعديل لاحق يكون عن طريق إدارة المدرسة.
 
         </div>
@@ -2075,8 +2784,11 @@ button{
         <button
             id="saveProfileBtn"
             class="primary-btn"
+            type="button"
         >
+
             حفظ ومتابعة
+
         </button>
 
     </div>
@@ -2085,7 +2797,7 @@ button{
 
 
 <!-- =========================================================
-     GLOBAL ACCOUNT INACTIVE
+     INACTIVE ACCOUNT
 ========================================================= -->
 
 <section
@@ -2101,24 +2813,35 @@ button{
             alt="شعار المدرسة"
         >
 
+
         <div class="big-status-icon">
             !
         </div>
 
-        <h2>
+
+        <h2 id="inactiveTitle">
+
             الحساب غير فعال
+
         </h2>
 
-        <p>
+
+        <p id="inactiveText">
+
             حسابك موجود في النظام لكنه غير فعال حالياً.
             يرجى مراجعة إدارة مدرسة التحدي الأهلية المختلطة.
+
         </p>
+
 
         <button
             id="inactiveLogout"
             class="secondary-btn"
+            type="button"
         >
+
             تسجيل الخروج
+
         </button>
 
     </div>
@@ -2135,6 +2858,7 @@ button{
     class="app hidden"
 >
 
+
 <header class="topbar">
 
     <div class="top-brand">
@@ -2145,11 +2869,13 @@ button{
             alt="شعار مدرسة التحدي"
         >
 
+
         <div class="top-title">
 
             <h1>
                 مدرسة التحدي الأهلية المختلطة
             </h1>
+
 
             <p id="topStudentName">
                 منصة الطالب
@@ -2163,8 +2889,11 @@ button{
     <button
         id="logoutBtn"
         class="logout"
+        type="button"
     >
+
         خروج
+
     </button>
 
 </header>
@@ -2195,11 +2924,13 @@ button{
                     ط
                 </div>
 
+
                 <div class="hero-info">
 
                     <h2 id="heroName">
                         —
                     </h2>
+
 
                     <p id="heroCode">
                         —
@@ -2219,12 +2950,14 @@ button{
                     الصف: —
                 </span>
 
+
                 <span
                     id="heroRoom"
                     class="hero-tag"
                 >
                     القاعة: —
                 </span>
+
 
                 <span class="hero-tag">
                     2026-2027
@@ -2294,11 +3027,13 @@ button{
             التبليغات
         </h3>
 
+
         <span id="noticeCountText">
             0 تبليغ
         </span>
 
     </div>
+
 
     <div
         id="noticeList"
@@ -2319,6 +3054,7 @@ button{
 
     <div id="gradesLocked"></div>
 
+
     <div
         id="gradesContent"
         class="hidden"
@@ -2329,6 +3065,7 @@ button{
             <h3>
                 الدرجات والنتائج
             </h3>
+
 
             <span>
                 2026-2027
@@ -2352,22 +3089,32 @@ button{
                     <tr>
 
                         <th>المادة</th>
+
                         <th>الفصل الأول</th>
+
                         <th>نصف السنة</th>
+
                         <th>الفصل الثاني</th>
+
                         <th>السعي السنوي</th>
+
                         <th>الامتحان النهائي</th>
+
                         <th>الدرجة النهائية</th>
+
                         <th>الدور الثاني</th>
+
                         <th>النتيجة</th>
 
                     </tr>
 
                 </thead>
 
+
                 <tbody
                     id="gradeTableBody"
                 ></tbody>
+
 
                 <tfoot
                     id="gradeTableFoot"
@@ -2410,6 +3157,7 @@ button{
                 دردشة الصف
             </h3>
 
+
             <p id="chatRoomName">
                 —
             </p>
@@ -2434,12 +3182,16 @@ button{
                 autocomplete="off"
             >
 
+
             <button
                 id="sendBtn"
                 class="send"
                 type="button"
+                aria-label="إرسال"
             >
+
                 ←
+
             </button>
 
         </div>
@@ -2453,7 +3205,7 @@ button{
 
 
 <!-- =========================================================
-     NAV
+     BOTTOM NAV
 ========================================================= -->
 
 <nav class="bottom-nav">
@@ -2462,15 +3214,19 @@ button{
 <button
     class="nav-item active"
     data-page="home"
+    type="button"
 >
 
     <svg viewBox="0 0 24 24">
 
         <path d="M3 11.5L12 4l9 7.5"></path>
+
         <path d="M5.5 10.5V20h13v-9.5"></path>
+
         <path d="M9.5 20v-6h5v6"></path>
 
     </svg>
+
 
     <span class="nav-label">
         الرئيسية
@@ -2482,6 +3238,7 @@ button{
 <button
     class="nav-item"
     data-page="notices"
+    type="button"
 >
 
     <span
@@ -2491,12 +3248,15 @@ button{
         0
     </span>
 
+
     <svg viewBox="0 0 24 24">
 
         <path d="M18 8a6 6 0 10-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+
         <path d="M10 21h4"></path>
 
     </svg>
+
 
     <span class="nav-label">
         التبليغات
@@ -2508,16 +3268,21 @@ button{
 <button
     class="nav-item"
     data-page="grades"
+    type="button"
 >
 
     <svg viewBox="0 0 24 24">
 
         <path d="M5 4h14v16H5z"></path>
+
         <path d="M8 8h8"></path>
+
         <path d="M8 12h8"></path>
+
         <path d="M8 16h5"></path>
 
     </svg>
+
 
     <span class="nav-label">
         الدرجات
@@ -2529,6 +3294,7 @@ button{
 <button
     class="nav-item"
     data-page="chat"
+    type="button"
 >
 
     <span
@@ -2538,11 +3304,13 @@ button{
         0
     </span>
 
+
     <svg viewBox="0 0 24 24">
 
         <path d="M21 12a8 8 0 01-8 8H5l-3 2 1-5a9 9 0 118-14"></path>
 
     </svg>
+
 
     <span class="nav-label">
         الدردشة
@@ -2552,6 +3320,7 @@ button{
 
 
 </nav>
+
 
 </div>
 
@@ -2574,26 +3343,39 @@ button{
             id="accessModalIcon"
             class="modal-icon"
         >
+
             !
+
         </div>
 
+
         <h3 id="accessModalTitle">
+
             الخدمة غير متاحة
+
         </h3>
 
+
         <p id="accessModalText"></p>
+
 
         <button
             id="closeAccessModal"
             type="button"
         >
+
             حسناً
+
         </button>
 
     </div>
 
 </div>
 
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
 
 <div
     id="toast"
@@ -2612,8 +3394,7 @@ const DB =
 
 
 /* =========================================================
-   IMAGE UPLOAD
-   نفس طريقة مشروع عالسريع
+   IMAGE UPLOAD WORKER
 ========================================================= */
 
 const IMAGE_UPLOAD_WORKER_URL =
@@ -2642,11 +3423,15 @@ let notifications = [];
 
 let chatMessages = {};
 
+let chatUserProfiles = {};
+
 let chatPolling = null;
 
 let notificationPolling = null;
 
 let lastChatCount = 0;
+
+let absenceDays = 0;
 
 let selectedProfilePhotoFile = null;
 
@@ -2705,7 +3490,7 @@ const COMPLETABLE_FIELDS = [
 
 
 /* =========================================================
-   MODERATION WORDS
+   DEFAULT MODERATION WORDS
 ========================================================= */
 
 const DEFAULT_BLOCKED_WORDS = [
@@ -2720,44 +3505,57 @@ const DEFAULT_BLOCKED_WORDS = [
 
 
 /* =========================================================
-   DOM
+   DOM SHORTCUT
 ========================================================= */
 
 const $ =
     id =>
-        document.getElementById(id);
+        document.getElementById(
+            id
+        );
 
 
 /* =========================================================
-   HELPERS
+   ESCAPE
 ========================================================= */
 
 function esc(value){
 
-    return String(value ?? "")
-
-        .replace(
-            /[&<>"']/g,
-            char => ({
-                "&":"&amp;",
-                "<":"&lt;",
-                ">":"&gt;",
-                '"':"&quot;",
-                "'":"&#039;"
-            })[char]
-        );
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /[&<>"']/g,
+        char => ({
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            '"':"&quot;",
+            "'":"&#039;"
+        })[char]
+    );
 
 }
 
+
+/* =========================================================
+   NORMALIZE
+========================================================= */
 
 function norm(value){
 
-    return String(value ?? "")
-        .trim()
-        .toLowerCase();
+    return String(
+        value ?? ""
+    )
+    .trim()
+    .toLowerCase();
 
 }
 
+
+/* =========================================================
+   NUMBER
+========================================================= */
 
 function numberOrNull(value){
 
@@ -2766,27 +3564,45 @@ function numberOrNull(value){
         value === null ||
         value === undefined
     ){
+
         return null;
+
     }
+
 
     const valueNumber =
         Number(value);
 
-    return Number.isFinite(valueNumber)
+
+    return Number.isFinite(
+        valueNumber
+    )
         ? valueNumber
         : null;
 
 }
 
 
+/* =========================================================
+   ROUND
+========================================================= */
+
 function roundGrade(value){
 
     const valueNumber =
-        numberOrNull(value);
+        numberOrNull(
+            value
+        );
 
-    if(valueNumber === null){
+
+    if(
+        valueNumber === null
+    ){
+
         return null;
+
     }
+
 
     return Math.round(
         valueNumber
@@ -2794,6 +3610,10 @@ function roundGrade(value){
 
 }
 
+
+/* =========================================================
+   DISPLAY
+========================================================= */
 
 function display(value){
 
@@ -2808,6 +3628,10 @@ function display(value){
 }
 
 
+/* =========================================================
+   GRADE DISPLAY
+========================================================= */
+
 function displayGrade(value){
 
     if(
@@ -2815,8 +3639,11 @@ function displayGrade(value){
         value === undefined ||
         value === ""
     ){
+
         return "—";
+
     }
+
 
     if(
         typeof value === "string" &&
@@ -2824,8 +3651,11 @@ function displayGrade(value){
             Number(value)
         )
     ){
+
         return value;
+
     }
+
 
     return String(
         Math.round(
@@ -2836,34 +3666,132 @@ function displayGrade(value){
 }
 
 
+/* =========================================================
+   DATE TEXT
+
+   مثال:
+   2012-01-15
+   يصبح:
+   15 كانون الثاني 2012
+========================================================= */
+
 function dateText(value){
 
     if(!value){
+
         return "—";
+
     }
 
-    const date =
-        new Date(value);
 
-    if(
-        Number.isNaN(
-            date.getTime()
-        )
-    ){
-        return String(value);
+    let year;
+    let month;
+    let day;
+
+
+    const text =
+        String(value);
+
+
+    const match =
+        text.match(
+            /^(\d{4})-(\d{2})-(\d{2})/
+        );
+
+
+    if(match){
+
+        year =
+            Number(
+                match[1]
+            );
+
+
+        month =
+            Number(
+                match[2]
+            );
+
+
+        day =
+            Number(
+                match[3]
+            );
+
     }
 
-    return date.toLocaleDateString(
-        "ar-IQ",
-        {
-            year:"numeric",
-            month:"2-digit",
-            day:"2-digit"
+    else{
+
+        const date =
+            new Date(value);
+
+
+        if(
+            Number.isNaN(
+                date.getTime()
+            )
+        ){
+
+            return text;
+
         }
+
+
+        year =
+            date.getFullYear();
+
+
+        month =
+            date.getMonth() + 1;
+
+
+        day =
+            date.getDate();
+
+    }
+
+
+    const months = [
+
+        "",
+
+        "كانون الثاني",
+
+        "شباط",
+
+        "آذار",
+
+        "نيسان",
+
+        "أيار",
+
+        "حزيران",
+
+        "تموز",
+
+        "آب",
+
+        "أيلول",
+
+        "تشرين الأول",
+
+        "تشرين الثاني",
+
+        "كانون الأول"
+
+    ];
+
+
+    return (
+        `${day} ${months[month]} ${year}`
     );
 
 }
 
+
+/* =========================================================
+   TIME
+========================================================= */
 
 function timeText(value){
 
@@ -2873,13 +3801,17 @@ function timeText(value){
             value
         );
 
+
     if(
         Number.isNaN(
             date.getTime()
         )
     ){
+
         return "";
+
     }
+
 
     return date.toLocaleTimeString(
         "ar-IQ",
@@ -2892,26 +3824,35 @@ function timeText(value){
 }
 
 
+/* =========================================================
+   TOAST
+========================================================= */
+
 function toast(text){
 
     $("toast").textContent =
         text;
 
-    $("toast").classList.add(
-        "show"
-    );
+
+    $("toast")
+        .classList.add(
+            "show"
+        );
+
 
     clearTimeout(
         window.toastTimer
     );
 
+
     window.toastTimer =
         setTimeout(
             () => {
 
-                $("toast").classList.remove(
-                    "show"
-                );
+                $("toast")
+                    .classList.remove(
+                        "show"
+                    );
 
             },
             2400
@@ -2934,6 +3875,7 @@ async function dbGet(path){
             }
         );
 
+
     if(!response.ok){
 
         throw new Error(
@@ -2942,10 +3884,15 @@ async function dbGet(path){
 
     }
 
+
     return response.json();
 
 }
 
+
+/* =========================================================
+   PATCH
+========================================================= */
 
 async function dbPatch(
     path,
@@ -2970,6 +3917,7 @@ async function dbPatch(
             }
         );
 
+
     if(!response.ok){
 
         throw new Error(
@@ -2978,10 +3926,15 @@ async function dbPatch(
 
     }
 
+
     return response.json();
 
 }
 
+
+/* =========================================================
+   POST
+========================================================= */
 
 async function dbPost(
     path,
@@ -3006,6 +3959,7 @@ async function dbPost(
             }
         );
 
+
     if(!response.ok){
 
         throw new Error(
@@ -3013,6 +3967,49 @@ async function dbPost(
         );
 
     }
+
+
+    return response.json();
+
+}
+
+
+/* =========================================================
+   PUT
+========================================================= */
+
+async function dbPut(
+    path,
+    data
+){
+
+    const response =
+        await fetch(
+            `${DB}/${path}.json`,
+            {
+                method:"PUT",
+
+                headers:{
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify(
+                        data
+                    )
+            }
+        );
+
+
+    if(!response.ok){
+
+        throw new Error(
+            "DATABASE_PUT_FAILED"
+        );
+
+    }
+
 
     return response.json();
 
@@ -3026,7 +4023,9 @@ async function dbPost(
 async function uploadImage(file){
 
     if(!file){
+
         return "";
+
     }
 
 
@@ -3041,7 +4040,9 @@ async function uploadImage(file){
             "يرجى اختيار صورة فقط"
         );
 
+
         return "";
+
     }
 
 
@@ -3054,7 +4055,9 @@ async function uploadImage(file){
             "حجم الصورة يجب أن يكون أقل من 5MB"
         );
 
+
         return "";
+
     }
 
 
@@ -3126,6 +4129,7 @@ async function uploadImage(file){
 
 
         return "";
+
     }
 
 }
@@ -3149,7 +4153,9 @@ $("studentProfileImage")
             selectedProfilePhotoFile =
                 null;
 
+
             return;
+
         }
 
 
@@ -3162,6 +4168,7 @@ $("studentProfileImage")
             this.value =
                 "";
 
+
             selectedProfilePhotoFile =
                 null;
 
@@ -3172,6 +4179,7 @@ $("studentProfileImage")
 
 
             return;
+
         }
 
 
@@ -3183,6 +4191,7 @@ $("studentProfileImage")
             this.value =
                 "";
 
+
             selectedProfilePhotoFile =
                 null;
 
@@ -3193,6 +4202,7 @@ $("studentProfileImage")
 
 
             return;
+
         }
 
 
@@ -3268,6 +4278,7 @@ function loadSession(){
             "index.html"
         );
 
+
         return false;
 
     }
@@ -3278,17 +4289,24 @@ function loadSession(){
 }
 
 
+/* =========================================================
+   LOGOUT
+========================================================= */
+
 function logout(){
 
     clearInterval(
         chatPolling
     );
 
+
     clearInterval(
         notificationPolling
     );
 
+
     sessionStorage.clear();
+
 
     location.replace(
         "index.html"
@@ -3298,7 +4316,7 @@ function logout(){
 
 
 /* =========================================================
-   GLOBAL ACCOUNT
+   GLOBAL ACCOUNT ACTIVE
 ========================================================= */
 
 function globalAccountActive(){
@@ -3306,29 +4324,38 @@ function globalAccountActive(){
     return !(
         user.active === false ||
         user.hidden === true ||
+        user.behaviorBlocked === true ||
         student.hidden === true ||
-        student.accountActive === false
+        student.accountActive === false ||
+        student.behaviorBlocked === true
     );
 
 }
 
 
 /* =========================================================
-   PROTECTED ACCESS
+   ACCESS STATE
 ========================================================= */
 
 function accessState(){
 
     if(
-        student.behaviorBlocked === true
+        student.behaviorBlocked === true ||
+        user.behaviorBlocked === true
     ){
 
         return {
+
             allowed:false,
+
             type:"blocked",
-            title:"تم حظر حسابك",
+
+            title:
+                "تم إيقاف حسابك بسبب مخالفة سلوكية",
+
             message:
-                "تم حظر صلاحية الدردشة والدرجات بسبب تجاوز سلوكي في الدردشة. يرجى مراجعة إدارة مدرسة التحدي الأهلية المختلطة."
+                "تم إيقاف الحساب بسبب مخالفة سلوكية في الدردشة. يرجى مراجعة إدارة مدرسة التحدي الأهلية المختلطة."
+
         };
 
     }
@@ -3339,11 +4366,17 @@ function accessState(){
     ){
 
         return {
+
             allowed:false,
+
             type:"accountant",
-            title:"صلاحية الحسابات غير مفعلة",
+
+            title:
+                "صلاحية الحسابات غير مفعلة",
+
             message:
                 "لم يتم تفعيل صلاحية الحسابات من قسم الحسابات بعد. لا يمكن فتح الدرجات أو الدردشة حتى يقوم المحاسب بتفعيل الصلاحية."
+
         };
 
     }
@@ -3354,29 +4387,45 @@ function accessState(){
     ){
 
         return {
+
             allowed:false,
+
             type:"admin",
-            title:"صلاحية الإدارة غير مفعلة",
+
+            title:
+                "صلاحية الإدارة غير مفعلة",
+
             message:
                 "صلاحية الدرجات والدردشة غير مفعلة من إدارة المدرسة حالياً."
+
         };
 
     }
 
 
     return {
+
         allowed:true,
+
         type:"allowed",
+
         title:"",
+
         message:""
+
     };
 
 }
 
 
+/* =========================================================
+   CAN USE
+========================================================= */
+
 function canUseProtectedFeatures(){
 
-    return accessState().allowed;
+    return accessState()
+        .allowed;
 
 }
 
@@ -3406,12 +4455,17 @@ function showAccessModal(){
         );
 
 
-    $("accessModal").classList.add(
-        "show"
-    );
+    $("accessModal")
+        .classList.add(
+            "show"
+        );
 
 }
 
+
+/* =========================================================
+   CLOSE ACCESS MODAL
+========================================================= */
 
 $("closeAccessModal").onclick =
     () => {
@@ -3424,7 +4478,8 @@ $("closeAccessModal").onclick =
     };
 
 
-$("accessModal").addEventListener(
+$("accessModal")
+.addEventListener(
     "click",
     event => {
 
@@ -3445,7 +4500,7 @@ $("accessModal").addEventListener(
 
 
 /* =========================================================
-   COMPLETE PROFILE HELPERS
+   PROFILE MISSING FIELDS
 ========================================================= */
 
 function getMissingProfileFields(){
@@ -3471,13 +4526,9 @@ function getMissingProfileFields(){
 }
 
 
-/*
-   الصورة إلزامية لجميع الطلبة.
-
-   حتى لو profileCompleted = true سابقاً،
-   إذا profileImage غير موجود يرجع إلى شاشة
-   إكمال البيانات.
-*/
+/* =========================================================
+   HAS PROFILE IMAGE
+========================================================= */
 
 function studentHasProfileImage(){
 
@@ -3490,6 +4541,10 @@ function studentHasProfileImage(){
 
 }
 
+
+/* =========================================================
+   PROFILE NEEDS COMPLETION
+========================================================= */
 
 function profileNeedsCompletion(){
 
@@ -3522,7 +4577,9 @@ async function init(){
         if(
             !loadSession()
         ){
+
             return;
+
         }
 
 
@@ -3538,11 +4595,14 @@ async function init(){
                 "student",
                 "st"
             ].includes(
-                norm(user.role)
+                norm(
+                    user.role
+                )
             )
         ){
 
             logout();
+
 
             return;
 
@@ -3569,7 +4629,32 @@ async function init(){
         }
 
 
-        if(student.classId){
+        /*
+           إذا الحساب موقوف بسبب السلوك
+           نوقفه قبل أي شيء.
+        */
+
+        if(
+            !globalAccountActive()
+        ){
+
+            $("loaderScreen")
+                .classList.add(
+                    "hidden"
+                );
+
+
+            showInactiveAccount();
+
+
+            return;
+
+        }
+
+
+        if(
+            student.classId
+        ){
 
             classData =
                 await dbGet(
@@ -3592,23 +4677,15 @@ async function init(){
 
 
         /*
-           إكمال الملف إلزامي.
-
-           يشمل:
-           - الحقول الناقصة
-           - الصورة الشخصية
+           الصورة والبيانات إجبارية.
         */
 
         if(
             profileNeedsCompletion()
         ){
 
-            const missing =
-                getMissingProfileFields();
-
-
             renderCompletionForm(
-                missing
+                getMissingProfileFields()
             );
 
 
@@ -3620,21 +4697,6 @@ async function init(){
                     "hidden"
                 );
 
-
-            return;
-
-        }
-
-
-        /*
-           الحساب العام
-        */
-
-        if(
-            !globalAccountActive()
-        ){
-
-            showInactiveAccount();
 
             return;
 
@@ -3669,43 +4731,52 @@ async function init(){
 
 
 /* =========================================================
-   COMPLETE PROFILE FORM
+   COMPLETION FORM
 ========================================================= */
 
 function renderCompletionForm(
     fields
 ){
 
-    if(!fields.length){
+    if(
+        !fields.length
+    ){
 
-        $("completeFields").innerHTML = `
+        $("completeFields")
+            .innerHTML = `
 
-            <div
-                style="
-                    padding:12px;
-                    border-radius:14px;
-                    background:#ecfdf3;
-                    color:#078746;
-                    text-align:center;
-                    font-size:9px;
-                    font-weight:900;
-                "
-            >
+                <div
+                    style="
+                        padding:12px;
+                        border-radius:14px;
+                        background:#ecfdf3;
+                        color:#078746;
+                        text-align:center;
+                        font-size:9px;
+                        font-weight:900;
+                        line-height:1.8;
+                    "
+                >
 
-                البيانات النصية مكتملة.
-                يرجى إضافة الصورة الشخصية لإكمال الملف.
+                    البيانات الأساسية مكتملة.
 
-            </div>
+                    <br>
 
-        `;
+                    يرجى إضافة الصورة الشخصية لإكمال الملف.
+
+                </div>
+
+            `;
 
 
         return;
+
     }
 
 
     $("completeFields").innerHTML =
-        fields.map(
+        fields
+        .map(
             field => `
 
                 <div class="field">
@@ -3723,13 +4794,14 @@ function renderCompletionForm(
                 </div>
 
             `
-        ).join("");
+        )
+        .join("");
 
 }
 
 
 /* =========================================================
-   EXISTING PROFILE PHOTO
+   EXISTING PHOTO
 ========================================================= */
 
 function renderExistingProfilePhoto(){
@@ -3759,9 +4831,10 @@ function renderExistingProfilePhoto(){
 
     else{
 
-        $("profilePhotoPreview").removeAttribute(
-            "src"
-        );
+        $("profilePhotoPreview")
+            .removeAttribute(
+                "src"
+            );
 
 
         $("profilePhotoPreviewWrap")
@@ -3794,11 +4867,11 @@ async () => {
         ];
 
 
-    const update = {};
+    const updateData = {};
 
 
     /*
-       فحص الحقول الناقصة.
+       الحقول الناقصة.
     */
 
     for(
@@ -3825,7 +4898,7 @@ async () => {
         }
 
 
-        update[
+        updateData[
             input.dataset.key
         ] =
             value;
@@ -3835,9 +4908,6 @@ async () => {
 
     /*
        الصورة إلزامية.
-
-       إذا الطالب ما عنده صورة قديمة
-       لازم يختار صورة جديدة.
     */
 
     if(
@@ -3846,7 +4916,7 @@ async () => {
     ){
 
         toast(
-            "يجب إضافة صورة لك يظهر فيها وجهك بالكامل وبدون فلتر"
+            "ضع صورة لك يظهر فيها وجهك بالكامل وبدون فلتر لاستخدامها في معاملات المدرسة"
         );
 
 
@@ -3859,7 +4929,8 @@ async () => {
     }
 
 
-    $("saveProfileBtn").disabled =
+    $("saveProfileBtn")
+        .disabled =
         true;
 
 
@@ -3871,16 +4942,12 @@ async () => {
             "";
 
 
-        /*
-           إذا اختار صورة جديدة نرفعها
-           على Cloudflare Worker.
-        */
-
         if(
             selectedProfilePhotoFile
         ){
 
-            $("saveProfileBtn").textContent =
+            $("saveProfileBtn")
+                .textContent =
                 "جاري رفع الصورة...";
 
 
@@ -3890,7 +4957,9 @@ async () => {
                 );
 
 
-            if(!profileImageURL){
+            if(
+                !profileImageURL
+            ){
 
                 throw new Error(
                     "PROFILE_IMAGE_UPLOAD_FAILED"
@@ -3899,31 +4968,25 @@ async () => {
             }
 
 
-            update.profileImage =
+            updateData.profileImage =
                 profileImageURL;
 
 
-            update.profileImageUploadedAt =
+            updateData.profileImageUploadedAt =
                 Date.now();
 
 
-            update.profileImageOriginalName =
+            updateData.profileImageOriginalName =
                 selectedProfilePhotoFile.name ||
                 "";
 
 
-            update.profileImageType =
+            updateData.profileImageType =
                 selectedProfilePhotoFile.type ||
                 "";
 
         }
 
-
-        /*
-           أمان إضافي:
-           لا نعتبر الملف مكتمل إذا
-           لا يوجد رابط للصورة.
-        */
 
         if(
             !profileImageURL
@@ -3940,44 +5003,29 @@ async () => {
             "جاري حفظ البيانات...";
 
 
-        update.profileCompleted =
+        updateData.profileCompleted =
             true;
 
 
-        update.profileCompletedAt =
+        updateData.profileCompletedAt =
             Date.now();
 
 
-        /*
-           علامة مستقلة تفيد الإدارة
-           بأن الطالب رفع الصورة.
-        */
-
-        update.profileImageCompleted =
+        updateData.profileImageCompleted =
             true;
 
 
-        /*
-           الحفظ داخل نفس الطالب.
-        */
-
         await dbPatch(
             `students/${encodeURIComponent(STUDENT_CODE)}`,
-            update
+            updateData
         );
 
 
         Object.assign(
             student,
-            update
+            updateData
         );
 
-
-        /*
-           إذا كانت الصورة موجودة مسبقاً
-           ولم يرفع صورة جديدة،
-           نضمن وجود العلامة.
-        */
 
         if(
             studentHasProfileImage() &&
@@ -3987,7 +5035,8 @@ async () => {
             await dbPatch(
                 `students/${encodeURIComponent(STUDENT_CODE)}`,
                 {
-                    profileImageCompleted:true
+                    profileImageCompleted:
+                        true
                 }
             );
 
@@ -4024,7 +5073,7 @@ async () => {
 
 
         toast(
-            "تم إكمال بياناتك وحفظ الصورة بنجاح"
+            "تم حفظ البيانات والصورة بنجاح"
         );
 
 
@@ -4033,6 +5082,7 @@ async () => {
         ){
 
             showInactiveAccount();
+
 
             return;
 
@@ -4085,11 +5135,13 @@ async () => {
 
     finally{
 
-        $("saveProfileBtn").disabled =
+        $("saveProfileBtn")
+            .disabled =
             false;
 
 
-        $("saveProfileBtn").textContent =
+        $("saveProfileBtn")
+            .textContent =
             "حفظ ومتابعة";
 
     }
@@ -4098,15 +5150,69 @@ async () => {
 
 
 /* =========================================================
-   INACTIVE
+   SHOW INACTIVE
 ========================================================= */
 
 function showInactiveAccount(){
+
+    clearInterval(
+        chatPolling
+    );
+
+
+    chatPolling =
+        null;
+
+
+    clearInterval(
+        notificationPolling
+    );
+
+
+    notificationPolling =
+        null;
+
 
     $("app")
         .classList.add(
             "hidden"
         );
+
+
+    $("completeScreen")
+        .classList.add(
+            "hidden"
+        );
+
+
+    /*
+       إذا السبب سلوكي نوضح السبب.
+    */
+
+    if(
+        student.behaviorBlocked === true ||
+        user.behaviorBlocked === true
+    ){
+
+        $("inactiveTitle").textContent =
+            "تم إيقاف الحساب";
+
+
+        $("inactiveText").textContent =
+            "تم إيقاف حسابك بسبب مخالفة سلوكية في الدردشة. يرجى مراجعة إدارة مدرسة التحدي الأهلية المختلطة لإعادة تفعيل الحساب.";
+
+    }
+
+    else{
+
+        $("inactiveTitle").textContent =
+            "الحساب غير فعال";
+
+
+        $("inactiveText").textContent =
+            "حسابك موجود في النظام لكنه غير فعال حالياً. يرجى مراجعة إدارة مدرسة التحدي الأهلية المختلطة.";
+
+    }
 
 
     $("inactiveScreen")
@@ -4118,15 +5224,158 @@ function showInactiveAccount(){
 
 
 /* =========================================================
-   OPEN APPLICATION
+   ABSENCE
+========================================================= */
+
+async function loadAbsenceDays(){
+
+    absenceDays = 0;
+
+
+    try{
+
+        /*
+           المسار الافتراضي:
+           attendance/STUDENT_CODE
+        */
+
+        const attendance =
+            await dbGet(
+                `attendance/${encodeURIComponent(STUDENT_CODE)}`
+            ) || {};
+
+
+        /*
+           ندعم أكثر من شكل للحضور.
+        */
+
+        Object.values(
+            attendance
+        )
+        .forEach(
+            record => {
+
+                if(!record){
+
+                    return;
+
+                }
+
+
+                /*
+                   إذا كل تاريخ يحتوي مواد/حصص داخلية
+                   ندعم هذا الشكل أيضاً.
+                */
+
+                if(
+                    typeof record ===
+                    "object" &&
+                    !Array.isArray(record)
+                ){
+
+                    const status =
+                        norm(
+                            record.status
+                        );
+
+
+                    const absent =
+                        record.absent === true ||
+                        record.isAbsent === true ||
+                        status === "absent" ||
+                        status === "غائب" ||
+                        status === "غياب";
+
+
+                    if(absent){
+
+                        absenceDays++;
+
+
+                        return;
+
+                    }
+
+
+                    /*
+                       إذا التاريخ نفسه يحتوي عناصر متعددة.
+                       نحسب اليوم مرة واحدة إذا وجد غياب.
+                    */
+
+                    const nestedRecords =
+                        Object.values(
+                            record
+                        );
+
+
+                    const hasNestedAbsent =
+                        nestedRecords.some(
+                            child => {
+
+                                if(
+                                    !child ||
+                                    typeof child !==
+                                    "object"
+                                ){
+
+                                    return false;
+
+                                }
+
+
+                                const childStatus =
+                                    norm(
+                                        child.status
+                                    );
+
+
+                                return (
+                                    child.absent === true ||
+                                    child.isAbsent === true ||
+                                    childStatus === "absent" ||
+                                    childStatus === "غائب" ||
+                                    childStatus === "غياب"
+                                );
+
+                            }
+                        );
+
+
+                    if(
+                        hasNestedAbsent
+                    ){
+
+                        absenceDays++;
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Attendance Error:",
+            error
+        );
+
+
+        absenceDays = 0;
+
+    }
+
+}
+
+
+/* =========================================================
+   OPEN APP
 ========================================================= */
 
 async function openApp(){
-
-    /*
-       حماية إضافية:
-       لا نفتح التطبيق إذا الصورة غير موجودة.
-    */
 
     if(
         profileNeedsCompletion()
@@ -4157,6 +5406,18 @@ async function openApp(){
     }
 
 
+    if(
+        !globalAccountActive()
+    ){
+
+        showInactiveAccount();
+
+
+        return;
+
+    }
+
+
     $("completeScreen")
         .classList.add(
             "hidden"
@@ -4167,6 +5428,13 @@ async function openApp(){
         .classList.add(
             "hidden"
         );
+
+
+    /*
+       نسحب الغياب قبل رسم الصفحة.
+    */
+
+    await loadAbsenceDays();
 
 
     $("app")
@@ -4205,7 +5473,7 @@ async function openApp(){
 
 
 /* =========================================================
-   CLASS / STUDENT INFO
+   CLASS NAME
 ========================================================= */
 
 function className(){
@@ -4219,13 +5487,30 @@ function className(){
 }
 
 
+/* =========================================================
+   GENDER
+========================================================= */
+
 function genderText(){
 
-    return (
-        student.gender === "female"
-    )
-        ? "أنثى"
-        : "ذكر";
+    const value =
+        norm(
+            student.gender
+        );
+
+
+    if(
+        value === "female" ||
+        value === "انثى" ||
+        value === "أنثى"
+    ){
+
+        return "أنثى";
+
+    }
+
+
+    return "ذكر";
 
 }
 
@@ -4259,27 +5544,29 @@ function renderHome(){
 
 
     /*
-       عرض صورة الطالب.
+       صورة الطالب.
     */
 
     if(
         studentHasProfileImage()
     ){
 
-        $("studentAvatar").innerHTML = `
+        $("studentAvatar")
+            .innerHTML = `
 
-            <img
-                src="${esc(student.profileImage)}"
-                alt="صورة الطالب"
-            >
+                <img
+                    src="${esc(student.profileImage)}"
+                    alt="صورة الطالب"
+                >
 
-        `;
+            `;
 
     }
 
     else{
 
-        $("studentAvatar").textContent =
+        $("studentAvatar")
+            .textContent =
             (
                 student.name ||
                 "ط"
@@ -4326,6 +5613,11 @@ function renderHome(){
         ],
 
         [
+            "عدد أيام الغياب",
+            `${absenceDays} يوم`
+        ],
+
+        [
             "رقم ولي الأمر",
             student.guardianPhone
         ],
@@ -4365,8 +5657,10 @@ function renderHome(){
     ];
 
 
-    $("studentInfoGrid").innerHTML =
-        information.map(
+    $("studentInfoGrid")
+        .innerHTML =
+        information
+        .map(
             ([label,value]) => `
 
                 <div class="info-card">
@@ -4376,16 +5670,22 @@ function renderHome(){
                     </small>
 
                     <strong>
-                        ${esc(display(value))}
+                        ${esc(
+                            display(
+                                value
+                            )
+                        )}
                     </strong>
 
                 </div>
 
             `
-        ).join("");
+        )
+        .join("");
 
 
     renderAccountStatus();
+
 
     renderHomeAccessWarning();
 
@@ -4424,6 +5724,20 @@ function renderAccountStatus(){
                 ]
                 : [
                     "غير مضافة",
+                    "orange"
+                ]
+        ],
+
+        [
+            "عدد أيام الغياب",
+
+            absenceDays === 0
+                ? [
+                    "0 يوم",
+                    "green"
+                ]
+                : [
+                    `${absenceDays} يوم`,
                     "orange"
                 ]
         ],
@@ -4501,8 +5815,10 @@ function renderAccountStatus(){
     ];
 
 
-    $("studentStatusBox").innerHTML =
-        status.map(
+    $("studentStatusBox")
+        .innerHTML =
+        status
+        .map(
             ([label,[value,color]]) => `
 
                 <div class="status-row">
@@ -4511,14 +5827,20 @@ function renderAccountStatus(){
                         ${esc(label)}
                     </span>
 
-                    <b class="badge ${color}">
+
+                    <b
+                        class="badge ${color}"
+                    >
+
                         ${esc(value)}
+
                     </b>
 
                 </div>
 
             `
-        ).join("");
+        )
+        .join("");
 
 }
 
@@ -4548,6 +5870,7 @@ function renderHomeAccessWarning(){
         box.textContent =
             "";
 
+
         return;
 
     }
@@ -4563,7 +5886,8 @@ function renderHomeAccessWarning(){
 
 
     if(
-        state.type === "blocked"
+        state.type ===
+        "blocked"
     ){
 
         box.classList.add(
@@ -4594,14 +5918,32 @@ document
                     button.dataset.page;
 
 
+                /*
+                   إعادة فحص الصلاحيات.
+                */
+
                 if(
                     [
                         "grades",
                         "chat"
-                    ].includes(page)
+                    ].includes(
+                        page
+                    )
                 ){
 
                     await refreshStudentAccess();
+
+
+                    if(
+                        !globalAccountActive()
+                    ){
+
+                        showInactiveAccount();
+
+
+                        return;
+
+                    }
 
 
                     if(
@@ -4610,7 +5952,9 @@ document
 
                         renderHome();
 
+
                         renderProtectedLocks();
+
 
                         showAccessModal();
 
@@ -4629,11 +5973,24 @@ document
 
 
                         if(
-                            page === "chat" &&
-                            !chatPolling
+                            page === "chat"
                         ){
 
-                            await loadChat();
+                            if(
+                                !Object.keys(chatMessages).length
+                            ){
+
+                                await loadChat();
+
+                            }
+
+                            else if(
+                                !chatPolling
+                            ){
+
+                                startChatPolling();
+
+                            }
 
                         }
 
@@ -4654,9 +6011,10 @@ document
                     );
 
 
-                button.classList.add(
-                    "active"
-                );
+                button
+                    .classList.add(
+                        "active"
+                    );
 
 
                 document
@@ -4689,7 +6047,9 @@ document
 
 
                 $(
-                    pages[page]
+                    pages[
+                        page
+                    ]
                 )
                 .classList.add(
                     "active"
@@ -4697,7 +6057,8 @@ document
 
 
                 if(
-                    page === "notices"
+                    page ===
+                    "notices"
                 ){
 
                     await markNotificationsRead();
@@ -4712,10 +6073,12 @@ document
 
                     await markVisibleMessagesRead();
 
+
                     setNavBadge(
                         "chatBadge",
                         0
                     );
+
 
                     scrollChat();
 
@@ -4729,7 +6092,7 @@ document
 
 
 /* =========================================================
-   REFRESH ACCESS
+   REFRESH STUDENT
 ========================================================= */
 
 async function refreshStudentAccess(){
@@ -4742,7 +6105,9 @@ async function refreshStudentAccess(){
             );
 
 
-        if(freshStudent){
+        if(
+            freshStudent
+        ){
 
             student =
                 freshStudent;
@@ -4756,7 +6121,9 @@ async function refreshStudentAccess(){
             );
 
 
-        if(freshUser){
+        if(
+            freshUser
+        ){
 
             user =
                 freshUser;
@@ -4764,10 +6131,17 @@ async function refreshStudentAccess(){
         }
 
 
-        /*
-           إذا الإدارة حذفت رابط الصورة مثلاً
-           يرجع الطالب إلى الإكمال.
-        */
+        if(
+            !globalAccountActive()
+        ){
+
+            showInactiveAccount();
+
+
+            return;
+
+        }
+
 
         if(
             profileNeedsCompletion()
@@ -4797,20 +6171,13 @@ async function refreshStudentAccess(){
 
         }
 
-
-        if(
-            !globalAccountActive()
-        ){
-
-            showInactiveAccount();
-
-        }
-
     }
 
     catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
     }
 
@@ -4818,7 +6185,7 @@ async function refreshStudentAccess(){
 
 
 /* =========================================================
-   PROTECTED LOCK UI
+   LOCK UI
 ========================================================= */
 
 function renderProtectedLocks(){
@@ -4831,11 +6198,13 @@ function renderProtectedLocks(){
         state.allowed
     ){
 
-        $("gradesLocked").innerHTML =
+        $("gradesLocked")
+            .innerHTML =
             "";
 
 
-        $("chatLocked").innerHTML =
+        $("chatLocked")
+            .innerHTML =
             "";
 
 
@@ -4857,22 +6226,27 @@ function renderProtectedLocks(){
 
 
     const blockedClass =
-        state.type === "blocked"
+        state.type ===
+        "blocked"
             ? "blocked"
             : "";
 
 
     const html = `
 
-        <div class="lock-box ${blockedClass}">
+        <div
+            class="lock-box ${blockedClass}"
+        >
 
             <div class="lock-icon">
                 !
             </div>
 
+
             <h3>
                 ${esc(state.title)}
             </h3>
+
 
             <p>
                 ${esc(state.message)}
@@ -4883,11 +6257,13 @@ function renderProtectedLocks(){
     `;
 
 
-    $("gradesLocked").innerHTML =
+    $("gradesLocked")
+        .innerHTML =
         html;
 
 
-    $("chatLocked").innerHTML =
+    $("chatLocked")
+        .innerHTML =
         html;
 
 
@@ -4918,7 +6294,9 @@ async function loadNotifications(){
 
 
     notifications =
-        Object.entries(all)
+        Object.entries(
+            all
+        )
 
         .map(
             ([id,value]) => ({
@@ -4931,9 +6309,12 @@ async function loadNotifications(){
             notice => {
 
                 if(
-                    notice.active === false
+                    notice.active ===
+                    false
                 ){
+
                     return false;
+
                 }
 
 
@@ -4942,7 +6323,9 @@ async function loadNotifications(){
                     notice.studentCode !==
                     STUDENT_CODE
                 ){
+
                     return false;
+
                 }
 
 
@@ -4951,7 +6334,9 @@ async function loadNotifications(){
                     notice.classId !==
                     student.classId
                 ){
+
                     return false;
+
                 }
 
 
@@ -4973,7 +6358,7 @@ async function loadNotifications(){
 
 
 /* =========================================================
-   NOTIFICATION READS
+   NOTIFICATION READ MAP
 ========================================================= */
 
 async function notificationReadMap(){
@@ -4986,6 +6371,10 @@ async function notificationReadMap(){
 
 }
 
+
+/* =========================================================
+   RENDER NOTIFICATIONS
+========================================================= */
 
 async function renderNotifications(){
 
@@ -5001,28 +6390,31 @@ async function renderNotifications(){
         !notifications.length
     ){
 
-        $("noticeList").innerHTML = `
+        $("noticeList")
+            .innerHTML = `
 
-            <div class="lock-box">
+                <div class="lock-box">
 
-                <h3>
-                    لا توجد تبليغات
-                </h3>
+                    <h3>
+                        لا توجد تبليغات
+                    </h3>
 
-                <p>
-                    لا توجد تبليغات جديدة حالياً.
-                </p>
+                    <p>
+                        لا توجد تبليغات جديدة حالياً.
+                    </p>
 
-            </div>
+                </div>
 
-        `;
+            `;
 
     }
 
     else{
 
-        $("noticeList").innerHTML =
-            notifications.map(
+        $("noticeList")
+            .innerHTML =
+            notifications
+            .map(
                 notice => {
 
                     const isRead =
@@ -5033,8 +6425,12 @@ async function renderNotifications(){
                         );
 
 
-                    if(!isRead){
+                    if(
+                        !isRead
+                    ){
+
                         unread++;
+
                     }
 
 
@@ -5047,28 +6443,50 @@ async function renderNotifications(){
                             <div class="notice-head">
 
                                 <h4>
-                                    ${esc(notice.title || "تبليغ")}
+
+                                    ${esc(
+                                        notice.title ||
+                                        "تبليغ"
+                                    )}
+
                                 </h4>
 
-                                <span class="notice-date">
-                                    ${esc(dateText(notice.createdAt))}
+
+                                <span
+                                    class="notice-date"
+                                >
+
+                                    ${esc(
+                                        dateText(
+                                            notice.createdAt
+                                        )
+                                    )}
+
                                 </span>
 
                             </div>
 
 
                             <p>
-                                ${esc(notice.message || notice.text || "")}
+
+                                ${esc(
+                                    notice.message ||
+                                    notice.text ||
+                                    ""
+                                )}
+
                             </p>
 
 
                             <div class="notice-from">
+
                                 ${esc(
                                     notice.senderName ||
                                     senderRoleText(
                                         notice.senderRole
                                     )
                                 )}
+
                             </div>
 
                         </article>
@@ -5076,7 +6494,8 @@ async function renderNotifications(){
                     `;
 
                 }
-            ).join("");
+            )
+            .join("");
 
     }
 
@@ -5093,17 +6512,25 @@ async function renderNotifications(){
 }
 
 
+/* =========================================================
+   SENDER ROLE
+========================================================= */
+
 function senderRoleText(role){
 
     const value =
-        norm(role);
+        norm(
+            role
+        );
 
 
     if(
         [
             "admin",
             "administrator"
-        ].includes(value)
+        ].includes(
+            value
+        )
     ){
 
         return "إدارة المدرسة";
@@ -5115,7 +6542,9 @@ function senderRoleText(role){
         [
             "teacher",
             "th"
-        ].includes(value)
+        ].includes(
+            value
+        )
     ){
 
         return "الأستاذ";
@@ -5127,7 +6556,9 @@ function senderRoleText(role){
         [
             "accountant",
             "accounting"
-        ].includes(value)
+        ].includes(
+            value
+        )
     ){
 
         return "قسم الحسابات";
@@ -5140,22 +6571,28 @@ function senderRoleText(role){
 }
 
 
+/* =========================================================
+   MARK NOTIFICATIONS READ
+========================================================= */
+
 async function markNotificationsRead(){
 
     if(
         !notifications.length
     ){
+
         return;
+
     }
 
 
-    const update = {};
+    const updateData = {};
 
 
     notifications.forEach(
         notice => {
 
-            update[
+            updateData[
                 notice.id
             ] =
                 Date.now();
@@ -5168,7 +6605,7 @@ async function markNotificationsRead(){
 
         await dbPatch(
             `notificationReads/${encodeURIComponent(STUDENT_CODE)}`,
-            update
+            updateData
         );
 
 
@@ -5184,7 +6621,9 @@ async function markNotificationsRead(){
 
     catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
     }
 
@@ -5209,7 +6648,9 @@ function startNotificationPolling(){
                 if(
                     document.hidden
                 ){
+
                     return;
+
                 }
 
 
@@ -5229,82 +6670,12 @@ function startNotificationPolling(){
 
 
 /* =========================================================
-   GRADES
+   GRADE FUNCTIONS
 ========================================================= */
 
-function annualGrade(grade){
-
-    const term1 =
-        numberOrNull(
-            grade.term1
-        );
-
-
-    const midyear =
-        numberOrNull(
-            grade.midyear
-        );
-
-
-    const term2 =
-        numberOrNull(
-            grade.term2
-        );
-
-
-    if(
-        term1 === null ||
-        midyear === null ||
-        term2 === null
-    ){
-        return null;
-    }
-
-
-    return roundGrade(
-        (
-            term1 +
-            midyear +
-            term2
-        ) / 3
-    );
-
-}
-
-
-function finalGrade(grade){
-
-    const annual =
-        annualGrade(
-            grade
-        );
-
-
-    const exam =
-        numberOrNull(
-            grade.finalExam
-        );
-
-
-    if(
-        annual === null ||
-        exam === null
-    ){
-        return null;
-    }
-
-
-    return roundGrade(
-        (
-            annual +
-            exam
-        ) / 2
-    );
-
-}
-
-
-function performanceGrade(grade){
+function performanceGrade(
+    grade
+){
 
     const direct =
         numberOrNull(
@@ -5334,7 +6705,9 @@ function performanceGrade(grade){
             "low",
             "اقل",
             "منخفض"
-        ].includes(level)
+        ].includes(
+            level
+        )
     ){
 
         return 87;
@@ -5346,7 +6719,9 @@ function performanceGrade(grade){
         [
             "medium",
             "متوسط"
-        ].includes(level)
+        ].includes(
+            level
+        )
     ){
 
         return 93;
@@ -5359,7 +6734,9 @@ function performanceGrade(grade){
             "excellent",
             "100",
             "ممتاز"
-        ].includes(level)
+        ].includes(
+            level
+        )
     ){
 
         return 100;
@@ -5372,21 +6749,35 @@ function performanceGrade(grade){
 }
 
 
+/* =========================================================
+   PERFORMANCE SUBJECT
+========================================================= */
+
 function isPerformanceSubject(
     name
 ){
 
     const value =
-        norm(name);
+        norm(
+            name
+        );
 
 
     return (
-        value.includes("رياض") ||
-        value.includes("فني")
+        value.includes(
+            "رياض"
+        ) ||
+        value.includes(
+            "فني"
+        )
     );
 
 }
 
+
+/* =========================================================
+   EFFECTIVE TERM 1
+========================================================= */
 
 function effectiveTerm1(
     name,
@@ -5394,7 +6785,9 @@ function effectiveTerm1(
 ){
 
     if(
-        isPerformanceSubject(name)
+        isPerformanceSubject(
+            name
+        )
     ){
 
         return (
@@ -5416,13 +6809,19 @@ function effectiveTerm1(
 }
 
 
+/* =========================================================
+   EFFECTIVE MIDYEAR
+========================================================= */
+
 function effectiveMidyear(
     name,
     grade
 ){
 
     if(
-        isPerformanceSubject(name)
+        isPerformanceSubject(
+            name
+        )
     ){
 
         return (
@@ -5444,13 +6843,19 @@ function effectiveMidyear(
 }
 
 
+/* =========================================================
+   EFFECTIVE TERM 2
+========================================================= */
+
 function effectiveTerm2(
     name,
     grade
 ){
 
     if(
-        isPerformanceSubject(name)
+        isPerformanceSubject(
+            name
+        )
     ){
 
         return (
@@ -5471,6 +6876,10 @@ function effectiveTerm2(
 
 }
 
+
+/* =========================================================
+   CALCULATED GRADE
+========================================================= */
 
 function calculatedGrade(
     name,
@@ -5553,17 +6962,29 @@ function calculatedGrade(
 
 
     return {
+
         term1,
+
         midyear,
+
         term2,
+
         annual,
+
         finalExam,
+
         final,
+
         secondRound
+
     };
 
 }
 
+
+/* =========================================================
+   SUBJECT RESULT
+========================================================= */
 
 function subjectResult(
     name,
@@ -5578,7 +6999,8 @@ function subjectResult(
 
 
     if(
-        data.secondRound !== null
+        data.secondRound !==
+        null
     ){
 
         return (
@@ -5591,7 +7013,8 @@ function subjectResult(
 
 
     if(
-        data.final === null
+        data.final ===
+        null
     ){
 
         return "قيد الانتظار";
@@ -5608,6 +7031,10 @@ function subjectResult(
 }
 
 
+/* =========================================================
+   LOAD GRADES
+========================================================= */
+
 async function loadGrades(){
 
     if(
@@ -5615,6 +7042,7 @@ async function loadGrades(){
     ){
 
         renderProtectedLocks();
+
 
         return;
 
@@ -5632,6 +7060,10 @@ async function loadGrades(){
 }
 
 
+/* =========================================================
+   GRADE ENTRIES
+========================================================= */
+
 function gradeEntries(){
 
     return Object.entries(
@@ -5641,17 +7073,22 @@ function gradeEntries(){
         ([key,value]) => {
 
             return [
+
                 key,
+
                 value,
+
                 value.subjectName ||
                 key
+
             ];
 
         }
     )
     .sort(
         (a,b) =>
-            a[2].localeCompare(
+            a[2]
+            .localeCompare(
                 b[2],
                 "ar"
             )
@@ -5660,9 +7097,14 @@ function gradeEntries(){
 }
 
 
+/* =========================================================
+   RENDER GRADES
+========================================================= */
+
 function renderGrades(){
 
-    $("gradesLocked").innerHTML =
+    $("gradesLocked")
+        .innerHTML =
         "";
 
 
@@ -5680,32 +7122,36 @@ function renderGrades(){
         !entries.length
     ){
 
-        $("subjectList").innerHTML = `
+        $("subjectList")
+            .innerHTML = `
 
-            <div class="lock-box">
+                <div class="lock-box">
 
-                <h3>
-                    لا توجد درجات
-                </h3>
+                    <h3>
+                        لا توجد درجات
+                    </h3>
 
-                <p>
-                    لم يتم نشر درجاتك حتى الآن.
-                </p>
+                    <p>
+                        لم يتم نشر درجاتك حتى الآن.
+                    </p>
 
-            </div>
+                </div>
 
-        `;
+            `;
 
 
-        $("gradeTableBody").innerHTML =
+        $("gradeTableBody")
+            .innerHTML =
             "";
 
 
-        $("gradeTableFoot").innerHTML =
+        $("gradeTableFoot")
+            .innerHTML =
             "";
 
 
-        $("finalResultCard").innerHTML =
+        $("finalResultCard")
+            .innerHTML =
             "";
 
 
@@ -5714,8 +7160,10 @@ function renderGrades(){
     }
 
 
-    $("subjectList").innerHTML =
-        entries.map(
+    $("subjectList")
+        .innerHTML =
+        entries
+        .map(
             ([key,grade,name]) => {
 
                 const data =
@@ -5737,18 +7185,24 @@ function renderGrades(){
 
 
                 if(
-                    result === "ناجح"
+                    result ===
+                    "ناجح"
                 ){
+
                     resultClass =
                         "pass";
+
                 }
 
 
                 if(
-                    result === "راسب"
+                    result ===
+                    "راسب"
                 ){
+
                     resultClass =
                         "fail";
+
                 }
 
 
@@ -5759,13 +7213,18 @@ function renderGrades(){
                         <div class="subject-head">
 
                             <div class="subject-name">
+
                                 ${esc(name)}
+
                             </div>
+
 
                             <span
                                 class="subject-result ${resultClass}"
                             >
+
                                 ${esc(result)}
+
                             </span>
 
                         </div>
@@ -5773,14 +7232,45 @@ function renderGrades(){
 
                         <div class="mini-grades">
 
-                            ${miniGrade("الفصل الأول",data.term1)}
-                            ${miniGrade("نصف السنة",data.midyear)}
-                            ${miniGrade("الفصل الثاني",data.term2)}
-                            ${miniGrade("السعي السنوي",data.annual)}
-                            ${miniGrade("الامتحان النهائي",data.finalExam)}
-                            ${miniGrade("الدرجة النهائية",data.final)}
-                            ${miniGrade("الدور الثاني",data.secondRound)}
-                            ${miniGrade("النتيجة",result)}
+                            ${miniGrade(
+                                "الفصل الأول",
+                                data.term1
+                            )}
+
+                            ${miniGrade(
+                                "نصف السنة",
+                                data.midyear
+                            )}
+
+                            ${miniGrade(
+                                "الفصل الثاني",
+                                data.term2
+                            )}
+
+                            ${miniGrade(
+                                "السعي السنوي",
+                                data.annual
+                            )}
+
+                            ${miniGrade(
+                                "الامتحان النهائي",
+                                data.finalExam
+                            )}
+
+                            ${miniGrade(
+                                "الدرجة النهائية",
+                                data.final
+                            )}
+
+                            ${miniGrade(
+                                "الدور الثاني",
+                                data.secondRound
+                            )}
+
+                            ${miniGrade(
+                                "النتيجة",
+                                result
+                            )}
 
                         </div>
 
@@ -5789,11 +7279,14 @@ function renderGrades(){
                 `;
 
             }
-        ).join("");
+        )
+        .join("");
 
 
-    $("gradeTableBody").innerHTML =
-        entries.map(
+    $("gradeTableBody")
+        .innerHTML =
+        entries
+        .map(
             ([key,grade,name]) => {
 
                 const data =
@@ -5807,22 +7300,49 @@ function renderGrades(){
 
                     <tr>
 
-                        <td>${esc(name)}</td>
-                        <td>${displayGrade(data.term1)}</td>
-                        <td>${displayGrade(data.midyear)}</td>
-                        <td>${displayGrade(data.term2)}</td>
-                        <td>${displayGrade(data.annual)}</td>
-                        <td>${displayGrade(data.finalExam)}</td>
-                        <td>${displayGrade(data.final)}</td>
-                        <td>${displayGrade(data.secondRound)}</td>
-                        <td>${esc(subjectResult(name,grade))}</td>
+                        <td>
+                            ${esc(name)}
+                        </td>
+
+                        <td>
+                            ${displayGrade(data.term1)}
+                        </td>
+
+                        <td>
+                            ${displayGrade(data.midyear)}
+                        </td>
+
+                        <td>
+                            ${displayGrade(data.term2)}
+                        </td>
+
+                        <td>
+                            ${displayGrade(data.annual)}
+                        </td>
+
+                        <td>
+                            ${displayGrade(data.finalExam)}
+                        </td>
+
+                        <td>
+                            ${displayGrade(data.final)}
+                        </td>
+
+                        <td>
+                            ${displayGrade(data.secondRound)}
+                        </td>
+
+                        <td>
+                            ${esc(subjectResult(name,grade))}
+                        </td>
 
                     </tr>
 
                 `;
 
             }
-        ).join("");
+        )
+        .join("");
 
 
     renderGradeTotals(
@@ -5837,6 +7357,10 @@ function renderGrades(){
 }
 
 
+/* =========================================================
+   MINI GRADE
+========================================================= */
+
 function miniGrade(
     title,
     value
@@ -5850,8 +7374,13 @@ function miniGrade(
                 ${esc(title)}
             </small>
 
+
             <strong>
-                ${esc(displayGrade(value))}
+                ${esc(
+                    displayGrade(
+                        value
+                    )
+                )}
             </strong>
 
         </div>
@@ -5861,6 +7390,10 @@ function miniGrade(
 }
 
 
+/* =========================================================
+   GRADE TOTALS
+========================================================= */
+
 function renderGradeTotals(
     entries
 ){
@@ -5868,31 +7401,53 @@ function renderGradeTotals(
     const columns = [
 
         (name,grade) =>
-            calculatedGrade(name,grade).term1,
+            calculatedGrade(
+                name,
+                grade
+            ).term1,
 
         (name,grade) =>
-            calculatedGrade(name,grade).midyear,
+            calculatedGrade(
+                name,
+                grade
+            ).midyear,
 
         (name,grade) =>
-            calculatedGrade(name,grade).term2,
+            calculatedGrade(
+                name,
+                grade
+            ).term2,
 
         (name,grade) =>
-            calculatedGrade(name,grade).annual,
+            calculatedGrade(
+                name,
+                grade
+            ).annual,
 
         (name,grade) =>
-            calculatedGrade(name,grade).finalExam,
+            calculatedGrade(
+                name,
+                grade
+            ).finalExam,
 
         (name,grade) =>
-            calculatedGrade(name,grade).final,
+            calculatedGrade(
+                name,
+                grade
+            ).final,
 
         (name,grade) =>
-            calculatedGrade(name,grade).secondRound
+            calculatedGrade(
+                name,
+                grade
+            ).secondRound
 
     ];
 
 
     const data =
-        columns.map(
+        columns
+        .map(
             getValue => {
 
                 const values =
@@ -5911,7 +7466,8 @@ function renderGradeTotals(
 
 
                 const sum =
-                    values.reduce(
+                    values
+                    .reduce(
                         (total,value) =>
                             total + value,
                         0
@@ -5928,60 +7484,73 @@ function renderGradeTotals(
 
 
                 return {
+
                     sum,
+
                     average,
+
                     count:
                         values.length
+
                 };
 
             }
         );
 
 
-    $("gradeTableFoot").innerHTML = `
+    $("gradeTableFoot")
+        .innerHTML = `
 
-        <tr>
+            <tr>
 
-            <td>
-                المجموع
-            </td>
+                <td>
+                    المجموع
+                </td>
 
-            ${data.map(
-                item =>
-                    `<td>${item.count ? item.sum : "—"}</td>`
-            ).join("")}
+                ${
+                    data
+                    .map(
+                        item =>
+                            `<td>${item.count ? item.sum : "—"}</td>`
+                    )
+                    .join("")
+                }
 
-            <td>
-                —
-            </td>
+                <td>
+                    —
+                </td>
 
-        </tr>
+            </tr>
 
 
-        <tr>
+            <tr>
 
-            <td>
-                المعدل
-            </td>
+                <td>
+                    المعدل
+                </td>
 
-            ${data.map(
-                item =>
-                    `<td>${item.average ?? "—"}</td>`
-            ).join("")}
+                ${
+                    data
+                    .map(
+                        item =>
+                            `<td>${item.average ?? "—"}</td>`
+                    )
+                    .join("")
+                }
 
-            <td>
-                —
-            </td>
+                <td>
+                    —
+                </td>
 
-        </tr>
+            </tr>
 
-    `;
+        `;
 
 }
 
 
 /* =========================================================
-   MINISTERIAL / FINAL RESULT
+   MINISTERIAL
 ========================================================= */
 
 function isMinisterial(){
@@ -5993,6 +7562,10 @@ function isMinisterial(){
 
 }
 
+
+/* =========================================================
+   MINISTERIAL QUALIFIED
+========================================================= */
 
 function ministerialQualified(){
 
@@ -6008,7 +7581,8 @@ function ministerialQualified(){
 
     if(
         classData.roomQualification &&
-        student.roomNumber !== undefined
+        student.roomNumber !==
+        undefined
     ){
 
         const roomValue =
@@ -6035,6 +7609,10 @@ function ministerialQualified(){
 
 }
 
+
+/* =========================================================
+   EXEMPTION SETTINGS
+========================================================= */
 
 function exemptionSettings(){
 
@@ -6068,6 +7646,10 @@ function exemptionSettings(){
 }
 
 
+/* =========================================================
+   FINAL RESULT
+========================================================= */
+
 function renderFinalResult(
     entries
 ){
@@ -6080,13 +7662,15 @@ function renderFinalResult(
             .innerHTML =
             "";
 
+
         return;
 
     }
 
 
     const finals =
-        entries.map(
+        entries
+        .map(
             ([key,grade,name]) => {
 
                 const data =
@@ -6097,7 +7681,8 @@ function renderFinalResult(
 
 
                 return (
-                    data.secondRound !== null
+                    data.secondRound !==
+                    null
                 )
                     ? data.secondRound
                     : data.final;
@@ -6111,7 +7696,8 @@ function renderFinalResult(
 
 
     const total =
-        finals.reduce(
+        finals
+        .reduce(
             (sum,value) =>
                 sum + value,
             0
@@ -6128,10 +7714,12 @@ function renderFinalResult(
 
 
     const failedSubjects =
-        finals.filter(
+        finals
+        .filter(
             value =>
                 value < 50
-        ).length;
+        )
+        .length;
 
 
     let title = "";
@@ -6230,7 +7818,7 @@ function renderFinalResult(
 
 
             message =
-                student.gender === "female"
+                genderText() === "أنثى"
                     ? "ألف مبارك، أحسنتِ."
                     : "ألف مبارك، أحسنت.";
 
@@ -6242,13 +7830,13 @@ function renderFinalResult(
         ){
 
             title =
-                student.gender === "female"
+                genderText() === "أنثى"
                     ? "ناجحة"
                     : "ناجح";
 
 
             message =
-                student.gender === "female"
+                genderText() === "أنثى"
                     ? "ألف مبارك، أحسنتِ."
                     : "ألف مبارك، أحسنت.";
 
@@ -6289,99 +7877,113 @@ function renderFinalResult(
     }
 
 
-    $("finalResultCard").innerHTML = `
+    $("finalResultCard")
+        .innerHTML = `
 
-        <div
-            class="result-card ${cardClass}"
-        >
+            <div
+                class="result-card ${cardClass}"
+            >
 
-            <div class="result-school">
-                مدرسة التحدي الأهلية المختلطة
+                <div class="result-school">
+
+                    مدرسة التحدي الأهلية المختلطة
+
+                </div>
+
+
+                <h2>
+                    ${esc(title)}
+                </h2>
+
+
+                <p>
+
+                    ${esc(student.name || "")}
+
+                    <br>
+
+                    ${esc(className())}
+
+                    -
+
+                    القاعة
+
+                    ${esc(student.roomNumber || "—")}
+
+                    <br>
+
+                    العام الدراسي 2026-2027
+
+                    <br>
+
+                    ${esc(message)}
+
+                    ${
+                        average !== null
+                            ? `<br>المعدل العام: ${average}`
+                            : ""
+                    }
+
+                    ${
+                        finals.length
+                            ? `<br>المجموع: ${total}`
+                            : ""
+                    }
+
+                </p>
+
             </div>
 
-            <h2>
-                ${esc(title)}
-            </h2>
-
-            <p>
-
-                ${esc(student.name || "")}
-
-                <br>
-
-                ${esc(className())}
-                -
-                القاعة
-                ${esc(student.roomNumber || "—")}
-
-                <br>
-
-                العام الدراسي 2026-2027
-
-                <br>
-
-                ${esc(message)}
-
-                ${
-                    average !== null
-                        ? `<br>المعدل العام: ${average}`
-                        : ""
-                }
-
-                ${
-                    finals.length
-                        ? `<br>المجموع: ${total}`
-                        : ""
-                }
-
-            </p>
-
-        </div>
-
-    `;
+        `;
 
 }
 
 
 /* =========================================================
-   CHAT MODERATION
+   CHAT TEXT NORMALIZATION
 ========================================================= */
 
 function normalizeChatText(
     text
 ){
 
-    return String(text || "")
+    return String(
+        text || ""
+    )
 
-        .toLowerCase()
+    .toLowerCase()
 
-        .replace(
-            /[ًٌٍَُِّْـ]/g,
-            ""
-        )
+    .replace(
+        /[ًٌٍَُِّْـ]/g,
+        ""
+    )
 
-        .replace(
-            /[أإآ]/g,
-            "ا"
-        )
+    .replace(
+        /[أإآ]/g,
+        "ا"
+    )
 
-        .replace(
-            /ة/g,
-            "ه"
-        )
+    .replace(
+        /ة/g,
+        "ه"
+    )
 
-        .replace(
-            /ى/g,
-            "ي"
-        )
+    .replace(
+        /ى/g,
+        "ي"
+    )
 
-        .replace(
-            /(.)\1{2,}/g,
-            "$1$1"
-        );
+    .replace(
+        /(.)\1{2,}/g,
+        "$1$1"
+    );
 
 }
 
+
+/* =========================================================
+   COMPACT CHAT TEXT
+========================================================= */
 
 function compactChatText(
     text
@@ -6390,7 +7992,6 @@ function compactChatText(
     return normalizeChatText(
         text
     )
-
     .replace(
         /[^\u0600-\u06FFa-z0-9]/gi,
         ""
@@ -6398,6 +7999,10 @@ function compactChatText(
 
 }
 
+
+/* =========================================================
+   BLOCKED WORDS
+========================================================= */
 
 async function getBlockedWords(){
 
@@ -6418,10 +8023,9 @@ async function getBlockedWords(){
         }
 
 
-        let words =
-            [
-                ...DEFAULT_BLOCKED_WORDS
-            ];
+        let words = [
+            ...DEFAULT_BLOCKED_WORDS
+        ];
 
 
         if(
@@ -6459,11 +8063,16 @@ async function getBlockedWords(){
         return [
             ...new Set(
                 words
-                    .map(
-                        word =>
-                            String(word || "").trim()
-                    )
-                    .filter(Boolean)
+                .map(
+                    word =>
+                        String(
+                            word || ""
+                        )
+                        .trim()
+                )
+                .filter(
+                    Boolean
+                )
             )
         ];
 
@@ -6479,6 +8088,10 @@ async function getBlockedWords(){
 
 }
 
+
+/* =========================================================
+   FIND BAD WORD
+========================================================= */
 
 function findBlockedWord(
     message,
@@ -6503,9 +8116,12 @@ function findBlockedWord(
 
 
         if(
-            normalizedWord.length < 3
+            normalizedWord.length <
+            3
         ){
+
             continue;
+
         }
 
 
@@ -6527,6 +8143,10 @@ function findBlockedWord(
 }
 
 
+/* =========================================================
+   BEHAVIOR VIOLATION
+========================================================= */
+
 async function registerBehaviorViolation(
     message,
     detectedWord
@@ -6543,6 +8163,9 @@ async function registerBehaviorViolation(
 
         studentName:
             student.name || "",
+
+        profileImage:
+            student.profileImage || "",
 
         gender:
             student.gender || "",
@@ -6566,7 +8189,7 @@ async function registerBehaviorViolation(
             now,
 
         status:
-            "blocked",
+            "account_blocked",
 
         reviewed:
             false,
@@ -6577,11 +8200,19 @@ async function registerBehaviorViolation(
     };
 
 
+    /*
+       حفظ المخالفة.
+    */
+
     await dbPost(
         `behaviorViolations/${encodeURIComponent(STUDENT_CODE)}`,
         violation
     );
 
+
+    /*
+       صندوق الإدارة.
+    */
 
     await dbPost(
         "behaviorViolationInbox",
@@ -6589,10 +8220,17 @@ async function registerBehaviorViolation(
     );
 
 
+    /*
+       إيقاف حساب الطالب بالكامل.
+    */
+
     const blockData = {
 
         behaviorBlocked:
             true,
+
+        accountActive:
+            false,
 
         behaviorBlockedAt:
             now,
@@ -6618,11 +8256,26 @@ async function registerBehaviorViolation(
     );
 
 
+    /*
+       إيقاف حساب الدخول أيضاً.
+    */
+
     await dbPatch(
         `users/${encodeURIComponent(session.code)}`,
         {
+
+            active:
+                false,
+
             behaviorBlocked:
-                true
+                true,
+
+            behaviorBlockedAt:
+                now,
+
+            behaviorBlockReason:
+                "chat_behavior_violation"
+
         }
     );
 
@@ -6631,6 +8284,14 @@ async function registerBehaviorViolation(
         student,
         blockData
     );
+
+
+    user.active =
+        false;
+
+
+    user.behaviorBlocked =
+        true;
 
 
     clearInterval(
@@ -6642,17 +8303,34 @@ async function registerBehaviorViolation(
         null;
 
 
-    renderHome();
+    clearInterval(
+        notificationPolling
+    );
 
-    renderProtectedLocks();
 
-    showAccessModal();
+    notificationPolling =
+        null;
+
+
+    toast(
+        "تم إيقاف حسابك بسبب مخالفة سلوكية"
+    );
+
+
+    setTimeout(
+        () => {
+
+            showInactiveAccount();
+
+        },
+        500
+    );
 
 }
 
 
 /* =========================================================
-   CHAT
+   CHAT ROOM
 ========================================================= */
 
 function chatRoomId(){
@@ -6665,6 +8343,191 @@ function chatRoomId(){
 }
 
 
+/* =========================================================
+   LOAD CHAT PROFILE
+========================================================= */
+
+async function loadChatUserProfile(
+    studentCode
+){
+
+    if(
+        !studentCode
+    ){
+
+        return {};
+
+    }
+
+
+    if(
+        studentCode ===
+        STUDENT_CODE
+    ){
+
+        chatUserProfiles[
+            studentCode
+        ] =
+            student;
+
+
+        return student;
+
+    }
+
+
+    if(
+        chatUserProfiles[
+            studentCode
+        ]
+    ){
+
+        return chatUserProfiles[
+            studentCode
+        ];
+
+    }
+
+
+    try{
+
+        const profile =
+            await dbGet(
+                `students/${encodeURIComponent(studentCode)}`
+            ) || {};
+
+
+        chatUserProfiles[
+            studentCode
+        ] =
+            profile;
+
+
+        return profile;
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Chat Profile Error:",
+            error
+        );
+
+
+        chatUserProfiles[
+            studentCode
+        ] = {};
+
+
+        return {};
+
+    }
+
+}
+
+
+/* =========================================================
+   PREPARE CHAT PROFILES
+========================================================= */
+
+async function prepareChatProfiles(){
+
+    const codes =
+        new Set();
+
+
+    Object.values(
+        chatMessages
+    )
+    .forEach(
+        message => {
+
+            if(
+                message?.senderCode
+            ){
+
+                codes.add(
+                    message.senderCode
+                );
+
+            }
+
+
+            if(
+                message?.readBy &&
+                typeof message.readBy ===
+                "object"
+            ){
+
+                Object.keys(
+                    message.readBy
+                )
+                .forEach(
+                    code => {
+
+                        if(code){
+
+                            codes.add(
+                                code
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            if(
+                message?.reactions &&
+                typeof message.reactions ===
+                "object"
+            ){
+
+                Object.keys(
+                    message.reactions
+                )
+                .forEach(
+                    code => {
+
+                        if(code){
+
+                            codes.add(
+                                code
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+
+        }
+    );
+
+
+    await Promise.all(
+        [
+            ...codes
+        ]
+        .map(
+            code =>
+                loadChatUserProfile(
+                    code
+                )
+        )
+    );
+
+}
+
+
+/* =========================================================
+   LOAD CHAT
+========================================================= */
+
 async function loadChat(){
 
     if(
@@ -6672,6 +8535,7 @@ async function loadChat(){
     ){
 
         renderProtectedLocks();
+
 
         return;
 
@@ -6698,6 +8562,9 @@ async function loadChat(){
         ).length;
 
 
+    await prepareChatProfiles();
+
+
     renderChat();
 
 
@@ -6708,6 +8575,10 @@ async function loadChat(){
 
 }
 
+
+/* =========================================================
+   CHAT POLLING
+========================================================= */
 
 function startChatPolling(){
 
@@ -6723,14 +8594,33 @@ function startChatPolling(){
                 if(
                     document.hidden
                 ){
+
                     return;
+
                 }
 
 
                 try{
 
-
                     await refreshStudentAccess();
+
+
+                    if(
+                        !globalAccountActive()
+                    ){
+
+                        clearInterval(
+                            chatPolling
+                        );
+
+
+                        chatPolling =
+                            null;
+
+
+                        return;
+
+                    }
 
 
                     if(
@@ -6766,7 +8656,9 @@ function startChatPolling(){
 
                         renderProtectedLocks();
 
+
                         renderHome();
+
 
                         return;
 
@@ -6812,6 +8704,26 @@ function startChatPolling(){
                     }
 
 
+                    const previousKeys =
+                        new Set(
+                            Object.keys(
+                                chatMessages
+                            )
+                        );
+
+
+                    const hasNewMessage =
+                        Object.keys(
+                            fresh
+                        )
+                        .some(
+                            id =>
+                                !previousKeys.has(
+                                    id
+                                )
+                        );
+
+
                     chatMessages =
                         fresh;
 
@@ -6820,7 +8732,12 @@ function startChatPolling(){
                         newCount;
 
 
-                    renderChat();
+                    await prepareChatProfiles();
+
+
+                    renderChat(
+                        hasNewMessage
+                    );
 
 
                     if(
@@ -6833,7 +8750,13 @@ function startChatPolling(){
 
                 }
 
-                catch{}
+                catch(error){
+
+                    console.error(
+                        error
+                    );
+
+                }
 
             },
             4000
@@ -6842,29 +8765,613 @@ function startChatPolling(){
 }
 
 
-function messageReadByOthers(
+/* =========================================================
+   REACTION SUMMARY
+========================================================= */
+
+function reactionSummary(
     message
 ){
+
+    const reactions =
+        message.reactions ||
+        {};
+
+
+    const groups = {};
+
+
+    Object.entries(
+        reactions
+    )
+    .forEach(
+        ([code,reaction]) => {
+
+            if(
+                !reaction
+            ){
+
+                return;
+
+            }
+
+
+            if(
+                !groups[
+                    reaction
+                ]
+            ){
+
+                groups[
+                    reaction
+                ] = [];
+
+            }
+
+
+            groups[
+                reaction
+            ]
+            .push(
+                code
+            );
+
+        }
+    );
+
+
+    return groups;
+
+}
+
+
+/* =========================================================
+   REACT TO MESSAGE
+========================================================= */
+
+async function reactToMessage(
+    messageId,
+    emoji
+){
+
+    if(
+        !canUseProtectedFeatures()
+    ){
+
+        showAccessModal();
+
+
+        return;
+
+    }
+
+
+    if(
+        !chatMessages[
+            messageId
+        ]
+    ){
+
+        return;
+
+    }
+
+
+    const room =
+        chatRoomId();
+
+
+    try{
+
+        const currentReaction =
+            chatMessages[
+                messageId
+            ]?.reactions?.[
+                STUDENT_CODE
+            ];
+
+
+        /*
+           نفس التفاعل مرة ثانية = إزالة.
+        */
+
+        const newReaction =
+            currentReaction ===
+            emoji
+                ? null
+                : emoji;
+
+
+        await dbPut(
+            `chats/${encodeURIComponent(room)}/messages/${encodeURIComponent(messageId)}/reactions/${encodeURIComponent(STUDENT_CODE)}`,
+            newReaction
+        );
+
+
+        if(
+            !chatMessages[
+                messageId
+            ].reactions
+        ){
+
+            chatMessages[
+                messageId
+            ].reactions =
+                {};
+
+        }
+
+
+        if(
+            newReaction
+        ){
+
+            chatMessages[
+                messageId
+            ]
+            .reactions[
+                STUDENT_CODE
+            ] =
+                newReaction;
+
+        }
+
+        else{
+
+            delete chatMessages[
+                messageId
+            ]
+            .reactions[
+                STUDENT_CODE
+            ];
+
+        }
+
+
+        renderChat(
+            false
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Reaction Error:",
+            error
+        );
+
+
+        toast(
+            "تعذر إضافة التفاعل"
+        );
+
+    }
+
+}
+
+
+window.reactToMessage =
+    reactToMessage;
+
+
+/* =========================================================
+   CLICK REACTION PILL
+========================================================= */
+
+async function selectExistingReaction(
+    messageId,
+    emoji
+){
+
+    await reactToMessage(
+        messageId,
+        emoji
+    );
+
+}
+
+
+window.selectExistingReaction =
+    selectExistingReaction;
+
+
+/* =========================================================
+   REACTION MENU
+========================================================= */
+
+function reactionMenuHTML(
+    messageId
+){
+
+    const emojis = [
+
+        "👍",
+
+        "❤️",
+
+        "😂",
+
+        "😮",
+
+        "😢"
+
+    ];
+
+
+    return `
+
+        <div class="msg-actions">
+
+            ${
+                emojis
+                .map(
+                    emoji => `
+
+                        <button
+                            type="button"
+                            class="react-btn"
+                            onclick="reactToMessage('${esc(messageId)}','${emoji}')"
+                            aria-label="تفاعل ${emoji}"
+                        >
+
+                            ${emoji}
+
+                        </button>
+
+                    `
+                )
+                .join("")
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   MESSAGE REACTIONS
+========================================================= */
+
+function renderMessageReactions(
+    message
+){
+
+    const groups =
+        reactionSummary(
+            message
+        );
+
+
+    const entries =
+        Object.entries(
+            groups
+        );
+
+
+    if(
+        !entries.length
+    ){
+
+        return "";
+
+    }
+
+
+    return `
+
+        <div class="reactions">
+
+            ${
+                entries
+                .map(
+                    ([emoji,codes]) => {
+
+                        const mine =
+                            codes.includes(
+                                STUDENT_CODE
+                            );
+
+
+                        return `
+
+                            <button
+                                type="button"
+                                class="reaction-pill ${mine ? "mine" : ""}"
+                                onclick="selectExistingReaction('${esc(message.id)}','${emoji}')"
+                            >
+
+                                <span>
+                                    ${emoji}
+                                </span>
+
+                                <span>
+                                    ${codes.length}
+                                </span>
+
+                            </button>
+
+                        `;
+
+                    }
+                )
+                .join("")
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   SEEN HTML
+========================================================= */
+
+function seenHTML(
+    message
+){
+
+    /*
+       صور المشاهدة تظهر فقط
+       لصاحب الرسالة.
+    */
+
+    if(
+        message.senderCode !==
+        STUDENT_CODE
+    ){
+
+        return "";
+
+    }
+
 
     const readBy =
         message.readBy ||
         {};
 
 
-    return Object.keys(
-        readBy
-    ).some(
-        code =>
-            code !==
-            STUDENT_CODE
-    );
+    const viewers =
+        Object.keys(
+            readBy
+        )
+        .filter(
+            code =>
+                code !==
+                STUDENT_CODE
+        );
+
+
+    if(
+        !viewers.length
+    ){
+
+        return `
+
+            <div class="seen-row">
+
+                <span class="seen-text">
+                    تم الإرسال ✓
+                </span>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /*
+       نعرض آخر 5 مشاهدين.
+    */
+
+    const recentViewers =
+        viewers
+        .sort(
+            (a,b) =>
+                Number(
+                    readBy[b] ||
+                    0
+                ) -
+                Number(
+                    readBy[a] ||
+                    0
+                )
+        )
+        .slice(
+            0,
+            5
+        );
+
+
+    const avatars =
+        recentViewers
+        .map(
+            code => {
+
+                const profile =
+                    chatUserProfiles[
+                        code
+                    ] || {};
+
+
+                const image =
+                    profile.profileImage ||
+                    "";
+
+
+                const name =
+                    profile.name ||
+                    code;
+
+
+                if(
+                    image
+                ){
+
+                    return `
+
+                        <div
+                            class="seen-avatar"
+                            title="${esc(name)}"
+                        >
+
+                            <img
+                                src="${esc(image)}"
+                                alt="${esc(name)}"
+                            >
+
+                        </div>
+
+                    `;
+
+                }
+
+
+                return `
+
+                    <div
+                        class="seen-avatar"
+                        title="${esc(name)}"
+                    >
+
+                        <div class="seen-avatar-letter">
+
+                            ${esc(
+                                String(
+                                    name
+                                )
+                                .trim()
+                                .charAt(0) ||
+                                "ط"
+                            )}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+
+    return `
+
+        <div class="seen-row">
+
+            <div class="seen-avatars">
+
+                ${avatars}
+
+            </div>
+
+
+            <span class="seen-text">
+
+                تمت المشاهدة
+
+                ${
+                    viewers.length > 5
+                        ? `(${viewers.length})`
+                        : ""
+                }
+
+            </span>
+
+        </div>
+
+    `;
 
 }
 
 
-function renderChat(){
+/* =========================================================
+   MESSAGE AVATAR
+========================================================= */
 
-    $("chatLocked").innerHTML =
+function messageAvatarHTML(
+    message,
+    name
+){
+
+    const profile =
+        chatUserProfiles[
+            message.senderCode
+        ] || {};
+
+
+    const image =
+        message.senderImage ||
+        profile.profileImage ||
+        "";
+
+
+    if(
+        image
+    ){
+
+        return `
+
+            <div
+                class="msg-avatar"
+                title="${esc(name)}"
+            >
+
+                <img
+                    src="${esc(image)}"
+                    alt="${esc(name)}"
+                >
+
+            </div>
+
+        `;
+
+    }
+
+
+    return `
+
+        <div
+            class="msg-avatar"
+            title="${esc(name)}"
+        >
+
+            <div class="msg-avatar-letter">
+
+                ${esc(
+                    String(
+                        name
+                    )
+                    .trim()
+                    .charAt(0) ||
+                    "ط"
+                )}
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   RENDER CHAT
+========================================================= */
+
+function renderChat(
+    forceScroll = false
+){
+
+    $("chatLocked")
+        .innerHTML =
         "";
 
 
@@ -6893,25 +9400,46 @@ function renderChat(){
         );
 
 
+    const messageBox =
+        $("messages");
+
+
+    /*
+       نعرف إذا المستخدم قريب من أسفل الدردشة
+       حتى لا نرميه للأسفل إذا كان يقرأ رسائل قديمة.
+    */
+
+    const wasNearBottom =
+        (
+            messageBox.scrollHeight -
+            messageBox.scrollTop -
+            messageBox.clientHeight
+        ) < 100;
+
+
     if(
         !messages.length
     ){
 
-        $("messages").innerHTML = `
+        messageBox.innerHTML = `
 
             <div class="chat-empty">
+
                 لا توجد رسائل بعد
+
             </div>
 
         `;
+
 
         return;
 
     }
 
 
-    $("messages").innerHTML =
-        messages.map(
+    messageBox.innerHTML =
+        messages
+        .map(
             message => {
 
                 const mine =
@@ -6919,56 +9447,99 @@ function renderChat(){
                     STUDENT_CODE;
 
 
-                const read =
-                    mine &&
-                    messageReadByOthers(
-                        message
+                const profile =
+                    chatUserProfiles[
+                        message.senderCode
+                    ] || {};
+
+
+                const name =
+                    message.senderName ||
+                    profile.name ||
+                    "طالب";
+
+
+                const avatarHTML =
+                    messageAvatarHTML(
+                        message,
+                        name
                     );
 
 
                 return `
 
                     <div
-                        class="msg ${mine ? "mine" : ""}"
+                        class="msg-row ${mine ? "mine" : "other"}"
+                        data-message-id="${esc(message.id)}"
                     >
 
-                        ${
-                            mine
-                                ? ""
-                                : `
-
-                                    <div class="msg-name">
-                                        ${esc(message.senderName || "طالب")}
-                                    </div>
-
-                                `
-                        }
+                        ${avatarHTML}
 
 
-                        <div class="msg-text">
-                            ${esc(message.text || "")}
-                        </div>
+                        <div class="msg-content-wrap">
 
 
-                        <div class="msg-meta">
+                            <div
+                                class="msg ${mine ? "mine" : ""}"
+                            >
 
-                            <span>
-                                ${esc(timeText(message.createdAt))}
-                            </span>
+                                <div class="msg-user">
 
-                            ${
-                                mine
-                                    ? `
+                                    <span class="msg-name">
 
-                                        <span
-                                            class="${read ? "read-mark" : ""}"
-                                        >
-                                            ${read ? "✓✓" : "✓"}
-                                        </span>
+                                        ${
+                                            mine
+                                                ? "أنت"
+                                                : esc(name)
+                                        }
 
-                                    `
-                                    : ""
-                            }
+                                    </span>
+
+
+                                    <span class="msg-time">
+
+                                        ${esc(
+                                            timeText(
+                                                message.createdAt
+                                            )
+                                        )}
+
+                                    </span>
+
+                                </div>
+
+
+                                <div class="msg-text">
+
+                                    ${esc(
+                                        message.text ||
+                                        ""
+                                    )}
+
+                                </div>
+
+
+                                ${
+                                    renderMessageReactions(
+                                        message
+                                    )
+                                }
+
+
+                                ${
+                                    reactionMenuHTML(
+                                        message.id
+                                    )
+                                }
+
+
+                                ${
+                                    seenHTML(
+                                        message
+                                    )
+                                }
+
+                            </div>
 
                         </div>
 
@@ -6977,17 +9548,34 @@ function renderChat(){
                 `;
 
             }
-        ).join("");
+        )
+        .join("");
+
+
+    if(
+        forceScroll ||
+        wasNearBottom
+    ){
+
+        scrollChat();
+
+    }
 
 }
 
+
+/* =========================================================
+   MARK CHAT READ
+========================================================= */
 
 async function markVisibleMessagesRead(){
 
     if(
         !canUseProtectedFeatures()
     ){
+
         return;
+
     }
 
 
@@ -7001,13 +9589,19 @@ async function markVisibleMessagesRead(){
         );
 
 
+    const now =
+        Date.now();
+
+
     const tasks =
         entries
 
         .filter(
             ([id,message]) =>
+
                 message.senderCode !==
                 STUDENT_CODE &&
+
                 !(
                     message.readBy &&
                     message.readBy[
@@ -7022,7 +9616,7 @@ async function markVisibleMessagesRead(){
                     `chats/${encodeURIComponent(room)}/messages/${encodeURIComponent(id)}/readBy`,
                     {
                         [STUDENT_CODE]:
-                            Date.now()
+                            now
                     }
                 )
         );
@@ -7038,9 +9632,54 @@ async function markVisibleMessagesRead(){
                 tasks
             );
 
+
+            /*
+               نحدث الذاكرة محلياً حتى تظهر المشاهدة
+               فوراً عند الطرف الآخر في polling.
+            */
+
+            entries
+            .forEach(
+                ([id,message]) => {
+
+                    if(
+                        message.senderCode ===
+                        STUDENT_CODE
+                    ){
+
+                        return;
+
+                    }
+
+
+                    if(
+                        !message.readBy
+                    ){
+
+                        message.readBy =
+                            {};
+
+                    }
+
+
+                    message.readBy[
+                        STUDENT_CODE
+                    ] =
+                        now;
+
+                }
+            );
+
         }
 
-        catch{}
+        catch(error){
+
+            console.error(
+                "Read Error:",
+                error
+            );
+
+        }
 
     }
 
@@ -7053,6 +9692,10 @@ async function markVisibleMessagesRead(){
 }
 
 
+/* =========================================================
+   SEND MESSAGE
+========================================================= */
+
 async function sendMessage(){
 
     if(
@@ -7060,6 +9703,7 @@ async function sendMessage(){
     ){
 
         showAccessModal();
+
 
         return;
 
@@ -7074,8 +9718,12 @@ async function sendMessage(){
         input.value.trim();
 
 
-    if(!text){
+    if(
+        !text
+    ){
+
         return;
+
     }
 
 
@@ -7088,19 +9736,36 @@ async function sendMessage(){
             "الرسالة طويلة جداً"
         );
 
+
         return;
 
     }
 
 
-    $("sendBtn").disabled =
+    $("sendBtn")
+        .disabled =
         true;
 
 
     try{
 
+        /*
+           أحدث حالة للحساب قبل الإرسال.
+        */
 
         await refreshStudentAccess();
+
+
+        if(
+            !globalAccountActive()
+        ){
+
+            showInactiveAccount();
+
+
+            return;
+
+        }
 
 
         if(
@@ -7118,14 +9783,21 @@ async function sendMessage(){
 
             renderHome();
 
+
             renderProtectedLocks();
 
+
             showAccessModal();
+
 
             return;
 
         }
 
+
+        /*
+           الرقابة السلوكية.
+        */
 
         const blockedWords =
             await getBlockedWords();
@@ -7141,6 +9813,10 @@ async function sendMessage(){
         if(
             detectedWord
         ){
+
+            /*
+               لا ننشر الرسالة.
+            */
 
             input.value =
                 "";
@@ -7165,6 +9841,11 @@ async function sendMessage(){
             Date.now();
 
 
+        /*
+           نخزن اسم وصورة الطالب مع الرسالة
+           حتى تظهر بسرعة بدون انتظار قراءة الملف.
+        */
+
         await dbPost(
             `chats/${encodeURIComponent(room)}/messages`,
             {
@@ -7174,6 +9855,9 @@ async function sendMessage(){
 
                 senderName:
                     student.name || "",
+
+                senderImage:
+                    student.profileImage || "",
 
                 classId:
                     student.classId || "",
@@ -7193,7 +9877,9 @@ async function sendMessage(){
                 readBy:{
                     [STUDENT_CODE]:
                         now
-                }
+                },
+
+                reactions:{}
 
             }
         );
@@ -7215,7 +9901,16 @@ async function sendMessage(){
             ).length;
 
 
-        renderChat();
+        chatUserProfiles[
+            STUDENT_CODE
+        ] =
+            student;
+
+
+        renderChat(
+            true
+        );
+
 
         scrollChat();
 
@@ -7224,6 +9919,7 @@ async function sendMessage(){
     catch(error){
 
         console.error(
+            "Send Message Error:",
             error
         );
 
@@ -7236,7 +9932,8 @@ async function sendMessage(){
 
     finally{
 
-        $("sendBtn").disabled =
+        $("sendBtn")
+            .disabled =
             false;
 
     }
@@ -7244,19 +9941,26 @@ async function sendMessage(){
 }
 
 
+/* =========================================================
+   CHAT EVENTS
+========================================================= */
+
 $("sendBtn").onclick =
     sendMessage;
 
 
-$("chatInput").addEventListener(
+$("chatInput")
+.addEventListener(
     "keydown",
     event => {
 
         if(
-            event.key === "Enter"
+            event.key ===
+            "Enter"
         ){
 
             event.preventDefault();
+
 
             sendMessage();
 
@@ -7266,14 +9970,21 @@ $("chatInput").addEventListener(
 );
 
 
+/* =========================================================
+   CHAT SCROLL
+========================================================= */
+
 function scrollChat(){
 
     requestAnimationFrame(
         () => {
 
-            $("messages").scrollTop =
-                $("messages")
-                    .scrollHeight;
+            const box =
+                $("messages");
+
+
+            box.scrollTop =
+                box.scrollHeight;
 
         }
     );
@@ -7297,7 +10008,8 @@ function setNavBadge(
     const value =
         Math.max(
             0,
-            Number(number) || 0
+            Number(number) ||
+            0
         );
 
 
@@ -7316,7 +10028,7 @@ function setNavBadge(
 
 
 /* =========================================================
-   LOGOUT
+   LOGOUT EVENTS
 ========================================================= */
 
 $("logoutBtn").onclick =
@@ -7339,13 +10051,27 @@ document.addEventListener(
             document.visibilityState !==
             "visible"
         ){
+
             return;
+
         }
 
 
         try{
 
             await refreshStudentAccess();
+
+
+            if(
+                !globalAccountActive()
+            ){
+
+                showInactiveAccount();
+
+
+                return;
+
+            }
 
 
             if(
@@ -7357,18 +10083,11 @@ document.addEventListener(
             }
 
 
-            if(
-                !globalAccountActive()
-            ){
-
-                showInactiveAccount();
-
-                return;
-
-            }
+            await loadAbsenceDays();
 
 
             renderHome();
+
 
             renderProtectedLocks();
 
@@ -7377,11 +10096,46 @@ document.addEventListener(
                 canUseProtectedFeatures()
             ){
 
+                /*
+                   إذا الدردشة مفتوحة نحدثها.
+                */
+
+                if(
+                    $("pageChat")
+                        .classList
+                        .contains(
+                            "active"
+                        )
+                ){
+
+                    const room =
+                        chatRoomId();
+
+
+                    chatMessages =
+                        await dbGet(
+                            `chats/${encodeURIComponent(room)}/messages`
+                        ) || {};
+
+
+                    await prepareChatProfiles();
+
+
+                    renderChat(
+                        false
+                    );
+
+
+                    await markVisibleMessagesRead();
+
+                }
+
+
                 if(
                     !chatPolling
                 ){
 
-                    await loadChat();
+                    startChatPolling();
 
                 }
 
@@ -7389,10 +10143,78 @@ document.addEventListener(
 
         }
 
-        catch{}
+        catch(error){
+
+            console.error(
+                error
+            );
+
+        }
 
     }
 );
+
+
+/* =========================================================
+   MOBILE KEYBOARD / CHAT FIX
+========================================================= */
+
+/*
+   على iPhone من تفتح الكيبورد،
+   نخلي آخر الرسائل وصندوق الكتابة ظاهر.
+*/
+
+$("chatInput")
+.addEventListener(
+    "focus",
+    () => {
+
+        setTimeout(
+            () => {
+
+                scrollChat();
+
+            },
+            300
+        );
+
+    }
+);
+
+
+/*
+   visualViewport يفيد على Safari / iPhone
+   حتى لا ينقص صندوق الإرسال من الأسفل.
+*/
+
+if(
+    window.visualViewport
+){
+
+    window.visualViewport
+    .addEventListener(
+        "resize",
+        () => {
+
+            if(
+                $("pageChat")
+                    .classList
+                    .contains(
+                        "active"
+                    )
+            ){
+
+                setTimeout(
+                    scrollChat,
+                    100
+                );
+
+            }
+
+        }
+    );
+
+}
 
 
 /* =========================================================
