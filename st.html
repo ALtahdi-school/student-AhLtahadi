@@ -48,9 +48,7 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-
-    -webkit-tap-highlight-color:
-        transparent;
+    -webkit-tap-highlight-color:transparent;
 }
 
 html,
@@ -138,7 +136,9 @@ button{
         var(--blue);
 
     animation:
-        spin .8s linear infinite;
+        spin .8s
+        linear
+        infinite;
 }
 
 .loader-box p{
@@ -251,7 +251,8 @@ button{
     border:0;
 
     padding:
-        9px 11px;
+        9px
+        11px;
 
     border-radius:12px;
 
@@ -689,7 +690,8 @@ button{
     justify-content:center;
 
     margin:
-        0 auto 14px;
+        0 auto
+        14px;
 
     border-radius:22px;
 
@@ -923,9 +925,6 @@ button{
         var(--border);
 
     background:#fff;
-
-    -webkit-overflow-scrolling:
-        touch;
 }
 
 .grade-table{
@@ -951,36 +950,9 @@ button{
 }
 
 .grade-table th{
-    position:sticky;
-    top:0;
-
-    z-index:2;
-
     background:#f7f9fc;
 
     color:#475467;
-
-    font-weight:900;
-}
-
-.grade-table th:first-child,
-.grade-table td:first-child{
-    position:sticky;
-    right:0;
-
-    z-index:3;
-
-    background:#fff;
-
-    font-weight:900;
-}
-
-.grade-table thead th:first-child{
-    background:#f7f9fc;
-}
-
-.grade-table tfoot td{
-    background:#f7f9fc;
 
     font-weight:900;
 }
@@ -1003,10 +975,6 @@ button{
             #099552,
             #05723e
         );
-
-    box-shadow:
-        0 18px 40px
-        rgba(5,130,71,.18);
 }
 
 .result-card.fail{
@@ -1016,20 +984,6 @@ button{
             #d64141,
             #a91f1f
         );
-}
-
-.result-card.special{
-    background:
-        linear-gradient(
-            135deg,
-            #0870e5,
-            #064a9d
-        );
-}
-
-.result-school{
-    font-size:10px;
-    font-weight:900;
 }
 
 .result-card h2{
@@ -1047,7 +1001,7 @@ button{
 
 
 /* =========================================================
-   CHAT PAGE
+   CHAT
 ========================================================= */
 
 #pageChat{
@@ -1069,7 +1023,6 @@ button{
         );
 
     min-height:470px;
-    max-height:850px;
 
     display:flex;
     flex-direction:column;
@@ -1092,14 +1045,14 @@ button{
 .chat-head{
     flex:none;
 
-    min-height:55px;
+    min-height:53px;
 
     display:flex;
     flex-direction:column;
     justify-content:center;
 
     padding:
-        10px 14px;
+        9px 13px;
 
     background:#fff;
 
@@ -1109,16 +1062,16 @@ button{
 }
 
 .chat-head h3{
-    font-size:12px;
+    font-size:11px;
     font-weight:900;
 }
 
 .chat-head p{
-    margin-top:3px;
+    margin-top:2px;
 
     color:var(--muted);
 
-    font-size:8px;
+    font-size:7.5px;
 }
 
 
@@ -1134,14 +1087,14 @@ button{
     display:flex;
     flex-direction:column;
 
-    gap:5px;
+    gap:3px;
 
     overflow-y:auto;
     overflow-x:hidden;
 
     padding:
-        15px 9px
-        20px;
+        11px 7px
+        16px;
 
     scroll-behavior:smooth;
 
@@ -1161,10 +1114,7 @@ button{
 
 
 /* =========================================================
-   MESSAGE ROWS
-
-   رسائلي يمين
-   الآخرين يسار
+   MESSAGE ROW
 ========================================================= */
 
 .msg-row{
@@ -1175,7 +1125,7 @@ button{
     display:flex;
 
     margin:
-        2px 0;
+        1px 0;
 }
 
 .msg-row.mine{
@@ -1186,13 +1136,6 @@ button{
     justify-content:flex-end;
 }
 
-
-/*
-   لأن الصفحة RTL:
-   mine على اليمين بصرياً
-   other على اليسار.
-*/
-
 .msg-side{
     position:relative;
 
@@ -1201,7 +1144,7 @@ button{
     display:flex;
     align-items:flex-end;
 
-    gap:6px;
+    gap:5px;
 }
 
 .msg-row.mine .msg-side{
@@ -1214,16 +1157,16 @@ button{
 
 
 /* =========================================================
-   AVATAR
+   AVATAR - أصغر قليلاً
 ========================================================= */
 
 .msg-avatar{
-    width:34px;
-    height:34px;
+    width:29px;
+    height:29px;
 
     flex:
         0 0
-        34px;
+        29px;
 
     overflow:hidden;
 
@@ -1232,12 +1175,12 @@ button{
     background:#dce8f6;
 
     border:
-        2px solid
-        rgba(255,255,255,.95);
+        1.5px solid
+        #fff;
 
     box-shadow:
-        0 2px 7px
-        rgba(20,40,70,.10);
+        0 1px 5px
+        rgba(20,40,70,.09);
 }
 
 .msg-avatar img{
@@ -1261,13 +1204,14 @@ button{
 
     background:#e4f0ff;
 
-    font-size:11px;
+    font-size:9px;
     font-weight:900;
 }
 
 
 /* =========================================================
-   BUBBLE
+   MESSAGE BUBBLE
+   أصغر وعلى حجم الكلام
 ========================================================= */
 
 .msg-bubble-wrap{
@@ -1277,66 +1221,71 @@ button{
 
     max-width:
         calc(
-            100% - 40px
+            100% - 34px
         );
 }
 
 .msg{
     position:relative;
 
-    min-width:90px;
+    /*
+       مهم:
+       حجم الفقاعة يكون على حجم النص
+       وليس بعرض ثابت.
+    */
+    width:fit-content;
 
     max-width:100%;
 
     padding:
-        8px 10px
-        7px;
+        5px 8px
+        5px;
 
     background:#fff;
 
     border-radius:
         5px
-        16px
-        16px
-        16px;
+        13px
+        13px
+        13px;
 
     box-shadow:
-        0 3px 9px
-        rgba(20,40,70,.06);
+        0 2px 6px
+        rgba(20,40,70,.055);
 
     cursor:pointer;
 
     user-select:none;
+
+    -webkit-user-select:none;
 }
 
 .msg.mine{
     background:#dff1ff;
 
     border-radius:
-        16px
+        13px
         5px
-        16px
-        16px;
+        13px
+        13px;
 }
 
 .msg:active{
-    transform:
-        scale(.995);
+    transform:scale(.995);
 }
 
 
 /* =========================================================
-   NAME TIME
+   NAME + TIME
 ========================================================= */
 
 .msg-user{
     display:flex;
     align-items:center;
-    justify-content:space-between;
 
-    gap:10px;
+    gap:7px;
 
-    margin-bottom:4px;
+    margin-bottom:2px;
 }
 
 .msg-name{
@@ -1344,10 +1293,11 @@ button{
 
     color:var(--blue);
 
-    font-size:8px;
+    font-size:6.8px;
     font-weight:900;
 
     overflow:hidden;
+
     white-space:nowrap;
     text-overflow:ellipsis;
 }
@@ -1359,14 +1309,20 @@ button{
 
     direction:ltr;
 
-    font-size:6.5px;
+    font-size:5.8px;
 }
+
+
+/* =========================================================
+   MESSAGE TEXT - أصغر بقليل
+========================================================= */
 
 .msg-text{
     color:#172033;
 
-    font-size:10.5px;
-    line-height:1.75;
+    font-size:9.3px;
+
+    line-height:1.55;
 
     white-space:pre-wrap;
 
@@ -1375,7 +1331,7 @@ button{
 
 
 /* =========================================================
-   TAG / MENTION
+   MENTION
 ========================================================= */
 
 .mention{
@@ -1386,25 +1342,25 @@ button{
 
 
 /* =========================================================
-   REPLY PREVIEW INSIDE MESSAGE
+   REPLY PREVIEW
 ========================================================= */
 
 .message-reply-preview{
-    margin-bottom:6px;
+    margin-bottom:4px;
 
     padding:
-        6px 8px;
+        4px 6px;
 
     border-right:
-        3px solid
+        2px solid
         var(--blue);
 
-    border-radius:8px;
+    border-radius:6px;
 
     background:
-        rgba(7,95,207,.07);
+        rgba(7,95,207,.06);
 
-    font-size:7.5px;
+    font-size:6.7px;
 }
 
 .message-reply-preview strong{
@@ -1412,26 +1368,29 @@ button{
 
     color:var(--blue);
 
-    font-size:7.5px;
+    font-size:6.7px;
 
-    margin-bottom:2px;
+    margin-bottom:1px;
 }
 
 .message-reply-preview span{
     display:block;
 
-    max-width:220px;
+    max-width:180px;
 
     color:#667085;
 
+    font-size:6.5px;
+
     white-space:nowrap;
+
     overflow:hidden;
     text-overflow:ellipsis;
 }
 
 
 /* =========================================================
-   EXISTING REACTIONS
+   REACTION SUMMARY
 ========================================================= */
 
 .reaction-summary{
@@ -1439,22 +1398,22 @@ button{
     align-items:center;
     flex-wrap:wrap;
 
-    gap:3px;
+    gap:2px;
 
-    margin-top:5px;
+    margin-top:3px;
 }
 
 .reaction-chip{
-    height:22px;
+    height:19px;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
-    gap:3px;
+    gap:2px;
 
     padding:
-        0 6px;
+        0 5px;
 
     border:
         1px solid
@@ -1466,9 +1425,7 @@ button{
 
     background:#fff;
 
-    font-size:10px;
-
-    cursor:pointer;
+    font-size:8px;
 }
 
 .reaction-chip.mine{
@@ -1478,16 +1435,13 @@ button{
 }
 
 .reaction-chip span:last-child{
-    font-size:7px;
+    font-size:6px;
     font-weight:800;
 }
 
 
 /* =========================================================
-   MESSAGE ACTION POPUP
-
-   مخفية دائماً
-   وتظهر فقط عند الضغط على الرسالة
+   ACTION POPUP
 ========================================================= */
 
 .message-action-popup{
@@ -1496,23 +1450,20 @@ button{
     z-index:300;
 
     bottom:
-        calc(100% + 6px);
-
-    min-height:42px;
+        calc(100% + 5px);
 
     display:none;
     align-items:center;
 
-    gap:2px;
+    gap:1px;
 
-    padding:
-        4px;
+    padding:3px;
 
     border:
         1px solid
         #e5eaf1;
 
-    border-radius:22px;
+    border-radius:21px;
 
     background:#fff;
 
@@ -1542,8 +1493,8 @@ button{
 }
 
 .reaction-popup-btn{
-    width:35px;
-    height:35px;
+    width:32px;
+    height:32px;
 
     display:flex;
     align-items:center;
@@ -1557,34 +1508,24 @@ button{
 
     background:transparent;
 
-    font-size:19px;
-
-    transition:.12s;
-}
-
-.reaction-popup-btn:active{
-    transform:scale(.84);
+    font-size:17px;
 }
 
 .reply-popup-btn{
-    height:34px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    height:30px;
 
     padding:
-        0 9px;
+        0 8px;
 
     border:0;
 
-    border-radius:17px;
+    border-radius:15px;
 
     background:#edf5ff;
 
     color:var(--blue);
 
-    font-size:8px;
+    font-size:7px;
     font-weight:900;
 }
 
@@ -1594,17 +1535,12 @@ button{
 ========================================================= */
 
 .seen-row{
-    min-height:21px;
+    min-height:17px;
 
     display:flex;
     align-items:center;
 
-    margin-top:3px;
-}
-
-.msg-row.mine
-.seen-row{
-    justify-content:flex-start;
+    margin-top:2px;
 }
 
 .seen-avatars{
@@ -1612,19 +1548,19 @@ button{
 
     direction:ltr;
 
-    margin-right:5px;
+    margin-right:4px;
 }
 
 .seen-avatar{
-    width:18px;
-    height:18px;
+    width:16px;
+    height:16px;
 
     margin-left:-5px;
 
     overflow:hidden;
 
     border:
-        2px solid
+        1.5px solid
         #edf3f7;
 
     border-radius:50%;
@@ -1635,8 +1571,6 @@ button{
 .seen-avatar img{
     width:100%;
     height:100%;
-
-    display:block;
 
     object-fit:cover;
 }
@@ -1649,24 +1583,19 @@ button{
     align-items:center;
     justify-content:center;
 
-    color:#526277;
-
-    background:#e7eff8;
-
-    font-size:6px;
-    font-weight:900;
+    font-size:5px;
 }
 
 .seen-text{
     color:#2788d8;
 
-    font-size:6.3px;
+    font-size:5.7px;
     font-weight:900;
 }
 
 
 /* =========================================================
-   REPLY BAR ABOVE INPUT
+   REPLY COMPOSE
 ========================================================= */
 
 .reply-compose{
@@ -1674,14 +1603,14 @@ button{
 
     flex:none;
 
-    min-height:48px;
+    min-height:43px;
 
     align-items:center;
 
-    gap:8px;
+    gap:7px;
 
     padding:
-        7px 10px;
+        6px 9px;
 
     background:#f7fbff;
 
@@ -1713,27 +1642,26 @@ button{
 .reply-compose-name{
     color:var(--blue);
 
-    font-size:8px;
+    font-size:7.5px;
     font-weight:900;
 }
 
 .reply-compose-text{
-    margin-top:2px;
+    margin-top:1px;
 
     color:#667085;
 
-    font-size:7.5px;
+    font-size:7px;
 
     white-space:nowrap;
+
     overflow:hidden;
     text-overflow:ellipsis;
 }
 
 .reply-close{
-    width:28px;
-    height:28px;
-
-    flex:none;
+    width:26px;
+    height:26px;
 
     border:0;
 
@@ -1743,12 +1671,12 @@ button{
 
     background:#e8edf3;
 
-    font-size:16px;
+    font-size:15px;
 }
 
 
 /* =========================================================
-   MENTION SUGGESTIONS
+   MENTION PANEL
 ========================================================= */
 
 .mention-panel{
@@ -1760,9 +1688,7 @@ button{
     right:8px;
 
     bottom:
-        calc(
-            100% + 5px
-        );
+        calc(100% + 5px);
 
     display:none;
 
@@ -1781,9 +1707,6 @@ button{
     box-shadow:
         0 -8px 30px
         rgba(25,45,70,.16);
-
-    -webkit-overflow-scrolling:
-        touch;
 }
 
 .mention-panel.show{
@@ -1791,11 +1714,6 @@ button{
 }
 
 .mention-header{
-    position:sticky;
-    top:0;
-
-    z-index:2;
-
     padding:
         8px 11px;
 
@@ -1814,15 +1732,15 @@ button{
 .mention-item{
     width:100%;
 
-    min-height:52px;
+    min-height:48px;
 
     display:flex;
     align-items:center;
 
-    gap:9px;
+    gap:8px;
 
     padding:
-        7px 10px;
+        6px 9px;
 
     border:0;
 
@@ -1835,17 +1753,9 @@ button{
     text-align:right;
 }
 
-.mention-item:last-child{
-    border-bottom:0;
-}
-
-.mention-item:active{
-    background:#f2f7ff;
-}
-
 .mention-avatar{
-    width:36px;
-    height:36px;
+    width:33px;
+    height:33px;
 
     flex:none;
 
@@ -1861,7 +1771,7 @@ button{
 
     color:var(--blue);
 
-    font-size:11px;
+    font-size:10px;
     font-weight:900;
 }
 
@@ -1879,30 +1789,21 @@ button{
 }
 
 .mention-name{
-    color:#172033;
-
-    font-size:9px;
+    font-size:8.5px;
     font-weight:900;
-
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
 }
 
 .mention-code{
     margin-top:2px;
 
-    direction:ltr;
-    text-align:right;
-
     color:#98a2b3;
 
-    font-size:7px;
+    font-size:6.5px;
 }
 
 
 /* =========================================================
-   CHAT COMPOSER
+   CHAT BOTTOM
 ========================================================= */
 
 .chat-bottom{
@@ -1922,7 +1823,7 @@ button{
 
     width:100%;
 
-    min-height:67px;
+    min-height:62px;
 
     display:flex;
     align-items:center;
@@ -1930,10 +1831,10 @@ button{
     gap:7px;
 
     padding:
-        9px
-        9px
+        7px
+        8px
         max(
-            9px,
+            7px,
             env(safe-area-inset-bottom)
         );
 
@@ -1942,10 +1843,6 @@ button{
     border-top:
         1px solid
         var(--border);
-
-    box-shadow:
-        0 -3px 15px
-        rgba(30,50,70,.05);
 }
 
 .chat-input{
@@ -1953,12 +1850,12 @@ button{
 
     flex:1;
 
-    height:48px;
+    height:46px;
 
     padding:
-        0 13px;
+        0 12px;
 
-    border-radius:15px;
+    border-radius:14px;
 
     border:
         1px solid
@@ -1970,25 +1867,21 @@ button{
 
     color:var(--text);
 
-    font-size:13px;
+    font-size:12px;
 }
 
 .chat-input:focus{
     border-color:
         var(--blue);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(7,95,207,.05);
 }
 
 .send{
-    width:49px;
-    height:49px;
+    width:46px;
+    height:46px;
 
     flex:
         0 0
-        49px;
+        46px;
 
     display:flex;
     align-items:center;
@@ -1996,7 +1889,7 @@ button{
 
     border:0;
 
-    border-radius:15px;
+    border-radius:14px;
 
     color:#fff;
 
@@ -2009,10 +1902,6 @@ button{
 
     font-size:18px;
     font-weight:900;
-
-    box-shadow:
-        0 6px 16px
-        rgba(7,95,207,.18);
 }
 
 .send:disabled{
@@ -2090,8 +1979,6 @@ button{
     color:#7b8798;
 
     background:transparent;
-
-    transition:.22s;
 }
 
 .nav-item.active{
@@ -2101,8 +1988,8 @@ button{
 }
 
 .nav-item svg{
-    width:19px;
-    height:19px;
+    width:20px;
+    height:20px;
 
     fill:none;
     stroke:currentColor;
@@ -2113,7 +2000,7 @@ button{
 }
 
 .nav-label{
-    font-size:7.5px;
+    font-size:7.8px;
     font-weight:900;
 }
 
@@ -2185,9 +2072,6 @@ button{
             #f5f9ff,
             #edf4fb
         );
-
-    -webkit-overflow-scrolling:
-        touch;
 }
 
 .screen-card{
@@ -2263,7 +2147,6 @@ button{
 
 .field input{
     width:100%;
-
     height:50px;
 
     padding:
@@ -2280,20 +2163,6 @@ button{
     font-size:13px;
 }
 
-.field input:focus{
-    border-color:
-        var(--blue);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(7,95,207,.06);
-}
-
-
-/* =========================================================
-   PROFILE PHOTO
-========================================================= */
-
 .profile-photo-section{
     margin-top:16px;
 
@@ -2309,8 +2178,6 @@ button{
 }
 
 .profile-photo-title{
-    color:var(--text);
-
     font-size:12px;
     font-weight:900;
 
@@ -2388,15 +2255,6 @@ button{
     object-fit:cover;
 
     border-radius:18px;
-
-    background:#f3f5f8;
-
-    border:
-        3px solid #fff;
-
-    box-shadow:
-        0 8px 25px
-        rgba(20,40,70,.16);
 }
 
 .profile-photo-status{
@@ -2405,8 +2263,6 @@ button{
     color:var(--green);
 
     font-size:8px;
-    line-height:1.7;
-
     font-weight:900;
 }
 
@@ -2465,10 +2321,6 @@ button{
     font-weight:900;
 }
 
-.primary-btn:disabled{
-    opacity:.6;
-}
-
 .inactive-card{
     margin-top:9vh;
 }
@@ -2478,7 +2330,8 @@ button{
     height:78px;
 
     margin:
-        3px auto 15px;
+        3px auto
+        15px;
 
     display:flex;
     align-items:center;
@@ -2534,9 +2387,6 @@ button{
 
     background:
         rgba(17,32,51,.45);
-
-    backdrop-filter:
-        blur(5px);
 }
 
 .modal.show{
@@ -2554,10 +2404,6 @@ button{
     border-radius:23px;
 
     background:#fff;
-
-    box-shadow:
-        0 24px 65px
-        rgba(0,0,0,.20);
 }
 
 .modal-icon{
@@ -2581,14 +2427,6 @@ button{
 
     font-size:27px;
     font-weight:900;
-}
-
-.modal-card.blocked .modal-icon{
-    background:
-        var(--red-bg);
-
-    color:
-        var(--red);
 }
 
 .modal-card h3{
@@ -2643,7 +2481,6 @@ button{
             env(safe-area-inset-bottom)
         );
 
-    width:auto;
     max-width:430px;
 
     margin:auto;
@@ -2684,10 +2521,12 @@ button{
 ========================================================= */
 
 @keyframes spin{
+
     to{
         transform:
             rotate(360deg);
     }
+
 }
 
 @keyframes pageIn{
@@ -2704,6 +2543,7 @@ button{
 
         transform:none;
     }
+
 }
 
 @keyframes reactionOpen{
@@ -2721,26 +2561,13 @@ button{
 
         transform:none;
     }
+
 }
 
 
 /* =========================================================
-   RESPONSIVE
+   MOBILE
 ========================================================= */
-
-@media(min-width:700px){
-
-    .info-grid{
-        grid-template-columns:
-            repeat(3,1fr);
-    }
-
-    .mini-grades{
-        grid-template-columns:
-            repeat(8,1fr);
-    }
-
-}
 
 @media(max-width:430px){
 
@@ -2762,39 +2589,8 @@ button{
         border-radius:19px;
     }
 
-    .messages{
-        padding:
-            12px 6px
-            17px;
-    }
-
     .msg-side{
         max-width:88%;
-    }
-
-    .msg-avatar{
-        width:31px;
-        height:31px;
-
-        flex-basis:31px;
-    }
-
-    .msg{
-        min-width:80px;
-    }
-
-    .message-action-popup{
-        max-width:
-            calc(
-                100vw - 35px
-            );
-    }
-
-    .reaction-popup-btn{
-        width:32px;
-        height:32px;
-
-        font-size:17px;
     }
 
 }
@@ -2807,10 +2603,6 @@ button{
 <body>
 
 
-<!-- =========================================================
-     LOADER
-========================================================= -->
-
 <div
     id="loaderScreen"
     class="loader-screen"
@@ -2821,7 +2613,7 @@ button{
         <img
             src="logo.png"
             class="loader-logo"
-            alt="شعار مدرسة التحدي"
+            alt="الشعار"
         >
 
         <div class="loader"></div>
@@ -2835,10 +2627,6 @@ button{
 </div>
 
 
-<!-- =========================================================
-     COMPLETE PROFILE
-========================================================= -->
-
 <section
     id="completeScreen"
     class="full-screen hidden"
@@ -2849,7 +2637,7 @@ button{
         <img
             src="logo.png"
             class="screen-logo"
-            alt="شعار المدرسة"
+            alt="الشعار"
         >
 
         <h2>
@@ -2867,12 +2655,12 @@ button{
         ></div>
 
 
-        <div
-            class="profile-photo-section"
-        >
+        <div class="profile-photo-section">
 
             <div class="profile-photo-title">
+
                 الصورة الشخصية للطالب
+
             </div>
 
 
@@ -2886,17 +2674,15 @@ button{
 
                 لاستخدامها في معاملات المدرسة.
 
-                <br>
-
-                يجب أن تكون الصورة حديثة وواضحة وخاصة بالطالب نفسه.
-
             </div>
 
 
             <label class="profile-photo-upload">
 
                 <span id="photoUploadText">
+
                     اختيار الصورة الشخصية
+
                 </span>
 
 
@@ -2917,7 +2703,7 @@ button{
                 <img
                     id="profilePhotoPreview"
                     class="profile-photo-preview"
-                    alt="معاينة الصورة"
+                    alt=""
                 >
 
 
@@ -2925,7 +2711,9 @@ button{
                     id="profilePhotoStatus"
                     class="profile-photo-status"
                 >
+
                     تم اختيار الصورة
+
                 </div>
 
             </div>
@@ -2933,7 +2721,7 @@ button{
 
             <div class="profile-photo-required">
 
-                الصورة إلزامية لجميع الطلبة الذين لديهم كود طالب.
+                الصورة الشخصية إلزامية لجميع الطلبة الذين لديهم كود طالب.
 
             </div>
 
@@ -2944,10 +2732,6 @@ button{
 
             يرجى التأكد من صحة البيانات والصورة قبل الحفظ.
 
-            <br>
-
-            أي تعديل لاحق يكون عن طريق إدارة المدرسة.
-
         </div>
 
 
@@ -2956,17 +2740,15 @@ button{
             class="primary-btn"
             type="button"
         >
+
             حفظ ومتابعة
+
         </button>
 
     </div>
 
 </section>
 
-
-<!-- =========================================================
-     INACTIVE
-========================================================= -->
 
 <section
     id="inactiveScreen"
@@ -2978,23 +2760,27 @@ button{
         <img
             src="logo.png"
             class="screen-logo"
-            alt="الشعار"
+            alt=""
         >
 
+
         <div class="big-status-icon">
+
             !
+
         </div>
 
 
         <h2 id="inactiveTitle">
+
             الحساب غير فعال
+
         </h2>
 
 
         <p id="inactiveText">
 
             حسابك غير فعال حالياً.
-            يرجى مراجعة إدارة المدرسة.
 
         </p>
 
@@ -3004,17 +2790,15 @@ button{
             class="secondary-btn"
             type="button"
         >
+
             تسجيل الخروج
+
         </button>
 
     </div>
 
 </section>
 
-
-<!-- =========================================================
-     APP
-========================================================= -->
 
 <div
     id="app"
@@ -3029,7 +2813,7 @@ button{
         <img
             src="logo.png"
             class="top-logo"
-            alt="الشعار"
+            alt=""
         >
 
 
@@ -3041,7 +2825,9 @@ button{
 
 
             <p id="topStudentName">
+
                 منصة الطالب
+
             </p>
 
         </div>
@@ -3054,7 +2840,9 @@ button{
         class="logout"
         type="button"
     >
+
         خروج
+
     </button>
 
 </header>
@@ -3062,10 +2850,6 @@ button{
 
 <main class="content">
 
-
-<!-- =========================================================
-     HOME
-========================================================= -->
 
 <section
     id="pageHome"
@@ -3121,7 +2905,9 @@ button{
 
 
                 <span class="hero-tag">
+
                     2026-2027
+
                 </span>
 
             </div>
@@ -3142,10 +2928,6 @@ button{
         <h3>
             بيانات الطالب
         </h3>
-
-        <span>
-            بيانات رسمية
-        </span>
 
     </div>
 
@@ -3173,10 +2955,6 @@ button{
 </section>
 
 
-<!-- =========================================================
-     NOTICES
-========================================================= -->
-
 <section
     id="pageNotices"
     class="page"
@@ -3190,7 +2968,9 @@ button{
 
 
         <span id="noticeCountText">
+
             0 تبليغ
+
         </span>
 
     </div>
@@ -3203,10 +2983,6 @@ button{
 
 </section>
 
-
-<!-- =========================================================
-     GRADES
-========================================================= -->
 
 <section
     id="pageGrades"
@@ -3227,10 +3003,6 @@ button{
                 الدرجات والنتائج
             </h3>
 
-            <span>
-                2026-2027
-            </span>
-
         </div>
 
 
@@ -3246,19 +3018,19 @@ button{
 
                 <thead>
 
-                <tr>
+                    <tr>
 
-                    <th>المادة</th>
-                    <th>الفصل الأول</th>
-                    <th>نصف السنة</th>
-                    <th>الفصل الثاني</th>
-                    <th>السعي السنوي</th>
-                    <th>الامتحان النهائي</th>
-                    <th>الدرجة النهائية</th>
-                    <th>الدور الثاني</th>
-                    <th>النتيجة</th>
+                        <th>المادة</th>
+                        <th>الفصل الأول</th>
+                        <th>نصف السنة</th>
+                        <th>الفصل الثاني</th>
+                        <th>السعي السنوي</th>
+                        <th>الامتحان النهائي</th>
+                        <th>الدرجة النهائية</th>
+                        <th>الدور الثاني</th>
+                        <th>النتيجة</th>
 
-                </tr>
+                    </tr>
 
                 </thead>
 
@@ -3277,7 +3049,9 @@ button{
         </div>
 
 
-        <div id="finalResultCard"></div>
+        <div
+            id="finalResultCard"
+        ></div>
 
     </div>
 
@@ -3307,8 +3081,11 @@ button{
                 دردشة الصف
             </h3>
 
+
             <p id="chatRoomName">
+
                 —
+
             </p>
 
         </div>
@@ -3323,16 +3100,17 @@ button{
         <div class="chat-bottom">
 
 
-            <!-- MENTION PANEL -->
-
             <div
                 id="mentionPanel"
                 class="mention-panel"
             >
 
                 <div class="mention-header">
+
                     اختر طالباً من نفس الصف
+
                 </div>
+
 
                 <div
                     id="mentionList"
@@ -3340,8 +3118,6 @@ button{
 
             </div>
 
-
-            <!-- REPLY BAR -->
 
             <div
                 id="replyCompose"
@@ -3376,13 +3152,13 @@ button{
                     class="reply-close"
                     type="button"
                 >
+
                     ×
+
                 </button>
 
             </div>
 
-
-            <!-- COMPOSER -->
 
             <div class="chat-compose">
 
@@ -3390,7 +3166,7 @@ button{
                     id="chatInput"
                     class="chat-input"
                     type="text"
-                    placeholder="اكتب رسالة... واستخدم @ للإشارة إلى طالب"
+                    placeholder="اكتب رسالة... @"
                     maxlength="500"
                     autocomplete="off"
                 >
@@ -3400,9 +3176,10 @@ button{
                     id="sendBtn"
                     class="send"
                     type="button"
-                    aria-label="إرسال"
                 >
+
                     ←
+
                 </button>
 
             </div>
@@ -3418,7 +3195,7 @@ button{
 
 
 <!-- =========================================================
-     NAV
+     BOTTOM NAV
 ========================================================= -->
 
 <nav class="bottom-nav">
@@ -3433,13 +3210,18 @@ button{
     <svg viewBox="0 0 24 24">
 
         <path d="M3 11.5L12 4l9 7.5"></path>
+
         <path d="M5.5 10.5V20h13v-9.5"></path>
+
         <path d="M9.5 20v-6h5v6"></path>
 
     </svg>
 
+
     <span class="nav-label">
+
         الرئيسية
+
     </span>
 
 </button>
@@ -3462,13 +3244,16 @@ button{
     <svg viewBox="0 0 24 24">
 
         <path d="M18 8a6 6 0 10-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+
         <path d="M10 21h4"></path>
 
     </svg>
 
 
     <span class="nav-label">
+
         التبليغات
+
     </span>
 
 </button>
@@ -3483,19 +3268,28 @@ button{
     <svg viewBox="0 0 24 24">
 
         <path d="M5 4h14v16H5z"></path>
+
         <path d="M8 8h8"></path>
+
         <path d="M8 12h8"></path>
+
         <path d="M8 16h5"></path>
 
     </svg>
 
 
     <span class="nav-label">
+
         الدرجات
+
     </span>
 
 </button>
 
+
+<!-- =====================================================
+     لوكو الدردشة + كلمة دردشة
+===================================================== -->
 
 <button
     class="nav-item"
@@ -3511,15 +3305,22 @@ button{
     </span>
 
 
-    <svg viewBox="0 0 24 24">
+    <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+    >
 
-        <path d="M21 12a8 8 0 01-8 8H5l-3 2 1-5a9 9 0 118-14"></path>
+        <path
+            d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6A8.38 8.38 0 0112.5 3h.5a8.48 8.48 0 018 8z"
+        ></path>
 
     </svg>
 
 
     <span class="nav-label">
-        الدردشة
+
+        دردشة
+
     </span>
 
 </button>
@@ -3530,10 +3331,6 @@ button{
 
 </div>
 
-
-<!-- =========================================================
-     MODAL
-========================================================= -->
 
 <div
     id="accessModal"
@@ -3551,7 +3348,9 @@ button{
 
 
         <h3 id="accessModalTitle">
+
             الخدمة غير متاحة
+
         </h3>
 
 
@@ -3562,7 +3361,9 @@ button{
             id="closeAccessModal"
             type="button"
         >
+
             حسناً
+
         </button>
 
     </div>
@@ -3585,10 +3386,6 @@ button{
 const DB =
     "https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
 
-
-/* =========================================================
-   IMAGE WORKER
-========================================================= */
 
 const IMAGE_UPLOAD_WORKER_URL =
     "https://floral-pine-2aa7.ahmed-a-ahmed00457.workers.dev/";
@@ -3644,7 +3441,7 @@ let mentionState = {
 
 
 /* =========================================================
-   COMPLETABLE FIELDS
+   PROFILE FIELDS
 ========================================================= */
 
 const COMPLETABLE_FIELDS = [
@@ -3694,10 +3491,6 @@ const COMPLETABLE_FIELDS = [
 ];
 
 
-/* =========================================================
-   MODERATION
-========================================================= */
-
 const DEFAULT_BLOCKED_WORDS = [
 
     "حمار",
@@ -3709,15 +3502,9 @@ const DEFAULT_BLOCKED_WORDS = [
 ];
 
 
-/* =========================================================
-   SHORTCUT
-========================================================= */
-
 const $ =
     id =>
-        document.getElementById(
-            id
-        );
+        document.getElementById(id);
 
 
 /* =========================================================
@@ -3781,23 +3568,12 @@ function numberOrNull(value){
 function roundGrade(value){
 
     const number =
-        numberOrNull(
-            value
-        );
+        numberOrNull(value);
 
 
-    if(
-        number === null
-    ){
-
-        return null;
-
-    }
-
-
-    return Math.round(
-        number
-    );
+    return number === null
+        ? null
+        : Math.round(number);
 
 }
 
@@ -3850,7 +3626,7 @@ function displayGrade(value){
 
 
 /* =========================================================
-   DATE WRITTEN
+   DATE
 ========================================================= */
 
 function dateText(value){
@@ -3943,10 +3719,6 @@ function dateText(value){
 }
 
 
-/* =========================================================
-   TIME
-========================================================= */
-
 function timeText(value){
 
     const date =
@@ -3978,10 +3750,6 @@ function timeText(value){
 }
 
 
-/* =========================================================
-   TOAST
-========================================================= */
-
 function toast(text){
 
     $("toast").textContent =
@@ -4009,7 +3777,7 @@ function toast(text){
                     );
 
             },
-            2400
+            2300
         );
 
 }
@@ -4061,9 +3829,7 @@ async function dbPatch(
                 },
 
                 body:
-                    JSON.stringify(
-                        data
-                    )
+                    JSON.stringify(data)
             }
         );
 
@@ -4099,9 +3865,7 @@ async function dbPost(
                 },
 
                 body:
-                    JSON.stringify(
-                        data
-                    )
+                    JSON.stringify(data)
             }
         );
 
@@ -4137,9 +3901,7 @@ async function dbPut(
                 },
 
                 body:
-                    JSON.stringify(
-                        data
-                    )
+                    JSON.stringify(data)
             }
         );
 
@@ -4194,7 +3956,7 @@ async function uploadImage(file){
     ){
 
         toast(
-            "حجم الصورة يجب أن يكون أقل من 5MB"
+            "حجم الصورة أكبر من 5MB"
         );
 
 
@@ -4223,15 +3985,6 @@ async function uploadImage(file){
                     body:formData
                 }
             );
-
-
-        if(!response.ok){
-
-            throw new Error(
-                "IMAGE_UPLOAD_FAILED"
-            );
-
-        }
 
 
         const data =
@@ -4264,7 +4017,7 @@ async function uploadImage(file){
 
 
 /* =========================================================
-   PHOTO SELECT
+   PHOTO INPUT
 ========================================================= */
 
 $("studentProfileImage")
@@ -4334,9 +4087,7 @@ $("studentProfileImage")
 
 
         profilePhotoPreviewURL =
-            URL.createObjectURL(
-                file
-            );
+            URL.createObjectURL(file);
 
 
         $("profilePhotoPreview").src =
@@ -4384,9 +4135,7 @@ function loadSession(){
     }
 
 
-    if(
-        !session.code
-    ){
+    if(!session.code){
 
         location.replace(
             "index.html"
@@ -4405,18 +4154,11 @@ function loadSession(){
 
 function logout(){
 
-    clearInterval(
-        chatPolling
-    );
+    clearInterval(chatPolling);
 
-
-    clearInterval(
-        notificationPolling
-    );
-
+    clearInterval(notificationPolling);
 
     sessionStorage.clear();
-
 
     location.replace(
         "index.html"
@@ -4435,9 +4177,7 @@ function getMissingProfileFields(){
         field => {
 
             const value =
-                student[
-                    field.key
-                ];
+                student[field.key];
 
 
             return (
@@ -4455,9 +4195,9 @@ function getMissingProfileFields(){
 function studentHasProfileImage(){
 
     return Boolean(
-        student.profileImage &&
         String(
-            student.profileImage
+            student.profileImage ||
+            ""
         ).trim()
     );
 
@@ -4475,13 +4215,9 @@ function profileNeedsCompletion(){
 }
 
 
-function renderCompletionForm(
-    fields
-){
+function renderCompletionForm(fields){
 
-    if(
-        !fields.length
-    ){
+    if(!fields.length){
 
         $("completeFields").innerHTML = `
 
@@ -4540,27 +4276,30 @@ function renderCompletionForm(
 function renderExistingProfilePhoto(){
 
     if(
-        studentHasProfileImage()
+        !studentHasProfileImage()
     ){
 
-        $("profilePhotoPreview").src =
-            student.profileImage;
-
-
-        $("profilePhotoPreviewWrap")
-            .classList.add(
-                "show"
-            );
-
-
-        $("photoUploadText").textContent =
-            "تغيير الصورة";
-
-
-        $("profilePhotoStatus").textContent =
-            "الصورة محفوظة مسبقاً";
+        return;
 
     }
+
+
+    $("profilePhotoPreview").src =
+        student.profileImage;
+
+
+    $("profilePhotoPreviewWrap")
+        .classList.add(
+            "show"
+        );
+
+
+    $("photoUploadText").textContent =
+        "تغيير الصورة";
+
+
+    $("profilePhotoStatus").textContent =
+        "الصورة محفوظة مسبقاً";
 
 }
 
@@ -4596,11 +4335,10 @@ function accessState(){
 
             type:"blocked",
 
-            title:
-                "تم إيقاف الحساب",
+            title:"تم إيقاف الحساب",
 
             message:
-                "تم إيقاف الحساب بسبب مخالفة سلوكية في الدردشة. يرجى مراجعة إدارة المدرسة."
+                "تم إيقاف الحساب بسبب مخالفة سلوكية في الدردشة."
 
         };
 
@@ -4642,7 +4380,7 @@ function accessState(){
                 "صلاحية الإدارة غير مفعلة",
 
             message:
-                "صلاحية الدرجات والدردشة غير مفعلة من الإدارة."
+                "صلاحية الدرجات والدردشة غير مفعلة."
 
         };
 
@@ -4652,8 +4390,11 @@ function accessState(){
     return {
 
         allowed:true,
+
         type:"allowed",
+
         title:"",
+
         message:""
 
     };
@@ -4663,15 +4404,10 @@ function accessState(){
 
 function canUseProtectedFeatures(){
 
-    return accessState()
-        .allowed;
+    return accessState().allowed;
 
 }
 
-
-/* =========================================================
-   ACCESS MODAL
-========================================================= */
 
 function showAccessModal(){
 
@@ -4685,13 +4421,6 @@ function showAccessModal(){
 
     $("accessModalText").textContent =
         state.message;
-
-
-    $("accessModalCard")
-        .classList.toggle(
-            "blocked",
-            state.type === "blocked"
-        );
 
 
     $("accessModal")
@@ -4742,14 +4471,11 @@ async function init(){
                 "student",
                 "st"
             ].includes(
-                norm(
-                    user.role
-                )
+                norm(user.role)
             )
         ){
 
             logout();
-
 
             return;
 
@@ -4767,9 +4493,7 @@ async function init(){
             );
 
 
-        if(
-            !student
-        ){
+        if(!student){
 
             throw new Error(
                 "STUDENT_NOT_FOUND"
@@ -4807,7 +4531,6 @@ async function init(){
         ){
 
             showInactiveAccount();
-
 
             return;
 
@@ -4889,9 +4612,7 @@ async () => {
             input.value.trim();
 
 
-        if(
-            !value
-        ){
+        if(!value){
 
             input.focus();
 
@@ -4954,9 +4675,7 @@ async () => {
                 );
 
 
-            if(
-                !image
-            ){
+            if(!image){
 
                 throw new Error(
                     "PHOTO_FAILED"
@@ -5110,7 +4829,8 @@ async function loadAbsenceDays(){
 
                 if(
                     !record ||
-                    typeof record !== "object"
+                    typeof record !==
+                    "object"
                 ){
 
                     return;
@@ -5143,9 +4863,7 @@ async function loadAbsenceDays(){
 
     catch(error){
 
-        console.error(
-            error
-        );
+        console.error(error);
 
     }
 
@@ -5154,8 +4872,6 @@ async function loadAbsenceDays(){
 
 /* =========================================================
    CLASS STUDENTS
-
-   فقط طلاب نفس classId
 ========================================================= */
 
 async function loadClassStudents(){
@@ -5174,16 +4890,14 @@ async function loadClassStudents(){
 
     try{
 
-        const allStudents =
+        const all =
             await dbGet(
                 "students"
             ) || {};
 
 
         classStudents =
-            Object.entries(
-                allStudents
-            )
+            Object.entries(all)
 
             .map(
                 ([code,data]) => ({
@@ -5201,20 +4915,19 @@ async function loadClassStudents(){
             .sort(
                 (a,b) =>
                     String(
-                        a.name ||
-                        ""
+                        a.name || ""
                     )
                     .localeCompare(
                         String(
-                            b.name ||
-                            ""
+                            b.name || ""
                         ),
                         "ar"
                     )
             );
 
 
-        classStudents.forEach(
+        classStudents
+        .forEach(
             item => {
 
                 chatUserProfiles[
@@ -5229,10 +4942,7 @@ async function loadClassStudents(){
 
     catch(error){
 
-        console.error(
-            "Class Students:",
-            error
-        );
+        console.error(error);
 
     }
 
@@ -5240,39 +4950,10 @@ async function loadClassStudents(){
 
 
 /* =========================================================
-   OPEN APP
+   OPEN
 ========================================================= */
 
 async function openApp(){
-
-    if(
-        profileNeedsCompletion()
-    ){
-
-        renderCompletionForm(
-            getMissingProfileFields()
-        );
-
-
-        renderExistingProfilePhoto();
-
-
-        $("app")
-            .classList.add(
-                "hidden"
-            );
-
-
-        $("completeScreen")
-            .classList.remove(
-                "hidden"
-            );
-
-
-        return;
-
-    }
-
 
     await Promise.all([
 
@@ -5328,7 +5009,7 @@ async function openApp(){
 
 
 /* =========================================================
-   CLASS
+   CLASS / GENDER
 ========================================================= */
 
 function className(){
@@ -5397,7 +5078,7 @@ function renderHome(){
 
             <img
                 src="${esc(student.profileImage)}"
-                alt="صورة الطالب"
+                alt=""
             >
 
         `;
@@ -5462,13 +5143,6 @@ function renderHome(){
         [
             "المدرسة السابقة",
             student.previousSchool
-        ],
-
-        [
-            "تاريخ المباشرة",
-            dateText(
-                student.startDate
-            )
         ],
 
         [
@@ -5542,35 +5216,10 @@ function renderAccountStatus(){
             "عدد أيام الغياب",
             [
                 `${absenceDays} يوم`,
+
                 absenceDays
                     ? "orange"
                     : "green"
-            ]
-        ],
-
-        [
-            "صلاحية الحسابات",
-            [
-                student.accountantApproved === true
-                    ? "مفعلة"
-                    : "غير مفعلة",
-
-                student.accountantApproved === true
-                    ? "green"
-                    : "orange"
-            ]
-        ],
-
-        [
-            "صلاحية الإدارة",
-            [
-                student.adminApproved === true
-                    ? "مفعلة"
-                    : "غير مفعلة",
-
-                student.adminApproved === true
-                    ? "green"
-                    : "orange"
             ]
         ],
 
@@ -5600,6 +5249,7 @@ function renderAccountStatus(){
                     <span>
                         ${esc(label)}
                     </span>
+
 
                     <b
                         class="badge ${color}"
@@ -5653,65 +5303,6 @@ function renderHomeAccessWarning(){
 
 
 /* =========================================================
-   REFRESH ACCESS
-========================================================= */
-
-async function refreshStudentAccess(){
-
-    try{
-
-        const freshStudent =
-            await dbGet(
-                `students/${encodeURIComponent(STUDENT_CODE)}`
-            );
-
-
-        if(
-            freshStudent
-        ){
-
-            student =
-                freshStudent;
-
-        }
-
-
-        const freshUser =
-            await dbGet(
-                `users/${encodeURIComponent(session.code)}`
-            );
-
-
-        if(
-            freshUser
-        ){
-
-            user =
-                freshUser;
-
-        }
-
-
-        if(
-            !globalAccountActive()
-        ){
-
-            showInactiveAccount();
-
-        }
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-    }
-
-}
-
-
-/* =========================================================
    NAVIGATION
 ========================================================= */
 
@@ -5728,38 +5319,6 @@ document
 
                 const page =
                     button.dataset.page;
-
-
-                if(
-                    [
-                        "grades",
-                        "chat"
-                    ].includes(
-                        page
-                    )
-                ){
-
-                    await refreshStudentAccess();
-
-
-                    if(
-                        !globalAccountActive()
-                    ){
-
-                        return;
-
-                    }
-
-
-                    if(
-                        !canUseProtectedFeatures()
-                    ){
-
-                        showAccessModal();
-
-                    }
-
-                }
 
 
                 document
@@ -5794,21 +5353,23 @@ document
 
                 const pages = {
 
-                    home:"pageHome",
+                    home:
+                        "pageHome",
 
-                    notices:"pageNotices",
+                    notices:
+                        "pageNotices",
 
-                    grades:"pageGrades",
+                    grades:
+                        "pageGrades",
 
-                    chat:"pageChat"
+                    chat:
+                        "pageChat"
 
                 };
 
 
                 $(
-                    pages[
-                        page
-                    ]
+                    pages[page]
                 )
                 .classList.add(
                     "active"
@@ -5825,9 +5386,19 @@ document
 
 
                 if(
-                    page === "chat" &&
-                    canUseProtectedFeatures()
+                    page === "chat"
                 ){
+
+                    if(
+                        !canUseProtectedFeatures()
+                    ){
+
+                        showAccessModal();
+
+                        return;
+
+                    }
+
 
                     await markVisibleMessagesRead();
 
@@ -5836,9 +5407,6 @@ document
                         "chatBadge",
                         0
                     );
-
-
-                    closeAllMessageActions();
 
 
                     scrollChat();
@@ -5853,7 +5421,7 @@ document
 
 
 /* =========================================================
-   PROTECTED LOCK
+   LOCK
 ========================================================= */
 
 function renderProtectedLocks(){
@@ -5896,17 +5464,23 @@ function renderProtectedLocks(){
         <div class="lock-box">
 
             <div class="lock-icon">
+
                 !
+
             </div>
 
 
             <h3>
+
                 ${esc(state.title)}
+
             </h3>
 
 
             <p>
+
                 ${esc(state.message)}
+
             </p>
 
         </div>
@@ -5949,9 +5523,7 @@ async function loadNotifications(){
 
 
     notifications =
-        Object.entries(
-            all
-        )
+        Object.entries(all)
 
         .map(
             ([id,value]) => ({
@@ -6031,108 +5603,74 @@ async function renderNotifications(){
     let unread = 0;
 
 
-    if(
-        !notifications.length
-    ){
+    $("noticeList").innerHTML =
+        notifications
+        .map(
+            notice => {
 
-        $("noticeList").innerHTML = `
-
-            <div class="lock-box">
-
-                <h3>
-                    لا توجد تبليغات
-                </h3>
-
-            </div>
-
-        `;
-
-    }
-
-    else{
-
-        $("noticeList").innerHTML =
-            notifications
-            .map(
-                notice => {
-
-                    const isRead =
-                        Boolean(
-                            reads[
-                                notice.id
-                            ]
-                        );
+                const isRead =
+                    Boolean(
+                        reads[
+                            notice.id
+                        ]
+                    );
 
 
-                    if(
-                        !isRead
-                    ){
+                if(!isRead){
 
-                        unread++;
-
-                    }
-
-
-                    return `
-
-                        <article
-                            class="notice ${isRead ? "" : "unread"}"
-                        >
-
-                            <div class="notice-head">
-
-                                <h4>
-
-                                    ${esc(
-                                        notice.title ||
-                                        "تبليغ"
-                                    )}
-
-                                </h4>
-
-
-                                <span class="notice-date">
-
-                                    ${esc(
-                                        dateText(
-                                            notice.createdAt
-                                        )
-                                    )}
-
-                                </span>
-
-                            </div>
-
-
-                            <p>
-
-                                ${esc(
-                                    notice.message ||
-                                    notice.text ||
-                                    ""
-                                )}
-
-                            </p>
-
-
-                            <div class="notice-from">
-
-                                ${esc(
-                                    notice.senderName ||
-                                    "مدرسة التحدي"
-                                )}
-
-                            </div>
-
-                        </article>
-
-                    `;
+                    unread++;
 
                 }
-            )
-            .join("");
 
-    }
+
+                return `
+
+                    <article
+                        class="notice ${isRead ? "" : "unread"}"
+                    >
+
+                        <div class="notice-head">
+
+                            <h4>
+
+                                ${esc(
+                                    notice.title ||
+                                    "تبليغ"
+                                )}
+
+                            </h4>
+
+
+                            <span class="notice-date">
+
+                                ${esc(
+                                    dateText(
+                                        notice.createdAt
+                                    )
+                                )}
+
+                            </span>
+
+                        </div>
+
+
+                        <p>
+
+                            ${esc(
+                                notice.message ||
+                                notice.text ||
+                                ""
+                            )}
+
+                        </p>
+
+                    </article>
+
+                `;
+
+            }
+        )
+        .join("");
 
 
     $("noticeCountText").textContent =
@@ -6166,9 +5704,7 @@ async function markNotificationsRead(){
 
 
     if(
-        !Object.keys(
-            updateData
-        ).length
+        !Object.keys(updateData).length
     ){
 
         return;
@@ -6201,9 +5737,7 @@ function startNotificationPolling(){
         setInterval(
             async () => {
 
-                if(
-                    document.hidden
-                ){
+                if(document.hidden){
 
                     return;
 
@@ -6229,87 +5763,6 @@ function startNotificationPolling(){
    GRADES
 ========================================================= */
 
-function performanceGrade(grade){
-
-    const direct =
-        numberOrNull(
-            grade.performanceGrade
-        );
-
-
-    if(
-        direct !== null
-    ){
-
-        return roundGrade(
-            direct
-        );
-
-    }
-
-
-    const level =
-        norm(
-            grade.performanceLevel
-        );
-
-
-    if(
-        [
-            "low",
-            "اقل",
-            "منخفض"
-        ].includes(level)
-    ){
-
-        return 87;
-
-    }
-
-
-    if(
-        [
-            "medium",
-            "متوسط"
-        ].includes(level)
-    ){
-
-        return 93;
-
-    }
-
-
-    if(
-        [
-            "excellent",
-            "ممتاز"
-        ].includes(level)
-    ){
-
-        return 100;
-
-    }
-
-
-    return null;
-
-}
-
-
-function isPerformanceSubject(name){
-
-    const value =
-        norm(name);
-
-
-    return (
-        value.includes("رياض") ||
-        value.includes("فني")
-    );
-
-}
-
-
 function calculatedGrade(
     name,
     grade
@@ -6318,33 +5771,18 @@ function calculatedGrade(
     const term1 =
         numberOrNull(
             grade.term1
-        ) ??
-        (
-            isPerformanceSubject(name)
-                ? performanceGrade(grade)
-                : null
         );
 
 
     const midyear =
         numberOrNull(
             grade.midyear
-        ) ??
-        (
-            isPerformanceSubject(name)
-                ? performanceGrade(grade)
-                : null
         );
 
 
     const term2 =
         numberOrNull(
             grade.term2
-        ) ??
-        (
-            isPerformanceSubject(name)
-                ? performanceGrade(grade)
-                : null
         );
 
 
@@ -6403,11 +5841,17 @@ function calculatedGrade(
     return {
 
         term1,
+
         midyear,
+
         term2,
+
         annual,
+
         finalExam,
+
         final,
+
         secondRound
 
     };
@@ -6460,17 +5904,6 @@ function subjectResult(
 
 async function loadGrades(){
 
-    if(
-        !canUseProtectedFeatures()
-    ){
-
-        renderProtectedLocks();
-
-        return;
-
-    }
-
-
     grades =
         await dbGet(
             `grades/${encodeURIComponent(STUDENT_CODE)}`
@@ -6482,63 +5915,12 @@ async function loadGrades(){
 }
 
 
-function gradeEntries(){
-
-    return Object.entries(
-        grades
-    )
-    .map(
-        ([key,value]) => [
-
-            key,
-
-            value,
-
-            value.subjectName ||
-            key
-
-        ]
-    )
-    .sort(
-        (a,b) =>
-            a[2]
-            .localeCompare(
-                b[2],
-                "ar"
-            )
-    );
-
-}
-
-
-function miniGrade(
-    title,
-    value
-){
-
-    return `
-
-        <div class="mini-grade">
-
-            <small>
-                ${esc(title)}
-            </small>
-
-            <strong>
-                ${esc(displayGrade(value))}
-            </strong>
-
-        </div>
-
-    `;
-
-}
-
-
 function renderGrades(){
 
-    $("gradesLocked").innerHTML =
-        "";
+    const entries =
+        Object.entries(
+            grades
+        );
 
 
     $("gradesContent")
@@ -6547,57 +5929,16 @@ function renderGrades(){
         );
 
 
-    const entries =
-        gradeEntries();
-
-
-    if(
-        !entries.length
-    ){
-
-        $("subjectList").innerHTML = `
-
-            <div class="lock-box">
-
-                <h3>
-                    لا توجد درجات
-                </h3>
-
-            </div>
-
-        `;
-
-
-        return;
-
-    }
-
-
     $("subjectList").innerHTML =
         entries
         .map(
-            ([key,grade,name]) => {
+            ([name,grade]) => {
 
                 const data =
                     calculatedGrade(
                         name,
                         grade
                     );
-
-
-                const result =
-                    subjectResult(
-                        name,
-                        grade
-                    );
-
-
-                const resultClass =
-                    result === "ناجح"
-                        ? "pass"
-                        : result === "راسب"
-                            ? "fail"
-                            : "wait";
 
 
                 return `
@@ -6607,35 +5948,69 @@ function renderGrades(){
                         <div class="subject-head">
 
                             <div class="subject-name">
-                                ${esc(name)}
-                            </div>
 
-                            <span
-                                class="subject-result ${resultClass}"
-                            >
-                                ${esc(result)}
-                            </span>
+                                ${esc(
+                                    grade.subjectName ||
+                                    name
+                                )}
+
+                            </div>
 
                         </div>
 
 
                         <div class="mini-grades">
 
-                            ${miniGrade("الفصل الأول",data.term1)}
+                            <div class="mini-grade">
 
-                            ${miniGrade("نصف السنة",data.midyear)}
+                                <small>
+                                    الفصل الأول
+                                </small>
 
-                            ${miniGrade("الفصل الثاني",data.term2)}
+                                <strong>
+                                    ${displayGrade(data.term1)}
+                                </strong>
 
-                            ${miniGrade("السعي السنوي",data.annual)}
+                            </div>
 
-                            ${miniGrade("الامتحان النهائي",data.finalExam)}
 
-                            ${miniGrade("الدرجة النهائية",data.final)}
+                            <div class="mini-grade">
 
-                            ${miniGrade("الدور الثاني",data.secondRound)}
+                                <small>
+                                    نصف السنة
+                                </small>
 
-                            ${miniGrade("النتيجة",result)}
+                                <strong>
+                                    ${displayGrade(data.midyear)}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="mini-grade">
+
+                                <small>
+                                    الفصل الثاني
+                                </small>
+
+                                <strong>
+                                    ${displayGrade(data.term2)}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="mini-grade">
+
+                                <small>
+                                    السعي السنوي
+                                </small>
+
+                                <strong>
+                                    ${displayGrade(data.annual)}
+                                </strong>
+
+                            </div>
 
                         </div>
 
@@ -6647,210 +6022,38 @@ function renderGrades(){
         )
         .join("");
 
-
-    $("gradeTableBody").innerHTML =
-        entries
-        .map(
-            ([key,grade,name]) => {
-
-                const data =
-                    calculatedGrade(
-                        name,
-                        grade
-                    );
-
-
-                return `
-
-                    <tr>
-
-                        <td>${esc(name)}</td>
-
-                        <td>${displayGrade(data.term1)}</td>
-
-                        <td>${displayGrade(data.midyear)}</td>
-
-                        <td>${displayGrade(data.term2)}</td>
-
-                        <td>${displayGrade(data.annual)}</td>
-
-                        <td>${displayGrade(data.finalExam)}</td>
-
-                        <td>${displayGrade(data.final)}</td>
-
-                        <td>${displayGrade(data.secondRound)}</td>
-
-                        <td>${esc(subjectResult(name,grade))}</td>
-
-                    </tr>
-
-                `;
-
-            }
-        )
-        .join("");
-
-
-    renderGradeTotals(entries);
-
-    renderFinalResult(entries);
-
-}
-
-
-function renderGradeTotals(entries){
-
-    $("gradeTableFoot").innerHTML =
-        "";
-
-}
-
-
-function renderFinalResult(entries){
-
-    const finals =
-        entries
-        .map(
-            ([key,grade,name]) => {
-
-                const data =
-                    calculatedGrade(
-                        name,
-                        grade
-                    );
-
-
-                return data.secondRound !== null
-                    ? data.secondRound
-                    : data.final;
-
-            }
-        )
-        .filter(
-            value =>
-                value !== null
-        );
-
-
-    if(
-        !finals.length
-    ){
-
-        $("finalResultCard").innerHTML =
-            "";
-
-        return;
-
-    }
-
-
-    const total =
-        finals.reduce(
-            (a,b) =>
-                a + b,
-            0
-        );
-
-
-    const average =
-        Math.round(
-            total /
-            finals.length
-        );
-
-
-    const failed =
-        finals.filter(
-            value =>
-                value < 50
-        ).length;
-
-
-    const title =
-        failed === 0
-            ? genderText() === "أنثى"
-                ? "ناجحة"
-                : "ناجح"
-            : "راسب";
-
-
-    $("finalResultCard").innerHTML = `
-
-        <div
-            class="result-card ${failed ? "fail" : ""}"
-        >
-
-            <div class="result-school">
-
-                مدرسة التحدي الأهلية المختلطة
-
-            </div>
-
-
-            <h2>
-                ${esc(title)}
-            </h2>
-
-
-            <p>
-
-                ${esc(student.name || "")}
-
-                <br>
-
-                المعدل العام:
-                ${average}
-
-                <br>
-
-                المجموع:
-                ${total}
-
-                ${
-                    failed
-                        ? `<br>عدد المواد الراسبة: ${failed}`
-                        : ""
-                }
-
-            </p>
-
-        </div>
-
-    `;
-
 }
 
 
 /* =========================================================
-   CHAT MODERATION
+   MODERATION
 ========================================================= */
 
 function normalizeChatText(text){
 
     return String(
-        text ||
-        ""
+        text || ""
     )
     .toLowerCase()
+
     .replace(
         /[ًٌٍَُِّْـ]/g,
         ""
     )
+
     .replace(
         /[أإآ]/g,
         "ا"
     )
+
     .replace(
         /ة/g,
         "ه"
     )
+
     .replace(
         /ى/g,
         "ي"
-    )
-    .replace(
-        /(.)\1{2,}/g,
-        "$1$1"
     );
 
 }
@@ -6879,15 +6082,6 @@ async function getBlockedWords(){
             ) || {};
 
 
-        if(
-            moderation.enabled === false
-        ){
-
-            return [];
-
-        }
-
-
         let words = [
             ...DEFAULT_BLOCKED_WORDS
         ];
@@ -6897,27 +6091,11 @@ async function getBlockedWords(){
             moderation.blockedWords
         ){
 
-            if(
-                Array.isArray(
+            words.push(
+                ...Object.values(
                     moderation.blockedWords
                 )
-            ){
-
-                words.push(
-                    ...moderation.blockedWords
-                );
-
-            }
-
-            else{
-
-                words.push(
-                    ...Object.values(
-                        moderation.blockedWords
-                    )
-                );
-
-            }
+            );
 
         }
 
@@ -6944,7 +6122,7 @@ function findBlockedWord(
     words
 ){
 
-    const messageText =
+    const text =
         compactChatText(
             message
         );
@@ -6963,7 +6141,7 @@ function findBlockedWord(
 
         if(
             check.length >= 3 &&
-            messageText.includes(
+            text.includes(
                 check
             )
         ){
@@ -6980,10 +6158,6 @@ function findBlockedWord(
 }
 
 
-/* =========================================================
-   BLOCK ACCOUNT
-========================================================= */
-
 async function registerBehaviorViolation(
     message,
     detectedWord
@@ -6993,83 +6167,54 @@ async function registerBehaviorViolation(
         Date.now();
 
 
-    const violation = {
-
-        studentCode:
-            STUDENT_CODE,
-
-        studentName:
-            student.name ||
-            "",
-
-        profileImage:
-            student.profileImage ||
-            "",
-
-        classId:
-            student.classId ||
-            "",
-
-        className:
-            className(),
-
-        message,
-
-        detectedWord,
-
-        createdAt:
-            now,
-
-        status:
-            "account_blocked",
-
-        reviewed:
-            false,
-
-        source:
-            "student_chat"
-
-    };
-
-
     await dbPost(
         `behaviorViolations/${encodeURIComponent(STUDENT_CODE)}`,
-        violation
-    );
+        {
 
+            studentCode:
+                STUDENT_CODE,
 
-    await dbPost(
-        "behaviorViolationInbox",
-        violation
-    );
+            studentName:
+                student.name || "",
 
+            profileImage:
+                student.profileImage || "",
 
-    const blockData = {
+            classId:
+                student.classId || "",
 
-        behaviorBlocked:
-            true,
-
-        accountActive:
-            false,
-
-        behaviorBlockedAt:
-            now,
-
-        behaviorBlockReason:
-            "chat_behavior_violation",
-
-        behaviorViolationMessage:
             message,
 
-        behaviorViolationWord:
-            detectedWord
+            detectedWord,
 
-    };
+            createdAt:
+                now,
+
+            status:
+                "account_blocked"
+
+        }
+    );
 
 
     await dbPatch(
         `students/${encodeURIComponent(STUDENT_CODE)}`,
-        blockData
+        {
+
+            behaviorBlocked:true,
+
+            accountActive:false,
+
+            behaviorBlockedAt:
+                now,
+
+            behaviorViolationMessage:
+                message,
+
+            behaviorViolationWord:
+                detectedWord
+
+        }
     );
 
 
@@ -7079,23 +6224,14 @@ async function registerBehaviorViolation(
 
             active:false,
 
-            behaviorBlocked:true,
-
-            behaviorBlockedAt:
-                now
+            behaviorBlocked:true
 
         }
     );
 
 
-    Object.assign(
-        student,
-        blockData
-    );
-
-
-    user.active =
-        false;
+    student.behaviorBlocked =
+        true;
 
 
     user.behaviorBlocked =
@@ -7108,9 +6244,7 @@ async function registerBehaviorViolation(
 
 
 /* =========================================================
-   CHAT ROOM
-
-   هذه النقطة تجعل الدردشة خاصة بنفس الصف
+   CHAT
 ========================================================= */
 
 function chatRoomId(){
@@ -7123,145 +6257,15 @@ function chatRoomId(){
 }
 
 
-/* =========================================================
-   CHAT PROFILES
-========================================================= */
-
-async function loadChatUserProfile(code){
-
-    if(
-        !code
-    ){
-
-        return {};
-
-    }
-
-
-    if(
-        chatUserProfiles[
-            code
-        ]
-    ){
-
-        return chatUserProfiles[
-            code
-        ];
-
-    }
-
-
-    try{
-
-        const profile =
-            await dbGet(
-                `students/${encodeURIComponent(code)}`
-            ) || {};
-
-
-        chatUserProfiles[
-            code
-        ] =
-            profile;
-
-
-        return profile;
-
-    }
-
-    catch{
-
-        return {};
-
-    }
-
-}
-
-
-async function prepareChatProfiles(){
-
-    const codes =
-        new Set();
-
-
-    Object.values(
-        chatMessages
-    )
-    .forEach(
-        message => {
-
-            if(
-                message.senderCode
-            ){
-
-                codes.add(
-                    message.senderCode
-                );
-
-            }
-
-
-            if(
-                message.readBy
-            ){
-
-                Object.keys(
-                    message.readBy
-                )
-                .forEach(
-                    code =>
-                        codes.add(code)
-                );
-
-            }
-
-        }
-    );
-
-
-    await Promise.all(
-
-        [...codes]
-        .map(
-            code =>
-                loadChatUserProfile(
-                    code
-                )
-        )
-
-    );
-
-}
-
-
-/* =========================================================
-   CHAT LOAD
-========================================================= */
-
 async function loadChat(){
 
-    if(
-        !canUseProtectedFeatures()
-    ){
-
-        renderProtectedLocks();
-
-        return;
-
-    }
-
-
-    const room =
-        chatRoomId();
-
-
     $("chatRoomName").textContent =
-        `${className()} - دردشة طلاب الصف فقط`;
+        `${className()} - طلاب الصف`;
 
 
     chatMessages =
         await dbGet(
-            `chats/${encodeURIComponent(room)}/messages`
+            `chats/${encodeURIComponent(chatRoomId())}/messages`
         ) || {};
 
 
@@ -7269,9 +6273,6 @@ async function loadChat(){
         Object.keys(
             chatMessages
         ).length;
-
-
-    await prepareChatProfiles();
 
 
     renderChat(
@@ -7287,10 +6288,6 @@ async function loadChat(){
 }
 
 
-/* =========================================================
-   POLLING
-========================================================= */
-
 function startChatPolling(){
 
     clearInterval(
@@ -7302,9 +6299,7 @@ function startChatPolling(){
         setInterval(
             async () => {
 
-                if(
-                    document.hidden
-                ){
+                if(document.hidden){
 
                     return;
 
@@ -7313,13 +6308,9 @@ function startChatPolling(){
 
                 try{
 
-                    const room =
-                        chatRoomId();
-
-
                     const fresh =
                         await dbGet(
-                            `chats/${encodeURIComponent(room)}/messages`
+                            `chats/${encodeURIComponent(chatRoomId())}/messages`
                         ) || {};
 
 
@@ -7329,30 +6320,12 @@ function startChatPolling(){
                         ).length;
 
 
-                    const oldIds =
-                        new Set(
-                            Object.keys(
-                                chatMessages
-                            )
-                        );
-
-
-                    const hasNew =
-                        Object.keys(
-                            fresh
-                        )
-                        .some(
-                            id =>
-                                !oldIds.has(id)
-                        );
-
-
                     const chatActive =
                         $("pageChat")
-                        .classList
-                        .contains(
-                            "active"
-                        );
+                            .classList
+                            .contains(
+                                "active"
+                            );
 
 
                     if(
@@ -7378,17 +6351,12 @@ function startChatPolling(){
                         newCount;
 
 
-                    await prepareChatProfiles();
-
-
                     renderChat(
-                        hasNew
+                        false
                     );
 
 
-                    if(
-                        chatActive
-                    ){
+                    if(chatActive){
 
                         await markVisibleMessagesRead();
 
@@ -7415,52 +6383,34 @@ function startChatPolling(){
 
 function reactionSummary(message){
 
-    const reactions =
+    const result = {};
+
+
+    Object.values(
         message.reactions ||
-        {};
-
-
-    const groups = {};
-
-
-    Object.entries(
-        reactions
+        {}
     )
     .forEach(
-        ([code,emoji]) => {
+        emoji => {
 
-            if(
-                !emoji
-            ){
+            if(!emoji){
 
                 return;
 
             }
 
 
-            if(
-                !groups[
-                    emoji
-                ]
-            ){
-
-                groups[
-                    emoji
-                ] = [];
-
-            }
-
-
-            groups[
-                emoji
-            ]
-            .push(code);
+            result[emoji] =
+                (
+                    result[emoji] ||
+                    0
+                ) + 1;
 
         }
     );
 
 
-    return groups;
+    return result;
 
 }
 
@@ -7471,17 +6421,6 @@ async function reactToMessage(
 ){
 
     closeAllMessageActions();
-
-
-    if(
-        !chatMessages[
-            messageId
-        ]
-    ){
-
-        return;
-
-    }
 
 
     const current =
@@ -7504,42 +6443,15 @@ async function reactToMessage(
     );
 
 
-    if(
-        !chatMessages[
-            messageId
-        ].reactions
-    ){
-
-        chatMessages[
-            messageId
-        ].reactions = {};
-
-    }
+    chatMessages =
+        await dbGet(
+            `chats/${encodeURIComponent(chatRoomId())}/messages`
+        ) || {};
 
 
-    if(next){
-
-        chatMessages[
-            messageId
-        ].reactions[
-            STUDENT_CODE
-        ] =
-            next;
-
-    }
-
-    else{
-
-        delete chatMessages[
-            messageId
-        ].reactions[
-            STUDENT_CODE
-        ];
-
-    }
-
-
-    renderChat(false);
+    renderChat(
+        false
+    );
 
 }
 
@@ -7548,22 +6460,16 @@ window.reactToMessage =
     reactToMessage;
 
 
-/* =========================================================
-   CLICK MESSAGE -> SHOW ACTIONS
-========================================================= */
+function toggleMessageActions(id){
 
-function toggleMessageActions(
-    messageId
-){
-
-    const current =
+    const popup =
         document.querySelector(
-            `.message-action-popup[data-action-for="${CSS.escape(messageId)}"]`
+            `[data-action-for="${CSS.escape(id)}"]`
         );
 
 
-    const wasOpen =
-        current?.classList.contains(
+    const opened =
+        popup?.classList.contains(
             "show"
         );
 
@@ -7572,18 +6478,18 @@ function toggleMessageActions(
 
 
     if(
-        !wasOpen &&
-        current
+        popup &&
+        !opened
     ){
 
-        current
+        popup
             .classList.add(
                 "show"
             );
 
 
         activeMessageActionId =
-            messageId;
+            id;
 
     }
 
@@ -7598,7 +6504,7 @@ function closeAllMessageActions(){
 
     document
     .querySelectorAll(
-        ".message-action-popup.show"
+        ".message-action-popup"
     )
     .forEach(
         popup =>
@@ -7618,19 +6524,13 @@ function closeAllMessageActions(){
    REPLY
 ========================================================= */
 
-function startReply(
-    messageId
-){
+function startReply(id){
 
     const message =
-        chatMessages[
-            messageId
-        ];
+        chatMessages[id];
 
 
-    if(
-        !message
-    ){
+    if(!message){
 
         return;
 
@@ -7639,17 +6539,13 @@ function startReply(
 
     replyingTo = {
 
-        messageId,
+        messageId:id,
 
         senderCode:
-            message.senderCode ||
-            "",
+            message.senderCode,
 
         senderName:
             message.senderName ||
-            chatUserProfiles[
-                message.senderCode
-            ]?.name ||
             "طالب",
 
         text:
@@ -7659,7 +6555,7 @@ function startReply(
             )
             .slice(
                 0,
-                150
+                120
             )
 
     };
@@ -7691,113 +6587,23 @@ window.startReply =
     startReply;
 
 
-function clearReply(){
-
-    replyingTo =
-        null;
-
-
-    $("replyCompose")
-        .classList.remove(
-            "show"
-        );
-
-}
-
-
 $("replyClose").onclick =
-    clearReply;
+    () => {
+
+        replyingTo = null;
 
 
-/* =========================================================
-   MENTION / @
-========================================================= */
-
-function getMentionQuery(
-    text,
-    cursor
-){
-
-    const before =
-        text.slice(
-            0,
-            cursor
-        );
-
-
-    const at =
-        before.lastIndexOf(
-            "@"
-        );
-
-
-    if(
-        at === -1
-    ){
-
-        return null;
-
-    }
-
-
-    /*
-       إذا توجد مسافة ثم @ فهذا صحيح.
-    */
-
-    if(
-        at > 0
-    ){
-
-        const beforeAt =
-            before[
-                at - 1
-            ];
-
-
-        if(
-            !/\s/.test(
-                beforeAt
-            )
-        ){
-
-            return null;
-
-        }
-
-    }
-
-
-    const query =
-        before.slice(
-            at + 1
-        );
-
-
-    /*
-       إذا كتب سطر جديد أو فاصلة كبيرة
-       نغلق الاقتراح.
-    */
-
-    if(
-        query.includes("\n") ||
-        query.length > 40
-    ){
-
-        return null;
-
-    }
-
-
-    return {
-
-        start:at,
-
-        query
+        $("replyCompose")
+            .classList.remove(
+                "show"
+            );
 
     };
 
-}
 
+/* =========================================================
+   MENTION
+========================================================= */
 
 function updateMentionPanel(){
 
@@ -7805,16 +6611,18 @@ function updateMentionPanel(){
         $("chatInput");
 
 
-    const state =
-        getMentionQuery(
-            input.value,
+    const before =
+        input.value.slice(
+            0,
             input.selectionStart
         );
 
 
-    if(
-        !state
-    ){
+    const at =
+        before.lastIndexOf("@");
+
+
+    if(at < 0){
 
         hideMentionPanel();
 
@@ -7823,64 +6631,55 @@ function updateMentionPanel(){
     }
 
 
+    const query =
+        before
+        .slice(
+            at + 1
+        )
+        .trim()
+        .toLowerCase();
+
+
     mentionState = {
 
         active:true,
 
-        start:
-            state.start,
+        start:at,
 
-        query:
-            state.query
+        query
 
     };
 
 
-    const search =
-        norm(
-            state.query
-        );
-
-
     const results =
         classStudents
+
         .filter(
-            item => {
-
-                if(
-                    item.code ===
-                    STUDENT_CODE
-                ){
-
-                    return false;
-
-                }
-
-
-                const name =
-                    norm(
-                        item.name
-                    );
-
-
-                return (
-                    !search ||
-                    name.includes(
-                        search
-                    )
-                );
-
-            }
+            item =>
+                item.code !==
+                STUDENT_CODE
         )
+
+        .filter(
+            item =>
+                !query ||
+                String(
+                    item.name ||
+                    ""
+                )
+                .toLowerCase()
+                .includes(
+                    query
+                )
+        )
+
         .slice(
             0,
             20
         );
 
 
-    if(
-        !results.length
-    ){
+    if(!results.length){
 
         hideMentionPanel();
 
@@ -7892,84 +6691,63 @@ function updateMentionPanel(){
     $("mentionList").innerHTML =
         results
         .map(
-            item => {
+            item => `
 
-                const image =
-                    item.profileImage ||
-                    "";
+                <button
+                    type="button"
+                    class="mention-item"
+                    onclick="selectMention('${esc(item.code)}')"
+                >
 
+                    <div class="mention-avatar">
 
-                const avatar =
-                    image
+                        ${
+                            item.profileImage
 
-                        ? `
-
-                            <div class="mention-avatar">
+                            ? `
 
                                 <img
-                                    src="${esc(image)}"
+                                    src="${esc(item.profileImage)}"
                                     alt=""
                                 >
 
-                            </div>
+                            `
 
-                        `
-
-                        : `
-
-                            <div class="mention-avatar">
-
-                                ${esc(
-                                    String(
-                                        item.name ||
-                                        "ط"
-                                    )
-                                    .trim()
-                                    .charAt(0) ||
-                                    "ط"
-                                )}
-
-                            </div>
-
-                        `;
-
-
-                return `
-
-                    <button
-                        type="button"
-                        class="mention-item"
-                        onclick="selectMention('${esc(item.code)}')"
-                    >
-
-                        ${avatar}
-
-
-                        <div class="mention-info">
-
-                            <div class="mention-name">
-
-                                ${esc(
+                            : esc(
+                                String(
                                     item.name ||
-                                    "طالب"
-                                )}
+                                    "ط"
+                                )
+                                .charAt(0)
+                            )
+                        }
 
-                            </div>
+                    </div>
 
 
-                            <div class="mention-code">
+                    <div class="mention-info">
 
-                                ${esc(item.code)}
+                        <div class="mention-name">
 
-                            </div>
+                            ${esc(
+                                item.name ||
+                                "طالب"
+                            )}
 
                         </div>
 
-                    </button>
 
-                `;
+                        <div class="mention-code">
 
-            }
+                            ${esc(item.code)}
+
+                        </div>
+
+                    </div>
+
+                </button>
+
+            `
         )
         .join("");
 
@@ -7984,17 +6762,6 @@ function updateMentionPanel(){
 
 function hideMentionPanel(){
 
-    mentionState = {
-
-        active:false,
-
-        start:-1,
-
-        query:""
-
-    };
-
-
     $("mentionPanel")
         .classList.remove(
             "show"
@@ -8008,14 +6775,11 @@ function selectMention(code){
     const target =
         classStudents.find(
             item =>
-                item.code ===
-                code
+                item.code === code
         );
 
 
-    if(
-        !target
-    ){
+    if(!target){
 
         return;
 
@@ -8043,33 +6807,18 @@ function selectMention(code){
         );
 
 
-    const mentionText =
-        `@${target.name} `;
+    const value =
+        `${before}@${target.name} ${after}`;
 
 
     input.value =
-        before +
-        mentionText +
-        after;
-
-
-    const newPosition =
-        (
-            before +
-            mentionText
-        ).length;
-
-
-    input.focus();
-
-
-    input.setSelectionRange(
-        newPosition,
-        newPosition
-    );
+        value;
 
 
     hideMentionPanel();
+
+
+    input.focus();
 
 }
 
@@ -8086,166 +6835,68 @@ $("chatInput")
 
 
 /* =========================================================
-   RENDER TEXT WITH MENTIONS
+   RENDER CHAT
 ========================================================= */
 
-function renderChatText(text){
-
-    let safe =
-        esc(
-            text
-        );
-
-
-    /*
-       نحول @اسم إلى تنسيق أزرق.
-       هذا تنسيق بصري فقط.
-    */
-
-    safe =
-        safe.replace(
-            /(^|\s)(@[^\s@]{2,}(?:\s+[^\s@]{2,}){0,3})/g,
-            function(
-                full,
-                prefix,
-                mention
-            ){
-
-                return `${prefix}<span class="mention">${mention}</span>`;
-
-            }
-        );
-
-
-    return safe;
-
-}
-
-
-/* =========================================================
-   RENDER REACTION SUMMARY
-========================================================= */
-
-function renderMessageReactions(
-    message
-){
-
-    const groups =
-        reactionSummary(
-            message
-        );
-
-
-    const entries =
-        Object.entries(
-            groups
-        );
-
-
-    if(
-        !entries.length
-    ){
-
-        return "";
-
-    }
-
-
-    return `
-
-        <div class="reaction-summary">
-
-            ${
-                entries
-                .map(
-                    ([emoji,codes]) => {
-
-                        const mine =
-                            codes.includes(
-                                STUDENT_CODE
-                            );
-
-
-                        return `
-
-                            <button
-                                type="button"
-                                class="reaction-chip ${mine ? "mine" : ""}"
-                                onclick="event.stopPropagation();reactToMessage('${esc(message.id)}','${emoji}')"
-                            >
-
-                                <span>
-                                    ${emoji}
-                                </span>
-
-                                <span>
-                                    ${codes.length}
-                                </span>
-
-                            </button>
-
-                        `;
-
-                    }
-                )
-                .join("")
-            }
-
-        </div>
-
-    `;
-
-}
-
-
-/* =========================================================
-   ACTION POPUP
-========================================================= */
-
-function messageActionPopup(
-    messageId
-){
-
-    const emojis = [
-        "👍",
-        "❤️",
-        "😂",
-        "😮",
-        "😢"
-    ];
-
+function messageActionPopup(id){
 
     return `
 
         <div
             class="message-action-popup"
-            data-action-for="${esc(messageId)}"
+            data-action-for="${esc(id)}"
             onclick="event.stopPropagation()"
         >
 
-            ${
-                emojis
-                .map(
-                    emoji => `
+            <button
+                type="button"
+                class="reaction-popup-btn"
+                onclick="reactToMessage('${esc(id)}','👍')"
+            >
+                👍
+            </button>
 
-                        <button
-                            type="button"
-                            class="reaction-popup-btn"
-                            onclick="reactToMessage('${esc(messageId)}','${emoji}')"
-                        >
-                            ${emoji}
-                        </button>
 
-                    `
-                )
-                .join("")
-            }
+            <button
+                type="button"
+                class="reaction-popup-btn"
+                onclick="reactToMessage('${esc(id)}','❤️')"
+            >
+                ❤️
+            </button>
+
+
+            <button
+                type="button"
+                class="reaction-popup-btn"
+                onclick="reactToMessage('${esc(id)}','😂')"
+            >
+                😂
+            </button>
+
+
+            <button
+                type="button"
+                class="reaction-popup-btn"
+                onclick="reactToMessage('${esc(id)}','😮')"
+            >
+                😮
+            </button>
+
+
+            <button
+                type="button"
+                class="reaction-popup-btn"
+                onclick="reactToMessage('${esc(id)}','😢')"
+            >
+                😢
+            </button>
 
 
             <button
                 type="button"
                 class="reply-popup-btn"
-                onclick="startReply('${esc(messageId)}')"
+                onclick="startReply('${esc(id)}')"
             >
                 رد
             </button>
@@ -8257,291 +6908,9 @@ function messageActionPopup(
 }
 
 
-/* =========================================================
-   SEEN
-========================================================= */
-
-function seenHTML(message){
-
-    if(
-        message.senderCode !==
-        STUDENT_CODE
-    ){
-
-        return "";
-
-    }
-
-
-    const readBy =
-        message.readBy ||
-        {};
-
-
-    const viewers =
-        Object.keys(
-            readBy
-        )
-        .filter(
-            code =>
-                code !==
-                STUDENT_CODE
-        );
-
-
-    if(
-        !viewers.length
-    ){
-
-        return `
-
-            <div class="seen-row">
-
-                <span class="seen-text">
-
-                    تم الإرسال ✓
-
-                </span>
-
-            </div>
-
-        `;
-
-    }
-
-
-    const latest =
-        viewers
-        .sort(
-            (a,b) =>
-                Number(
-                    readBy[b] ||
-                    0
-                ) -
-                Number(
-                    readBy[a] ||
-                    0
-                )
-        )
-        .slice(
-            0,
-            5
-        );
-
-
-    const avatars =
-        latest
-        .map(
-            code => {
-
-                const profile =
-                    chatUserProfiles[
-                        code
-                    ] || {};
-
-
-                const image =
-                    profile.profileImage ||
-                    "";
-
-
-                const name =
-                    profile.name ||
-                    code;
-
-
-                if(image){
-
-                    return `
-
-                        <div
-                            class="seen-avatar"
-                            title="${esc(name)}"
-                        >
-
-                            <img
-                                src="${esc(image)}"
-                                alt=""
-                            >
-
-                        </div>
-
-                    `;
-
-                }
-
-
-                return `
-
-                    <div
-                        class="seen-avatar"
-                    >
-
-                        <div class="seen-avatar-letter">
-
-                            ${esc(
-                                String(name)
-                                .charAt(0) ||
-                                "ط"
-                            )}
-
-                        </div>
-
-                    </div>
-
-                `;
-
-            }
-        )
-        .join("");
-
-
-    return `
-
-        <div class="seen-row">
-
-            <span class="seen-text">
-                تمت المشاهدة
-            </span>
-
-
-            <div class="seen-avatars">
-
-                ${avatars}
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-/* =========================================================
-   MESSAGE AVATAR
-========================================================= */
-
-function messageAvatarHTML(
-    message,
-    name
-){
-
-    const profile =
-        chatUserProfiles[
-            message.senderCode
-        ] || {};
-
-
-    const image =
-        message.senderImage ||
-        profile.profileImage ||
-        "";
-
-
-    if(image){
-
-        return `
-
-            <div class="msg-avatar">
-
-                <img
-                    src="${esc(image)}"
-                    alt="${esc(name)}"
-                >
-
-            </div>
-
-        `;
-
-    }
-
-
-    return `
-
-        <div class="msg-avatar">
-
-            <div class="msg-avatar-letter">
-
-                ${esc(
-                    String(name)
-                    .trim()
-                    .charAt(0) ||
-                    "ط"
-                )}
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-/* =========================================================
-   REPLY PREVIEW
-========================================================= */
-
-function replyPreviewHTML(
-    message
-){
-
-    const reply =
-        message.replyTo;
-
-
-    if(
-        !reply ||
-        !reply.messageId
-    ){
-
-        return "";
-
-    }
-
-
-    return `
-
-        <div class="message-reply-preview">
-
-            <strong>
-
-                رد على
-                ${esc(
-                    reply.senderName ||
-                    "طالب"
-                )}
-
-            </strong>
-
-            <span>
-
-                ${esc(
-                    reply.text ||
-                    ""
-                )}
-
-            </span>
-
-        </div>
-
-    `;
-
-}
-
-
-/* =========================================================
-   RENDER CHAT
-========================================================= */
-
 function renderChat(
     forceScroll = false
 ){
-
-    $("chatLocked").innerHTML =
-        "";
-
 
     $("chatContent")
         .classList.remove(
@@ -8553,12 +6922,12 @@ function renderChat(
         $("messages");
 
 
-    const wasNearBottom =
+    const nearBottom =
         (
             box.scrollHeight -
             box.scrollTop -
             box.clientHeight
-        ) < 120;
+        ) < 100;
 
 
     const messages =
@@ -8580,9 +6949,7 @@ function renderChat(
         );
 
 
-    if(
-        !messages.length
-    ){
+    if(!messages.length){
 
         box.innerHTML = `
 
@@ -8610,16 +6977,47 @@ function renderChat(
                     STUDENT_CODE;
 
 
-                const profile =
-                    chatUserProfiles[
-                        message.senderCode
-                    ] || {};
-
-
                 const name =
                     message.senderName ||
-                    profile.name ||
                     "طالب";
+
+
+                const image =
+                    message.senderImage ||
+                    chatUserProfiles[
+                        message.senderCode
+                    ]?.profileImage ||
+                    "";
+
+
+                const reactions =
+                    reactionSummary(
+                        message
+                    );
+
+
+                const reactionHTML =
+                    Object.entries(
+                        reactions
+                    )
+                    .map(
+                        ([emoji,count]) => `
+
+                            <div class="reaction-chip">
+
+                                <span>
+                                    ${emoji}
+                                </span>
+
+                                <span>
+                                    ${count}
+                                </span>
+
+                            </div>
+
+                        `
+                    )
+                    .join("");
 
 
                 return `
@@ -8631,10 +7029,35 @@ function renderChat(
                         <div class="msg-side">
 
 
-                            ${messageAvatarHTML(
-                                message,
-                                name
-                            )}
+                            <div class="msg-avatar">
+
+                                ${
+                                    image
+
+                                    ? `
+
+                                        <img
+                                            src="${esc(image)}"
+                                            alt=""
+                                        >
+
+                                    `
+
+                                    : `
+
+                                        <div class="msg-avatar-letter">
+
+                                            ${esc(
+                                                name.charAt(0) ||
+                                                "ط"
+                                            )}
+
+                                        </div>
+
+                                    `
+                                }
+
+                            </div>
 
 
                             <div class="msg-bubble-wrap">
@@ -8677,14 +7100,43 @@ function renderChat(
                                     </div>
 
 
-                                    ${replyPreviewHTML(
-                                        message
-                                    )}
+                                    ${
+                                        message.replyTo
+
+                                        ? `
+
+                                            <div class="message-reply-preview">
+
+                                                <strong>
+
+                                                    ${esc(
+                                                        message.replyTo.senderName ||
+                                                        "طالب"
+                                                    )}
+
+                                                </strong>
+
+
+                                                <span>
+
+                                                    ${esc(
+                                                        message.replyTo.text ||
+                                                        ""
+                                                    )}
+
+                                                </span>
+
+                                            </div>
+
+                                        `
+
+                                        : ""
+                                    }
 
 
                                     <div class="msg-text">
 
-                                        ${renderChatText(
+                                        ${esc(
                                             message.text ||
                                             ""
                                         )}
@@ -8692,16 +7144,34 @@ function renderChat(
                                     </div>
 
 
-                                    ${renderMessageReactions(
-                                        message
-                                    )}
+                                    ${
+                                        reactionHTML
+
+                                        ? `
+
+                                            <div class="reaction-summary">
+
+                                                ${reactionHTML}
+
+                                            </div>
+
+                                        `
+
+                                        : ""
+                                    }
 
                                 </div>
 
 
-                                ${seenHTML(
-                                    message
-                                )}
+                                ${
+                                    mine
+
+                                    ? seenHTML(
+                                        message
+                                    )
+
+                                    : ""
+                                }
 
                             </div>
 
@@ -8716,37 +7186,9 @@ function renderChat(
         .join("");
 
 
-    /*
-       إذا نفس الرسالة كانت مفتوحة
-       نحاول إعادة فتح القائمة بعد render.
-    */
-
-    if(
-        activeMessageActionId
-    ){
-
-        const popup =
-            document.querySelector(
-                `.message-action-popup[data-action-for="${CSS.escape(activeMessageActionId)}"]`
-            );
-
-
-        if(
-            popup
-        ){
-
-            popup.classList.add(
-                "show"
-            );
-
-        }
-
-    }
-
-
     if(
         forceScroll ||
-        wasNearBottom
+        nearBottom
     ){
 
         scrollChat();
@@ -8757,41 +7199,127 @@ function renderChat(
 
 
 /* =========================================================
-   CLICK OUTSIDE CLOSE ACTIONS
+   SEEN
 ========================================================= */
 
-document.addEventListener(
-    "click",
-    event => {
+function seenHTML(message){
 
-        if(
-            !event.target.closest(
-                ".msg"
-            ) &&
-            !event.target.closest(
-                ".message-action-popup"
-            )
-        ){
-
-            closeAllMessageActions();
-
-        }
+    const readBy =
+        message.readBy ||
+        {};
 
 
-        if(
-            !event.target.closest(
-                ".mention-panel"
-            ) &&
-            event.target !==
-            $("chatInput")
-        ){
+    const viewers =
+        Object.keys(readBy)
+        .filter(
+            code =>
+                code !==
+                STUDENT_CODE
+        );
 
-            hideMentionPanel();
 
-        }
+    if(!viewers.length){
+
+        return `
+
+            <div class="seen-row">
+
+                <span class="seen-text">
+
+                    تم الإرسال ✓
+
+                </span>
+
+            </div>
+
+        `;
 
     }
-);
+
+
+    const avatars =
+        viewers
+        .slice(
+            0,
+            5
+        )
+        .map(
+            code => {
+
+                const profile =
+                    chatUserProfiles[
+                        code
+                    ] ||
+                    {};
+
+
+                if(
+                    profile.profileImage
+                ){
+
+                    return `
+
+                        <div class="seen-avatar">
+
+                            <img
+                                src="${esc(profile.profileImage)}"
+                                alt=""
+                            >
+
+                        </div>
+
+                    `;
+
+                }
+
+
+                return `
+
+                    <div class="seen-avatar">
+
+                        <div class="seen-avatar-letter">
+
+                            ${esc(
+                                String(
+                                    profile.name ||
+                                    "ط"
+                                )
+                                .charAt(0)
+                            )}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+
+    return `
+
+        <div class="seen-row">
+
+            <span class="seen-text">
+
+                تمت المشاهدة
+
+            </span>
+
+
+            <div class="seen-avatars">
+
+                ${avatars}
+
+            </div>
+
+        </div>
+
+    `;
+
+}
 
 
 /* =========================================================
@@ -8799,15 +7327,6 @@ document.addEventListener(
 ========================================================= */
 
 async function markVisibleMessagesRead(){
-
-    if(
-        !canUseProtectedFeatures()
-    ){
-
-        return;
-
-    }
-
 
     const room =
         chatRoomId();
@@ -8843,44 +7362,23 @@ async function markVisibleMessagesRead(){
             }
 
 
-            const now =
-                Date.now();
-
-
             tasks.push(
 
                 dbPatch(
                     `chats/${encodeURIComponent(room)}/messages/${encodeURIComponent(id)}/readBy`,
                     {
                         [STUDENT_CODE]:
-                            now
+                            Date.now()
                     }
                 )
 
             );
 
-
-            if(
-                !message.readBy
-            ){
-
-                message.readBy = {};
-
-            }
-
-
-            message.readBy[
-                STUDENT_CODE
-            ] =
-                now;
-
         }
     );
 
 
-    if(
-        tasks.length
-    ){
+    if(tasks.length){
 
         try{
 
@@ -8894,12 +7392,6 @@ async function markVisibleMessagesRead(){
 
     }
 
-
-    setNavBadge(
-        "chatBadge",
-        0
-    );
-
 }
 
 
@@ -8909,17 +7401,6 @@ async function markVisibleMessagesRead(){
 
 async function sendMessage(){
 
-    if(
-        !canUseProtectedFeatures()
-    ){
-
-        showAccessModal();
-
-        return;
-
-    }
-
-
     const input =
         $("chatInput");
 
@@ -8928,9 +7409,7 @@ async function sendMessage(){
         input.value.trim();
 
 
-    if(
-        !text
-    ){
+    if(!text){
 
         return;
 
@@ -8943,40 +7422,25 @@ async function sendMessage(){
 
     try{
 
-        await refreshStudentAccess();
-
-
-        if(
-            !globalAccountActive()
-        ){
-
-            return;
-
-        }
-
-
         const blockedWords =
             await getBlockedWords();
 
 
-        const detectedWord =
+        const detected =
             findBlockedWord(
                 text,
                 blockedWords
             );
 
 
-        if(
-            detectedWord
-        ){
+        if(detected){
 
-            input.value =
-                "";
+            input.value = "";
 
 
             await registerBehaviorViolation(
                 text,
-                detectedWord
+                detected
             );
 
 
@@ -8995,20 +7459,13 @@ async function sendMessage(){
                 STUDENT_CODE,
 
             senderName:
-                student.name ||
-                "",
+                student.name || "",
 
             senderImage:
-                student.profileImage ||
-                "",
+                student.profileImage || "",
 
             classId:
-                student.classId ||
-                "",
-
-            roomNumber:
-                student.roomNumber ||
-                "",
+                student.classId || "",
 
             text,
 
@@ -9028,13 +7485,7 @@ async function sendMessage(){
         };
 
 
-        /*
-           إذا يوجد رد.
-        */
-
-        if(
-            replyingTo
-        ){
+        if(replyingTo){
 
             data.replyTo = {
 
@@ -9061,11 +7512,17 @@ async function sendMessage(){
         );
 
 
-        input.value =
-            "";
+        input.value = "";
 
 
-        clearReply();
+        replyingTo = null;
+
+
+        $("replyCompose")
+            .classList.remove(
+                "show"
+            );
+
 
         hideMentionPanel();
 
@@ -9074,12 +7531,6 @@ async function sendMessage(){
             await dbGet(
                 `chats/${encodeURIComponent(chatRoomId())}/messages`
             ) || {};
-
-
-        lastChatCount =
-            Object.keys(
-                chatMessages
-            ).length;
 
 
         renderChat(
@@ -9109,10 +7560,6 @@ async function sendMessage(){
 }
 
 
-/* =========================================================
-   SEND EVENTS
-========================================================= */
-
 $("sendBtn").onclick =
     sendMessage;
 
@@ -9131,6 +7578,32 @@ $("chatInput")
 
 
             sendMessage();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   CLICK OUTSIDE
+========================================================= */
+
+document
+.addEventListener(
+    "click",
+    event => {
+
+        if(
+            !event.target.closest(
+                ".msg"
+            ) &&
+            !event.target.closest(
+                ".message-action-popup"
+            )
+        ){
+
+            closeAllMessageActions();
 
         }
 
@@ -9220,9 +7693,10 @@ if(
 
             if(
                 $("pageChat")
-                    .classList.contains(
-                        "active"
-                    )
+                .classList
+                .contains(
+                    "active"
+                )
             ){
 
                 setTimeout(
