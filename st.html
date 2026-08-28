@@ -17,13 +17,13 @@
 <style>
 
 :root{
+
     --blue:#075fcf;
-    --blue2:#064ca8;
-    --blue3:#0b72e7;
+    --blue-dark:#064ca8;
 
     --soft:#eef6ff;
     --bg:#f5f8fc;
-    --white:#fff;
+    --white:#ffffff;
 
     --text:#172033;
     --muted:#667085;
@@ -42,51 +42,81 @@
     --shadow:
         0 15px 45px
         rgba(31,55,86,.10);
+
 }
 
+
 *{
+
     margin:0;
     padding:0;
+
     box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+
+    -webkit-tap-highlight-color:
+        transparent;
+
 }
+
 
 html,
 body{
+
     width:100%;
     min-height:100%;
+
 }
+
 
 html{
-    background:var(--bg);
+
+    background:
+        var(--bg);
+
 }
 
+
 body{
+
     font-family:
         Tahoma,
         Arial,
         sans-serif;
 
-    background:var(--bg);
-    color:var(--text);
+    background:
+        var(--bg);
+
+    color:
+        var(--text);
 
     overflow-x:hidden;
 
-    -webkit-text-size-adjust:100%;
+    -webkit-text-size-adjust:
+        100%;
+
 }
+
 
 button,
 input,
 textarea{
+
     font:inherit;
+
 }
+
 
 button{
+
     cursor:pointer;
+
 }
 
+
 .hidden{
+
     display:none!important;
+
 }
 
 
@@ -95,32 +125,44 @@ button{
 ========================================================= */
 
 .loader-screen{
+
     position:fixed;
+
     inset:0;
 
     z-index:99999;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
     background:#fff;
+
 }
+
 
 .loader-box{
+
     text-align:center;
+
 }
 
+
 .loader-logo{
+
     width:85px;
     height:85px;
 
     object-fit:contain;
 
     margin-bottom:18px;
+
 }
 
+
 .loader{
+
     width:38px;
     height:38px;
 
@@ -139,15 +181,20 @@ button{
         spin .8s
         linear
         infinite;
+
 }
 
+
 .loader-box p{
+
     margin-top:13px;
 
-    color:var(--muted);
+    color:
+        var(--muted);
 
     font-size:11px;
     font-weight:800;
+
 }
 
 
@@ -156,6 +203,7 @@ button{
 ========================================================= */
 
 .app{
+
     width:100%;
 
     min-height:100vh;
@@ -163,13 +211,17 @@ button{
 
     padding-bottom:
         calc(
-            95px +
+            96px +
             env(safe-area-inset-bottom)
         );
+
 }
 
+
 .topbar{
+
     position:sticky;
+
     top:0;
 
     z-index:80;
@@ -177,6 +229,7 @@ button{
     min-height:72px;
 
     display:flex;
+
     align-items:center;
     justify-content:space-between;
 
@@ -202,31 +255,44 @@ button{
     border-bottom:
         1px solid
         var(--border);
+
 }
 
+
 .top-brand{
+
     min-width:0;
 
     display:flex;
+
     align-items:center;
 
     gap:10px;
+
 }
 
+
 .top-logo{
+
     width:49px;
     height:49px;
 
     flex:none;
 
     object-fit:contain;
+
 }
+
 
 .top-title{
+
     min-width:0;
+
 }
 
+
 .top-title h1{
+
     font-size:13px;
     font-weight:900;
 
@@ -234,18 +300,25 @@ button{
 
     overflow:hidden;
     text-overflow:ellipsis;
+
 }
 
+
 .top-title p{
+
     margin-top:3px;
 
-    color:var(--blue);
+    color:
+        var(--blue);
 
     font-size:9px;
     font-weight:900;
+
 }
 
+
 .logout{
+
     flex:none;
 
     border:0;
@@ -257,31 +330,43 @@ button{
     border-radius:12px;
 
     background:#f1f4f7;
+
     color:#475467;
 
     font-size:9px;
     font-weight:900;
+
 }
 
+
 .content{
+
     width:100%;
+
     max-width:920px;
 
     margin:auto;
 
     padding:16px;
+
 }
 
+
 .page{
+
     display:none;
 
     animation:
-        pageIn .30s
+        pageIn .3s
         cubic-bezier(.16,1,.3,1);
+
 }
 
+
 .page.active{
+
     display:block;
+
 }
 
 
@@ -290,6 +375,7 @@ button{
 ========================================================= */
 
 .student-hero{
+
     position:relative;
 
     overflow:hidden;
@@ -301,11 +387,13 @@ button{
     color:#fff;
 
     background:
+
         radial-gradient(
             circle at 0 0,
             rgba(255,255,255,.17),
             transparent 35%
         ),
+
         linear-gradient(
             135deg,
             #0872e7,
@@ -316,62 +404,30 @@ button{
     box-shadow:
         0 19px 45px
         rgba(7,95,207,.20);
+
 }
 
-.student-hero::before{
-    content:"";
-
-    position:absolute;
-
-    width:190px;
-    height:190px;
-
-    top:-110px;
-    left:-70px;
-
-    border-radius:50%;
-
-    background:
-        rgba(255,255,255,.08);
-}
-
-.student-hero::after{
-    content:"";
-
-    position:absolute;
-
-    width:150px;
-    height:150px;
-
-    right:-70px;
-    bottom:-90px;
-
-    border-radius:50%;
-
-    background:
-        rgba(255,255,255,.06);
-}
-
-.hero-content{
-    position:relative;
-
-    z-index:2;
-}
 
 .hero-head{
+
     display:flex;
+
     align-items:center;
 
     gap:13px;
+
 }
 
+
 .avatar{
+
     width:63px;
     height:63px;
 
     flex:none;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
@@ -388,54 +444,76 @@ button{
 
     font-size:24px;
     font-weight:900;
+
 }
 
+
 .avatar img{
+
     width:100%;
     height:100%;
 
     display:block;
 
     object-fit:cover;
+
 }
+
 
 .hero-info{
+
     min-width:0;
+
 }
 
+
 .hero-info h2{
+
     font-size:18px;
     font-weight:900;
 
     line-height:1.5;
 
     overflow:hidden;
+
     text-overflow:ellipsis;
+
 }
 
+
 .hero-info p{
+
     margin-top:3px;
 
     direction:ltr;
+
     text-align:right;
 
     font-size:10px;
 
     opacity:.9;
+
 }
 
+
 .hero-tags{
+
     display:flex;
+
     flex-wrap:wrap;
 
     gap:7px;
 
     margin-top:17px;
+
 }
 
+
 .hero-tag{
+
     padding:
-        7px 10px;
+        7px
+        10px;
 
     border-radius:999px;
 
@@ -448,20 +526,57 @@ button{
 
     font-size:8px;
     font-weight:900;
+
 }
 
 
 /* =========================================================
-   ACCESS WARNING
+   COMMON
 ========================================================= */
 
+.section-head{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    gap:10px;
+
+    margin:
+        22px 2px
+        11px;
+
+}
+
+
+.section-head h3{
+
+    font-size:15px;
+    font-weight:900;
+
+}
+
+
+.section-head span{
+
+    color:
+        var(--muted);
+
+    font-size:9px;
+
+}
+
+
 .access-warning{
+
     display:none;
 
     margin-top:13px;
 
     padding:
-        13px 14px;
+        13px
+        14px;
 
     border-radius:16px;
 
@@ -476,57 +591,38 @@ button{
 
     font-size:10px;
     line-height:1.8;
+
     font-weight:800;
+
 }
+
 
 .access-warning.show{
+
     display:block;
+
 }
 
+
 .access-warning.blocked{
+
+    color:
+        var(--red);
+
     background:
         var(--red-bg);
 
-    border-color:
-        #f6c4c4;
+    border-color:#f6c4c4;
 
-    color:var(--red);
 }
 
 
 /* =========================================================
-   TITLES
-========================================================= */
-
-.section-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    gap:10px;
-
-    margin:
-        22px 2px
-        11px;
-}
-
-.section-head h3{
-    font-size:15px;
-    font-weight:900;
-}
-
-.section-head span{
-    color:var(--muted);
-
-    font-size:9px;
-}
-
-
-/* =========================================================
-   INFO
+   INFO GRID
 ========================================================= */
 
 .info-grid{
+
     display:grid;
 
     grid-template-columns:
@@ -536,9 +632,12 @@ button{
         );
 
     gap:9px;
+
 }
 
+
 .info-card{
+
     min-width:0;
 
     padding:13px;
@@ -554,20 +653,27 @@ button{
     box-shadow:
         0 6px 20px
         rgba(20,40,70,.045);
+
 }
 
+
 .info-card small{
+
     display:block;
 
     margin-bottom:5px;
 
-    color:var(--muted);
+    color:
+        var(--muted);
 
     font-size:8px;
     font-weight:800;
+
 }
 
+
 .info-card strong{
+
     display:block;
 
     font-size:11px;
@@ -576,6 +682,7 @@ button{
     line-height:1.6;
 
     word-break:break-word;
+
 }
 
 
@@ -584,10 +691,12 @@ button{
 ========================================================= */
 
 .status-box{
+
     overflow:hidden;
 
     padding:
-        4px 14px;
+        4px
+        14px;
 
     border-radius:19px;
 
@@ -599,12 +708,16 @@ button{
 
     box-shadow:
         var(--shadow);
+
 }
 
+
 .status-row{
+
     min-height:48px;
 
     display:flex;
+
     align-items:center;
     justify-content:space-between;
 
@@ -613,47 +726,83 @@ button{
     border-bottom:
         1px solid
         #f0f2f5;
+
 }
+
 
 .status-row:last-child{
+
     border-bottom:0;
+
 }
 
+
 .status-row > span{
-    color:var(--muted);
+
+    color:
+        var(--muted);
 
     font-size:10px;
     font-weight:700;
+
 }
 
+
 .badge{
+
     padding:
-        6px 9px;
+        6px
+        9px;
 
     border-radius:999px;
 
     font-size:8px;
     font-weight:900;
+
 }
+
 
 .badge.green{
-    color:var(--green);
-    background:var(--green-bg);
+
+    color:
+        var(--green);
+
+    background:
+        var(--green-bg);
+
 }
 
-.badge.red{
-    color:var(--red);
-    background:var(--red-bg);
-}
-
-.badge.blue{
-    color:var(--blue);
-    background:var(--soft);
-}
 
 .badge.orange{
-    color:var(--orange);
-    background:var(--orange-bg);
+
+    color:
+        var(--orange);
+
+    background:
+        var(--orange-bg);
+
+}
+
+
+.badge.red{
+
+    color:
+        var(--red);
+
+    background:
+        var(--red-bg);
+
+}
+
+
+.badge.blue{
+
+    color:
+        var(--blue);
+
+    background:
+        var(--soft);
+
 }
 
 
@@ -662,10 +811,12 @@ button{
 ========================================================= */
 
 .lock-box{
+
     margin-top:35px;
 
     padding:
-        28px 20px;
+        28px
+        20px;
 
     text-align:center;
 
@@ -679,13 +830,17 @@ button{
 
     box-shadow:
         var(--shadow);
+
 }
 
+
 .lock-icon{
+
     width:72px;
     height:72px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
@@ -703,28 +858,28 @@ button{
 
     font-size:29px;
     font-weight:900;
+
 }
 
-.lock-box.blocked .lock-icon{
-    background:
-        var(--red-bg);
-
-    color:
-        var(--red);
-}
 
 .lock-box h3{
+
     font-size:17px;
     font-weight:900;
+
 }
 
+
 .lock-box p{
+
     margin-top:8px;
 
-    color:var(--muted);
+    color:
+        var(--muted);
 
     font-size:10px;
     line-height:1.9;
+
 }
 
 
@@ -733,12 +888,16 @@ button{
 ========================================================= */
 
 .notice-list{
+
     display:grid;
 
     gap:10px;
+
 }
 
+
 .notice{
+
     position:relative;
 
     padding:15px;
@@ -754,37 +913,53 @@ button{
     box-shadow:
         0 7px 22px
         rgba(20,40,70,.045);
+
 }
 
+
 .notice.unread{
+
     border-right:
         4px solid
         var(--blue);
 
     background:#fbfdff;
+
 }
 
+
 .notice-head{
+
     display:flex;
+
     justify-content:space-between;
 
     gap:10px;
+
 }
+
 
 .notice h4{
+
     font-size:12px;
     font-weight:900;
+
 }
 
+
 .notice-date{
+
     flex:none;
 
     color:#98a2b3;
 
     font-size:8px;
+
 }
 
+
 .notice p{
+
     margin-top:8px;
 
     color:#475467;
@@ -793,15 +968,20 @@ button{
     line-height:1.9;
 
     white-space:pre-wrap;
+
 }
 
+
 .notice-from{
+
     margin-top:9px;
 
-    color:var(--blue);
+    color:
+        var(--blue);
 
     font-size:8px;
     font-weight:900;
+
 }
 
 
@@ -810,12 +990,16 @@ button{
 ========================================================= */
 
 .subject-list{
+
     display:grid;
 
     gap:10px;
+
 }
 
+
 .subject-card{
+
     padding:15px;
 
     border-radius:19px;
@@ -829,47 +1013,79 @@ button{
     box-shadow:
         0 7px 22px
         rgba(20,40,70,.05);
+
 }
 
+
 .subject-head{
+
     display:flex;
+
     align-items:center;
     justify-content:space-between;
 
     gap:10px;
+
 }
+
 
 .subject-name{
+
     font-size:13px;
     font-weight:900;
+
 }
 
+
 .subject-result{
+
     padding:
-        6px 9px;
+        6px
+        9px;
 
     border-radius:999px;
 
     font-size:8px;
     font-weight:900;
+
 }
+
 
 .subject-result.pass{
-    color:var(--green);
-    background:var(--green-bg);
+
+    color:
+        var(--green);
+
+    background:
+        var(--green-bg);
+
 }
+
 
 .subject-result.fail{
-    color:var(--red);
-    background:var(--red-bg);
+
+    color:
+        var(--red);
+
+    background:
+        var(--red-bg);
+
 }
+
 
 .subject-result.wait{
-    color:var(--orange);
-    background:var(--orange-bg);
+
+    color:
+        var(--orange);
+
+    background:
+        var(--orange-bg);
+
 }
 
+
 .mini-grades{
+
     display:grid;
 
     grid-template-columns:
@@ -878,42 +1094,54 @@ button{
     gap:6px;
 
     margin-top:12px;
+
 }
 
+
 .mini-grade{
-    min-width:0;
 
     padding:
-        9px 4px;
+        8px
+        4px;
 
     text-align:center;
 
-    border-radius:12px;
+    border-radius:11px;
 
     background:#f8fafc;
+
 }
 
+
 .mini-grade small{
+
     display:block;
 
     min-height:22px;
 
-    color:var(--muted);
+    color:
+        var(--muted);
 
     font-size:7px;
     line-height:1.4;
+
 }
 
+
 .mini-grade strong{
+
     display:block;
 
     margin-top:3px;
 
     font-size:11px;
     font-weight:900;
+
 }
 
+
 .grade-table-wrap{
+
     margin-top:15px;
 
     overflow:auto;
@@ -925,20 +1153,27 @@ button{
         var(--border);
 
     background:#fff;
+
 }
 
+
 .grade-table{
+
     width:100%;
 
     min-width:950px;
 
     border-collapse:collapse;
+
 }
+
 
 .grade-table th,
 .grade-table td{
+
     padding:
-        11px 8px;
+        11px
+        8px;
 
     text-align:center;
 
@@ -947,21 +1182,28 @@ button{
         #edf0f4;
 
     font-size:9px;
+
 }
 
+
 .grade-table th{
+
     background:#f7f9fc;
 
     color:#475467;
 
     font-weight:900;
+
 }
 
+
 .result-card{
+
     margin-top:16px;
 
     padding:
-        22px 17px;
+        22px
+        17px;
 
     text-align:center;
 
@@ -975,28 +1217,51 @@ button{
             #099552,
             #05723e
         );
+
 }
 
+
 .result-card.fail{
+
     background:
         linear-gradient(
             135deg,
             #d64141,
             #a91f1f
         );
+
 }
+
+
+.result-card.special{
+
+    background:
+        linear-gradient(
+            135deg,
+            #0870e5,
+            #064a9d
+        );
+
+}
+
 
 .result-card h2{
-    margin:
-        9px 0 5px;
 
-    font-size:27px;
+    margin:
+        8px 0
+        5px;
+
+    font-size:25px;
     font-weight:900;
+
 }
 
+
 .result-card p{
+
     font-size:10px;
     line-height:1.9;
+
 }
 
 
@@ -1005,10 +1270,14 @@ button{
 ========================================================= */
 
 #pageChat{
+
     padding-bottom:0;
+
 }
 
+
 .chat-box{
+
     position:relative;
 
     width:100%;
@@ -1017,7 +1286,7 @@ button{
         calc(
             100dvh
             - 72px
-            - 30px
+            - 28px
             - 91px
             - env(safe-area-inset-bottom)
         );
@@ -1025,11 +1294,12 @@ button{
     min-height:470px;
 
     display:flex;
+
     flex-direction:column;
 
     overflow:hidden;
 
-    border-radius:23px;
+    border-radius:22px;
 
     background:#edf3f7;
 
@@ -1040,69 +1310,88 @@ button{
     box-shadow:
         0 10px 28px
         rgba(32,55,84,.07);
+
 }
 
+
 .chat-head{
+
     flex:none;
 
-    min-height:53px;
+    min-height:52px;
 
     display:flex;
+
     flex-direction:column;
     justify-content:center;
 
     padding:
-        9px 13px;
+        8px
+        12px;
 
     background:#fff;
 
     border-bottom:
         1px solid
         var(--border);
+
 }
+
 
 .chat-head h3{
+
     font-size:11px;
     font-weight:900;
+
 }
 
+
 .chat-head p{
+
     margin-top:2px;
 
-    color:var(--muted);
+    color:
+        var(--muted);
 
     font-size:7.5px;
+
 }
 
 
 /* =========================================================
-   MESSAGES
+   CHAT MESSAGES
 ========================================================= */
 
 .messages{
+
     min-height:0;
 
     flex:1;
 
     display:flex;
+
     flex-direction:column;
 
-    gap:3px;
+    gap:2px;
 
     overflow-y:auto;
     overflow-x:hidden;
 
     padding:
-        11px 7px
+        10px
+        7px
         16px;
 
     scroll-behavior:smooth;
 
     -webkit-overflow-scrolling:
         touch;
+
 }
 
+
 .chat-empty{
+
     margin:auto;
 
     color:#98a2b3;
@@ -1110,14 +1399,12 @@ button{
     text-align:center;
 
     font-size:10px;
+
 }
 
 
-/* =========================================================
-   MESSAGE ROW
-========================================================= */
-
 .msg-row{
+
     position:relative;
 
     width:100%;
@@ -1126,47 +1413,72 @@ button{
 
     margin:
         1px 0;
+
 }
+
+
+/*
+    الصفحة RTL.
+
+    mine = جهة اليمين.
+    other = جهة اليسار.
+*/
 
 .msg-row.mine{
+
     justify-content:flex-start;
+
 }
+
 
 .msg-row.other{
+
     justify-content:flex-end;
+
 }
 
+
 .msg-side{
+
     position:relative;
 
-    max-width:82%;
+    max-width:80%;
 
     display:flex;
+
     align-items:flex-end;
 
     gap:5px;
+
 }
+
 
 .msg-row.mine .msg-side{
+
     flex-direction:row;
+
 }
 
+
 .msg-row.other .msg-side{
+
     flex-direction:row-reverse;
+
 }
 
 
 /* =========================================================
-   AVATAR - أصغر قليلاً
+   CHAT AVATAR
 ========================================================= */
 
 .msg-avatar{
-    width:29px;
-    height:29px;
+
+    width:28px;
+    height:28px;
 
     flex:
         0 0
-        29px;
+        28px;
 
     overflow:hidden;
 
@@ -1180,129 +1492,139 @@ button{
 
     box-shadow:
         0 1px 5px
-        rgba(20,40,70,.09);
+        rgba(20,40,70,.08);
+
 }
 
+
 .msg-avatar img{
+
     width:100%;
     height:100%;
 
     display:block;
 
     object-fit:cover;
+
 }
 
+
 .msg-avatar-letter{
+
     width:100%;
     height:100%;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
-    color:var(--blue);
+    color:
+        var(--blue);
 
     background:#e4f0ff;
 
     font-size:9px;
     font-weight:900;
+
 }
 
 
 /* =========================================================
-   MESSAGE BUBBLE
-   أصغر وعلى حجم الكلام
+   SMALL MESSAGE BUBBLE
 ========================================================= */
 
 .msg-bubble-wrap{
+
     position:relative;
 
     min-width:0;
 
     max-width:
         calc(
-            100% - 34px
+            100% - 33px
         );
+
 }
 
+
 .msg{
+
     position:relative;
 
-    /*
-       مهم:
-       حجم الفقاعة يكون على حجم النص
-       وليس بعرض ثابت.
-    */
     width:fit-content;
 
     max-width:100%;
 
     padding:
-        5px 8px
-        5px;
+        5px
+        7px;
 
     background:#fff;
 
     border-radius:
         5px
-        13px
-        13px
-        13px;
+        12px
+        12px
+        12px;
 
     box-shadow:
         0 2px 6px
-        rgba(20,40,70,.055);
+        rgba(20,40,70,.05);
 
     cursor:pointer;
 
     user-select:none;
 
     -webkit-user-select:none;
+
 }
 
+
 .msg.mine{
+
     background:#dff1ff;
 
     border-radius:
-        13px
+        12px
         5px
-        13px
-        13px;
+        12px
+        12px;
+
 }
 
-.msg:active{
-    transform:scale(.995);
-}
-
-
-/* =========================================================
-   NAME + TIME
-========================================================= */
 
 .msg-user{
+
     display:flex;
+
     align-items:center;
 
     gap:7px;
 
     margin-bottom:2px;
+
 }
 
-.msg-name{
-    min-width:0;
 
-    color:var(--blue);
+.msg-name{
+
+    color:
+        var(--blue);
 
     font-size:6.8px;
     font-weight:900;
 
-    overflow:hidden;
-
     white-space:nowrap;
+
+    overflow:hidden;
     text-overflow:ellipsis;
+
 }
 
+
 .msg-time{
+
     flex:none;
 
     color:#98a2b3;
@@ -1310,46 +1632,54 @@ button{
     direction:ltr;
 
     font-size:5.8px;
+
 }
 
 
-/* =========================================================
-   MESSAGE TEXT - أصغر بقليل
-========================================================= */
-
 .msg-text{
-    color:#172033;
 
-    font-size:9.3px;
+    color:
+        #162033;
 
-    line-height:1.55;
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+
+    font-size:9.5px;
+
+    font-weight:500;
+
+    line-height:1.5;
 
     white-space:pre-wrap;
 
     word-break:break-word;
+
 }
 
-
-/* =========================================================
-   MENTION
-========================================================= */
 
 .mention{
-    color:#075fcf;
+
+    color:
+        var(--blue);
 
     font-weight:900;
+
 }
 
 
 /* =========================================================
-   REPLY PREVIEW
+   REPLY INSIDE MESSAGE
 ========================================================= */
 
 .message-reply-preview{
+
     margin-bottom:4px;
 
     padding:
-        4px 6px;
+        4px
+        6px;
 
     border-right:
         2px solid
@@ -1360,60 +1690,75 @@ button{
     background:
         rgba(7,95,207,.06);
 
-    font-size:6.7px;
 }
+
 
 .message-reply-preview strong{
+
     display:block;
 
-    color:var(--blue);
-
-    font-size:6.7px;
-
-    margin-bottom:1px;
-}
-
-.message-reply-preview span{
-    display:block;
-
-    max-width:180px;
-
-    color:#667085;
+    color:
+        var(--blue);
 
     font-size:6.5px;
+
+}
+
+
+.message-reply-preview span{
+
+    display:block;
+
+    max-width:170px;
+
+    margin-top:1px;
+
+    color:
+        var(--muted);
+
+    font-size:6.3px;
 
     white-space:nowrap;
 
     overflow:hidden;
     text-overflow:ellipsis;
+
 }
 
 
 /* =========================================================
-   REACTION SUMMARY
+   REACTIONS SUMMARY
 ========================================================= */
 
 .reaction-summary{
+
     display:flex;
+
     align-items:center;
     flex-wrap:wrap;
 
     gap:2px;
 
     margin-top:3px;
+
 }
 
+
 .reaction-chip{
+
+    min-width:27px;
     height:19px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
     gap:2px;
 
     padding:
-        0 5px;
+        0
+        5px;
 
     border:
         1px solid
@@ -1421,30 +1766,36 @@ button{
 
     border-radius:999px;
 
-    color:#344054;
-
     background:#fff;
 
     font-size:8px;
+
 }
 
+
 .reaction-chip.mine{
+
     border-color:#91c7fb;
 
     background:#edf7ff;
+
 }
 
+
 .reaction-chip span:last-child{
+
     font-size:6px;
     font-weight:800;
+
 }
 
 
 /* =========================================================
-   ACTION POPUP
+   MESSAGE ACTION POPUP
 ========================================================= */
 
 .message-action-popup{
+
     position:absolute;
 
     z-index:300;
@@ -1453,6 +1804,7 @@ button{
         calc(100% + 5px);
 
     display:none;
+
     align-items:center;
 
     gap:1px;
@@ -1472,35 +1824,46 @@ button{
         rgba(20,40,70,.18);
 
     white-space:nowrap;
+
 }
+
 
 .msg-row.mine
 .message-action-popup{
+
     right:0;
+
 }
+
 
 .msg-row.other
 .message-action-popup{
+
     left:0;
+
 }
 
+
 .message-action-popup.show{
+
     display:flex;
 
     animation:
         reactionOpen .16s
         ease;
+
 }
 
+
 .reaction-popup-btn{
-    width:32px;
-    height:32px;
+
+    width:31px;
+    height:31px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
-
-    padding:0;
 
     border:0;
 
@@ -1509,13 +1872,17 @@ button{
     background:transparent;
 
     font-size:17px;
+
 }
 
+
 .reply-popup-btn{
-    height:30px;
+
+    height:29px;
 
     padding:
-        0 8px;
+        0
+        8px;
 
     border:0;
 
@@ -1523,10 +1890,12 @@ button{
 
     background:#edf5ff;
 
-    color:var(--blue);
+    color:
+        var(--blue);
 
     font-size:7px;
     font-weight:900;
+
 }
 
 
@@ -1535,23 +1904,31 @@ button{
 ========================================================= */
 
 .seen-row{
+
     min-height:17px;
 
     display:flex;
+
     align-items:center;
 
     margin-top:2px;
+
 }
 
+
 .seen-avatars{
+
     display:flex;
 
     direction:ltr;
 
     margin-right:4px;
+
 }
 
+
 .seen-avatar{
+
     width:16px;
     height:16px;
 
@@ -1566,100 +1943,150 @@ button{
     border-radius:50%;
 
     background:#dce6f3;
+
 }
 
+
 .seen-avatar img{
+
     width:100%;
     height:100%;
 
     object-fit:cover;
+
 }
 
+
 .seen-avatar-letter{
+
     width:100%;
     height:100%;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
+    color:#526277;
+
     font-size:5px;
+    font-weight:900;
+
 }
 
+
 .seen-text{
+
     color:#2788d8;
 
     font-size:5.7px;
     font-weight:900;
+
 }
 
 
 /* =========================================================
-   REPLY COMPOSE
+   CHAT BOTTOM
 ========================================================= */
 
+.chat-bottom{
+
+    position:relative;
+
+    z-index:20;
+
+    flex:
+        0 0
+        auto;
+
+    background:#fff;
+
+}
+
+
 .reply-compose{
+
     display:none;
 
-    flex:none;
-
-    min-height:43px;
+    min-height:42px;
 
     align-items:center;
 
     gap:7px;
 
     padding:
-        6px 9px;
+        6px
+        9px;
 
     background:#f7fbff;
 
     border-top:
         1px solid
         #e5edf6;
+
 }
+
 
 .reply-compose.show{
+
     display:flex;
+
 }
 
+
 .reply-compose-line{
+
     width:3px;
 
     align-self:stretch;
 
     border-radius:99px;
 
-    background:var(--blue);
+    background:
+        var(--blue);
+
 }
 
+
 .reply-compose-content{
+
     min-width:0;
 
     flex:1;
+
 }
+
 
 .reply-compose-name{
-    color:var(--blue);
 
-    font-size:7.5px;
-    font-weight:900;
-}
-
-.reply-compose-text{
-    margin-top:1px;
-
-    color:#667085;
+    color:
+        var(--blue);
 
     font-size:7px;
+    font-weight:900;
+
+}
+
+
+.reply-compose-text{
+
+    margin-top:1px;
+
+    color:
+        var(--muted);
+
+    font-size:6.8px;
 
     white-space:nowrap;
 
     overflow:hidden;
     text-overflow:ellipsis;
+
 }
 
+
 .reply-close{
+
     width:26px;
     height:26px;
 
@@ -1667,11 +2094,13 @@ button{
 
     border-radius:50%;
 
-    color:#667085;
-
     background:#e8edf3;
 
+    color:
+        var(--muted);
+
     font-size:15px;
+
 }
 
 
@@ -1680,6 +2109,7 @@ button{
 ========================================================= */
 
 .mention-panel{
+
     position:absolute;
 
     z-index:250;
@@ -1707,19 +2137,27 @@ button{
     box-shadow:
         0 -8px 30px
         rgba(25,45,70,.16);
+
 }
+
 
 .mention-panel.show{
+
     display:block;
+
 }
 
-.mention-header{
-    padding:
-        8px 11px;
 
-    color:#667085;
+.mention-header{
+
+    padding:
+        8px
+        11px;
 
     background:#f8fafc;
+
+    color:
+        var(--muted);
 
     border-bottom:
         1px solid
@@ -1727,20 +2165,25 @@ button{
 
     font-size:8px;
     font-weight:900;
+
 }
 
+
 .mention-item{
+
     width:100%;
 
     min-height:48px;
 
     display:flex;
+
     align-items:center;
 
     gap:8px;
 
     padding:
-        6px 9px;
+        6px
+        9px;
 
     border:0;
 
@@ -1751,15 +2194,19 @@ button{
     background:#fff;
 
     text-align:right;
+
 }
 
+
 .mention-avatar{
+
     width:33px;
     height:33px;
 
     flex:none;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
@@ -1769,63 +2216,65 @@ button{
 
     background:#eaf4ff;
 
-    color:var(--blue);
+    color:
+        var(--blue);
 
     font-size:10px;
     font-weight:900;
+
 }
 
+
 .mention-avatar img{
+
     width:100%;
     height:100%;
 
     object-fit:cover;
+
 }
 
+
 .mention-info{
+
     min-width:0;
 
     flex:1;
+
 }
+
 
 .mention-name{
+
     font-size:8.5px;
     font-weight:900;
+
 }
 
+
 .mention-code{
+
     margin-top:2px;
 
     color:#98a2b3;
 
     font-size:6.5px;
+
 }
 
 
 /* =========================================================
-   CHAT BOTTOM
+   COMPOSER
 ========================================================= */
 
-.chat-bottom{
-    position:relative;
-
-    z-index:20;
-
-    flex:
-        0 0
-        auto;
-
-    background:#fff;
-}
-
 .chat-compose{
-    position:relative;
 
     width:100%;
 
-    min-height:62px;
+    min-height:61px;
 
     display:flex;
+
     align-items:center;
 
     gap:7px;
@@ -1838,52 +2287,64 @@ button{
             env(safe-area-inset-bottom)
         );
 
-    background:#fff;
-
     border-top:
         1px solid
         var(--border);
+
+    background:#fff;
+
 }
 
+
 .chat-input{
+
     min-width:0;
 
     flex:1;
 
-    height:46px;
+    height:45px;
 
     padding:
-        0 12px;
-
-    border-radius:14px;
+        0
+        12px;
 
     border:
         1px solid
         var(--border);
 
+    border-radius:14px;
+
     outline:none;
 
     background:#f9fbfd;
 
-    color:var(--text);
+    color:
+        var(--text);
 
     font-size:12px;
+
 }
+
 
 .chat-input:focus{
+
     border-color:
         var(--blue);
+
 }
 
+
 .send{
-    width:46px;
-    height:46px;
+
+    width:45px;
+    height:45px;
 
     flex:
         0 0
-        46px;
+        45px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
@@ -1902,10 +2363,14 @@ button{
 
     font-size:18px;
     font-weight:900;
+
 }
 
+
 .send:disabled{
+
     opacity:.55;
+
 }
 
 
@@ -1914,6 +2379,7 @@ button{
 ========================================================= */
 
 .bottom-nav{
+
     position:fixed;
 
     z-index:90;
@@ -1942,11 +2408,11 @@ button{
 
     padding:5px;
 
-    border-radius:22px;
-
     border:
         1px solid
         rgba(220,227,236,.92);
+
+    border-radius:22px;
 
     background:
         rgba(255,255,255,.97);
@@ -1960,15 +2426,20 @@ button{
     box-shadow:
         0 18px 45px
         rgba(32,55,84,.17);
+
 }
 
+
 .nav-item{
+
     position:relative;
 
     border:0;
 
     display:flex;
+
     flex-direction:column;
+
     align-items:center;
     justify-content:center;
 
@@ -1979,32 +2450,48 @@ button{
     color:#7b8798;
 
     background:transparent;
+
 }
+
 
 .nav-item.active{
-    color:var(--blue);
 
-    background:var(--soft);
+    color:
+        var(--blue);
+
+    background:
+        var(--soft);
+
 }
 
+
 .nav-item svg{
+
     width:20px;
     height:20px;
 
     fill:none;
+
     stroke:currentColor;
 
     stroke-width:2;
+
     stroke-linecap:round;
     stroke-linejoin:round;
+
 }
+
 
 .nav-label{
+
     font-size:7.8px;
     font-weight:900;
+
 }
 
+
 .nav-badge{
+
     display:none;
 
     position:absolute;
@@ -2019,16 +2506,17 @@ button{
     height:17px;
 
     padding:
-        0 4px;
+        0
+        4px;
 
     align-items:center;
     justify-content:center;
 
-    border-radius:99px;
-
     border:
         2px solid
         #fff;
+
+    border-radius:99px;
 
     color:#fff;
 
@@ -2036,10 +2524,14 @@ button{
 
     font-size:7px;
     font-weight:900;
+
 }
 
+
 .nav-badge.show{
+
     display:flex;
+
 }
 
 
@@ -2048,7 +2540,9 @@ button{
 ========================================================= */
 
 .full-screen{
+
     position:fixed;
+
     inset:0;
 
     z-index:5000;
@@ -2072,16 +2566,21 @@ button{
             #f5f9ff,
             #edf4fb
         );
+
 }
 
+
 .screen-card{
+
     width:100%;
+
     max-width:500px;
 
     margin:auto;
 
     padding:
-        22px 19px;
+        22px
+        19px;
 
     border-radius:26px;
 
@@ -2093,77 +2592,102 @@ button{
 
     box-shadow:
         var(--shadow);
+
 }
 
+
 .screen-logo{
+
     display:block;
 
     width:86px;
     height:86px;
 
     margin:
-        0 auto 12px;
+        0 auto
+        12px;
 
     object-fit:contain;
+
 }
 
+
 .screen-card h2{
+
     text-align:center;
 
     font-size:19px;
     font-weight:900;
+
 }
 
+
 .screen-card > p{
+
     margin-top:7px;
 
     text-align:center;
 
-    color:var(--muted);
+    color:
+        var(--muted);
 
     font-size:10px;
     line-height:1.9;
+
 }
 
+
 .fields{
+
     display:grid;
 
     gap:10px;
 
     margin-top:19px;
+
 }
 
+
 .field label{
+
     display:block;
 
     margin:
-        0 3px 6px;
+        0 3px
+        6px;
 
     color:#475467;
 
     font-size:8px;
     font-weight:900;
+
 }
 
+
 .field input{
+
     width:100%;
     height:50px;
 
     padding:
-        0 13px;
+        0
+        13px;
 
     outline:none;
-
-    border-radius:14px;
 
     border:
         1px solid
         var(--border);
 
+    border-radius:14px;
+
     font-size:13px;
+
 }
 
+
 .profile-photo-section{
+
     margin-top:16px;
 
     padding:16px;
@@ -2175,29 +2699,42 @@ button{
     border:
         1px solid
         #dbe9fb;
+
 }
 
+
 .profile-photo-title{
+
     font-size:12px;
     font-weight:900;
 
     margin-bottom:8px;
+
 }
 
+
 .profile-photo-note{
+
     color:#475467;
 
     font-size:9px;
     line-height:1.9;
 
     font-weight:700;
+
 }
+
 
 .profile-photo-note strong{
-    color:var(--red);
+
+    color:
+        var(--red);
+
 }
 
+
 .profile-photo-upload{
+
     position:relative;
 
     width:100%;
@@ -2207,8 +2744,11 @@ button{
     margin-top:13px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
+
+    overflow:hidden;
 
     border:
         1.5px dashed
@@ -2216,57 +2756,76 @@ button{
 
     border-radius:14px;
 
-    color:var(--blue);
+    color:
+        var(--blue);
 
     background:#fff;
 
     font-size:10px;
     font-weight:900;
 
-    overflow:hidden;
 }
 
+
 .profile-photo-upload input{
+
     position:absolute;
+
     inset:0;
 
     width:100%;
     height:100%;
 
     opacity:0;
+
 }
 
+
 .profile-photo-preview-wrap{
+
     display:none;
 
     margin-top:14px;
 
     text-align:center;
+
 }
+
 
 .profile-photo-preview-wrap.show{
+
     display:block;
+
 }
 
+
 .profile-photo-preview{
+
     width:145px;
     height:175px;
 
     object-fit:cover;
 
     border-radius:18px;
+
 }
 
+
 .profile-photo-status{
+
     margin-top:8px;
 
-    color:var(--green);
+    color:
+        var(--green);
 
     font-size:8px;
     font-weight:900;
+
 }
 
+
 .profile-photo-required{
+
     margin-top:11px;
 
     padding:10px;
@@ -2282,9 +2841,12 @@ button{
     line-height:1.8;
 
     font-weight:800;
+
 }
 
+
 .form-warning{
+
     margin-top:13px;
 
     padding:11px;
@@ -2300,11 +2862,13 @@ button{
 
     font-size:8.5px;
     line-height:1.8;
+
 }
 
-.primary-btn{
-    width:100%;
 
+.primary-btn{
+
+    width:100%;
     height:53px;
 
     margin-top:16px;
@@ -2315,17 +2879,24 @@ button{
 
     color:#fff;
 
-    background:var(--blue);
+    background:
+        var(--blue);
 
     font-size:12px;
     font-weight:900;
+
 }
+
 
 .inactive-card{
+
     margin-top:9vh;
+
 }
 
+
 .big-status-icon{
+
     width:78px;
     height:78px;
 
@@ -2334,23 +2905,27 @@ button{
         15px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
     border-radius:23px;
 
-    color:var(--red);
+    color:
+        var(--red);
 
     background:
         var(--red-bg);
 
     font-size:30px;
     font-weight:900;
+
 }
 
-.secondary-btn{
-    width:100%;
 
+.secondary-btn{
+
+    width:100%;
     height:49px;
 
     margin-top:17px;
@@ -2365,17 +2940,20 @@ button{
 
     font-size:10px;
     font-weight:900;
+
 }
 
 
 /* =========================================================
-   MODAL
+   MODAL / TOAST
 ========================================================= */
 
 .modal{
+
     display:none;
 
     position:fixed;
+
     inset:0;
 
     z-index:10000;
@@ -2387,14 +2965,21 @@ button{
 
     background:
         rgba(17,32,51,.45);
+
 }
+
 
 .modal.show{
+
     display:flex;
+
 }
 
+
 .modal-card{
+
     width:100%;
+
     max-width:390px;
 
     padding:20px;
@@ -2404,16 +2989,21 @@ button{
     border-radius:23px;
 
     background:#fff;
+
 }
 
+
 .modal-icon{
+
     width:67px;
     height:67px;
 
     margin:
-        0 auto 13px;
+        0 auto
+        13px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
@@ -2427,25 +3017,34 @@ button{
 
     font-size:27px;
     font-weight:900;
+
 }
+
 
 .modal-card h3{
+
     font-size:16px;
     font-weight:900;
+
 }
 
+
 .modal-card p{
+
     margin-top:8px;
 
-    color:var(--muted);
+    color:
+        var(--muted);
 
     font-size:10px;
     line-height:1.9;
+
 }
 
-.modal-card button{
-    width:100%;
 
+.modal-card button{
+
+    width:100%;
     height:47px;
 
     margin-top:15px;
@@ -2456,18 +3055,17 @@ button{
 
     color:#fff;
 
-    background:var(--blue);
+    background:
+        var(--blue);
 
     font-size:10px;
     font-weight:900;
+
 }
 
 
-/* =========================================================
-   TOAST
-========================================================= */
-
 .toast{
+
     position:fixed;
 
     z-index:30000;
@@ -2486,7 +3084,8 @@ button{
     margin:auto;
 
     padding:
-        12px 14px;
+        12px
+        14px;
 
     text-align:center;
 
@@ -2507,76 +3106,113 @@ button{
         translateY(10px);
 
     transition:.25s;
+
 }
 
+
 .toast.show{
+
     opacity:1;
 
     transform:none;
+
 }
 
 
 /* =========================================================
-   ANIMATION
+   ANIMATION / RESPONSIVE
 ========================================================= */
 
 @keyframes spin{
 
     to{
+
         transform:
             rotate(360deg);
+
     }
 
 }
+
 
 @keyframes pageIn{
 
     from{
+
         opacity:0;
 
         transform:
             translateY(9px);
+
     }
 
     to{
+
         opacity:1;
 
         transform:none;
+
     }
 
 }
 
+
 @keyframes reactionOpen{
 
     from{
+
         opacity:0;
 
         transform:
             translateY(5px)
             scale(.93);
+
     }
 
     to{
+
         opacity:1;
 
         transform:none;
+
     }
 
 }
 
 
-/* =========================================================
-   MOBILE
-========================================================= */
+@media(min-width:700px){
+
+    .info-grid{
+
+        grid-template-columns:
+            repeat(3,1fr);
+
+    }
+
+
+    .mini-grades{
+
+        grid-template-columns:
+            repeat(8,1fr);
+
+    }
+
+}
+
 
 @media(max-width:430px){
 
     .content{
+
         padding:
-            11px 9px;
+            11px
+            9px;
+
     }
 
+
     .chat-box{
+
         height:
             calc(
                 100dvh
@@ -2587,10 +3223,14 @@ button{
             );
 
         border-radius:19px;
+
     }
 
+
     .msg-side{
-        max-width:88%;
+
+        max-width:87%;
+
     }
 
 }
@@ -2599,9 +3239,12 @@ button{
 
 </head>
 
-
 <body>
 
+
+<!-- =========================================================
+     LOADER
+========================================================= -->
 
 <div
     id="loaderScreen"
@@ -2626,6 +3269,10 @@ button{
 
 </div>
 
+
+<!-- =========================================================
+     COMPLETE PROFILE
+========================================================= -->
 
 <section
     id="completeScreen"
@@ -2658,9 +3305,7 @@ button{
         <div class="profile-photo-section">
 
             <div class="profile-photo-title">
-
                 الصورة الشخصية للطالب
-
             </div>
 
 
@@ -2680,9 +3325,7 @@ button{
             <label class="profile-photo-upload">
 
                 <span id="photoUploadText">
-
                     اختيار الصورة الشخصية
-
                 </span>
 
 
@@ -2711,9 +3354,7 @@ button{
                     id="profilePhotoStatus"
                     class="profile-photo-status"
                 >
-
                     تم اختيار الصورة
-
                 </div>
 
             </div>
@@ -2740,15 +3381,17 @@ button{
             class="primary-btn"
             type="button"
         >
-
             حفظ ومتابعة
-
         </button>
 
     </div>
 
 </section>
 
+
+<!-- =========================================================
+     INACTIVE
+========================================================= -->
 
 <section
     id="inactiveScreen"
@@ -2765,23 +3408,17 @@ button{
 
 
         <div class="big-status-icon">
-
             !
-
         </div>
 
 
         <h2 id="inactiveTitle">
-
             الحساب غير فعال
-
         </h2>
 
 
         <p id="inactiveText">
-
-            حسابك غير فعال حالياً.
-
+            يرجى مراجعة إدارة مدرسة التحدي الأهلية المختلطة.
         </p>
 
 
@@ -2790,15 +3427,17 @@ button{
             class="secondary-btn"
             type="button"
         >
-
             تسجيل الخروج
-
         </button>
 
     </div>
 
 </section>
 
+
+<!-- =========================================================
+     APPLICATION
+========================================================= -->
 
 <div
     id="app"
@@ -2823,11 +3462,8 @@ button{
                 مدرسة التحدي الأهلية المختلطة
             </h1>
 
-
             <p id="topStudentName">
-
                 منصة الطالب
-
             </p>
 
         </div>
@@ -2840,9 +3476,7 @@ button{
         class="logout"
         type="button"
     >
-
         خروج
-
     </button>
 
 </header>
@@ -2851,6 +3485,10 @@ button{
 <main class="content">
 
 
+<!-- =========================================================
+     HOME
+========================================================= -->
+
 <section
     id="pageHome"
     class="page active"
@@ -2858,59 +3496,60 @@ button{
 
     <div class="student-hero">
 
-        <div class="hero-content">
+        <div class="hero-head">
 
-            <div class="hero-head">
-
-                <div
-                    id="studentAvatar"
-                    class="avatar"
-                >
-                    ط
-                </div>
-
-
-                <div class="hero-info">
-
-                    <h2 id="heroName">
-                        —
-                    </h2>
-
-
-                    <p id="heroCode">
-                        —
-                    </p>
-
-                </div>
-
+            <div
+                id="studentAvatar"
+                class="avatar"
+            >
+                ط
             </div>
 
 
-            <div class="hero-tags">
+            <div class="hero-info">
 
-                <span
-                    id="heroClass"
-                    class="hero-tag"
-                >
-                    الصف: —
-                </span>
+                <h2 id="heroName">
+                    —
+                </h2>
 
-
-                <span
-                    id="heroRoom"
-                    class="hero-tag"
-                >
-                    القاعة: —
-                </span>
-
-
-                <span class="hero-tag">
-
-                    2026-2027
-
-                </span>
+                <p id="heroCode">
+                    —
+                </p>
 
             </div>
+
+        </div>
+
+
+        <div class="hero-tags">
+
+            <span
+                id="heroClass"
+                class="hero-tag"
+            >
+                الصف: —
+            </span>
+
+
+            <span
+                id="heroRoom"
+                class="hero-tag"
+            >
+                القاعة: —
+            </span>
+
+
+            <span
+                id="heroGender"
+                class="hero-tag"
+            >
+                —
+            </span>
+
+
+            <span class="hero-tag">
+                2026-2027
+            </span>
 
         </div>
 
@@ -2928,6 +3567,10 @@ button{
         <h3>
             بيانات الطالب
         </h3>
+
+        <span>
+            بيانات رسمية
+        </span>
 
     </div>
 
@@ -2955,6 +3598,10 @@ button{
 </section>
 
 
+<!-- =========================================================
+     NOTIFICATIONS
+========================================================= -->
+
 <section
     id="pageNotices"
     class="page"
@@ -2966,11 +3613,8 @@ button{
             التبليغات
         </h3>
 
-
         <span id="noticeCountText">
-
             0 تبليغ
-
         </span>
 
     </div>
@@ -2983,6 +3627,10 @@ button{
 
 </section>
 
+
+<!-- =========================================================
+     GRADES
+========================================================= -->
 
 <section
     id="pageGrades"
@@ -3002,6 +3650,10 @@ button{
             <h3>
                 الدرجات والنتائج
             </h3>
+
+            <span>
+                2026-2027
+            </span>
 
         </div>
 
@@ -3083,9 +3735,7 @@ button{
 
 
             <p id="chatRoomName">
-
                 —
-
             </p>
 
         </div>
@@ -3107,7 +3757,7 @@ button{
 
                 <div class="mention-header">
 
-                    اختر طالباً من نفس الصف
+                    طلاب الصف والقاعة نفسها
 
                 </div>
 
@@ -3152,9 +3802,7 @@ button{
                     class="reply-close"
                     type="button"
                 >
-
                     ×
-
                 </button>
 
             </div>
@@ -3166,9 +3814,9 @@ button{
                     id="chatInput"
                     class="chat-input"
                     type="text"
-                    placeholder="اكتب رسالة... @"
                     maxlength="500"
                     autocomplete="off"
+                    placeholder="اكتب رسالة... @"
                 >
 
 
@@ -3177,9 +3825,7 @@ button{
                     class="send"
                     type="button"
                 >
-
                     ←
-
                 </button>
 
             </div>
@@ -3210,18 +3856,13 @@ button{
     <svg viewBox="0 0 24 24">
 
         <path d="M3 11.5L12 4l9 7.5"></path>
-
         <path d="M5.5 10.5V20h13v-9.5"></path>
-
         <path d="M9.5 20v-6h5v6"></path>
 
     </svg>
 
-
     <span class="nav-label">
-
         الرئيسية
-
     </span>
 
 </button>
@@ -3249,11 +3890,8 @@ button{
 
     </svg>
 
-
     <span class="nav-label">
-
         التبليغات
-
     </span>
 
 </button>
@@ -3268,28 +3906,18 @@ button{
     <svg viewBox="0 0 24 24">
 
         <path d="M5 4h14v16H5z"></path>
-
         <path d="M8 8h8"></path>
-
         <path d="M8 12h8"></path>
-
         <path d="M8 16h5"></path>
 
     </svg>
 
-
     <span class="nav-label">
-
         الدرجات
-
     </span>
 
 </button>
 
-
-<!-- =====================================================
-     لوكو الدردشة + كلمة دردشة
-===================================================== -->
 
 <button
     class="nav-item"
@@ -3305,22 +3933,14 @@ button{
     </span>
 
 
-    <svg
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-    >
+    <svg viewBox="0 0 24 24">
 
-        <path
-            d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6A8.38 8.38 0 0112.5 3h.5a8.48 8.48 0 018 8z"
-        ></path>
+        <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6A8.38 8.38 0 0112.5 3h.5a8.48 8.48 0 018 8z"></path>
 
     </svg>
 
-
     <span class="nav-label">
-
         دردشة
-
     </span>
 
 </button>
@@ -3331,6 +3951,10 @@ button{
 
 </div>
 
+
+<!-- =========================================================
+     ACCESS MODAL
+========================================================= -->
 
 <div
     id="accessModal"
@@ -3348,9 +3972,7 @@ button{
 
 
         <h3 id="accessModalTitle">
-
             الخدمة غير متاحة
-
         </h3>
 
 
@@ -3361,9 +3983,7 @@ button{
             id="closeAccessModal"
             type="button"
         >
-
             حسناً
-
         </button>
 
     </div>
@@ -3434,9 +4054,13 @@ let activeMessageActionId = null;
 let replyingTo = null;
 
 let mentionState = {
+
     active:false,
+
     start:-1,
+
     query:""
+
 };
 
 
@@ -3491,16 +4115,41 @@ const COMPLETABLE_FIELDS = [
 ];
 
 
+/* =========================================================
+   STRONG MODERATION DEFAULTS
+
+   القاعدة الأساسية فقط.
+   يفضل إضافة كلمات وجمل إضافية من Firebase:
+   settings/chatModeration/blockedWords
+   settings/chatModeration/blockedPhrases
+========================================================= */
+
 const DEFAULT_BLOCKED_WORDS = [
 
     "حمار",
+    "حماره",
     "كلب",
+    "كلبه",
+    "غبي",
+    "غبيه",
+    "اهبل",
+    "ابله",
+    "سافل",
+    "واطي",
+    "منحط",
     "قذر",
+    "قذره",
     "تافه",
-    "غبي"
+    "تافهه",
+    "زباله",
+    "خنزير"
 
 ];
 
+
+/* =========================================================
+   DOM
+========================================================= */
 
 const $ =
     id =>
@@ -3519,11 +4168,17 @@ function esc(value){
     .replace(
         /[&<>"']/g,
         char => ({
+
             "&":"&amp;",
+
             "<":"&lt;",
+
             ">":"&gt;",
+
             '"':"&quot;",
+
             "'":"&#039;"
+
         })[char]
     );
 
@@ -3537,6 +4192,19 @@ function norm(value){
     )
     .trim()
     .toLowerCase();
+
+}
+
+
+function display(value){
+
+    return (
+        value === null ||
+        value === undefined ||
+        value === ""
+    )
+        ? "—"
+        : value;
 
 }
 
@@ -3578,19 +4246,6 @@ function roundGrade(value){
 }
 
 
-function display(value){
-
-    return (
-        value === null ||
-        value === undefined ||
-        value === ""
-    )
-        ? "—"
-        : value;
-
-}
-
-
 function displayGrade(value){
 
     if(
@@ -3626,7 +4281,7 @@ function displayGrade(value){
 
 
 /* =========================================================
-   DATE
+   WRITTEN DATE
 ========================================================= */
 
 function dateText(value){
@@ -3698,17 +4353,29 @@ function dateText(value){
     const months = [
 
         "",
+
         "كانون الثاني",
+
         "شباط",
+
         "آذار",
+
         "نيسان",
+
         "أيار",
+
         "حزيران",
+
         "تموز",
+
         "آب",
+
         "أيلول",
+
         "تشرين الأول",
+
         "تشرين الثاني",
+
         "كانون الأول"
 
     ];
@@ -3742,8 +4409,11 @@ function timeText(value){
     return date.toLocaleTimeString(
         "ar-IQ",
         {
+
             hour:"2-digit",
+
             minute:"2-digit"
+
         }
     );
 
@@ -3777,14 +4447,14 @@ function toast(text){
                     );
 
             },
-            2300
+            2400
         );
 
 }
 
 
 /* =========================================================
-   FIREBASE REST
+   DATABASE REST
 ========================================================= */
 
 async function dbGet(path){
@@ -3821,6 +4491,7 @@ async function dbPatch(
         await fetch(
             `${DB}/${path}.json`,
             {
+
                 method:"PATCH",
 
                 headers:{
@@ -3830,6 +4501,7 @@ async function dbPatch(
 
                 body:
                     JSON.stringify(data)
+
             }
         );
 
@@ -3857,6 +4529,7 @@ async function dbPost(
         await fetch(
             `${DB}/${path}.json`,
             {
+
                 method:"POST",
 
                 headers:{
@@ -3866,6 +4539,7 @@ async function dbPost(
 
                 body:
                     JSON.stringify(data)
+
             }
         );
 
@@ -3893,6 +4567,7 @@ async function dbPut(
         await fetch(
             `${DB}/${path}.json`,
             {
+
                 method:"PUT",
 
                 headers:{
@@ -3902,6 +4577,7 @@ async function dbPut(
 
                 body:
                     JSON.stringify(data)
+
             }
         );
 
@@ -3956,7 +4632,7 @@ async function uploadImage(file){
     ){
 
         toast(
-            "حجم الصورة أكبر من 5MB"
+            "حجم الصورة يجب أن يكون أقل من 5MB"
         );
 
 
@@ -3981,10 +4657,22 @@ async function uploadImage(file){
             await fetch(
                 IMAGE_UPLOAD_WORKER_URL,
                 {
+
                     method:"POST",
+
                     body:formData
+
                 }
             );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "UPLOAD_FAILED"
+            );
+
+        }
 
 
         const data =
@@ -4044,6 +4732,7 @@ $("studentProfileImage")
 
             this.value = "";
 
+
             toast(
                 "اختر صورة فقط"
             );
@@ -4060,6 +4749,7 @@ $("studentProfileImage")
         ){
 
             this.value = "";
+
 
             toast(
                 "حجم الصورة أكبر من 5MB"
@@ -4087,7 +4777,9 @@ $("studentProfileImage")
 
 
         profilePhotoPreviewURL =
-            URL.createObjectURL(file);
+            URL.createObjectURL(
+                file
+            );
 
 
         $("profilePhotoPreview").src =
@@ -4154,11 +4846,18 @@ function loadSession(){
 
 function logout(){
 
-    clearInterval(chatPolling);
+    clearInterval(
+        chatPolling
+    );
 
-    clearInterval(notificationPolling);
+
+    clearInterval(
+        notificationPolling
+    );
+
 
     sessionStorage.clear();
+
 
     location.replace(
         "index.html"
@@ -4168,7 +4867,7 @@ function logout(){
 
 
 /* =========================================================
-   PROFILE
+   PROFILE COMPLETION
 ========================================================= */
 
 function getMissingProfileFields(){
@@ -4177,7 +4876,9 @@ function getMissingProfileFields(){
         field => {
 
             const value =
-                student[field.key];
+                student[
+                    field.key
+                ];
 
 
             return (
@@ -4229,12 +4930,16 @@ function renderCompletionForm(fields){
                     color:#078746;
                     text-align:center;
                     font-size:9px;
+                    line-height:1.8;
                     font-weight:900;
                 "
             >
 
-                البيانات مكتملة.
-                يرجى إضافة الصورة الشخصية.
+                البيانات الأساسية مكتملة.
+
+                <br>
+
+                يرجى إضافة الصورة الشخصية لإكمال الملف.
 
             </div>
 
@@ -4254,7 +4959,9 @@ function renderCompletionForm(fields){
                 <div class="field">
 
                     <label>
+
                         ${esc(field.label)}
+
                     </label>
 
 
@@ -4305,7 +5012,7 @@ function renderExistingProfilePhoto(){
 
 
 /* =========================================================
-   ACCOUNT
+   ACCOUNT ACCESS
 ========================================================= */
 
 function globalAccountActive(){
@@ -4338,7 +5045,7 @@ function accessState(){
             title:"تم إيقاف الحساب",
 
             message:
-                "تم إيقاف الحساب بسبب مخالفة سلوكية في الدردشة."
+                "تم إيقاف حسابك بسبب مخالفة سلوكية في الدردشة. يرجى مراجعة إدارة مدرسة التحدي الأهلية المختلطة."
 
         };
 
@@ -4359,7 +5066,7 @@ function accessState(){
                 "صلاحية الحسابات غير مفعلة",
 
             message:
-                "لم يتم تفعيل صلاحية الحسابات بعد."
+                "لم يتم تفعيل صلاحية الحسابات من قسم الحسابات بعد."
 
         };
 
@@ -4380,7 +5087,7 @@ function accessState(){
                 "صلاحية الإدارة غير مفعلة",
 
             message:
-                "صلاحية الدرجات والدردشة غير مفعلة."
+                "صلاحية الدرجات والدردشة غير مفعلة من إدارة المدرسة حالياً."
 
         };
 
@@ -4409,37 +5116,109 @@ function canUseProtectedFeatures(){
 }
 
 
-function showAccessModal(){
+/* =========================================================
+   GENDER
+========================================================= */
 
-    const state =
-        accessState();
+function normalizeGenderValue(value){
 
-
-    $("accessModalTitle").textContent =
-        state.title;
-
-
-    $("accessModalText").textContent =
-        state.message;
+    const gender =
+        norm(value);
 
 
-    $("accessModal")
-        .classList.add(
-            "show"
-        );
+    if(
+        gender === "female" ||
+        gender === "f" ||
+        gender === "انثى" ||
+        gender === "أنثى" ||
+        gender === "بنت" ||
+        gender === "بنات"
+    ){
+
+        return "female";
+
+    }
+
+
+    return "male";
 
 }
 
 
-$("closeAccessModal").onclick =
-    () => {
+function normalizedGender(){
 
-        $("accessModal")
-            .classList.remove(
-                "show"
-            );
+    return normalizeGenderValue(
+        student.gender
+    );
 
-    };
+}
+
+
+function genderText(){
+
+    return normalizedGender() ===
+        "female"
+
+        ? "أنثى"
+
+        : "ذكر";
+
+}
+
+
+/* =========================================================
+   CHAT ROOM SECURITY IDENTIFIER
+
+   CLASS + ROOM + GENDER
+========================================================= */
+
+function normalizeRoomPart(value){
+
+    return String(
+        value ?? ""
+    )
+
+    .trim()
+
+    .replace(
+        /[.#$\[\]\/]/g,
+        "_"
+    )
+
+    .replace(
+        /\s+/g,
+        "_"
+    );
+
+}
+
+
+function chatRoomId(){
+
+    const classPart =
+        normalizeRoomPart(
+            student.classId ||
+            student.className ||
+            "no_class"
+        );
+
+
+    const roomPart =
+        normalizeRoomPart(
+            student.roomNumber ||
+            "no_room"
+        );
+
+
+    const genderPart =
+        normalizedGender();
+
+
+    return (
+        `${classPart}__room_${roomPart}__${genderPart}`
+    );
+
+}
 
 
 /* =========================================================
@@ -4476,6 +5255,7 @@ async function init(){
         ){
 
             logout();
+
 
             return;
 
@@ -4532,6 +5312,7 @@ async function init(){
 
             showInactiveAccount();
 
+
             return;
 
         }
@@ -4576,7 +5357,7 @@ async function init(){
 
 
         toast(
-            "تعذر تحميل الحساب"
+            "تعذر تحميل حساب الطالب"
         );
 
     }
@@ -4618,7 +5399,7 @@ async () => {
 
 
             toast(
-                "أكمل جميع البيانات"
+                "يرجى إكمال جميع البيانات"
             );
 
 
@@ -4641,7 +5422,7 @@ async () => {
     ){
 
         toast(
-            "ضع صورة لك يظهر فيها وجهك بالكامل وبدون فلتر"
+            "ضع صورة لك يظهر فيها وجهك بالكامل وبدون فلتر لاستخدامها في معاملات المدرسة"
         );
 
 
@@ -4656,7 +5437,7 @@ async () => {
 
     try{
 
-        let image =
+        let imageURL =
             student.profileImage ||
             "";
 
@@ -4669,27 +5450,36 @@ async () => {
                 "جاري رفع الصورة...";
 
 
-            image =
+            imageURL =
                 await uploadImage(
                     selectedProfilePhotoFile
                 );
 
 
-            if(!image){
+            if(!imageURL){
 
                 throw new Error(
-                    "PHOTO_FAILED"
+                    "PROFILE_PHOTO_FAILED"
                 );
 
             }
 
 
             updateData.profileImage =
-                image;
+                imageURL;
 
 
             updateData.profileImageUploadedAt =
                 Date.now();
+
+        }
+
+
+        if(!imageURL){
+
+            throw new Error(
+                "PROFILE_PHOTO_REQUIRED"
+            );
 
         }
 
@@ -4704,6 +5494,10 @@ async () => {
 
         updateData.profileCompletedAt =
             Date.now();
+
+
+        $("saveProfileBtn").textContent =
+            "جاري حفظ البيانات...";
 
 
         await dbPatch(
@@ -4791,7 +5585,18 @@ function showInactiveAccount(){
 
 
         $("inactiveText").textContent =
-            "تم إيقاف حسابك بسبب مخالفة سلوكية في الدردشة. يرجى مراجعة إدارة مدرسة التحدي الأهلية المختلطة.";
+            "تم إيقاف حسابك بسبب مخالفة سلوكية في الدردشة. يرجى مراجعة إدارة مدرسة التحدي الأهلية المختلطة لإعادة التفعيل.";
+
+    }
+
+    else{
+
+        $("inactiveTitle").textContent =
+            "الحساب غير فعال";
+
+
+        $("inactiveText").textContent =
+            "حسابك غير فعال حالياً. يرجى مراجعة إدارة مدرسة التحدي الأهلية المختلطة.";
 
     }
 
@@ -4821,17 +5626,17 @@ async function loadAbsenceDays(){
             ) || {};
 
 
-        Object.values(
+        const dates =
+            new Set();
+
+
+        Object.entries(
             attendance
         )
         .forEach(
-            record => {
+            ([key,record]) => {
 
-                if(
-                    !record ||
-                    typeof record !==
-                    "object"
-                ){
+                if(!record){
 
                     return;
 
@@ -4844,26 +5649,46 @@ async function loadAbsenceDays(){
                     );
 
 
-                if(
+                const absent =
                     record.absent === true ||
                     record.isAbsent === true ||
                     status === "absent" ||
                     status === "غائب" ||
-                    status === "غياب"
-                ){
+                    status === "غياب";
 
-                    absenceDays++;
+
+                if(absent){
+
+                    const dateKey =
+                        record.date ||
+                        record.attendanceDate ||
+                        key;
+
+
+                    dates.add(
+                        String(dateKey)
+                    );
 
                 }
 
             }
         );
 
+
+        absenceDays =
+            dates.size;
+
     }
 
     catch(error){
 
-        console.error(error);
+        console.error(
+            "ATTENDANCE_ERROR",
+            error
+        );
+
+
+        absenceDays = 0;
 
     }
 
@@ -4872,6 +5697,9 @@ async function loadAbsenceDays(){
 
 /* =========================================================
    CLASS STUDENTS
+
+   MATCH:
+   CLASS + ROOM + GENDER
 ========================================================= */
 
 async function loadClassStudents(){
@@ -4890,36 +5718,94 @@ async function loadClassStudents(){
 
     try{
 
-        const all =
+        const allStudents =
             await dbGet(
                 "students"
             ) || {};
 
 
+        const myClass =
+            String(
+                student.classId ||
+                ""
+            ).trim();
+
+
+        const myRoom =
+            String(
+                student.roomNumber ||
+                ""
+            ).trim();
+
+
+        const myGender =
+            normalizedGender();
+
+
         classStudents =
-            Object.entries(all)
+            Object.entries(
+                allStudents
+            )
 
             .map(
                 ([code,data]) => ({
+
                     code,
+
                     ...(data || {})
+
                 })
             )
 
             .filter(
-                item =>
-                    item.classId ===
-                    student.classId
+                item => {
+
+                    const targetClass =
+                        String(
+                            item.classId ||
+                            ""
+                        ).trim();
+
+
+                    const targetRoom =
+                        String(
+                            item.roomNumber ||
+                            ""
+                        ).trim();
+
+
+                    const targetGender =
+                        normalizeGenderValue(
+                            item.gender
+                        );
+
+
+                    return (
+
+                        targetClass ===
+                            myClass &&
+
+                        targetRoom ===
+                            myRoom &&
+
+                        targetGender ===
+                            myGender
+
+                    );
+
+                }
             )
 
             .sort(
                 (a,b) =>
                     String(
-                        a.name || ""
+                        a.name ||
+                        ""
                     )
                     .localeCompare(
                         String(
-                            b.name || ""
+                            b.name ||
+                            ""
                         ),
                         "ar"
                     )
@@ -4942,7 +5828,10 @@ async function loadClassStudents(){
 
     catch(error){
 
-        console.error(error);
+        console.error(
+            "ROOM_STUDENTS_ERROR",
+            error
+        );
 
     }
 
@@ -4950,10 +5839,51 @@ async function loadClassStudents(){
 
 
 /* =========================================================
-   OPEN
+   OPEN APP
 ========================================================= */
 
 async function openApp(){
+
+    if(
+        profileNeedsCompletion()
+    ){
+
+        renderCompletionForm(
+            getMissingProfileFields()
+        );
+
+
+        renderExistingProfilePhoto();
+
+
+        $("app")
+            .classList.add(
+                "hidden"
+            );
+
+
+        $("completeScreen")
+            .classList.remove(
+                "hidden"
+            );
+
+
+        return;
+
+    }
+
+
+    if(
+        !globalAccountActive()
+    ){
+
+        showInactiveAccount();
+
+
+        return;
+
+    }
+
 
     await Promise.all([
 
@@ -5009,7 +5939,7 @@ async function openApp(){
 
 
 /* =========================================================
-   CLASS / GENDER
+   CLASS
 ========================================================= */
 
 function className(){
@@ -5019,25 +5949,6 @@ function className(){
         student.className ||
         "—"
     );
-
-}
-
-
-function genderText(){
-
-    const gender =
-        norm(
-            student.gender
-        );
-
-
-    return (
-        gender === "female" ||
-        gender === "أنثى" ||
-        gender === "انثى"
-    )
-        ? "أنثى"
-        : "ذكر";
 
 }
 
@@ -5070,6 +5981,10 @@ function renderHome(){
         `القاعة: ${student.roomNumber || "—"}`;
 
 
+    $("heroGender").textContent =
+        genderText();
+
+
     if(
         studentHasProfileImage()
     ){
@@ -5078,10 +5993,23 @@ function renderHome(){
 
             <img
                 src="${esc(student.profileImage)}"
-                alt=""
+                alt="صورة الطالب"
             >
 
         `;
+
+    }
+
+    else{
+
+        $("studentAvatar").textContent =
+            String(
+                student.name ||
+                "ط"
+            )
+            .trim()
+            .charAt(0) ||
+            "ط";
 
     }
 
@@ -5146,6 +6074,13 @@ function renderHome(){
         ],
 
         [
+            "تاريخ المباشرة",
+            dateText(
+                student.startDate
+            )
+        ],
+
+        [
             "عنوان السكن",
             student.address
         ],
@@ -5166,11 +6101,18 @@ function renderHome(){
                 <div class="info-card">
 
                     <small>
+
                         ${esc(label)}
+
                     </small>
 
+
                     <strong>
-                        ${esc(display(value))}
+
+                        ${esc(
+                            display(value)
+                        )}
+
                     </strong>
 
                 </div>
@@ -5187,74 +6129,162 @@ function renderHome(){
 }
 
 
+/* =========================================================
+   ACCOUNT STATUS
+========================================================= */
+
 function renderAccountStatus(){
 
-    const values = [
+    const rows = [
 
         [
             "الحساب الرئيسي",
-            [
-                "فعال",
-                "green"
-            ]
+
+            globalAccountActive()
+
+                ? [
+                    "فعال",
+                    "green"
+                ]
+
+                : [
+                    "غير فعال",
+                    "red"
+                ]
         ],
 
         [
             "الصورة الشخصية",
-            [
-                studentHasProfileImage()
-                    ? "تم الحفظ"
-                    : "غير مضافة",
 
-                studentHasProfileImage()
-                    ? "green"
-                    : "orange"
-            ]
+            studentHasProfileImage()
+
+                ? [
+                    "تم الحفظ",
+                    "green"
+                ]
+
+                : [
+                    "غير مضافة",
+                    "orange"
+                ]
         ],
 
         [
             "عدد أيام الغياب",
+
             [
                 `${absenceDays} يوم`,
 
-                absenceDays
+                absenceDays > 0
                     ? "orange"
                     : "green"
             ]
         ],
 
         [
-            "الحالة السلوكية",
-            [
-                student.behaviorBlocked === true
-                    ? "محظور"
-                    : "سليم",
+            "الكتب الدراسية",
 
-                student.behaviorBlocked === true
-                    ? "red"
-                    : "green"
-            ]
+            student.booksReceived === true
+
+                ? [
+                    "تم استلام الكتب",
+                    "green"
+                ]
+
+                : [
+                    "لم يستلم الكتب",
+                    "orange"
+                ]
+        ],
+
+        [
+            "صلاحية الحسابات",
+
+            student.accountantApproved === true
+
+                ? [
+                    "مفعلة",
+                    "green"
+                ]
+
+                : [
+                    "غير مفعلة",
+                    "orange"
+                ]
+        ],
+
+        [
+            "صلاحية الإدارة",
+
+            student.adminApproved === true
+
+                ? [
+                    "مفعلة",
+                    "green"
+                ]
+
+                : [
+                    "غير مفعلة",
+                    "orange"
+                ]
+        ],
+
+        [
+            "الحالة السلوكية",
+
+            student.behaviorBlocked === true
+
+                ? [
+                    "محظور",
+                    "red"
+                ]
+
+                : [
+                    "سليم",
+                    "green"
+                ]
+        ],
+
+        [
+            "الملف",
+
+            student.fileStatus ===
+                "accepted"
+
+                ? [
+                    "تم القبول",
+                    "green"
+                ]
+
+                : [
+                    "قيد المتابعة",
+                    "orange"
+                ]
         ]
 
     ];
 
 
     $("studentStatusBox").innerHTML =
-        values
+        rows
         .map(
             ([label,[value,color]]) => `
 
                 <div class="status-row">
 
                     <span>
+
                         ${esc(label)}
+
                     </span>
 
 
                     <b
                         class="badge ${color}"
                     >
+
                         ${esc(value)}
+
                     </b>
 
                 </div>
@@ -5265,6 +6295,10 @@ function renderAccountStatus(){
 
 }
 
+
+/* =========================================================
+   HOME ACCESS WARNING
+========================================================= */
 
 function renderHomeAccessWarning(){
 
@@ -5286,6 +6320,7 @@ function renderHomeAccessWarning(){
 
         box.textContent = "";
 
+
         return;
 
     }
@@ -5298,6 +6333,82 @@ function renderHomeAccessWarning(){
     box.classList.add(
         "show"
     );
+
+
+    if(
+        state.type ===
+        "blocked"
+    ){
+
+        box.classList.add(
+            "blocked"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   REFRESH ACCESS
+========================================================= */
+
+async function refreshStudentAccess(){
+
+    try{
+
+        const freshStudent =
+            await dbGet(
+                `students/${encodeURIComponent(STUDENT_CODE)}`
+            );
+
+
+        const freshUser =
+            await dbGet(
+                `users/${encodeURIComponent(session.code)}`
+            );
+
+
+        if(freshStudent){
+
+            student =
+                freshStudent;
+
+        }
+
+
+        if(freshUser){
+
+            user =
+                freshUser;
+
+        }
+
+
+        if(
+            !globalAccountActive()
+        ){
+
+            showInactiveAccount();
+
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+
+        return false;
+
+    }
 
 }
 
@@ -5319,6 +6430,38 @@ document
 
                 const page =
                     button.dataset.page;
+
+
+                if(
+                    [
+                        "grades",
+                        "chat"
+                    ].includes(page)
+                ){
+
+                    const ok =
+                        await refreshStudentAccess();
+
+
+                    if(!ok){
+
+                        return;
+
+                    }
+
+
+                    if(
+                        !canUseProtectedFeatures()
+                    ){
+
+                        showAccessModal();
+
+
+                        return;
+
+                    }
+
+                }
 
 
                 document
@@ -5369,7 +6512,9 @@ document
 
 
                 $(
-                    pages[page]
+                    pages[
+                        page
+                    ]
                 )
                 .classList.add(
                     "active"
@@ -5377,7 +6522,8 @@ document
 
 
                 if(
-                    page === "notices"
+                    page ===
+                    "notices"
                 ){
 
                     await markNotificationsRead();
@@ -5386,19 +6532,9 @@ document
 
 
                 if(
-                    page === "chat"
+                    page ===
+                    "chat"
                 ){
-
-                    if(
-                        !canUseProtectedFeatures()
-                    ){
-
-                        showAccessModal();
-
-                        return;
-
-                    }
-
 
                     await markVisibleMessagesRead();
 
@@ -5407,6 +6543,9 @@ document
                         "chatBadge",
                         0
                     );
+
+
+                    closeAllMessageActions();
 
 
                     scrollChat();
@@ -5421,7 +6560,65 @@ document
 
 
 /* =========================================================
-   LOCK
+   ACCESS MODAL
+========================================================= */
+
+function showAccessModal(){
+
+    const state =
+        accessState();
+
+
+    $("accessModalTitle").textContent =
+        state.title;
+
+
+    $("accessModalText").textContent =
+        state.message;
+
+
+    $("accessModal")
+        .classList.add(
+            "show"
+        );
+
+}
+
+
+$("closeAccessModal").onclick =
+    () => {
+
+        $("accessModal")
+            .classList.remove(
+                "show"
+            );
+
+    };
+
+
+$("accessModal")
+.addEventListener(
+    "click",
+    event => {
+
+        if(
+            event.target ===
+            $("accessModal")
+        ){
+
+            $("accessModal")
+                .classList.remove(
+                    "show"
+                );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   PROTECTED LOCKS
 ========================================================= */
 
 function renderProtectedLocks(){
@@ -5527,8 +6724,11 @@ async function loadNotifications(){
 
         .map(
             ([id,value]) => ({
+
                 id,
+
                 ...value
+
             })
         )
 
@@ -5536,7 +6736,8 @@ async function loadNotifications(){
             notice => {
 
                 if(
-                    notice.active === false
+                    notice.active ===
+                    false
                 ){
 
                     return false;
@@ -5603,6 +6804,47 @@ async function renderNotifications(){
     let unread = 0;
 
 
+    if(
+        !notifications.length
+    ){
+
+        $("noticeList").innerHTML = `
+
+            <div class="lock-box">
+
+                <h3>
+
+                    لا توجد تبليغات
+
+                </h3>
+
+
+                <p>
+
+                    لا توجد تبليغات جديدة حالياً.
+
+                </p>
+
+            </div>
+
+        `;
+
+
+        $("noticeCountText").textContent =
+            "0 تبليغ";
+
+
+        setNavBadge(
+            "noticeBadge",
+            0
+        );
+
+
+        return;
+
+    }
+
+
     $("noticeList").innerHTML =
         notifications
         .map(
@@ -5664,6 +6906,16 @@ async function renderNotifications(){
 
                         </p>
 
+
+                        <div class="notice-from">
+
+                            ${esc(
+                                notice.senderName ||
+                                "مدرسة التحدي"
+                            )}
+
+                        </div>
+
                     </article>
 
                 `;
@@ -5687,14 +6939,23 @@ async function renderNotifications(){
 
 async function markNotificationsRead(){
 
-    const updateData = {};
+    if(
+        !notifications.length
+    ){
+
+        return;
+
+    }
+
+
+    const data = {};
 
 
     notifications
     .forEach(
         notice => {
 
-            updateData[
+            data[
                 notice.id
             ] =
                 Date.now();
@@ -5703,18 +6964,9 @@ async function markNotificationsRead(){
     );
 
 
-    if(
-        !Object.keys(updateData).length
-    ){
-
-        return;
-
-    }
-
-
     await dbPatch(
         `notificationReads/${encodeURIComponent(STUDENT_CODE)}`,
-        updateData
+        data
     );
 
 
@@ -5722,6 +6974,9 @@ async function markNotificationsRead(){
         "noticeBadge",
         0
     );
+
+
+    await renderNotifications();
 
 }
 
@@ -5737,7 +6992,9 @@ function startNotificationPolling(){
         setInterval(
             async () => {
 
-                if(document.hidden){
+                if(
+                    document.hidden
+                ){
 
                     return;
 
@@ -5763,26 +7020,135 @@ function startNotificationPolling(){
    GRADES
 ========================================================= */
 
+function isPerformanceSubject(name){
+
+    const text =
+        norm(name);
+
+
+    return (
+        text.includes("رياض") ||
+        text.includes("فني")
+    );
+
+}
+
+
+function performanceGrade(grade){
+
+    const direct =
+        numberOrNull(
+            grade.performanceGrade
+        );
+
+
+    if(
+        direct !== null
+    ){
+
+        return roundGrade(
+            direct
+        );
+
+    }
+
+
+    const level =
+        norm(
+            grade.performanceLevel
+        );
+
+
+    if(
+        [
+            "low",
+            "اقل",
+            "منخفض"
+        ].includes(level)
+    ){
+
+        return 87;
+
+    }
+
+
+    if(
+        [
+            "medium",
+            "متوسط"
+        ].includes(level)
+    ){
+
+        return 93;
+
+    }
+
+
+    if(
+        [
+            "excellent",
+            "ممتاز",
+            "100"
+        ].includes(level)
+    ){
+
+        return 100;
+
+    }
+
+
+    return null;
+
+}
+
+
 function calculatedGrade(
     name,
     grade
 ){
 
+    const performance =
+        isPerformanceSubject(
+            name
+        );
+
+
+    const auto =
+        performanceGrade(
+            grade
+        );
+
+
     const term1 =
         numberOrNull(
             grade.term1
+        ) ??
+        (
+            performance
+                ? auto
+                : null
         );
 
 
     const midyear =
         numberOrNull(
             grade.midyear
+        ) ??
+        (
+            performance
+                ? auto
+                : null
         );
 
 
     const term2 =
         numberOrNull(
             grade.term2
+        ) ??
+        (
+            performance
+                ? auto
+                : null
         );
 
 
@@ -5872,11 +7238,13 @@ function subjectResult(
 
 
     if(
-        data.secondRound !== null
+        data.secondRound !==
+        null
     ){
 
         return (
-            data.secondRound >= 50
+            data.secondRound >=
+            50
         )
             ? "ناجح"
             : "راسب";
@@ -5885,7 +7253,8 @@ function subjectResult(
 
 
     if(
-        data.final === null
+        data.final ===
+        null
     ){
 
         return "قيد الانتظار";
@@ -5894,7 +7263,8 @@ function subjectResult(
 
 
     return (
-        data.final >= 50
+        data.final >=
+        50
     )
         ? "ناجح"
         : "راسب";
@@ -5903,6 +7273,18 @@ function subjectResult(
 
 
 async function loadGrades(){
+
+    if(
+        !canUseProtectedFeatures()
+    ){
+
+        renderProtectedLocks();
+
+
+        return;
+
+    }
+
 
     grades =
         await dbGet(
@@ -5915,12 +7297,70 @@ async function loadGrades(){
 }
 
 
+function gradeEntries(){
+
+    return Object.entries(
+        grades
+    )
+    .map(
+        ([key,value]) => [
+
+            key,
+
+            value,
+
+            value.subjectName ||
+            key
+
+        ]
+    )
+    .sort(
+        (a,b) =>
+            a[2]
+            .localeCompare(
+                b[2],
+                "ar"
+            )
+    );
+
+}
+
+
+function miniGrade(
+    label,
+    value
+){
+
+    return `
+
+        <div class="mini-grade">
+
+            <small>
+
+                ${esc(label)}
+
+            </small>
+
+
+            <strong>
+
+                ${esc(
+                    displayGrade(value)
+                )}
+
+            </strong>
+
+        </div>
+
+    `;
+
+}
+
+
 function renderGrades(){
 
-    const entries =
-        Object.entries(
-            grades
-        );
+    $("gradesLocked").innerHTML =
+        "";
 
 
     $("gradesContent")
@@ -5929,16 +7369,84 @@ function renderGrades(){
         );
 
 
+    const entries =
+        gradeEntries();
+
+
+    if(
+        !entries.length
+    ){
+
+        $("subjectList").innerHTML = `
+
+            <div class="lock-box">
+
+                <h3>
+
+                    لا توجد درجات
+
+                </h3>
+
+
+                <p>
+
+                    لم يتم نشر الدرجات حتى الآن.
+
+                </p>
+
+            </div>
+
+        `;
+
+
+        $("gradeTableBody").innerHTML =
+            "";
+
+
+        $("gradeTableFoot").innerHTML =
+            "";
+
+
+        $("finalResultCard").innerHTML =
+            "";
+
+
+        return;
+
+    }
+
+
     $("subjectList").innerHTML =
         entries
         .map(
-            ([name,grade]) => {
+            ([key,grade,name]) => {
 
                 const data =
                     calculatedGrade(
                         name,
                         grade
                     );
+
+
+                const result =
+                    subjectResult(
+                        name,
+                        grade
+                    );
+
+
+                const statusClass =
+                    result ===
+                    "ناجح"
+
+                        ? "pass"
+
+                        : result ===
+                            "راسب"
+
+                            ? "fail"
+
+                            : "wait";
 
 
                 return `
@@ -5949,68 +7457,63 @@ function renderGrades(){
 
                             <div class="subject-name">
 
-                                ${esc(
-                                    grade.subjectName ||
-                                    name
-                                )}
+                                ${esc(name)}
 
                             </div>
+
+
+                            <span
+                                class="subject-result ${statusClass}"
+                            >
+
+                                ${esc(result)}
+
+                            </span>
 
                         </div>
 
 
                         <div class="mini-grades">
 
-                            <div class="mini-grade">
+                            ${miniGrade(
+                                "الفصل الأول",
+                                data.term1
+                            )}
 
-                                <small>
-                                    الفصل الأول
-                                </small>
+                            ${miniGrade(
+                                "نصف السنة",
+                                data.midyear
+                            )}
 
-                                <strong>
-                                    ${displayGrade(data.term1)}
-                                </strong>
+                            ${miniGrade(
+                                "الفصل الثاني",
+                                data.term2
+                            )}
 
-                            </div>
+                            ${miniGrade(
+                                "السعي السنوي",
+                                data.annual
+                            )}
 
+                            ${miniGrade(
+                                "الامتحان النهائي",
+                                data.finalExam
+                            )}
 
-                            <div class="mini-grade">
+                            ${miniGrade(
+                                "الدرجة النهائية",
+                                data.final
+                            )}
 
-                                <small>
-                                    نصف السنة
-                                </small>
+                            ${miniGrade(
+                                "الدور الثاني",
+                                data.secondRound
+                            )}
 
-                                <strong>
-                                    ${displayGrade(data.midyear)}
-                                </strong>
-
-                            </div>
-
-
-                            <div class="mini-grade">
-
-                                <small>
-                                    الفصل الثاني
-                                </small>
-
-                                <strong>
-                                    ${displayGrade(data.term2)}
-                                </strong>
-
-                            </div>
-
-
-                            <div class="mini-grade">
-
-                                <small>
-                                    السعي السنوي
-                                </small>
-
-                                <strong>
-                                    ${displayGrade(data.annual)}
-                                </strong>
-
-                            </div>
+                            ${miniGrade(
+                                "النتيجة",
+                                result
+                            )}
 
                         </div>
 
@@ -6022,178 +7525,1058 @@ function renderGrades(){
         )
         .join("");
 
+
+    $("gradeTableBody").innerHTML =
+        entries
+        .map(
+            ([key,grade,name]) => {
+
+                const data =
+                    calculatedGrade(
+                        name,
+                        grade
+                    );
+
+
+                return `
+
+                    <tr>
+
+                        <td>
+
+                            ${esc(name)}
+
+                        </td>
+
+                        <td>
+
+                            ${displayGrade(data.term1)}
+
+                        </td>
+
+                        <td>
+
+                            ${displayGrade(data.midyear)}
+
+                        </td>
+
+                        <td>
+
+                            ${displayGrade(data.term2)}
+
+                        </td>
+
+                        <td>
+
+                            ${displayGrade(data.annual)}
+
+                        </td>
+
+                        <td>
+
+                            ${displayGrade(data.finalExam)}
+
+                        </td>
+
+                        <td>
+
+                            ${displayGrade(data.final)}
+
+                        </td>
+
+                        <td>
+
+                            ${displayGrade(data.secondRound)}
+
+                        </td>
+
+                        <td>
+
+                            ${esc(
+                                subjectResult(
+                                    name,
+                                    grade
+                                )
+                            )}
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        )
+        .join("");
+
+
+    renderGradeTotals(
+        entries
+    );
+
+
+    renderFinalResult(
+        entries
+    );
+
+}
+
+
+function renderGradeTotals(entries){
+
+    const finals =
+        entries
+        .map(
+            ([key,grade,name]) => {
+
+                const data =
+                    calculatedGrade(
+                        name,
+                        grade
+                    );
+
+
+                return (
+                    data.secondRound !==
+                    null
+                )
+                    ? data.secondRound
+                    : data.final;
+
+            }
+        )
+        .filter(
+            value =>
+                value !== null
+        );
+
+
+    const total =
+        finals.reduce(
+            (sum,value) =>
+                sum + value,
+            0
+        );
+
+
+    const average =
+        finals.length
+
+            ? (
+                total /
+                finals.length
+            ).toFixed(1)
+
+            : "—";
+
+
+    $("gradeTableFoot").innerHTML = `
+
+        <tr>
+
+            <td>
+                النتيجة العامة
+            </td>
+
+            <td colspan="4">
+
+                المجموع:
+                ${finals.length ? total : "—"}
+
+            </td>
+
+            <td colspan="4">
+
+                المعدل:
+                ${average}
+
+            </td>
+
+        </tr>
+
+    `;
+
+}
+
+
+function renderFinalResult(entries){
+
+    const finals =
+        entries
+        .map(
+            ([key,grade,name]) => {
+
+                const data =
+                    calculatedGrade(
+                        name,
+                        grade
+                    );
+
+
+                return (
+                    data.secondRound !==
+                    null
+                )
+                    ? data.secondRound
+                    : data.final;
+
+            }
+        )
+        .filter(
+            value =>
+                value !== null
+        );
+
+
+    if(
+        !finals.length
+    ){
+
+        $("finalResultCard").innerHTML =
+            "";
+
+
+        return;
+
+    }
+
+
+    const total =
+        finals.reduce(
+            (sum,value) =>
+                sum + value,
+            0
+        );
+
+
+    const average =
+        (
+            total /
+            finals.length
+        ).toFixed(1);
+
+
+    const failed =
+        finals.filter(
+            value =>
+                value < 50
+        ).length;
+
+
+    let title;
+
+    let classNameCSS = "";
+
+
+    if(
+        failed === 0
+    ){
+
+        title =
+            genderText() ===
+            "أنثى"
+
+                ? "ناجحة"
+
+                : "ناجح";
+
+    }
+
+    else{
+
+        title =
+            "راسب";
+
+
+        classNameCSS =
+            "fail";
+
+    }
+
+
+    $("finalResultCard").innerHTML = `
+
+        <div
+            class="result-card ${classNameCSS}"
+        >
+
+            <div>
+
+                مدرسة التحدي الأهلية المختلطة
+
+            </div>
+
+
+            <h2>
+
+                ${esc(title)}
+
+            </h2>
+
+
+            <p>
+
+                ${esc(
+                    student.name ||
+                    ""
+                )}
+
+                <br>
+
+                المجموع:
+                ${total}
+
+                <br>
+
+                المعدل:
+                ${average}
+
+                ${
+                    failed
+
+                        ? `<br>عدد المواد الراسبة: ${failed}`
+
+                        : ""
+                }
+
+            </p>
+
+        </div>
+
+    `;
+
 }
 
 
 /* =========================================================
-   MODERATION
+   IRAQI STRONG MODERATION NORMALIZER
 ========================================================= */
 
-function normalizeChatText(text){
+function normalizeIraqiText(text){
 
     return String(
-        text || ""
-    )
-    .toLowerCase()
-
-    .replace(
-        /[ًٌٍَُِّْـ]/g,
+        text ||
         ""
     )
 
+    .toLowerCase()
+
+    /*
+        hidden unicode
+    */
     .replace(
-        /[أإآ]/g,
+        /[\u200B-\u200D\uFEFF]/g,
+        ""
+    )
+
+    /*
+        Arabic diacritics
+    */
+    .replace(
+        /[\u064B-\u065F\u0670]/g,
+        ""
+    )
+
+    /*
+        Arabic elongation
+    */
+    .replace(
+        /ـ+/g,
+        ""
+    )
+
+    /*
+        Alef variations
+    */
+    .replace(
+        /[أإآٱ]/g,
         "ا"
     )
 
+    /*
+        Ya variations
+    */
+    .replace(
+        /[ىئ]/g,
+        "ي"
+    )
+
+    /*
+        Persian characters
+    */
+    .replace(
+        /ک/g,
+        "ك"
+    )
+
+    .replace(
+        /ی/g,
+        "ي"
+    )
+
+    /*
+        Teh marbuta
+    */
     .replace(
         /ة/g,
         "ه"
     )
 
+    /*
+        Waw hamza
+    */
     .replace(
-        /ى/g,
-        "ي"
+        /ؤ/g,
+        "و"
+    )
+
+    /*
+        repeated letters
+    */
+    .replace(
+        /(.)\1{2,}/g,
+        "$1"
+    )
+
+    .trim();
+
+}
+
+
+/* =========================================================
+   ARABIZI CONVERSION
+========================================================= */
+
+function convertArabizi(text){
+
+    return String(
+        text ||
+        ""
+    )
+
+    .toLowerCase()
+
+    .replace(
+        /3/g,
+        "ع"
+    )
+
+    .replace(
+        /7/g,
+        "ح"
+    )
+
+    .replace(
+        /5/g,
+        "خ"
+    )
+
+    .replace(
+        /6/g,
+        "ط"
+    )
+
+    .replace(
+        /9/g,
+        "ص"
+    )
+
+    .replace(
+        /8/g,
+        "ق"
     );
 
 }
 
 
-function compactChatText(text){
+/* =========================================================
+   COMPACT MODERATION
+========================================================= */
 
-    return normalizeChatText(
-        text
+function compactModerationText(text){
+
+    return normalizeIraqiText(
+        convertArabizi(text)
     )
     .replace(
-        /[^\u0600-\u06FFa-z0-9]/gi,
+        /[^a-z0-9\u0600-\u06FF]/gi,
         ""
     );
 
 }
 
 
-async function getBlockedWords(){
+/* =========================================================
+   TOKENS
+========================================================= */
+
+function moderationTokens(text){
+
+    return normalizeIraqiText(
+        convertArabizi(text)
+    )
+
+    .replace(
+        /[^a-z0-9\u0600-\u06FF]+/gi,
+        " "
+    )
+
+    .split(/\s+/)
+
+    .filter(Boolean);
+
+}
+
+
+/* =========================================================
+   LEVENSHTEIN
+
+   detect one-letter evasion.
+========================================================= */
+
+function levenshteinDistance(
+    a,
+    b
+){
+
+    a =
+        String(a || "");
+
+
+    b =
+        String(b || "");
+
+
+    const matrix =
+        Array.from(
+            {
+                length:
+                    b.length + 1
+            },
+            () =>
+                new Array(
+                    a.length + 1
+                )
+        );
+
+
+    for(
+        let i = 0;
+        i <= b.length;
+        i++
+    ){
+
+        matrix[i][0] =
+            i;
+
+    }
+
+
+    for(
+        let j = 0;
+        j <= a.length;
+        j++
+    ){
+
+        matrix[0][j] =
+            j;
+
+    }
+
+
+    for(
+        let i = 1;
+        i <= b.length;
+        i++
+    ){
+
+        for(
+            let j = 1;
+            j <= a.length;
+            j++
+        ){
+
+            const cost =
+                (
+                    b.charAt(i - 1) ===
+                    a.charAt(j - 1)
+                )
+                    ? 0
+                    : 1;
+
+
+            matrix[i][j] =
+                Math.min(
+
+                    matrix[i - 1][j] +
+                        1,
+
+                    matrix[i][j - 1] +
+                        1,
+
+                    matrix[i - 1][j - 1] +
+                        cost
+
+                );
+
+        }
+
+    }
+
+
+    return matrix[
+        b.length
+    ][
+        a.length
+    ];
+
+}
+
+
+/* =========================================================
+   MODERATION SETTINGS
+========================================================= */
+
+async function getModerationRules(){
+
+    let words =
+        [
+            ...DEFAULT_BLOCKED_WORDS
+        ];
+
+
+    let phrases = [];
+
+
+    let fuzzyEnabled =
+        true;
+
 
     try{
 
-        const moderation =
+        const settings =
             await dbGet(
                 "settings/chatModeration"
             ) || {};
 
 
-        let words = [
-            ...DEFAULT_BLOCKED_WORDS
-        ];
+        if(
+            settings.enabled ===
+            false
+        ){
+
+            return {
+
+                enabled:false,
+
+                words:[],
+
+                phrases:[],
+
+                fuzzyEnabled:false
+
+            };
+
+        }
 
 
         if(
-            moderation.blockedWords
+            settings.blockedWords
         ){
 
-            words.push(
-                ...Object.values(
-                    moderation.blockedWords
+            const extra =
+                Array.isArray(
+                    settings.blockedWords
                 )
+
+                    ? settings.blockedWords
+
+                    : Object.values(
+                        settings.blockedWords
+                    );
+
+
+            words.push(
+                ...extra
             );
 
         }
 
 
-        return [
-            ...new Set(words)
-        ];
+        if(
+            settings.blockedPhrases
+        ){
+
+            phrases =
+                Array.isArray(
+                    settings.blockedPhrases
+                )
+
+                    ? settings.blockedPhrases
+
+                    : Object.values(
+                        settings.blockedPhrases
+                    );
+
+        }
+
+
+        if(
+            settings.fuzzyEnabled ===
+            false
+        ){
+
+            fuzzyEnabled =
+                false;
+
+        }
 
     }
 
-    catch{
+    catch(error){
 
-        return [
-            ...DEFAULT_BLOCKED_WORDS
-        ];
+        console.error(
+            "MODERATION_SETTINGS_ERROR",
+            error
+        );
 
     }
+
+
+    words =
+        [
+            ...new Set(
+
+                words
+
+                .map(
+                    value =>
+                        normalizeIraqiText(
+                            value
+                        )
+                )
+
+                .filter(Boolean)
+
+            )
+        ];
+
+
+    phrases =
+        [
+            ...new Set(
+
+                phrases
+
+                .map(
+                    value =>
+                        normalizeIraqiText(
+                            value
+                        )
+                )
+
+                .filter(Boolean)
+
+            )
+        ];
+
+
+    return {
+
+        enabled:true,
+
+        words,
+
+        phrases,
+
+        fuzzyEnabled
+
+    };
 
 }
 
 
-function findBlockedWord(
-    message,
-    words
+/* =========================================================
+   STRONG MESSAGE INSPECTION
+========================================================= */
+
+async function inspectChatMessage(
+    message
 ){
 
-    const text =
-        compactChatText(
+    const rules =
+        await getModerationRules();
+
+
+    if(
+        !rules.enabled
+    ){
+
+        return {
+            blocked:false
+        };
+
+    }
+
+
+    const normalized =
+        normalizeIraqiText(
+            convertArabizi(
+                message
+            )
+        );
+
+
+    const compact =
+        compactModerationText(
             message
         );
 
 
+    const tokens =
+        moderationTokens(
+            message
+        );
+
+
+    /*
+        PHRASES
+    */
+
     for(
-        const word
-        of words
+        const phrase
+        of rules.phrases
     ){
 
-        const check =
-            compactChatText(
+        const phraseNormal =
+            normalizeIraqiText(
+                phrase
+            );
+
+
+        const phraseCompact =
+            compactModerationText(
+                phrase
+            );
+
+
+        if(
+            normalized.includes(
+                phraseNormal
+            ) ||
+            compact.includes(
+                phraseCompact
+            )
+        ){
+
+            return {
+
+                blocked:true,
+
+                type:"blocked_phrase",
+
+                detected:
+                    phrase
+
+            };
+
+        }
+
+    }
+
+
+    /*
+        EXACT + SPLIT LETTER EVASION
+    */
+
+    for(
+        const word
+        of rules.words
+    ){
+
+        const bad =
+            normalizeIraqiText(
+                word
+            );
+
+
+        const badCompact =
+            compactModerationText(
                 word
             );
 
 
         if(
-            check.length >= 3 &&
-            text.includes(
-                check
+            badCompact.length >=
+            3 &&
+            compact.includes(
+                badCompact
             )
         ){
 
-            return word;
+            return {
+
+                blocked:true,
+
+                type:
+                    "blocked_word",
+
+                detected:
+                    word
+
+            };
+
+        }
+
+
+        /*
+            FUZZY DETECTION
+            Only 5+ chars to reduce false positives.
+        */
+
+        if(
+            rules.fuzzyEnabled &&
+            bad.length >=
+            5
+        ){
+
+            for(
+                const token
+                of tokens
+            ){
+
+                if(
+                    Math.abs(
+                        token.length -
+                        bad.length
+                    ) > 1
+                ){
+
+                    continue;
+
+                }
+
+
+                const distance =
+                    levenshteinDistance(
+                        token,
+                        bad
+                    );
+
+
+                if(
+                    distance <=
+                    1
+                ){
+
+                    return {
+
+                        blocked:true,
+
+                        type:
+                            "fuzzy_word",
+
+                        detected:
+                            word
+
+                    };
+
+                }
+
+            }
 
         }
 
     }
 
 
-    return null;
+    return {
+        blocked:false
+    };
 
 }
 
 
+/* =========================================================
+   BEHAVIOR VIOLATION
+
+   MESSAGE IS NOT SENT.
+   ACCOUNT IS STOPPED.
+========================================================= */
+
 async function registerBehaviorViolation(
     message,
-    detectedWord
+    moderationResult
 ){
 
     const now =
         Date.now();
 
 
+    const violation = {
+
+        studentCode:
+            STUDENT_CODE,
+
+        studentName:
+            student.name ||
+            "",
+
+        profileImage:
+            student.profileImage ||
+            "",
+
+        classId:
+            student.classId ||
+            "",
+
+        className:
+            className(),
+
+        roomNumber:
+            student.roomNumber ||
+            "",
+
+        gender:
+            normalizedGender(),
+
+        chatRoomId:
+            chatRoomId(),
+
+        message,
+
+        detected:
+            moderationResult.detected ||
+            "",
+
+        detectionType:
+            moderationResult.type ||
+            "",
+
+        createdAt:
+            now,
+
+        status:
+            "account_blocked",
+
+        reviewed:
+            false,
+
+        source:
+            "student_chat"
+
+    };
+
+
     await dbPost(
         `behaviorViolations/${encodeURIComponent(STUDENT_CODE)}`,
-        {
+        violation
+    );
 
-            studentCode:
-                STUDENT_CODE,
 
-            studentName:
-                student.name || "",
-
-            profileImage:
-                student.profileImage || "",
-
-            classId:
-                student.classId || "",
-
-            message,
-
-            detectedWord,
-
-            createdAt:
-                now,
-
-            status:
-                "account_blocked"
-
-        }
+    await dbPost(
+        "behaviorViolationInbox",
+        violation
     );
 
 
@@ -6201,18 +8584,31 @@ async function registerBehaviorViolation(
         `students/${encodeURIComponent(STUDENT_CODE)}`,
         {
 
-            behaviorBlocked:true,
+            behaviorBlocked:
+                true,
 
-            accountActive:false,
+            accountActive:
+                false,
 
             behaviorBlockedAt:
                 now,
+
+            behaviorBlockedBy:
+                "system",
+
+            behaviorBlockReason:
+                "chat_behavior_violation",
 
             behaviorViolationMessage:
                 message,
 
             behaviorViolationWord:
-                detectedWord
+                moderationResult.detected ||
+                "",
+
+            behaviorViolationType:
+                moderationResult.type ||
+                ""
 
         }
     );
@@ -6222,9 +8618,17 @@ async function registerBehaviorViolation(
         `users/${encodeURIComponent(session.code)}`,
         {
 
-            active:false,
+            active:
+                false,
 
-            behaviorBlocked:true
+            behaviorBlocked:
+                true,
+
+            behaviorBlockedAt:
+                now,
+
+            behaviorBlockReason:
+                "chat_behavior_violation"
 
         }
     );
@@ -6234,8 +8638,25 @@ async function registerBehaviorViolation(
         true;
 
 
+    student.accountActive =
+        false;
+
+
+    user.active =
+        false;
+
+
     user.behaviorBlocked =
         true;
+
+
+    $("chatInput").value =
+        "";
+
+
+    toast(
+        "تم إيقاف الحساب بسبب مخالفة سلوكية"
+    );
 
 
     showInactiveAccount();
@@ -6244,23 +8665,268 @@ async function registerBehaviorViolation(
 
 
 /* =========================================================
-   CHAT
+   CHAT USER PROFILE
 ========================================================= */
 
-function chatRoomId(){
+async function loadChatUserProfile(
+    code
+){
 
-    return (
-        student.classId ||
-        "general"
+    if(!code){
+
+        return {};
+
+    }
+
+
+    if(
+        chatUserProfiles[
+            code
+        ]
+    ){
+
+        return chatUserProfiles[
+            code
+        ];
+
+    }
+
+
+    try{
+
+        const profile =
+            await dbGet(
+                `students/${encodeURIComponent(code)}`
+            ) || {};
+
+
+        chatUserProfiles[
+            code
+        ] =
+            profile;
+
+
+        return profile;
+
+    }
+
+    catch{
+
+        return {};
+
+    }
+
+}
+
+
+async function prepareChatProfiles(){
+
+    const codes =
+        new Set();
+
+
+    Object.values(
+        chatMessages
+    )
+    .forEach(
+        message => {
+
+            if(
+                message?.senderCode
+            ){
+
+                codes.add(
+                    message.senderCode
+                );
+
+            }
+
+
+            if(
+                message?.readBy
+            ){
+
+                Object.keys(
+                    message.readBy
+                )
+                .forEach(
+                    code =>
+                        codes.add(
+                            code
+                        )
+                );
+
+            }
+
+
+            if(
+                message?.reactions
+            ){
+
+                Object.keys(
+                    message.reactions
+                )
+                .forEach(
+                    code =>
+                        codes.add(
+                            code
+                        )
+                );
+
+            }
+
+        }
+    );
+
+
+    await Promise.all(
+
+        [...codes]
+        .map(
+            code =>
+                loadChatUserProfile(
+                    code
+                )
+        )
+
     );
 
 }
 
 
+/* =========================================================
+   MESSAGE ROOM VALIDATION
+========================================================= */
+
+function messageMatchesRoom(message){
+
+    if(!message){
+
+        return false;
+
+    }
+
+
+    /*
+        New messages.
+        Strong exact room identifier.
+    */
+
+    if(
+        message.chatRoomId
+    ){
+
+        return (
+            String(
+                message.chatRoomId
+            ) ===
+            chatRoomId()
+        );
+
+    }
+
+
+    /*
+        Legacy fallback.
+    */
+
+    const messageClass =
+        String(
+            message.classId ||
+            ""
+        ).trim();
+
+
+    const messageRoom =
+        String(
+            message.roomNumber ||
+            ""
+        ).trim();
+
+
+    const myClass =
+        String(
+            student.classId ||
+            ""
+        ).trim();
+
+
+    const myRoom =
+        String(
+            student.roomNumber ||
+            ""
+        ).trim();
+
+
+    if(
+        messageClass &&
+        messageClass !==
+        myClass
+    ){
+
+        return false;
+
+    }
+
+
+    if(
+        messageRoom &&
+        messageRoom !==
+        myRoom
+    ){
+
+        return false;
+
+    }
+
+
+    if(
+        message.gender
+    ){
+
+        const gender =
+            normalizeGenderValue(
+                message.gender
+            );
+
+
+        if(
+            gender !==
+            normalizedGender()
+        ){
+
+            return false;
+
+        }
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   LOAD CHAT
+========================================================= */
+
 async function loadChat(){
 
+    if(
+        !canUseProtectedFeatures()
+    ){
+
+        renderProtectedLocks();
+
+
+        return;
+
+    }
+
+
     $("chatRoomName").textContent =
-        `${className()} - طلاب الصف`;
+        `${className()} - القاعة ${student.roomNumber || "—"} - ${genderText()}`;
 
 
     chatMessages =
@@ -6269,10 +8935,33 @@ async function loadChat(){
         ) || {};
 
 
+    /*
+        Additional browser-side filter.
+    */
+
+    chatMessages =
+        Object.fromEntries(
+
+            Object.entries(
+                chatMessages
+            )
+            .filter(
+                ([id,message]) =>
+                    messageMatchesRoom(
+                        message
+                    )
+            )
+
+        );
+
+
     lastChatCount =
         Object.keys(
             chatMessages
         ).length;
+
+
+    await prepareChatProfiles();
 
 
     renderChat(
@@ -6288,6 +8977,10 @@ async function loadChat(){
 }
 
 
+/* =========================================================
+   CHAT POLLING
+========================================================= */
+
 function startChatPolling(){
 
     clearInterval(
@@ -6299,7 +8992,9 @@ function startChatPolling(){
         setInterval(
             async () => {
 
-                if(document.hidden){
+                if(
+                    document.hidden
+                ){
 
                     return;
 
@@ -6308,24 +9003,88 @@ function startChatPolling(){
 
                 try{
 
+                    const freshStudent =
+                        await dbGet(
+                            `students/${encodeURIComponent(STUDENT_CODE)}`
+                        );
+
+
+                    if(
+                        freshStudent
+                    ){
+
+                        student =
+                            freshStudent;
+
+                    }
+
+
+                    if(
+                        !globalAccountActive()
+                    ){
+
+                        showInactiveAccount();
+
+
+                        return;
+
+                    }
+
+
                     const fresh =
                         await dbGet(
                             `chats/${encodeURIComponent(chatRoomId())}/messages`
                         ) || {};
 
 
+                    const filtered =
+                        Object.fromEntries(
+
+                            Object.entries(
+                                fresh
+                            )
+                            .filter(
+                                ([id,message]) =>
+                                    messageMatchesRoom(
+                                        message
+                                    )
+                            )
+
+                        );
+
+
                     const newCount =
                         Object.keys(
-                            fresh
+                            filtered
                         ).length;
+
+
+                    const oldIds =
+                        new Set(
+                            Object.keys(
+                                chatMessages
+                            )
+                        );
+
+
+                    const hasNew =
+                        Object.keys(
+                            filtered
+                        )
+                        .some(
+                            id =>
+                                !oldIds.has(
+                                    id
+                                )
+                        );
 
 
                     const chatActive =
                         $("pageChat")
-                            .classList
-                            .contains(
-                                "active"
-                            );
+                        .classList
+                        .contains(
+                            "active"
+                        );
 
 
                     if(
@@ -6344,19 +9103,24 @@ function startChatPolling(){
 
 
                     chatMessages =
-                        fresh;
+                        filtered;
 
 
                     lastChatCount =
                         newCount;
 
 
+                    await prepareChatProfiles();
+
+
                     renderChat(
-                        false
+                        hasNew
                     );
 
 
-                    if(chatActive){
+                    if(
+                        chatActive
+                    ){
 
                         await markVisibleMessagesRead();
 
@@ -6366,7 +9130,10 @@ function startChatPolling(){
 
                 catch(error){
 
-                    console.error(error);
+                    console.error(
+                        "CHAT_POLL_ERROR",
+                        error
+                    );
 
                 }
 
@@ -6383,15 +9150,19 @@ function startChatPolling(){
 
 function reactionSummary(message){
 
-    const result = {};
-
-
-    Object.values(
+    const reactions =
         message.reactions ||
-        {}
+        {};
+
+
+    const groups = {};
+
+
+    Object.entries(
+        reactions
     )
     .forEach(
-        emoji => {
+        ([code,emoji]) => {
 
             if(!emoji){
 
@@ -6400,17 +9171,30 @@ function reactionSummary(message){
             }
 
 
-            result[emoji] =
-                (
-                    result[emoji] ||
-                    0
-                ) + 1;
+            if(
+                !groups[
+                    emoji
+                ]
+            ){
+
+                groups[
+                    emoji
+                ] = [];
+
+            }
+
+
+            groups[
+                emoji
+            ].push(
+                code
+            );
 
         }
     );
 
 
-    return result;
+    return groups;
 
 }
 
@@ -6423,17 +9207,44 @@ async function reactToMessage(
     closeAllMessageActions();
 
 
-    const current =
+    const message =
         chatMessages[
             messageId
-        ]?.reactions?.[
+        ];
+
+
+    if(
+        !message ||
+        !messageMatchesRoom(
+            message
+        )
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        !canUseProtectedFeatures()
+    ){
+
+        return;
+
+    }
+
+
+    const current =
+        message.reactions?.[
             STUDENT_CODE
         ];
 
 
     const next =
         current === emoji
+
             ? null
+
             : emoji;
 
 
@@ -6443,10 +9254,32 @@ async function reactToMessage(
     );
 
 
-    chatMessages =
-        await dbGet(
-            `chats/${encodeURIComponent(chatRoomId())}/messages`
-        ) || {};
+    if(
+        !message.reactions
+    ){
+
+        message.reactions =
+            {};
+
+    }
+
+
+    if(next){
+
+        message.reactions[
+            STUDENT_CODE
+        ] =
+            next;
+
+    }
+
+    else{
+
+        delete message.reactions[
+            STUDENT_CODE
+        ];
+
+    }
 
 
     renderChat(
@@ -6460,7 +9293,13 @@ window.reactToMessage =
     reactToMessage;
 
 
-function toggleMessageActions(id){
+/* =========================================================
+   MESSAGE ACTION POPUP
+========================================================= */
+
+function toggleMessageActions(
+    id
+){
 
     const popup =
         document.querySelector(
@@ -6468,7 +9307,7 @@ function toggleMessageActions(id){
         );
 
 
-    const opened =
+    const wasOpen =
         popup?.classList.contains(
             "show"
         );
@@ -6479,13 +9318,12 @@ function toggleMessageActions(id){
 
     if(
         popup &&
-        !opened
+        !wasOpen
     ){
 
-        popup
-            .classList.add(
-                "show"
-            );
+        popup.classList.add(
+            "show"
+        );
 
 
         activeMessageActionId =
@@ -6504,7 +9342,7 @@ function closeAllMessageActions(){
 
     document
     .querySelectorAll(
-        ".message-action-popup"
+        ".message-action-popup.show"
     )
     .forEach(
         popup =>
@@ -6524,13 +9362,20 @@ function closeAllMessageActions(){
    REPLY
 ========================================================= */
 
-function startReply(id){
+function startReply(
+    id
+){
 
     const message =
         chatMessages[id];
 
 
-    if(!message){
+    if(
+        !message ||
+        !messageMatchesRoom(
+            message
+        )
+    ){
 
         return;
 
@@ -6539,13 +9384,18 @@ function startReply(id){
 
     replyingTo = {
 
-        messageId:id,
+        messageId:
+            id,
 
         senderCode:
-            message.senderCode,
+            message.senderCode ||
+            "",
 
         senderName:
             message.senderName ||
+            chatUserProfiles[
+                message.senderCode
+            ]?.name ||
             "طالب",
 
         text:
@@ -6555,7 +9405,7 @@ function startReply(id){
             )
             .slice(
                 0,
-                120
+                140
             )
 
     };
@@ -6587,62 +9437,91 @@ window.startReply =
     startReply;
 
 
+function clearReply(){
+
+    replyingTo =
+        null;
+
+
+    $("replyCompose")
+        .classList.remove(
+            "show"
+        );
+
+}
+
+
 $("replyClose").onclick =
-    () => {
-
-        replyingTo = null;
-
-
-        $("replyCompose")
-            .classList.remove(
-                "show"
-            );
-
-    };
+    clearReply;
 
 
 /* =========================================================
-   MENTION
+   MENTIONS
 ========================================================= */
 
-function updateMentionPanel(){
+function findMentionState(){
 
     const input =
         $("chatInput");
 
 
+    const cursor =
+        input.selectionStart;
+
+
     const before =
         input.value.slice(
             0,
-            input.selectionStart
+            cursor
         );
 
 
     const at =
-        before.lastIndexOf("@");
+        before.lastIndexOf(
+            "@"
+        );
 
 
-    if(at < 0){
+    if(
+        at < 0
+    ){
 
-        hideMentionPanel();
+        return null;
 
-        return;
+    }
+
+
+    if(
+        at > 0 &&
+        !/\s/.test(
+            before[
+                at - 1
+            ]
+        )
+    ){
+
+        return null;
 
     }
 
 
     const query =
-        before
-        .slice(
+        before.slice(
             at + 1
-        )
-        .trim()
-        .toLowerCase();
+        );
 
 
-    mentionState = {
+    if(
+        query.includes("\n") ||
+        query.length > 40
+    ){
 
-        active:true,
+        return null;
+
+    }
+
+
+    return {
 
         start:at,
 
@@ -6650,9 +9529,51 @@ function updateMentionPanel(){
 
     };
 
+}
+
+
+function updateMentionPanel(){
+
+    const state =
+        findMentionState();
+
+
+    if(!state){
+
+        hideMentionPanel();
+
+
+        return;
+
+    }
+
+
+    mentionState = {
+
+        active:true,
+
+        start:
+            state.start,
+
+        query:
+            state.query
+
+    };
+
+
+    const search =
+        norm(
+            state.query
+        );
+
 
     const results =
         classStudents
+
+        /*
+            same class + room + gender
+            already guaranteed when classStudents loaded.
+        */
 
         .filter(
             item =>
@@ -6662,26 +9583,27 @@ function updateMentionPanel(){
 
         .filter(
             item =>
-                !query ||
-                String(
-                    item.name ||
-                    ""
+                !search ||
+                norm(
+                    item.name
                 )
-                .toLowerCase()
                 .includes(
-                    query
+                    search
                 )
         )
 
         .slice(
             0,
-            20
+            25
         );
 
 
-    if(!results.length){
+    if(
+        !results.length
+    ){
 
         hideMentionPanel();
+
 
         return;
 
@@ -6691,63 +9613,74 @@ function updateMentionPanel(){
     $("mentionList").innerHTML =
         results
         .map(
-            item => `
+            item => {
 
-                <button
-                    type="button"
-                    class="mention-item"
-                    onclick="selectMention('${esc(item.code)}')"
-                >
+                const image =
+                    item.profileImage ||
+                    "";
 
-                    <div class="mention-avatar">
 
-                        ${
-                            item.profileImage
+                return `
 
-                            ? `
+                    <button
+                        type="button"
+                        class="mention-item"
+                        onclick="selectMention('${esc(item.code)}')"
+                    >
 
-                                <img
-                                    src="${esc(item.profileImage)}"
-                                    alt=""
-                                >
+                        <div class="mention-avatar">
 
-                            `
+                            ${
+                                image
 
-                            : esc(
-                                String(
+                                    ? `
+
+                                        <img
+                                            src="${esc(image)}"
+                                            alt=""
+                                        >
+
+                                    `
+
+                                    : esc(
+                                        String(
+                                            item.name ||
+                                            "ط"
+                                        )
+                                        .trim()
+                                        .charAt(0) ||
+                                        "ط"
+                                    )
+                            }
+
+                        </div>
+
+
+                        <div class="mention-info">
+
+                            <div class="mention-name">
+
+                                ${esc(
                                     item.name ||
-                                    "ط"
-                                )
-                                .charAt(0)
-                            )
-                        }
+                                    "طالب"
+                                )}
 
-                    </div>
+                            </div>
 
 
-                    <div class="mention-info">
+                            <div class="mention-code">
 
-                        <div class="mention-name">
+                                ${esc(item.code)}
 
-                            ${esc(
-                                item.name ||
-                                "طالب"
-                            )}
+                            </div>
 
                         </div>
 
+                    </button>
 
-                        <div class="mention-code">
+                `;
 
-                            ${esc(item.code)}
-
-                        </div>
-
-                    </div>
-
-                </button>
-
-            `
+            }
         )
         .join("");
 
@@ -6767,6 +9700,17 @@ function hideMentionPanel(){
             "show"
         );
 
+
+    mentionState = {
+
+        active:false,
+
+        start:-1,
+
+        query:""
+
+    };
+
 }
 
 
@@ -6775,7 +9719,8 @@ function selectMention(code){
     const target =
         classStudents.find(
             item =>
-                item.code === code
+                item.code ===
+                code
         );
 
 
@@ -6807,18 +9752,33 @@ function selectMention(code){
         );
 
 
-    const value =
-        `${before}@${target.name} ${after}`;
+    const mentionText =
+        `@${target.name} `;
 
 
     input.value =
-        value;
+        before +
+        mentionText +
+        after;
 
 
-    hideMentionPanel();
+    const position =
+        (
+            before +
+            mentionText
+        ).length;
 
 
     input.focus();
+
+
+    input.setSelectionRange(
+        position,
+        position
+    );
+
+
+    hideMentionPanel();
 
 }
 
@@ -6835,7 +9795,123 @@ $("chatInput")
 
 
 /* =========================================================
-   RENDER CHAT
+   CHAT TEXT
+========================================================= */
+
+function renderChatText(text){
+
+    let safe =
+        esc(text);
+
+
+    /*
+        Visual @ highlight.
+    */
+
+    safe =
+        safe.replace(
+            /(^|\s)(@[^\n@]{2,60}?)(?=\s{2,}|$)/g,
+            function(
+                full,
+                prefix,
+                mention
+            ){
+
+                return (
+                    `${prefix}<span class="mention">${mention}</span>`
+                );
+
+            }
+        );
+
+
+    return safe;
+
+}
+
+
+/* =========================================================
+   REACTION SUMMARY HTML
+========================================================= */
+
+function renderMessageReactions(
+    message
+){
+
+    const groups =
+        reactionSummary(
+            message
+        );
+
+
+    const entries =
+        Object.entries(
+            groups
+        );
+
+
+    if(
+        !entries.length
+    ){
+
+        return "";
+
+    }
+
+
+    return `
+
+        <div class="reaction-summary">
+
+            ${
+                entries
+                .map(
+                    ([emoji,codes]) => {
+
+                        const mine =
+                            codes.includes(
+                                STUDENT_CODE
+                            );
+
+
+                        return `
+
+                            <button
+                                type="button"
+                                class="reaction-chip ${mine ? "mine" : ""}"
+                                onclick="event.stopPropagation();reactToMessage('${esc(message.id)}','${emoji}')"
+                            >
+
+                                <span>
+
+                                    ${emoji}
+
+                                </span>
+
+                                <span>
+
+                                    ${codes.length}
+
+                                </span>
+
+                            </button>
+
+                        `;
+
+                    }
+                )
+                .join("")
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   ACTION POPUP
 ========================================================= */
 
 function messageActionPopup(id){
@@ -6908,292 +9984,113 @@ function messageActionPopup(id){
 }
 
 
-function renderChat(
-    forceScroll = false
+/* =========================================================
+   MESSAGE AVATAR
+========================================================= */
+
+function messageAvatarHTML(
+    message,
+    name
 ){
 
-    $("chatContent")
-        .classList.remove(
-            "hidden"
-        );
+    const profile =
+        chatUserProfiles[
+            message.senderCode
+        ] || {};
 
 
-    const box =
-        $("messages");
+    const image =
+        message.senderImage ||
+        profile.profileImage ||
+        "";
 
 
-    const nearBottom =
-        (
-            box.scrollHeight -
-            box.scrollTop -
-            box.clientHeight
-        ) < 100;
+    if(image){
 
+        return `
 
-    const messages =
-        Object.entries(
-            chatMessages
-        )
+            <div class="msg-avatar">
 
-        .map(
-            ([id,value]) => ({
-                id,
-                ...value
-            })
-        )
-
-        .sort(
-            (a,b) =>
-                (a.createdAt || 0) -
-                (b.createdAt || 0)
-        );
-
-
-    if(!messages.length){
-
-        box.innerHTML = `
-
-            <div class="chat-empty">
-
-                لا توجد رسائل بعد
+                <img
+                    src="${esc(image)}"
+                    alt="${esc(name)}"
+                >
 
             </div>
 
         `;
 
-
-        return;
-
     }
 
 
-    box.innerHTML =
-        messages
-        .map(
-            message => {
+    return `
 
-                const mine =
-                    message.senderCode ===
-                    STUDENT_CODE;
+        <div class="msg-avatar">
 
+            <div class="msg-avatar-letter">
 
-                const name =
-                    message.senderName ||
-                    "طالب";
+                ${esc(
+                    String(name)
+                    .trim()
+                    .charAt(0) ||
+                    "ط"
+                )}
 
+            </div>
 
-                const image =
-                    message.senderImage ||
-                    chatUserProfiles[
-                        message.senderCode
-                    ]?.profileImage ||
-                    "";
+        </div>
 
+    `;
 
-                const reactions =
-                    reactionSummary(
-                        message
-                    );
+}
 
 
-                const reactionHTML =
-                    Object.entries(
-                        reactions
-                    )
-                    .map(
-                        ([emoji,count]) => `
+/* =========================================================
+   REPLY PREVIEW
+========================================================= */
 
-                            <div class="reaction-chip">
+function replyPreviewHTML(message){
 
-                                <span>
-                                    ${emoji}
-                                </span>
-
-                                <span>
-                                    ${count}
-                                </span>
-
-                            </div>
-
-                        `
-                    )
-                    .join("");
-
-
-                return `
-
-                    <div
-                        class="msg-row ${mine ? "mine" : "other"}"
-                    >
-
-                        <div class="msg-side">
-
-
-                            <div class="msg-avatar">
-
-                                ${
-                                    image
-
-                                    ? `
-
-                                        <img
-                                            src="${esc(image)}"
-                                            alt=""
-                                        >
-
-                                    `
-
-                                    : `
-
-                                        <div class="msg-avatar-letter">
-
-                                            ${esc(
-                                                name.charAt(0) ||
-                                                "ط"
-                                            )}
-
-                                        </div>
-
-                                    `
-                                }
-
-                            </div>
-
-
-                            <div class="msg-bubble-wrap">
-
-
-                                ${messageActionPopup(
-                                    message.id
-                                )}
-
-
-                                <div
-                                    class="msg ${mine ? "mine" : ""}"
-                                    onclick="event.stopPropagation();toggleMessageActions('${esc(message.id)}')"
-                                >
-
-
-                                    <div class="msg-user">
-
-                                        <span class="msg-name">
-
-                                            ${
-                                                mine
-                                                    ? "أنت"
-                                                    : esc(name)
-                                            }
-
-                                        </span>
-
-
-                                        <span class="msg-time">
-
-                                            ${esc(
-                                                timeText(
-                                                    message.createdAt
-                                                )
-                                            )}
-
-                                        </span>
-
-                                    </div>
-
-
-                                    ${
-                                        message.replyTo
-
-                                        ? `
-
-                                            <div class="message-reply-preview">
-
-                                                <strong>
-
-                                                    ${esc(
-                                                        message.replyTo.senderName ||
-                                                        "طالب"
-                                                    )}
-
-                                                </strong>
-
-
-                                                <span>
-
-                                                    ${esc(
-                                                        message.replyTo.text ||
-                                                        ""
-                                                    )}
-
-                                                </span>
-
-                                            </div>
-
-                                        `
-
-                                        : ""
-                                    }
-
-
-                                    <div class="msg-text">
-
-                                        ${esc(
-                                            message.text ||
-                                            ""
-                                        )}
-
-                                    </div>
-
-
-                                    ${
-                                        reactionHTML
-
-                                        ? `
-
-                                            <div class="reaction-summary">
-
-                                                ${reactionHTML}
-
-                                            </div>
-
-                                        `
-
-                                        : ""
-                                    }
-
-                                </div>
-
-
-                                ${
-                                    mine
-
-                                    ? seenHTML(
-                                        message
-                                    )
-
-                                    : ""
-                                }
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                `;
-
-            }
-        )
-        .join("");
+    const reply =
+        message.replyTo;
 
 
     if(
-        forceScroll ||
-        nearBottom
+        !reply ||
+        !reply.messageId
     ){
 
-        scrollChat();
+        return "";
 
     }
+
+
+    return `
+
+        <div class="message-reply-preview">
+
+            <strong>
+
+                ${esc(
+                    reply.senderName ||
+                    "طالب"
+                )}
+
+            </strong>
+
+
+            <span>
+
+                ${esc(
+                    reply.text ||
+                    ""
+                )}
+
+            </span>
+
+        </div>
+
+    `;
 
 }
 
@@ -7204,13 +10101,25 @@ function renderChat(
 
 function seenHTML(message){
 
+    if(
+        message.senderCode !==
+        STUDENT_CODE
+    ){
+
+        return "";
+
+    }
+
+
     const readBy =
         message.readBy ||
         {};
 
 
     const viewers =
-        Object.keys(readBy)
+        Object.keys(
+            readBy
+        )
         .filter(
             code =>
                 code !==
@@ -7218,7 +10127,9 @@ function seenHTML(message){
         );
 
 
-    if(!viewers.length){
+    if(
+        !viewers.length
+    ){
 
         return `
 
@@ -7237,32 +10148,51 @@ function seenHTML(message){
     }
 
 
-    const avatars =
+    const recent =
         viewers
+
+        .sort(
+            (a,b) =>
+                Number(
+                    readBy[b] ||
+                    0
+                ) -
+                Number(
+                    readBy[a] ||
+                    0
+                )
+        )
+
         .slice(
             0,
             5
-        )
+        );
+
+
+    const avatars =
+        recent
         .map(
             code => {
 
                 const profile =
                     chatUserProfiles[
                         code
-                    ] ||
-                    {};
+                    ] || {};
 
 
-                if(
-                    profile.profileImage
-                ){
+                const image =
+                    profile.profileImage ||
+                    "";
+
+
+                if(image){
 
                     return `
 
                         <div class="seen-avatar">
 
                             <img
-                                src="${esc(profile.profileImage)}"
+                                src="${esc(image)}"
                                 alt=""
                             >
 
@@ -7323,10 +10253,246 @@ function seenHTML(message){
 
 
 /* =========================================================
-   READ
+   RENDER CHAT
+========================================================= */
+
+function renderChat(
+    forceScroll = false
+){
+
+    $("chatLocked").innerHTML =
+        "";
+
+
+    $("chatContent")
+        .classList.remove(
+            "hidden"
+        );
+
+
+    const box =
+        $("messages");
+
+
+    const wasNearBottom =
+        (
+            box.scrollHeight -
+            box.scrollTop -
+            box.clientHeight
+        ) < 110;
+
+
+    const messages =
+        Object.entries(
+            chatMessages
+        )
+
+        .map(
+            ([id,value]) => ({
+
+                id,
+
+                ...value
+
+            })
+        )
+
+        .filter(
+            message =>
+                messageMatchesRoom(
+                    message
+                )
+        )
+
+        .sort(
+            (a,b) =>
+                (a.createdAt || 0) -
+                (b.createdAt || 0)
+        );
+
+
+    if(
+        !messages.length
+    ){
+
+        box.innerHTML = `
+
+            <div class="chat-empty">
+
+                لا توجد رسائل بعد
+
+            </div>
+
+        `;
+
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+        messages
+        .map(
+            message => {
+
+                const mine =
+                    message.senderCode ===
+                    STUDENT_CODE;
+
+
+                const profile =
+                    chatUserProfiles[
+                        message.senderCode
+                    ] || {};
+
+
+                const name =
+                    message.senderName ||
+                    profile.name ||
+                    "طالب";
+
+
+                return `
+
+                    <div
+                        class="msg-row ${mine ? "mine" : "other"}"
+                    >
+
+                        <div class="msg-side">
+
+
+                            ${messageAvatarHTML(
+                                message,
+                                name
+                            )}
+
+
+                            <div class="msg-bubble-wrap">
+
+
+                                ${messageActionPopup(
+                                    message.id
+                                )}
+
+
+                                <div
+                                    class="msg ${mine ? "mine" : ""}"
+                                    onclick="event.stopPropagation();toggleMessageActions('${esc(message.id)}')"
+                                >
+
+                                    <div class="msg-user">
+
+                                        <span class="msg-name">
+
+                                            ${
+                                                mine
+                                                    ? "أنت"
+                                                    : esc(name)
+                                            }
+
+                                        </span>
+
+
+                                        <span class="msg-time">
+
+                                            ${esc(
+                                                timeText(
+                                                    message.createdAt
+                                                )
+                                            )}
+
+                                        </span>
+
+                                    </div>
+
+
+                                    ${replyPreviewHTML(
+                                        message
+                                    )}
+
+
+                                    <div class="msg-text">
+
+                                        ${renderChatText(
+                                            message.text ||
+                                            ""
+                                        )}
+
+                                    </div>
+
+
+                                    ${renderMessageReactions(
+                                        message
+                                    )}
+
+                                </div>
+
+
+                                ${seenHTML(
+                                    message
+                                )}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+
+    if(
+        activeMessageActionId
+    ){
+
+        const popup =
+            document.querySelector(
+                `[data-action-for="${CSS.escape(activeMessageActionId)}"]`
+            );
+
+
+        if(popup){
+
+            popup.classList.add(
+                "show"
+            );
+
+        }
+
+    }
+
+
+    if(
+        forceScroll ||
+        wasNearBottom
+    ){
+
+        scrollChat();
+
+    }
+
+}
+
+
+/* =========================================================
+   READ RECEIPTS
 ========================================================= */
 
 async function markVisibleMessagesRead(){
+
+    if(
+        !canUseProtectedFeatures()
+    ){
+
+        return;
+
+    }
+
 
     const room =
         chatRoomId();
@@ -7340,6 +10506,17 @@ async function markVisibleMessagesRead(){
     )
     .forEach(
         ([id,message]) => {
+
+            if(
+                !messageMatchesRoom(
+                    message
+                )
+            ){
+
+                return;
+
+            }
+
 
             if(
                 message.senderCode ===
@@ -7362,23 +10539,45 @@ async function markVisibleMessagesRead(){
             }
 
 
+            const now =
+                Date.now();
+
+
             tasks.push(
 
                 dbPatch(
                     `chats/${encodeURIComponent(room)}/messages/${encodeURIComponent(id)}/readBy`,
                     {
                         [STUDENT_CODE]:
-                            Date.now()
+                            now
                     }
                 )
 
             );
 
+
+            if(
+                !message.readBy
+            ){
+
+                message.readBy =
+                    {};
+
+            }
+
+
+            message.readBy[
+                STUDENT_CODE
+            ] =
+                now;
+
         }
     );
 
 
-    if(tasks.length){
+    if(
+        tasks.length
+    ){
 
         try{
 
@@ -7388,18 +10587,42 @@ async function markVisibleMessagesRead(){
 
         }
 
-        catch{}
+        catch(error){
+
+            console.error(
+                error
+            );
+
+        }
 
     }
+
+
+    setNavBadge(
+        "chatBadge",
+        0
+    );
 
 }
 
 
 /* =========================================================
-   SEND
+   SEND MESSAGE
 ========================================================= */
 
 async function sendMessage(){
+
+    if(
+        !canUseProtectedFeatures()
+    ){
+
+        showAccessModal();
+
+
+        return;
+
+    }
+
 
     const input =
         $("chatInput");
@@ -7416,31 +10639,81 @@ async function sendMessage(){
     }
 
 
+    if(
+        text.length >
+        500
+    ){
+
+        toast(
+            "الرسالة طويلة جداً"
+        );
+
+
+        return;
+
+    }
+
+
     $("sendBtn").disabled =
         true;
 
 
     try{
 
-        const blockedWords =
-            await getBlockedWords();
+        /*
+            Refresh student before sending.
 
+            Prevents sending if room/class/gender
+            has been changed by administration.
+        */
 
-        const detected =
-            findBlockedWord(
-                text,
-                blockedWords
+        const fresh =
+            await dbGet(
+                `students/${encodeURIComponent(STUDENT_CODE)}`
             );
 
 
-        if(detected){
+        if(fresh){
 
-            input.value = "";
+            student =
+                fresh;
+
+        }
+
+
+        if(
+            !globalAccountActive()
+        ){
+
+            showInactiveAccount();
+
+
+            return;
+
+        }
+
+
+        /*
+            STRONG MODERATION.
+        */
+
+        const moderationResult =
+            await inspectChatMessage(
+                text
+            );
+
+
+        if(
+            moderationResult.blocked
+        ){
+
+            input.value =
+                "";
 
 
             await registerBehaviorViolation(
                 text,
-                detected
+                moderationResult
             );
 
 
@@ -7459,13 +10732,29 @@ async function sendMessage(){
                 STUDENT_CODE,
 
             senderName:
-                student.name || "",
+                student.name ||
+                "",
 
             senderImage:
-                student.profileImage || "",
+                student.profileImage ||
+                "",
 
             classId:
-                student.classId || "",
+                student.classId ||
+                "",
+
+            className:
+                className(),
+
+            roomNumber:
+                student.roomNumber ||
+                "",
+
+            gender:
+                normalizedGender(),
+
+            chatRoomId:
+                chatRoomId(),
 
             text,
 
@@ -7476,8 +10765,10 @@ async function sendMessage(){
                 now,
 
             readBy:{
+
                 [STUDENT_CODE]:
                     now
+
             },
 
             reactions:{}
@@ -7485,7 +10776,9 @@ async function sendMessage(){
         };
 
 
-        if(replyingTo){
+        if(
+            replyingTo
+        ){
 
             data.replyTo = {
 
@@ -7512,16 +10805,11 @@ async function sendMessage(){
         );
 
 
-        input.value = "";
+        input.value =
+            "";
 
 
-        replyingTo = null;
-
-
-        $("replyCompose")
-            .classList.remove(
-                "show"
-            );
+        clearReply();
 
 
         hideMentionPanel();
@@ -7533,6 +10821,28 @@ async function sendMessage(){
             ) || {};
 
 
+        chatMessages =
+            Object.fromEntries(
+
+                Object.entries(
+                    chatMessages
+                )
+                .filter(
+                    ([id,message]) =>
+                        messageMatchesRoom(
+                            message
+                        )
+                )
+
+            );
+
+
+        lastChatCount =
+            Object.keys(
+                chatMessages
+            ).length;
+
+
         renderChat(
             true
         );
@@ -7541,7 +10851,10 @@ async function sendMessage(){
 
     catch(error){
 
-        console.error(error);
+        console.error(
+            "SEND_MESSAGE_ERROR",
+            error
+        );
 
 
         toast(
@@ -7559,6 +10872,10 @@ async function sendMessage(){
 
 }
 
+
+/* =========================================================
+   SEND EVENTS
+========================================================= */
 
 $("sendBtn").onclick =
     sendMessage;
@@ -7589,8 +10906,7 @@ $("chatInput")
    CLICK OUTSIDE
 ========================================================= */
 
-document
-.addEventListener(
+document.addEventListener(
     "click",
     event => {
 
@@ -7607,12 +10923,25 @@ document
 
         }
 
+
+        if(
+            !event.target.closest(
+                ".mention-panel"
+            ) &&
+            event.target !==
+                $("chatInput")
+        ){
+
+            hideMentionPanel();
+
+        }
+
     }
 );
 
 
 /* =========================================================
-   SCROLL
+   CHAT SCROLL
 ========================================================= */
 
 function scrollChat(){
@@ -7621,7 +10950,8 @@ function scrollChat(){
         () => {
 
             $("messages").scrollTop =
-                $("messages").scrollHeight;
+                $("messages")
+                    .scrollHeight;
 
         }
     );
@@ -7630,7 +10960,7 @@ function scrollChat(){
 
 
 /* =========================================================
-   BADGE
+   NAV BADGES
 ========================================================= */
 
 function setNavBadge(
@@ -7652,7 +10982,9 @@ function setNavBadge(
 
     badge.textContent =
         value > 99
+
             ? "99+"
+
             : value;
 
 
@@ -7665,7 +10997,7 @@ function setNavBadge(
 
 
 /* =========================================================
-   KEYBOARD FIX
+   MOBILE KEYBOARD FIX
 ========================================================= */
 
 $("chatInput")
@@ -7713,6 +11045,70 @@ if(
 
 
 /* =========================================================
+   VISIBILITY
+========================================================= */
+
+document.addEventListener(
+    "visibilitychange",
+    async () => {
+
+        if(
+            document.visibilityState !==
+            "visible"
+        ){
+
+            return;
+
+        }
+
+
+        try{
+
+            const ok =
+                await refreshStudentAccess();
+
+
+            if(!ok){
+
+                return;
+
+            }
+
+
+            await loadAbsenceDays();
+
+
+            renderHome();
+
+
+            if(
+                $("pageChat")
+                .classList
+                .contains(
+                    "active"
+                ) &&
+                canUseProtectedFeatures()
+            ){
+
+                await markVisibleMessagesRead();
+
+            }
+
+        }
+
+        catch(error){
+
+            console.error(
+                error
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
    LOGOUT
 ========================================================= */
 
@@ -7736,4 +11132,5 @@ window.addEventListener(
 </script>
 
 </body>
+
 </html>
