@@ -7,7 +7,6 @@
 <title>إدارة المدرسة | مدرسة التحدي الأهلية المختلطة</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
@@ -44,6 +43,16 @@ button{cursor:pointer}
 .hero h2,.hero p{position:relative;z-index:2}
 .hero h2{font-size:19px}
 .hero p{margin-top:6px;font-size:10px;opacity:.9}
+
+/* QUICK PAGES */
+.quick-pages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.quick-page{
+ min-height:58px;padding:10px 12px;display:flex;align-items:center;justify-content:center;
+ border:1px solid var(--border);border-radius:13px;background:#fff;color:var(--text);
+ text-decoration:none;font-size:10px;font-weight:900;box-shadow:0 5px 18px rgba(16,24,40,.035);
+ transition:.15s
+}
+.quick-page:hover{border-color:#a9cdf8;color:var(--p);transform:translateY(-1px)}
 
 /* STATISTICS */
 .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}
@@ -282,6 +291,7 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
  .main{padding:10px 8px 42px}
  .hero{padding:15px}
  .classes{grid-template-columns:repeat(2,1fr)}
+ .quick-pages{grid-template-columns:1fr}
  .form-grid,.toolbar,.toolbar.four{grid-template-columns:1fr}
  .field.full,.form-actions{grid-column:auto}
  .form-actions,.bulk,.bulk-actions,.pdf-actions{flex-direction:column}
@@ -320,6 +330,12 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
  <h2 id="welcome">لوحة إدارة المدرسة</h2>
  <p>إدارة الصفوف والطلاب والأساتذة والحسابات والحضور والمخالفات السلوكية.</p>
 </section>
+
+<div class="quick-pages" aria-label="صفحات الإدارة السريعة">
+ <a class="quick-page" href="chat.html">الدردشات</a>
+ <a class="quick-page" href="notify.html">التبليغات</a>
+ <a class="quick-page" href="logs.html">السجلات</a>
+</div>
 
 <div class="stats">
  <div class="stat"><span>عدد الصفوف</span><strong id="totalClasses">0</strong></div>
@@ -412,12 +428,24 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
       نقل المحددين
      </button>
 
-     <button class="btn btn-g" onclick="setSelectedAdminApproval(true)">
+     <button class="btn btn-g" onclick="setSelectedAccountActive(true)">
+      تفعيل الحسابات
+     </button>
+
+     <button class="btn btn-r" onclick="setSelectedAccountActive(false)">
+      إلغاء الحسابات
+     </button>
+
+     <button class="btn btn-p" onclick="setSelectedAdminApproval(true)">
       تفعيل من الإدارة
      </button>
 
      <button class="btn btn-o" onclick="setSelectedAdminApproval(false)">
       إلغاء تفعيل الإدارة
+     </button>
+
+     <button class="btn btn-g" onclick="setSelectedBooksStatus(true)">
+      استلم كتب
      </button>
 
      <button class="btn btn-wa" onclick="openBulkMessageModal()">
@@ -547,7 +575,7 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
     <div class="field">
      <label>مبلغ القسط الكلي</label>
      <input id="tuitionTotal" type="number" min="0" step="1000" placeholder="يمكن تركه فارغاً أو 0">
-     <span class="help">القسط صفر أو فارغ لا يمنع حفظ الطالب.</span>
+     <span class="help">القسط اختياري ولا يرتبط بتفعيل حساب الطالب من لوحة الإدارة.</span>
     </div>
 
     <div class="field full">
@@ -575,8 +603,8 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
     </div>
 
     <div class="form-actions">
-     <button type="button" class="btn btn-v" onclick="previewStudentPDFBeforeSave()">معاينة PDF</button>
-     <button type="button" class="btn btn-soft" onclick="downloadStudentPDFBeforeSave()">تحميل PDF</button>
+     <button type="button" class="btn btn-v" onclick="previewStudentPDFBeforeSave()">معاينة الاستمارة</button>
+     <button type="button" class="btn btn-soft" onclick="printStudentBeforeSave()">طباعة الاستمارة</button>
      <button id="saveStudentBtn" type="submit" class="btn btn-p">حفظ الطالب</button>
     </div>
 
@@ -1050,7 +1078,7 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
    </button>
 
    <button id="profilePDFBtn" class="btn btn-v">
-    تحميل PDF
+    طباعة بيانات الطالب
    </button>
 
   </div>
@@ -1176,8 +1204,8 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
     رجوع
    </button>
 
-   <button class="btn btn-p" onclick="downloadStudentPDFBeforeSave()">
-    تحميل PDF
+   <button class="btn btn-p" onclick="printStudentBeforeSave()">
+    طباعة مباشرة
    </button>
 
   </div>
@@ -2659,8 +2687,7 @@ $("studentForm").onsubmit=async event=>{
 
 
   student.accountActive=
-   requested&&
-   student.tuitionTotal>0;
+   requested;
 
 
   student.hidden=false;
@@ -2761,7 +2788,7 @@ $("studentForm").onsubmit=async event=>{
   message(
    "studentMessage",
 
-   `تم حفظ الطالب بنجاح - العدد ${student.serial} - الكود ${student.code}${requested&&!student.accountActive?" - الحساب بقي غير فعال لأن مبلغ القسط صفر.":""}`,
+   `تم حفظ الطالب بنجاح - العدد ${student.serial} - الكود ${student.code}`,
 
    "success"
   );
@@ -3182,9 +3209,9 @@ function renderStudents(){
 
        <button
         class="mini btn-v"
-        onclick="downloadSavedStudentPDF('${safeJS(s.code)}')"
+        onclick="printSavedStudent('${safeJS(s.code)}')"
        >
-        PDF
+        طباعة
        </button>
 
 
@@ -3210,6 +3237,14 @@ function renderStudents(){
         `
         :""
        }
+
+
+       <button
+        class="mini ${s.booksReceived?"btn-o":"btn-g"}"
+        onclick="setStudentBooksStatus('${safeJS(s.code)}',${s.booksReceived?"false":"true"})"
+       >
+        ${s.booksReceived?"إلغاء استلام الكتب":"استلم كتب"}
+       </button>
 
 
        <button
@@ -3602,6 +3637,122 @@ function updateBulk(){
 
  buildMoveOptions();
  buildMoveRoomOptions();
+
+}
+
+
+/* =========================================================
+   BULK MAIN ACCOUNT
+========================================================= */
+
+function setSelectedAccountActive(active){
+
+ const codes=[...selectedStudents]
+  .filter(code=>DATA.students[code]);
+
+ if(!codes.length){
+  toast("حدد طالباً واحداً على الأقل");
+  return;
+ }
+
+ confirmBox(
+  active
+   ?"تفعيل الحسابات المحددة"
+   :"إلغاء الحسابات المحددة",
+  `سيتم ${active?"تفعيل":"إلغاء تفعيل"} الحساب الرئيسي لـ ${codes.length} طالب بدون اشتراط مبلغ القسط.`,
+  async()=>{
+   const updates={};
+   const time=Date.now();
+
+   codes.forEach(code=>{
+    const s=DATA.students[code];
+    updates[`students/${code}/accountActive`]=active;
+    updates[`students/${code}/accountStatusUpdatedAt`]=time;
+    updates[`students/${code}/accountStatusUpdatedBy`]=adminCode();
+    updates[`users/${code}/active`]=active&&!s.hidden;
+   });
+
+   await dbPatch("",updates);
+
+   codes.forEach(code=>{
+    const s=DATA.students[code];
+    if(!s){return;}
+    s.accountActive=active;
+    s.accountStatusUpdatedAt=time;
+    s.accountStatusUpdatedBy=adminCode();
+
+    if(DATA.users[code]){
+     DATA.users[code].active=active&&!s.hidden;
+    }
+   });
+
+   renderStudents();
+
+   if(openedStudentCode&&codes.includes(openedStudentCode)){
+    await openStudentProfile(openedStudentCode);
+   }
+
+   toast(
+    active
+     ?`تم تفعيل ${codes.length} حساب`
+     :`تم إلغاء تفعيل ${codes.length} حساب`
+   );
+  }
+ );
+
+}
+
+
+/* =========================================================
+   BULK BOOKS
+========================================================= */
+
+function setSelectedBooksStatus(received){
+
+ const codes=[...selectedStudents]
+  .filter(code=>DATA.students[code]);
+
+ if(!codes.length){
+  toast("حدد طالباً واحداً على الأقل");
+  return;
+ }
+
+ confirmBox(
+  received?"استلام الكتب":"إلغاء استلام الكتب",
+  `سيتم تسجيل ${received?"استلام":"عدم استلام"} الكتب لـ ${codes.length} طالب.`,
+  async()=>{
+   const updates={};
+   const time=Date.now();
+
+   codes.forEach(code=>{
+    updates[`students/${code}/booksReceived`]=received;
+    updates[`students/${code}/booksStatusUpdatedAt`]=time;
+    updates[`students/${code}/booksStatusUpdatedBy`]=adminCode();
+   });
+
+   await dbPatch("",updates);
+
+   codes.forEach(code=>{
+    const s=DATA.students[code];
+    if(!s){return;}
+    s.booksReceived=received;
+    s.booksStatusUpdatedAt=time;
+    s.booksStatusUpdatedBy=adminCode();
+   });
+
+   renderStudents();
+
+   if(openedStudentCode&&codes.includes(openedStudentCode)){
+    await openStudentProfile(openedStudentCode);
+   }
+
+   toast(
+    received
+     ?`تم تسجيل استلام الكتب لـ ${codes.length} طالب`
+     :`تم تسجيل عدم استلام الكتب لـ ${codes.length} طالب`
+   );
+  }
+ );
 
 }
 
@@ -4149,28 +4300,16 @@ function acceptStudent(code){
    BOOKS
 ========================================================= */
 
-async function setBooksStatus(
- received
-){
+async function setStudentBooksStatus(code,received){
 
- const code=
-  openedStudentCode;
-
-
- const s=
-  DATA.students[code];
-
+ const s=DATA.students[code];
 
  if(!s){
   return;
  }
 
-
  try{
-
-  const time=
-   Date.now();
-
+  const time=Date.now();
 
   await dbPatch(
    `students/${code}`,
@@ -4181,22 +4320,15 @@ async function setBooksStatus(
    }
   );
 
-
-  s.booksReceived=
-   received;
-
-
-  s.booksStatusUpdatedAt=
-   time;
-
+  s.booksReceived=received;
+  s.booksStatusUpdatedAt=time;
+  s.booksStatusUpdatedBy=adminCode();
 
   renderStudents();
 
-
-  await openStudentProfile(
-   code
-  );
-
+  if(openedStudentCode===code){
+   await openStudentProfile(code);
+  }
 
   toast(
    received
@@ -4204,16 +4336,26 @@ async function setBooksStatus(
     :"تم تسجيل عدم استلام الكتب"
   );
 
-
  }catch(error){
-
   console.error(error);
-
-  toast(
-   "تعذر تعديل حالة الكتب"
-  );
-
+  toast("تعذر تعديل حالة الكتب");
  }
+
+}
+
+
+async function setBooksStatus(received){
+
+ const code=openedStudentCode;
+
+ if(!code){
+  return;
+ }
+
+ await setStudentBooksStatus(
+  code,
+  received
+ );
 
 }
 
@@ -4230,28 +4372,6 @@ function toggleStudentAccount(code){
 
  if(!s){
   return;
- }
-
-
- if(
-  !s.accountActive&&
-  Number(
-   s.tuitionTotal||0
-  )<=0
- ){
-
-  toast(
-   "لتفعيل الحساب الرئيسي أدخل مبلغ القسط أولاً"
-  );
-
-
-  editStudent(
-   code
-  );
-
-
-  return;
-
  }
 
 
@@ -4933,17 +5053,6 @@ $("editStudentForm").onsubmit=async event=>{
  }
 
 
- if(
-  tuitionTotal<=0&&
-  oldStudent.accountActive
- ){
-
-  update.accountActive=
-   false;
-
- }
-
-
  const userUpdate={
 
   name:
@@ -4956,17 +5065,6 @@ $("editStudentForm").onsubmit=async event=>{
    update.roomNumber
 
  };
-
-
- if(
-  update.accountActive===
-  false
- ){
-
-  userUpdate.active=
-   false;
-
- }
 
 
  await Promise.all([
@@ -5330,7 +5428,7 @@ async function openStudentProfile(code){
 
 
  $("profilePDFBtn").onclick=
-  ()=>downloadSavedStudentPDF(
+  ()=>printSavedStudent(
    code
   );
 
@@ -6481,7 +6579,7 @@ window.addEventListener(
 );
 
 
-async function makePDF(student){
+async function printStudentForm(student){
 
  if(
   typeof html2canvas===
@@ -6489,18 +6587,7 @@ async function makePDF(student){
  ){
 
   throw new Error(
-   "مكتبة تحويل الصفحة غير متوفرة"
-  );
-
- }
-
-
- if(
-  !window.jspdf?.jsPDF
- ){
-
-  throw new Error(
-   "مكتبة PDF غير متوفرة"
+   "مكتبة تجهيز الطباعة غير متوفرة"
   );
 
  }
@@ -6525,7 +6612,7 @@ async function makePDF(student){
  if(!page){
 
   throw new Error(
-   "تعذر إنشاء صفحة PDF"
+   "تعذر إنشاء استمارة الطالب"
   );
 
  }
@@ -6557,7 +6644,6 @@ async function makePDF(student){
 
 
  await waitImages(page);
-
  await waitPaint();
 
 
@@ -6592,7 +6678,7 @@ async function makePDF(student){
   host.innerHTML="";
 
   throw new Error(
-   "تعذر تصوير صفحة PDF"
+   "تعذر تجهيز الاستمارة للطباعة"
   );
 
  }
@@ -6605,55 +6691,126 @@ async function makePDF(student){
   );
 
 
- const {jsPDF}=
-  window.jspdf;
-
-
- const pdf=
-  new jsPDF({
-   orientation:"portrait",
-   unit:"pt",
-   format:"a4",
-   compress:true
-  });
-
-
- const pageWidth=
-  pdf.internal.pageSize.getWidth();
-
-
- const pageHeight=
-  pdf.internal.pageSize.getHeight();
-
-
- pdf.addImage(
-  imageData,
-  "JPEG",
-  0,
-  0,
-  pageWidth,
-  pageHeight,
-  undefined,
-  "FAST"
- );
-
-
- pdf.save(
-  `استمارة-${student.code}.pdf`
- );
-
-
  host.innerHTML="";
 
 
+ const frame=
+  document.createElement(
+   "iframe"
+  );
+
+
+ frame.setAttribute(
+  "aria-hidden",
+  "true"
+ );
+
+
+ Object.assign(
+  frame.style,
+  {
+   position:"fixed",
+   left:"-10000px",
+   top:"0",
+   width:"794px",
+   height:"1123px",
+   border:"0",
+   opacity:"0",
+   pointerEvents:"none"
+  }
+ );
+
+
+ document.body.appendChild(
+  frame
+ );
+
+
+ const doc=
+  frame.contentDocument||
+  frame.contentWindow.document;
+
+
+ doc.open();
+
+ doc.write(`<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>طباعة بيانات الطالب</title>
+<style>
+@page{size:A4 portrait;margin:0}
+html,body{margin:0;padding:0;background:#fff}
+body{width:210mm}
+img{display:block;width:210mm;height:297mm;object-fit:fill;margin:0;padding:0}
+</style>
+</head>
+<body>
+<img id="printImage" src="${imageData}" alt="">
+</body>
+</html>`);
+
+ doc.close();
+
+
+ const doPrint=()=>{
+
+  try{
+
+   frame.contentWindow.focus();
+   frame.contentWindow.print();
+
+  }catch(error){
+
+   console.error(error);
+   toast("تعذر فتح أمر الطباعة");
+
+  }
+
+ };
+
+
+ const image=
+  doc.getElementById(
+   "printImage"
+  );
+
+
+ if(
+  image&&
+  !image.complete
+ ){
+
+  image.onload=
+   ()=>setTimeout(doPrint,100);
+
+ }else{
+
+  setTimeout(doPrint,100);
+
+ }
+
+
+ setTimeout(
+  ()=>{
+
+   if(frame.isConnected){
+    frame.remove();
+   }
+
+  },
+  60000
+ );
+
+
  toast(
-  "تم إنشاء ملف PDF"
+  "تم فتح أمر الطباعة"
  );
 
 }
 
 
-async function downloadStudentPDFBeforeSave(){
+async function printStudentBeforeSave(){
 
  try{
 
@@ -6661,7 +6818,7 @@ async function downloadStudentPDFBeforeSave(){
    await studentDraft();
 
 
-  await makePDF(
+  await printStudentForm(
    student
   );
 
@@ -6677,7 +6834,7 @@ async function downloadStudentPDFBeforeSave(){
 
   toast(
    error.message||
-   "تعذر إنشاء PDF"
+   "تعذر تجهيز الطباعة"
   );
 
  }
@@ -6685,7 +6842,7 @@ async function downloadStudentPDFBeforeSave(){
 }
 
 
-async function downloadSavedStudentPDF(code){
+async function printSavedStudent(code){
 
  try{
 
@@ -6710,7 +6867,7 @@ async function downloadSavedStudentPDF(code){
    ];
 
 
-  await makePDF({
+  await printStudentForm({
    ...student,
    className:
     c?.name||"—"
@@ -6728,7 +6885,7 @@ async function downloadSavedStudentPDF(code){
 
   toast(
    error.message||
-   "تعذر إنشاء PDF"
+   "تعذر تجهيز الطباعة"
   );
 
  }
