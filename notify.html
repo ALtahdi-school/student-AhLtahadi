@@ -1,1 +1,1207 @@
-notify.html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#075fcf">
+<title>التبليغات | مدرسة التحدي الأهلية المختلطة</title>
+
+<style>
+:root{
+  --p:#075fcf;
+  --pd:#06469c;
+  --ps:#edf5ff;
+  --g:#078b50;
+  --gs:#ecfdf3;
+  --r:#d92d20;
+  --rs:#fff1f0;
+  --o:#dc6803;
+  --os:#fff6ed;
+  --v:#6938ef;
+  --vs:#f4f3ff;
+  --bg:#f4f7fb;
+  --card:#fff;
+  --text:#172033;
+  --muted:#667085;
+  --border:#e4e7ec;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;
+  font-family:Tahoma,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+
+.loading{
+  position:fixed;inset:0;z-index:50000;
+  display:flex;align-items:center;justify-content:center;
+  background:#fff;
+}
+.loader{
+  width:46px;height:46px;
+  border:4px solid #e8edf4;
+  border-top-color:var(--p);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.header{
+  position:sticky;top:0;z-index:1000;
+  background:rgba(255,255,255,.97);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+}
+.header-in{
+  width:min(1200px,100%);
+  min-height:68px;
+  margin:auto;padding:8px 14px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand img{width:46px;height:46px;object-fit:contain;flex:none}
+.brand h1{font-size:14px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand p{margin-top:3px;color:var(--p);font-size:9px;font-weight:900}
+.header-actions{display:flex;gap:6px;flex-wrap:wrap}
+.btn{
+  min-height:40px;padding:0 13px;
+  border:0;border-radius:10px;
+  font-size:9px;font-weight:900;
+  transition:.15s;
+}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.55;cursor:default}
+.btn-p{color:#fff;background:var(--p)}
+.btn-g{color:#fff;background:var(--g)}
+.btn-r{color:var(--r);background:var(--rs)}
+.btn-soft{color:var(--p);background:var(--ps)}
+.btn-o{color:var(--o);background:var(--os)}
+.btn-v{color:var(--v);background:var(--vs)}
+
+.main{width:min(1200px,100%);margin:auto;padding:15px 12px 50px}
+.hero{
+  position:relative;overflow:hidden;
+  margin-bottom:14px;padding:19px;
+  border-radius:20px;color:#fff;
+  background:linear-gradient(135deg,#0870e8,#064594);
+  box-shadow:0 14px 35px rgba(7,95,207,.15);
+}
+.hero:after{
+  content:"";position:absolute;width:220px;height:220px;
+  left:-80px;top:-130px;border-radius:50%;
+  background:rgba(255,255,255,.08);
+}
+.hero h2,.hero p{position:relative;z-index:2}
+.hero h2{font-size:19px}
+.hero p{margin-top:6px;font-size:10px;line-height:1.7;opacity:.9}
+
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:8px;margin-bottom:14px;
+}
+.stat{
+  padding:13px;border:1px solid var(--border);border-radius:14px;
+  background:#fff;
+}
+.stat span{font-size:9px;color:var(--muted);font-weight:800}
+.stat strong{display:block;margin-top:5px;font-size:23px;font-weight:900}
+
+.panel{
+  margin-bottom:14px;overflow:hidden;
+  border:1px solid var(--border);border-radius:17px;
+  background:#fff;box-shadow:0 10px 30px rgba(16,24,40,.05);
+}
+.panel-head{
+  min-height:62px;padding:13px 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  border-bottom:1px solid var(--border);
+}
+.panel-head h3{font-size:14px;font-weight:900}
+.panel-head p{margin-top:3px;color:var(--muted);font-size:9px;line-height:1.7}
+.panel-body{padding:16px}
+
+.audience-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-bottom:14px;
+}
+.audience{
+  min-height:82px;padding:11px;
+  border:1.5px solid var(--border);
+  border-radius:13px;background:#fff;
+  color:var(--text);
+  text-align:right;
+}
+.audience.active{
+  border-color:var(--p);
+  background:var(--ps);
+  box-shadow:0 0 0 3px rgba(7,95,207,.06);
+}
+.audience strong{display:block;font-size:10px}
+.audience small{display:block;margin-top:5px;color:var(--muted);font-size:8px;line-height:1.5}
+.audience.active strong{color:var(--p)}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px;
+}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field.full{grid-column:1/-1}
+.field label{color:#344054;font-size:9px;font-weight:900}
+.field input,.field select,.field textarea{
+  width:100%;border:1.5px solid var(--border);border-radius:10px;
+  background:#fff;outline:none;color:var(--text);
+}
+.field input,.field select{height:46px;padding:0 11px}
+.field textarea{min-height:130px;padding:11px;resize:vertical;line-height:1.8}
+.field input:focus,.field select:focus,.field textarea:focus{
+  border-color:var(--p);box-shadow:0 0 0 4px rgba(7,95,207,.06);
+}
+.help{font-size:8px;color:var(--muted);line-height:1.6}
+
+.recipient-box{
+  grid-column:1/-1;
+  padding:12px;border:1px solid #bad6f7;border-radius:11px;background:var(--ps);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.recipient-box strong{font-size:10px;color:var(--p)}
+.recipient-box span{font-size:9px;color:var(--muted)}
+
+.student-search-wrap{position:relative}
+.student-results{
+  position:absolute;z-index:100;
+  top:51px;right:0;left:0;
+  max-height:260px;overflow:auto;
+  border:1px solid var(--border);border-radius:11px;
+  background:#fff;
+  box-shadow:0 16px 36px rgba(16,24,40,.14);
+}
+.student-result{
+  width:100%;padding:11px;border:0;border-bottom:1px solid #f0f2f5;
+  background:#fff;text-align:right;
+}
+.student-result:last-child{border-bottom:0}
+.student-result:hover{background:#f8fbff}
+.student-result strong{display:block;font-size:9px}
+.student-result small{display:block;margin-top:3px;color:var(--muted);font-size:7.5px}
+
+.selected-student{
+  min-height:60px;padding:10px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  border:1px solid #d5dded;border-radius:10px;background:#fafcff;
+}
+.selected-student strong{display:block;font-size:10px}
+.selected-student small{display:block;margin-top:3px;color:var(--muted);font-size:8px}
+
+.type-row{
+  display:flex;gap:7px;flex-wrap:wrap;
+}
+.type-chip{
+  min-height:38px;padding:0 12px;border:1px solid var(--border);
+  border-radius:20px;background:#fff;color:var(--muted);
+  font-size:8px;font-weight:900;
+}
+.type-chip.active{background:var(--p);border-color:var(--p);color:#fff}
+
+.form-actions{
+  grid-column:1/-1;
+  display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap;
+}
+.send-btn{min-width:170px}
+
+.history-list{display:flex;flex-direction:column;gap:8px}
+.notice-card{
+  padding:12px;border:1px solid var(--border);border-radius:12px;background:#fff;
+}
+.notice-top{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+}
+.notice-card h4{font-size:10px;line-height:1.6}
+.notice-card p{
+  margin-top:7px;color:#344054;font-size:9px;line-height:1.8;
+  white-space:pre-wrap;word-break:break-word;
+}
+.notice-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
+.badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:24px;padding:0 8px;border-radius:20px;
+  font-size:7.5px;font-weight:900;
+}
+.blue{color:var(--p);background:var(--ps)}
+.green{color:var(--g);background:var(--gs)}
+.red{color:var(--r);background:var(--rs)}
+.orange{color:var(--o);background:var(--os)}
+.purple{color:var(--v);background:var(--vs)}
+
+.empty{padding:28px 14px;text-align:center;color:var(--muted);font-size:9px}
+.toast{
+  position:fixed;z-index:30000;left:50%;bottom:23px;
+  transform:translate(-50%,30px);
+  min-width:220px;max-width:calc(100% - 24px);
+  padding:11px 14px;border-radius:10px;
+  background:#101828;color:#fff;text-align:center;
+  font-size:9px;font-weight:800;
+  opacity:0;visibility:hidden;transition:.2s;
+}
+.toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+
+@media(max-width:800px){
+  .audience-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:620px){
+  .header-in{padding:7px 9px}
+  .brand img{width:39px;height:39px}
+  .brand h1{font-size:10px}
+  .brand p{font-size:7px}
+  .header-actions .btn{min-height:36px;padding:0 9px;font-size:8px}
+  .main{padding:10px 8px 42px}
+  .hero{padding:15px}
+  .stats{grid-template-columns:repeat(3,1fr)}
+  .stat{padding:10px}
+  .stat strong{font-size:19px}
+  .panel-body{padding:11px}
+  .form-grid{grid-template-columns:1fr}
+  .field.full,.recipient-box,.form-actions{grid-column:auto}
+  .audience-grid{grid-template-columns:1fr 1fr}
+  .audience{min-height:75px}
+  .recipient-box{align-items:flex-start;flex-direction:column}
+  .form-actions{flex-direction:column}
+  .form-actions .btn{width:100%}
+  .notice-top{flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+
+<div id="loading" class="loading"><div class="loader"></div></div>
+
+<header class="header">
+  <div class="header-in">
+    <div class="brand">
+      <img src="logo.png" alt="شعار المدرسة">
+      <div>
+        <h1>مدرسة التحدي الأهلية المختلطة</h1>
+        <p>قسم الحوكمة - التبليغات</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn btn-soft" onclick="location.href='add.html'">لوحة الإدارة</button>
+      <button class="btn btn-r" onclick="logout()">خروج</button>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+
+  <section class="hero">
+    <h2 id="welcome">إدارة التبليغات</h2>
+    <p>إرسال تبليغ إلى جميع الطلاب، حسب الجنس، إلى صف محدد، أو إلى طالب واحد.</p>
+  </section>
+
+  <section class="stats">
+    <div class="stat">
+      <span>إجمالي الطلاب</span>
+      <strong id="totalStudents">0</strong>
+    </div>
+    <div class="stat">
+      <span>الطلاب المستهدفون</span>
+      <strong id="targetCount">0</strong>
+    </div>
+    <div class="stat">
+      <span>التبليغات المرسلة</span>
+      <strong id="totalNotices">0</strong>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <h3>إنشاء تبليغ جديد</h3>
+        <p>حدد الجهة المستلمة ثم اكتب عنوان التبليغ ونصه.</p>
+      </div>
+    </div>
+
+    <div class="panel-body">
+
+      <div class="audience-grid">
+        <button type="button" class="audience active" data-mode="all">
+          <strong>جميع الطلاب</strong>
+          <small>إرسال التبليغ إلى جميع الطلاب المسجلين.</small>
+        </button>
+
+        <button type="button" class="audience" data-mode="gender">
+          <strong>حسب الجنس</strong>
+          <small>إرسال إلى البنين فقط أو البنات فقط.</small>
+        </button>
+
+        <button type="button" class="audience" data-mode="class">
+          <strong>صف محدد</strong>
+          <small>اختر صفاً واحداً وإرسال التبليغ لطلابه.</small>
+        </button>
+
+        <button type="button" class="audience" data-mode="student">
+          <strong>طالب محدد</strong>
+          <small>ابحث بالاسم أو الكود وأرسل لطالب واحد.</small>
+        </button>
+      </div>
+
+      <form id="noticeForm" class="form-grid">
+
+        <div id="genderField" class="field full hidden">
+          <label>الجنس</label>
+          <select id="genderSelect">
+            <option value="">اختر الجنس</option>
+            <option value="male">البنين</option>
+            <option value="female">البنات</option>
+          </select>
+        </div>
+
+        <div id="classField" class="field full hidden">
+          <label>الصف</label>
+          <select id="classSelect">
+            <option value="">اختر الصف</option>
+          </select>
+        </div>
+
+        <div id="studentField" class="field full hidden">
+          <label>الطالب</label>
+
+          <div class="student-search-wrap">
+            <input id="studentSearch" type="search" autocomplete="off" placeholder="اكتب اسم الطالب أو الكود...">
+            <div id="studentResults" class="student-results hidden"></div>
+          </div>
+
+          <div id="selectedStudentBox" class="selected-student hidden">
+            <div>
+              <strong id="selectedStudentName">—</strong>
+              <small id="selectedStudentInfo">—</small>
+            </div>
+            <button type="button" class="btn btn-r" onclick="clearSelectedStudent()">إلغاء</button>
+          </div>
+        </div>
+
+        <div class="recipient-box">
+          <div>
+            <strong id="recipientTitle">جميع الطلاب</strong>
+            <span id="recipientDescription">سيستلم التبليغ جميع الطلاب المسجلين.</span>
+          </div>
+          <strong id="recipientCount">0 طالب</strong>
+        </div>
+
+        <div class="field full">
+          <label>نوع التبليغ</label>
+          <div class="type-row">
+            <button type="button" class="type-chip active" data-type="general">عام</button>
+            <button type="button" class="type-chip" data-type="important">مهم</button>
+            <button type="button" class="type-chip" data-type="urgent">عاجل</button>
+          </div>
+        </div>
+
+        <div class="field full">
+          <label>عنوان التبليغ</label>
+          <input id="noticeTitle" maxlength="120" required placeholder="مثال: تنويه إلى الطلبة">
+        </div>
+
+        <div class="field full">
+          <label>نص التبليغ</label>
+          <textarea id="noticeText" maxlength="3000" required placeholder="اكتب نص التبليغ هنا..."></textarea>
+          <span class="help"><span id="charCount">0</span> / 3000</span>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-soft" onclick="resetForm()">تفريغ</button>
+          <button id="sendBtn" type="submit" class="btn btn-p send-btn">إرسال التبليغ</button>
+        </div>
+
+      </form>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <h3>آخر التبليغات</h3>
+        <p>سجل مختصر لآخر التبليغات التي أرسلتها الإدارة.</p>
+      </div>
+      <button class="btn btn-soft" onclick="loadHistory()">تحديث</button>
+    </div>
+
+    <div class="panel-body">
+      <div id="historyList" class="history-list"></div>
+      <div id="historyEmpty" class="empty hidden">لا توجد تبليغات مرسلة حتى الآن.</div>
+    </div>
+  </section>
+
+</main>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const DB="https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
+
+const PATH={
+  users:"users",
+  students:"students",
+  classes:"classes",
+  notifications:"notifications",
+  notificationLogs:"notificationLogs"
+};
+
+const DATA={
+  students:{},
+  classes:{},
+  logs:{}
+};
+
+let audienceMode="all";
+let noticeType="general";
+let selectedStudentCode="";
+let adminUser=null;
+let refreshHistoryTimer=null;
+
+const $=id=>document.getElementById(id);
+const norm=v=>String(v||"").trim().toLowerCase();
+
+const esc=v=>String(v??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+function safePath(v){
+  return encodeURIComponent(String(v||""));
+}
+
+function genderLabel(g){
+  return g==="female"?"بنات":"بنين";
+}
+
+function typeLabel(type){
+  if(type==="urgent") return "عاجل";
+  if(type==="important") return "مهم";
+  return "عام";
+}
+
+function typeBadge(type){
+  if(type==="urgent") return "red";
+  if(type==="important") return "orange";
+  return "blue";
+}
+
+function viewDateTime(value){
+  if(!value) return "—";
+  const d=new Date(Number(value)||value);
+  if(isNaN(d.getTime())) return "—";
+  return d.toLocaleString("ar-IQ",{
+    year:"numeric",
+    month:"2-digit",
+    day:"2-digit",
+    hour:"2-digit",
+    minute:"2-digit"
+  });
+}
+
+/* =========================================================
+   FIREBASE REST
+========================================================= */
+
+async function req(path,method="GET",data=null){
+  const options={
+    method,
+    cache:"no-store"
+  };
+
+  if(data!==null){
+    options.headers={"Content-Type":"application/json"};
+    options.body=JSON.stringify(data);
+  }
+
+  const response=await fetch(`${DB}/${path}.json`,options);
+
+  if(!response.ok){
+    throw new Error(`${method}_${path}_${response.status}`);
+  }
+
+  return method==="DELETE" ? true : response.json();
+}
+
+const dbGet=path=>req(path);
+const dbPut=(path,data)=>req(path,"PUT",data);
+const dbPatch=(path,data)=>req(path,"PATCH",data);
+
+/* =========================================================
+   SESSION / ADMIN
+========================================================= */
+
+function session(){
+  try{
+    return JSON.parse(
+      sessionStorage.getItem("tahadi_session")||"{}"
+    );
+  }catch{
+    return {};
+  }
+}
+
+function adminCode(){
+  return session().code||"";
+}
+
+async function verifyAdmin(){
+  const s=session();
+
+  if(!s.code){
+    location.replace("index.html");
+    return false;
+  }
+
+  const user=await dbGet(
+    `users/${safePath(s.code)}`
+  );
+
+  if(
+    !user||
+    !["admin","administrator","add"].includes(norm(user.role))||
+    user.active===false
+  ){
+    sessionStorage.clear();
+    location.replace("index.html");
+    return false;
+  }
+
+  adminUser=user;
+
+  if(user.name){
+    $("welcome").textContent=`مرحباً، ${user.name} - التبليغات`;
+  }
+
+  return true;
+}
+
+function logout(){
+  sessionStorage.clear();
+  location.replace("index.html");
+}
+
+/* =========================================================
+   LOAD DATA
+========================================================= */
+
+async function loadData(){
+  const [students,classes]=await Promise.all([
+    dbGet(PATH.students),
+    dbGet(PATH.classes)
+  ]);
+
+  DATA.students=students||{};
+  DATA.classes=classes||{};
+
+  fillClasses();
+  updateStats();
+  updateAudiencePreview();
+}
+
+function visibleStudents(){
+  return Object.values(DATA.students)
+  .filter(s=>s && s.code && s.hidden!==true);
+}
+
+function fillClasses(){
+  const rows=Object.values(DATA.classes)
+  .filter(Boolean)
+  .sort((a,b)=>{
+    const n=String(a.name||"").localeCompare(String(b.name||""),"ar");
+    if(n!==0) return n;
+    return String(a.gender||"").localeCompare(String(b.gender||""));
+  });
+
+  $("classSelect").innerHTML=`
+    <option value="">اختر الصف</option>
+    ${rows.map(c=>`
+      <option value="${esc(c.id)}">
+        ${esc(c.name)} - ${genderLabel(c.gender)}
+      </option>
+    `).join("")}
+  `;
+}
+
+function updateStats(){
+  $("totalStudents").textContent=visibleStudents().length;
+  $("totalNotices").textContent=Object.keys(DATA.logs||{}).length;
+}
+
+/* =========================================================
+   AUDIENCE
+========================================================= */
+
+document.querySelectorAll(".audience").forEach(button=>{
+  button.addEventListener("click",()=>{
+    document.querySelectorAll(".audience")
+    .forEach(el=>el.classList.remove("active"));
+
+    button.classList.add("active");
+    audienceMode=button.dataset.mode;
+
+    $("genderField").classList.toggle(
+      "hidden",
+      audienceMode!=="gender"
+    );
+
+    $("classField").classList.toggle(
+      "hidden",
+      audienceMode!=="class"
+    );
+
+    $("studentField").classList.toggle(
+      "hidden",
+      audienceMode!=="student"
+    );
+
+    if(audienceMode!=="student"){
+      clearSelectedStudent(false);
+    }
+
+    updateAudiencePreview();
+  });
+});
+
+$("genderSelect").addEventListener("change",updateAudiencePreview);
+$("classSelect").addEventListener("change",updateAudiencePreview);
+
+function recipientStudents(){
+  const all=visibleStudents();
+
+  if(audienceMode==="all"){
+    return all;
+  }
+
+  if(audienceMode==="gender"){
+    const gender=$("genderSelect").value;
+    if(!gender) return [];
+    return all.filter(s=>s.gender===gender);
+  }
+
+  if(audienceMode==="class"){
+    const classId=$("classSelect").value;
+    if(!classId) return [];
+    return all.filter(s=>s.classId===classId);
+  }
+
+  if(audienceMode==="student"){
+    const s=DATA.students[selectedStudentCode];
+    return s&&s.hidden!==true ? [s] : [];
+  }
+
+  return [];
+}
+
+function audienceDescription(){
+  if(audienceMode==="all"){
+    return {
+      title:"جميع الطلاب",
+      description:"سيستلم التبليغ جميع الطلاب المسجلين."
+    };
+  }
+
+  if(audienceMode==="gender"){
+    const gender=$("genderSelect").value;
+
+    if(!gender){
+      return {
+        title:"حسب الجنس",
+        description:"اختر البنين أو البنات."
+      };
+    }
+
+    return {
+      title:gender==="female"?"جميع البنات":"جميع البنين",
+      description:`سيتم إرسال التبليغ إلى ${genderLabel(gender)} فقط.`
+    };
+  }
+
+  if(audienceMode==="class"){
+    const classId=$("classSelect").value;
+    const c=DATA.classes[classId];
+
+    if(!c){
+      return {
+        title:"صف محدد",
+        description:"اختر الصف المطلوب."
+      };
+    }
+
+    return {
+      title:`${c.name} - ${genderLabel(c.gender)}`,
+      description:"سيصل التبليغ إلى جميع طلاب هذا الصف."
+    };
+  }
+
+  if(audienceMode==="student"){
+    const s=DATA.students[selectedStudentCode];
+
+    if(!s){
+      return {
+        title:"طالب محدد",
+        description:"ابحث عن الطالب واختره."
+      };
+    }
+
+    return {
+      title:s.name||s.code,
+      description:`الكود: ${s.code} | ${s.className||"بدون صف"} | القاعة ${s.roomNumber||"—"}`
+    };
+  }
+
+  return {title:"—",description:"—"};
+}
+
+function updateAudiencePreview(){
+  const info=audienceDescription();
+  const count=recipientStudents().length;
+
+  $("recipientTitle").textContent=info.title;
+  $("recipientDescription").textContent=info.description;
+  $("recipientCount").textContent=`${count} طالب`;
+  $("targetCount").textContent=count;
+}
+
+/* =========================================================
+   STUDENT SEARCH
+========================================================= */
+
+$("studentSearch").addEventListener("input",renderStudentSearch);
+
+$("studentSearch").addEventListener("focus",()=>{
+  if($("studentSearch").value.trim()){
+    renderStudentSearch();
+  }
+});
+
+document.addEventListener("click",event=>{
+  if(!event.target.closest(".student-search-wrap")){
+    $("studentResults").classList.add("hidden");
+  }
+});
+
+function renderStudentSearch(){
+  const q=norm($("studentSearch").value);
+  const box=$("studentResults");
+
+  if(!q){
+    box.innerHTML="";
+    box.classList.add("hidden");
+    return;
+  }
+
+  const rows=visibleStudents()
+  .filter(s=>{
+    const hay=[
+      s.name,
+      s.code,
+      s.className,
+      s.roomNumber
+    ].map(norm).join(" ");
+
+    return hay.includes(q);
+  })
+  .sort((a,b)=>
+    String(a.name||"").localeCompare(String(b.name||""),"ar")
+  )
+  .slice(0,30);
+
+  if(!rows.length){
+    box.innerHTML=`
+      <div class="empty" style="padding:15px">
+        لا يوجد طالب مطابق.
+      </div>
+    `;
+    box.classList.remove("hidden");
+    return;
+  }
+
+  box.innerHTML=rows.map(s=>`
+    <button
+      type="button"
+      class="student-result"
+      onclick="selectStudent('${String(s.code).replace(/'/g,"\\'")}')"
+    >
+      <strong>${esc(s.name||"بدون اسم")}</strong>
+      <small>
+        ${esc(s.code)} |
+        ${esc(s.className||"بدون صف")} |
+        القاعة ${esc(s.roomNumber||"—")} |
+        ${genderLabel(s.gender)}
+      </small>
+    </button>
+  `).join("");
+
+  box.classList.remove("hidden");
+}
+
+function selectStudent(code){
+  const s=DATA.students[code];
+
+  if(!s) return;
+
+  selectedStudentCode=code;
+
+  $("studentSearch").value="";
+  $("studentResults").classList.add("hidden");
+
+  $("selectedStudentName").textContent=s.name||code;
+  $("selectedStudentInfo").textContent=
+    `${code} | ${s.className||"بدون صف"} | القاعة ${s.roomNumber||"—"} | ${genderLabel(s.gender)}`;
+
+  $("selectedStudentBox").classList.remove("hidden");
+
+  updateAudiencePreview();
+}
+
+function clearSelectedStudent(update=true){
+  selectedStudentCode="";
+  $("studentSearch").value="";
+  $("studentResults").classList.add("hidden");
+  $("selectedStudentBox").classList.add("hidden");
+
+  if(update){
+    updateAudiencePreview();
+  }
+}
+
+/* =========================================================
+   NOTICE TYPE
+========================================================= */
+
+document.querySelectorAll(".type-chip").forEach(button=>{
+  button.addEventListener("click",()=>{
+    document.querySelectorAll(".type-chip")
+    .forEach(el=>el.classList.remove("active"));
+
+    button.classList.add("active");
+    noticeType=button.dataset.type;
+  });
+});
+
+/* =========================================================
+   TEXT COUNT
+========================================================= */
+
+$("noticeText").addEventListener("input",()=>{
+  $("charCount").textContent=$("noticeText").value.length;
+});
+
+/* =========================================================
+   SEND
+========================================================= */
+
+function validateAudience(){
+  if(audienceMode==="gender"&&!$("genderSelect").value){
+    toast("اختر الجنس أولاً");
+    return false;
+  }
+
+  if(audienceMode==="class"&&!$("classSelect").value){
+    toast("اختر الصف أولاً");
+    return false;
+  }
+
+  if(audienceMode==="student"&&!selectedStudentCode){
+    toast("اختر الطالب أولاً");
+    return false;
+  }
+
+  if(!recipientStudents().length){
+    toast("لا يوجد طلاب ضمن الاختيار الحالي");
+    return false;
+  }
+
+  return true;
+}
+
+function makeNoticeId(){
+  return `NT_${Date.now()}_${Math.random().toString(36).slice(2,9)}`;
+}
+
+$("noticeForm").addEventListener("submit",async event=>{
+  event.preventDefault();
+
+  if(!validateAudience()) return;
+
+  const title=$("noticeTitle").value.trim();
+  const text=$("noticeText").value.trim();
+
+  if(!title){
+    toast("اكتب عنوان التبليغ");
+    return;
+  }
+
+  if(!text){
+    toast("اكتب نص التبليغ");
+    return;
+  }
+
+  const recipients=recipientStudents();
+
+  const button=$("sendBtn");
+  button.disabled=true;
+  button.textContent="جاري الإرسال...";
+
+  try{
+    const id=makeNoticeId();
+    const createdAt=Date.now();
+    const audienceInfo=audienceDescription();
+    const updates={};
+
+    const baseNotice={
+      id,
+      title,
+      text,
+      message:text,
+      body:text,
+      type:noticeType,
+      priority:noticeType,
+      senderRole:"admin",
+      senderCode:adminCode(),
+      senderName:adminUser?.name||"إدارة المدرسة",
+      createdAt,
+      read:false,
+      status:"unread",
+      audienceMode,
+      audienceTitle:audienceInfo.title
+    };
+
+    recipients.forEach(student=>{
+      updates[
+        `${PATH.notifications}/${student.code}/${id}`
+      ]={
+        ...baseNotice,
+        studentCode:student.code,
+        studentName:student.name||"",
+        classId:student.classId||"",
+        className:student.className||"",
+        roomNumber:student.roomNumber??"",
+        gender:student.gender||""
+      };
+    });
+
+    updates[`${PATH.notificationLogs}/${id}`]={
+      id,
+      title,
+      text,
+      type:noticeType,
+      createdAt,
+      createdBy:adminCode(),
+      createdByName:adminUser?.name||"إدارة المدرسة",
+      audienceMode,
+      audienceTitle:audienceInfo.title,
+      recipientCount:recipients.length,
+      gender:audienceMode==="gender"
+        ?$("genderSelect").value
+        :"",
+      classId:audienceMode==="class"
+        ?$("classSelect").value
+        :"",
+      className:audienceMode==="class"
+        ?(DATA.classes[$("classSelect").value]?.name||"")
+        :"",
+      studentCode:audienceMode==="student"
+        ?selectedStudentCode
+        :"",
+      studentName:audienceMode==="student"
+        ?(DATA.students[selectedStudentCode]?.name||"")
+        :""
+    };
+
+    await dbPatch("",updates);
+
+    toast(`تم إرسال التبليغ إلى ${recipients.length} طالب`);
+
+    $("noticeTitle").value="";
+    $("noticeText").value="";
+    $("charCount").textContent="0";
+
+    await loadHistory();
+
+  }catch(error){
+    console.error(error);
+    toast("تعذر إرسال التبليغ");
+  }finally{
+    button.disabled=false;
+    button.textContent="إرسال التبليغ";
+  }
+});
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+async function loadHistory(){
+  try{
+    const logs=await dbGet(PATH.notificationLogs);
+    DATA.logs=logs||{};
+    renderHistory();
+    updateStats();
+  }catch(error){
+    console.error(error);
+    DATA.logs={};
+    renderHistory();
+  }
+}
+
+function audienceLabel(log){
+  if(log.audienceTitle) return log.audienceTitle;
+
+  if(log.audienceMode==="all") return "جميع الطلاب";
+  if(log.audienceMode==="gender") return genderLabel(log.gender);
+  if(log.audienceMode==="class") return log.className||"صف محدد";
+  if(log.audienceMode==="student") return log.studentName||log.studentCode||"طالب محدد";
+
+  return "—";
+}
+
+function renderHistory(){
+  const rows=Object.values(DATA.logs||{})
+  .filter(Boolean)
+  .sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0))
+  .slice(0,30);
+
+  $("historyEmpty").classList.toggle("hidden",rows.length>0);
+
+  $("historyList").innerHTML=rows.map(log=>`
+    <article class="notice-card">
+      <div class="notice-top">
+        <div>
+          <h4>${esc(log.title||"بدون عنوان")}</h4>
+        </div>
+
+        <span class="badge ${typeBadge(log.type)}">
+          ${typeLabel(log.type)}
+        </span>
+      </div>
+
+      <p>${esc(log.text||"")}</p>
+
+      <div class="notice-meta">
+        <span class="badge blue">
+          ${esc(audienceLabel(log))}
+        </span>
+
+        <span class="badge green">
+          ${Number(log.recipientCount||0)} مستلم
+        </span>
+
+        <span class="badge purple">
+          ${esc(viewDateTime(log.createdAt))}
+        </span>
+      </div>
+    </article>
+  `).join("");
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetForm(){
+  $("noticeTitle").value="";
+  $("noticeText").value="";
+  $("charCount").textContent="0";
+
+  $("genderSelect").value="";
+  $("classSelect").value="";
+  clearSelectedStudent(false);
+
+  noticeType="general";
+  document.querySelectorAll(".type-chip")
+  .forEach(el=>
+    el.classList.toggle(
+      "active",
+      el.dataset.type==="general"
+    )
+  );
+
+  audienceMode="all";
+
+  document.querySelectorAll(".audience")
+  .forEach(el=>
+    el.classList.toggle(
+      "active",
+      el.dataset.mode==="all"
+    )
+  );
+
+  $("genderField").classList.add("hidden");
+  $("classField").classList.add("hidden");
+  $("studentField").classList.add("hidden");
+
+  updateAudiencePreview();
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+function toast(text){
+  const el=$("toast");
+  el.textContent=text;
+  el.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer=setTimeout(
+    ()=>el.classList.remove("show"),
+    2400
+  );
+}
+
+/* =========================================================
+   START
+========================================================= */
+
+window.addEventListener("load",async()=>{
+  try{
+    const allowed=await verifyAdmin();
+
+    if(!allowed){
+      return;
+    }
+
+    await Promise.all([
+      loadData(),
+      loadHistory()
+    ]);
+
+    refreshHistoryTimer=setInterval(
+      loadHistory,
+      15000
+    );
+
+  }catch(error){
+    console.error(error);
+    toast("تعذر تحميل صفحة التبليغات");
+  }finally{
+    $("loading").classList.add("hidden");
+  }
+});
+
+window.addEventListener("beforeunload",()=>{
+  if(refreshHistoryTimer){
+    clearInterval(refreshHistoryTimer);
+  }
+});
+</script>
+
+</body>
+</html>
