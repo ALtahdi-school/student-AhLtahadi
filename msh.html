@@ -14,10 +14,15 @@
 
 <title>الحضور والغياب | مدرسة التحدي الأهلية المختلطة</title>
 
+
+<!-- =========================================================
+     FACE API
+========================================================= -->
+
 <script
-    defer
     src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"
 ></script>
+
 
 <style>
 
@@ -48,6 +53,10 @@
 
 }
 
+
+/* =========================================================
+   RESET
+========================================================= */
 
 *{
 
@@ -134,6 +143,9 @@ button{
 
 .loader-box{
 
+    width:90%;
+    max-width:420px;
+
     text-align:center;
 
 }
@@ -183,7 +195,71 @@ button{
         var(--muted);
 
     font-size:10px;
+    line-height:1.9;
+
     font-weight:900;
+
+}
+
+
+.loader-error{
+
+    display:none;
+
+    margin-top:15px;
+
+    padding:12px;
+
+    border-radius:14px;
+
+    background:
+        var(--red-bg);
+
+    color:
+        var(--red);
+
+    font-size:9px;
+    line-height:1.9;
+
+    font-weight:900;
+
+}
+
+
+.loader-error.show{
+
+    display:block;
+
+}
+
+
+.loader-retry{
+
+    display:none;
+
+    width:100%;
+    height:48px;
+
+    margin-top:12px;
+
+    border:0;
+
+    border-radius:14px;
+
+    color:#fff;
+
+    background:
+        var(--blue);
+
+    font-size:10px;
+    font-weight:900;
+
+}
+
+
+.loader-retry.show{
+
+    display:block;
 
 }
 
@@ -233,6 +309,9 @@ button{
         rgba(255,255,255,.96);
 
     backdrop-filter:
+        blur(15px);
+
+    -webkit-backdrop-filter:
         blur(15px);
 
     border-bottom:
@@ -402,6 +481,54 @@ button{
 
 
 /* =========================================================
+   SYSTEM STATUS
+========================================================= */
+
+.system-status{
+
+    margin-bottom:12px;
+
+    padding:12px;
+
+    border-radius:15px;
+
+    background:
+        var(--green-bg);
+
+    color:
+        var(--green);
+
+    font-size:9px;
+    line-height:1.8;
+
+    font-weight:900;
+
+}
+
+
+.system-status.error{
+
+    background:
+        var(--red-bg);
+
+    color:
+        var(--red);
+
+}
+
+
+.system-status.warning{
+
+    background:
+        var(--orange-bg);
+
+    color:
+        var(--orange);
+
+}
+
+
+/* =========================================================
    FILTERS
 ========================================================= */
 
@@ -410,7 +537,10 @@ button{
     display:grid;
 
     grid-template-columns:
-        repeat(3,minmax(0,1fr));
+        repeat(
+            3,
+            minmax(0,1fr)
+        );
 
     gap:8px;
 
@@ -663,6 +793,9 @@ button{
     backdrop-filter:
         blur(8px);
 
+    -webkit-backdrop-filter:
+        blur(8px);
+
     font-size:8px;
     font-weight:900;
 
@@ -771,7 +904,10 @@ button{
     display:grid;
 
     grid-template-columns:
-        repeat(5,minmax(0,1fr));
+        repeat(
+            5,
+            minmax(0,1fr)
+        );
 
     gap:7px;
 
@@ -962,7 +1098,7 @@ button{
 
 
 /* =========================================================
-   STUDENT LIST
+   STUDENTS
 ========================================================= */
 
 .student-list{
@@ -1144,7 +1280,7 @@ button{
 
 
 /* =========================================================
-   SELECTED ABSENT COUNTER
+   SELECTION WARNING
 ========================================================= */
 
 .selection-warning{
@@ -1449,6 +1585,7 @@ button{
 
     .header,
     #selectionCard,
+    #systemCard,
     #cameraCard,
     #statsCard,
     #studentsCard,
@@ -1517,11 +1654,31 @@ button{
             alt="الشعار"
         >
 
-        <div class="spinner"></div>
+
+        <div
+            id="loaderSpinner"
+            class="spinner"
+        ></div>
+
 
         <p id="loaderText">
             جاري تحميل نظام الحضور
         </p>
+
+
+        <div
+            id="loaderError"
+            class="loader-error"
+        ></div>
+
+
+        <button
+            id="loaderRetry"
+            class="loader-retry"
+            type="button"
+        >
+            إعادة المحاولة
+        </button>
 
     </div>
 
@@ -1549,6 +1706,7 @@ button{
                 مدرسة التحدي الأهلية المختلطة
             </h1>
 
+
             <p id="supervisorName">
                 مشرف الحضور والغياب
             </p>
@@ -1570,6 +1728,42 @@ button{
 
 
 <main class="container">
+
+
+<!-- =========================================================
+     SYSTEM STATUS
+========================================================= -->
+
+<section
+    id="systemCard"
+    class="card"
+>
+
+    <div class="card-title">
+
+        <div>
+
+            <h2>
+                حالة نظام الكامرة
+            </h2>
+
+            <p>
+                فحص ملفات اكتشاف الوجوه
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="systemStatus"
+        class="system-status warning"
+    >
+        جاري فحص النظام...
+    </div>
+
+</section>
 
 
 <!-- =========================================================
@@ -1671,8 +1865,9 @@ button{
             id="startBtn"
             class="btn btn-primary"
             type="button"
+            disabled
         >
-            بدء تسجيل الحضور بالكامرة
+            جاري تحميل نظام الوجوه...
         </button>
 
     </div>
@@ -1887,6 +2082,7 @@ button{
                 نسبة الموجودين
             </span>
 
+
             <span id="progressText">
                 0%
             </span>
@@ -1909,7 +2105,7 @@ button{
 
 
 <!-- =========================================================
-     STUDENT LIST
+     STUDENTS
 ========================================================= -->
 
 <section
@@ -2015,9 +2211,7 @@ button{
 
                 <tr>
 
-                    <th>
-                        #
-                    </th>
+                    <th>#</th>
 
                     <th>
                         اسم الطالب
@@ -2048,7 +2242,9 @@ button{
             </thead>
 
 
-            <tbody id="reportBody"></tbody>
+            <tbody
+                id="reportBody"
+            ></tbody>
 
         </table>
 
@@ -2099,20 +2295,26 @@ const DB =
 
 
 /* =========================================================
-   FACE MODEL
+   FACE MODEL PATH
+
+   إذا msh.html بجذر المشروع:
+   هذا المسار صحيح تلقائياً.
+
+   مثال:
+   /msh.html
+   /models/...
 ========================================================= */
 
 const FACE_MODEL_PATH =
-    "./models";
+    new URL(
+        "./models/",
+        window.location.href
+    ).href;
 
 
-/*
-    TinyFaceDetector:
-    inputSize can be:
-    128, 160, 224, 320, 416, 512, 608
-
-    320 gives good mobile performance.
-*/
+/* =========================================================
+   FACE OPTIONS
+========================================================= */
 
 const FACE_OPTIONS = {
 
@@ -2141,7 +2343,9 @@ let selectedAbsentCodes =
     new Set();
 
 
-let cameraStream = null;
+let cameraStream =
+    null;
+
 
 let currentFacingMode =
     "environment";
@@ -2159,38 +2363,21 @@ let modelsReady =
     false;
 
 
-/*
-    عدد الوجوه في آخر قراءة.
-*/
-
 let currentFaceCount =
     0;
 
-
-/*
-    أعلى عدد مستقر تم رصده.
-*/
 
 let bestStableFaceCount =
     0;
 
 
-/*
-    نستخدم نافذة من القراءات
-    حتى لا تتغير الأرقام بقفزات.
-*/
-
-let faceSamples = [];
+let faceSamples =
+    [];
 
 
 const FACE_SAMPLE_SIZE =
     8;
 
-
-/*
-    آخر وقت شغلنا فيه الكشف.
-    نخلي الكشف تقريباً 4 مرات بالثانية.
-*/
 
 let lastDetectionAt =
     0;
@@ -2203,10 +2390,6 @@ const DETECTION_INTERVAL =
 let detectionAnimationId =
     null;
 
-
-/*
-    لمنع التسجيل مرتين.
-*/
 
 let savingAttendance =
     false;
@@ -2261,6 +2444,19 @@ function norm(value){
 }
 
 
+function sleep(ms){
+
+    return new Promise(
+        resolve =>
+            setTimeout(
+                resolve,
+                ms
+            )
+    );
+
+}
+
+
 function toast(text){
 
     $("toast").textContent =
@@ -2295,7 +2491,54 @@ function toast(text){
 
 
 /* =========================================================
-   DATE
+   SYSTEM STATUS
+========================================================= */
+
+function setSystemStatus(
+    text,
+    type = "ok"
+){
+
+    const box =
+        $("systemStatus");
+
+
+    box.className =
+        "system-status";
+
+
+    if(
+        type ===
+        "error"
+    ){
+
+        box.classList.add(
+            "error"
+        );
+
+    }
+
+
+    if(
+        type ===
+        "warning"
+    ){
+
+        box.classList.add(
+            "warning"
+        );
+
+    }
+
+
+    box.textContent =
+        text;
+
+}
+
+
+/* =========================================================
+   DATE - BAGHDAD
 ========================================================= */
 
 function getIraqDateParts(){
@@ -2399,7 +2642,7 @@ function dateArabic(){
 
 
 /* =========================================================
-   FIREBASE REST
+   FIREBASE
 ========================================================= */
 
 async function dbGet(path){
@@ -2417,7 +2660,7 @@ async function dbGet(path){
     if(!response.ok){
 
         throw new Error(
-            "DATABASE_GET_FAILED"
+            `DATABASE_GET_FAILED_${response.status}`
         );
 
     }
@@ -2456,7 +2699,7 @@ async function dbPut(
     if(!response.ok){
 
         throw new Error(
-            "DATABASE_PUT_FAILED"
+            `DATABASE_PUT_FAILED_${response.status}`
         );
 
     }
@@ -2495,7 +2738,7 @@ async function dbPost(
     if(!response.ok){
 
         throw new Error(
-            "DATABASE_POST_FAILED"
+            `DATABASE_POST_FAILED_${response.status}`
         );
 
     }
@@ -2587,7 +2830,8 @@ function genderText(value){
 
     return normalizeGender(
         value
-    ) === "female"
+    ) ===
+    "female"
 
         ? "بنات"
 
@@ -2627,10 +2871,684 @@ function getClassName(classId){
 
 
 /* =========================================================
+   LOADER ERROR
+========================================================= */
+
+function showLoaderError(
+    message
+){
+
+    $("loaderSpinner")
+        .classList.add(
+            "hidden"
+        );
+
+
+    $("loaderError").textContent =
+        message;
+
+
+    $("loaderError")
+        .classList.add(
+            "show"
+        );
+
+
+    $("loaderRetry")
+        .classList.add(
+            "show"
+        );
+
+}
+
+
+function clearLoaderError(){
+
+    $("loaderSpinner")
+        .classList.remove(
+            "hidden"
+        );
+
+
+    $("loaderError")
+        .classList.remove(
+            "show"
+        );
+
+
+    $("loaderRetry")
+        .classList.remove(
+            "show"
+        );
+
+}
+
+
+/* =========================================================
+   FACE MODEL DIAGNOSTIC
+========================================================= */
+
+async function loadFaceModel(){
+
+    modelsReady =
+        false;
+
+
+    $("loaderText").textContent =
+        "جاري فحص مكتبة اكتشاف الوجوه...";
+
+
+    setSystemStatus(
+        "جاري فحص مكتبة face-api.js...",
+        "warning"
+    );
+
+
+    /* =========================================
+       1. WAIT FOR FACE API
+    ========================================= */
+
+    let tries = 0;
+
+
+    while(
+        typeof window.faceapi ===
+        "undefined" &&
+        tries <
+        100
+    ){
+
+        await sleep(
+            100
+        );
+
+
+        tries++;
+
+    }
+
+
+    if(
+        typeof window.faceapi ===
+        "undefined"
+    ){
+
+        throw new Error(
+            "FACE_API_LIBRARY_NOT_LOADED"
+        );
+
+    }
+
+
+    console.log(
+        "✅ face-api loaded"
+    );
+
+
+    /* =========================================
+       2. MANIFEST URL
+    ========================================= */
+
+    const manifestUrl =
+        new URL(
+            "tiny_face_detector_model-weights_manifest.json",
+            FACE_MODEL_PATH
+        ).href;
+
+
+    console.log(
+        "FACE MODEL PATH:",
+        FACE_MODEL_PATH
+    );
+
+
+    console.log(
+        "MANIFEST URL:",
+        manifestUrl
+    );
+
+
+    $("loaderText").textContent =
+        "جاري فحص ملف manifest...";
+
+
+    setSystemStatus(
+        "جاري فحص ملف manifest...",
+        "warning"
+    );
+
+
+    /* =========================================
+       3. DOWNLOAD MANIFEST
+    ========================================= */
+
+    let manifestResponse;
+
+
+    try{
+
+        manifestResponse =
+            await fetch(
+                manifestUrl,
+                {
+                    cache:
+                        "no-store"
+                }
+            );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "MANIFEST NETWORK ERROR:",
+            error
+        );
+
+
+        throw new Error(
+            "MANIFEST_NETWORK_ERROR"
+        );
+
+    }
+
+
+    console.log(
+        "MANIFEST STATUS:",
+        manifestResponse.status
+    );
+
+
+    console.log(
+        "MANIFEST CONTENT TYPE:",
+        manifestResponse.headers.get(
+            "content-type"
+        )
+    );
+
+
+    if(
+        !manifestResponse.ok
+    ){
+
+        throw new Error(
+            `MANIFEST_NOT_FOUND_${manifestResponse.status}`
+        );
+
+    }
+
+
+    const manifestText =
+        await manifestResponse.text();
+
+
+    console.log(
+        "MANIFEST TEXT:",
+        manifestText
+    );
+
+
+    /* =========================================
+       4. CHECK HTML ERROR PAGE
+    ========================================= */
+
+    const lowerManifest =
+        manifestText
+        .trim()
+        .toLowerCase();
+
+
+    if(
+        lowerManifest.startsWith(
+            "<!doctype"
+        ) ||
+        lowerManifest.startsWith(
+            "<html"
+        )
+    ){
+
+        throw new Error(
+            "MANIFEST_IS_HTML"
+        );
+
+    }
+
+
+    /* =========================================
+       5. PARSE JSON
+    ========================================= */
+
+    let manifestData;
+
+
+    try{
+
+        manifestData =
+            JSON.parse(
+                manifestText
+            );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "INVALID MANIFEST JSON:",
+            error
+        );
+
+
+        throw new Error(
+            "MANIFEST_INVALID_JSON"
+        );
+
+    }
+
+
+    if(
+        !Array.isArray(
+            manifestData
+        ) ||
+        !manifestData.length
+    ){
+
+        throw new Error(
+            "MANIFEST_EMPTY"
+        );
+
+    }
+
+
+    /* =========================================
+       6. GET SHARD NAME
+    ========================================= */
+
+    const shardName =
+        manifestData?.[0]
+        ?.paths?.[0];
+
+
+    console.log(
+        "SHARD NAME:",
+        shardName
+    );
+
+
+    if(!shardName){
+
+        throw new Error(
+            "SHARD_NAME_NOT_FOUND"
+        );
+
+    }
+
+
+    const shardUrl =
+        new URL(
+            shardName,
+            FACE_MODEL_PATH
+        ).href;
+
+
+    console.log(
+        "SHARD URL:",
+        shardUrl
+    );
+
+
+    $("loaderText").textContent =
+        "جاري فحص ملف الموديل shard1...";
+
+
+    setSystemStatus(
+        "جاري فحص ملف tiny_face_detector_model-shard1...",
+        "warning"
+    );
+
+
+    /* =========================================
+       7. FETCH SHARD
+    ========================================= */
+
+    let shardResponse;
+
+
+    try{
+
+        shardResponse =
+            await fetch(
+                shardUrl,
+                {
+                    cache:
+                        "no-store"
+                }
+            );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "SHARD NETWORK ERROR:",
+            error
+        );
+
+
+        throw new Error(
+            "SHARD_NETWORK_ERROR"
+        );
+
+    }
+
+
+    console.log(
+        "SHARD STATUS:",
+        shardResponse.status
+    );
+
+
+    console.log(
+        "SHARD CONTENT TYPE:",
+        shardResponse.headers.get(
+            "content-type"
+        )
+    );
+
+
+    if(
+        !shardResponse.ok
+    ){
+
+        throw new Error(
+            `SHARD_NOT_FOUND_${shardResponse.status}`
+        );
+
+    }
+
+
+    const shardBuffer =
+        await shardResponse.arrayBuffer();
+
+
+    console.log(
+        "SHARD SIZE:",
+        shardBuffer.byteLength,
+        "bytes"
+    );
+
+
+    /*
+        Tiny detector shard should be
+        significantly bigger than a tiny HTML/error file.
+    */
+
+    if(
+        shardBuffer.byteLength <
+        100000
+    ){
+
+        throw new Error(
+            "SHARD_FILE_TOO_SMALL"
+        );
+
+    }
+
+
+    /* =========================================
+       8. ACTUAL MODEL LOAD
+    ========================================= */
+
+    $("loaderText").textContent =
+        "جاري تشغيل نموذج اكتشاف الوجوه...";
+
+
+    setSystemStatus(
+        "تم العثور على الملفات، جاري تشغيل النموذج...",
+        "warning"
+    );
+
+
+    try{
+
+        await faceapi
+            .nets
+            .tinyFaceDetector
+            .loadFromUri(
+                FACE_MODEL_PATH
+            );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "FACE API MODEL LOAD ERROR:",
+            error
+        );
+
+
+        throw new Error(
+            "MODEL_LOAD_FAILED"
+        );
+
+    }
+
+
+    /* =========================================
+       9. VERIFY
+    ========================================= */
+
+    if(
+        !faceapi.nets
+        .tinyFaceDetector
+        .isLoaded
+    ){
+
+        throw new Error(
+            "MODEL_NOT_READY"
+        );
+
+    }
+
+
+    modelsReady =
+        true;
+
+
+    setSystemStatus(
+        "نظام اكتشاف الوجوه جاهز للعمل."
+    );
+
+
+    $("startBtn").disabled =
+        false;
+
+
+    $("startBtn").textContent =
+        "بدء تسجيل الحضور بالكامرة";
+
+
+    console.log(
+        "✅ TINY FACE DETECTOR READY"
+    );
+
+}
+
+
+/* =========================================================
+   FACE MODEL ERROR TEXT
+========================================================= */
+
+function getFaceModelErrorMessage(
+    error
+){
+
+    const code =
+        error?.message ||
+        "";
+
+
+    if(
+        code ===
+        "FACE_API_LIBRARY_NOT_LOADED"
+    ){
+
+        return (
+            "تعذر تحميل مكتبة face-api.js من الإنترنت."
+        );
+
+    }
+
+
+    if(
+        code ===
+        "MANIFEST_NETWORK_ERROR"
+    ){
+
+        return (
+            "تعذر الاتصال بملف manifest. تحقق من الإنترنت ومسار مجلد models."
+        );
+
+    }
+
+
+    if(
+        code.startsWith(
+            "MANIFEST_NOT_FOUND"
+        )
+    ){
+
+        return (
+            "ملف tiny_face_detector_model-weights_manifest.json غير موجود داخل مجلد models أو المسار غير صحيح."
+        );
+
+    }
+
+
+    if(
+        code ===
+        "MANIFEST_IS_HTML"
+    ){
+
+        return (
+            "الرابط الخاص بملف manifest يعيد صفحة HTML بدل ملف JSON. غالباً المسار غير صحيح."
+        );
+
+    }
+
+
+    if(
+        code ===
+        "MANIFEST_INVALID_JSON"
+    ){
+
+        return (
+            "ملف tiny_face_detector_model-weights_manifest.json غير صحيح أو تم نسخه بطريقة خاطئة."
+        );
+
+    }
+
+
+    if(
+        code ===
+        "MANIFEST_EMPTY"
+    ){
+
+        return (
+            "ملف manifest فارغ أو محتواه غير صحيح."
+        );
+
+    }
+
+
+    if(
+        code ===
+        "SHARD_NAME_NOT_FOUND"
+    ){
+
+        return (
+            "ملف manifest لا يحتوي اسم tiny_face_detector_model-shard1."
+        );
+
+    }
+
+
+    if(
+        code ===
+        "SHARD_NETWORK_ERROR"
+    ){
+
+        return (
+            "تعذر الاتصال بملف tiny_face_detector_model-shard1."
+        );
+
+    }
+
+
+    if(
+        code.startsWith(
+            "SHARD_NOT_FOUND"
+        )
+    ){
+
+        return (
+            "ملف tiny_face_detector_model-shard1 غير موجود داخل مجلد models."
+        );
+
+    }
+
+
+    if(
+        code ===
+        "SHARD_FILE_TOO_SMALL"
+    ){
+
+        return (
+            "ملف tiny_face_detector_model-shard1 غير صحيح أو ناقص. احذفه وارفع ملف Raw الأصلي بواسطة Upload files."
+        );
+
+    }
+
+
+    if(
+        code ===
+        "MODEL_LOAD_FAILED"
+    ){
+
+        return (
+            "تم العثور على ملفات الموديل، لكن مكتبة face-api.js لم تستطع قراءتها. غالباً ملف shard1 غير صحيح."
+        );
+
+    }
+
+
+    if(
+        code ===
+        "MODEL_NOT_READY"
+    ){
+
+        return (
+            "تم تحميل الملفات لكن نموذج TinyFaceDetector لم يصبح جاهزاً."
+        );
+
+    }
+
+
+    return (
+        "تعذر تحميل نظام اكتشاف الوجوه. افتح Console لمعرفة تفاصيل الخطأ."
+    );
+
+}
+
+
+/* =========================================================
    INIT
 ========================================================= */
 
 async function init(){
+
+    clearLoaderError();
+
 
     try{
 
@@ -2644,7 +3562,7 @@ async function init(){
 
 
         $("loaderText").textContent =
-            "جاري التحقق من صلاحية المشرف";
+            "جاري التحقق من صلاحية المشرف...";
 
 
         supervisor =
@@ -2692,7 +3610,7 @@ async function init(){
 
 
         $("loaderText").textContent =
-            "جاري تحميل الطلاب والصفوف";
+            "جاري تحميل الطلاب والصفوف...";
 
 
         const [
@@ -2746,10 +3664,49 @@ async function init(){
 
 
         $("loaderText").textContent =
-            "جاري تحميل نظام اكتشاف الوجوه";
+            "جاري تحميل نظام اكتشاف الوجوه...";
 
 
-        await loadFaceModel();
+        try{
+
+            await loadFaceModel();
+
+        }
+
+        catch(error){
+
+            console.error(
+                "FACE MODEL ERROR:",
+                error
+            );
+
+
+            modelsReady =
+                false;
+
+
+            const message =
+                getFaceModelErrorMessage(
+                    error
+                );
+
+
+            setSystemStatus(
+                message,
+                "error"
+            );
+
+
+            showLoaderError(
+                message +
+                "\n\nالمسار المتوقع:\n" +
+                FACE_MODEL_PATH
+            );
+
+
+            return;
+
+        }
 
 
         $("loaderScreen")
@@ -2762,6 +3719,7 @@ async function init(){
     catch(error){
 
         console.error(
+            "INIT ERROR:",
             error
         );
 
@@ -2806,14 +3764,8 @@ async function init(){
         }
 
 
-        $("loaderScreen")
-            .classList.add(
-                "hidden"
-            );
-
-
-        toast(
-            "تعذر تشغيل نظام الحضور"
+        showLoaderError(
+            "تعذر تحميل بيانات النظام. تحقق من Firebase والاتصال بالإنترنت."
         );
 
     }
@@ -2822,61 +3774,18 @@ async function init(){
 
 
 /* =========================================================
-   FACE MODEL
+   RETRY
 ========================================================= */
 
-async function loadFaceModel(){
+$("loaderRetry")
+.addEventListener(
+    "click",
+    () => {
 
-    /*
-        face-api is loaded by CDN script.
-    */
-
-    let tries = 0;
-
-
-    while(
-        typeof faceapi ===
-        "undefined" &&
-        tries < 40
-    ){
-
-        await new Promise(
-            resolve =>
-                setTimeout(
-                    resolve,
-                    100
-                )
-        );
-
-
-        tries++;
+        location.reload();
 
     }
-
-
-    if(
-        typeof faceapi ===
-        "undefined"
-    ){
-
-        throw new Error(
-            "FACE_API_NOT_LOADED"
-        );
-
-    }
-
-
-    await faceapi.nets
-        .tinyFaceDetector
-        .loadFromUri(
-            FACE_MODEL_PATH
-        );
-
-
-    modelsReady =
-        true;
-
-}
+);
 
 
 /* =========================================================
@@ -3143,107 +4052,113 @@ function getFilteredStudents(){
 
 
 /* =========================================================
-   START SESSION
+   START
 ========================================================= */
 
-$("startBtn").onclick =
-async () => {
+$("startBtn")
+.addEventListener(
+    "click",
+    async () => {
 
-    if(!modelsReady){
+        if(
+            !modelsReady
+        ){
 
-        toast(
-            "نظام اكتشاف الوجوه لم يكتمل تحميله"
-        );
+            toast(
+                "نظام اكتشاف الوجوه غير جاهز"
+            );
 
 
-        return;
+            return;
+
+        }
+
+
+        selectedStudents =
+            getFilteredStudents();
+
+
+        if(
+            !selectedStudents.length
+        ){
+
+            toast(
+                "لا يوجد طلاب ضمن هذا الاختيار"
+            );
+
+
+            return;
+
+        }
+
+
+        selectedAbsentCodes
+            .clear();
+
+
+        currentFaceCount =
+            0;
+
+
+        bestStableFaceCount =
+            0;
+
+
+        faceSamples =
+            [];
+
+
+        renderStudents();
+
+        updateStats();
+
+        updateSelectionWarning();
+
+
+        $("cameraCard")
+            .classList.remove(
+                "hidden"
+            );
+
+
+        $("statsCard")
+            .classList.remove(
+                "hidden"
+            );
+
+
+        $("studentsCard")
+            .classList.remove(
+                "hidden"
+            );
+
+
+        $("reportCard")
+            .classList.add(
+                "hidden"
+            );
+
+
+        $("classSelect").disabled =
+            true;
+
+
+        $("roomSelect").disabled =
+            true;
+
+
+        $("genderSelect").disabled =
+            true;
+
+
+        $("startBtn").disabled =
+            true;
+
+
+        await startCamera();
 
     }
-
-
-    selectedStudents =
-        getFilteredStudents();
-
-
-    if(
-        !selectedStudents.length
-    ){
-
-        toast(
-            "لا يوجد طلاب ضمن هذا الاختيار"
-        );
-
-
-        return;
-
-    }
-
-
-    selectedAbsentCodes.clear();
-
-
-    currentFaceCount =
-        0;
-
-
-    bestStableFaceCount =
-        0;
-
-
-    faceSamples =
-        [];
-
-
-    renderStudents();
-
-    updateStats();
-
-    updateSelectionWarning();
-
-
-    $("cameraCard")
-        .classList.remove(
-            "hidden"
-        );
-
-
-    $("statsCard")
-        .classList.remove(
-            "hidden"
-        );
-
-
-    $("studentsCard")
-        .classList.remove(
-            "hidden"
-        );
-
-
-    $("reportCard")
-        .classList.add(
-            "hidden"
-        );
-
-
-    $("classSelect").disabled =
-        true;
-
-
-    $("roomSelect").disabled =
-        true;
-
-
-    $("genderSelect").disabled =
-        true;
-
-
-    $("startBtn").disabled =
-        true;
-
-
-    await startCamera();
-
-};
+);
 
 
 /* =========================================================
@@ -3256,6 +4171,18 @@ async function startCamera(){
 
 
     try{
+
+        if(
+            !navigator.mediaDevices ||
+            !navigator.mediaDevices.getUserMedia
+        ){
+
+            throw new Error(
+                "CAMERA_NOT_SUPPORTED"
+            );
+
+        }
+
 
         $("cameraStatus").textContent =
             "جاري طلب صلاحية الكامرة...";
@@ -3337,6 +4264,7 @@ async function startCamera(){
     catch(error){
 
         console.error(
+            "CAMERA ERROR:",
             error
         );
 
@@ -3349,9 +4277,24 @@ async function startCamera(){
             "تعذر تشغيل الكامرة.";
 
 
-        toast(
-            "يرجى السماح باستخدام الكامرة والتأكد أن الموقع يعمل عبر HTTPS"
-        );
+        if(
+            error.name ===
+            "NotAllowedError"
+        ){
+
+            toast(
+                "تم رفض صلاحية الكامرة. فعّل إذن الكامرة للموقع."
+            );
+
+        }
+
+        else{
+
+            toast(
+                "تعذر تشغيل الكامرة. تأكد أن الموقع يعمل عبر HTTPS."
+            );
+
+        }
 
     }
 
@@ -3387,7 +4330,9 @@ function stopCamera(){
     }
 
 
-    if(cameraStream){
+    if(
+        cameraStream
+    ){
 
         cameraStream
         .getTracks()
@@ -3403,8 +4348,14 @@ function stopCamera(){
     }
 
 
-    $("camera").srcObject =
-        null;
+    if(
+        $("camera")
+    ){
+
+        $("camera").srcObject =
+            null;
+
+    }
 
 
     clearCanvas();
@@ -3416,24 +4367,29 @@ function stopCamera(){
    SWITCH CAMERA
 ========================================================= */
 
-$("switchCameraBtn").onclick =
-async () => {
+$("switchCameraBtn")
+.addEventListener(
+    "click",
+    async () => {
 
-    currentFacingMode =
-        currentFacingMode ===
-        "environment"
+        currentFacingMode =
+            currentFacingMode ===
+            "environment"
 
-            ? "user"
+                ? "user"
 
-            : "environment";
-
-
-    await startCamera();
-
-};
+                : "environment";
 
 
-$("stopCameraBtn").onclick =
+        await startCamera();
+
+    }
+);
+
+
+$("stopCameraBtn")
+.addEventListener(
+    "click",
     () => {
 
         stopCamera();
@@ -3442,11 +4398,12 @@ $("stopCameraBtn").onclick =
         $("cameraStatus").textContent =
             "تم إيقاف الكامرة. يمكنك تحديد أسماء الغائبين وحفظ التقرير.";
 
-    };
+    }
+);
 
 
 /* =========================================================
-   FACE DETECTION LOOP
+   DETECTION LOOP
 ========================================================= */
 
 function startDetectionLoop(){
@@ -3515,7 +4472,7 @@ function startDetectionLoop(){
 
 
 /* =========================================================
-   RUN DETECTION
+   RUN FACE DETECTION
 ========================================================= */
 
 async function runFaceDetection(){
@@ -3534,6 +4491,15 @@ async function runFaceDetection(){
     }
 
 
+    if(
+        !modelsReady
+    ){
+
+        return;
+
+    }
+
+
     try{
 
         const detections =
@@ -3541,7 +4507,8 @@ async function runFaceDetection(){
 
                 video,
 
-                new faceapi.TinyFaceDetectorOptions(
+                new faceapi
+                .TinyFaceDetectorOptions(
                     FACE_OPTIONS
                 )
 
@@ -3556,18 +4523,10 @@ async function runFaceDetection(){
             `${currentFaceCount} وجه`;
 
 
-        /*
-            Draw boxes.
-        */
-
         drawDetections(
             detections
         );
 
-
-        /*
-            Stabilize count.
-        */
 
         addFaceSample(
             currentFaceCount
@@ -3583,9 +4542,13 @@ async function runFaceDetection(){
     catch(error){
 
         console.error(
-            "FACE_DETECTION_ERROR",
+            "FACE DETECTION ERROR:",
             error
         );
+
+
+        $("cameraStatus").textContent =
+            "حدث خطأ أثناء قراءة الوجوه.";
 
     }
 
@@ -3593,7 +4556,7 @@ async function runFaceDetection(){
 
 
 /* =========================================================
-   DRAW FACES
+   DRAW DETECTIONS
 ========================================================= */
 
 function drawDetections(
@@ -3615,12 +4578,28 @@ function drawDetections(
     const displaySize = {
 
         width:
-            rect.width,
+            Math.round(
+                rect.width
+            ),
 
         height:
-            rect.height
+            Math.round(
+                rect.height
+            )
 
     };
+
+
+    if(
+        displaySize.width <=
+        0 ||
+        displaySize.height <=
+        0
+    ){
+
+        return;
+
+    }
 
 
     faceapi.matchDimensions(
@@ -3657,11 +4636,6 @@ function drawDetections(
                 detection.box;
 
 
-            /*
-                أخضر يعني:
-                تم اكتشاف وجه فقط.
-            */
-
             ctx.lineWidth =
                 3;
 
@@ -3671,7 +4645,7 @@ function drawDetections(
 
 
             ctx.fillStyle =
-                "rgba(24,212,109,.09)";
+                "rgba(24,212,109,.08)";
 
 
             ctx.strokeRect(
@@ -3690,10 +4664,6 @@ function drawDetections(
             );
 
 
-            /*
-                small label.
-            */
-
             const text =
                 "وجه";
 
@@ -3710,7 +4680,7 @@ function drawDetections(
 
             const y =
                 Math.max(
-                    18,
+                    20,
                     box.y
                 );
 
@@ -3721,20 +4691,20 @@ function drawDetections(
 
             ctx.fillRect(
                 box.x,
-                y - 18,
-                width + 12,
-                18
+                y - 20,
+                width + 14,
+                20
             );
 
 
             ctx.fillStyle =
-                "#ffffff";
+                "#fff";
 
 
             ctx.fillText(
                 text,
-                box.x + 6,
-                y - 5
+                box.x + 7,
+                y - 6
             );
 
         }
@@ -3751,6 +4721,13 @@ function clearCanvas(){
 
     const canvas =
         $("overlay");
+
+
+    if(!canvas){
+
+        return;
+
+    }
 
 
     const ctx =
@@ -3771,9 +4748,6 @@ function clearCanvas(){
 
 /* =========================================================
    STABLE COUNT
-
-   بدل ما نعتمد رقم فريم واحد،
-   نأخذ العدد الأكثر تكراراً في آخر القراءات.
 ========================================================= */
 
 function addFaceSample(count){
@@ -3872,10 +4846,6 @@ function addFaceSample(count){
     );
 
 
-    /*
-        ما نخلي العدد يتجاوز عدد الطلاب.
-    */
-
     stableValue =
         Math.min(
             stableValue,
@@ -3934,8 +4904,7 @@ function updateStats(){
                 (
                     bestStableFaceCount /
                     total
-                ) *
-                100
+                ) * 100
             )
 
             : 0;
@@ -4002,7 +4971,8 @@ function updateDetectionMessage(){
 
 
     if(
-        current === 0
+        current ===
+        0
     ){
 
         box.classList.add(
@@ -4020,8 +4990,10 @@ function updateDetectionMessage(){
 
 
     if(
-        best >= total &&
-        total > 0
+        best >=
+        total &&
+        total >
+        0
     ){
 
         box.textContent =
@@ -4097,7 +5069,6 @@ function renderStudents(){
 
                     <div
                         class="student ${absent ? "selected-absent" : "present-preview"}"
-                        data-code="${esc(student.code)}"
                     >
 
                         <div class="student-image">
@@ -4269,7 +5240,7 @@ function toggleAbsent(code){
 
 
 /* =========================================================
-   SELECTION WARNING
+   WARNING
 ========================================================= */
 
 function updateSelectionWarning(){
@@ -4305,7 +5276,8 @@ function updateSelectionWarning(){
 
 
     if(
-        selected === expected
+        selected ===
+        expected
     ){
 
         box.classList.add(
@@ -4314,7 +5286,8 @@ function updateSelectionWarning(){
 
 
         box.textContent =
-            expected === 0
+            expected ===
+            0
 
                 ? "الكامرة لم ترصد نقصاً. لا يوجد غائب محدد."
 
@@ -4355,80 +5328,85 @@ function updateSelectionWarning(){
    FINISH
 ========================================================= */
 
-$("finishBtn").onclick =
-async () => {
+$("finishBtn")
+.addEventListener(
+    "click",
+    async () => {
 
-    if(
-        savingAttendance
-    ){
-
-        return;
-
-    }
-
-
-    if(
-        !selectedStudents.length
-    ){
-
-        return;
-
-    }
-
-
-    if(
-        bestStableFaceCount ===
-        0
-    ){
-
-        const yes =
-            confirm(
-                "لم يتم تثبيت أي عدد للوجوه. هل تريد المتابعة بالاعتماد على اختيارك اليدوي؟"
-            );
-
-
-        if(!yes){
+        if(
+            savingAttendance
+        ){
 
             return;
 
         }
 
-    }
 
-
-    const expected =
-        expectedMissingCount();
-
-
-    const selected =
-        selectedAbsentCodes.size;
-
-
-    if(
-        bestStableFaceCount > 0 &&
-        selected !== expected
-    ){
-
-        const yes =
-            confirm(
-
-                `الكامرة رصدت نقصاً مقداره ${expected}، بينما حددت ${selected} غائب.\n\nهل أنت متأكد من اعتماد اختيارك اليدوي؟`
-
-            );
-
-
-        if(!yes){
+        if(
+            !selectedStudents.length
+        ){
 
             return;
 
         }
 
+
+        if(
+            bestStableFaceCount ===
+            0
+        ){
+
+            const yes =
+                confirm(
+                    "لم يتم تثبيت أي عدد للوجوه. هل تريد المتابعة بالاعتماد على اختيارك اليدوي؟"
+                );
+
+
+            if(!yes){
+
+                return;
+
+            }
+
+        }
+
+
+        const expected =
+            expectedMissingCount();
+
+
+        const selected =
+            selectedAbsentCodes.size;
+
+
+        if(
+            bestStableFaceCount >
+            0 &&
+            selected !==
+            expected
+        ){
+
+            const yes =
+                confirm(
+
+                    `الكامرة رصدت نقصاً مقداره ${expected}، بينما حددت ${selected} غائب.\n\nهل أنت متأكد من اعتماد اختيارك اليدوي؟`
+
+                );
+
+
+            if(!yes){
+
+                return;
+
+            }
+
+        }
+
+
+        await saveAttendance();
+
     }
-
-
-    await saveAttendance();
-
-};
+);
 
 
 /* =========================================================
@@ -4458,14 +5436,6 @@ async function saveAttendance(){
         const now =
             Date.now();
 
-
-        /*
-            كل طالب لم يحدده المشرف غائباً
-            يعتبر حاضر.
-
-            الكامرة هنا ساعدت في معرفة العدد،
-            لكن أسماء الغائبين يحددها المشرف.
-        */
 
         const tasks =
             selectedStudents
@@ -4574,10 +5544,6 @@ async function saveAttendance(){
         );
 
 
-        /*
-            Save session report separately.
-        */
-
         await dbPost(
             `attendanceSessions/${date}`,
             {
@@ -4668,6 +5634,7 @@ async function saveAttendance(){
     catch(error){
 
         console.error(
+            "SAVE ATTENDANCE ERROR:",
             error
         );
 
@@ -4722,7 +5689,8 @@ function renderReport(){
                 (
                     present /
                     total
-                ) * 100
+                ) *
+                100
             )
 
             : 0;
@@ -4796,67 +5764,53 @@ function renderReport(){
                     <tr>
 
                         <td>
-
                             ${index + 1}
-
                         </td>
 
 
                         <td>
-
                             ${esc(
                                 student.name ||
                                 ""
                             )}
-
                         </td>
 
 
                         <td>
-
                             ${esc(
                                 student.code
                             )}
-
                         </td>
 
 
                         <td>
-
                             ${esc(
                                 getClassName(
                                     student.classId
                                 )
                             )}
-
                         </td>
 
 
                         <td>
-
                             ${esc(
                                 student.roomNumber ||
                                 "—"
                             )}
-
                         </td>
 
 
                         <td>
-
                             ${genderText(
                                 student.gender
                             )}
-
                         </td>
 
 
                         <td
                             class="${isAbsent ? "report-absent" : "report-present"}"
                         >
-
                             ${isAbsent ? "غائب" : "حاضر"}
-
                         </td>
 
                     </tr>
@@ -4874,19 +5828,24 @@ function renderReport(){
    PRINT
 ========================================================= */
 
-$("printBtn").onclick =
+$("printBtn")
+.addEventListener(
+    "click",
     () => {
 
         window.print();
 
-    };
+    }
+);
 
 
 /* =========================================================
    NEW SESSION
 ========================================================= */
 
-$("newSessionBtn").onclick =
+$("newSessionBtn")
+.addEventListener(
+    "click",
     () => {
 
         selectedStudents =
@@ -4922,7 +5881,7 @@ $("newSessionBtn").onclick =
 
 
         $("startBtn").disabled =
-            false;
+            !modelsReady;
 
 
         $("reportCard")
@@ -4942,14 +5901,17 @@ $("newSessionBtn").onclick =
 
             });
 
-    };
+    }
+);
 
 
 /* =========================================================
    LOGOUT
 ========================================================= */
 
-$("logoutBtn").onclick =
+$("logoutBtn")
+.addEventListener(
+    "click",
     () => {
 
         stopCamera();
@@ -4962,7 +5924,8 @@ $("logoutBtn").onclick =
             "index.html"
         );
 
-    };
+    }
+);
 
 
 /* =========================================================
