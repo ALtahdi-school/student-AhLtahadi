@@ -65,6 +65,8 @@ button{cursor:pointer}
 .class-card.selected{border-color:var(--p);box-shadow:0 0 0 3px rgba(7,95,207,.08)}
 .class-card h4{font-size:14px;font-weight:900}
 .class-count{margin-top:12px;color:var(--p);font-size:10px;font-weight:900}
+.class-card-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+.class-card-actions .mini{flex:1;min-width:75px}
 
 /* BADGES */
 .badge{display:inline-flex;align-items:center;justify-content:center;min-height:24px;padding:0 8px;border-radius:20px;font-size:8px;font-weight:900}
@@ -402,16 +404,24 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
       <option value="">نقل إلى صف...</option>
      </select>
 
-     <button class="btn btn-p" onclick="moveSelectedStudents()">
-      نقل المحددين
-     </button>
-
      <select id="moveRoomSelect">
       <option value="">نقل إلى قاعة...</option>
      </select>
 
-     <button class="btn btn-v" onclick="openBulkMessageModal()">
-      إرسال رسالة
+     <button class="btn btn-p" onclick="moveSelectedStudents()">
+      نقل المحددين
+     </button>
+
+     <button class="btn btn-g" onclick="setSelectedAdminApproval(true)">
+      تفعيل من الإدارة
+     </button>
+
+     <button class="btn btn-o" onclick="setSelectedAdminApproval(false)">
+      إلغاء تفعيل الإدارة
+     </button>
+
+     <button class="btn btn-wa" onclick="openBulkMessageModal()">
+      رسالة واتساب
      </button>
 
      <button class="btn btn-r" onclick="deleteSelectedStudents()">
@@ -1186,7 +1196,7 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
 </div>
 
 <!-- =========================================================
-     BULK STUDENT MESSAGE
+     BULK WHATSAPP MESSAGE
 ========================================================= -->
 
 <div id="bulkMessageModal" class="modal">
@@ -1194,22 +1204,37 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
 
   <div class="modal-head">
    <div>
-    <h3>إرسال رسالة إلى الطلاب المحددين</h3>
+    <h3>إرسال رسالة واتساب للمحددين</h3>
     <p id="bulkMessageRecipients">—</p>
    </div>
 
    <button class="close" onclick="closeModal('bulkMessageModal')">×</button>
   </div>
 
-  <div class="field full">
-   <label>نص الرسالة</label>
-   <textarea id="bulkMessageText" placeholder="اكتب الرسالة التي تريد إرسالها للمحددين..."></textarea>
-   <span class="help">سيتم حفظ نفس الرسالة لكل الطلاب المحددين داخل Firebase.</span>
+  <div class="form-grid">
+
+   <div class="field full">
+    <label>إرسال الرسالة إلى</label>
+    <select id="bulkWhatsAppTarget">
+     <option value="student">رقم الطالب</option>
+     <option value="guardian">رقم ولي الأمر</option>
+    </select>
+    <span class="help">اختر هل تريد إرسال نفس الرسالة إلى أرقام الطلاب أو إلى أرقام أولياء الأمور.</span>
+   </div>
+
+   <div class="field full">
+    <label>نص الرسالة</label>
+    <textarea id="bulkMessageText" placeholder="اكتب الرسالة التي تريد إرسالها على واتساب..."></textarea>
+    <span class="help">سيتم فتح واتساب لكل رقم مسجل مع نفس النص الذي كتبته.</span>
+   </div>
+
+   <div id="bulkWhatsAppProgress" class="message success full" style="display:none"></div>
+
   </div>
 
   <div class="form-actions" style="margin-top:14px">
-   <button type="button" class="btn btn-soft" onclick="closeModal('bulkMessageModal')">إلغاء</button>
-   <button id="sendBulkMessageBtn" type="button" class="btn btn-p" onclick="sendBulkMessage()">إرسال الرسالة</button>
+   <button type="button" class="btn btn-soft" onclick="closeModal('bulkMessageModal')">إغلاق</button>
+   <button id="sendBulkMessageBtn" type="button" class="btn btn-wa" onclick="sendBulkMessage()">بدء الإرسال على واتساب</button>
   </div>
 
  </div>
@@ -1273,6 +1298,11 @@ let DATA={
 
 let selectedClassId="";
 let selectedStudents=new Set();
+
+let bulkWhatsAppQueue=[];
+let bulkWhatsAppIndex=0;
+let bulkWhatsAppText="";
+let bulkWhatsAppTarget="student";
 
 let generatedStudentCode="";
 let reservedStudentSerial=null;
@@ -1869,6 +1899,16 @@ function renderClasses(){
 
     </div>
 
+    <div class="class-card-actions">
+     <button
+      type="button"
+      class="mini btn-r"
+      onclick="event.stopPropagation();deleteClass('${safeJS(c.id)}')"
+     >
+      حذف الصف
+     </button>
+    </div>
+
    </article>
 
   `).join("")
@@ -1878,6 +1918,64 @@ function renderClasses(){
     لا توجد صفوف حتى الآن.
    </div>
   `;
+
+}
+
+
+function deleteClass(id){
+
+ const c=DATA.classes[id];
+
+ if(!c){
+  toast("الصف غير موجود");
+  return;
+ }
+
+ const studentsCount=classCount(id);
+
+ if(studentsCount>0){
+  toast(`لا يمكن حذف الصف لأنه يحتوي على ${studentsCount} طالب. انقل الطلاب إلى صف آخر أولاً.`);
+  return;
+ }
+
+ const teacherEntries=Object.entries(DATA.teachers||{})
+  .filter(([,t])=>(t.classIds||[]).includes(id));
+
+ confirmBox(
+  "حذف الصف",
+  teacherEntries.length
+   ?`سيتم حذف الصف ${c.name} وإزالته من تعيين ${teacherEntries.length} أستاذ. لن يتم حذف أي أستاذ. هل أنت متأكد؟`
+   :`سيتم حذف الصف ${c.name} نهائياً. هل أنت متأكد؟`,
+  async()=>{
+
+   const updates={};
+   updates[`classes/${id}`]=null;
+
+   teacherEntries.forEach(([teacherKey,t])=>{
+    const classIds=(t.classIds||[]).filter(classId=>classId!==id);
+    updates[`teachers/${teacherKey}/classIds`]=classIds;
+   });
+
+   await dbPatch("",updates);
+
+   delete DATA.classes[id];
+
+   teacherEntries.forEach(([,t])=>{
+    t.classIds=(t.classIds||[]).filter(classId=>classId!==id);
+   });
+
+   if(selectedClassId===id){
+    selectedClassId="";
+    $("studentsTitle").textContent="جميع الطلاب";
+   }
+
+   selectedStudents.clear();
+   $("selectAll").checked=false;
+
+   renderAll();
+   toast("تم حذف الصف");
+  }
+ );
 
 }
 
@@ -3509,6 +3607,79 @@ function updateBulk(){
 
 
 /* =========================================================
+   BULK ADMIN APPROVAL
+========================================================= */
+
+function setSelectedAdminApproval(active){
+
+ const codes=[...selectedStudents]
+  .filter(code=>DATA.students[code]);
+
+ if(!codes.length){
+  toast("حدد طالباً واحداً على الأقل");
+  return;
+ }
+
+ confirmBox(
+  active
+   ?"تفعيل المحددين من الإدارة"
+   :"إلغاء تفعيل المحددين من الإدارة",
+  active
+   ?`سيتم تفعيل صلاحية الإدارة للدرجات والدردشة لـ ${codes.length} طالب.`
+   :`سيتم إلغاء صلاحية الإدارة للدرجات والدردشة عن ${codes.length} طالب.`,
+  async()=>{
+
+   const time=Date.now();
+   const updates={};
+
+   codes.forEach(code=>{
+    updates[`students/${code}/adminApproved`]=active;
+    updates[`students/${code}/adminApprovedAt`]=active?time:null;
+    updates[`students/${code}/adminApprovedBy`]=active?adminCode():null;
+    updates[`students/${code}/adminDisabledAt`]=!active?time:null;
+    updates[`students/${code}/adminDisabledBy`]=!active?adminCode():null;
+   });
+
+   await dbPatch("",updates);
+
+   codes.forEach(code=>{
+    const s=DATA.students[code];
+    if(!s){return;}
+
+    s.adminApproved=active;
+
+    if(active){
+     s.adminApprovedAt=time;
+     s.adminApprovedBy=adminCode();
+     delete s.adminDisabledAt;
+     delete s.adminDisabledBy;
+    }else{
+     s.adminDisabledAt=time;
+     s.adminDisabledBy=adminCode();
+     delete s.adminApprovedAt;
+     delete s.adminApprovedBy;
+    }
+   });
+
+   renderStudents();
+   renderStats();
+
+   if(openedStudentCode&&codes.includes(openedStudentCode)){
+    await openStudentProfile(openedStudentCode);
+   }
+
+   toast(
+    active
+     ?`تم تفعيل ${codes.length} طالب من الإدارة`
+     :`تم إلغاء تفعيل ${codes.length} طالب من الإدارة`
+   );
+  }
+ );
+
+}
+
+
+/* =========================================================
    MOVE
 ========================================================= */
 
@@ -3717,8 +3888,30 @@ function deleteSelectedStudents(){
 
 
 /* =========================================================
-   BULK MESSAGE
+   BULK WHATSAPP MESSAGE
 ========================================================= */
+
+function resetBulkWhatsAppState(){
+
+ bulkWhatsAppQueue=[];
+ bulkWhatsAppIndex=0;
+ bulkWhatsAppText="";
+ bulkWhatsAppTarget="student";
+
+ const progress=$("bulkWhatsAppProgress");
+ if(progress){
+  progress.style.display="none";
+  progress.textContent="";
+ }
+
+ const button=$("sendBulkMessageBtn");
+ if(button){
+  button.disabled=false;
+  button.textContent="بدء الإرسال على واتساب";
+ }
+
+}
+
 
 function openBulkMessageModal(){
 
@@ -3729,76 +3922,154 @@ function openBulkMessageModal(){
   return;
  }
 
- $("bulkMessageRecipients").textContent=
-  `سيتم إرسال نفس الرسالة إلى ${count} طالب.`;
+ resetBulkWhatsAppState();
 
+ $("bulkMessageRecipients").textContent=
+  `تم تحديد ${count} طالب. اختر الإرسال إلى الطالب أو ولي الأمر.`;
+
+ $("bulkWhatsAppTarget").value="student";
  $("bulkMessageText").value="";
+
  openModal("bulkMessageModal");
 
- setTimeout(()=>$("bulkMessageText").focus(),80);
+ setTimeout(()=>$('bulkMessageText').focus(),80);
 
 }
 
 
-async function sendBulkMessage(){
+function prepareBulkWhatsAppQueue(){
 
  const text=$("bulkMessageText").value.trim();
+ const target=$("bulkWhatsAppTarget").value;
  const codes=[...selectedStudents]
   .filter(code=>DATA.students[code]);
 
  if(!codes.length){
   toast("لا يوجد طلاب محددون");
-  closeModal("bulkMessageModal");
-  return;
+  return false;
  }
 
  if(!text){
   toast("اكتب نص الرسالة أولاً");
+  return false;
+ }
+
+ if(!["student","guardian"].includes(target)){
+  toast("اختر جهة استلام الرسالة");
+  return false;
+ }
+
+ const queue=[];
+ let missing=0;
+
+ codes.forEach(code=>{
+  const student=DATA.students[code];
+  const phone=
+   target==="guardian"
+    ?student?.guardianPhone
+    :student?.studentPhone;
+
+  const number=whatsappNumber(phone);
+
+  if(!number){
+   missing++;
+   return;
+  }
+
+  queue.push({
+   code,
+   name:student?.name||code,
+   number
+  });
+ });
+
+ if(!queue.length){
+  toast(
+   target==="guardian"
+    ?"لا توجد أرقام أولياء أمور مسجلة للمحددين"
+    :"لا توجد أرقام طلاب مسجلة للمحددين"
+  );
+  return false;
+ }
+
+ bulkWhatsAppQueue=queue;
+ bulkWhatsAppIndex=0;
+ bulkWhatsAppText=text;
+ bulkWhatsAppTarget=target;
+
+ const progress=$("bulkWhatsAppProgress");
+ progress.style.display="block";
+ progress.className="message show success full";
+ progress.textContent=
+  `جاهز لإرسال الرسالة إلى ${queue.length} رقم${missing?`، وتم تجاوز ${missing} طالب لعدم وجود رقم مسجل.`:"."}`;
+
+ return true;
+
+}
+
+
+function openNextBulkWhatsApp(){
+
+ if(!bulkWhatsAppQueue.length){
   return;
  }
 
- const button=$("sendBulkMessageBtn");
- button.disabled=true;
- button.textContent="جاري الإرسال...";
+ if(bulkWhatsAppIndex>=bulkWhatsAppQueue.length){
+  const progress=$("bulkWhatsAppProgress");
+  progress.style.display="block";
+  progress.className="message show success full";
+  progress.textContent=
+   `تم فتح جميع محادثات واتساب (${bulkWhatsAppQueue.length}).`;
 
- try{
-
-  const createdAt=Date.now();
-  const messageId=`MSG_${createdAt}_${Math.random().toString(36).slice(2,9)}`;
-  const updates={};
-
-  codes.forEach(code=>{
-   const student=DATA.students[code];
-
-   updates[`${PATH.studentMessages}/${code}/${messageId}`]={
-    id:messageId,
-    title:"رسالة من إدارة المدرسة",
-    text,
-    message:text,
-    body:text,
-    studentCode:code,
-    studentName:student?.name||"",
-    createdAt,
-    createdBy:adminCode(),
-    senderRole:"admin",
-    read:false,
-    status:"unread"
-   };
-  });
-
-  await dbPatch("",updates);
-
-  closeModal("bulkMessageModal");
-  clearSelectedStudents(false);
-  toast(`تم إرسال الرسالة إلى ${codes.length} طالب`);
-
- }catch(error){
-  console.error(error);
-  toast("تعذر إرسال الرسالة");
- }finally{
-  button.disabled=false;
-  button.textContent="إرسال الرسالة";
+  const button=$("sendBulkMessageBtn");
+  button.disabled=true;
+  button.textContent="تم فتح جميع المحادثات";
+  return;
  }
+
+ const item=bulkWhatsAppQueue[bulkWhatsAppIndex];
+ const url=
+  `https://wa.me/${item.number}?text=${encodeURIComponent(bulkWhatsAppText)}`;
+
+ const opened=window.open(url,"_blank");
+
+ if(!opened){
+  toast("المتصفح منع فتح واتساب. اسمح بالنوافذ المنبثقة ثم حاول مرة أخرى.");
+  return;
+ }
+
+ bulkWhatsAppIndex++;
+
+ const progress=$("bulkWhatsAppProgress");
+ progress.style.display="block";
+ progress.className="message show success full";
+ progress.textContent=
+  `تم فتح واتساب لـ ${item.name} - ${bulkWhatsAppIndex} من ${bulkWhatsAppQueue.length}.`;
+
+ const button=$("sendBulkMessageBtn");
+
+ if(bulkWhatsAppIndex<bulkWhatsAppQueue.length){
+  button.disabled=false;
+  button.textContent=
+   `فتح التالي (${bulkWhatsAppIndex+1} من ${bulkWhatsAppQueue.length})`;
+ }else{
+  button.disabled=true;
+  button.textContent="تم فتح جميع المحادثات";
+  toast(`تم فتح ${bulkWhatsAppQueue.length} محادثة واتساب`);
+ }
+
+}
+
+
+function sendBulkMessage(){
+
+ if(!bulkWhatsAppQueue.length){
+  if(!prepareBulkWhatsAppQueue()){
+   return;
+  }
+ }
+
+ openNextBulkWhatsApp();
 
 }
 
