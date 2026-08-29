@@ -378,7 +378,7 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
   <div class="panel-head">
    <div>
     <h3 id="studentsTitle">جميع الطلاب</h3>
-    <p>اضغط على اسم الطالب لعرض ملفه الكامل.</p>
+    <p>حالة الحساب تتفعّل تلقائياً فقط عند تفعيل الحسابات والإدارة معاً. اضغط على اسم الطالب لعرض ملفه الكامل.</p>
    </div>
    <button class="btn btn-soft" onclick="showAllStudents()">عرض الجميع</button>
   </div>
@@ -401,7 +401,11 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
     </select>
 
     <select id="studentAccessFilter">
-     <option value="">كل صلاحيات الإدارة</option>
+     <option value="">كل حالات الحساب</option>
+     <option value="accountActive">الحساب فعال</option>
+     <option value="accountInactive">الحساب غير فعال</option>
+     <option value="accountantActive">الحسابات مفعلة</option>
+     <option value="accountantInactive">الحسابات غير مفعلة</option>
      <option value="adminActive">الإدارة مفعلة</option>
      <option value="adminInactive">الإدارة غير مفعلة</option>
      <option value="behaviorBlocked">محظور سلوكياً</option>
@@ -428,11 +432,11 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
       نقل المحددين
      </button>
 
-     <button class="btn btn-g" onclick="setSelectedAccountActive(true)">
+     <button class="btn btn-g" onclick="setSelectedAccountantApproval(true)">
       تفعيل الحسابات
      </button>
 
-     <button class="btn btn-r" onclick="setSelectedAccountActive(false)">
+     <button class="btn btn-r" onclick="setSelectedAccountantApproval(false)">
       إلغاء الحسابات
      </button>
 
@@ -478,7 +482,7 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
        <th>الملف</th>
        <th>الكتب</th>
        <th>القسط</th>
-       <th>الحساب</th>
+       <th>حالة الحساب</th>
        <th>الحسابات</th>
        <th>الإدارة</th>
        <th>السلوك</th>
@@ -592,14 +596,13 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
     </div>
 
     <div class="field full">
-     <label class="check-item">
-      <input id="activateStudent" type="checkbox">
-      <span>تفعيل الحساب الرئيسي مباشرة</span>
-     </label>
-
-     <span class="help">
-      صلاحية الحسابات وصلاحية الدرجات والدردشة منفصلتان عن الحساب الرئيسي.
-     </span>
+     <div class="code-box">
+      <small>حالة حساب الطالب</small>
+      <strong style="font-size:14px;letter-spacing:0">غير فعال عند الإضافة</strong>
+      <span class="help">
+       الحساب يتفعّل تلقائياً فقط عندما تكون موافقة الحسابات وموافقة الإدارة مفعّلتين معاً.
+      </span>
+     </div>
     </div>
 
     <div class="form-actions">
@@ -1057,8 +1060,12 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
     لم يستلم الكتب
    </button>
 
+   <button id="profileAccountantAccessBtn" class="btn btn-g" onclick="toggleAccountantApprovalCurrent()">
+    تفعيل الحسابات
+   </button>
+
    <button id="profileAdminAccessBtn" class="btn btn-p" onclick="toggleAdminApprovalCurrent()">
-    تفعيل الدرجات والدردشة
+    تفعيل الإدارة
    </button>
 
    <button id="profileUnblockBtn" class="btn btn-r hidden" onclick="unblockCurrentStudent()">
@@ -1678,6 +1685,94 @@ function logout(){
 
 
 /* =========================================================
+   STUDENT ACCOUNT APPROVALS
+   حالة الحساب تعتمد على الحسابات + الإدارة
+========================================================= */
+
+function accountShouldBeActive(student){
+
+ return !!(
+  student&&
+  student.accountantApproved===true&&
+  student.adminApproved===true
+ );
+
+}
+
+
+async function syncDerivedStudentAccounts(){
+
+ const updates={};
+
+ Object.entries(DATA.students||{})
+ .forEach(([code,s])=>{
+
+  if(!s){
+   return;
+  }
+
+  const active=
+   accountShouldBeActive(s);
+
+  const userActive=
+   active&&
+   s.hidden!==true;
+
+  if(s.accountActive!==active){
+
+   updates[
+    `students/${code}/accountActive`
+   ]=
+    active;
+
+   s.accountActive=
+    active;
+
+  }
+
+  if(DATA.users[code]){
+
+   if(DATA.users[code].active!==userActive){
+
+    updates[
+     `users/${code}/active`
+    ]=
+     userActive;
+
+    DATA.users[code].active=
+     userActive;
+
+   }
+
+   if(DATA.users[code].hidden!==!!s.hidden){
+
+    updates[
+     `users/${code}/hidden`
+    ]=
+     !!s.hidden;
+
+    DATA.users[code].hidden=
+     !!s.hidden;
+
+   }
+
+  }
+
+ });
+
+ if(Object.keys(updates).length){
+
+  await dbPatch(
+   "",
+   updates
+  );
+
+ }
+
+}
+
+
+/* =========================================================
    LOAD
 ========================================================= */
 
@@ -1705,6 +1800,9 @@ async function loadAll(){
  DATA.teachers=teachers||{};
  DATA.classes=classes||{};
  DATA.violations=violations||{};
+
+
+ await syncDerivedStudentAccounts();
 
 
  renderAll();
@@ -2682,12 +2780,12 @@ $("studentForm").onsubmit=async event=>{
    await studentDraft();
 
 
-  const requested=
-   $("activateStudent").checked;
-
-
+  /*
+   الحساب الرئيسي لا يتم تفعيله يدوياً.
+   يتفعّل تلقائياً فقط عند موافقة الحسابات والإدارة معاً.
+  */
   student.accountActive=
-   requested;
+   accountShouldBeActive(student);
 
 
   student.hidden=false;
@@ -2941,6 +3039,38 @@ function filteredStudents(){
 
 
   if(
+   access==="accountActive"&&
+   !accountShouldBeActive(s)
+  ){
+   return false;
+  }
+
+
+  if(
+   access==="accountInactive"&&
+   accountShouldBeActive(s)
+  ){
+   return false;
+  }
+
+
+  if(
+   access==="accountantActive"&&
+   s.accountantApproved!==true
+  ){
+   return false;
+  }
+
+
+  if(
+   access==="accountantInactive"&&
+   s.accountantApproved===true
+  ){
+   return false;
+  }
+
+
+  if(
    access==="adminActive"&&
    s.adminApproved!==true
   ){
@@ -3129,9 +3259,9 @@ function renderStudents(){
 
      <td>
 
-      <span class="badge ${s.accountActive?"green":"red"}">
+      <span class="badge ${accountShouldBeActive(s)?"green":"red"}">
 
-       ${s.accountActive
+       ${accountShouldBeActive(s)
         ?"فعال"
         :"غير فعال"
        }
@@ -3248,14 +3378,14 @@ function renderStudents(){
 
 
        <button
-        class="mini ${s.accountActive?"btn-r":"btn-g"}"
-        onclick="toggleStudentAccount('${safeJS(s.code)}')"
+        class="mini ${s.accountantApproved===true?"btn-r":"btn-g"}"
+        onclick="toggleAccountantApproval('${safeJS(s.code)}')"
        >
 
         ${
-         s.accountActive
-          ?"إلغاء الحساب"
-          :"تفعيل الحساب"
+         s.accountantApproved===true
+          ?"إلغاء الحسابات"
+          :"تفعيل الحسابات"
         }
 
        </button>
@@ -3268,8 +3398,8 @@ function renderStudents(){
 
         ${
          s.adminApproved===true
-          ?"إلغاء الدرجات والدردشة"
-          :"تفعيل الدرجات والدردشة"
+          ?"إلغاء الإدارة"
+          :"تفعيل الإدارة"
         }
 
        </button>
@@ -3642,10 +3772,10 @@ function updateBulk(){
 
 
 /* =========================================================
-   BULK MAIN ACCOUNT
+   BULK ACCOUNTANT APPROVAL
 ========================================================= */
 
-function setSelectedAccountActive(active){
+function setSelectedAccountantApproval(active){
 
  const codes=[...selectedStudents]
   .filter(code=>DATA.students[code]);
@@ -3657,36 +3787,76 @@ function setSelectedAccountActive(active){
 
  confirmBox(
   active
-   ?"تفعيل الحسابات المحددة"
-   :"إلغاء الحسابات المحددة",
-  `سيتم ${active?"تفعيل":"إلغاء تفعيل"} الحساب الرئيسي لـ ${codes.length} طالب بدون اشتراط مبلغ القسط.`,
+   ?"تفعيل المحددين من الحسابات"
+   :"إلغاء تفعيل المحددين من الحسابات",
+  active
+   ?`سيتم تفعيل موافقة الحسابات لـ ${codes.length} طالب. الحساب يصبح فعالاً فقط إذا كانت الإدارة مفعلة أيضاً.`
+   :`سيتم إلغاء موافقة الحسابات عن ${codes.length} طالب، وستصبح حساباتهم غير فعالة تلقائياً.`,
   async()=>{
+
    const updates={};
    const time=Date.now();
 
    codes.forEach(code=>{
+
     const s=DATA.students[code];
-    updates[`students/${code}/accountActive`]=active;
+
+    if(!s){
+     return;
+    }
+
+    const accountActive=
+     active&&
+     s.adminApproved===true;
+
+    updates[`students/${code}/accountantApproved`]=active;
+    updates[`students/${code}/accountantApprovedAt`]=active?time:null;
+    updates[`students/${code}/accountantApprovedBy`]=active?adminCode():null;
+    updates[`students/${code}/accountantDisabledAt`]=!active?time:null;
+    updates[`students/${code}/accountantDisabledBy`]=!active?adminCode():null;
+    updates[`students/${code}/accountActive`]=accountActive;
     updates[`students/${code}/accountStatusUpdatedAt`]=time;
     updates[`students/${code}/accountStatusUpdatedBy`]=adminCode();
-    updates[`users/${code}/active`]=active&&!s.hidden;
+    updates[`users/${code}/active`]=accountActive&&s.hidden!==true;
+
    });
 
    await dbPatch("",updates);
 
    codes.forEach(code=>{
+
     const s=DATA.students[code];
-    if(!s){return;}
-    s.accountActive=active;
+
+    if(!s){
+     return;
+    }
+
+    s.accountantApproved=active;
+    s.accountActive=accountShouldBeActive(s);
+
+    if(active){
+     s.accountantApprovedAt=time;
+     s.accountantApprovedBy=adminCode();
+     delete s.accountantDisabledAt;
+     delete s.accountantDisabledBy;
+    }else{
+     s.accountantDisabledAt=time;
+     s.accountantDisabledBy=adminCode();
+     delete s.accountantApprovedAt;
+     delete s.accountantApprovedBy;
+    }
+
     s.accountStatusUpdatedAt=time;
     s.accountStatusUpdatedBy=adminCode();
 
     if(DATA.users[code]){
-     DATA.users[code].active=active&&!s.hidden;
+     DATA.users[code].active=s.accountActive&&s.hidden!==true;
     }
+
    });
 
    renderStudents();
+   renderStats();
 
    if(openedStudentCode&&codes.includes(openedStudentCode)){
     await openStudentProfile(openedStudentCode);
@@ -3694,9 +3864,10 @@ function setSelectedAccountActive(active){
 
    toast(
     active
-     ?`تم تفعيل ${codes.length} حساب`
-     :`تم إلغاء تفعيل ${codes.length} حساب`
+     ?`تم تفعيل الحسابات لـ ${codes.length} طالب`
+     :`تم إلغاء الحسابات عن ${codes.length} طالب`
    );
+
   }
  );
 
@@ -3776,28 +3947,49 @@ function setSelectedAdminApproval(active){
    ?"تفعيل المحددين من الإدارة"
    :"إلغاء تفعيل المحددين من الإدارة",
   active
-   ?`سيتم تفعيل صلاحية الإدارة للدرجات والدردشة لـ ${codes.length} طالب.`
-   :`سيتم إلغاء صلاحية الإدارة للدرجات والدردشة عن ${codes.length} طالب.`,
+   ?`سيتم تفعيل موافقة الإدارة لـ ${codes.length} طالب. الحساب يصبح فعالاً فقط إذا كانت الحسابات مفعلة أيضاً.`
+   :`سيتم إلغاء موافقة الإدارة عن ${codes.length} طالب، وستصبح حساباتهم غير فعالة تلقائياً.`,
   async()=>{
 
    const time=Date.now();
    const updates={};
 
    codes.forEach(code=>{
+
+    const s=DATA.students[code];
+
+    if(!s){
+     return;
+    }
+
+    const accountActive=
+     active&&
+     s.accountantApproved===true;
+
     updates[`students/${code}/adminApproved`]=active;
     updates[`students/${code}/adminApprovedAt`]=active?time:null;
     updates[`students/${code}/adminApprovedBy`]=active?adminCode():null;
     updates[`students/${code}/adminDisabledAt`]=!active?time:null;
     updates[`students/${code}/adminDisabledBy`]=!active?adminCode():null;
+    updates[`students/${code}/accountActive`]=accountActive;
+    updates[`students/${code}/accountStatusUpdatedAt`]=time;
+    updates[`students/${code}/accountStatusUpdatedBy`]=adminCode();
+    updates[`users/${code}/active`]=accountActive&&s.hidden!==true;
+
    });
 
    await dbPatch("",updates);
 
    codes.forEach(code=>{
+
     const s=DATA.students[code];
-    if(!s){return;}
+
+    if(!s){
+     return;
+    }
 
     s.adminApproved=active;
+    s.accountActive=accountShouldBeActive(s);
 
     if(active){
      s.adminApprovedAt=time;
@@ -3810,6 +4002,14 @@ function setSelectedAdminApproval(active){
      delete s.adminApprovedAt;
      delete s.adminApprovedBy;
     }
+
+    s.accountStatusUpdatedAt=time;
+    s.accountStatusUpdatedBy=adminCode();
+
+    if(DATA.users[code]){
+     DATA.users[code].active=s.accountActive&&s.hidden!==true;
+    }
+
    });
 
    renderStudents();
@@ -3821,9 +4021,10 @@ function setSelectedAdminApproval(active){
 
    toast(
     active
-     ?`تم تفعيل ${codes.length} طالب من الإدارة`
-     :`تم إلغاء تفعيل ${codes.length} طالب من الإدارة`
+     ?`تم تفعيل الإدارة لـ ${codes.length} طالب`
+     :`تم إلغاء الإدارة عن ${codes.length} طالب`
    );
+
   }
  );
 
@@ -4361,90 +4562,95 @@ async function setBooksStatus(received){
 
 
 /* =========================================================
-   MAIN STUDENT ACCOUNT
+   ACCOUNTANT APPROVAL
 ========================================================= */
 
-function toggleStudentAccount(code){
+function toggleAccountantApproval(code){
 
- const s=
-  DATA.students[code];
-
+ const s=DATA.students[code];
 
  if(!s){
   return;
  }
 
-
- const active=
-  !s.accountActive;
-
+ const active=s.accountantApproved!==true;
 
  confirmBox(
-
   active
-   ?"تفعيل الحساب"
-   :"إلغاء تفعيل الحساب",
-
-  `هل تريد ${active?"تفعيل":"إلغاء تفعيل"} حساب الطالب ${s.name}؟`,
-
+   ?"تفعيل الحسابات"
+   :"إلغاء تفعيل الحسابات",
+  active
+   ?`سيتم تفعيل موافقة الحسابات للطالب ${s.name}. الحساب سيتفعّل فقط إذا كانت الإدارة مفعلة أيضاً.`
+   :`سيتم إلغاء موافقة الحسابات عن الطالب ${s.name} وسيصبح الحساب غير فعال تلقائياً.`,
   async()=>{
 
-   await Promise.all([
+   const time=Date.now();
+   const accountActive=active&&s.adminApproved===true;
 
+   await Promise.all([
     dbPatch(
      `students/${code}`,
      {
-      accountActive:active
+      accountantApproved:active,
+      accountantApprovedAt:active?time:null,
+      accountantApprovedBy:active?adminCode():null,
+      accountantDisabledAt:!active?time:null,
+      accountantDisabledBy:!active?adminCode():null,
+      accountActive,
+      accountStatusUpdatedAt:time,
+      accountStatusUpdatedBy:adminCode()
      }
     ),
-
     dbPatch(
      `users/${code}`,
      {
-      active:
-       active&&!s.hidden
+      active:accountActive&&s.hidden!==true
      }
     )
-
    ]);
 
+   s.accountantApproved=active;
+   s.accountActive=accountActive;
 
-   s.accountActive=
-    active;
+   if(active){
+    s.accountantApprovedAt=time;
+    s.accountantApprovedBy=adminCode();
+    delete s.accountantDisabledAt;
+    delete s.accountantDisabledBy;
+   }else{
+    s.accountantDisabledAt=time;
+    s.accountantDisabledBy=adminCode();
+    delete s.accountantApprovedAt;
+    delete s.accountantApprovedBy;
+   }
 
+   s.accountStatusUpdatedAt=time;
+   s.accountStatusUpdatedBy=adminCode();
 
    if(DATA.users[code]){
-
-    DATA.users[code].active=
-     active&&!s.hidden;
-
+    DATA.users[code].active=accountActive&&s.hidden!==true;
    }
-
 
    renderStudents();
+   renderStats();
 
-
-   if(
-    openedStudentCode===
-    code
-   ){
-
-    await openStudentProfile(
-     code
-    );
-
+   if(openedStudentCode===code){
+    await openStudentProfile(code);
    }
 
-
-   toast(
-    active
-     ?"تم تفعيل الحساب"
-     :"تم إلغاء تفعيل الحساب"
-   );
+   toast(active?"تم تفعيل الحسابات":"تم إلغاء تفعيل الحسابات");
 
   }
-
  );
+
+}
+
+
+function toggleAccountantApprovalCurrent(){
+
+ if(openedStudentCode){
+  toggleAccountantApproval(openedStudentCode);
+ }
 
 }
 
@@ -4455,104 +4661,80 @@ function toggleStudentAccount(code){
 
 function toggleAdminApproval(code){
 
- const s=
-  DATA.students[code];
-
+ const s=DATA.students[code];
 
  if(!s){
   return;
  }
 
-
- const active=
-  s.adminApproved!==true;
-
+ const active=s.adminApproved!==true;
 
  confirmBox(
-
   active
-   ?"تفعيل الدرجات والدردشة"
-   :"إلغاء الدرجات والدردشة",
-
+   ?"تفعيل الإدارة"
+   :"إلغاء تفعيل الإدارة",
   active
-   ?`سيتم منح الطالب ${s.name} صلاحية الإدارة للدرجات والدردشة.`
-   :`سيتم إلغاء صلاحية الإدارة للدرجات والدردشة عن الطالب ${s.name}.`,
-
+   ?`سيتم تفعيل موافقة الإدارة للطالب ${s.name}. الحساب سيتفعّل فقط إذا كانت الحسابات مفعلة أيضاً.`
+   :`سيتم إلغاء موافقة الإدارة عن الطالب ${s.name} وسيصبح الحساب غير فعال تلقائياً.`,
   async()=>{
 
-   const time=
-    Date.now();
+   const time=Date.now();
+   const accountActive=active&&s.accountantApproved===true;
 
+   await Promise.all([
+    dbPatch(
+     `students/${code}`,
+     {
+      adminApproved:active,
+      adminApprovedAt:active?time:null,
+      adminApprovedBy:active?adminCode():null,
+      adminDisabledAt:!active?time:null,
+      adminDisabledBy:!active?adminCode():null,
+      accountActive,
+      accountStatusUpdatedAt:time,
+      accountStatusUpdatedBy:adminCode()
+     }
+    ),
+    dbPatch(
+     `users/${code}`,
+     {
+      active:accountActive&&s.hidden!==true
+     }
+    )
+   ]);
 
-   await dbPatch(
-    `students/${code}`,
-    {
-     adminApproved:
-      active,
-
-     adminApprovedAt:
-      active
-       ?time
-       :null,
-
-     adminApprovedBy:
-      active
-       ?adminCode()
-       :null,
-
-     adminDisabledAt:
-      !active
-       ?time
-       :null,
-
-     adminDisabledBy:
-      !active
-       ?adminCode()
-       :null
-    }
-   );
-
-
-   s.adminApproved=
-    active;
-
+   s.adminApproved=active;
+   s.accountActive=accountActive;
 
    if(active){
-
-    s.adminApprovedAt=
-     time;
-
-    s.adminApprovedBy=
-     adminCode();
-
+    s.adminApprovedAt=time;
+    s.adminApprovedBy=adminCode();
+    delete s.adminDisabledAt;
+    delete s.adminDisabledBy;
+   }else{
+    s.adminDisabledAt=time;
+    s.adminDisabledBy=adminCode();
+    delete s.adminApprovedAt;
+    delete s.adminApprovedBy;
    }
 
+   s.accountStatusUpdatedAt=time;
+   s.accountStatusUpdatedBy=adminCode();
+
+   if(DATA.users[code]){
+    DATA.users[code].active=accountActive&&s.hidden!==true;
+   }
 
    renderStudents();
-
    renderStats();
 
-
-   if(
-    openedStudentCode===
-    code
-   ){
-
-    await openStudentProfile(
-     code
-    );
-
+   if(openedStudentCode===code){
+    await openStudentProfile(code);
    }
 
-
-   toast(
-    active
-     ?"تم تفعيل صلاحية الدرجات والدردشة"
-     :"تم إلغاء صلاحية الدرجات والدردشة"
-   );
+   toast(active?"تم تفعيل الإدارة":"تم إلغاء تفعيل الإدارة");
 
   }
-
  );
 
 }
@@ -4561,11 +4743,7 @@ function toggleAdminApproval(code){
 function toggleAdminApprovalCurrent(){
 
  if(openedStudentCode){
-
-  toggleAdminApproval(
-   openedStudentCode
-  );
-
+  toggleAdminApproval(openedStudentCode);
  }
 
 }
@@ -4814,7 +4992,7 @@ function toggleStudentHidden(code){
 
       active:
        !hidden&&
-       s.accountActive
+       accountShouldBeActive(s)
      }
     )
 
@@ -4833,7 +5011,7 @@ function toggleStudentHidden(code){
 
     DATA.users[code].active=
      !hidden&&
-     s.accountActive;
+     accountShouldBeActive(s);
 
    }
 
@@ -5207,8 +5385,8 @@ async function openStudentProfile(code){
    ${s.fileStatus==="accepted"?"تم القبول":"لم يجلب الملف"}
   </span>
 
-  <span class="badge ${s.accountActive?"green":"red"}">
-   ${s.accountActive?"الحساب فعال":"الحساب غير فعال"}
+  <span class="badge ${accountShouldBeActive(s)?"green":"red"}">
+   ${accountShouldBeActive(s)?"الحساب فعال":"الحساب غير فعال"}
   </span>
 
   <span class="badge ${s.accountantApproved===true?"green":"orange"}">
@@ -5232,10 +5410,20 @@ async function openStudentProfile(code){
  `;
 
 
+ $("profileAccountantAccessBtn").textContent=
+  s.accountantApproved===true
+   ?"إلغاء الحسابات"
+   :"تفعيل الحسابات";
+
+
+ $("profileAccountantAccessBtn").className=
+  `btn ${s.accountantApproved===true?"btn-r":"btn-g"}`;
+
+
  $("profileAdminAccessBtn").textContent=
   s.adminApproved===true
-   ?"إلغاء الدرجات والدردشة"
-   :"تفعيل الدرجات والدردشة";
+   ?"إلغاء الإدارة"
+   :"تفعيل الإدارة";
 
 
  $("profileAdminAccessBtn").className=
@@ -5371,16 +5559,16 @@ async function openStudentProfile(code){
   +
 
   profileItem(
-   "الحساب الرئيسي",
-   s.accountActive
-    ?"فعال"
-    :"غير فعال"
+   "حالة الحساب",
+   accountShouldBeActive(s)
+    ?"فعال - الإدارة والحسابات مفعّلتان"
+    :"غير فعال - يحتاج تفعيل الإدارة والحسابات"
   )
 
   +
 
   profileItem(
-   "صلاحية الحسابات",
+   "موافقة الحسابات",
    s.accountantApproved===true
     ?"مفعلة"
     :"غير مفعلة"
@@ -5389,7 +5577,7 @@ async function openStudentProfile(code){
   +
 
   profileItem(
-   "صلاحية الإدارة للدرجات والدردشة",
+   "موافقة الإدارة",
    s.adminApproved===true
     ?"مفعلة"
     :"غير مفعلة"
@@ -6090,7 +6278,7 @@ function buildStudentPDF(s){
 
 
  const account=
-  s.accountActive
+  accountShouldBeActive(s)
   ?"الحساب فعال"
   :"الحساب غير فعال";
 
