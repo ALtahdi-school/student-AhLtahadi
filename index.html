@@ -59,16 +59,21 @@ input{
     font:inherit;
 }
 
+
 /* =========================================================
    LOGIN
 ========================================================= */
 
 .login-page{
     display:none;
+
     position:relative;
+
     width:100%;
+
     min-height:100vh;
     min-height:100dvh;
+
     align-items:center;
     justify-content:center;
 
@@ -109,7 +114,9 @@ input{
 .bg-grid{
     position:absolute;
     inset:0;
+
     opacity:.3;
+
     pointer-events:none;
 
     background-image:
@@ -131,6 +138,13 @@ input{
             rgba(0,0,0,.4),
             transparent 80%
         );
+
+    -webkit-mask-image:
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,.4),
+            transparent 80%
+        );
 }
 
 .orb{
@@ -142,24 +156,30 @@ input{
 .orb.one{
     width:250px;
     height:250px;
+
     top:-110px;
     right:-110px;
+
     background:rgba(7,95,207,.07);
 }
 
 .orb.two{
     width:180px;
     height:180px;
+
     bottom:-80px;
     left:-70px;
+
     background:rgba(7,95,207,.06);
 }
 
 .login-container{
     position:relative;
     z-index:2;
+
     width:min(430px,100%);
 }
+
 
 /* =========================================================
    LOGIN BRAND
@@ -187,6 +207,7 @@ input{
 
 .logo-ring{
     position:absolute;
+
     inset:8px;
 
     border-radius:50%;
@@ -199,10 +220,8 @@ input{
         rgba(255,255,255,.62);
 
     box-shadow:
-        0 12px 35px
-        rgba(7,95,207,.1),
-        inset 0 0 0 9px
-        rgba(7,95,207,.035);
+        0 12px 35px rgba(7,95,207,.1),
+        inset 0 0 0 9px rgba(7,95,207,.035);
 
     animation:
         ringPulse
@@ -228,6 +247,7 @@ input{
 
 .main-logo{
     position:relative;
+
     z-index:2;
 
     width:112px;
@@ -245,7 +265,9 @@ input{
 .school-name{
     font-size:22px;
     line-height:1.65;
+
     font-weight:900;
+
     letter-spacing:-.3px;
 }
 
@@ -255,6 +277,7 @@ input{
     color:var(--blue);
 
     font-size:13px;
+
     font-weight:900;
 }
 
@@ -270,6 +293,7 @@ input{
 
     display:flex;
     align-items:center;
+
     gap:8px;
 
     border-radius:999px;
@@ -290,7 +314,9 @@ input{
 
 .year-badge span{
     font-size:9px;
+
     color:var(--muted);
+
     font-weight:800;
 }
 
@@ -298,9 +324,12 @@ input{
     direction:ltr;
 
     font-size:15px;
+
     letter-spacing:1px;
+
     font-weight:900;
 }
+
 
 /* =========================================================
    LOGIN CARD
@@ -334,11 +363,13 @@ input{
 
 .welcome{
     text-align:center;
+
     margin-bottom:20px;
 }
 
 .welcome-badge{
     display:inline-flex;
+
     align-items:center;
     justify-content:center;
 
@@ -352,9 +383,11 @@ input{
     border-radius:99px;
 
     color:var(--blue);
+
     background:var(--blue-soft);
 
     font-size:8px;
+
     font-weight:900;
 }
 
@@ -369,8 +402,10 @@ input{
     color:var(--muted);
 
     font-size:12px;
+
     line-height:1.75;
 }
+
 
 /* =========================================================
    MESSAGE
@@ -391,7 +426,9 @@ input{
     text-align:center;
 
     font-size:11px;
+
     line-height:1.7;
+
     font-weight:800;
 }
 
@@ -406,6 +443,7 @@ input{
 
 .message.error{
     color:var(--danger);
+
     background:var(--danger-bg);
 
     border:
@@ -415,12 +453,14 @@ input{
 
 .message.success{
     color:var(--success);
+
     background:var(--success-bg);
 
     border:
         1px solid
         #bceccb;
 }
+
 
 /* =========================================================
    INPUT
@@ -436,11 +476,13 @@ input{
     color:#344054;
 
     font-size:9px;
+
     font-weight:900;
 }
 
 .code-input{
     width:100%;
+
     height:60px;
 
     padding:
@@ -455,15 +497,19 @@ input{
     outline:none;
 
     color:var(--text);
+
     background:#fff;
 
     direction:ltr;
+
     text-align:center;
+
     text-transform:uppercase;
 
     letter-spacing:1.8px;
 
     font-size:18px;
+
     font-weight:900;
 
     transition:.2s;
@@ -471,11 +517,13 @@ input{
 
 .code-input::placeholder{
     direction:rtl;
+
     letter-spacing:0;
 
     color:#98a2b3;
 
     font-size:13px;
+
     font-weight:500;
 }
 
@@ -491,22 +539,27 @@ input{
         translateY(-1px);
 }
 
+
 /* =========================================================
    BUTTON
 ========================================================= */
 
 .login-btn{
     width:100%;
+
     height:58px;
 
     margin-top:14px;
 
     border:0;
+
     border-radius:17px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
+
     gap:8px;
 
     color:#fff;
@@ -523,7 +576,10 @@ input{
         rgba(7,95,207,.25);
 
     font-size:15px;
+
     font-weight:900;
+
+    cursor:pointer;
 }
 
 .login-btn:active{
@@ -533,6 +589,8 @@ input{
 
 .login-btn:disabled{
     opacity:.72;
+
+    cursor:not-allowed;
 }
 
 .spinner{
@@ -557,6 +615,7 @@ input{
 
 .security-note{
     margin-top:14px;
+
     padding-top:13px;
 
     border-top:
@@ -578,12 +637,14 @@ input{
     color:#98a2b3;
 
     font-size:9px;
+
     line-height:1.8;
 }
 
 .footer strong{
     color:#667085;
 }
+
 
 /* =========================================================
    CINEMATIC SKY
@@ -593,6 +654,7 @@ input{
     display:none;
 
     position:fixed;
+
     inset:0;
 
     z-index:10000;
@@ -617,6 +679,7 @@ input{
 
 .sky-light{
     position:absolute;
+
     inset:0;
 
     background:
@@ -628,12 +691,14 @@ input{
         );
 }
 
+
 /* =========================================================
    CLOUDS
 ========================================================= */
 
 .cloud-layer{
     position:absolute;
+
     inset:-15%;
 
     pointer-events:none;
@@ -689,7 +754,10 @@ input{
     bottom:10px;
 }
 
-/* بعيد */
+
+/* =========================================================
+   CLOUDS BACK
+========================================================= */
 
 .back .c1{
     width:220px;
@@ -736,7 +804,10 @@ input{
         infinite alternate;
 }
 
-/* وسط */
+
+/* =========================================================
+   CLOUDS MIDDLE
+========================================================= */
 
 .middle .c1{
     width:330px;
@@ -783,7 +854,10 @@ input{
         infinite;
 }
 
-/* أمامية */
+
+/* =========================================================
+   CLOUDS FRONT
+========================================================= */
 
 .front .cloud{
     filter:
@@ -850,6 +924,7 @@ input{
         infinite alternate;
 }
 
+
 /* =========================================================
    CENTER
 ========================================================= */
@@ -896,6 +971,7 @@ input{
         rgba(255,255,255,.75);
 }
 
+
 /* =========================================================
    SPLASH BRAND
 ========================================================= */
@@ -930,6 +1006,7 @@ input{
     margin:auto;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 }
@@ -975,7 +1052,9 @@ input{
     color:#fff;
 
     font-size:23px;
+
     line-height:1.65;
+
     font-weight:900;
 
     text-shadow:
@@ -990,6 +1069,7 @@ input{
         rgba(255,255,255,.95);
 
     font-size:12px;
+
     font-weight:800;
 }
 
@@ -1019,10 +1099,16 @@ input{
     backdrop-filter:
         blur(8px);
 
+    -webkit-backdrop-filter:
+        blur(8px);
+
     font-size:16px;
+
     letter-spacing:1px;
+
     font-weight:900;
 }
+
 
 /* =========================================================
    SPLASH SEQUENCES
@@ -1091,6 +1177,7 @@ input{
         forwards;
 }
 
+
 /* =========================================================
    OFFLINE
 ========================================================= */
@@ -1099,6 +1186,7 @@ input{
     display:none;
 
     position:fixed;
+
     inset:0;
 
     z-index:20000;
@@ -1123,6 +1211,7 @@ input{
 
 .offline-image{
     width:210px;
+
     max-width:72%;
 
     height:auto;
@@ -1134,6 +1223,7 @@ input{
 
 .offline-box h2{
     font-size:20px;
+
     font-weight:900;
 }
 
@@ -1143,6 +1233,7 @@ input{
     color:var(--muted);
 
     font-size:12px;
+
     line-height:1.8;
 }
 
@@ -1171,61 +1262,88 @@ input{
 
 .waiting-text{
     margin-top:8px!important;
+
     color:#98a2b3!important;
+
     font-size:9px!important;
 }
+
 
 /* =========================================================
    ANIMATIONS
 ========================================================= */
 
 @keyframes spin{
+
     to{
         transform:
             rotate(360deg);
     }
+
 }
 
 @keyframes messageIn{
+
     from{
         opacity:0;
+
         transform:
             translateY(-5px);
     }
 
     to{
         opacity:1;
+
         transform:none;
     }
+
 }
 
 @keyframes loginReveal{
+
     0%{
         opacity:0;
-        filter:blur(10px);
-        transform:scale(1.12);
+
+        filter:
+            blur(10px);
+
+        transform:
+            scale(1.12);
     }
 
     100%{
         opacity:1;
-        filter:blur(0);
-        transform:scale(1);
+
+        filter:
+            blur(0);
+
+        transform:
+            scale(1);
     }
+
 }
 
 @keyframes ringPulse{
-    0%,100%{
-        transform:scale(.96);
+
+    0%,
+    100%{
+        transform:
+            scale(.96);
+
         opacity:.7;
     }
 
     50%{
-        transform:scale(1.05);
+        transform:
+            scale(1.05);
+
         opacity:1;
     }
+
 }
 
 @keyframes cloudRight{
+
     from{
         transform:
             translateX(-35px);
@@ -1235,9 +1353,11 @@ input{
         transform:
             translateX(90px);
     }
+
 }
 
 @keyframes cloudLeft{
+
     from{
         transform:
             translateX(45px);
@@ -1247,9 +1367,11 @@ input{
         transform:
             translateX(-90px);
     }
+
 }
 
 @keyframes cloudDrift{
+
     from{
         transform:
             translate(-20px,6px);
@@ -1259,9 +1381,11 @@ input{
         transform:
             translate(28px,-12px);
     }
+
 }
 
 @keyframes frontCloud1{
+
     from{
         transform:
             translate(-20px,-10px)
@@ -1273,9 +1397,11 @@ input{
             translate(55px,20px)
             scale(1.08);
     }
+
 }
 
 @keyframes frontCloud2{
+
     from{
         transform:
             translate(20px,0)
@@ -1287,9 +1413,11 @@ input{
             translate(-55px,18px)
             scale(1.08);
     }
+
 }
 
 @keyframes frontCloud3{
+
     from{
         transform:
             translate(-15px,10px)
@@ -1301,9 +1429,11 @@ input{
             translate(60px,-12px)
             scale(1.09);
     }
+
 }
 
 @keyframes frontCloud4{
+
     from{
         transform:
             translate(20px,8px)
@@ -1315,9 +1445,11 @@ input{
             translate(-60px,-16px)
             scale(1.09);
     }
+
 }
 
 @keyframes centerAppear{
+
     from{
         opacity:0;
 
@@ -1333,9 +1465,11 @@ input{
             translate(-50%,-50%)
             scale(1);
     }
+
 }
 
 @keyframes backZoom{
+
     from{
         transform:
             scale(1);
@@ -1351,9 +1485,11 @@ input{
         filter:
             blur(2px);
     }
+
 }
 
 @keyframes middleZoom{
+
     from{
         transform:
             scale(1);
@@ -1363,9 +1499,11 @@ input{
         transform:
             scale(2);
     }
+
 }
 
 @keyframes frontZoom{
+
     0%{
         transform:
             scale(1);
@@ -1382,9 +1520,11 @@ input{
         filter:
             blur(4px);
     }
+
 }
 
 @keyframes brandReveal{
+
     0%{
         opacity:0;
 
@@ -1410,9 +1550,11 @@ input{
         filter:
             blur(0);
     }
+
 }
 
 @keyframes brandFinalZoom{
+
     0%{
         opacity:1;
 
@@ -1442,9 +1584,11 @@ input{
         filter:
             blur(13px);
     }
+
 }
 
 @keyframes centerFinalZoom{
+
     from{
         opacity:1;
 
@@ -1460,18 +1604,24 @@ input{
             translate(-50%,-50%)
             scale(9);
     }
+
 }
 
 @keyframes splashWhiteOut{
-    0%,45%{
+
+    0%,
+    45%{
         opacity:1;
     }
 
     100%{
         opacity:0;
+
         visibility:hidden;
     }
+
 }
+
 
 /* =========================================================
    MOBILE
@@ -1512,6 +1662,7 @@ input{
 
     .code-input{
         height:57px;
+
         font-size:17px;
     }
 
@@ -1540,6 +1691,7 @@ input{
 </head>
 
 <body>
+
 
 <!-- =========================================================
      OFFLINE
@@ -1594,7 +1746,9 @@ input{
     <div class="cloud-layer back">
 
         <div class="cloud c1"></div>
+
         <div class="cloud c2"></div>
+
         <div class="cloud c3"></div>
 
     </div>
@@ -1603,7 +1757,9 @@ input{
     <div class="cloud-layer middle">
 
         <div class="cloud c1"></div>
+
         <div class="cloud c2"></div>
+
         <div class="cloud c3"></div>
 
     </div>
@@ -1612,8 +1768,11 @@ input{
     <div class="cloud-layer front">
 
         <div class="cloud c1"></div>
+
         <div class="cloud c2"></div>
+
         <div class="cloud c3"></div>
+
         <div class="cloud c4"></div>
 
     </div>
@@ -1665,16 +1824,20 @@ input{
     <div class="bg-grid"></div>
 
     <div class="orb one"></div>
+
     <div class="orb two"></div>
 
 
     <div class="login-container">
 
+
         <section class="brand-area">
+
 
             <div class="logo-shell">
 
                 <div class="logo-ring"></div>
+
                 <div class="logo-glow"></div>
 
                 <img
@@ -1708,10 +1871,12 @@ input{
 
             </div>
 
+
         </section>
 
 
         <section class="login-card">
+
 
             <div class="welcome">
 
@@ -1779,6 +1944,7 @@ input{
                 استخدم الكود المخصص لك فقط ولا تشاركه مع الآخرين
             </div>
 
+
         </section>
 
 
@@ -1793,6 +1959,7 @@ input{
             مدرسة التحدي الأهلية المختلطة
 
         </footer>
+
 
     </div>
 
@@ -1822,67 +1989,100 @@ input{
    DATABASE
 ========================================================= */
 
-const DATABASE_URL=
+const DATABASE_URL =
     "https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
 
-const USERS_PATH=
+const USERS_PATH =
     "users";
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+/*
+    sessionStorage:
+    تستخدمها الصفحات الحالية لمعرفة المستخدم المسجل.
+
+    localStorage:
+    تحفظ الحساب على نفس المتصفح والجهاز حتى بعد
+    إغلاق الصفحة أو المتصفح بالكامل.
+*/
+
+const SESSION_KEY =
+    "tahadi_session";
+
+const CODE_KEY =
+    "tahadi_code";
+
+const ROLE_KEY =
+    "tahadi_role";
+
+const REMEMBERED_LOGIN_KEY =
+    "tahadi_remembered_login";
 
 
 /* =========================================================
    DOM
 ========================================================= */
 
-const offlineScreen=
+const offlineScreen =
     document.getElementById(
         "offlineScreen"
     );
 
-const splashScreen=
+const splashScreen =
     document.getElementById(
         "splashScreen"
     );
 
-const loginPage=
+const loginPage =
     document.getElementById(
         "loginPage"
     );
 
-const userCodeInput=
+const userCodeInput =
     document.getElementById(
         "userCode"
     );
 
-const loginButton=
+const loginButton =
     document.getElementById(
         "loginButton"
     );
 
-const loginButtonText=
+const loginButtonText =
     document.getElementById(
         "loginButtonText"
     );
 
-const loginSpinner=
+const loginSpinner =
     document.getElementById(
         "loginSpinner"
     );
 
-const messageBox=
+const messageBox =
     document.getElementById(
         "messageBox"
     );
 
-const startupSound=
+const startupSound =
     document.getElementById(
         "startupSound"
     );
 
 
-let splashPlayed=
+/* =========================================================
+   STATE
+========================================================= */
+
+let splashPlayed =
     false;
 
-let loginRunning=
+let loginRunning =
+    false;
+
+let autoLoginRunning =
     false;
 
 
@@ -1892,30 +2092,32 @@ let loginRunning=
 
 function normalizeNumbers(value){
 
-    const arabic=
+    const arabic =
         "٠١٢٣٤٥٦٧٨٩";
 
-    const persian=
+    const persian =
         "۰۱۲۳۴۵۶۷۸۹";
 
 
-    return String(value||"")
+    return String(
+        value || ""
+    )
 
-        .replace(
-            /[٠-٩]/g,
-            number =>
-                arabic.indexOf(
-                    number
-                )
-        )
+    .replace(
+        /[٠-٩]/g,
+        number =>
+            arabic.indexOf(
+                number
+            )
+    )
 
-        .replace(
-            /[۰-۹]/g,
-            number =>
-                persian.indexOf(
-                    number
-                )
-        );
+    .replace(
+        /[۰-۹]/g,
+        number =>
+            persian.indexOf(
+                number
+            )
+    );
 
 }
 
@@ -1949,12 +2151,58 @@ function cleanCode(value){
 function cleanRole(value){
 
     return String(
-        value||""
+        value || ""
     )
+
     .trim()
+
     .toLowerCase();
 
 }
+
+
+/* =========================================================
+   ALLOWED ROLES
+========================================================= */
+
+const ALLOWED_ROLES = [
+
+    /* الإدارة */
+
+    "admin",
+    "administrator",
+    "add",
+
+
+    /* الطالب */
+
+    "student",
+    "st",
+
+
+    /* الأستاذ */
+
+    "teacher",
+    "th",
+
+
+    /* المحاسب */
+
+    "accountant",
+    "accounting",
+    "accountant_user",
+    "mn",
+
+
+    /* مشرف الحضور */
+
+    "attendance",
+    "attendance_supervisor",
+    "attendance_supervisor_user",
+    "supervisor",
+    "msh"
+
+];
 
 
 /* =========================================================
@@ -1963,15 +2211,15 @@ function cleanRole(value){
 
 function showMessage(
     text,
-    type="error"
+    type = "error"
 ){
 
-    messageBox.textContent=
+    messageBox.textContent =
         text;
 
 
-    messageBox.className=
-        "message show "+
+    messageBox.className =
+        "message show " +
         type;
 
 }
@@ -1979,11 +2227,11 @@ function showMessage(
 
 function hideMessage(){
 
-    messageBox.textContent=
+    messageBox.textContent =
         "";
 
 
-    messageBox.className=
+    messageBox.className =
         "message";
 
 }
@@ -1995,24 +2243,24 @@ function hideMessage(){
 
 function setLoginLoading(status){
 
-    loginRunning=
+    loginRunning =
         status;
 
 
-    loginButton.disabled=
+    loginButton.disabled =
         status;
 
 
-    loginButtonText.textContent=
+    loginButtonText.textContent =
         status
-        ?"جاري التحقق من الحساب"
-        :"الدخول إلى المنصة";
+            ? "جاري التحقق من الحساب"
+            : "الدخول إلى المنصة";
 
 
-    loginSpinner.style.display=
+    loginSpinner.style.display =
         status
-        ?"inline-block"
-        :"none";
+            ? "inline-block"
+            : "none";
 
 }
 
@@ -2077,32 +2325,39 @@ function playStartupSound(){
         startupSound.pause();
 
 
-        startupSound.currentTime=
+        startupSound.currentTime =
             0;
 
 
-        startupSound.volume=
+        startupSound.volume =
             .48;
 
 
-        const request=
+        const request =
             startupSound.play();
 
 
         if(
             request &&
-            typeof request.catch===
+            typeof request.catch ===
             "function"
         ){
 
             request.catch(
-                ()=>{}
+                () => {}
             );
 
         }
 
 
-    }catch{}
+    }catch(error){
+
+        console.log(
+            "Audio not available",
+            error
+        );
+
+    }
 
 }
 
@@ -2122,7 +2377,7 @@ function showLoginPage(){
 
 
     setTimeout(
-        ()=>{
+        () => {
 
             if(
                 !userCodeInput.value
@@ -2170,7 +2425,7 @@ function playSplash(){
     }
 
 
-    splashPlayed=
+    splashPlayed =
         true;
 
 
@@ -2185,7 +2440,7 @@ function playSplash(){
 
 
     setTimeout(
-        ()=>{
+        () => {
 
             splashScreen.classList.add(
                 "focus"
@@ -2200,7 +2455,7 @@ function playSplash(){
 
 
     setTimeout(
-        ()=>{
+        () => {
 
             splashScreen.classList.add(
                 "final-zoom"
@@ -2217,7 +2472,7 @@ function playSplash(){
 
 
     setTimeout(
-        ()=>{
+        () => {
 
             splashScreen.classList.remove(
                 "show"
@@ -2255,12 +2510,16 @@ function playSplash(){
 
 async function readUser(code){
 
-    const response=
+    const response =
         await fetch(
             `${DATABASE_URL}/${USERS_PATH}/${encodeURIComponent(code)}.json`,
             {
-                method:"GET",
-                cache:"no-store",
+                method:
+                    "GET",
+
+                cache:
+                    "no-store",
+
                 headers:{
                     Accept:
                         "application/json"
@@ -2292,8 +2551,7 @@ async function readUser(code){
 function isAccountDisabled(user){
 
     /*
-       فقط الحسابات التي صراحة active=false
-       تعتبر غير فعالة.
+        فقط active=false يعني الحساب معطل.
     */
 
     if(
@@ -2303,6 +2561,10 @@ function isAccountDisabled(user){
     }
 
 
+    /*
+        الحساب المخفي أيضاً لا يسمح بالدخول.
+    */
+
     if(
         user.hidden === true
     ){
@@ -2310,18 +2572,24 @@ function isAccountDisabled(user){
     }
 
 
-    const status=
+    const status =
         cleanRole(
             user.status
         );
 
 
     return [
+
         "inactive",
+
         "disabled",
+
         "blocked",
+
         "banned",
+
         "suspended"
+
     ].includes(
         status
     );
@@ -2330,7 +2598,129 @@ function isAccountDisabled(user){
 
 
 /* =========================================================
-   SESSION
+   VALIDATE USER
+========================================================= */
+
+function validateUser(user){
+
+    /*
+        المستخدم غير موجود.
+    */
+
+    if(
+        !user ||
+        typeof user !==
+        "object"
+    ){
+
+        return {
+
+            valid:
+                false,
+
+            reason:
+                "NOT_FOUND"
+
+        };
+
+    }
+
+
+    /*
+        المستخدم معطل.
+    */
+
+    if(
+        isAccountDisabled(
+            user
+        )
+    ){
+
+        return {
+
+            valid:
+                false,
+
+            reason:
+                "DISABLED"
+
+        };
+
+    }
+
+
+    /*
+        لا يوجد role.
+    */
+
+    if(
+        !user.role
+    ){
+
+        return {
+
+            valid:
+                false,
+
+            reason:
+                "NO_ROLE"
+
+        };
+
+    }
+
+
+    const role =
+        cleanRole(
+            user.role
+        );
+
+
+    /*
+        الدور غير مدعوم.
+    */
+
+    if(
+        !ALLOWED_ROLES.includes(
+            role
+        )
+    ){
+
+        return {
+
+            valid:
+                false,
+
+            reason:
+                "UNKNOWN_ROLE",
+
+            role:
+                role
+
+        };
+
+    }
+
+
+    /*
+        كل شيء صحيح.
+    */
+
+    return {
+
+        valid:
+            true,
+
+        role:
+            role
+
+    };
+
+}
+
+
+/* =========================================================
+   SAVE SESSION
 ========================================================= */
 
 function saveSession(
@@ -2338,13 +2728,13 @@ function saveSession(
     user
 ){
 
-    const normalizedRole=
+    const normalizedRole =
         cleanRole(
             user.role
         );
 
 
-    const data={
+    const sessionData = {
 
         code:
             code,
@@ -2353,7 +2743,7 @@ function saveSession(
             normalizedRole,
 
         name:
-            user.name||"",
+            user.name || "",
 
         loginTime:
             Date.now()
@@ -2361,24 +2751,232 @@ function saveSession(
     };
 
 
-    sessionStorage.setItem(
-        "tahadi_session",
-        JSON.stringify(
-            data
-        )
-    );
+    /*
+        حفظ بيانات الجلسة الحالية.
+    */
+
+    try{
+
+        sessionStorage.setItem(
+            SESSION_KEY,
+            JSON.stringify(
+                sessionData
+            )
+        );
 
 
-    sessionStorage.setItem(
-        "tahadi_code",
-        code
-    );
+        sessionStorage.setItem(
+            CODE_KEY,
+            code
+        );
 
 
-    sessionStorage.setItem(
-        "tahadi_role",
-        normalizedRole
-    );
+        sessionStorage.setItem(
+            ROLE_KEY,
+            normalizedRole
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "SessionStorage Error:",
+            error
+        );
+
+    }
+
+
+    /*
+        حفظ الحساب بشكل دائم على نفس الجهاز.
+    */
+
+    const rememberedData = {
+
+        code:
+            code,
+
+        role:
+            normalizedRole,
+
+        name:
+            user.name || "",
+
+        savedAt:
+            Date.now()
+
+    };
+
+
+    try{
+
+        localStorage.setItem(
+            REMEMBERED_LOGIN_KEY,
+            JSON.stringify(
+                rememberedData
+            )
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "LocalStorage Error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   READ SAVED LOGIN
+========================================================= */
+
+function getRememberedLogin(){
+
+    try{
+
+        const raw =
+            localStorage.getItem(
+                REMEMBERED_LOGIN_KEY
+            );
+
+
+        if(
+            !raw
+        ){
+
+            return null;
+
+        }
+
+
+        const data =
+            JSON.parse(
+                raw
+            );
+
+
+        if(
+            !data ||
+            typeof data !==
+            "object"
+        ){
+
+            return null;
+
+        }
+
+
+        const code =
+            cleanCode(
+                data.code || ""
+            );
+
+
+        if(
+            !code
+        ){
+
+            return null;
+
+        }
+
+
+        return {
+
+            ...data,
+
+            code:
+                code
+
+        };
+
+
+    }catch(error){
+
+        console.error(
+            "Saved Login Error:",
+            error
+        );
+
+
+        return null;
+
+    }
+
+}
+
+
+/* =========================================================
+   CLEAR SESSION ONLY
+========================================================= */
+
+function clearSessionOnly(){
+
+    try{
+
+        sessionStorage.removeItem(
+            SESSION_KEY
+        );
+
+
+        sessionStorage.removeItem(
+            CODE_KEY
+        );
+
+
+        sessionStorage.removeItem(
+            ROLE_KEY
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Clear Session Error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CLEAR SAVED LOGIN
+========================================================= */
+
+function clearSavedLogin(){
+
+    /*
+        حذف الجلسة.
+    */
+
+    clearSessionOnly();
+
+
+    /*
+        حذف الحساب المحفوظ نهائياً من هذا الجهاز.
+    */
+
+    try{
+
+        localStorage.removeItem(
+            REMEMBERED_LOGIN_KEY
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Clear LocalStorage Error:",
+            error
+        );
+
+    }
 
 }
 
@@ -2387,17 +2985,20 @@ function saveSession(
    ROUTING
 ========================================================= */
 
-function redirectByRole(role){
+function getRoleRoute(role){
 
-    const value=
+    const value =
         cleanRole(
             role
         );
 
 
-    const routes={
+    const routes = {
 
-        /* الإدارة */
+
+        /* ===============================
+           الإدارة
+        =============================== */
 
         admin:
             "add.html",
@@ -2409,7 +3010,9 @@ function redirectByRole(role){
             "add.html",
 
 
-        /* الطالب */
+        /* ===============================
+           الطالب
+        =============================== */
 
         student:
             "st.html",
@@ -2418,7 +3021,9 @@ function redirectByRole(role){
             "st.html",
 
 
-        /* الأستاذ */
+        /* ===============================
+           الأستاذ
+        =============================== */
 
         teacher:
             "th.html",
@@ -2427,7 +3032,9 @@ function redirectByRole(role){
             "th.html",
 
 
-        /* المحاسب */
+        /* ===============================
+           المحاسب
+        =============================== */
 
         accountant:
             "mn.html",
@@ -2442,7 +3049,9 @@ function redirectByRole(role){
             "mn.html",
 
 
-        /* مشرف الحضور والغياب */
+        /* ===============================
+           مشرف الحضور
+        =============================== */
 
         attendance:
             "msh.html",
@@ -2462,10 +3071,23 @@ function redirectByRole(role){
     };
 
 
-    const route=
-        routes[
-            value
-        ];
+    return routes[
+        value
+    ] || null;
+
+}
+
+
+/* =========================================================
+   REDIRECT
+========================================================= */
+
+function redirectByRole(role){
+
+    const route =
+        getRoleRoute(
+            role
+        );
 
 
     if(
@@ -2474,7 +3096,7 @@ function redirectByRole(role){
 
         console.error(
             "Unknown account role:",
-            value
+            role
         );
 
 
@@ -2493,20 +3115,27 @@ function redirectByRole(role){
 
 
 /* =========================================================
-   LOGIN
+   MANUAL LOGIN
 ========================================================= */
 
 async function login(){
 
     if(
-        loginRunning
+        loginRunning ||
+        autoLoginRunning
     ){
+
         return;
+
     }
 
 
     hideMessage();
 
+
+    /*
+        فحص الإنترنت.
+    */
 
     if(
         !navigator.onLine
@@ -2519,11 +3148,19 @@ async function login(){
     }
 
 
-    const code=
+    /*
+        تنظيف الكود.
+    */
+
+    const code =
         cleanCode(
             userCodeInput.value
         );
 
+
+    /*
+        لا يوجد كود.
+    */
 
     if(
         !code
@@ -2542,9 +3179,17 @@ async function login(){
     }
 
 
-    userCodeInput.value=
+    /*
+        إظهار الكود بعد تنظيفه.
+    */
+
+    userCodeInput.value =
         code;
 
+
+    /*
+        تشغيل التحميل.
+    */
 
     setLoginLoading(
         true
@@ -2553,17 +3198,56 @@ async function login(){
 
     try{
 
-        const user=
+
+        /* =================================================
+           قراءة المستخدم من Firebase
+        ================================================= */
+
+        const user =
             await readUser(
                 code
             );
 
 
+        /* =================================================
+           فحص الحساب
+        ================================================= */
+
+        const check =
+            validateUser(
+                user
+            );
+
+
+        /*
+            الحساب غير موجود.
+        */
+
         if(
-            !user ||
-            typeof user!==
-            "object"
+            !check.valid &&
+            check.reason ===
+            "NOT_FOUND"
         ){
+
+            /*
+                إذا كان هذا نفسه الحساب المحفوظ،
+                نحذفه لأنه لم يعد موجوداً.
+            */
+
+            const remembered =
+                getRememberedLogin();
+
+
+            if(
+                remembered &&
+                remembered.code ===
+                code
+            ){
+
+                clearSavedLogin();
+
+            }
+
 
             showMessage(
                 "الكود الذي أدخلته غير صحيح"
@@ -2579,14 +3263,29 @@ async function login(){
 
 
         /*
-           الحساب موجود لكن غير فعال.
+            الحساب معطل.
         */
 
         if(
-            isAccountDisabled(
-                user
-            )
+            !check.valid &&
+            check.reason ===
+            "DISABLED"
         ){
+
+            const remembered =
+                getRememberedLogin();
+
+
+            if(
+                remembered &&
+                remembered.code ===
+                code
+            ){
+
+                clearSavedLogin();
+
+            }
+
 
             showMessage(
                 "هذا الحساب غير فعال، يرجى مراجعة إدارة المدرسة"
@@ -2599,12 +3298,29 @@ async function login(){
 
 
         /*
-           الدور غير موجود.
+            لا يوجد role.
         */
 
         if(
-            !user.role
+            !check.valid &&
+            check.reason ===
+            "NO_ROLE"
         ){
+
+            const remembered =
+                getRememberedLogin();
+
+
+            if(
+                remembered &&
+                remembered.code ===
+                code
+            ){
+
+                clearSavedLogin();
+
+            }
+
 
             showMessage(
                 "بيانات الحساب غير مكتملة، يرجى مراجعة الإدارة"
@@ -2616,53 +3332,36 @@ async function login(){
         }
 
 
-        const role=
-            cleanRole(
-                user.role
-            );
-
-
         /*
-           نتأكد قبل تخزين الجلسة أن الدور معروف.
+            الدور غير معروف.
         */
 
-        const allowedRoles=[
-
-            "admin",
-            "administrator",
-            "add",
-
-            "student",
-            "st",
-
-            "teacher",
-            "th",
-
-            "accountant",
-            "accounting",
-            "accountant_user",
-            "mn",
-
-            "attendance",
-            "attendance_supervisor",
-            "attendance_supervisor_user",
-            "supervisor",
-            "msh"
-
-        ];
-
-
         if(
-            !allowedRoles.includes(
-                role
-            )
+            !check.valid &&
+            check.reason ===
+            "UNKNOWN_ROLE"
         ){
 
             console.error(
                 "Unsupported role:",
-                role,
+                check.role,
                 user
             );
+
+
+            const remembered =
+                getRememberedLogin();
+
+
+            if(
+                remembered &&
+                remembered.code ===
+                code
+            ){
+
+                clearSavedLogin();
+
+            }
 
 
             showMessage(
@@ -2676,8 +3375,16 @@ async function login(){
 
 
         /*
-           نخزن الجلسة.
+            role الصحيح.
         */
+
+        const role =
+            check.role;
+
+
+        /* =================================================
+           حفظ الحساب
+        ================================================= */
 
         saveSession(
             code,
@@ -2688,16 +3395,24 @@ async function login(){
         );
 
 
+        /* =================================================
+           نجاح
+        ================================================= */
+
         showMessage(
             user.name
-            ?`مرحباً ${user.name}، تم تسجيل الدخول بنجاح`
-            :"تم تسجيل الدخول بنجاح",
+                ? `مرحباً ${user.name}، تم تسجيل الدخول بنجاح`
+                : "تم تسجيل الدخول بنجاح",
             "success"
         );
 
 
+        /*
+            انتظار بسيط حتى تظهر رسالة النجاح.
+        */
+
         await new Promise(
-            resolve=>
+            resolve =>
                 setTimeout(
                     resolve,
                     350
@@ -2705,9 +3420,9 @@ async function login(){
         );
 
 
-        /*
-           توجيه الصفحة.
-        */
+        /* =================================================
+           توجيه
+        ================================================= */
 
         redirectByRole(
             role
@@ -2715,6 +3430,7 @@ async function login(){
 
 
     }catch(error){
+
 
         console.error(
             "Login Error:",
@@ -2731,7 +3447,7 @@ async function login(){
         }
 
         else if(
-            error.message===
+            error.message ===
             "UNKNOWN_ROLE"
         ){
 
@@ -2752,6 +3468,7 @@ async function login(){
 
     }finally{
 
+
         setLoginLoading(
             false
         );
@@ -2762,7 +3479,362 @@ async function login(){
 
 
 /* =========================================================
-   INPUT
+   AUTO LOGIN
+========================================================= */
+
+async function autoLogin(){
+
+    /*
+        منع التكرار.
+    */
+
+    if(
+        autoLoginRunning ||
+        loginRunning
+    ){
+
+        return false;
+
+    }
+
+
+    /*
+        قراءة الحساب المحفوظ.
+    */
+
+    const remembered =
+        getRememberedLogin();
+
+
+    /*
+        لا يوجد حساب محفوظ.
+    */
+
+    if(
+        !remembered
+    ){
+
+        return false;
+
+    }
+
+
+    /*
+        استخراج الكود.
+    */
+
+    const code =
+        cleanCode(
+            remembered.code
+        );
+
+
+    /*
+        بيانات غير صحيحة.
+    */
+
+    if(
+        !code
+    ){
+
+        clearSavedLogin();
+
+        return false;
+
+    }
+
+
+    /*
+        وضع الكود داخل الحقل.
+    */
+
+    userCodeInput.value =
+        code;
+
+
+    /*
+        إذا لا يوجد إنترنت نبقي الحساب محفوظاً.
+    */
+
+    if(
+        !navigator.onLine
+    ){
+
+        showOfflineScreen();
+
+        return true;
+
+    }
+
+
+    /*
+        بدء تسجيل الدخول التلقائي.
+    */
+
+    autoLoginRunning =
+        true;
+
+
+    loginButton.disabled =
+        true;
+
+
+    loginButtonText.textContent =
+        "جاري تسجيل الدخول تلقائياً";
+
+
+    loginSpinner.style.display =
+        "inline-block";
+
+
+    try{
+
+
+        /* =================================================
+           التحقق من Firebase
+        ================================================= */
+
+        const user =
+            await readUser(
+                code
+            );
+
+
+        /* =================================================
+           فحص الحساب
+        ================================================= */
+
+        const check =
+            validateUser(
+                user
+            );
+
+
+        /*
+            الحساب غير موجود.
+        */
+
+        if(
+            !check.valid &&
+            check.reason ===
+            "NOT_FOUND"
+        ){
+
+            clearSavedLogin();
+
+
+            userCodeInput.value =
+                "";
+
+
+            showLoginPage();
+
+
+            showMessage(
+                "الحساب المحفوظ لم يعد موجوداً، يرجى تسجيل الدخول من جديد"
+            );
+
+
+            return false;
+
+        }
+
+
+        /*
+            الحساب معطل.
+        */
+
+        if(
+            !check.valid &&
+            check.reason ===
+            "DISABLED"
+        ){
+
+            clearSavedLogin();
+
+
+            userCodeInput.value =
+                code;
+
+
+            showLoginPage();
+
+
+            showMessage(
+                "هذا الحساب غير فعال، يرجى مراجعة إدارة المدرسة"
+            );
+
+
+            return false;
+
+        }
+
+
+        /*
+            role مفقود.
+        */
+
+        if(
+            !check.valid &&
+            check.reason ===
+            "NO_ROLE"
+        ){
+
+            clearSavedLogin();
+
+
+            userCodeInput.value =
+                code;
+
+
+            showLoginPage();
+
+
+            showMessage(
+                "بيانات الحساب غير مكتملة، يرجى مراجعة الإدارة"
+            );
+
+
+            return false;
+
+        }
+
+
+        /*
+            role غير معروف.
+        */
+
+        if(
+            !check.valid &&
+            check.reason ===
+            "UNKNOWN_ROLE"
+        ){
+
+            console.error(
+                "Unsupported remembered role:",
+                check.role
+            );
+
+
+            clearSavedLogin();
+
+
+            userCodeInput.value =
+                code;
+
+
+            showLoginPage();
+
+
+            showMessage(
+                "نوع الحساب غير معرف في النظام، يرجى مراجعة الإدارة"
+            );
+
+
+            return false;
+
+        }
+
+
+        /*
+            role صحيح.
+        */
+
+        const role =
+            check.role;
+
+
+        /*
+            إعادة بناء sessionStorage.
+            لأن sessionStorage يختفي بعد إغلاق المتصفح.
+        */
+
+        saveSession(
+            code,
+            {
+                ...user,
+                role
+            }
+        );
+
+
+        /*
+            التوجيه مباشرة.
+        */
+
+        redirectByRole(
+            role
+        );
+
+
+        return true;
+
+
+    }catch(error){
+
+
+        console.error(
+            "Auto Login Error:",
+            error
+        );
+
+
+        /*
+            إذا انقطع الإنترنت لا نحذف الحساب.
+        */
+
+        if(
+            !navigator.onLine
+        ){
+
+            showOfflineScreen();
+
+            return true;
+
+        }
+
+
+        /*
+            إذا Firebase تعطل مؤقتاً:
+            لا نحذف الحساب المحفوظ.
+        */
+
+        showLoginPage();
+
+
+        showMessage(
+            "تعذر التحقق من الحساب المحفوظ، حاول مرة أخرى"
+        );
+
+
+        return false;
+
+
+    }finally{
+
+
+        autoLoginRunning =
+            false;
+
+
+        loginButton.disabled =
+            false;
+
+
+        loginButtonText.textContent =
+            "الدخول إلى المنصة";
+
+
+        loginSpinner.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =========================================================
+   INPUT BUTTON
 ========================================================= */
 
 loginButton.addEventListener(
@@ -2771,16 +3843,21 @@ loginButton.addEventListener(
 );
 
 
+/* =========================================================
+   ENTER
+========================================================= */
+
 userCodeInput.addEventListener(
     "keydown",
-    event=>{
+    event => {
 
         if(
-            event.key===
+            event.key ===
             "Enter"
         ){
 
             event.preventDefault();
+
 
             login();
 
@@ -2790,6 +3867,10 @@ userCodeInput.addEventListener(
 );
 
 
+/* =========================================================
+   INPUT NORMALIZE
+========================================================= */
+
 userCodeInput.addEventListener(
     "input",
     function(){
@@ -2797,7 +3878,7 @@ userCodeInput.addEventListener(
         hideMessage();
 
 
-        this.value=
+        this.value =
             cleanCode(
                 this.value
             );
@@ -2812,29 +3893,51 @@ userCodeInput.addEventListener(
 
 async function handleQRLogin(){
 
-    const params=
+    /*
+        قراءة URL.
+    */
+
+    const params =
         new URLSearchParams(
             window.location.search
         );
 
 
-    const code=
+    /*
+        استخراج code.
+    */
+
+    const code =
         cleanCode(
-            params.get("code")||
+            params.get("code") ||
             ""
         );
 
 
+    /*
+        لا يوجد كود.
+    */
+
     if(
         !code
     ){
+
         return false;
+
     }
 
 
-    userCodeInput.value=
+    /*
+        وضع الكود داخل الحقل.
+    */
+
+    userCodeInput.value =
         code;
 
+
+    /*
+        حذف code من رابط المتصفح بعد قراءته.
+    */
 
     try{
 
@@ -2844,17 +3947,33 @@ async function handleQRLogin(){
             window.location.pathname
         );
 
-    }catch{}
+    }catch(error){
 
+        console.log(
+            "Unable to clean URL",
+            error
+        );
+
+    }
+
+
+    /*
+        انتظار بسيط.
+    */
 
     await new Promise(
-        resolve=>
+        resolve =>
             setTimeout(
                 resolve,
                 180
             )
     );
 
+
+    /*
+        تسجيل الدخول.
+        login() سيحفظ الحساب في localStorage تلقائياً.
+    */
 
     await login();
 
@@ -2865,16 +3984,31 @@ async function handleQRLogin(){
 
 
 /* =========================================================
-   NETWORK
+   NETWORK OFFLINE
 ========================================================= */
 
 window.addEventListener(
     "offline",
-    ()=>{
+    () => {
 
-        setLoginLoading(
-            false
-        );
+        loginRunning =
+            false;
+
+
+        autoLoginRunning =
+            false;
+
+
+        loginButton.disabled =
+            false;
+
+
+        loginButtonText.textContent =
+            "الدخول إلى المنصة";
+
+
+        loginSpinner.style.display =
+            "none";
 
 
         showOfflineScreen();
@@ -2883,13 +4017,66 @@ window.addEventListener(
 );
 
 
+/* =========================================================
+   NETWORK ONLINE
+========================================================= */
+
 window.addEventListener(
     "online",
-    ()=>{
+    async () => {
+
 
         hideOfflineScreen();
 
+
         hideMessage();
+
+
+        /*
+            عند رجوع الإنترنت نفحص هل يوجد حساب محفوظ.
+        */
+
+        const remembered =
+            getRememberedLogin();
+
+
+        /*
+            يوجد حساب محفوظ.
+        */
+
+        if(
+            remembered
+        ){
+
+            userCodeInput.value =
+                remembered.code;
+
+
+            showLoginPage();
+
+
+            /*
+                تسجيل الدخول تلقائياً.
+            */
+
+            const handled =
+                await autoLogin();
+
+
+            if(
+                handled
+            ){
+
+                return;
+
+            }
+
+        }
+
+
+        /*
+            لا يوجد حساب محفوظ.
+        */
 
         showLoginPage();
 
@@ -2901,7 +4088,7 @@ window.addEventListener(
    AUDIO UNLOCK
 ========================================================= */
 
-let audioUnlocked=
+let audioUnlocked =
     false;
 
 
@@ -2910,28 +4097,33 @@ function unlockAudio(){
     if(
         audioUnlocked
     ){
+
         return;
+
     }
 
 
-    audioUnlocked=
+    audioUnlocked =
         true;
 
 
     if(
         !startupSound
     ){
+
         return;
+
     }
 
 
     try{
 
-        startupSound.volume=
+
+        startupSound.volume =
             .01;
 
 
-        const request=
+        const request =
             startupSound.play();
 
 
@@ -2939,26 +4131,39 @@ function unlockAudio(){
             request
         ){
 
-            request.then(
-                ()=>{
+            request
+
+            .then(
+                () => {
 
                     startupSound.pause();
 
-                    startupSound.currentTime=
+
+                    startupSound.currentTime =
                         0;
 
-                    startupSound.volume=
+
+                    startupSound.volume =
                         .48;
 
                 }
             )
+
             .catch(
-                ()=>{}
+                () => {}
             );
 
         }
 
-    }catch{}
+
+    }catch(error){
+
+        console.log(
+            "Audio unlock error",
+            error
+        );
+
+    }
 
 }
 
@@ -2982,47 +4187,132 @@ document.addEventListener(
 
 
 /* =========================================================
+   GLOBAL LOGOUT
+========================================================= */
+
+/*
+    هذه الدالة تقدر تستخدمها إذا كانت صفحة index مفتوحة.
+
+    وفي صفحات:
+    add.html
+    st.html
+    th.html
+    mn.html
+    msh.html
+
+    يجب أن تجعل زر تسجيل الخروج يحذف أيضاً:
+    tahadi_remembered_login
+*/
+
+window.logoutTahadi =
+    function(){
+
+        clearSavedLogin();
+
+
+        window.location.replace(
+            "index.html"
+        );
+
+    };
+
+
+/* =========================================================
+   CHECK SAVED CODE
+========================================================= */
+
+/*
+    هذه الدالة فقط تملأ الكود المحفوظ داخل الحقل
+    بدون تسجيل الدخول.
+*/
+
+function fillSavedCode(){
+
+    const remembered =
+        getRememberedLogin();
+
+
+    if(
+        !remembered
+    ){
+
+        return false;
+
+    }
+
+
+    userCodeInput.value =
+        remembered.code;
+
+
+    return true;
+
+}
+
+
+/* =========================================================
    START
 ========================================================= */
 
 window.addEventListener(
     "load",
-    async()=>{
+    async () => {
+
+
+        /* =================================================
+           قراءة QR أولاً
+        ================================================= */
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const qrCode =
+            cleanCode(
+                params.get("code") ||
+                ""
+            );
+
+
+        /* =================================================
+           إذا لا يوجد إنترنت
+        ================================================= */
 
         if(
             !navigator.onLine
         ){
 
+            /*
+                إذا يوجد حساب محفوظ نضع الكود بالحقل
+                حتى يكون جاهزاً عند رجوع الإنترنت.
+            */
+
+            fillSavedCode();
+
+
             showOfflineScreen();
+
 
             return;
 
         }
 
 
-        const params=
-            new URLSearchParams(
-                window.location.search
-            );
-
-
-        const qrCode=
-            cleanCode(
-                params.get("code")||
-                ""
-            );
-
-
-        /*
-           QR:
-           يدخل مباشرة بدون مشهد البداية.
-        */
+        /* =================================================
+           QR له الأولوية
+        ================================================= */
 
         if(
             qrCode
         ){
 
-            splashPlayed=
+            /*
+                لا نشغل Splash في QR.
+            */
+
+            splashPlayed =
                 true;
 
 
@@ -3036,6 +4326,61 @@ window.addEventListener(
 
         }
 
+
+        /* =================================================
+           فحص الحساب المحفوظ
+        ================================================= */
+
+        const remembered =
+            getRememberedLogin();
+
+
+        /*
+            يوجد حساب محفوظ.
+        */
+
+        if(
+            remembered
+        ){
+
+            /*
+                لا نحتاج مشهد البداية في كل مرة.
+            */
+
+            splashPlayed =
+                true;
+
+
+            /*
+                وضع الكود المحفوظ.
+            */
+
+            userCodeInput.value =
+                remembered.code;
+
+
+            /*
+                إظهار صفحة الدخول أثناء الفحص.
+            */
+
+            showLoginPage();
+
+
+            /*
+                تسجيل الدخول تلقائياً.
+            */
+
+            await autoLogin();
+
+
+            return;
+
+        }
+
+
+        /* =================================================
+           لا يوجد حساب محفوظ
+        ================================================= */
 
         playSplash();
 
