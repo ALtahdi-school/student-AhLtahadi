@@ -403,15 +403,23 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
      </select>
 
      <button class="btn btn-p" onclick="moveSelectedStudents()">
-      نقل الطلاب
+      نقل المحددين
      </button>
 
-     <button id="bulkStudentWhatsApp" class="btn btn-wa hidden" onclick="whatsappSelectedStudent()">
-      واتساب الطالب
+     <select id="moveRoomSelect">
+      <option value="">نقل إلى قاعة...</option>
+     </select>
+
+     <button class="btn btn-v" onclick="openBulkMessageModal()">
+      إرسال رسالة
      </button>
 
-     <button id="bulkGuardianWhatsApp" class="btn btn-wa hidden" onclick="whatsappSelectedGuardian()">
-      واتساب ولي الأمر
+     <button class="btn btn-r" onclick="deleteSelectedStudents()">
+      حذف المحددين
+     </button>
+
+     <button class="btn btn-soft" onclick="clearSelectedStudents()">
+      إلغاء التحديد
      </button>
 
     </div>
@@ -470,7 +478,11 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
 
    <div id="studentMessage" class="message"></div>
 
-   <form id="studentForm" class="form-grid">
+   <div class="system-status" style="margin-bottom:11px">
+     الحقول الإلزامية لإضافة الطالب: الاسم الرباعي + الصف + القاعة فقط. بقية البيانات يمكن إكمالها لاحقاً.
+    </div>
+
+    <form id="studentForm" class="form-grid">
 
     <div class="field full">
      <label>اسم الطالب الرباعي</label>
@@ -478,8 +490,8 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
     </div>
 
     <div class="field">
-     <label>اسم الأم</label>
-     <input id="motherName" required>
+     <label>اسم الأم <span class="help">(اختياري)</span></label>
+     <input id="motherName">
     </div>
 
     <div class="field">
@@ -498,8 +510,8 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
     </div>
 
     <div class="field">
-     <label>رقم ولي الأمر</label>
-     <input id="guardianPhone" required>
+     <label>رقم ولي الأمر <span class="help">(اختياري)</span></label>
+     <input id="guardianPhone">
     </div>
 
     <div class="field">
@@ -513,13 +525,13 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
     </div>
 
     <div class="field">
-     <label>المدرسة القادم منها</label>
-     <input id="previousSchool" required>
+     <label>المدرسة القادم منها <span class="help">(اختياري)</span></label>
+     <input id="previousSchool">
     </div>
 
     <div class="field">
-     <label>تاريخ التسجيل / المباشرة</label>
-     <input id="startDate" type="date" required>
+     <label>تاريخ التسجيل / المباشرة <span class="help">(اختياري)</span></label>
+     <input id="startDate" type="date">
     </div>
 
     <div class="field">
@@ -529,8 +541,8 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
     </div>
 
     <div class="field full">
-     <label>عنوان السكن بالتفصيل</label>
-     <textarea id="studentAddress" required></textarea>
+     <label>عنوان السكن بالتفصيل <span class="help">(اختياري)</span></label>
+     <textarea id="studentAddress"></textarea>
     </div>
 
     <div class="field full">
@@ -906,8 +918,8 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
    </div>
 
    <div class="field">
-    <label>اسم الأم</label>
-    <input id="editMother" required>
+    <label>اسم الأم <span class="help">(اختياري)</span></label>
+     <input id="editMother">
    </div>
 
    <div class="field">
@@ -921,8 +933,8 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
    </div>
 
    <div class="field">
-    <label>رقم ولي الأمر</label>
-    <input id="editGuardian" required>
+    <label>رقم ولي الأمر <span class="help">(اختياري)</span></label>
+     <input id="editGuardian">
    </div>
 
    <div class="field">
@@ -936,13 +948,13 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
    </div>
 
    <div class="field">
-    <label>المدرسة القادم منها</label>
-    <input id="editPreviousSchool" required>
+    <label>المدرسة القادم منها <span class="help">(اختياري)</span></label>
+     <input id="editPreviousSchool">
    </div>
 
    <div class="field">
-    <label>تاريخ المباشرة</label>
-    <input id="editStartDate" type="date" required>
+    <label>تاريخ المباشرة <span class="help">(اختياري)</span></label>
+     <input id="editStartDate" type="date">
    </div>
 
    <div class="field">
@@ -951,8 +963,8 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
    </div>
 
    <div class="field full">
-    <label>عنوان السكن</label>
-    <textarea id="editAddress" required></textarea>
+    <label>عنوان السكن <span class="help">(اختياري)</span></label>
+     <textarea id="editAddress"></textarea>
    </div>
 
    <div class="form-actions">
@@ -1174,6 +1186,36 @@ td{padding:10px;border-bottom:1px solid #f0f2f5;font-size:9px;vertical-align:mid
 </div>
 
 <!-- =========================================================
+     BULK STUDENT MESSAGE
+========================================================= -->
+
+<div id="bulkMessageModal" class="modal">
+ <div class="modal-card" style="width:min(560px,100%)">
+
+  <div class="modal-head">
+   <div>
+    <h3>إرسال رسالة إلى الطلاب المحددين</h3>
+    <p id="bulkMessageRecipients">—</p>
+   </div>
+
+   <button class="close" onclick="closeModal('bulkMessageModal')">×</button>
+  </div>
+
+  <div class="field full">
+   <label>نص الرسالة</label>
+   <textarea id="bulkMessageText" placeholder="اكتب الرسالة التي تريد إرسالها للمحددين..."></textarea>
+   <span class="help">سيتم حفظ نفس الرسالة لكل الطلاب المحددين داخل Firebase.</span>
+  </div>
+
+  <div class="form-actions" style="margin-top:14px">
+   <button type="button" class="btn btn-soft" onclick="closeModal('bulkMessageModal')">إلغاء</button>
+   <button id="sendBulkMessageBtn" type="button" class="btn btn-p" onclick="sendBulkMessage()">إرسال الرسالة</button>
+  </div>
+
+ </div>
+</div>
+
+<!-- =========================================================
      CONFIRM
 ========================================================= -->
 
@@ -1217,7 +1259,8 @@ const PATH={
  attendance:"attendance",
  payments:"payments",
  meta:"meta",
- violations:"behaviorViolationInbox"
+ violations:"behaviorViolationInbox",
+ studentMessages:"studentMessages"
 };
 
 let DATA={
@@ -2090,6 +2133,7 @@ function fillControls(){
 
 
  buildMoveOptions();
+ buildMoveRoomOptions();
 
 }
 
@@ -2433,16 +2477,11 @@ async function studentDraft(){
 
  if(
   !student.name||
-  !student.motherName||
-  !student.roomNumber||
-  !student.guardianPhone||
-  !student.previousSchool||
-  !student.startDate||
-  !student.address
+  !student.roomNumber
  ){
 
   throw new Error(
-   "أكمل بيانات الطالب المطلوبة"
+   "أدخل اسم الطالب واختر الصف والقاعة"
   );
 
  }
@@ -2576,6 +2615,9 @@ $("studentForm").onsubmit=async event=>{
 
    classId:
     student.classId,
+
+   roomNumber:
+    student.roomNumber,
 
    gender:
     student.gender,
@@ -3460,25 +3502,8 @@ function updateBulk(){
  );
 
 
- const single=
-  count===1;
-
-
- $("bulkStudentWhatsApp")
- .classList.toggle(
-  "hidden",
-  !single
- );
-
-
- $("bulkGuardianWhatsApp")
- .classList.toggle(
-  "hidden",
-  !single
- );
-
-
  buildMoveOptions();
+ buildMoveRoomOptions();
 
 }
 
@@ -3492,214 +3517,288 @@ function buildMoveOptions(){
  const selected=
   [...selectedStudents];
 
-
  const genders=
   [
    ...new Set(
     selected
-    .map(
-     code=>
-      DATA.students[
-       code
-      ]?.gender
-    )
+    .map(code=>DATA.students[code]?.gender)
     .filter(Boolean)
    )
   ];
 
-
  let rows=
-  Object.values(
-   DATA.classes
-  );
-
+  Object.values(DATA.classes);
 
  if(genders.length===1){
-
-  rows=
-   rows.filter(
-    c=>
-     c.gender===
-     genders[0]
-   );
-
+  rows=rows.filter(c=>c.gender===genders[0]);
  }
-
-
- if(selectedClassId){
-
-  rows=
-   rows.filter(
-    c=>
-     c.id!==
-     selectedClassId
-   );
-
- }
-
 
  $("moveClassSelect").innerHTML=`
-
-  <option value="">
-   نقل إلى صف...
-  </option>
-
-  ${
-   rows.map(c=>`
-
-    <option value="${esc(c.id)}">
-
-     ${esc(c.name)}
-     -
-     ${genderClass(c.gender)}
-
-    </option>
-
-   `).join("")
-  }
-
+  <option value="">نقل إلى صف...</option>
+  ${rows.map(c=>`
+   <option value="${esc(c.id)}">
+    ${esc(c.name)} - ${genderClass(c.gender)}
+   </option>
+  `).join("")}
  `;
+
+}
+
+
+function buildMoveRoomOptions(){
+
+ const el=$("moveRoomSelect");
+ if(!el){return;}
+
+ const current=el.value;
+
+ el.innerHTML=`
+  <option value="">نقل إلى قاعة...</option>
+  ${Array.from({length:25},(_,i)=>i+1).map(n=>`
+   <option value="${n}">القاعة ${n}</option>
+  `).join("")}
+ `;
+
+ if(current){el.value=current;}
 
 }
 
 
 function moveSelectedStudents(){
 
- const targetId=
-  $("moveClassSelect").value;
+ const targetId=$("moveClassSelect").value;
+ const roomNumber=Number($("moveRoomSelect").value);
+ const target=DATA.classes[targetId];
 
-
- const target=
-  DATA.classes[
-   targetId
-  ];
-
-
- const students=
-  [...selectedStudents]
-
-  .map(
-   code=>
-    DATA.students[
-     code
-    ]
-  )
-
+ const students=[...selectedStudents]
+  .map(code=>DATA.students[code])
   .filter(Boolean);
 
-
  if(!students.length){
-
-  toast(
-   "حدد طالباً واحداً على الأقل"
-  );
-
+  toast("حدد طالباً واحداً على الأقل");
   return;
-
  }
-
 
  if(!target){
-
-  toast(
-   "اختر الصف الجديد"
-  );
-
+  toast("اختر الصف الجديد");
   return;
-
  }
 
-
- if(
-  students.some(
-   s=>
-    s.gender!==
-    target.gender
-  )
- ){
-
-  toast(
-   "لا يمكن نقل طلاب من جنس مختلف إلى هذا الصف"
-  );
-
+ if(!roomNumber){
+  toast("اختر القاعة الجديدة");
   return;
-
  }
 
+ if(students.some(s=>s.gender!==target.gender)){
+  toast("لا يمكن نقل طلاب من جنس مختلف إلى هذا الصف");
+  return;
+ }
 
  confirmBox(
-
   "نقل الطلاب",
+  `سيتم نقل ${students.length} طالب إلى ${target.name} - القاعة ${roomNumber}.`,
+  async()=>{
 
-  `سيتم نقل ${students.length} طالب إلى ${target.name}.`,
+   const updates={};
+   const time=Date.now();
 
+   students.forEach(s=>{
+    updates[`students/${s.code}/classId`]=targetId;
+    updates[`students/${s.code}/className`]=target.name;
+    updates[`students/${s.code}/roomNumber`]=roomNumber;
+    updates[`students/${s.code}/updatedAt`]=time;
+    updates[`students/${s.code}/updatedBy`]=adminCode();
+    updates[`users/${s.code}/classId`]=targetId;
+    updates[`users/${s.code}/roomNumber`]=roomNumber;
+   });
+
+   await dbPatch("",updates);
+
+   students.forEach(s=>{
+    s.classId=targetId;
+    s.className=target.name;
+    s.roomNumber=roomNumber;
+
+    if(DATA.users[s.code]){
+     DATA.users[s.code].classId=targetId;
+     DATA.users[s.code].roomNumber=roomNumber;
+    }
+   });
+
+   clearSelectedStudents(false);
+   renderAll();
+   toast("تم نقل الطلاب المحددين");
+  }
+ );
+
+}
+
+
+/* =========================================================
+   CLEAR SELECTED
+========================================================= */
+
+function clearSelectedStudents(showMessage=true){
+
+ selectedStudents.clear();
+ $("selectAll").checked=false;
+ updateBulk();
+ renderStudents();
+
+ if(showMessage){
+  toast("تم إلغاء التحديد");
+ }
+
+}
+
+
+/* =========================================================
+   DELETE SELECTED
+========================================================= */
+
+function deleteSelectedStudents(){
+
+ const codes=[...selectedStudents]
+  .filter(code=>DATA.students[code]);
+
+ if(!codes.length){
+  toast("حدد طالباً واحداً على الأقل");
+  return;
+ }
+
+ confirmBox(
+  "حذف الطلاب المحددين",
+  `سيتم حذف ${codes.length} طالب حذفاً نهائياً مع حساباتهم ودرجاتهم وحضورهم وأقساطهم ورسائلهم. هل أنت متأكد؟`,
   async()=>{
 
    const updates={};
 
-
-   students.forEach(s=>{
-
-    updates[
-     `students/${s.code}/classId`
-    ]=
-     targetId;
-
-
-    updates[
-     `students/${s.code}/className`
-    ]=
-     target.name;
-
-
-    updates[
-     `users/${s.code}/classId`
-    ]=
-     targetId;
-
+   codes.forEach(code=>{
+    updates[`students/${code}`]=null;
+    updates[`users/${code}`]=null;
+    updates[`grades/${code}`]=null;
+    updates[`attendance/${code}`]=null;
+    updates[`payments/${code}`]=null;
+    updates[`studentMessages/${code}`]=null;
+    updates[`behaviorViolations/${code}`]=null;
    });
 
-
-   await dbPatch(
-    "",
-    updates
-   );
-
-
-   students.forEach(s=>{
-
-    s.classId=
-     targetId;
-
-    s.className=
-     target.name;
-
-
-    if(DATA.users[s.code]){
-
-     DATA.users[s.code].classId=
-      targetId;
-
+   Object.entries(DATA.violations||{}).forEach(([id,v])=>{
+    if(codes.includes(v?.studentCode)){
+     updates[`${PATH.violations}/${id}`]=null;
     }
-
    });
 
+   await dbPatch("",updates);
 
-   selectedStudents.clear();
+   codes.forEach(code=>{
+    delete DATA.students[code];
+    delete DATA.users[code];
+   });
 
-   $("selectAll").checked=
-    false;
+   Object.keys(DATA.violations||{}).forEach(id=>{
+    if(codes.includes(DATA.violations[id]?.studentCode)){
+     delete DATA.violations[id];
+    }
+   });
 
+   if(codes.includes(openedStudentCode)){
+    openedStudentCode="";
+    closeModal("studentProfileModal");
+   }
 
+   clearSelectedStudents(false);
    renderAll();
-
-   toast(
-    "تم نقل الطلاب"
-   );
-
+   toast(`تم حذف ${codes.length} طالب`);
   }
-
  );
+
+}
+
+
+/* =========================================================
+   BULK MESSAGE
+========================================================= */
+
+function openBulkMessageModal(){
+
+ const count=selectedStudents.size;
+
+ if(!count){
+  toast("حدد طالباً واحداً على الأقل");
+  return;
+ }
+
+ $("bulkMessageRecipients").textContent=
+  `سيتم إرسال نفس الرسالة إلى ${count} طالب.`;
+
+ $("bulkMessageText").value="";
+ openModal("bulkMessageModal");
+
+ setTimeout(()=>$("bulkMessageText").focus(),80);
+
+}
+
+
+async function sendBulkMessage(){
+
+ const text=$("bulkMessageText").value.trim();
+ const codes=[...selectedStudents]
+  .filter(code=>DATA.students[code]);
+
+ if(!codes.length){
+  toast("لا يوجد طلاب محددون");
+  closeModal("bulkMessageModal");
+  return;
+ }
+
+ if(!text){
+  toast("اكتب نص الرسالة أولاً");
+  return;
+ }
+
+ const button=$("sendBulkMessageBtn");
+ button.disabled=true;
+ button.textContent="جاري الإرسال...";
+
+ try{
+
+  const createdAt=Date.now();
+  const messageId=`MSG_${createdAt}_${Math.random().toString(36).slice(2,9)}`;
+  const updates={};
+
+  codes.forEach(code=>{
+   const student=DATA.students[code];
+
+   updates[`${PATH.studentMessages}/${code}/${messageId}`]={
+    id:messageId,
+    title:"رسالة من إدارة المدرسة",
+    text,
+    message:text,
+    body:text,
+    studentCode:code,
+    studentName:student?.name||"",
+    createdAt,
+    createdBy:adminCode(),
+    senderRole:"admin",
+    read:false,
+    status:"unread"
+   };
+  });
+
+  await dbPatch("",updates);
+
+  closeModal("bulkMessageModal");
+  clearSelectedStudents(false);
+  toast(`تم إرسال الرسالة إلى ${codes.length} طالب`);
+
+ }catch(error){
+  console.error(error);
+  toast("تعذر إرسال الرسالة");
+ }finally{
+  button.disabled=false;
+  button.textContent="إرسال الرسالة";
+ }
 
 }
 
@@ -4551,16 +4650,11 @@ $("editStudentForm").onsubmit=async event=>{
 
  if(
   !update.name||
-  !update.motherName||
-  !update.roomNumber||
-  !update.guardianPhone||
-  !update.previousSchool||
-  !update.startDate||
-  !update.address
+  !update.roomNumber
  ){
 
   toast(
-   "أكمل البيانات المطلوبة"
+   "أدخل اسم الطالب واختر الصف والقاعة"
   );
 
   return;
@@ -4585,7 +4679,10 @@ $("editStudentForm").onsubmit=async event=>{
    update.name,
 
   classId:
-   update.classId
+   update.classId,
+
+  roomNumber:
+   update.roomNumber
 
  };
 
