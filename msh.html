@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
@@ -13,118 +12,303 @@
 
 <meta name="theme-color" content="#075fcf">
 
-<title>مشرف الحضور | مدرسة التحدي</title>
+<title>الحضور والغياب | مدرسة التحدي الأهلية المختلطة</title>
+
+<script
+    defer
+    src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"
+></script>
 
 <style>
 
 :root{
+
     --blue:#075fcf;
     --blue-dark:#06469c;
 
-    --green:#078746;
-    --green-bg:#ecfdf3;
+    --green:#087c45;
+    --green-bg:#eafaf1;
 
     --red:#c62828;
-    --red-bg:#fff1f1;
+    --red-bg:#fff0f0;
 
-    --orange:#e07900;
+    --orange:#dc7500;
+    --orange-bg:#fff6e9;
 
     --bg:#f4f7fb;
-    --white:#fff;
 
     --text:#172033;
     --muted:#667085;
 
     --border:#e2e8f0;
+
+    --shadow:
+        0 12px 35px
+        rgba(24,45,75,.09);
+
 }
 
 
 *{
-    box-sizing:border-box;
+
     margin:0;
     padding:0;
+
+    box-sizing:border-box;
+
+    -webkit-tap-highlight-color:
+        transparent;
+
+}
+
+
+html,
+body{
+
+    width:100%;
+    min-height:100%;
+
 }
 
 
 body{
+
     font-family:
         Tahoma,
         Arial,
         sans-serif;
 
-    background:var(--bg);
-    color:var(--text);
+    background:
+        var(--bg);
+
+    color:
+        var(--text);
+
 }
 
 
 button,
 select,
 input{
+
     font:inherit;
+
+}
+
+
+button{
+
+    cursor:pointer;
+
 }
 
 
 .hidden{
+
     display:none!important;
+
 }
 
 
-/* HEADER */
+/* =========================================================
+   LOADER
+========================================================= */
+
+.loader-screen{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:99999;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:#fff;
+
+}
+
+
+.loader-box{
+
+    text-align:center;
+
+}
+
+
+.loader-logo{
+
+    width:85px;
+    height:85px;
+
+    object-fit:contain;
+
+    margin-bottom:15px;
+
+}
+
+
+.spinner{
+
+    width:38px;
+    height:38px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    border:
+        4px solid
+        #e7edf5;
+
+    border-top-color:
+        var(--blue);
+
+    animation:
+        spin .8s
+        linear
+        infinite;
+
+}
+
+
+.loader-box p{
+
+    margin-top:12px;
+
+    color:
+        var(--muted);
+
+    font-size:10px;
+    font-weight:900;
+
+}
+
+
+@keyframes spin{
+
+    to{
+
+        transform:
+            rotate(360deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
 
 .header{
+
     position:sticky;
+
     top:0;
 
     z-index:100;
 
+    min-height:72px;
+
     display:flex;
+
     align-items:center;
     justify-content:space-between;
 
-    padding:12px 14px;
+    gap:10px;
 
-    background:#fff;
+    padding:
+        max(
+            10px,
+            env(safe-area-inset-top)
+        )
+        14px
+        10px;
+
+    background:
+        rgba(255,255,255,.96);
+
+    backdrop-filter:
+        blur(15px);
 
     border-bottom:
-        1px solid var(--border);
+        1px solid
+        var(--border);
+
 }
 
 
 .brand{
+
+    min-width:0;
+
     display:flex;
+
     align-items:center;
+
     gap:9px;
+
 }
 
 
 .logo{
-    width:47px;
-    height:47px;
+
+    width:49px;
+    height:49px;
+
+    flex:none;
 
     object-fit:contain;
+
+}
+
+
+.brand-info{
+
+    min-width:0;
+
 }
 
 
 .brand h1{
+
     font-size:13px;
     font-weight:900;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+    text-overflow:ellipsis;
+
 }
 
 
 .brand p{
+
     margin-top:3px;
 
-    color:var(--blue);
+    color:
+        var(--blue);
 
     font-size:8px;
     font-weight:900;
+
 }
 
 
 .logout{
+
+    flex:none;
+
     border:0;
 
-    padding:9px 12px;
+    padding:
+        9px
+        11px;
 
     border-radius:12px;
 
@@ -132,28 +316,42 @@ input{
 
     color:#475467;
 
-    font-size:9px;
+    font-size:8px;
     font-weight:900;
+
 }
 
 
-/* CONTAINER */
+/* =========================================================
+   CONTAINER
+========================================================= */
 
 .container{
+
     width:100%;
 
-    max-width:900px;
+    max-width:980px;
 
     margin:auto;
 
-    padding:15px;
+    padding:
+        14px
+        12px
+        calc(
+            30px +
+            env(safe-area-inset-bottom)
+        );
+
 }
 
 
-/* CARD */
+/* =========================================================
+   CARD
+========================================================= */
 
 .card{
-    margin-bottom:13px;
+
+    margin-bottom:12px;
 
     padding:15px;
 
@@ -162,110 +360,223 @@ input{
     background:#fff;
 
     border:
-        1px solid var(--border);
+        1px solid
+        var(--border);
+
+    box-shadow:
+        var(--shadow);
+
 }
 
 
-.card h2{
-    margin-bottom:12px;
+.card-title{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    gap:10px;
+
+    margin-bottom:13px;
+
+}
+
+
+.card-title h2{
 
     font-size:14px;
     font-weight:900;
+
 }
 
 
-/* FILTER */
+.card-title p{
+
+    color:
+        var(--muted);
+
+    font-size:8px;
+
+}
+
+
+/* =========================================================
+   FILTERS
+========================================================= */
 
 .filters{
+
     display:grid;
 
     grid-template-columns:
-        repeat(3,1fr);
+        repeat(3,minmax(0,1fr));
 
     gap:8px;
+
+}
+
+
+.field{
+
+    min-width:0;
+
 }
 
 
 .field label{
+
     display:block;
 
-    margin-bottom:5px;
+    margin:
+        0
+        3px
+        6px;
 
-    color:var(--muted);
+    color:#475467;
 
     font-size:8px;
     font-weight:900;
+
 }
 
 
 .field select{
+
     width:100%;
-    height:47px;
+    height:48px;
 
-    padding:0 10px;
-
-    border:
-        1px solid var(--border);
-
-    border-radius:13px;
+    padding:
+        0
+        10px;
 
     outline:none;
 
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:13px;
+
     background:#fff;
 
+    color:
+        var(--text);
+
     font-size:11px;
+    font-weight:700;
+
 }
 
 
+.field select:focus{
+
+    border-color:
+        var(--blue);
+
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
 .actions{
+
     display:flex;
+
+    flex-wrap:wrap;
 
     gap:8px;
 
     margin-top:12px;
+
 }
 
 
 .btn{
-    flex:1;
 
-    height:49px;
+    min-height:48px;
+
+    flex:
+        1
+        1
+        150px;
 
     border:0;
 
     border-radius:14px;
 
-    font-size:10px;
+    padding:
+        0
+        14px;
+
+    font-size:9px;
     font-weight:900;
+
 }
 
 
 .btn-primary{
-    background:var(--blue);
+
     color:#fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0873e8,
+            #0757bc
+        );
+
 }
 
 
-.btn-danger{
-    background:var(--red);
+.btn-red{
+
     color:#fff;
+
+    background:
+        var(--red);
+
+}
+
+
+.btn-green{
+
+    color:#fff;
+
+    background:
+        var(--green);
+
 }
 
 
 .btn-soft{
-    background:#eef5ff;
-    color:var(--blue);
+
+    color:
+        var(--blue);
+
+    background:
+        #edf5ff;
+
 }
 
 
-/* CAMERA */
+.btn:disabled{
 
-.camera-card{
-    overflow:hidden;
+    opacity:.55;
+
+    cursor:not-allowed;
+
 }
 
 
-.camera-wrap{
+/* =========================================================
+   CAMERA
+========================================================= */
+
+.camera-container{
+
     position:relative;
 
     width:100%;
@@ -275,21 +586,15 @@ input{
     border-radius:18px;
 
     background:#111;
+
+    aspect-ratio:
+        16 / 9;
+
 }
 
 
-video{
-    width:100%;
+#camera{
 
-    display:block;
-
-    max-height:480px;
-
-    object-fit:cover;
-}
-
-
-canvas{
     position:absolute;
 
     inset:0;
@@ -297,291 +602,892 @@ canvas{
     width:100%;
     height:100%;
 
+    display:block;
+
+    object-fit:cover;
+
+}
+
+
+#overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:5;
+
+    width:100%;
+    height:100%;
+
     pointer-events:none;
+
+}
+
+
+.camera-top{
+
+    position:absolute;
+
+    z-index:10;
+
+    top:10px;
+    right:10px;
+    left:10px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    gap:7px;
+
+    pointer-events:none;
+
+}
+
+
+.camera-badge{
+
+    padding:
+        7px
+        9px;
+
+    border-radius:999px;
+
+    color:#fff;
+
+    background:
+        rgba(0,0,0,.55);
+
+    backdrop-filter:
+        blur(8px);
+
+    font-size:8px;
+    font-weight:900;
+
+}
+
+
+.camera-badge.live::before{
+
+    content:"";
+
+    display:inline-block;
+
+    width:7px;
+    height:7px;
+
+    margin-left:5px;
+
+    border-radius:50%;
+
+    background:#22d56d;
+
 }
 
 
 .camera-status{
-    padding:10px;
 
-    text-align:center;
+    margin-top:10px;
+
+    padding:
+        10px
+        12px;
+
+    border-radius:13px;
+
+    background:#f7f9fc;
 
     color:#475467;
 
+    text-align:center;
+
     font-size:9px;
-    font-weight:900;
+    line-height:1.7;
+
+    font-weight:800;
+
 }
 
 
-/* STATISTICS */
+/* =========================================================
+   FACE STATUS
+========================================================= */
+
+.detection-box{
+
+    margin-top:10px;
+
+    padding:
+        12px;
+
+    border-radius:15px;
+
+    background:
+        var(--green-bg);
+
+    color:
+        var(--green);
+
+    text-align:center;
+
+    font-size:9px;
+    line-height:1.8;
+
+    font-weight:900;
+
+}
+
+
+.detection-box.warning{
+
+    background:
+        var(--orange-bg);
+
+    color:
+        var(--orange);
+
+}
+
+
+.detection-box.red{
+
+    background:
+        var(--red-bg);
+
+    color:
+        var(--red);
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
 
 .stats{
+
     display:grid;
 
     grid-template-columns:
-        repeat(4,1fr);
+        repeat(5,minmax(0,1fr));
 
     gap:7px;
+
 }
 
 
 .stat{
-    padding:12px 5px;
+
+    min-width:0;
+
+    padding:
+        12px
+        5px;
 
     text-align:center;
 
-    border-radius:14px;
+    border-radius:15px;
 
     background:#f8fafc;
+
+    border:
+        1px solid
+        #edf1f5;
+
 }
 
 
 .stat strong{
+
     display:block;
 
-    font-size:18px;
+    font-size:20px;
     font-weight:900;
+
 }
 
 
 .stat span{
+
     display:block;
 
-    margin-top:3px;
+    margin-top:4px;
 
-    color:var(--muted);
+    color:
+        var(--muted);
 
     font-size:7px;
+    line-height:1.4;
+
 }
 
 
-.stat.present strong{
-    color:var(--green);
+.stat.blue strong{
+
+    color:
+        var(--blue);
+
 }
 
 
-.stat.absent strong{
-    color:var(--red);
+.stat.green strong{
+
+    color:
+        var(--green);
+
 }
 
 
-/* STUDENTS */
+.stat.red strong{
+
+    color:
+        var(--red);
+
+}
+
+
+.stat.orange strong{
+
+    color:
+        var(--orange);
+
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress-wrap{
+
+    margin-top:12px;
+
+}
+
+
+.progress-info{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    margin-bottom:6px;
+
+    font-size:8px;
+    font-weight:900;
+
+}
+
+
+.progress-track{
+
+    width:100%;
+    height:10px;
+
+    overflow:hidden;
+
+    border-radius:999px;
+
+    background:#edf1f5;
+
+}
+
+
+.progress-bar{
+
+    width:0%;
+    height:100%;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #08a75a,
+            #16ca72
+        );
+
+    transition:
+        width .25s ease;
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search{
+
+    position:relative;
+
+    margin-bottom:10px;
+
+}
+
+
+.search input{
+
+    width:100%;
+    height:47px;
+
+    padding:
+        0
+        13px;
+
+    outline:none;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:13px;
+
+    background:#f9fbfd;
+
+    font-size:11px;
+
+}
+
+
+.search input:focus{
+
+    border-color:
+        var(--blue);
+
+}
+
+
+/* =========================================================
+   STUDENT LIST
+========================================================= */
 
 .student-list{
+
     display:grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0,1fr)
+        );
+
     gap:8px;
+
 }
 
 
 .student{
+
+    position:relative;
+
+    min-width:0;
+
     display:flex;
 
     align-items:center;
 
-    gap:10px;
+    gap:9px;
 
-    padding:9px;
+    padding:
+        9px;
 
     border:
-        1px solid var(--border);
+        1px solid
+        var(--border);
 
     border-radius:15px;
 
     background:#fff;
+
+    transition:.2s;
+
 }
 
 
-.student.present{
-    border-color:#9ee0bd;
+.student.selected-absent{
 
-    background:
-        var(--green-bg);
-}
-
-
-.student.absent{
-    border-color:#f0b5b5;
+    border-color:#efaaaa;
 
     background:
         var(--red-bg);
+
 }
 
 
-.student img,
-.student-avatar{
-    width:45px;
-    height:45px;
+.student.present-preview{
 
-    flex:none;
+    border-color:#b2e4c8;
+
+    background:
+        var(--green-bg);
+
+}
+
+
+.student-image{
+
+    width:47px;
+    height:47px;
+
+    flex:
+        0 0
+        47px;
+
+    overflow:hidden;
 
     border-radius:50%;
 
-    object-fit:cover;
+    background:#e8f3ff;
 
-    background:#e9f2ff;
 }
 
 
-.student-avatar{
+.student-image img{
+
+    width:100%;
+    height:100%;
+
+    display:block;
+
+    object-fit:cover;
+
+}
+
+
+.student-letter{
+
+    width:100%;
+    height:100%;
+
     display:flex;
 
     align-items:center;
     justify-content:center;
 
-    color:var(--blue);
+    color:
+        var(--blue);
 
     font-size:15px;
     font-weight:900;
+
 }
 
 
 .student-info{
+
     min-width:0;
 
     flex:1;
+
 }
 
 
-.student-info strong{
-    display:block;
+.student-name{
 
     font-size:10px;
+    line-height:1.5;
+
     font-weight:900;
+
 }
 
 
-.student-info small{
-    display:block;
+.student-meta{
 
     margin-top:3px;
 
-    color:var(--muted);
+    color:
+        var(--muted);
 
     font-size:7px;
+    line-height:1.5;
+
 }
 
 
-.student-buttons{
-    display:flex;
-
-    gap:5px;
+.absent-toggle{
 
     flex:none;
-}
 
-
-.student-buttons button{
-    min-width:54px;
-
-    height:34px;
+    min-width:59px;
+    height:35px;
 
     border:0;
 
     border-radius:10px;
 
+    color:
+        var(--red);
+
+    background:
+        var(--red-bg);
+
     font-size:7px;
     font-weight:900;
+
 }
 
 
-.present-btn{
-    background:var(--green-bg);
-    color:var(--green);
+.student.selected-absent
+.absent-toggle{
+
+    color:#fff;
+
+    background:
+        var(--red);
+
 }
 
 
-.absent-btn{
-    background:var(--red-bg);
-    color:var(--red);
+/* =========================================================
+   SELECTED ABSENT COUNTER
+========================================================= */
+
+.selection-warning{
+
+    margin-bottom:10px;
+
+    padding:
+        11px;
+
+    border-radius:13px;
+
+    text-align:center;
+
+    font-size:8px;
+    line-height:1.8;
+
+    font-weight:900;
+
+    background:
+        var(--orange-bg);
+
+    color:
+        var(--orange);
+
 }
 
 
-/* REPORT */
+.selection-warning.ok{
+
+    background:
+        var(--green-bg);
+
+    color:
+        var(--green);
+
+}
+
+
+.selection-warning.bad{
+
+    background:
+        var(--red-bg);
+
+    color:
+        var(--red);
+
+}
+
+
+/* =========================================================
+   REPORT
+========================================================= */
+
+.report-head{
+
+    padding:
+        13px;
+
+    margin-bottom:10px;
+
+    border-radius:15px;
+
+    background:#f8fafc;
+
+    line-height:1.9;
+
+    font-size:9px;
+
+}
+
 
 .report-table-wrap{
+
+    width:100%;
+
     overflow:auto;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:15px;
+
 }
 
 
-table{
+.report-table{
+
     width:100%;
+
+    min-width:720px;
 
     border-collapse:collapse;
 
-    min-width:600px;
 }
 
 
-th,
-td{
-    padding:10px 7px;
+.report-table th,
+.report-table td{
+
+    padding:
+        10px
+        8px;
 
     text-align:center;
 
     border-bottom:
-        1px solid #edf0f4;
+        1px solid
+        #edf0f4;
 
     font-size:8px;
+
 }
 
 
-th{
-    background:#f8fafc;
+.report-table th{
+
+    background:#f7f9fc;
+
+    color:#475467;
 
     font-weight:900;
+
 }
 
 
-/* TOAST */
+.report-present{
+
+    color:
+        var(--green);
+
+    font-weight:900;
+
+}
+
+
+.report-absent{
+
+    color:
+        var(--red);
+
+    font-weight:900;
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
 
 .toast{
+
     position:fixed;
 
-    z-index:9999;
+    z-index:99999;
 
     left:15px;
     right:15px;
 
-    bottom:20px;
+    bottom:
+        max(
+            18px,
+            env(safe-area-inset-bottom)
+        );
 
-    max-width:400px;
+    max-width:430px;
 
     margin:auto;
 
-    padding:12px;
-
-    text-align:center;
+    padding:
+        12px
+        14px;
 
     border-radius:14px;
+
+    text-align:center;
 
     color:#fff;
 
     background:#172033;
 
     font-size:9px;
+    line-height:1.7;
+
+    font-weight:900;
 
     opacity:0;
 
     pointer-events:none;
 
+    transform:
+        translateY(10px);
+
     transition:.2s;
+
 }
 
 
 .toast.show{
+
     opacity:1;
+
+    transform:none;
+
 }
 
 
-@media(max-width:600px){
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px){
 
     .filters{
+
         grid-template-columns:1fr;
+
     }
 
+
     .stats{
+
         grid-template-columns:
-            repeat(2,1fr);
+            repeat(
+                2,
+                minmax(0,1fr)
+            );
+
+    }
+
+
+    .stat:first-child{
+
+        grid-column:
+            span 2;
+
+    }
+
+
+    .student-list{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+
+@media(max-width:430px){
+
+    .container{
+
+        padding:
+            10px
+            8px
+            25px;
+
+    }
+
+
+    .card{
+
+        padding:12px;
+
+        border-radius:17px;
+
+    }
+
+
+    .camera-container{
+
+        aspect-ratio:
+            4 / 3;
+
+    }
+
+
+    .student-image{
+
+        width:43px;
+        height:43px;
+
+        flex-basis:43px;
+
+    }
+
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+@media print{
+
+    body{
+
+        background:#fff;
+
+    }
+
+
+    .header,
+    #selectionCard,
+    #cameraCard,
+    #statsCard,
+    #studentsCard,
+    .report-actions,
+    .toast{
+
+        display:none!important;
+
+    }
+
+
+    #reportCard{
+
+        display:block!important;
+
+        border:0;
+
+        box-shadow:none;
+
+        margin:0;
+
+        padding:0;
+
+    }
+
+
+    .container{
+
+        max-width:none;
+
+        padding:0;
+
+    }
+
+
+    .report-table{
+
+        min-width:0;
+
     }
 
 }
@@ -590,8 +1496,41 @@ th{
 
 </head>
 
+
 <body>
 
+
+<!-- =========================================================
+     LOADER
+========================================================= -->
+
+<div
+    id="loaderScreen"
+    class="loader-screen"
+>
+
+    <div class="loader-box">
+
+        <img
+            src="logo.png"
+            class="loader-logo"
+            alt="الشعار"
+        >
+
+        <div class="spinner"></div>
+
+        <p id="loaderText">
+            جاري تحميل نظام الحضور
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
 
 <header class="header">
 
@@ -603,13 +1542,14 @@ th{
             alt=""
         >
 
-        <div>
+
+        <div class="brand-info">
 
             <h1>
                 مدرسة التحدي الأهلية المختلطة
             </h1>
 
-            <p>
+            <p id="supervisorName">
                 مشرف الحضور والغياب
             </p>
 
@@ -632,13 +1572,30 @@ th{
 <main class="container">
 
 
-<!-- FILTER -->
+<!-- =========================================================
+     SELECTION
+========================================================= -->
 
-<section class="card">
+<section
+    id="selectionCard"
+    class="card"
+>
 
-    <h2>
-        اختيار مجموعة الطلاب
-    </h2>
+    <div class="card-title">
+
+        <div>
+
+            <h2>
+                بدء تسجيل الحضور
+            </h2>
+
+            <p>
+                اختر المجموعة المراد تسجيل حضورها
+            </p>
+
+        </div>
+
+    </div>
 
 
     <div class="filters">
@@ -646,9 +1603,10 @@ th{
 
         <div class="field">
 
-            <label>
+            <label for="classSelect">
                 الصف
             </label>
+
 
             <select id="classSelect">
 
@@ -663,9 +1621,10 @@ th{
 
         <div class="field">
 
-            <label>
+            <label for="roomSelect">
                 القاعة
             </label>
+
 
             <select id="roomSelect">
 
@@ -680,9 +1639,10 @@ th{
 
         <div class="field">
 
-            <label>
+            <label for="genderSelect">
                 الجنس
             </label>
+
 
             <select id="genderSelect">
 
@@ -702,7 +1662,6 @@ th{
 
         </div>
 
-
     </div>
 
 
@@ -713,7 +1672,7 @@ th{
             class="btn btn-primary"
             type="button"
         >
-            بدء تسجيل الحضور
+            بدء تسجيل الحضور بالكامرة
         </button>
 
     </div>
@@ -721,30 +1680,65 @@ th{
 </section>
 
 
-<!-- CAMERA -->
+<!-- =========================================================
+     CAMERA
+========================================================= -->
 
 <section
     id="cameraCard"
-    class="card camera-card hidden"
+    class="card hidden"
 >
 
-    <h2>
-        كاميرا تسجيل الحضور
-    </h2>
+    <div class="card-title">
+
+        <div>
+
+            <h2>
+                الكامرة المباشرة
+            </h2>
+
+            <p>
+                وجّه الكامرة حتى تظهر جميع الوجوه
+            </p>
+
+        </div>
+
+    </div>
 
 
-    <div class="camera-wrap">
+    <div class="camera-container">
 
         <video
             id="camera"
             autoplay
-            playsinline
             muted
+            playsinline
         ></video>
+
 
         <canvas
             id="overlay"
         ></canvas>
+
+
+        <div class="camera-top">
+
+            <span
+                id="liveBadge"
+                class="camera-badge live"
+            >
+                مباشر
+            </span>
+
+
+            <span
+                id="faceCountBadge"
+                class="camera-badge"
+            >
+                0 وجه
+            </span>
+
+        </div>
 
     </div>
 
@@ -753,18 +1747,35 @@ th{
         id="cameraStatus"
         class="camera-status"
     >
-        جاري تشغيل الكاميرا...
+        جاري تشغيل الكامرة...
+    </div>
+
+
+    <div
+        id="detectionMessage"
+        class="detection-box"
+    >
+        انتظر حتى يستقر عدّ الوجوه.
     </div>
 
 
     <div class="actions">
 
         <button
-            id="finishBtn"
-            class="btn btn-danger"
+            id="switchCameraBtn"
+            class="btn btn-soft"
             type="button"
         >
-            إنهاء وتسجيل الغياب
+            تبديل الكامرة
+        </button>
+
+
+        <button
+            id="stopCameraBtn"
+            class="btn btn-red"
+            type="button"
+        >
+            إيقاف الكامرة
         </button>
 
     </div>
@@ -772,62 +1783,90 @@ th{
 </section>
 
 
-<!-- STATS -->
+<!-- =========================================================
+     STATISTICS
+========================================================= -->
 
 <section
     id="statsCard"
     class="card hidden"
 >
 
-    <h2>
-        إحصائيات الحضور
-    </h2>
+    <div class="card-title">
+
+        <div>
+
+            <h2>
+                إحصائيات المسح
+            </h2>
+
+            <p>
+                العدد الأعلى المثبت أثناء المسح
+            </p>
+
+        </div>
+
+    </div>
 
 
     <div class="stats">
 
-        <div class="stat">
 
-            <strong id="totalCount">
+        <div class="stat blue">
+
+            <strong id="totalStudents">
                 0
             </strong>
 
             <span>
-                عدد الطلاب
+                الطلاب المسجلون
             </span>
 
         </div>
 
 
-        <div class="stat present">
+        <div class="stat green">
 
-            <strong id="presentCount">
+            <strong id="currentFaces">
                 0
             </strong>
 
             <span>
-                حاضر
+                الوجوه الآن
             </span>
 
         </div>
 
 
-        <div class="stat absent">
+        <div class="stat green">
 
-            <strong id="absentCount">
+            <strong id="bestFaces">
                 0
             </strong>
 
             <span>
-                غائب
+                أعلى عدد مثبت
             </span>
 
         </div>
 
 
-        <div class="stat">
+        <div class="stat red">
 
-            <strong id="rateCount">
+            <strong id="missingCount">
+                0
+            </strong>
+
+            <span>
+                النقص المتوقع
+            </span>
+
+        </div>
+
+
+        <div class="stat orange">
+
+            <strong id="attendanceRate">
                 0%
             </strong>
 
@@ -839,19 +1878,80 @@ th{
 
     </div>
 
+
+    <div class="progress-wrap">
+
+        <div class="progress-info">
+
+            <span>
+                نسبة الموجودين
+            </span>
+
+            <span id="progressText">
+                0%
+            </span>
+
+        </div>
+
+
+        <div class="progress-track">
+
+            <div
+                id="progressBar"
+                class="progress-bar"
+            ></div>
+
+        </div>
+
+    </div>
+
 </section>
 
 
-<!-- STUDENTS -->
+<!-- =========================================================
+     STUDENT LIST
+========================================================= -->
 
 <section
     id="studentsCard"
     class="card hidden"
 >
 
-    <h2>
-        قائمة الطلاب
-    </h2>
+    <div class="card-title">
+
+        <div>
+
+            <h2>
+                تحديد الطلاب الغائبين
+            </h2>
+
+            <p>
+                حدد أسماء الغائبين بعد الانتهاء من مسح القاعة
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="selectionWarning"
+        class="selection-warning"
+    >
+        لم يتم تثبيت عدد الحضور بعد.
+    </div>
+
+
+    <div class="search">
+
+        <input
+            id="studentSearch"
+            type="search"
+            placeholder="ابحث عن اسم الطالب..."
+            autocomplete="off"
+        >
+
+    </div>
 
 
     <div
@@ -859,44 +1959,72 @@ th{
         class="student-list"
     ></div>
 
+
+    <div class="actions">
+
+        <button
+            id="finishBtn"
+            class="btn btn-green"
+            type="button"
+        >
+            إنهاء وحفظ الحضور والغياب
+        </button>
+
+    </div>
+
 </section>
 
 
-<!-- REPORT -->
+<!-- =========================================================
+     REPORT
+========================================================= -->
 
 <section
     id="reportCard"
     class="card hidden"
 >
 
-    <h2>
-        تقرير الحضور والغياب
-    </h2>
+    <div class="card-title">
 
+        <div>
 
-    <div class="actions">
+            <h2>
+                تقرير الحضور والغياب
+            </h2>
 
-        <button
-            id="printBtn"
-            class="btn btn-soft"
-            type="button"
-        >
-            طباعة التقرير
-        </button>
+            <p id="reportDateText">
+                —
+            </p>
+
+        </div>
 
     </div>
 
 
+    <div
+        id="reportHead"
+        class="report-head"
+    ></div>
+
+
     <div class="report-table-wrap">
 
-        <table>
+        <table class="report-table">
 
             <thead>
 
                 <tr>
 
                     <th>
-                        الطالب
+                        #
+                    </th>
+
+                    <th>
+                        اسم الطالب
+                    </th>
+
+                    <th>
+                        الكود
                     </th>
 
                     <th>
@@ -915,20 +2043,36 @@ th{
                         الحالة
                     </th>
 
-                    <th>
-                        الوقت
-                    </th>
-
                 </tr>
 
             </thead>
 
 
-            <tbody
-                id="reportBody"
-            ></tbody>
+            <tbody id="reportBody"></tbody>
 
         </table>
+
+    </div>
+
+
+    <div class="actions report-actions">
+
+        <button
+            id="printBtn"
+            class="btn btn-soft"
+            type="button"
+        >
+            طباعة / حفظ PDF
+        </button>
+
+
+        <button
+            id="newSessionBtn"
+            class="btn btn-primary"
+            type="button"
+        >
+            تسجيل حضور جديد
+        </button>
 
     </div>
 
@@ -955,6 +2099,31 @@ const DB =
 
 
 /* =========================================================
+   FACE MODEL
+========================================================= */
+
+const FACE_MODEL_PATH =
+    "./models";
+
+
+/*
+    TinyFaceDetector:
+    inputSize can be:
+    128, 160, 224, 320, 416, 512, 608
+
+    320 gives good mobile performance.
+*/
+
+const FACE_OPTIONS = {
+
+    inputSize:320,
+
+    scoreThreshold:0.45
+
+};
+
+
+/* =========================================================
    STATE
 ========================================================= */
 
@@ -964,27 +2133,97 @@ let supervisor = {};
 
 let allStudents = [];
 
+let classesData = {};
+
 let selectedStudents = [];
 
-let attendanceState = {};
+let selectedAbsentCodes =
+    new Set();
+
 
 let cameraStream = null;
 
-let faceDetector = null;
+let currentFacingMode =
+    "environment";
 
-let detectionLoop = null;
 
-let attendanceStarted = false;
+let cameraRunning =
+    false;
+
+
+let detectionRunning =
+    false;
+
+
+let modelsReady =
+    false;
+
+
+/*
+    عدد الوجوه في آخر قراءة.
+*/
+
+let currentFaceCount =
+    0;
+
+
+/*
+    أعلى عدد مستقر تم رصده.
+*/
+
+let bestStableFaceCount =
+    0;
+
+
+/*
+    نستخدم نافذة من القراءات
+    حتى لا تتغير الأرقام بقفزات.
+*/
+
+let faceSamples = [];
+
+
+const FACE_SAMPLE_SIZE =
+    8;
+
+
+/*
+    آخر وقت شغلنا فيه الكشف.
+    نخلي الكشف تقريباً 4 مرات بالثانية.
+*/
+
+let lastDetectionAt =
+    0;
+
+
+const DETECTION_INTERVAL =
+    250;
+
+
+let detectionAnimationId =
+    null;
+
+
+/*
+    لمنع التسجيل مرتين.
+*/
+
+let savingAttendance =
+    false;
 
 
 /* =========================================================
-   HELPERS
+   DOM
 ========================================================= */
 
 const $ =
     id =>
         document.getElementById(id);
 
+
+/* =========================================================
+   HELPERS
+========================================================= */
 
 function esc(value){
 
@@ -994,11 +2233,17 @@ function esc(value){
     .replace(
         /[&<>"']/g,
         char => ({
+
             "&":"&amp;",
+
             "<":"&lt;",
+
             ">":"&gt;",
+
             '"':"&quot;",
+
             "'":"&#039;"
+
         })[char]
     );
 
@@ -1012,76 +2257,6 @@ function norm(value){
     )
     .trim()
     .toLowerCase();
-
-}
-
-
-function normalizeGender(value){
-
-    const text =
-        norm(value);
-
-
-    if(
-        text === "female" ||
-        text === "أنثى" ||
-        text === "انثى" ||
-        text === "بنات"
-    ){
-
-        return "female";
-
-    }
-
-
-    return "male";
-
-}
-
-
-function genderText(value){
-
-    return normalizeGender(value) ===
-        "female"
-
-        ? "بنات"
-
-        : "بنين";
-
-}
-
-
-function todayKey(){
-
-    const date =
-        new Date();
-
-
-    const y =
-        date.getFullYear();
-
-
-    const m =
-        String(
-            date.getMonth() + 1
-        )
-        .padStart(
-            2,
-            "0"
-        );
-
-
-    const d =
-        String(
-            date.getDate()
-        )
-        .padStart(
-            2,
-            "0"
-        );
-
-
-    return `${y}-${m}-${d}`;
 
 }
 
@@ -1113,14 +2288,118 @@ function toast(text){
                     );
 
             },
-            2300
+            2500
         );
 
 }
 
 
 /* =========================================================
-   DB REST
+   DATE
+========================================================= */
+
+function getIraqDateParts(){
+
+    const formatter =
+        new Intl.DateTimeFormat(
+            "en-CA",
+            {
+
+                timeZone:
+                    "Asia/Baghdad",
+
+                year:
+                    "numeric",
+
+                month:
+                    "2-digit",
+
+                day:
+                    "2-digit"
+
+            }
+        );
+
+
+    const parts =
+        formatter.formatToParts(
+            new Date()
+        );
+
+
+    const values = {};
+
+
+    parts.forEach(
+        item => {
+
+            values[
+                item.type
+            ] =
+                item.value;
+
+        }
+    );
+
+
+    return {
+
+        year:
+            values.year,
+
+        month:
+            values.month,
+
+        day:
+            values.day
+
+    };
+
+}
+
+
+function todayKey(){
+
+    const date =
+        getIraqDateParts();
+
+
+    return (
+        `${date.year}-${date.month}-${date.day}`
+    );
+
+}
+
+
+function dateArabic(){
+
+    return new Intl.DateTimeFormat(
+        "ar-IQ",
+        {
+
+            timeZone:
+                "Asia/Baghdad",
+
+            year:
+                "numeric",
+
+            month:
+                "long",
+
+            day:
+                "numeric"
+
+        }
+    )
+    .format(
+        new Date()
+    );
+
+}
+
+
+/* =========================================================
+   FIREBASE REST
 ========================================================= */
 
 async function dbGet(path){
@@ -1129,7 +2408,8 @@ async function dbGet(path){
         await fetch(
             `${DB}/${path}.json`,
             {
-                cache:"no-store"
+                cache:
+                    "no-store"
             }
         );
 
@@ -1137,7 +2417,7 @@ async function dbGet(path){
     if(!response.ok){
 
         throw new Error(
-            "GET_FAILED"
+            "DATABASE_GET_FAILED"
         );
 
     }
@@ -1158,7 +2438,8 @@ async function dbPut(
             `${DB}/${path}.json`,
             {
 
-                method:"PUT",
+                method:
+                    "PUT",
 
                 headers:{
                     "Content-Type":
@@ -1175,7 +2456,46 @@ async function dbPut(
     if(!response.ok){
 
         throw new Error(
-            "PUT_FAILED"
+            "DATABASE_PUT_FAILED"
+        );
+
+    }
+
+
+    return response.json();
+
+}
+
+
+async function dbPost(
+    path,
+    data
+){
+
+    const response =
+        await fetch(
+            `${DB}/${path}.json`,
+            {
+
+                method:
+                    "POST",
+
+                headers:{
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify(data)
+
+            }
+        );
+
+
+    if(!response.ok){
+
+        throw new Error(
+            "DATABASE_POST_FAILED"
         );
 
     }
@@ -1228,6 +2548,85 @@ function loadSession(){
 
 
 /* =========================================================
+   GENDER
+========================================================= */
+
+function normalizeGender(value){
+
+    const text =
+        norm(value);
+
+
+    if(
+
+        text === "female" ||
+
+        text === "f" ||
+
+        text === "انثى" ||
+
+        text === "أنثى" ||
+
+        text === "بنت" ||
+
+        text === "بنات"
+
+    ){
+
+        return "female";
+
+    }
+
+
+    return "male";
+
+}
+
+
+function genderText(value){
+
+    return normalizeGender(
+        value
+    ) === "female"
+
+        ? "بنات"
+
+        : "بنين";
+
+}
+
+
+/* =========================================================
+   CLASS NAME
+========================================================= */
+
+function getClassName(classId){
+
+    if(!classId){
+
+        return "—";
+
+    }
+
+
+    return (
+
+        classesData[
+            classId
+        ]?.name ||
+
+        classesData[
+            classId
+        ]?.title ||
+
+        classId
+
+    );
+
+}
+
+
+/* =========================================================
    INIT
 ========================================================= */
 
@@ -1235,11 +2634,17 @@ async function init(){
 
     try{
 
-        if(!loadSession()){
+        if(
+            !loadSession()
+        ){
 
             return;
 
         }
+
+
+        $("loaderText").textContent =
+            "جاري التحقق من صلاحية المشرف";
 
 
         supervisor =
@@ -1253,14 +2658,126 @@ async function init(){
             ![
                 "msh",
                 "attendance",
-                "supervisor"
+                "supervisor",
+                "attendance_supervisor"
             ].includes(
-                norm(supervisor.role)
+                norm(
+                    supervisor.role
+                )
             )
         ){
 
-            toast(
-                "ليس لديك صلاحية دخول هذه الصفحة"
+            throw new Error(
+                "NO_PERMISSION"
+            );
+
+        }
+
+
+        if(
+            supervisor.active ===
+            false
+        ){
+
+            throw new Error(
+                "ACCOUNT_DISABLED"
+            );
+
+        }
+
+
+        $("supervisorName").textContent =
+            supervisor.name ||
+            "مشرف الحضور والغياب";
+
+
+        $("loaderText").textContent =
+            "جاري تحميل الطلاب والصفوف";
+
+
+        const [
+            studentsData,
+            classes
+        ] =
+            await Promise.all([
+
+                dbGet(
+                    "students"
+                ),
+
+                dbGet(
+                    "classes"
+                )
+
+            ]);
+
+
+        classesData =
+            classes ||
+            {};
+
+
+        allStudents =
+            Object.entries(
+                studentsData ||
+                {}
+            )
+
+            .map(
+                ([code,data]) => ({
+
+                    code,
+
+                    ...(data || {})
+
+                })
+            )
+
+            .filter(
+                student =>
+                    student.hidden !==
+                    true
+            );
+
+
+        buildClassOptions();
+
+        buildRoomOptions();
+
+
+        $("loaderText").textContent =
+            "جاري تحميل نظام اكتشاف الوجوه";
+
+
+        await loadFaceModel();
+
+
+        $("loaderScreen")
+            .classList.add(
+                "hidden"
+            );
+
+    }
+
+    catch(error){
+
+        console.error(
+            error
+        );
+
+
+        if(
+            error.message ===
+            "NO_PERMISSION"
+        ){
+
+            alert(
+                "ليس لديك صلاحية دخول صفحة مشرف الحضور."
+            );
+
+
+            location.replace(
+                "index.html"
             );
 
 
@@ -1269,17 +2786,34 @@ async function init(){
         }
 
 
-        await loadStudents();
+        if(
+            error.message ===
+            "ACCOUNT_DISABLED"
+        ){
 
-    }
+            alert(
+                "حساب مشرف الحضور غير فعال."
+            );
 
-    catch(error){
 
-        console.error(error);
+            location.replace(
+                "index.html"
+            );
+
+
+            return;
+
+        }
+
+
+        $("loaderScreen")
+            .classList.add(
+                "hidden"
+            );
 
 
         toast(
-            "تعذر تحميل الصفحة"
+            "تعذر تشغيل نظام الحضور"
         );
 
     }
@@ -1288,45 +2822,70 @@ async function init(){
 
 
 /* =========================================================
-   LOAD STUDENTS
+   FACE MODEL
 ========================================================= */
 
-async function loadStudents(){
+async function loadFaceModel(){
 
-    const data =
-        await dbGet(
-            "students"
-        ) || {};
+    /*
+        face-api is loaded by CDN script.
+    */
+
+    let tries = 0;
 
 
-    allStudents =
-        Object.entries(data)
+    while(
+        typeof faceapi ===
+        "undefined" &&
+        tries < 40
+    ){
 
-        .map(
-            ([code,value]) => ({
-
-                code,
-
-                ...(value || {})
-
-            })
+        await new Promise(
+            resolve =>
+                setTimeout(
+                    resolve,
+                    100
+                )
         );
 
 
-    loadClassOptions();
+        tries++;
 
-    loadRoomOptions();
+    }
+
+
+    if(
+        typeof faceapi ===
+        "undefined"
+    ){
+
+        throw new Error(
+            "FACE_API_NOT_LOADED"
+        );
+
+    }
+
+
+    await faceapi.nets
+        .tinyFaceDetector
+        .loadFromUri(
+            FACE_MODEL_PATH
+        );
+
+
+    modelsReady =
+        true;
 
 }
 
 
 /* =========================================================
-   FILTER OPTIONS
+   BUILD CLASS OPTIONS
 ========================================================= */
 
-function loadClassOptions(){
+function buildClassOptions(){
 
-    const classes =
+    const ids =
         [
             ...new Set(
 
@@ -1346,21 +2905,37 @@ function loadClassOptions(){
         ];
 
 
+    ids.sort(
+        (a,b) =>
+            getClassName(a)
+            .localeCompare(
+                getClassName(b),
+                "ar"
+            )
+    );
+
+
     $("classSelect").innerHTML = `
 
         <option value="">
+
             جميع الصفوف
+
         </option>
 
         ${
-            classes
+            ids
             .map(
-                value => `
+                id => `
 
                     <option
-                        value="${esc(value)}"
+                        value="${esc(id)}"
                     >
-                        ${esc(value)}
+
+                        ${esc(
+                            getClassName(id)
+                        )}
+
                     </option>
 
                 `
@@ -1373,13 +2948,31 @@ function loadClassOptions(){
 }
 
 
-function loadRoomOptions(){
+/* =========================================================
+   BUILD ROOM OPTIONS
+========================================================= */
+
+function buildRoomOptions(){
+
+    const selectedClass =
+        $("classSelect").value;
+
 
     const rooms =
         [
             ...new Set(
 
                 allStudents
+
+                .filter(
+                    student =>
+                        !selectedClass ||
+                        String(
+                            student.classId ||
+                            ""
+                        ) ===
+                        selectedClass
+                )
 
                 .map(
                     student =>
@@ -1395,21 +2988,42 @@ function loadRoomOptions(){
         ];
 
 
+    rooms.sort(
+        (a,b) =>
+            a.localeCompare(
+                b,
+                "ar",
+                {
+                    numeric:true
+                }
+            )
+    );
+
+
+    const current =
+        $("roomSelect").value;
+
+
     $("roomSelect").innerHTML = `
 
         <option value="">
+
             جميع القاعات
+
         </option>
 
         ${
             rooms
             .map(
-                value => `
+                room => `
 
                     <option
-                        value="${esc(value)}"
+                        value="${esc(room)}"
                     >
-                        ${esc(value)}
+
+                        القاعة
+                        ${esc(room)}
+
                     </option>
 
                 `
@@ -1419,17 +3033,128 @@ function loadRoomOptions(){
 
     `;
 
+
+    if(
+        rooms.includes(
+            current
+        )
+    ){
+
+        $("roomSelect").value =
+            current;
+
+    }
+
+}
+
+
+$("classSelect")
+.addEventListener(
+    "change",
+    buildRoomOptions
+);
+
+
+/* =========================================================
+   FILTER STUDENTS
+========================================================= */
+
+function getFilteredStudents(){
+
+    const classId =
+        $("classSelect").value;
+
+
+    const room =
+        $("roomSelect").value;
+
+
+    const gender =
+        $("genderSelect").value;
+
+
+    return allStudents
+
+    .filter(
+        student => {
+
+            if(
+                classId &&
+                String(
+                    student.classId ||
+                    ""
+                ) !==
+                classId
+            ){
+
+                return false;
+
+            }
+
+
+            if(
+                room &&
+                String(
+                    student.roomNumber ||
+                    ""
+                ) !==
+                room
+            ){
+
+                return false;
+
+            }
+
+
+            if(
+                gender &&
+                normalizeGender(
+                    student.gender
+                ) !==
+                gender
+            ){
+
+                return false;
+
+            }
+
+
+            return true;
+
+        }
+    )
+
+    .sort(
+        (a,b) =>
+            String(
+                a.name ||
+                ""
+            )
+            .localeCompare(
+                String(
+                    b.name ||
+                    ""
+                ),
+                "ar"
+            )
+    );
+
 }
 
 
 /* =========================================================
-   START ATTENDANCE
+   START SESSION
 ========================================================= */
 
 $("startBtn").onclick =
 async () => {
 
-    if(attendanceStarted){
+    if(!modelsReady){
+
+        toast(
+            "نظام اكتشاف الوجوه لم يكتمل تحميله"
+        );
+
 
         return;
 
@@ -1445,7 +3170,7 @@ async () => {
     ){
 
         toast(
-            "لا يوجد طلاب ضمن الاختيار"
+            "لا يوجد طلاب ضمن هذا الاختيار"
         );
 
 
@@ -1454,32 +3179,26 @@ async () => {
     }
 
 
-    attendanceState = {};
+    selectedAbsentCodes.clear();
 
 
-    selectedStudents
-    .forEach(
-        student => {
+    currentFaceCount =
+        0;
 
-            attendanceState[
-                student.code
-            ] = {
 
-                status:
-                    "pending",
+    bestStableFaceCount =
+        0;
 
-                recordedAt:
-                    null
 
-            };
-
-        }
-    );
+    faceSamples =
+        [];
 
 
     renderStudents();
 
     updateStats();
+
+    updateSelectionWarning();
 
 
     $("cameraCard")
@@ -1500,7 +3219,25 @@ async () => {
         );
 
 
-    attendanceStarted =
+    $("reportCard")
+        .classList.add(
+            "hidden"
+        );
+
+
+    $("classSelect").disabled =
+        true;
+
+
+    $("roomSelect").disabled =
+        true;
+
+
+    $("genderSelect").disabled =
+        true;
+
+
+    $("startBtn").disabled =
         true;
 
 
@@ -1510,91 +3247,32 @@ async () => {
 
 
 /* =========================================================
-   FILTER
-========================================================= */
-
-function getFilteredStudents(){
-
-    const selectedClass =
-        $("classSelect").value;
-
-
-    const selectedRoom =
-        $("roomSelect").value;
-
-
-    const selectedGender =
-        $("genderSelect").value;
-
-
-    return allStudents
-    .filter(
-        student => {
-
-            if(
-                selectedClass &&
-                String(
-                    student.classId ||
-                    ""
-                ) !==
-                selectedClass
-            ){
-
-                return false;
-
-            }
-
-
-            if(
-                selectedRoom &&
-                String(
-                    student.roomNumber ||
-                    ""
-                ) !==
-                selectedRoom
-            ){
-
-                return false;
-
-            }
-
-
-            if(
-                selectedGender &&
-                normalizeGender(
-                    student.gender
-                ) !==
-                selectedGender
-            ){
-
-                return false;
-
-            }
-
-
-            return true;
-
-        }
-    );
-
-}
-
-
-/* =========================================================
    CAMERA
 ========================================================= */
 
 async function startCamera(){
 
+    stopCamera();
+
+
     try{
+
+        $("cameraStatus").textContent =
+            "جاري طلب صلاحية الكامرة...";
+
 
         cameraStream =
             await navigator.mediaDevices
             .getUserMedia({
 
+                audio:false,
+
                 video:{
 
-                    facingMode:"environment",
+                    facingMode:{
+                        ideal:
+                            currentFacingMode
+                    },
 
                     width:{
                         ideal:1280
@@ -1604,39 +3282,75 @@ async function startCamera(){
                         ideal:720
                     }
 
-                },
-
-                audio:false
+                }
 
             });
 
 
-        $("camera").srcObject =
+        const video =
+            $("camera");
+
+
+        video.srcObject =
             cameraStream;
 
 
-        await $("camera").play();
+        await new Promise(
+            resolve => {
+
+                if(
+                    video.readyState >=
+                    2
+                ){
+
+                    resolve();
+
+
+                    return;
+
+                }
+
+
+                video.onloadedmetadata =
+                    () =>
+                        resolve();
+
+            }
+        );
+
+
+        await video.play();
+
+
+        cameraRunning =
+            true;
 
 
         $("cameraStatus").textContent =
-            "الكاميرا تعمل - يتم اكتشاف الوجوه الموجودة أمام الكاميرا";
+            "الكامرة تعمل. حرّكها ببطء حتى تظهر وجوه جميع الطلاب بوضوح.";
 
 
-        startFaceDetection();
+        startDetectionLoop();
 
     }
 
     catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
+
+
+        cameraRunning =
+            false;
 
 
         $("cameraStatus").textContent =
-            "تعذر فتح الكاميرا";
+            "تعذر تشغيل الكامرة.";
 
 
         toast(
-            "يرجى السماح باستخدام الكاميرا"
+            "يرجى السماح باستخدام الكامرة والتأكد أن الموقع يعمل عبر HTTPS"
         );
 
     }
@@ -1645,58 +3359,100 @@ async function startCamera(){
 
 
 /* =========================================================
-   FACE DETECTION
-
-   يكتشف وجود الوجه فقط.
-   لا يحدد هوية الشخص.
+   STOP CAMERA
 ========================================================= */
 
-function startFaceDetection(){
+function stopCamera(){
 
-    /*
-        FaceDetector غير مدعوم في كل المتصفحات.
+    cameraRunning =
+        false;
 
-        إذا كان متوفراً نستخدمه.
-    */
+
+    detectionRunning =
+        false;
+
 
     if(
-        "FaceDetector"
-        in window
+        detectionAnimationId
     ){
 
-        faceDetector =
-            new FaceDetector({
-
-                fastMode:true,
-
-                maxDetectedFaces:20
-
-            });
+        cancelAnimationFrame(
+            detectionAnimationId
+        );
 
 
-        detectFacesLoop();
-
-
-        return;
+        detectionAnimationId =
+            null;
 
     }
 
 
-    $("cameraStatus").textContent =
-        "الكاميرا تعمل. اكتشاف الوجه التلقائي غير مدعوم بهذا المتصفح، ويمكن تسجيل الطلاب من القائمة.";
+    if(cameraStream){
+
+        cameraStream
+        .getTracks()
+        .forEach(
+            track =>
+                track.stop()
+        );
+
+
+        cameraStream =
+            null;
+
+    }
+
+
+    $("camera").srcObject =
+        null;
+
+
+    clearCanvas();
 
 }
 
 
 /* =========================================================
-   DETECT LOOP
+   SWITCH CAMERA
 ========================================================= */
 
-async function detectFacesLoop(){
+$("switchCameraBtn").onclick =
+async () => {
+
+    currentFacingMode =
+        currentFacingMode ===
+        "environment"
+
+            ? "user"
+
+            : "environment";
+
+
+    await startCamera();
+
+};
+
+
+$("stopCameraBtn").onclick =
+    () => {
+
+        stopCamera();
+
+
+        $("cameraStatus").textContent =
+            "تم إيقاف الكامرة. يمكنك تحديد أسماء الغائبين وحفظ التقرير.";
+
+    };
+
+
+/* =========================================================
+   FACE DETECTION LOOP
+========================================================= */
+
+function startDetectionLoop(){
 
     if(
-        !attendanceStarted ||
-        !faceDetector
+        detectionRunning
     ){
 
         return;
@@ -1704,9 +3460,294 @@ async function detectFacesLoop(){
     }
 
 
+    detectionRunning =
+        true;
+
+
+    lastDetectionAt =
+        0;
+
+
+    async function loop(timestamp){
+
+        if(
+            !cameraRunning
+        ){
+
+            detectionRunning =
+                false;
+
+
+            return;
+
+        }
+
+
+        if(
+            timestamp -
+            lastDetectionAt >=
+            DETECTION_INTERVAL
+        ){
+
+            lastDetectionAt =
+                timestamp;
+
+
+            await runFaceDetection();
+
+        }
+
+
+        detectionAnimationId =
+            requestAnimationFrame(
+                loop
+            );
+
+    }
+
+
+    detectionAnimationId =
+        requestAnimationFrame(
+            loop
+        );
+
+}
+
+
+/* =========================================================
+   RUN DETECTION
+========================================================= */
+
+async function runFaceDetection(){
+
     const video =
         $("camera");
 
+
+    if(
+        !video.videoWidth ||
+        !video.videoHeight
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        const detections =
+            await faceapi.detectAllFaces(
+
+                video,
+
+                new faceapi.TinyFaceDetectorOptions(
+                    FACE_OPTIONS
+                )
+
+            );
+
+
+        currentFaceCount =
+            detections.length;
+
+
+        $("faceCountBadge").textContent =
+            `${currentFaceCount} وجه`;
+
+
+        /*
+            Draw boxes.
+        */
+
+        drawDetections(
+            detections
+        );
+
+
+        /*
+            Stabilize count.
+        */
+
+        addFaceSample(
+            currentFaceCount
+        );
+
+
+        updateStats();
+
+        updateDetectionMessage();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "FACE_DETECTION_ERROR",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DRAW FACES
+========================================================= */
+
+function drawDetections(
+    detections
+){
+
+    const video =
+        $("camera");
+
+
+    const canvas =
+        $("overlay");
+
+
+    const rect =
+        video.getBoundingClientRect();
+
+
+    const displaySize = {
+
+        width:
+            rect.width,
+
+        height:
+            rect.height
+
+    };
+
+
+    faceapi.matchDimensions(
+        canvas,
+        displaySize
+    );
+
+
+    const resized =
+        faceapi.resizeResults(
+            detections,
+            displaySize
+        );
+
+
+    const ctx =
+        canvas.getContext(
+            "2d"
+        );
+
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    resized.forEach(
+        detection => {
+
+            const box =
+                detection.box;
+
+
+            /*
+                أخضر يعني:
+                تم اكتشاف وجه فقط.
+            */
+
+            ctx.lineWidth =
+                3;
+
+
+            ctx.strokeStyle =
+                "#18d46d";
+
+
+            ctx.fillStyle =
+                "rgba(24,212,109,.09)";
+
+
+            ctx.strokeRect(
+                box.x,
+                box.y,
+                box.width,
+                box.height
+            );
+
+
+            ctx.fillRect(
+                box.x,
+                box.y,
+                box.width,
+                box.height
+            );
+
+
+            /*
+                small label.
+            */
+
+            const text =
+                "وجه";
+
+
+            ctx.font =
+                "bold 13px Tahoma";
+
+
+            const width =
+                ctx.measureText(
+                    text
+                ).width;
+
+
+            const y =
+                Math.max(
+                    18,
+                    box.y
+                );
+
+
+            ctx.fillStyle =
+                "#18d46d";
+
+
+            ctx.fillRect(
+                box.x,
+                y - 18,
+                width + 12,
+                18
+            );
+
+
+            ctx.fillStyle =
+                "#ffffff";
+
+
+            ctx.fillText(
+                text,
+                box.x + 6,
+                y - 5
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CLEAR CANVAS
+========================================================= */
+
+function clearCanvas(){
 
     const canvas =
         $("overlay");
@@ -1718,207 +3759,401 @@ async function detectFacesLoop(){
         );
 
 
-    if(
-        video.videoWidth &&
-        video.videoHeight
-    ){
-
-        canvas.width =
-            video.videoWidth;
-
-
-        canvas.height =
-            video.videoHeight;
-
-
-        try{
-
-            const faces =
-                await faceDetector.detect(
-                    video
-                );
-
-
-            ctx.clearRect(
-                0,
-                0,
-                canvas.width,
-                canvas.height
-            );
-
-
-            faces.forEach(
-                face => {
-
-                    const box =
-                        face.boundingBox;
-
-
-                    /*
-                        مربع أخضر:
-                        يعني تم اكتشاف وجه.
-
-                        لا يعني أن النظام عرف هوية الطالب.
-                    */
-
-                    ctx.strokeStyle =
-                        "#00d26a";
-
-
-                    ctx.lineWidth =
-                        5;
-
-
-                    ctx.strokeRect(
-                        box.x,
-                        box.y,
-                        box.width,
-                        box.height
-                    );
-
-
-                    ctx.fillStyle =
-                        "rgba(0,210,106,.12)";
-
-
-                    ctx.fillRect(
-                        box.x,
-                        box.y,
-                        box.width,
-                        box.height
-                    );
-
-                }
-            );
-
-
-            $("cameraStatus").textContent =
-                faces.length
-
-                    ? `تم اكتشاف ${faces.length} وجه أمام الكاميرا`
-
-                    : "لا يوجد وجه واضح أمام الكاميرا";
-
-        }
-
-        catch(error){
-
-            console.error(
-                error
-            );
-
-        }
-
-    }
-
-
-    detectionLoop =
-        requestAnimationFrame(
-            detectFacesLoop
-        );
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
 
 }
 
 
 /* =========================================================
-   RENDER STUDENTS
+   STABLE COUNT
+
+   بدل ما نعتمد رقم فريم واحد،
+   نأخذ العدد الأكثر تكراراً في آخر القراءات.
+========================================================= */
+
+function addFaceSample(count){
+
+    faceSamples.push(
+        count
+    );
+
+
+    if(
+        faceSamples.length >
+        FACE_SAMPLE_SIZE
+    ){
+
+        faceSamples.shift();
+
+    }
+
+
+    if(
+        faceSamples.length <
+        4
+    ){
+
+        return;
+
+    }
+
+
+    const frequencies = {};
+
+
+    faceSamples
+    .forEach(
+        number => {
+
+            frequencies[
+                number
+            ] =
+                (
+                    frequencies[
+                        number
+                    ] ||
+                    0
+                ) + 1;
+
+        }
+    );
+
+
+    let stableValue =
+        0;
+
+
+    let stableFrequency =
+        0;
+
+
+    Object.entries(
+        frequencies
+    )
+    .forEach(
+        ([number,frequency]) => {
+
+            const numeric =
+                Number(number);
+
+
+            if(
+                frequency >
+                stableFrequency
+            ){
+
+                stableFrequency =
+                    frequency;
+
+
+                stableValue =
+                    numeric;
+
+            }
+
+            else if(
+                frequency ===
+                stableFrequency &&
+                numeric >
+                stableValue
+            ){
+
+                stableValue =
+                    numeric;
+
+            }
+
+        }
+    );
+
+
+    /*
+        ما نخلي العدد يتجاوز عدد الطلاب.
+    */
+
+    stableValue =
+        Math.min(
+            stableValue,
+            selectedStudents.length
+        );
+
+
+    if(
+        stableValue >
+        bestStableFaceCount
+    ){
+
+        bestStableFaceCount =
+            stableValue;
+
+
+        updateSelectionWarning();
+
+    }
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function expectedMissingCount(){
+
+    return Math.max(
+
+        0,
+
+        selectedStudents.length -
+        bestStableFaceCount
+
+    );
+
+}
+
+
+function updateStats(){
+
+    const total =
+        selectedStudents.length;
+
+
+    const missing =
+        expectedMissingCount();
+
+
+    const rate =
+        total
+
+            ? Math.round(
+                (
+                    bestStableFaceCount /
+                    total
+                ) *
+                100
+            )
+
+            : 0;
+
+
+    $("totalStudents").textContent =
+        total;
+
+
+    $("currentFaces").textContent =
+        currentFaceCount;
+
+
+    $("bestFaces").textContent =
+        bestStableFaceCount;
+
+
+    $("missingCount").textContent =
+        missing;
+
+
+    $("attendanceRate").textContent =
+        `${rate}%`;
+
+
+    $("progressText").textContent =
+        `${rate}%`;
+
+
+    $("progressBar").style.width =
+        `${Math.min(100,rate)}%`;
+
+}
+
+
+/* =========================================================
+   DETECTION MESSAGE
+========================================================= */
+
+function updateDetectionMessage(){
+
+    const total =
+        selectedStudents.length;
+
+
+    const current =
+        currentFaceCount;
+
+
+    const best =
+        bestStableFaceCount;
+
+
+    const missing =
+        expectedMissingCount();
+
+
+    const box =
+        $("detectionMessage");
+
+
+    box.className =
+        "detection-box";
+
+
+    if(
+        current === 0
+    ){
+
+        box.classList.add(
+            "red"
+        );
+
+
+        box.textContent =
+            "لا توجد وجوه واضحة أمام الكامرة حالياً.";
+
+
+        return;
+
+    }
+
+
+    if(
+        best >= total &&
+        total > 0
+    ){
+
+        box.textContent =
+            `تم اكتشاف عدد يساوي عدد الطلاب المسجلين (${total}).`;
+
+
+        return;
+
+    }
+
+
+    box.classList.add(
+        "warning"
+    );
+
+
+    box.textContent =
+        `أعلى عدد ثابت ظهر أمام الكامرة هو ${best} من أصل ${total}. النقص المتوقع ${missing}.`;
+
+}
+
+
+/* =========================================================
+   STUDENTS
 ========================================================= */
 
 function renderStudents(){
 
-    $("studentList").innerHTML =
+    const search =
+        norm(
+            $("studentSearch").value
+        );
+
+
+    const filtered =
         selectedStudents
+        .filter(
+            student =>
+                !search ||
+                norm(
+                    student.name
+                )
+                .includes(
+                    search
+                ) ||
+                norm(
+                    student.code
+                )
+                .includes(
+                    search
+                )
+        );
+
+
+    $("studentList").innerHTML =
+        filtered
         .map(
             student => {
 
-                const state =
-                    attendanceState[
+                const absent =
+                    selectedAbsentCodes
+                    .has(
                         student.code
-                    ] || {
-                        status:"pending"
-                    };
+                    );
 
 
-                let css = "";
-
-
-                if(
-                    state.status ===
-                    "present"
-                ){
-
-                    css =
-                        "present";
-
-                }
-
-
-                if(
-                    state.status ===
-                    "absent"
-                ){
-
-                    css =
-                        "absent";
-
-                }
-
-
-                const avatar =
-                    student.profileImage
-
-                        ? `
-
-                            <img
-                                src="${esc(student.profileImage)}"
-                                alt="${esc(student.name || "")}"
-                            >
-
-                        `
-
-                        : `
-
-                            <div class="student-avatar">
-
-                                ${esc(
-                                    String(
-                                        student.name ||
-                                        "ط"
-                                    )
-                                    .charAt(0)
-                                )}
-
-                            </div>
-
-                        `;
+                const image =
+                    student.profileImage ||
+                    "";
 
 
                 return `
 
                     <div
-                        class="student ${css}"
+                        class="student ${absent ? "selected-absent" : "present-preview"}"
+                        data-code="${esc(student.code)}"
                     >
 
-                        ${avatar}
+                        <div class="student-image">
+
+                            ${
+                                image
+
+                                ? `
+
+                                    <img
+                                        src="${esc(image)}"
+                                        alt="${esc(student.name || "")}"
+                                    >
+
+                                `
+
+                                : `
+
+                                    <div class="student-letter">
+
+                                        ${esc(
+                                            String(
+                                                student.name ||
+                                                "ط"
+                                            )
+                                            .trim()
+                                            .charAt(0) ||
+                                            "ط"
+                                        )}
+
+                                    </div>
+
+                                `
+                            }
+
+                        </div>
 
 
                         <div class="student-info">
 
-                            <strong>
+                            <div class="student-name">
 
                                 ${esc(
                                     student.name ||
                                     "طالب"
                                 )}
 
-                            </strong>
+                            </div>
 
 
-                            <small>
+                            <div class="student-meta">
 
                                 ${esc(
-                                    student.classId ||
-                                    ""
+                                    getClassName(
+                                        student.classId
+                                    )
                                 )}
 
                                 -
@@ -1927,7 +4162,7 @@ function renderStudents(){
 
                                 ${esc(
                                     student.roomNumber ||
-                                    ""
+                                    "—"
                                 )}
 
                                 -
@@ -1936,35 +4171,26 @@ function renderStudents(){
                                     student.gender
                                 )}
 
-                            </small>
+                            </div>
 
                         </div>
 
 
-                        <div class="student-buttons">
+                        <button
+                            type="button"
+                            class="absent-toggle"
+                            data-absent-code="${esc(student.code)}"
+                        >
 
-                            <button
-                                type="button"
-                                class="present-btn"
-                                onclick="markPresent('${esc(student.code)}')"
-                            >
+                            ${
+                                absent
 
-                                حاضر
+                                    ? "تم تحديده غائب"
 
-                            </button>
+                                    : "تحديد غائب"
+                            }
 
-
-                            <button
-                                type="button"
-                                class="absent-btn"
-                                onclick="markAbsent('${esc(student.code)}')"
-                            >
-
-                                غائب
-
-                            </button>
-
-                        </div>
+                        </button>
 
                     </div>
 
@@ -1974,164 +4200,166 @@ function renderStudents(){
         )
         .join("");
 
+
+    document
+    .querySelectorAll(
+        "[data-absent-code]"
+    )
+    .forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    toggleAbsent(
+                        button.dataset
+                        .absentCode
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+$("studentSearch")
+.addEventListener(
+    "input",
+    renderStudents
+);
+
+
+/* =========================================================
+   TOGGLE ABSENT
+========================================================= */
+
+function toggleAbsent(code){
+
+    if(
+        selectedAbsentCodes
+        .has(code)
+    ){
+
+        selectedAbsentCodes
+            .delete(
+                code
+            );
+
+    }
+
+    else{
+
+        selectedAbsentCodes
+            .add(
+                code
+            );
+
+    }
+
+
+    renderStudents();
+
+    updateSelectionWarning();
+
 }
 
 
 /* =========================================================
-   MARK PRESENT
+   SELECTION WARNING
 ========================================================= */
 
-function markPresent(code){
+function updateSelectionWarning(){
+
+    const expected =
+        expectedMissingCount();
+
+
+    const selected =
+        selectedAbsentCodes.size;
+
+
+    const box =
+        $("selectionWarning");
+
+
+    box.className =
+        "selection-warning";
+
 
     if(
-        !attendanceState[
-            code
-        ]
+        bestStableFaceCount ===
+        0
     ){
+
+        box.textContent =
+            "وجّه الكامرة نحو الطلاب أولاً حتى يتم حساب العدد.";
+
 
         return;
 
     }
 
 
-    attendanceState[
-        code
-    ] = {
-
-        status:
-            "present",
-
-        recordedAt:
-            Date.now()
-
-    };
-
-
-    renderStudents();
-
-    updateStats();
-
-}
-
-
-window.markPresent =
-    markPresent;
-
-
-/* =========================================================
-   MARK ABSENT
-========================================================= */
-
-function markAbsent(code){
-
     if(
-        !attendanceState[
-            code
-        ]
+        selected === expected
     ){
 
-        return;
-
-    }
-
-
-    attendanceState[
-        code
-    ] = {
-
-        status:
-            "absent",
-
-        recordedAt:
-            Date.now()
-
-    };
-
-
-    renderStudents();
-
-    updateStats();
-
-}
-
-
-window.markAbsent =
-    markAbsent;
-
-
-/* =========================================================
-   STATISTICS
-========================================================= */
-
-function updateStats(){
-
-    const values =
-        Object.values(
-            attendanceState
+        box.classList.add(
+            "ok"
         );
 
 
-    const total =
-        values.length;
+        box.textContent =
+            expected === 0
+
+                ? "الكامرة لم ترصد نقصاً. لا يوجد غائب محدد."
+
+                : `تم تحديد ${selected} طالب غائب وهو مطابق للنقص الذي رصدته الكامرة.`;
 
 
-    const present =
-        values.filter(
-            item =>
-                item.status ===
-                "present"
-        ).length;
+        return;
+
+    }
 
 
-    const absent =
-        values.filter(
-            item =>
-                item.status ===
-                "absent"
-        ).length;
+    if(
+        selected >
+        expected
+    ){
+
+        box.classList.add(
+            "bad"
+        );
 
 
-    const rate =
-        total
-
-            ? Math.round(
-                (
-                    present /
-                    total
-                ) *
-                100
-            )
-
-            : 0;
+        box.textContent =
+            `الكامرة تتوقع ${expected} غائب، لكنك حددت ${selected}. راجع القائمة قبل الحفظ.`;
 
 
-    $("totalCount").textContent =
-        total;
+        return;
+
+    }
 
 
-    $("presentCount").textContent =
-        present;
-
-
-    $("absentCount").textContent =
-        absent;
-
-
-    $("rateCount").textContent =
-        `${rate}%`;
+    box.textContent =
+        `النقص المتوقع ${expected} طالب. تم تحديد ${selected} فقط. بقي ${expected - selected}.`;
 
 }
 
 
 /* =========================================================
-   FINISH ATTENDANCE
+   FINISH
 ========================================================= */
 
 $("finishBtn").onclick =
 async () => {
 
     if(
-        !attendanceStarted
+        savingAttendance
     ){
 
         return;
@@ -2139,58 +4367,290 @@ async () => {
     }
 
 
-    /*
-        كل طالب لم يتم تحديده
-        يتحول تلقائياً إلى غائب.
-    */
+    if(
+        !selectedStudents.length
+    ){
 
-    selectedStudents
-    .forEach(
-        student => {
+        return;
 
-            if(
-                attendanceState[
-                    student.code
-                ]?.status ===
-                "pending"
-            ){
+    }
 
-                attendanceState[
-                    student.code
-                ] = {
 
-                    status:
-                        "absent",
+    if(
+        bestStableFaceCount ===
+        0
+    ){
 
-                    recordedAt:
-                        Date.now()
+        const yes =
+            confirm(
+                "لم يتم تثبيت أي عدد للوجوه. هل تريد المتابعة بالاعتماد على اختيارك اليدوي؟"
+            );
 
-                };
 
-            }
+        if(!yes){
+
+            return;
 
         }
-    );
+
+    }
 
 
-    renderStudents();
+    const expected =
+        expectedMissingCount();
 
-    updateStats();
+
+    const selected =
+        selectedAbsentCodes.size;
+
+
+    if(
+        bestStableFaceCount > 0 &&
+        selected !== expected
+    ){
+
+        const yes =
+            confirm(
+
+                `الكامرة رصدت نقصاً مقداره ${expected}، بينما حددت ${selected} غائب.\n\nهل أنت متأكد من اعتماد اختيارك اليدوي؟`
+
+            );
+
+
+        if(!yes){
+
+            return;
+
+        }
+
+    }
+
+
+    await saveAttendance();
+
+};
+
+
+/* =========================================================
+   SAVE ATTENDANCE
+========================================================= */
+
+async function saveAttendance(){
+
+    savingAttendance =
+        true;
+
+
+    $("finishBtn").disabled =
+        true;
+
+
+    $("finishBtn").textContent =
+        "جاري حفظ الحضور...";
 
 
     try{
 
-        await saveAttendance();
+        const date =
+            todayKey();
+
+
+        const now =
+            Date.now();
+
+
+        /*
+            كل طالب لم يحدده المشرف غائباً
+            يعتبر حاضر.
+
+            الكامرة هنا ساعدت في معرفة العدد،
+            لكن أسماء الغائبين يحددها المشرف.
+        */
+
+        const tasks =
+            selectedStudents
+            .map(
+                student => {
+
+                    const absent =
+                        selectedAbsentCodes
+                        .has(
+                            student.code
+                        );
+
+
+                    const record = {
+
+                        status:
+                            absent
+                                ? "absent"
+                                : "present",
+
+                        present:
+                            !absent,
+
+                        absent,
+
+                        isAbsent:
+                            absent,
+
+                        date,
+
+                        classId:
+                            student.classId ||
+                            "",
+
+                        className:
+                            getClassName(
+                                student.classId
+                            ),
+
+                        roomNumber:
+                            student.roomNumber ||
+                            "",
+
+                        gender:
+                            normalizeGender(
+                                student.gender
+                            ),
+
+                        studentName:
+                            student.name ||
+                            "",
+
+                        studentCode:
+                            student.code,
+
+                        profileImage:
+                            student.profileImage ||
+                            "",
+
+                        recordedAt:
+                            now,
+
+                        recordedBy:
+                            session.code,
+
+                        recordedByName:
+                            supervisor.name ||
+                            "",
+
+                        method:
+                            "camera_face_count_supervisor",
+
+                        cameraSession:{
+
+                            totalStudents:
+                                selectedStudents.length,
+
+                            highestStableFaceCount:
+                                bestStableFaceCount,
+
+                            expectedMissingCount:
+                                expectedMissingCount(),
+
+                            manuallySelectedAbsent:
+                                selectedAbsentCodes.size
+
+                        }
+
+                    };
+
+
+                    return dbPut(
+
+                        `attendance/${encodeURIComponent(student.code)}/${date}`,
+
+                        record
+
+                    );
+
+                }
+            );
+
+
+        await Promise.all(
+            tasks
+        );
+
+
+        /*
+            Save session report separately.
+        */
+
+        await dbPost(
+            `attendanceSessions/${date}`,
+            {
+
+                date,
+
+                recordedAt:
+                    now,
+
+                recordedBy:
+                    session.code,
+
+                recordedByName:
+                    supervisor.name ||
+                    "",
+
+                classId:
+                    $("classSelect").value ||
+                    "all",
+
+                roomNumber:
+                    $("roomSelect").value ||
+                    "all",
+
+                gender:
+                    $("genderSelect").value ||
+                    "all",
+
+                totalStudents:
+                    selectedStudents.length,
+
+                presentCount:
+                    selectedStudents.length -
+                    selectedAbsentCodes.size,
+
+                absentCount:
+                    selectedAbsentCodes.size,
+
+                highestStableFaceCount:
+                    bestStableFaceCount,
+
+                expectedMissingCount:
+                    expectedMissingCount(),
+
+                method:
+                    "camera_face_count_supervisor"
+
+            }
+        );
 
 
         stopCamera();
 
 
-        attendanceStarted =
-            false;
-
-
         renderReport();
+
+
+        $("cameraCard")
+            .classList.add(
+                "hidden"
+            );
+
+
+        $("statsCard")
+            .classList.add(
+                "hidden"
+            );
+
+
+        $("studentsCard")
+            .classList.add(
+                "hidden"
+            );
 
 
         $("reportCard")
@@ -2207,99 +4667,31 @@ async () => {
 
     catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
 
         toast(
-            "تعذر حفظ الحضور"
+            "تعذر حفظ الحضور والغياب"
         );
 
     }
 
-};
+    finally{
+
+        savingAttendance =
+            false;
 
 
-/* =========================================================
-   SAVE ATTENDANCE
-========================================================= */
-
-async function saveAttendance(){
-
-    const date =
-        todayKey();
+        $("finishBtn").disabled =
+            false;
 
 
-    const tasks =
-        selectedStudents.map(
-            student => {
+        $("finishBtn").textContent =
+            "إنهاء وحفظ الحضور والغياب";
 
-                const state =
-                    attendanceState[
-                        student.code
-                    ];
-
-
-                const present =
-                    state.status ===
-                    "present";
-
-
-                const data = {
-
-                    status:
-                        present
-                            ? "present"
-                            : "absent",
-
-                    present,
-
-                    absent:
-                        !present,
-
-                    date,
-
-                    classId:
-                        student.classId ||
-                        "",
-
-                    roomNumber:
-                        student.roomNumber ||
-                        "",
-
-                    gender:
-                        normalizeGender(
-                            student.gender
-                        ),
-
-                    studentName:
-                        student.name ||
-                        "",
-
-                    recordedAt:
-                        state.recordedAt ||
-                        Date.now(),
-
-                    recordedBy:
-                        session.code,
-
-                    method:
-                        "camera_supervisor"
-
-                };
-
-
-                return dbPut(
-                    `attendance/${encodeURIComponent(student.code)}/${date}`,
-                    data
-                );
-
-            }
-        );
-
-
-    await Promise.all(
-        tasks
-    );
+    }
 
 }
 
@@ -2310,42 +4702,105 @@ async function saveAttendance(){
 
 function renderReport(){
 
+    const total =
+        selectedStudents.length;
+
+
+    const absent =
+        selectedAbsentCodes.size;
+
+
+    const present =
+        total -
+        absent;
+
+
+    const rate =
+        total
+
+            ? Math.round(
+                (
+                    present /
+                    total
+                ) * 100
+            )
+
+            : 0;
+
+
+    $("reportDateText").textContent =
+        dateArabic();
+
+
+    $("reportHead").innerHTML = `
+
+        <strong>
+            مدرسة التحدي الأهلية المختلطة
+        </strong>
+
+        <br>
+
+        التاريخ:
+        ${esc(dateArabic())}
+
+        <br>
+
+        مشرف الحضور:
+        ${esc(
+            supervisor.name ||
+            session.code
+        )}
+
+        <br>
+
+        عدد الطلاب:
+        ${total}
+
+        &nbsp; | &nbsp;
+
+        الحضور:
+        ${present}
+
+        &nbsp; | &nbsp;
+
+        الغياب:
+        ${absent}
+
+        &nbsp; | &nbsp;
+
+        نسبة الحضور:
+        ${rate}%
+
+        <br>
+
+        أعلى عدد وجوه ثابت رصدته الكامرة:
+        ${bestStableFaceCount}
+
+    `;
+
+
     $("reportBody").innerHTML =
         selectedStudents
         .map(
-            student => {
+            (student,index) => {
 
-                const state =
-                    attendanceState[
+                const isAbsent =
+                    selectedAbsentCodes
+                    .has(
                         student.code
-                    ];
-
-
-                const present =
-                    state.status ===
-                    "present";
-
-
-                const time =
-                    state.recordedAt
-
-                        ? new Date(
-                            state.recordedAt
-                        )
-                        .toLocaleTimeString(
-                            "ar-IQ",
-                            {
-                                hour:"2-digit",
-                                minute:"2-digit"
-                            }
-                        )
-
-                        : "—";
+                    );
 
 
                 return `
 
                     <tr>
+
+                        <td>
+
+                            ${index + 1}
+
+                        </td>
+
 
                         <td>
 
@@ -2360,8 +4815,18 @@ function renderReport(){
                         <td>
 
                             ${esc(
-                                student.classId ||
-                                ""
+                                student.code
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${esc(
+                                getClassName(
+                                    student.classId
+                                )
                             )}
 
                         </td>
@@ -2371,7 +4836,7 @@ function renderReport(){
 
                             ${esc(
                                 student.roomNumber ||
-                                ""
+                                "—"
                             )}
 
                         </td>
@@ -2387,20 +4852,10 @@ function renderReport(){
 
 
                         <td
-                            style="
-                                color:${present ? "#078746" : "#c62828"};
-                                font-weight:900;
-                            "
+                            class="${isAbsent ? "report-absent" : "report-present"}"
                         >
 
-                            ${present ? "حاضر" : "غائب"}
-
-                        </td>
-
-
-                        <td>
-
-                            ${time}
+                            ${isAbsent ? "غائب" : "حاضر"}
 
                         </td>
 
@@ -2428,62 +4883,66 @@ $("printBtn").onclick =
 
 
 /* =========================================================
-   STOP CAMERA
+   NEW SESSION
 ========================================================= */
 
-function stopCamera(){
+$("newSessionBtn").onclick =
+    () => {
 
-    if(
-        detectionLoop
-    ){
-
-        cancelAnimationFrame(
-            detectionLoop
-        );
+        selectedStudents =
+            [];
 
 
-        detectionLoop =
-            null;
-
-    }
+        selectedAbsentCodes
+            .clear();
 
 
-    if(
-        cameraStream
-    ){
-
-        cameraStream
-        .getTracks()
-        .forEach(
-            track =>
-                track.stop()
-        );
+        currentFaceCount =
+            0;
 
 
-        cameraStream =
-            null;
-
-    }
+        bestStableFaceCount =
+            0;
 
 
-    const canvas =
-        $("overlay");
+        faceSamples =
+            [];
 
 
-    const ctx =
-        canvas.getContext(
-            "2d"
-        );
+        $("classSelect").disabled =
+            false;
 
 
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
+        $("roomSelect").disabled =
+            false;
 
-}
+
+        $("genderSelect").disabled =
+            false;
+
+
+        $("startBtn").disabled =
+            false;
+
+
+        $("reportCard")
+            .classList.add(
+                "hidden"
+            );
+
+
+        $("selectionCard")
+            .scrollIntoView({
+
+                behavior:
+                    "smooth",
+
+                block:
+                    "start"
+
+            });
+
+    };
 
 
 /* =========================================================
@@ -2504,6 +4963,41 @@ $("logoutBtn").onclick =
         );
 
     };
+
+
+/* =========================================================
+   VISIBILITY
+========================================================= */
+
+document.addEventListener(
+    "visibilitychange",
+    () => {
+
+        if(
+            document.hidden &&
+            cameraRunning
+        ){
+
+            stopCamera();
+
+
+            $("cameraStatus").textContent =
+                "تم إيقاف الكامرة لأن التطبيق أصبح بالخلفية.";
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   UNLOAD
+========================================================= */
+
+window.addEventListener(
+    "beforeunload",
+    stopCamera
+);
 
 
 /* =========================================================
