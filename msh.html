@@ -14,1479 +14,767 @@
 
 <title>الحضور والغياب | مدرسة التحدي الأهلية المختلطة</title>
 
-
-<!-- =========================================================
-     FACE API
-========================================================= -->
-
 <script
     src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"
 ></script>
 
-
 <style>
 
 :root{
-
     --blue:#075fcf;
     --blue-dark:#06469c;
-
     --green:#087c45;
     --green-bg:#eafaf1;
-
     --red:#c62828;
     --red-bg:#fff0f0;
-
     --orange:#dc7500;
     --orange-bg:#fff6e9;
-
     --bg:#f4f7fb;
-
     --text:#172033;
     --muted:#667085;
-
     --border:#e2e8f0;
-
-    --shadow:
-        0 12px 35px
-        rgba(24,45,75,.09);
-
+    --shadow:0 12px 35px rgba(24,45,75,.09);
 }
-
-
-/* =========================================================
-   RESET
-========================================================= */
 
 *{
-
     margin:0;
     padding:0;
-
     box-sizing:border-box;
-
-    -webkit-tap-highlight-color:
-        transparent;
-
+    -webkit-tap-highlight-color:transparent;
 }
-
 
 html,
 body{
-
     width:100%;
     min-height:100%;
-
 }
-
 
 body{
-
-    font-family:
-        Tahoma,
-        Arial,
-        sans-serif;
-
-    background:
-        var(--bg);
-
-    color:
-        var(--text);
-
+    font-family:Tahoma,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
 }
-
 
 button,
 select,
 input{
-
     font:inherit;
-
 }
-
 
 button{
-
     cursor:pointer;
-
 }
-
 
 .hidden{
-
     display:none!important;
-
 }
-
 
 /* =========================================================
    LOADER
 ========================================================= */
 
 .loader-screen{
-
     position:fixed;
-
     inset:0;
-
     z-index:99999;
-
     display:flex;
-
     align-items:center;
     justify-content:center;
-
     background:#fff;
-
 }
-
 
 .loader-box{
-
     width:90%;
     max-width:420px;
-
     text-align:center;
-
 }
-
 
 .loader-logo{
-
     width:85px;
     height:85px;
-
     object-fit:contain;
-
     margin-bottom:15px;
-
 }
-
 
 .spinner{
-
     width:38px;
     height:38px;
-
     margin:auto;
-
     border-radius:50%;
-
-    border:
-        4px solid
-        #e7edf5;
-
-    border-top-color:
-        var(--blue);
-
-    animation:
-        spin .8s
-        linear
-        infinite;
-
+    border:4px solid #e7edf5;
+    border-top-color:var(--blue);
+    animation:spin .8s linear infinite;
 }
-
 
 .loader-box p{
-
     margin-top:12px;
-
-    color:
-        var(--muted);
-
+    color:var(--muted);
     font-size:10px;
     line-height:1.9;
-
     font-weight:900;
-
 }
-
 
 .loader-error{
-
     display:none;
-
     margin-top:15px;
-
     padding:12px;
-
     border-radius:14px;
-
-    background:
-        var(--red-bg);
-
-    color:
-        var(--red);
-
+    background:var(--red-bg);
+    color:var(--red);
     font-size:9px;
     line-height:1.9;
-
     font-weight:900;
-
+    white-space:pre-wrap;
 }
-
 
 .loader-error.show{
-
     display:block;
-
 }
-
 
 .loader-retry{
-
     display:none;
-
     width:100%;
     height:48px;
-
     margin-top:12px;
-
     border:0;
-
     border-radius:14px;
-
     color:#fff;
-
-    background:
-        var(--blue);
-
+    background:var(--blue);
     font-size:10px;
     font-weight:900;
-
 }
-
 
 .loader-retry.show{
-
     display:block;
-
 }
-
 
 @keyframes spin{
-
     to{
-
-        transform:
-            rotate(360deg);
-
+        transform:rotate(360deg);
     }
-
 }
-
 
 /* =========================================================
    HEADER
 ========================================================= */
 
 .header{
-
     position:sticky;
-
     top:0;
-
     z-index:100;
-
     min-height:72px;
-
     display:flex;
-
     align-items:center;
     justify-content:space-between;
-
     gap:10px;
-
-    padding:
-        max(
-            10px,
-            env(safe-area-inset-top)
-        )
-        14px
-        10px;
-
-    background:
-        rgba(255,255,255,.96);
-
-    backdrop-filter:
-        blur(15px);
-
-    -webkit-backdrop-filter:
-        blur(15px);
-
-    border-bottom:
-        1px solid
-        var(--border);
-
+    padding:max(10px,env(safe-area-inset-top)) 14px 10px;
+    background:rgba(255,255,255,.96);
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
+    border-bottom:1px solid var(--border);
 }
-
 
 .brand{
-
     min-width:0;
-
     display:flex;
-
     align-items:center;
-
     gap:9px;
-
 }
-
 
 .logo{
-
     width:49px;
     height:49px;
-
     flex:none;
-
     object-fit:contain;
-
 }
-
 
 .brand-info{
-
     min-width:0;
-
 }
-
 
 .brand h1{
-
     font-size:13px;
     font-weight:900;
-
     white-space:nowrap;
-
     overflow:hidden;
     text-overflow:ellipsis;
-
 }
-
 
 .brand p{
-
     margin-top:3px;
-
-    color:
-        var(--blue);
-
+    color:var(--blue);
     font-size:8px;
     font-weight:900;
-
 }
-
 
 .logout{
-
     flex:none;
-
     border:0;
-
-    padding:
-        9px
-        11px;
-
+    padding:9px 11px;
     border-radius:12px;
-
     background:#f0f3f7;
-
     color:#475467;
-
     font-size:8px;
     font-weight:900;
-
 }
-
 
 /* =========================================================
    CONTAINER
 ========================================================= */
 
 .container{
-
     width:100%;
-
     max-width:980px;
-
     margin:auto;
-
-    padding:
-        14px
-        12px
-        calc(
-            30px +
-            env(safe-area-inset-bottom)
-        );
-
+    padding:14px 12px calc(30px + env(safe-area-inset-bottom));
 }
-
 
 /* =========================================================
    CARD
 ========================================================= */
 
 .card{
-
     margin-bottom:12px;
-
     padding:15px;
-
     border-radius:20px;
-
     background:#fff;
-
-    border:
-        1px solid
-        var(--border);
-
-    box-shadow:
-        var(--shadow);
-
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
 }
-
 
 .card-title{
-
     display:flex;
-
     align-items:center;
     justify-content:space-between;
-
     gap:10px;
-
     margin-bottom:13px;
-
 }
-
 
 .card-title h2{
-
     font-size:14px;
     font-weight:900;
-
 }
-
 
 .card-title p{
-
-    color:
-        var(--muted);
-
+    color:var(--muted);
     font-size:8px;
-
 }
-
 
 /* =========================================================
    SYSTEM STATUS
 ========================================================= */
 
 .system-status{
-
-    margin-bottom:12px;
-
     padding:12px;
-
     border-radius:15px;
-
-    background:
-        var(--green-bg);
-
-    color:
-        var(--green);
-
+    background:var(--green-bg);
+    color:var(--green);
     font-size:9px;
     line-height:1.8;
-
     font-weight:900;
-
 }
-
-
-.system-status.error{
-
-    background:
-        var(--red-bg);
-
-    color:
-        var(--red);
-
-}
-
 
 .system-status.warning{
-
-    background:
-        var(--orange-bg);
-
-    color:
-        var(--orange);
-
+    background:var(--orange-bg);
+    color:var(--orange);
 }
 
+.system-status.error{
+    background:var(--red-bg);
+    color:var(--red);
+}
 
 /* =========================================================
    FILTERS
 ========================================================= */
 
 .filters{
-
     display:grid;
-
-    grid-template-columns:
-        repeat(
-            3,
-            minmax(0,1fr)
-        );
-
+    grid-template-columns:repeat(3,minmax(0,1fr));
     gap:8px;
-
 }
-
 
 .field{
-
     min-width:0;
-
 }
-
 
 .field label{
-
     display:block;
-
-    margin:
-        0
-        3px
-        6px;
-
+    margin:0 3px 6px;
     color:#475467;
-
     font-size:8px;
     font-weight:900;
-
 }
-
 
 .field select{
-
     width:100%;
     height:48px;
-
-    padding:
-        0
-        10px;
-
+    padding:0 10px;
     outline:none;
-
-    border:
-        1px solid
-        var(--border);
-
+    border:1px solid var(--border);
     border-radius:13px;
-
     background:#fff;
-
-    color:
-        var(--text);
-
+    color:var(--text);
     font-size:11px;
     font-weight:700;
-
 }
-
 
 .field select:focus{
-
-    border-color:
-        var(--blue);
-
+    border-color:var(--blue);
 }
-
 
 /* =========================================================
    BUTTONS
 ========================================================= */
 
 .actions{
-
     display:flex;
-
     flex-wrap:wrap;
-
     gap:8px;
-
     margin-top:12px;
-
 }
-
 
 .btn{
-
     min-height:48px;
-
-    flex:
-        1
-        1
-        150px;
-
+    flex:1 1 150px;
     border:0;
-
     border-radius:14px;
-
-    padding:
-        0
-        14px;
-
+    padding:0 14px;
     font-size:9px;
     font-weight:900;
-
 }
-
 
 .btn-primary{
-
     color:#fff;
-
-    background:
-        linear-gradient(
-            135deg,
-            #0873e8,
-            #0757bc
-        );
-
+    background:linear-gradient(135deg,#0873e8,#0757bc);
 }
-
 
 .btn-red{
-
     color:#fff;
-
-    background:
-        var(--red);
-
+    background:var(--red);
 }
-
 
 .btn-green{
-
     color:#fff;
-
-    background:
-        var(--green);
-
+    background:var(--green);
 }
-
 
 .btn-soft{
-
-    color:
-        var(--blue);
-
-    background:
-        #edf5ff;
-
+    color:var(--blue);
+    background:#edf5ff;
 }
-
 
 .btn:disabled{
-
     opacity:.55;
-
     cursor:not-allowed;
-
 }
-
 
 /* =========================================================
    CAMERA
 ========================================================= */
 
 .camera-container{
-
     position:relative;
-
     width:100%;
-
     overflow:hidden;
-
     border-radius:18px;
-
     background:#111;
-
-    aspect-ratio:
-        16 / 9;
-
+    aspect-ratio:16 / 9;
 }
-
 
 #camera{
-
     position:absolute;
-
     inset:0;
-
     width:100%;
     height:100%;
-
     display:block;
-
     object-fit:cover;
-
 }
-
 
 #overlay{
-
     position:absolute;
-
     inset:0;
-
     z-index:5;
-
     width:100%;
     height:100%;
-
     pointer-events:none;
-
 }
 
-
 .camera-top{
-
     position:absolute;
-
     z-index:10;
-
     top:10px;
     right:10px;
     left:10px;
-
     display:flex;
-
     align-items:center;
     justify-content:space-between;
-
     gap:7px;
-
     pointer-events:none;
-
 }
-
 
 .camera-badge{
-
-    padding:
-        7px
-        9px;
-
+    padding:7px 9px;
     border-radius:999px;
-
     color:#fff;
-
-    background:
-        rgba(0,0,0,.55);
-
-    backdrop-filter:
-        blur(8px);
-
-    -webkit-backdrop-filter:
-        blur(8px);
-
+    background:rgba(0,0,0,.55);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
     font-size:8px;
     font-weight:900;
-
 }
-
 
 .camera-badge.live::before{
-
     content:"";
-
     display:inline-block;
-
     width:7px;
     height:7px;
-
     margin-left:5px;
-
     border-radius:50%;
-
     background:#22d56d;
-
 }
-
 
 .camera-status{
-
     margin-top:10px;
-
-    padding:
-        10px
-        12px;
-
+    padding:10px 12px;
     border-radius:13px;
-
     background:#f7f9fc;
-
     color:#475467;
-
     text-align:center;
-
     font-size:9px;
     line-height:1.7;
-
     font-weight:800;
-
 }
-
-
-/* =========================================================
-   FACE STATUS
-========================================================= */
 
 .detection-box{
-
     margin-top:10px;
-
-    padding:
-        12px;
-
+    padding:12px;
     border-radius:15px;
-
-    background:
-        var(--green-bg);
-
-    color:
-        var(--green);
-
+    background:var(--green-bg);
+    color:var(--green);
     text-align:center;
-
     font-size:9px;
     line-height:1.8;
-
     font-weight:900;
-
 }
-
 
 .detection-box.warning{
-
-    background:
-        var(--orange-bg);
-
-    color:
-        var(--orange);
-
+    background:var(--orange-bg);
+    color:var(--orange);
 }
-
 
 .detection-box.red{
-
-    background:
-        var(--red-bg);
-
-    color:
-        var(--red);
-
+    background:var(--red-bg);
+    color:var(--red);
 }
-
 
 /* =========================================================
    STATS
 ========================================================= */
 
 .stats{
-
     display:grid;
-
-    grid-template-columns:
-        repeat(
-            5,
-            minmax(0,1fr)
-        );
-
+    grid-template-columns:repeat(5,minmax(0,1fr));
     gap:7px;
-
 }
-
 
 .stat{
-
     min-width:0;
-
-    padding:
-        12px
-        5px;
-
+    padding:12px 5px;
     text-align:center;
-
     border-radius:15px;
-
     background:#f8fafc;
-
-    border:
-        1px solid
-        #edf1f5;
-
+    border:1px solid #edf1f5;
 }
-
 
 .stat strong{
-
     display:block;
-
     font-size:20px;
     font-weight:900;
-
 }
-
 
 .stat span{
-
     display:block;
-
     margin-top:4px;
-
-    color:
-        var(--muted);
-
+    color:var(--muted);
     font-size:7px;
     line-height:1.4;
-
 }
-
 
 .stat.blue strong{
-
-    color:
-        var(--blue);
-
+    color:var(--blue);
 }
-
 
 .stat.green strong{
-
-    color:
-        var(--green);
-
+    color:var(--green);
 }
-
 
 .stat.red strong{
-
-    color:
-        var(--red);
-
+    color:var(--red);
 }
-
 
 .stat.orange strong{
-
-    color:
-        var(--orange);
-
+    color:var(--orange);
 }
-
 
 /* =========================================================
    PROGRESS
 ========================================================= */
 
 .progress-wrap{
-
     margin-top:12px;
-
 }
-
 
 .progress-info{
-
     display:flex;
-
     align-items:center;
     justify-content:space-between;
-
     margin-bottom:6px;
-
     font-size:8px;
     font-weight:900;
-
 }
-
 
 .progress-track{
-
     width:100%;
     height:10px;
-
     overflow:hidden;
-
     border-radius:999px;
-
     background:#edf1f5;
-
 }
-
 
 .progress-bar{
-
     width:0%;
     height:100%;
-
     border-radius:999px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #08a75a,
-            #16ca72
-        );
-
-    transition:
-        width .25s ease;
-
+    background:linear-gradient(90deg,#08a75a,#16ca72);
+    transition:width .25s ease;
 }
-
 
 /* =========================================================
    SEARCH
 ========================================================= */
 
 .search{
-
     position:relative;
-
     margin-bottom:10px;
-
 }
-
 
 .search input{
-
     width:100%;
     height:47px;
-
-    padding:
-        0
-        13px;
-
+    padding:0 13px;
     outline:none;
-
-    border:
-        1px solid
-        var(--border);
-
+    border:1px solid var(--border);
     border-radius:13px;
-
     background:#f9fbfd;
-
     font-size:11px;
-
 }
-
 
 .search input:focus{
-
-    border-color:
-        var(--blue);
-
+    border-color:var(--blue);
 }
-
 
 /* =========================================================
    STUDENTS
 ========================================================= */
 
 .student-list{
-
     display:grid;
-
-    grid-template-columns:
-        repeat(
-            2,
-            minmax(0,1fr)
-        );
-
+    grid-template-columns:repeat(2,minmax(0,1fr));
     gap:8px;
-
 }
-
 
 .student{
-
     position:relative;
-
     min-width:0;
-
     display:flex;
-
     align-items:center;
-
     gap:9px;
-
-    padding:
-        9px;
-
-    border:
-        1px solid
-        var(--border);
-
+    padding:9px;
+    border:1px solid var(--border);
     border-radius:15px;
-
     background:#fff;
-
     transition:.2s;
-
 }
-
 
 .student.selected-absent{
-
     border-color:#efaaaa;
-
-    background:
-        var(--red-bg);
-
+    background:var(--red-bg);
 }
-
 
 .student.present-preview{
-
     border-color:#b2e4c8;
-
-    background:
-        var(--green-bg);
-
+    background:var(--green-bg);
 }
-
 
 .student-image{
-
     width:47px;
     height:47px;
-
-    flex:
-        0 0
-        47px;
-
+    flex:0 0 47px;
     overflow:hidden;
-
     border-radius:50%;
-
     background:#e8f3ff;
-
 }
-
 
 .student-image img{
-
     width:100%;
     height:100%;
-
     display:block;
-
     object-fit:cover;
-
 }
-
 
 .student-letter{
-
     width:100%;
     height:100%;
-
     display:flex;
-
     align-items:center;
     justify-content:center;
-
-    color:
-        var(--blue);
-
+    color:var(--blue);
     font-size:15px;
     font-weight:900;
-
 }
-
 
 .student-info{
-
     min-width:0;
-
     flex:1;
-
 }
-
 
 .student-name{
-
     font-size:10px;
     line-height:1.5;
-
     font-weight:900;
-
 }
-
 
 .student-meta{
-
     margin-top:3px;
-
-    color:
-        var(--muted);
-
+    color:var(--muted);
     font-size:7px;
     line-height:1.5;
-
 }
 
-
 .absent-toggle{
-
     flex:none;
-
     min-width:59px;
     height:35px;
-
     border:0;
-
     border-radius:10px;
-
-    color:
-        var(--red);
-
-    background:
-        var(--red-bg);
-
+    color:var(--red);
+    background:var(--red-bg);
     font-size:7px;
     font-weight:900;
-
 }
 
-
-.student.selected-absent
-.absent-toggle{
-
+.student.selected-absent .absent-toggle{
     color:#fff;
-
-    background:
-        var(--red);
-
+    background:var(--red);
 }
-
 
 /* =========================================================
-   SELECTION WARNING
+   WARNING
 ========================================================= */
 
 .selection-warning{
-
     margin-bottom:10px;
-
-    padding:
-        11px;
-
+    padding:11px;
     border-radius:13px;
-
     text-align:center;
-
     font-size:8px;
     line-height:1.8;
-
     font-weight:900;
-
-    background:
-        var(--orange-bg);
-
-    color:
-        var(--orange);
-
+    background:var(--orange-bg);
+    color:var(--orange);
 }
-
 
 .selection-warning.ok{
-
-    background:
-        var(--green-bg);
-
-    color:
-        var(--green);
-
+    background:var(--green-bg);
+    color:var(--green);
 }
-
 
 .selection-warning.bad{
-
-    background:
-        var(--red-bg);
-
-    color:
-        var(--red);
-
+    background:var(--red-bg);
+    color:var(--red);
 }
-
 
 /* =========================================================
    REPORT
 ========================================================= */
 
 .report-head{
-
-    padding:
-        13px;
-
+    padding:13px;
     margin-bottom:10px;
-
     border-radius:15px;
-
     background:#f8fafc;
-
     line-height:1.9;
-
     font-size:9px;
-
 }
-
 
 .report-table-wrap{
-
     width:100%;
-
     overflow:auto;
-
-    border:
-        1px solid
-        var(--border);
-
+    border:1px solid var(--border);
     border-radius:15px;
-
 }
-
 
 .report-table{
-
     width:100%;
-
     min-width:720px;
-
     border-collapse:collapse;
-
 }
-
 
 .report-table th,
 .report-table td{
-
-    padding:
-        10px
-        8px;
-
+    padding:10px 8px;
     text-align:center;
-
-    border-bottom:
-        1px solid
-        #edf0f4;
-
+    border-bottom:1px solid #edf0f4;
     font-size:8px;
-
 }
-
 
 .report-table th{
-
     background:#f7f9fc;
-
     color:#475467;
-
     font-weight:900;
-
 }
-
 
 .report-present{
-
-    color:
-        var(--green);
-
+    color:var(--green);
     font-weight:900;
-
 }
-
 
 .report-absent{
-
-    color:
-        var(--red);
-
+    color:var(--red);
     font-weight:900;
-
 }
-
 
 /* =========================================================
    TOAST
 ========================================================= */
 
 .toast{
-
     position:fixed;
-
     z-index:99999;
-
     left:15px;
     right:15px;
-
-    bottom:
-        max(
-            18px,
-            env(safe-area-inset-bottom)
-        );
-
+    bottom:max(18px,env(safe-area-inset-bottom));
     max-width:430px;
-
     margin:auto;
-
-    padding:
-        12px
-        14px;
-
+    padding:12px 14px;
     border-radius:14px;
-
     text-align:center;
-
     color:#fff;
-
     background:#172033;
-
     font-size:9px;
     line-height:1.7;
-
     font-weight:900;
-
     opacity:0;
-
     pointer-events:none;
-
-    transform:
-        translateY(10px);
-
+    transform:translateY(10px);
     transition:.2s;
-
 }
-
 
 .toast.show{
-
     opacity:1;
-
     transform:none;
-
 }
-
 
 /* =========================================================
    MOBILE
@@ -1495,80 +783,45 @@ button{
 @media(max-width:700px){
 
     .filters{
-
         grid-template-columns:1fr;
-
     }
-
 
     .stats{
-
-        grid-template-columns:
-            repeat(
-                2,
-                minmax(0,1fr)
-            );
-
+        grid-template-columns:repeat(2,minmax(0,1fr));
     }
-
 
     .stat:first-child{
-
-        grid-column:
-            span 2;
-
+        grid-column:span 2;
     }
 
-
     .student-list{
-
         grid-template-columns:1fr;
-
     }
 
 }
-
 
 @media(max-width:430px){
 
     .container{
-
-        padding:
-            10px
-            8px
-            25px;
-
+        padding:10px 8px 25px;
     }
-
 
     .card{
-
         padding:12px;
-
         border-radius:17px;
-
     }
-
 
     .camera-container{
-
-        aspect-ratio:
-            4 / 3;
-
+        aspect-ratio:4 / 3;
     }
 
-
     .student-image{
-
         width:43px;
         height:43px;
-
         flex-basis:43px;
-
     }
 
 }
-
 
 /* =========================================================
    PRINT
@@ -1577,11 +830,8 @@ button{
 @media print{
 
     body{
-
         background:#fff;
-
     }
-
 
     .header,
     #selectionCard,
@@ -1591,40 +841,24 @@ button{
     #studentsCard,
     .report-actions,
     .toast{
-
         display:none!important;
-
     }
-
 
     #reportCard{
-
         display:block!important;
-
         border:0;
-
         box-shadow:none;
-
         margin:0;
-
         padding:0;
-
     }
-
 
     .container{
-
         max-width:none;
-
         padding:0;
-
     }
 
-
     .report-table{
-
         min-width:0;
-
     }
 
 }
@@ -1633,9 +867,7 @@ button{
 
 </head>
 
-
 <body>
-
 
 <!-- =========================================================
      LOADER
@@ -1654,23 +886,19 @@ button{
             alt="الشعار"
         >
 
-
         <div
             id="loaderSpinner"
             class="spinner"
         ></div>
 
-
         <p id="loaderText">
             جاري تحميل نظام الحضور
         </p>
-
 
         <div
             id="loaderError"
             class="loader-error"
         ></div>
-
 
         <button
             id="loaderRetry"
@@ -1683,7 +911,6 @@ button{
     </div>
 
 </div>
-
 
 <!-- =========================================================
      HEADER
@@ -1699,13 +926,11 @@ button{
             alt=""
         >
 
-
         <div class="brand-info">
 
             <h1>
                 مدرسة التحدي الأهلية المختلطة
             </h1>
-
 
             <p id="supervisorName">
                 مشرف الحضور والغياب
@@ -1714,7 +939,6 @@ button{
         </div>
 
     </div>
-
 
     <button
         id="logoutBtn"
@@ -1726,12 +950,10 @@ button{
 
 </header>
 
-
 <main class="container">
 
-
 <!-- =========================================================
-     SYSTEM STATUS
+     SYSTEM
 ========================================================= -->
 
 <section
@@ -1744,17 +966,16 @@ button{
         <div>
 
             <h2>
-                حالة نظام الكامرة
+                حالة نظام اكتشاف الوجوه
             </h2>
 
             <p>
-                فحص ملفات اكتشاف الوجوه
+                فحص ملفات النظام
             </p>
 
         </div>
 
     </div>
-
 
     <div
         id="systemStatus"
@@ -1765,9 +986,8 @@ button{
 
 </section>
 
-
 <!-- =========================================================
-     SELECTION
+     SELECT
 ========================================================= -->
 
 <section
@@ -1784,23 +1004,20 @@ button{
             </h2>
 
             <p>
-                اختر المجموعة المراد تسجيل حضورها
+                اختر الصف والقاعة والجنس
             </p>
 
         </div>
 
     </div>
 
-
     <div class="filters">
-
 
         <div class="field">
 
             <label for="classSelect">
                 الصف
             </label>
-
 
             <select id="classSelect">
 
@@ -1812,13 +1029,11 @@ button{
 
         </div>
 
-
         <div class="field">
 
             <label for="roomSelect">
                 القاعة
             </label>
-
 
             <select id="roomSelect">
 
@@ -1830,13 +1045,11 @@ button{
 
         </div>
 
-
         <div class="field">
 
             <label for="genderSelect">
                 الجنس
             </label>
-
 
             <select id="genderSelect">
 
@@ -1858,7 +1071,6 @@ button{
 
     </div>
 
-
     <div class="actions">
 
         <button
@@ -1873,7 +1085,6 @@ button{
     </div>
 
 </section>
-
 
 <!-- =========================================================
      CAMERA
@@ -1893,13 +1104,12 @@ button{
             </h2>
 
             <p>
-                وجّه الكامرة حتى تظهر جميع الوجوه
+                وجّه الكامرة حتى تظهر الوجوه بوضوح
             </p>
 
         </div>
 
     </div>
-
 
     <div class="camera-container">
 
@@ -1910,21 +1120,17 @@ button{
             playsinline
         ></video>
 
-
         <canvas
             id="overlay"
         ></canvas>
 
-
         <div class="camera-top">
 
             <span
-                id="liveBadge"
                 class="camera-badge live"
             >
                 مباشر
             </span>
-
 
             <span
                 id="faceCountBadge"
@@ -1937,7 +1143,6 @@ button{
 
     </div>
 
-
     <div
         id="cameraStatus"
         class="camera-status"
@@ -1945,14 +1150,12 @@ button{
         جاري تشغيل الكامرة...
     </div>
 
-
     <div
         id="detectionMessage"
         class="detection-box"
     >
         انتظر حتى يستقر عدّ الوجوه.
     </div>
-
 
     <div class="actions">
 
@@ -1963,7 +1166,6 @@ button{
         >
             تبديل الكامرة
         </button>
-
 
         <button
             id="stopCameraBtn"
@@ -1977,9 +1179,8 @@ button{
 
 </section>
 
-
 <!-- =========================================================
-     STATISTICS
+     STATS
 ========================================================= -->
 
 <section
@@ -1996,83 +1197,41 @@ button{
             </h2>
 
             <p>
-                العدد الأعلى المثبت أثناء المسح
+                مقارنة عدد الوجوه بعدد الطلاب
             </p>
 
         </div>
 
     </div>
 
-
     <div class="stats">
 
-
         <div class="stat blue">
-
-            <strong id="totalStudents">
-                0
-            </strong>
-
-            <span>
-                الطلاب المسجلون
-            </span>
-
+            <strong id="totalStudents">0</strong>
+            <span>الطلاب المسجلون</span>
         </div>
-
 
         <div class="stat green">
-
-            <strong id="currentFaces">
-                0
-            </strong>
-
-            <span>
-                الوجوه الآن
-            </span>
-
+            <strong id="currentFaces">0</strong>
+            <span>الوجوه الآن</span>
         </div>
-
 
         <div class="stat green">
-
-            <strong id="bestFaces">
-                0
-            </strong>
-
-            <span>
-                أعلى عدد مثبت
-            </span>
-
+            <strong id="bestFaces">0</strong>
+            <span>أعلى عدد مثبت</span>
         </div>
-
 
         <div class="stat red">
-
-            <strong id="missingCount">
-                0
-            </strong>
-
-            <span>
-                النقص المتوقع
-            </span>
-
+            <strong id="missingCount">0</strong>
+            <span>النقص المتوقع</span>
         </div>
 
-
         <div class="stat orange">
-
-            <strong id="attendanceRate">
-                0%
-            </strong>
-
-            <span>
-                نسبة الحضور
-            </span>
-
+            <strong id="attendanceRate">0%</strong>
+            <span>نسبة الحضور</span>
         </div>
 
     </div>
-
 
     <div class="progress-wrap">
 
@@ -2082,13 +1241,11 @@ button{
                 نسبة الموجودين
             </span>
 
-
             <span id="progressText">
                 0%
             </span>
 
         </div>
-
 
         <div class="progress-track">
 
@@ -2102,7 +1259,6 @@ button{
     </div>
 
 </section>
-
 
 <!-- =========================================================
      STUDENTS
@@ -2122,13 +1278,12 @@ button{
             </h2>
 
             <p>
-                حدد أسماء الغائبين بعد الانتهاء من مسح القاعة
+                حدد أسماء الغائبين من القائمة
             </p>
 
         </div>
 
     </div>
-
 
     <div
         id="selectionWarning"
@@ -2136,7 +1291,6 @@ button{
     >
         لم يتم تثبيت عدد الحضور بعد.
     </div>
-
 
     <div class="search">
 
@@ -2149,12 +1303,10 @@ button{
 
     </div>
 
-
     <div
         id="studentList"
         class="student-list"
     ></div>
-
 
     <div class="actions">
 
@@ -2169,7 +1321,6 @@ button{
     </div>
 
 </section>
-
 
 <!-- =========================================================
      REPORT
@@ -2196,12 +1347,10 @@ button{
 
     </div>
 
-
     <div
         id="reportHead"
         class="report-head"
     ></div>
-
 
     <div class="report-table-wrap">
 
@@ -2210,46 +1359,22 @@ button{
             <thead>
 
                 <tr>
-
                     <th>#</th>
-
-                    <th>
-                        اسم الطالب
-                    </th>
-
-                    <th>
-                        الكود
-                    </th>
-
-                    <th>
-                        الصف
-                    </th>
-
-                    <th>
-                        القاعة
-                    </th>
-
-                    <th>
-                        الجنس
-                    </th>
-
-                    <th>
-                        الحالة
-                    </th>
-
+                    <th>اسم الطالب</th>
+                    <th>الكود</th>
+                    <th>الصف</th>
+                    <th>القاعة</th>
+                    <th>الجنس</th>
+                    <th>الحالة</th>
                 </tr>
 
             </thead>
 
-
-            <tbody
-                id="reportBody"
-            ></tbody>
+            <tbody id="reportBody"></tbody>
 
         </table>
 
     </div>
-
 
     <div class="actions report-actions">
 
@@ -2260,7 +1385,6 @@ button{
         >
             طباعة / حفظ PDF
         </button>
-
 
         <button
             id="newSessionBtn"
@@ -2274,15 +1398,12 @@ button{
 
 </section>
 
-
 </main>
-
 
 <div
     id="toast"
     class="toast"
 ></div>
-
 
 <script>
 
@@ -2295,29 +1416,22 @@ const DB =
 
 
 /* =========================================================
-   FACE MODEL PATH
+   FACE MODEL
 
-   إذا msh.html بجذر المشروع:
-   هذا المسار صحيح تلقائياً.
-
-   مثال:
-   /msh.html
-   /models/...
+   هذا هو رابط مشروعك الثابت
 ========================================================= */
+
 const FACE_MODEL_PATH =
     "https://altahdi-school.github.io/student-AhLtahadi/models/";
 
 
 /* =========================================================
-   FACE OPTIONS
+   FACE DETECTOR OPTIONS
 ========================================================= */
 
 const FACE_OPTIONS = {
-
     inputSize:320,
-
     scoreThreshold:0.45
-
 };
 
 
@@ -2338,54 +1452,41 @@ let selectedStudents = [];
 let selectedAbsentCodes =
     new Set();
 
-
 let cameraStream =
     null;
-
 
 let currentFacingMode =
     "environment";
 
-
 let cameraRunning =
     false;
-
 
 let detectionRunning =
     false;
 
-
 let modelsReady =
     false;
-
 
 let currentFaceCount =
     0;
 
-
 let bestStableFaceCount =
     0;
-
 
 let faceSamples =
     [];
 
-
 const FACE_SAMPLE_SIZE =
     8;
-
 
 let lastDetectionAt =
     0;
 
-
 const DETECTION_INTERVAL =
-    250;
-
+    300;
 
 let detectionAnimationId =
     null;
-
 
 let savingAttendance =
     false;
@@ -2412,17 +1513,11 @@ function esc(value){
     .replace(
         /[&<>"']/g,
         char => ({
-
             "&":"&amp;",
-
             "<":"&lt;",
-
             ">":"&gt;",
-
             '"':"&quot;",
-
             "'":"&#039;"
-
         })[char]
     );
 
@@ -2458,17 +1553,14 @@ function toast(text){
     $("toast").textContent =
         text;
 
-
     $("toast")
         .classList.add(
             "show"
         );
 
-
     clearTimeout(
         window.toastTimer
     );
-
 
     window.toastTimer =
         setTimeout(
@@ -2487,7 +1579,7 @@ function toast(text){
 
 
 /* =========================================================
-   SYSTEM STATUS
+   STATUS
 ========================================================= */
 
 function setSystemStatus(
@@ -2498,34 +1590,26 @@ function setSystemStatus(
     const box =
         $("systemStatus");
 
-
     box.className =
         "system-status";
-
-
-    if(
-        type ===
-        "error"
-    ){
-
-        box.classList.add(
-            "error"
-        );
-
-    }
-
 
     if(
         type ===
         "warning"
     ){
-
         box.classList.add(
             "warning"
         );
-
     }
 
+    if(
+        type ===
+        "error"
+    ){
+        box.classList.add(
+            "error"
+        );
+    }
 
     box.textContent =
         text;
@@ -2534,7 +1618,7 @@ function setSystemStatus(
 
 
 /* =========================================================
-   DATE - BAGHDAD
+   DATE
 ========================================================= */
 
 function getIraqDateParts(){
@@ -2543,55 +1627,31 @@ function getIraqDateParts(){
         new Intl.DateTimeFormat(
             "en-CA",
             {
-
-                timeZone:
-                    "Asia/Baghdad",
-
-                year:
-                    "numeric",
-
-                month:
-                    "2-digit",
-
-                day:
-                    "2-digit"
-
+                timeZone:"Asia/Baghdad",
+                year:"numeric",
+                month:"2-digit",
+                day:"2-digit"
             }
         );
-
 
     const parts =
         formatter.formatToParts(
             new Date()
         );
 
-
     const values = {};
-
 
     parts.forEach(
         item => {
-
-            values[
-                item.type
-            ] =
+            values[item.type] =
                 item.value;
-
         }
     );
 
-
     return {
-
-        year:
-            values.year,
-
-        month:
-            values.month,
-
-        day:
-            values.day
-
+        year:values.year,
+        month:values.month,
+        day:values.day
     };
 
 }
@@ -2602,10 +1662,7 @@ function todayKey(){
     const date =
         getIraqDateParts();
 
-
-    return (
-        `${date.year}-${date.month}-${date.day}`
-    );
+    return `${date.year}-${date.month}-${date.day}`;
 
 }
 
@@ -2615,19 +1672,10 @@ function dateArabic(){
     return new Intl.DateTimeFormat(
         "ar-IQ",
         {
-
-            timeZone:
-                "Asia/Baghdad",
-
-            year:
-                "numeric",
-
-            month:
-                "long",
-
-            day:
-                "numeric"
-
+            timeZone:"Asia/Baghdad",
+            year:"numeric",
+            month:"long",
+            day:"numeric"
         }
     )
     .format(
@@ -2647,20 +1695,17 @@ async function dbGet(path){
         await fetch(
             `${DB}/${path}.json`,
             {
-                cache:
-                    "no-store"
+                cache:"no-store"
             }
         );
-
 
     if(!response.ok){
 
         throw new Error(
-            `DATABASE_GET_FAILED_${response.status}`
+            "DATABASE_GET_FAILED"
         );
 
     }
-
 
     return response.json();
 
@@ -2676,30 +1721,23 @@ async function dbPut(
         await fetch(
             `${DB}/${path}.json`,
             {
-
-                method:
-                    "PUT",
-
+                method:"PUT",
                 headers:{
                     "Content-Type":
                         "application/json"
                 },
-
                 body:
                     JSON.stringify(data)
-
             }
         );
-
 
     if(!response.ok){
 
         throw new Error(
-            `DATABASE_PUT_FAILED_${response.status}`
+            "DATABASE_PUT_FAILED"
         );
 
     }
-
 
     return response.json();
 
@@ -2715,30 +1753,23 @@ async function dbPost(
         await fetch(
             `${DB}/${path}.json`,
             {
-
-                method:
-                    "POST",
-
+                method:"POST",
                 headers:{
                     "Content-Type":
                         "application/json"
                 },
-
                 body:
                     JSON.stringify(data)
-
             }
         );
-
 
     if(!response.ok){
 
         throw new Error(
-            `DATABASE_POST_FAILED_${response.status}`
+            "DATABASE_POST_FAILED"
         );
 
     }
-
 
     return response.json();
 
@@ -2760,14 +1791,11 @@ function loadSession(){
                 ) || "{}"
             );
 
-    }
-
-    catch{
+    }catch{
 
         session = {};
 
     }
-
 
     if(!session.code){
 
@@ -2775,11 +1803,9 @@ function loadSession(){
             "index.html"
         );
 
-
         return false;
 
     }
-
 
     return true;
 
@@ -2795,27 +1821,18 @@ function normalizeGender(value){
     const text =
         norm(value);
 
-
     if(
-
         text === "female" ||
-
         text === "f" ||
-
         text === "انثى" ||
-
         text === "أنثى" ||
-
         text === "بنت" ||
-
         text === "بنات"
-
     ){
 
         return "female";
 
     }
-
 
     return "male";
 
@@ -2826,18 +1843,15 @@ function genderText(value){
 
     return normalizeGender(
         value
-    ) ===
-    "female"
-
+    ) === "female"
         ? "بنات"
-
         : "بنين";
 
 }
 
 
 /* =========================================================
-   CLASS NAME
+   CLASS
 ========================================================= */
 
 function getClassName(classId){
@@ -2848,19 +1862,10 @@ function getClassName(classId){
 
     }
 
-
     return (
-
-        classesData[
-            classId
-        ]?.name ||
-
-        classesData[
-            classId
-        ]?.title ||
-
+        classesData[classId]?.name ||
+        classesData[classId]?.title ||
         classId
-
     );
 
 }
@@ -2870,25 +1875,20 @@ function getClassName(classId){
    LOADER ERROR
 ========================================================= */
 
-function showLoaderError(
-    message
-){
+function showLoaderError(message){
 
     $("loaderSpinner")
         .classList.add(
             "hidden"
         );
 
-
     $("loaderError").textContent =
         message;
-
 
     $("loaderError")
         .classList.add(
             "show"
         );
-
 
     $("loaderRetry")
         .classList.add(
@@ -2905,12 +1905,10 @@ function clearLoaderError(){
             "hidden"
         );
 
-
     $("loaderError")
         .classList.remove(
             "show"
         );
-
 
     $("loaderRetry")
         .classList.remove(
@@ -2921,7 +1919,7 @@ function clearLoaderError(){
 
 
 /* =========================================================
-   FACE MODEL DIAGNOSTIC
+   LOAD FACE MODEL
 ========================================================= */
 
 async function loadFaceModel(){
@@ -2929,40 +1927,34 @@ async function loadFaceModel(){
     modelsReady =
         false;
 
-
-    $("loaderText").textContent =
-        "جاري فحص مكتبة اكتشاف الوجوه...";
-
-
     setSystemStatus(
         "جاري فحص مكتبة face-api.js...",
         "warning"
     );
 
+    $("loaderText").textContent =
+        "جاري فحص مكتبة face-api.js...";
 
-    /* =========================================
-       1. WAIT FOR FACE API
-    ========================================= */
+
+    /* ==============================
+       FACE API
+    ============================== */
 
     let tries = 0;
-
 
     while(
         typeof window.faceapi ===
         "undefined" &&
-        tries <
-        100
+        tries < 100
     ){
 
         await sleep(
             100
         );
 
-
         tries++;
 
     }
-
 
     if(
         typeof window.faceapi ===
@@ -2970,32 +1962,19 @@ async function loadFaceModel(){
     ){
 
         throw new Error(
-            "FACE_API_LIBRARY_NOT_LOADED"
+            "FACE_API_NOT_LOADED"
         );
 
     }
 
 
-    console.log(
-        "✅ face-api loaded"
-    );
-
-
-    /* =========================================
-       2. MANIFEST URL
-    ========================================= */
+    /* ==============================
+       MANIFEST
+    ============================== */
 
     const manifestUrl =
-        new URL(
-            "tiny_face_detector_model-weights_manifest.json",
-            FACE_MODEL_PATH
-        ).href;
-
-
-    console.log(
-        "FACE MODEL PATH:",
-        FACE_MODEL_PATH
-    );
+        FACE_MODEL_PATH +
+        "tiny_face_detector_model-weights_manifest.json";
 
 
     console.log(
@@ -3004,49 +1983,22 @@ async function loadFaceModel(){
     );
 
 
-    $("loaderText").textContent =
-        "جاري فحص ملف manifest...";
-
-
     setSystemStatus(
         "جاري فحص ملف manifest...",
         "warning"
     );
 
-
-    /* =========================================
-       3. DOWNLOAD MANIFEST
-    ========================================= */
-
-    let manifestResponse;
+    $("loaderText").textContent =
+        "جاري فحص ملف manifest...";
 
 
-    try{
-
-        manifestResponse =
-            await fetch(
-                manifestUrl,
-                {
-                    cache:
-                        "no-store"
-                }
-            );
-
-    }
-
-    catch(error){
-
-        console.error(
-            "MANIFEST NETWORK ERROR:",
-            error
+    const manifestResponse =
+        await fetch(
+            manifestUrl,
+            {
+                cache:"no-store"
+            }
         );
-
-
-        throw new Error(
-            "MANIFEST_NETWORK_ERROR"
-        );
-
-    }
 
 
     console.log(
@@ -3055,20 +2007,13 @@ async function loadFaceModel(){
     );
 
 
-    console.log(
-        "MANIFEST CONTENT TYPE:",
-        manifestResponse.headers.get(
-            "content-type"
-        )
-    );
-
-
     if(
         !manifestResponse.ok
     ){
 
         throw new Error(
-            `MANIFEST_NOT_FOUND_${manifestResponse.status}`
+            "MANIFEST_NOT_FOUND_" +
+            manifestResponse.status
         );
 
     }
@@ -3078,29 +2023,11 @@ async function loadFaceModel(){
         await manifestResponse.text();
 
 
-    console.log(
-        "MANIFEST TEXT:",
-        manifestText
-    );
-
-
-    /* =========================================
-       4. CHECK HTML ERROR PAGE
-    ========================================= */
-
-    const lowerManifest =
+    if(
         manifestText
         .trim()
-        .toLowerCase();
-
-
-    if(
-        lowerManifest.startsWith(
-            "<!doctype"
-        ) ||
-        lowerManifest.startsWith(
-            "<html"
-        )
+        .toLowerCase()
+        .startsWith("<")
     ){
 
         throw new Error(
@@ -3110,12 +2037,7 @@ async function loadFaceModel(){
     }
 
 
-    /* =========================================
-       5. PARSE JSON
-    ========================================= */
-
     let manifestData;
-
 
     try{
 
@@ -3124,66 +2046,36 @@ async function loadFaceModel(){
                 manifestText
             );
 
-    }
-
-    catch(error){
-
-        console.error(
-            "INVALID MANIFEST JSON:",
-            error
-        );
-
+    }catch{
 
         throw new Error(
-            "MANIFEST_INVALID_JSON"
+            "MANIFEST_INVALID"
         );
 
     }
 
-
-    if(
-        !Array.isArray(
-            manifestData
-        ) ||
-        !manifestData.length
-    ){
-
-        throw new Error(
-            "MANIFEST_EMPTY"
-        );
-
-    }
-
-
-    /* =========================================
-       6. GET SHARD NAME
-    ========================================= */
 
     const shardName =
         manifestData?.[0]
         ?.paths?.[0];
 
 
-    console.log(
-        "SHARD NAME:",
-        shardName
-    );
-
-
     if(!shardName){
 
         throw new Error(
-            "SHARD_NAME_NOT_FOUND"
+            "SHARD_NAME_MISSING"
         );
 
     }
 
 
+    /* ==============================
+       SHARD
+    ============================== */
+
     const shardUrl =
-        new URL(
-            shardName,
-            FACE_MODEL_PATH
-        ).href;
+        FACE_MODEL_PATH +
+        shardName;
 
 
     console.log(
@@ -3192,49 +2084,22 @@ async function loadFaceModel(){
     );
 
 
-    $("loaderText").textContent =
-        "جاري فحص ملف الموديل shard1...";
-
-
     setSystemStatus(
-        "جاري فحص ملف tiny_face_detector_model-shard1...",
+        "جاري فحص ملف shard1...",
         "warning"
     );
 
-
-    /* =========================================
-       7. FETCH SHARD
-    ========================================= */
-
-    let shardResponse;
+    $("loaderText").textContent =
+        "جاري فحص ملف shard1...";
 
 
-    try{
-
-        shardResponse =
-            await fetch(
-                shardUrl,
-                {
-                    cache:
-                        "no-store"
-                }
-            );
-
-    }
-
-    catch(error){
-
-        console.error(
-            "SHARD NETWORK ERROR:",
-            error
+    const shardResponse =
+        await fetch(
+            shardUrl,
+            {
+                cache:"no-store"
+            }
         );
-
-
-        throw new Error(
-            "SHARD_NETWORK_ERROR"
-        );
-
-    }
 
 
     console.log(
@@ -3243,40 +2108,28 @@ async function loadFaceModel(){
     );
 
 
-    console.log(
-        "SHARD CONTENT TYPE:",
-        shardResponse.headers.get(
-            "content-type"
-        )
-    );
-
-
     if(
         !shardResponse.ok
     ){
 
         throw new Error(
-            `SHARD_NOT_FOUND_${shardResponse.status}`
+            "SHARD_NOT_FOUND_" +
+            shardResponse.status
         );
 
     }
 
 
     const shardBuffer =
-        await shardResponse.arrayBuffer();
+        await shardResponse
+        .arrayBuffer();
 
 
     console.log(
         "SHARD SIZE:",
-        shardBuffer.byteLength,
-        "bytes"
+        shardBuffer.byteLength
     );
 
-
-    /*
-        Tiny detector shard should be
-        significantly bigger than a tiny HTML/error file.
-    */
 
     if(
         shardBuffer.byteLength <
@@ -3284,55 +2137,31 @@ async function loadFaceModel(){
     ){
 
         throw new Error(
-            "SHARD_FILE_TOO_SMALL"
+            "SHARD_INVALID"
         );
 
     }
 
 
-    /* =========================================
-       8. ACTUAL MODEL LOAD
-    ========================================= */
+    /* ==============================
+       LOAD MODEL
+    ============================== */
+
+    setSystemStatus(
+        "تم العثور على الملفات. جاري تشغيل النموذج...",
+        "warning"
+    );
 
     $("loaderText").textContent =
         "جاري تشغيل نموذج اكتشاف الوجوه...";
 
 
-    setSystemStatus(
-        "تم العثور على الملفات، جاري تشغيل النموذج...",
-        "warning"
-    );
-
-
-    try{
-
-        await faceapi
-            .nets
-            .tinyFaceDetector
-            .loadFromUri(
-                FACE_MODEL_PATH
-            );
-
-    }
-
-    catch(error){
-
-        console.error(
-            "FACE API MODEL LOAD ERROR:",
-            error
+    await faceapi.nets
+        .tinyFaceDetector
+        .loadFromUri(
+            FACE_MODEL_PATH
         );
 
-
-        throw new Error(
-            "MODEL_LOAD_FAILED"
-        );
-
-    }
-
-
-    /* =========================================
-       9. VERIFY
-    ========================================= */
 
     if(
         !faceapi.nets
@@ -3365,19 +2194,17 @@ async function loadFaceModel(){
 
 
     console.log(
-        "✅ TINY FACE DETECTOR READY"
+        "FACE MODEL READY"
     );
 
 }
 
 
 /* =========================================================
-   FACE MODEL ERROR TEXT
+   ERROR MESSAGE
 ========================================================= */
 
-function getFaceModelErrorMessage(
-    error
-){
+function getFaceErrorMessage(error){
 
     const code =
         error?.message ||
@@ -3386,24 +2213,10 @@ function getFaceModelErrorMessage(
 
     if(
         code ===
-        "FACE_API_LIBRARY_NOT_LOADED"
+        "FACE_API_NOT_LOADED"
     ){
 
-        return (
-            "تعذر تحميل مكتبة face-api.js من الإنترنت."
-        );
-
-    }
-
-
-    if(
-        code ===
-        "MANIFEST_NETWORK_ERROR"
-    ){
-
-        return (
-            "تعذر الاتصال بملف manifest. تحقق من الإنترنت ومسار مجلد models."
-        );
+        return "مكتبة face-api.js لم يتم تحميلها.";
 
     }
 
@@ -3415,7 +2228,9 @@ function getFaceModelErrorMessage(
     ){
 
         return (
-            "ملف tiny_face_detector_model-weights_manifest.json غير موجود داخل مجلد models أو المسار غير صحيح."
+            "ملف manifest غير موجود.\n\n" +
+            FACE_MODEL_PATH +
+            "tiny_face_detector_model-weights_manifest.json"
         );
 
     }
@@ -3427,7 +2242,7 @@ function getFaceModelErrorMessage(
     ){
 
         return (
-            "الرابط الخاص بملف manifest يعيد صفحة HTML بدل ملف JSON. غالباً المسار غير صحيح."
+            "رابط manifest يفتح صفحة HTML بدل ملف JSON."
         );
 
     }
@@ -3435,11 +2250,11 @@ function getFaceModelErrorMessage(
 
     if(
         code ===
-        "MANIFEST_INVALID_JSON"
+        "MANIFEST_INVALID"
     ){
 
         return (
-            "ملف tiny_face_detector_model-weights_manifest.json غير صحيح أو تم نسخه بطريقة خاطئة."
+            "ملف manifest غير صحيح."
         );
 
     }
@@ -3447,35 +2262,11 @@ function getFaceModelErrorMessage(
 
     if(
         code ===
-        "MANIFEST_EMPTY"
+        "SHARD_NAME_MISSING"
     ){
 
         return (
-            "ملف manifest فارغ أو محتواه غير صحيح."
-        );
-
-    }
-
-
-    if(
-        code ===
-        "SHARD_NAME_NOT_FOUND"
-    ){
-
-        return (
-            "ملف manifest لا يحتوي اسم tiny_face_detector_model-shard1."
-        );
-
-    }
-
-
-    if(
-        code ===
-        "SHARD_NETWORK_ERROR"
-    ){
-
-        return (
-            "تعذر الاتصال بملف tiny_face_detector_model-shard1."
+            "ملف manifest لا يحتوي اسم shard1."
         );
 
     }
@@ -3488,7 +2279,7 @@ function getFaceModelErrorMessage(
     ){
 
         return (
-            "ملف tiny_face_detector_model-shard1 غير موجود داخل مجلد models."
+            "ملف tiny_face_detector_model-shard1 غير موجود داخل models."
         );
 
     }
@@ -3496,23 +2287,11 @@ function getFaceModelErrorMessage(
 
     if(
         code ===
-        "SHARD_FILE_TOO_SMALL"
+        "SHARD_INVALID"
     ){
 
         return (
-            "ملف tiny_face_detector_model-shard1 غير صحيح أو ناقص. احذفه وارفع ملف Raw الأصلي بواسطة Upload files."
-        );
-
-    }
-
-
-    if(
-        code ===
-        "MODEL_LOAD_FAILED"
-    ){
-
-        return (
-            "تم العثور على ملفات الموديل، لكن مكتبة face-api.js لم تستطع قراءتها. غالباً ملف shard1 غير صحيح."
+            "ملف shard1 غير صحيح أو ناقص. يجب رفع الملف الأصلي binary بواسطة Upload files."
         );
 
     }
@@ -3524,14 +2303,15 @@ function getFaceModelErrorMessage(
     ){
 
         return (
-            "تم تحميل الملفات لكن نموذج TinyFaceDetector لم يصبح جاهزاً."
+            "تم تحميل الملفات لكن النموذج لم يصبح جاهزاً."
         );
 
     }
 
 
     return (
-        "تعذر تحميل نظام اكتشاف الوجوه. افتح Console لمعرفة تفاصيل الخطأ."
+        "حدث خطأ أثناء تحميل نظام اكتشاف الوجوه.\n\n" +
+        code
     );
 
 }
@@ -3639,11 +2419,8 @@ async function init(){
 
             .map(
                 ([code,data]) => ({
-
                     code,
-
                     ...(data || {})
-
                 })
             )
 
@@ -3659,17 +2436,11 @@ async function init(){
         buildRoomOptions();
 
 
-        $("loaderText").textContent =
-            "جاري تحميل نظام اكتشاف الوجوه...";
-
-
         try{
 
             await loadFaceModel();
 
-        }
-
-        catch(error){
+        }catch(error){
 
             console.error(
                 "FACE MODEL ERROR:",
@@ -3677,26 +2448,18 @@ async function init(){
             );
 
 
-            modelsReady =
-                false;
-
-
-            const message =
-                getFaceModelErrorMessage(
-                    error
-                );
-
-
             setSystemStatus(
-                message,
+                getFaceErrorMessage(
+                    error
+                ),
                 "error"
             );
 
 
             showLoaderError(
-                message +
-                "\n\nالمسار المتوقع:\n" +
-                FACE_MODEL_PATH
+                getFaceErrorMessage(
+                    error
+                )
             );
 
 
@@ -3715,7 +2478,6 @@ async function init(){
     catch(error){
 
         console.error(
-            "INIT ERROR:",
             error
         );
 
@@ -3729,11 +2491,9 @@ async function init(){
                 "ليس لديك صلاحية دخول صفحة مشرف الحضور."
             );
 
-
             location.replace(
                 "index.html"
             );
-
 
             return;
 
@@ -3749,11 +2509,9 @@ async function init(){
                 "حساب مشرف الحضور غير فعال."
             );
 
-
             location.replace(
                 "index.html"
             );
-
 
             return;
 
@@ -3761,7 +2519,7 @@ async function init(){
 
 
         showLoaderError(
-            "تعذر تحميل بيانات النظام. تحقق من Firebase والاتصال بالإنترنت."
+            "تعذر تحميل بيانات النظام."
         );
 
     }
@@ -3785,7 +2543,7 @@ $("loaderRetry")
 
 
 /* =========================================================
-   BUILD CLASS OPTIONS
+   CLASSES
 ========================================================= */
 
 function buildClassOptions(){
@@ -3793,7 +2551,6 @@ function buildClassOptions(){
     const ids =
         [
             ...new Set(
-
                 allStudents
 
                 .map(
@@ -3805,7 +2562,6 @@ function buildClassOptions(){
                 )
 
                 .filter(Boolean)
-
             )
         ];
 
@@ -3820,12 +2576,11 @@ function buildClassOptions(){
     );
 
 
-    $("classSelect").innerHTML = `
+    $("classSelect").innerHTML =
+        `
 
         <option value="">
-
             جميع الصفوف
-
         </option>
 
         ${
@@ -3833,28 +2588,26 @@ function buildClassOptions(){
             .map(
                 id => `
 
-                    <option
-                        value="${esc(id)}"
-                    >
-
-                        ${esc(
-                            getClassName(id)
-                        )}
-
-                    </option>
+                <option
+                    value="${esc(id)}"
+                >
+                    ${esc(
+                        getClassName(id)
+                    )}
+                </option>
 
                 `
             )
             .join("")
         }
 
-    `;
+        `;
 
 }
 
 
 /* =========================================================
-   BUILD ROOM OPTIONS
+   ROOMS
 ========================================================= */
 
 function buildRoomOptions(){
@@ -3866,7 +2619,6 @@ function buildRoomOptions(){
     const rooms =
         [
             ...new Set(
-
                 allStudents
 
                 .filter(
@@ -3875,8 +2627,7 @@ function buildRoomOptions(){
                         String(
                             student.classId ||
                             ""
-                        ) ===
-                        selectedClass
+                        ) === selectedClass
                 )
 
                 .map(
@@ -3888,7 +2639,6 @@ function buildRoomOptions(){
                 )
 
                 .filter(Boolean)
-
             )
         ];
 
@@ -3905,16 +2655,11 @@ function buildRoomOptions(){
     );
 
 
-    const current =
-        $("roomSelect").value;
-
-
-    $("roomSelect").innerHTML = `
+    $("roomSelect").innerHTML =
+        `
 
         <option value="">
-
             جميع القاعات
-
         </option>
 
         ${
@@ -3922,33 +2667,18 @@ function buildRoomOptions(){
             .map(
                 room => `
 
-                    <option
-                        value="${esc(room)}"
-                    >
-
-                        القاعة
-                        ${esc(room)}
-
-                    </option>
+                <option
+                    value="${esc(room)}"
+                >
+                    القاعة ${esc(room)}
+                </option>
 
                 `
             )
             .join("")
         }
 
-    `;
-
-
-    if(
-        rooms.includes(
-            current
-        )
-    ){
-
-        $("roomSelect").value =
-            current;
-
-    }
+        `;
 
 }
 
@@ -3961,7 +2691,7 @@ $("classSelect")
 
 
 /* =========================================================
-   FILTER STUDENTS
+   FILTER
 ========================================================= */
 
 function getFilteredStudents(){
@@ -3969,80 +2699,74 @@ function getFilteredStudents(){
     const classId =
         $("classSelect").value;
 
-
     const room =
         $("roomSelect").value;
-
 
     const gender =
         $("genderSelect").value;
 
 
     return allStudents
+        .filter(
+            student => {
 
-    .filter(
-        student => {
+                if(
+                    classId &&
+                    String(
+                        student.classId ||
+                        ""
+                    ) !== classId
+                ){
 
-            if(
-                classId &&
-                String(
-                    student.classId ||
-                    ""
-                ) !==
-                classId
-            ){
+                    return false;
 
-                return false;
+                }
+
+
+                if(
+                    room &&
+                    String(
+                        student.roomNumber ||
+                        ""
+                    ) !== room
+                ){
+
+                    return false;
+
+                }
+
+
+                if(
+                    gender &&
+                    normalizeGender(
+                        student.gender
+                    ) !== gender
+                ){
+
+                    return false;
+
+                }
+
+
+                return true;
 
             }
+        )
 
-
-            if(
-                room &&
+        .sort(
+            (a,b) =>
                 String(
-                    student.roomNumber ||
+                    a.name ||
                     ""
-                ) !==
-                room
-            ){
-
-                return false;
-
-            }
-
-
-            if(
-                gender &&
-                normalizeGender(
-                    student.gender
-                ) !==
-                gender
-            ){
-
-                return false;
-
-            }
-
-
-            return true;
-
-        }
-    )
-
-    .sort(
-        (a,b) =>
-            String(
-                a.name ||
-                ""
-            )
-            .localeCompare(
-                String(
-                    b.name ||
-                    ""
-                ),
-                "ar"
-            )
-    );
+                )
+                .localeCompare(
+                    String(
+                        b.name ||
+                        ""
+                    ),
+                    "ar"
+                )
+        );
 
 }
 
@@ -4064,7 +2788,6 @@ $("startBtn")
                 "نظام اكتشاف الوجوه غير جاهز"
             );
 
-
             return;
 
         }
@@ -4081,7 +2804,6 @@ $("startBtn")
             toast(
                 "لا يوجد طلاب ضمن هذا الاختيار"
             );
-
 
             return;
 
@@ -4228,7 +2950,6 @@ async function startCamera(){
 
                     resolve();
 
-
                     return;
 
                 }
@@ -4250,7 +2971,7 @@ async function startCamera(){
 
 
         $("cameraStatus").textContent =
-            "الكامرة تعمل. حرّكها ببطء حتى تظهر وجوه جميع الطلاب بوضوح.";
+            "الكامرة تعمل. حرّكها ببطء حتى تظهر جميع الوجوه.";
 
 
         startDetectionLoop();
@@ -4279,15 +3000,13 @@ async function startCamera(){
         ){
 
             toast(
-                "تم رفض صلاحية الكامرة. فعّل إذن الكامرة للموقع."
+                "يرجى السماح للموقع باستخدام الكامرة."
             );
 
-        }
-
-        else{
+        }else{
 
             toast(
-                "تعذر تشغيل الكامرة. تأكد أن الموقع يعمل عبر HTTPS."
+                "تعذر تشغيل الكامرة."
             );
 
         }
@@ -4331,11 +3050,11 @@ function stopCamera(){
     ){
 
         cameraStream
-        .getTracks()
-        .forEach(
-            track =>
-                track.stop()
-        );
+            .getTracks()
+            .forEach(
+                track =>
+                    track.stop()
+            );
 
 
         cameraStream =
@@ -4344,14 +3063,8 @@ function stopCamera(){
     }
 
 
-    if(
-        $("camera")
-    ){
-
-        $("camera").srcObject =
-            null;
-
-    }
+    $("camera").srcObject =
+        null;
 
 
     clearCanvas();
@@ -4392,7 +3105,7 @@ $("stopCameraBtn")
 
 
         $("cameraStatus").textContent =
-            "تم إيقاف الكامرة. يمكنك تحديد أسماء الغائبين وحفظ التقرير.";
+            "تم إيقاف الكامرة. حدد الغائبين ثم احفظ التقرير.";
 
     }
 );
@@ -4429,7 +3142,6 @@ function startDetectionLoop(){
 
             detectionRunning =
                 false;
-
 
             return;
 
@@ -4468,7 +3180,7 @@ function startDetectionLoop(){
 
 
 /* =========================================================
-   RUN FACE DETECTION
+   DETECT FACES
 ========================================================= */
 
 async function runFaceDetection(){
@@ -4479,15 +3191,7 @@ async function runFaceDetection(){
 
     if(
         !video.videoWidth ||
-        !video.videoHeight
-    ){
-
-        return;
-
-    }
-
-
-    if(
+        !video.videoHeight ||
         !modelsReady
     ){
 
@@ -4504,9 +3208,9 @@ async function runFaceDetection(){
                 video,
 
                 new faceapi
-                .TinyFaceDetectorOptions(
-                    FACE_OPTIONS
-                )
+                    .TinyFaceDetectorOptions(
+                        FACE_OPTIONS
+                    )
 
             );
 
@@ -4542,60 +3246,37 @@ async function runFaceDetection(){
             error
         );
 
-
-        $("cameraStatus").textContent =
-            "حدث خطأ أثناء قراءة الوجوه.";
-
     }
 
 }
 
 
 /* =========================================================
-   DRAW DETECTIONS
+   DRAW
 ========================================================= */
 
-function drawDetections(
-    detections
-){
+function drawDetections(detections){
 
     const video =
         $("camera");
 
-
     const canvas =
         $("overlay");
-
 
     const rect =
         video.getBoundingClientRect();
 
 
     const displaySize = {
-
         width:
             Math.round(
                 rect.width
             ),
-
         height:
             Math.round(
                 rect.height
             )
-
     };
-
-
-    if(
-        displaySize.width <=
-        0 ||
-        displaySize.height <=
-        0
-    ){
-
-        return;
-
-    }
 
 
     faceapi.matchDimensions(
@@ -4637,11 +3318,11 @@ function drawDetections(
 
 
             ctx.strokeStyle =
-                "#18d46d";
+                "#20df79";
 
 
             ctx.fillStyle =
-                "rgba(24,212,109,.08)";
+                "rgba(32,223,121,.08)";
 
 
             ctx.strokeRect(
@@ -4682,7 +3363,7 @@ function drawDetections(
 
 
             ctx.fillStyle =
-                "#18d46d";
+                "#20df79";
 
 
             ctx.fillRect(
@@ -4694,7 +3375,7 @@ function drawDetections(
 
 
             ctx.fillStyle =
-                "#fff";
+                "#ffffff";
 
 
             ctx.fillText(
@@ -4710,20 +3391,13 @@ function drawDetections(
 
 
 /* =========================================================
-   CLEAR CANVAS
+   CLEAR
 ========================================================= */
 
 function clearCanvas(){
 
     const canvas =
         $("overlay");
-
-
-    if(!canvas){
-
-        return;
-
-    }
 
 
     const ctx =
@@ -4776,17 +3450,12 @@ function addFaceSample(count){
     const frequencies = {};
 
 
-    faceSamples
-    .forEach(
+    faceSamples.forEach(
         number => {
 
-            frequencies[
-                number
-            ] =
+            frequencies[number] =
                 (
-                    frequencies[
-                        number
-                    ] ||
+                    frequencies[number] ||
                     0
                 ) + 1;
 
@@ -4796,7 +3465,6 @@ function addFaceSample(count){
 
     let stableValue =
         0;
-
 
     let stableFrequency =
         0;
@@ -4819,7 +3487,6 @@ function addFaceSample(count){
 
                 stableFrequency =
                     frequency;
-
 
                 stableValue =
                     numeric;
@@ -4872,12 +3539,9 @@ function addFaceSample(count){
 function expectedMissingCount(){
 
     return Math.max(
-
         0,
-
         selectedStudents.length -
         bestStableFaceCount
-
     );
 
 }
@@ -4895,40 +3559,33 @@ function updateStats(){
 
     const rate =
         total
-
             ? Math.round(
                 (
                     bestStableFaceCount /
                     total
-                ) * 100
+                ) *
+                100
             )
-
             : 0;
 
 
     $("totalStudents").textContent =
         total;
 
-
     $("currentFaces").textContent =
         currentFaceCount;
-
 
     $("bestFaces").textContent =
         bestStableFaceCount;
 
-
     $("missingCount").textContent =
         missing;
-
 
     $("attendanceRate").textContent =
         `${rate}%`;
 
-
     $("progressText").textContent =
         `${rate}%`;
-
 
     $("progressBar").style.width =
         `${Math.min(100,rate)}%`;
@@ -4937,7 +3594,7 @@ function updateStats(){
 
 
 /* =========================================================
-   DETECTION MESSAGE
+   MESSAGE
 ========================================================= */
 
 function updateDetectionMessage(){
@@ -4945,18 +3602,14 @@ function updateDetectionMessage(){
     const total =
         selectedStudents.length;
 
-
     const current =
         currentFaceCount;
-
 
     const best =
         bestStableFaceCount;
 
-
     const missing =
         expectedMissingCount();
-
 
     const box =
         $("detectionMessage");
@@ -4967,8 +3620,7 @@ function updateDetectionMessage(){
 
 
     if(
-        current ===
-        0
+        current === 0
     ){
 
         box.classList.add(
@@ -4979,22 +3631,18 @@ function updateDetectionMessage(){
         box.textContent =
             "لا توجد وجوه واضحة أمام الكامرة حالياً.";
 
-
         return;
 
     }
 
 
     if(
-        best >=
-        total &&
-        total >
-        0
+        best >= total &&
+        total > 0
     ){
 
         box.textContent =
-            `تم اكتشاف عدد يساوي عدد الطلاب المسجلين (${total}).`;
-
+            `تم اكتشاف ${total} وجه وهو مطابق لعدد الطلاب المسجلين.`;
 
         return;
 
@@ -5007,13 +3655,13 @@ function updateDetectionMessage(){
 
 
     box.textContent =
-        `أعلى عدد ثابت ظهر أمام الكامرة هو ${best} من أصل ${total}. النقص المتوقع ${missing}.`;
+        `أعلى عدد ثابت هو ${best} من أصل ${total}. النقص المتوقع ${missing}.`;
 
 }
 
 
 /* =========================================================
-   STUDENTS
+   STUDENT LIST
 ========================================================= */
 
 function renderStudents(){
@@ -5063,103 +3711,101 @@ function renderStudents(){
 
                 return `
 
-                    <div
-                        class="student ${absent ? "selected-absent" : "present-preview"}"
-                    >
+                <div
+                    class="student ${absent ? "selected-absent" : "present-preview"}"
+                >
 
-                        <div class="student-image">
+                    <div class="student-image">
 
-                            ${
-                                image
+                        ${
+                            image
 
-                                ? `
+                            ? `
 
-                                    <img
-                                        src="${esc(image)}"
-                                        alt="${esc(student.name || "")}"
-                                    >
+                            <img
+                                src="${esc(image)}"
+                                alt="${esc(student.name || "")}"
+                            >
 
-                                `
+                            `
 
-                                : `
+                            : `
 
-                                    <div class="student-letter">
-
-                                        ${esc(
-                                            String(
-                                                student.name ||
-                                                "ط"
-                                            )
-                                            .trim()
-                                            .charAt(0) ||
-                                            "ط"
-                                        )}
-
-                                    </div>
-
-                                `
-                            }
-
-                        </div>
-
-
-                        <div class="student-info">
-
-                            <div class="student-name">
+                            <div class="student-letter">
 
                                 ${esc(
-                                    student.name ||
-                                    "طالب"
-                                )}
-
-                            </div>
-
-
-                            <div class="student-meta">
-
-                                ${esc(
-                                    getClassName(
-                                        student.classId
+                                    String(
+                                        student.name ||
+                                        "ط"
                                     )
-                                )}
-
-                                -
-
-                                القاعة
-
-                                ${esc(
-                                    student.roomNumber ||
-                                    "—"
-                                )}
-
-                                -
-
-                                ${genderText(
-                                    student.gender
+                                    .trim()
+                                    .charAt(0) ||
+                                    "ط"
                                 )}
 
                             </div>
 
-                        </div>
-
-
-                        <button
-                            type="button"
-                            class="absent-toggle"
-                            data-absent-code="${esc(student.code)}"
-                        >
-
-                            ${
-                                absent
-
-                                    ? "تم تحديده غائب"
-
-                                    : "تحديد غائب"
-                            }
-
-                        </button>
+                            `
+                        }
 
                     </div>
+
+
+                    <div class="student-info">
+
+                        <div class="student-name">
+
+                            ${esc(
+                                student.name ||
+                                "طالب"
+                            )}
+
+                        </div>
+
+
+                        <div class="student-meta">
+
+                            ${esc(
+                                getClassName(
+                                    student.classId
+                                )
+                            )}
+
+                            -
+
+                            القاعة
+
+                            ${esc(
+                                student.roomNumber ||
+                                "—"
+                            )}
+
+                            -
+
+                            ${genderText(
+                                student.gender
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="absent-toggle"
+                        data-code="${esc(student.code)}"
+                    >
+
+                        ${
+                            absent
+                                ? "تم تحديده غائب"
+                                : "تحديد غائب"
+                        }
+
+                    </button>
+
+                </div>
 
                 `;
 
@@ -5169,26 +3815,25 @@ function renderStudents(){
 
 
     document
-    .querySelectorAll(
-        "[data-absent-code]"
-    )
-    .forEach(
-        button => {
+        .querySelectorAll(
+            ".absent-toggle"
+        )
+        .forEach(
+            button => {
 
-            button.addEventListener(
-                "click",
-                () => {
+                button.addEventListener(
+                    "click",
+                    () => {
 
-                    toggleAbsent(
-                        button.dataset
-                        .absentCode
-                    );
+                        toggleAbsent(
+                            button.dataset.code
+                        );
 
-                }
-            );
+                    }
+                );
 
-        }
-    );
+            }
+        );
 
 }
 
@@ -5201,7 +3846,7 @@ $("studentSearch")
 
 
 /* =========================================================
-   TOGGLE ABSENT
+   ABSENT
 ========================================================= */
 
 function toggleAbsent(code){
@@ -5216,9 +3861,7 @@ function toggleAbsent(code){
                 code
             );
 
-    }
-
-    else{
+    }else{
 
         selectedAbsentCodes
             .add(
@@ -5236,7 +3879,7 @@ function toggleAbsent(code){
 
 
 /* =========================================================
-   WARNING
+   SELECTION WARNING
 ========================================================= */
 
 function updateSelectionWarning(){
@@ -5244,10 +3887,8 @@ function updateSelectionWarning(){
     const expected =
         expectedMissingCount();
 
-
     const selected =
         selectedAbsentCodes.size;
-
 
     const box =
         $("selectionWarning");
@@ -5258,13 +3899,11 @@ function updateSelectionWarning(){
 
 
     if(
-        bestStableFaceCount ===
-        0
+        bestStableFaceCount === 0
     ){
 
         box.textContent =
-            "وجّه الكامرة نحو الطلاب أولاً حتى يتم حساب العدد.";
-
+            "وجّه الكامرة نحو الطلاب حتى يتم حساب العدد.";
 
         return;
 
@@ -5272,8 +3911,7 @@ function updateSelectionWarning(){
 
 
     if(
-        selected ===
-        expected
+        selected === expected
     ){
 
         box.classList.add(
@@ -5282,13 +3920,9 @@ function updateSelectionWarning(){
 
 
         box.textContent =
-            expected ===
-            0
-
-                ? "الكامرة لم ترصد نقصاً. لا يوجد غائب محدد."
-
-                : `تم تحديد ${selected} طالب غائب وهو مطابق للنقص الذي رصدته الكامرة.`;
-
+            expected === 0
+                ? "لم يتم رصد نقص في العدد."
+                : `تم تحديد ${selected} طالب غائب وهو مطابق للنقص المتوقع.`;
 
         return;
 
@@ -5296,8 +3930,7 @@ function updateSelectionWarning(){
 
 
     if(
-        selected >
-        expected
+        selected > expected
     ){
 
         box.classList.add(
@@ -5306,8 +3939,7 @@ function updateSelectionWarning(){
 
 
         box.textContent =
-            `الكامرة تتوقع ${expected} غائب، لكنك حددت ${selected}. راجع القائمة قبل الحفظ.`;
-
+            `النقص المتوقع ${expected} لكن تم تحديد ${selected} غائب.`;
 
         return;
 
@@ -5315,7 +3947,7 @@ function updateSelectionWarning(){
 
 
     box.textContent =
-        `النقص المتوقع ${expected} طالب. تم تحديد ${selected} فقط. بقي ${expected - selected}.`;
+        `النقص المتوقع ${expected}. تم تحديد ${selected}. بقي ${expected - selected}.`;
 
 }
 
@@ -5347,46 +3979,21 @@ $("finishBtn")
         }
 
 
-        if(
-            bestStableFaceCount ===
-            0
-        ){
-
-            const yes =
-                confirm(
-                    "لم يتم تثبيت أي عدد للوجوه. هل تريد المتابعة بالاعتماد على اختيارك اليدوي؟"
-                );
-
-
-            if(!yes){
-
-                return;
-
-            }
-
-        }
-
-
         const expected =
             expectedMissingCount();
-
 
         const selected =
             selectedAbsentCodes.size;
 
 
         if(
-            bestStableFaceCount >
-            0 &&
-            selected !==
-            expected
+            bestStableFaceCount > 0 &&
+            selected !== expected
         ){
 
             const yes =
                 confirm(
-
-                    `الكامرة رصدت نقصاً مقداره ${expected}، بينما حددت ${selected} غائب.\n\nهل أنت متأكد من اعتماد اختيارك اليدوي؟`
-
+                    `الكامرة تتوقع ${expected} غائب بينما حددت ${selected}.\nهل تريد الحفظ رغم ذلك؟`
                 );
 
 
@@ -5406,7 +4013,7 @@ $("finishBtn")
 
 
 /* =========================================================
-   SAVE ATTENDANCE
+   SAVE
 ========================================================= */
 
 async function saveAttendance(){
@@ -5427,7 +4034,6 @@ async function saveAttendance(){
 
         const date =
             todayKey();
-
 
         const now =
             Date.now();
@@ -5630,7 +4236,7 @@ async function saveAttendance(){
     catch(error){
 
         console.error(
-            "SAVE ATTENDANCE ERROR:",
+            "SAVE ERROR:",
             error
         );
 
@@ -5668,19 +4274,15 @@ function renderReport(){
     const total =
         selectedStudents.length;
 
-
     const absent =
         selectedAbsentCodes.size;
-
 
     const present =
         total -
         absent;
 
-
     const rate =
         total
-
             ? Math.round(
                 (
                     present /
@@ -5688,7 +4290,6 @@ function renderReport(){
                 ) *
                 100
             )
-
             : 0;
 
 
@@ -5696,7 +4297,8 @@ function renderReport(){
         dateArabic();
 
 
-    $("reportHead").innerHTML = `
+    $("reportHead").innerHTML =
+        `
 
         <strong>
             مدرسة التحدي الأهلية المختلطة
@@ -5737,10 +4339,10 @@ function renderReport(){
 
         <br>
 
-        أعلى عدد وجوه ثابت رصدته الكامرة:
+        أعلى عدد وجوه رصدته الكامرة:
         ${bestStableFaceCount}
 
-    `;
+        `;
 
 
     $("reportBody").innerHTML =
@@ -5748,7 +4350,7 @@ function renderReport(){
         .map(
             (student,index) => {
 
-                const isAbsent =
+                const absent =
                     selectedAbsentCodes
                     .has(
                         student.code
@@ -5757,59 +4359,53 @@ function renderReport(){
 
                 return `
 
-                    <tr>
+                <tr>
 
-                        <td>
-                            ${index + 1}
-                        </td>
+                    <td>
+                        ${index + 1}
+                    </td>
 
+                    <td>
+                        ${esc(
+                            student.name ||
+                            ""
+                        )}
+                    </td>
 
-                        <td>
-                            ${esc(
-                                student.name ||
-                                ""
-                            )}
-                        </td>
+                    <td>
+                        ${esc(
+                            student.code
+                        )}
+                    </td>
 
+                    <td>
+                        ${esc(
+                            getClassName(
+                                student.classId
+                            )
+                        )}
+                    </td>
 
-                        <td>
-                            ${esc(
-                                student.code
-                            )}
-                        </td>
+                    <td>
+                        ${esc(
+                            student.roomNumber ||
+                            "—"
+                        )}
+                    </td>
 
+                    <td>
+                        ${genderText(
+                            student.gender
+                        )}
+                    </td>
 
-                        <td>
-                            ${esc(
-                                getClassName(
-                                    student.classId
-                                )
-                            )}
-                        </td>
+                    <td
+                        class="${absent ? "report-absent" : "report-present"}"
+                    >
+                        ${absent ? "غائب" : "حاضر"}
+                    </td>
 
-
-                        <td>
-                            ${esc(
-                                student.roomNumber ||
-                                "—"
-                            )}
-                        </td>
-
-
-                        <td>
-                            ${genderText(
-                                student.gender
-                            )}
-                        </td>
-
-
-                        <td
-                            class="${isAbsent ? "report-absent" : "report-present"}"
-                        >
-                            ${isAbsent ? "غائب" : "حاضر"}
-                        </td>
-
-                    </tr>
+                </tr>
 
                 `;
 
@@ -5836,7 +4432,7 @@ $("printBtn")
 
 
 /* =========================================================
-   NEW SESSION
+   NEW
 ========================================================= */
 
 $("newSessionBtn")
@@ -5888,13 +4484,8 @@ $("newSessionBtn")
 
         $("selectionCard")
             .scrollIntoView({
-
-                behavior:
-                    "smooth",
-
-                block:
-                    "start"
-
+                behavior:"smooth",
+                block:"start"
             });
 
     }
