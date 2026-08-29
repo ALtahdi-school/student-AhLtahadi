@@ -1,1 +1,2521 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
+>
+
+<meta name="theme-color" content="#075fcf">
+
+<title>مشرف الحضور | مدرسة التحدي</title>
+
+<style>
+
+:root{
+    --blue:#075fcf;
+    --blue-dark:#06469c;
+
+    --green:#078746;
+    --green-bg:#ecfdf3;
+
+    --red:#c62828;
+    --red-bg:#fff1f1;
+
+    --orange:#e07900;
+
+    --bg:#f4f7fb;
+    --white:#fff;
+
+    --text:#172033;
+    --muted:#667085;
+
+    --border:#e2e8f0;
+}
+
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+
+body{
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+
+    background:var(--bg);
+    color:var(--text);
+}
+
+
+button,
+select,
+input{
+    font:inherit;
+}
+
+
+.hidden{
+    display:none!important;
+}
+
+
+/* HEADER */
+
+.header{
+    position:sticky;
+    top:0;
+
+    z-index:100;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:12px 14px;
+
+    background:#fff;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+
+.logo{
+    width:47px;
+    height:47px;
+
+    object-fit:contain;
+}
+
+
+.brand h1{
+    font-size:13px;
+    font-weight:900;
+}
+
+
+.brand p{
+    margin-top:3px;
+
+    color:var(--blue);
+
+    font-size:8px;
+    font-weight:900;
+}
+
+
+.logout{
+    border:0;
+
+    padding:9px 12px;
+
+    border-radius:12px;
+
+    background:#f0f3f7;
+
+    color:#475467;
+
+    font-size:9px;
+    font-weight:900;
+}
+
+
+/* CONTAINER */
+
+.container{
+    width:100%;
+
+    max-width:900px;
+
+    margin:auto;
+
+    padding:15px;
+}
+
+
+/* CARD */
+
+.card{
+    margin-bottom:13px;
+
+    padding:15px;
+
+    border-radius:20px;
+
+    background:#fff;
+
+    border:
+        1px solid var(--border);
+}
+
+
+.card h2{
+    margin-bottom:12px;
+
+    font-size:14px;
+    font-weight:900;
+}
+
+
+/* FILTER */
+
+.filters{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:8px;
+}
+
+
+.field label{
+    display:block;
+
+    margin-bottom:5px;
+
+    color:var(--muted);
+
+    font-size:8px;
+    font-weight:900;
+}
+
+
+.field select{
+    width:100%;
+    height:47px;
+
+    padding:0 10px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:13px;
+
+    outline:none;
+
+    background:#fff;
+
+    font-size:11px;
+}
+
+
+.actions{
+    display:flex;
+
+    gap:8px;
+
+    margin-top:12px;
+}
+
+
+.btn{
+    flex:1;
+
+    height:49px;
+
+    border:0;
+
+    border-radius:14px;
+
+    font-size:10px;
+    font-weight:900;
+}
+
+
+.btn-primary{
+    background:var(--blue);
+    color:#fff;
+}
+
+
+.btn-danger{
+    background:var(--red);
+    color:#fff;
+}
+
+
+.btn-soft{
+    background:#eef5ff;
+    color:var(--blue);
+}
+
+
+/* CAMERA */
+
+.camera-card{
+    overflow:hidden;
+}
+
+
+.camera-wrap{
+    position:relative;
+
+    width:100%;
+
+    overflow:hidden;
+
+    border-radius:18px;
+
+    background:#111;
+}
+
+
+video{
+    width:100%;
+
+    display:block;
+
+    max-height:480px;
+
+    object-fit:cover;
+}
+
+
+canvas{
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    pointer-events:none;
+}
+
+
+.camera-status{
+    padding:10px;
+
+    text-align:center;
+
+    color:#475467;
+
+    font-size:9px;
+    font-weight:900;
+}
+
+
+/* STATISTICS */
+
+.stats{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:7px;
+}
+
+
+.stat{
+    padding:12px 5px;
+
+    text-align:center;
+
+    border-radius:14px;
+
+    background:#f8fafc;
+}
+
+
+.stat strong{
+    display:block;
+
+    font-size:18px;
+    font-weight:900;
+}
+
+
+.stat span{
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted);
+
+    font-size:7px;
+}
+
+
+.stat.present strong{
+    color:var(--green);
+}
+
+
+.stat.absent strong{
+    color:var(--red);
+}
+
+
+/* STUDENTS */
+
+.student-list{
+    display:grid;
+    gap:8px;
+}
+
+
+.student{
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:9px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:15px;
+
+    background:#fff;
+}
+
+
+.student.present{
+    border-color:#9ee0bd;
+
+    background:
+        var(--green-bg);
+}
+
+
+.student.absent{
+    border-color:#f0b5b5;
+
+    background:
+        var(--red-bg);
+}
+
+
+.student img,
+.student-avatar{
+    width:45px;
+    height:45px;
+
+    flex:none;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    background:#e9f2ff;
+}
+
+
+.student-avatar{
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    color:var(--blue);
+
+    font-size:15px;
+    font-weight:900;
+}
+
+
+.student-info{
+    min-width:0;
+
+    flex:1;
+}
+
+
+.student-info strong{
+    display:block;
+
+    font-size:10px;
+    font-weight:900;
+}
+
+
+.student-info small{
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted);
+
+    font-size:7px;
+}
+
+
+.student-buttons{
+    display:flex;
+
+    gap:5px;
+
+    flex:none;
+}
+
+
+.student-buttons button{
+    min-width:54px;
+
+    height:34px;
+
+    border:0;
+
+    border-radius:10px;
+
+    font-size:7px;
+    font-weight:900;
+}
+
+
+.present-btn{
+    background:var(--green-bg);
+    color:var(--green);
+}
+
+
+.absent-btn{
+    background:var(--red-bg);
+    color:var(--red);
+}
+
+
+/* REPORT */
+
+.report-table-wrap{
+    overflow:auto;
+}
+
+
+table{
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:600px;
+}
+
+
+th,
+td{
+    padding:10px 7px;
+
+    text-align:center;
+
+    border-bottom:
+        1px solid #edf0f4;
+
+    font-size:8px;
+}
+
+
+th{
+    background:#f8fafc;
+
+    font-weight:900;
+}
+
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+
+    z-index:9999;
+
+    left:15px;
+    right:15px;
+
+    bottom:20px;
+
+    max-width:400px;
+
+    margin:auto;
+
+    padding:12px;
+
+    text-align:center;
+
+    border-radius:14px;
+
+    color:#fff;
+
+    background:#172033;
+
+    font-size:9px;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:.2s;
+}
+
+
+.toast.show{
+    opacity:1;
+}
+
+
+@media(max-width:600px){
+
+    .filters{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<header class="header">
+
+    <div class="brand">
+
+        <img
+            src="logo.png"
+            class="logo"
+            alt=""
+        >
+
+        <div>
+
+            <h1>
+                مدرسة التحدي الأهلية المختلطة
+            </h1>
+
+            <p>
+                مشرف الحضور والغياب
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <button
+        id="logoutBtn"
+        class="logout"
+        type="button"
+    >
+        خروج
+    </button>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- FILTER -->
+
+<section class="card">
+
+    <h2>
+        اختيار مجموعة الطلاب
+    </h2>
+
+
+    <div class="filters">
+
+
+        <div class="field">
+
+            <label>
+                الصف
+            </label>
+
+            <select id="classSelect">
+
+                <option value="">
+                    جميع الصفوف
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                القاعة
+            </label>
+
+            <select id="roomSelect">
+
+                <option value="">
+                    جميع القاعات
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                الجنس
+            </label>
+
+            <select id="genderSelect">
+
+                <option value="">
+                    الجميع
+                </option>
+
+                <option value="male">
+                    بنين
+                </option>
+
+                <option value="female">
+                    بنات
+                </option>
+
+            </select>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            id="startBtn"
+            class="btn btn-primary"
+            type="button"
+        >
+            بدء تسجيل الحضور
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- CAMERA -->
+
+<section
+    id="cameraCard"
+    class="card camera-card hidden"
+>
+
+    <h2>
+        كاميرا تسجيل الحضور
+    </h2>
+
+
+    <div class="camera-wrap">
+
+        <video
+            id="camera"
+            autoplay
+            playsinline
+            muted
+        ></video>
+
+        <canvas
+            id="overlay"
+        ></canvas>
+
+    </div>
+
+
+    <div
+        id="cameraStatus"
+        class="camera-status"
+    >
+        جاري تشغيل الكاميرا...
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            id="finishBtn"
+            class="btn btn-danger"
+            type="button"
+        >
+            إنهاء وتسجيل الغياب
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- STATS -->
+
+<section
+    id="statsCard"
+    class="card hidden"
+>
+
+    <h2>
+        إحصائيات الحضور
+    </h2>
+
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <strong id="totalCount">
+                0
+            </strong>
+
+            <span>
+                عدد الطلاب
+            </span>
+
+        </div>
+
+
+        <div class="stat present">
+
+            <strong id="presentCount">
+                0
+            </strong>
+
+            <span>
+                حاضر
+            </span>
+
+        </div>
+
+
+        <div class="stat absent">
+
+            <strong id="absentCount">
+                0
+            </strong>
+
+            <span>
+                غائب
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <strong id="rateCount">
+                0%
+            </strong>
+
+            <span>
+                نسبة الحضور
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- STUDENTS -->
+
+<section
+    id="studentsCard"
+    class="card hidden"
+>
+
+    <h2>
+        قائمة الطلاب
+    </h2>
+
+
+    <div
+        id="studentList"
+        class="student-list"
+    ></div>
+
+</section>
+
+
+<!-- REPORT -->
+
+<section
+    id="reportCard"
+    class="card hidden"
+>
+
+    <h2>
+        تقرير الحضور والغياب
+    </h2>
+
+
+    <div class="actions">
+
+        <button
+            id="printBtn"
+            class="btn btn-soft"
+            type="button"
+        >
+            طباعة التقرير
+        </button>
+
+    </div>
+
+
+    <div class="report-table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        الطالب
+                    </th>
+
+                    <th>
+                        الصف
+                    </th>
+
+                    <th>
+                        القاعة
+                    </th>
+
+                    <th>
+                        الجنس
+                    </th>
+
+                    <th>
+                        الحالة
+                    </th>
+
+                    <th>
+                        الوقت
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody
+                id="reportBody"
+            ></tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+<script>
+
+/* =========================================================
+   FIREBASE
+========================================================= */
+
+const DB =
+    "https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let session = {};
+
+let supervisor = {};
+
+let allStudents = [];
+
+let selectedStudents = [];
+
+let attendanceState = {};
+
+let cameraStream = null;
+
+let faceDetector = null;
+
+let detectionLoop = null;
+
+let attendanceStarted = false;
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+const $ =
+    id =>
+        document.getElementById(id);
+
+
+function esc(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /[&<>"']/g,
+        char => ({
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            '"':"&quot;",
+            "'":"&#039;"
+        })[char]
+    );
+
+}
+
+
+function norm(value){
+
+    return String(
+        value ?? ""
+    )
+    .trim()
+    .toLowerCase();
+
+}
+
+
+function normalizeGender(value){
+
+    const text =
+        norm(value);
+
+
+    if(
+        text === "female" ||
+        text === "أنثى" ||
+        text === "انثى" ||
+        text === "بنات"
+    ){
+
+        return "female";
+
+    }
+
+
+    return "male";
+
+}
+
+
+function genderText(value){
+
+    return normalizeGender(value) ===
+        "female"
+
+        ? "بنات"
+
+        : "بنين";
+
+}
+
+
+function todayKey(){
+
+    const date =
+        new Date();
+
+
+    const y =
+        date.getFullYear();
+
+
+    const m =
+        String(
+            date.getMonth() + 1
+        )
+        .padStart(
+            2,
+            "0"
+        );
+
+
+    const d =
+        String(
+            date.getDate()
+        )
+        .padStart(
+            2,
+            "0"
+        );
+
+
+    return `${y}-${m}-${d}`;
+
+}
+
+
+function toast(text){
+
+    $("toast").textContent =
+        text;
+
+
+    $("toast")
+        .classList.add(
+            "show"
+        );
+
+
+    clearTimeout(
+        window.toastTimer
+    );
+
+
+    window.toastTimer =
+        setTimeout(
+            () => {
+
+                $("toast")
+                    .classList.remove(
+                        "show"
+                    );
+
+            },
+            2300
+        );
+
+}
+
+
+/* =========================================================
+   DB REST
+========================================================= */
+
+async function dbGet(path){
+
+    const response =
+        await fetch(
+            `${DB}/${path}.json`,
+            {
+                cache:"no-store"
+            }
+        );
+
+
+    if(!response.ok){
+
+        throw new Error(
+            "GET_FAILED"
+        );
+
+    }
+
+
+    return response.json();
+
+}
+
+
+async function dbPut(
+    path,
+    data
+){
+
+    const response =
+        await fetch(
+            `${DB}/${path}.json`,
+            {
+
+                method:"PUT",
+
+                headers:{
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify(data)
+
+            }
+        );
+
+
+    if(!response.ok){
+
+        throw new Error(
+            "PUT_FAILED"
+        );
+
+    }
+
+
+    return response.json();
+
+}
+
+
+/* =========================================================
+   SESSION
+========================================================= */
+
+function loadSession(){
+
+    try{
+
+        session =
+            JSON.parse(
+                sessionStorage.getItem(
+                    "tahadi_session"
+                ) || "{}"
+            );
+
+    }
+
+    catch{
+
+        session = {};
+
+    }
+
+
+    if(!session.code){
+
+        location.replace(
+            "index.html"
+        );
+
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+async function init(){
+
+    try{
+
+        if(!loadSession()){
+
+            return;
+
+        }
+
+
+        supervisor =
+            await dbGet(
+                `users/${encodeURIComponent(session.code)}`
+            );
+
+
+        if(
+            !supervisor ||
+            ![
+                "msh",
+                "attendance",
+                "supervisor"
+            ].includes(
+                norm(supervisor.role)
+            )
+        ){
+
+            toast(
+                "ليس لديك صلاحية دخول هذه الصفحة"
+            );
+
+
+            return;
+
+        }
+
+
+        await loadStudents();
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+
+        toast(
+            "تعذر تحميل الصفحة"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD STUDENTS
+========================================================= */
+
+async function loadStudents(){
+
+    const data =
+        await dbGet(
+            "students"
+        ) || {};
+
+
+    allStudents =
+        Object.entries(data)
+
+        .map(
+            ([code,value]) => ({
+
+                code,
+
+                ...(value || {})
+
+            })
+        );
+
+
+    loadClassOptions();
+
+    loadRoomOptions();
+
+}
+
+
+/* =========================================================
+   FILTER OPTIONS
+========================================================= */
+
+function loadClassOptions(){
+
+    const classes =
+        [
+            ...new Set(
+
+                allStudents
+
+                .map(
+                    student =>
+                        String(
+                            student.classId ||
+                            ""
+                        ).trim()
+                )
+
+                .filter(Boolean)
+
+            )
+        ];
+
+
+    $("classSelect").innerHTML = `
+
+        <option value="">
+            جميع الصفوف
+        </option>
+
+        ${
+            classes
+            .map(
+                value => `
+
+                    <option
+                        value="${esc(value)}"
+                    >
+                        ${esc(value)}
+                    </option>
+
+                `
+            )
+            .join("")
+        }
+
+    `;
+
+}
+
+
+function loadRoomOptions(){
+
+    const rooms =
+        [
+            ...new Set(
+
+                allStudents
+
+                .map(
+                    student =>
+                        String(
+                            student.roomNumber ||
+                            ""
+                        ).trim()
+                )
+
+                .filter(Boolean)
+
+            )
+        ];
+
+
+    $("roomSelect").innerHTML = `
+
+        <option value="">
+            جميع القاعات
+        </option>
+
+        ${
+            rooms
+            .map(
+                value => `
+
+                    <option
+                        value="${esc(value)}"
+                    >
+                        ${esc(value)}
+                    </option>
+
+                `
+            )
+            .join("")
+        }
+
+    `;
+
+}
+
+
+/* =========================================================
+   START ATTENDANCE
+========================================================= */
+
+$("startBtn").onclick =
+async () => {
+
+    if(attendanceStarted){
+
+        return;
+
+    }
+
+
+    selectedStudents =
+        getFilteredStudents();
+
+
+    if(
+        !selectedStudents.length
+    ){
+
+        toast(
+            "لا يوجد طلاب ضمن الاختيار"
+        );
+
+
+        return;
+
+    }
+
+
+    attendanceState = {};
+
+
+    selectedStudents
+    .forEach(
+        student => {
+
+            attendanceState[
+                student.code
+            ] = {
+
+                status:
+                    "pending",
+
+                recordedAt:
+                    null
+
+            };
+
+        }
+    );
+
+
+    renderStudents();
+
+    updateStats();
+
+
+    $("cameraCard")
+        .classList.remove(
+            "hidden"
+        );
+
+
+    $("statsCard")
+        .classList.remove(
+            "hidden"
+        );
+
+
+    $("studentsCard")
+        .classList.remove(
+            "hidden"
+        );
+
+
+    attendanceStarted =
+        true;
+
+
+    await startCamera();
+
+};
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+function getFilteredStudents(){
+
+    const selectedClass =
+        $("classSelect").value;
+
+
+    const selectedRoom =
+        $("roomSelect").value;
+
+
+    const selectedGender =
+        $("genderSelect").value;
+
+
+    return allStudents
+    .filter(
+        student => {
+
+            if(
+                selectedClass &&
+                String(
+                    student.classId ||
+                    ""
+                ) !==
+                selectedClass
+            ){
+
+                return false;
+
+            }
+
+
+            if(
+                selectedRoom &&
+                String(
+                    student.roomNumber ||
+                    ""
+                ) !==
+                selectedRoom
+            ){
+
+                return false;
+
+            }
+
+
+            if(
+                selectedGender &&
+                normalizeGender(
+                    student.gender
+                ) !==
+                selectedGender
+            ){
+
+                return false;
+
+            }
+
+
+            return true;
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CAMERA
+========================================================= */
+
+async function startCamera(){
+
+    try{
+
+        cameraStream =
+            await navigator.mediaDevices
+            .getUserMedia({
+
+                video:{
+
+                    facingMode:"environment",
+
+                    width:{
+                        ideal:1280
+                    },
+
+                    height:{
+                        ideal:720
+                    }
+
+                },
+
+                audio:false
+
+            });
+
+
+        $("camera").srcObject =
+            cameraStream;
+
+
+        await $("camera").play();
+
+
+        $("cameraStatus").textContent =
+            "الكاميرا تعمل - يتم اكتشاف الوجوه الموجودة أمام الكاميرا";
+
+
+        startFaceDetection();
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+
+        $("cameraStatus").textContent =
+            "تعذر فتح الكاميرا";
+
+
+        toast(
+            "يرجى السماح باستخدام الكاميرا"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FACE DETECTION
+
+   يكتشف وجود الوجه فقط.
+   لا يحدد هوية الشخص.
+========================================================= */
+
+function startFaceDetection(){
+
+    /*
+        FaceDetector غير مدعوم في كل المتصفحات.
+
+        إذا كان متوفراً نستخدمه.
+    */
+
+    if(
+        "FaceDetector"
+        in window
+    ){
+
+        faceDetector =
+            new FaceDetector({
+
+                fastMode:true,
+
+                maxDetectedFaces:20
+
+            });
+
+
+        detectFacesLoop();
+
+
+        return;
+
+    }
+
+
+    $("cameraStatus").textContent =
+        "الكاميرا تعمل. اكتشاف الوجه التلقائي غير مدعوم بهذا المتصفح، ويمكن تسجيل الطلاب من القائمة.";
+
+}
+
+
+/* =========================================================
+   DETECT LOOP
+========================================================= */
+
+async function detectFacesLoop(){
+
+    if(
+        !attendanceStarted ||
+        !faceDetector
+    ){
+
+        return;
+
+    }
+
+
+    const video =
+        $("camera");
+
+
+    const canvas =
+        $("overlay");
+
+
+    const ctx =
+        canvas.getContext(
+            "2d"
+        );
+
+
+    if(
+        video.videoWidth &&
+        video.videoHeight
+    ){
+
+        canvas.width =
+            video.videoWidth;
+
+
+        canvas.height =
+            video.videoHeight;
+
+
+        try{
+
+            const faces =
+                await faceDetector.detect(
+                    video
+                );
+
+
+            ctx.clearRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+
+            faces.forEach(
+                face => {
+
+                    const box =
+                        face.boundingBox;
+
+
+                    /*
+                        مربع أخضر:
+                        يعني تم اكتشاف وجه.
+
+                        لا يعني أن النظام عرف هوية الطالب.
+                    */
+
+                    ctx.strokeStyle =
+                        "#00d26a";
+
+
+                    ctx.lineWidth =
+                        5;
+
+
+                    ctx.strokeRect(
+                        box.x,
+                        box.y,
+                        box.width,
+                        box.height
+                    );
+
+
+                    ctx.fillStyle =
+                        "rgba(0,210,106,.12)";
+
+
+                    ctx.fillRect(
+                        box.x,
+                        box.y,
+                        box.width,
+                        box.height
+                    );
+
+                }
+            );
+
+
+            $("cameraStatus").textContent =
+                faces.length
+
+                    ? `تم اكتشاف ${faces.length} وجه أمام الكاميرا`
+
+                    : "لا يوجد وجه واضح أمام الكاميرا";
+
+        }
+
+        catch(error){
+
+            console.error(
+                error
+            );
+
+        }
+
+    }
+
+
+    detectionLoop =
+        requestAnimationFrame(
+            detectFacesLoop
+        );
+
+}
+
+
+/* =========================================================
+   RENDER STUDENTS
+========================================================= */
+
+function renderStudents(){
+
+    $("studentList").innerHTML =
+        selectedStudents
+        .map(
+            student => {
+
+                const state =
+                    attendanceState[
+                        student.code
+                    ] || {
+                        status:"pending"
+                    };
+
+
+                let css = "";
+
+
+                if(
+                    state.status ===
+                    "present"
+                ){
+
+                    css =
+                        "present";
+
+                }
+
+
+                if(
+                    state.status ===
+                    "absent"
+                ){
+
+                    css =
+                        "absent";
+
+                }
+
+
+                const avatar =
+                    student.profileImage
+
+                        ? `
+
+                            <img
+                                src="${esc(student.profileImage)}"
+                                alt="${esc(student.name || "")}"
+                            >
+
+                        `
+
+                        : `
+
+                            <div class="student-avatar">
+
+                                ${esc(
+                                    String(
+                                        student.name ||
+                                        "ط"
+                                    )
+                                    .charAt(0)
+                                )}
+
+                            </div>
+
+                        `;
+
+
+                return `
+
+                    <div
+                        class="student ${css}"
+                    >
+
+                        ${avatar}
+
+
+                        <div class="student-info">
+
+                            <strong>
+
+                                ${esc(
+                                    student.name ||
+                                    "طالب"
+                                )}
+
+                            </strong>
+
+
+                            <small>
+
+                                ${esc(
+                                    student.classId ||
+                                    ""
+                                )}
+
+                                -
+
+                                القاعة
+
+                                ${esc(
+                                    student.roomNumber ||
+                                    ""
+                                )}
+
+                                -
+
+                                ${genderText(
+                                    student.gender
+                                )}
+
+                            </small>
+
+                        </div>
+
+
+                        <div class="student-buttons">
+
+                            <button
+                                type="button"
+                                class="present-btn"
+                                onclick="markPresent('${esc(student.code)}')"
+                            >
+
+                                حاضر
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="absent-btn"
+                                onclick="markAbsent('${esc(student.code)}')"
+                            >
+
+                                غائب
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   MARK PRESENT
+========================================================= */
+
+function markPresent(code){
+
+    if(
+        !attendanceState[
+            code
+        ]
+    ){
+
+        return;
+
+    }
+
+
+    attendanceState[
+        code
+    ] = {
+
+        status:
+            "present",
+
+        recordedAt:
+            Date.now()
+
+    };
+
+
+    renderStudents();
+
+    updateStats();
+
+}
+
+
+window.markPresent =
+    markPresent;
+
+
+/* =========================================================
+   MARK ABSENT
+========================================================= */
+
+function markAbsent(code){
+
+    if(
+        !attendanceState[
+            code
+        ]
+    ){
+
+        return;
+
+    }
+
+
+    attendanceState[
+        code
+    ] = {
+
+        status:
+            "absent",
+
+        recordedAt:
+            Date.now()
+
+    };
+
+
+    renderStudents();
+
+    updateStats();
+
+}
+
+
+window.markAbsent =
+    markAbsent;
+
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+function updateStats(){
+
+    const values =
+        Object.values(
+            attendanceState
+        );
+
+
+    const total =
+        values.length;
+
+
+    const present =
+        values.filter(
+            item =>
+                item.status ===
+                "present"
+        ).length;
+
+
+    const absent =
+        values.filter(
+            item =>
+                item.status ===
+                "absent"
+        ).length;
+
+
+    const rate =
+        total
+
+            ? Math.round(
+                (
+                    present /
+                    total
+                ) *
+                100
+            )
+
+            : 0;
+
+
+    $("totalCount").textContent =
+        total;
+
+
+    $("presentCount").textContent =
+        present;
+
+
+    $("absentCount").textContent =
+        absent;
+
+
+    $("rateCount").textContent =
+        `${rate}%`;
+
+}
+
+
+/* =========================================================
+   FINISH ATTENDANCE
+========================================================= */
+
+$("finishBtn").onclick =
+async () => {
+
+    if(
+        !attendanceStarted
+    ){
+
+        return;
+
+    }
+
+
+    /*
+        كل طالب لم يتم تحديده
+        يتحول تلقائياً إلى غائب.
+    */
+
+    selectedStudents
+    .forEach(
+        student => {
+
+            if(
+                attendanceState[
+                    student.code
+                ]?.status ===
+                "pending"
+            ){
+
+                attendanceState[
+                    student.code
+                ] = {
+
+                    status:
+                        "absent",
+
+                    recordedAt:
+                        Date.now()
+
+                };
+
+            }
+
+        }
+    );
+
+
+    renderStudents();
+
+    updateStats();
+
+
+    try{
+
+        await saveAttendance();
+
+
+        stopCamera();
+
+
+        attendanceStarted =
+            false;
+
+
+        renderReport();
+
+
+        $("reportCard")
+            .classList.remove(
+                "hidden"
+            );
+
+
+        toast(
+            "تم حفظ الحضور والغياب بنجاح"
+        );
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+
+        toast(
+            "تعذر حفظ الحضور"
+        );
+
+    }
+
+};
+
+
+/* =========================================================
+   SAVE ATTENDANCE
+========================================================= */
+
+async function saveAttendance(){
+
+    const date =
+        todayKey();
+
+
+    const tasks =
+        selectedStudents.map(
+            student => {
+
+                const state =
+                    attendanceState[
+                        student.code
+                    ];
+
+
+                const present =
+                    state.status ===
+                    "present";
+
+
+                const data = {
+
+                    status:
+                        present
+                            ? "present"
+                            : "absent",
+
+                    present,
+
+                    absent:
+                        !present,
+
+                    date,
+
+                    classId:
+                        student.classId ||
+                        "",
+
+                    roomNumber:
+                        student.roomNumber ||
+                        "",
+
+                    gender:
+                        normalizeGender(
+                            student.gender
+                        ),
+
+                    studentName:
+                        student.name ||
+                        "",
+
+                    recordedAt:
+                        state.recordedAt ||
+                        Date.now(),
+
+                    recordedBy:
+                        session.code,
+
+                    method:
+                        "camera_supervisor"
+
+                };
+
+
+                return dbPut(
+                    `attendance/${encodeURIComponent(student.code)}/${date}`,
+                    data
+                );
+
+            }
+        );
+
+
+    await Promise.all(
+        tasks
+    );
+
+}
+
+
+/* =========================================================
+   REPORT
+========================================================= */
+
+function renderReport(){
+
+    $("reportBody").innerHTML =
+        selectedStudents
+        .map(
+            student => {
+
+                const state =
+                    attendanceState[
+                        student.code
+                    ];
+
+
+                const present =
+                    state.status ===
+                    "present";
+
+
+                const time =
+                    state.recordedAt
+
+                        ? new Date(
+                            state.recordedAt
+                        )
+                        .toLocaleTimeString(
+                            "ar-IQ",
+                            {
+                                hour:"2-digit",
+                                minute:"2-digit"
+                            }
+                        )
+
+                        : "—";
+
+
+                return `
+
+                    <tr>
+
+                        <td>
+
+                            ${esc(
+                                student.name ||
+                                ""
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${esc(
+                                student.classId ||
+                                ""
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${esc(
+                                student.roomNumber ||
+                                ""
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${genderText(
+                                student.gender
+                            )}
+
+                        </td>
+
+
+                        <td
+                            style="
+                                color:${present ? "#078746" : "#c62828"};
+                                font-weight:900;
+                            "
+                        >
+
+                            ${present ? "حاضر" : "غائب"}
+
+                        </td>
+
+
+                        <td>
+
+                            ${time}
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+$("printBtn").onclick =
+    () => {
+
+        window.print();
+
+    };
+
+
+/* =========================================================
+   STOP CAMERA
+========================================================= */
+
+function stopCamera(){
+
+    if(
+        detectionLoop
+    ){
+
+        cancelAnimationFrame(
+            detectionLoop
+        );
+
+
+        detectionLoop =
+            null;
+
+    }
+
+
+    if(
+        cameraStream
+    ){
+
+        cameraStream
+        .getTracks()
+        .forEach(
+            track =>
+                track.stop()
+        );
+
+
+        cameraStream =
+            null;
+
+    }
+
+
+    const canvas =
+        $("overlay");
+
+
+    const ctx =
+        canvas.getContext(
+            "2d"
+        );
+
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+$("logoutBtn").onclick =
+    () => {
+
+        stopCamera();
+
+
+        sessionStorage.clear();
+
+
+        location.replace(
+            "index.html"
+        );
+
+    };
+
+
+/* =========================================================
+   START
+========================================================= */
+
+window.addEventListener(
+    "load",
+    init
+);
+
+</script>
+
+</body>
+</html>
