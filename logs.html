@@ -69,8 +69,8 @@ button{cursor:pointer}
  animation:pageReveal .42s cubic-bezier(.16,1,.3,1)
 }
 @keyframes pageReveal{from{opacity:0;transform:translateY(12px) scale(.99)}to{opacity:1;transform:none}}
-.page-inner{position:relative;z-index:2;height:100%;padding:7.5mm 7mm 7mm}
-.watermark-logo{position:absolute;z-index:0;top:52%;left:50%;width:125mm;height:125mm;transform:translate(-50%,-50%);object-fit:contain;opacity:.045;filter:grayscale(1);pointer-events:none}
+.page-inner{position:relative;z-index:2;height:100%;padding:7.5mm 7mm 7mm;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+.watermark-logo{position:absolute;z-index:0;top:52%;left:50%;width:125mm;height:125mm;transform:translate(-50%,-50%);object-fit:contain;opacity:.075;filter:none!important;mix-blend-mode:normal;pointer-events:none;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
 .page-frame{position:absolute;inset:4.2mm;border:6px double #111;outline:1.2px solid #333;outline-offset:-3mm;pointer-events:none}
 .page-frame:before,.page-frame:after{content:"◆";position:absolute;width:8mm;height:8mm;display:flex;align-items:center;justify-content:center;background:#fff;color:#111;font-size:11px;font-weight:900}
 .page-frame:before{top:-4mm;right:-4mm}.page-frame:after{bottom:-4mm;left:-4mm}
@@ -90,7 +90,7 @@ button{cursor:pointer}
 .record-table{width:100%;border-collapse:collapse;table-layout:fixed;direction:rtl}
 .record-table th,.record-table td{border:.8px solid #333;text-align:center;vertical-align:middle;font-size:14px;font-weight:700}
 .record-table thead th{height:24mm;padding:.8mm;font-size:14px;font-weight:700;line-height:1.15}
-.record-table thead th.vertical{writing-mode:vertical-rl;transform:rotate(180deg);font-size:14px;letter-spacing:0;line-height:1.05}
+.record-table thead th.vertical{position:relative;height:24mm;padding:0;overflow:hidden;font-size:14px;line-height:1;direction:rtl}.record-table thead th.vertical .vlabel{position:absolute;top:50%;left:50%;display:block;white-space:nowrap;direction:rtl;unicode-bidi:plaintext;font-family:"Times New Roman",Times,serif;font-size:14px;font-weight:700;line-height:1;transform:translate(-50%,-50%) rotate(-90deg);transform-origin:center}
 .record-table th.seq{width:9mm}
 .record-table th.name{width:52mm;font-size:14px}
 .record-table th.note{width:27mm}
@@ -138,6 +138,18 @@ button{cursor:pointer}
 .admin-title .admin-word{display:block;font-size:22px;font-weight:700;margin-bottom:1.2mm}
 .admin-title .admin-school{display:block;font-size:16px;font-weight:700;line-height:1.25}
 
+
+.public-view{background:#eef2f6}
+.public-view .topbar,.public-view .panel,.public-view .preview-toolbar{display:none!important}
+.public-view .layout{display:block!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
+.public-view .preview-shell{width:100%!important}
+.public-view .preview-area{min-height:100vh;border:0!important;border-radius:0!important;padding:16px 4px 32px!important;background:#eef2f6!important}
+.public-error{width:min(560px,calc(100% - 28px));margin:70px auto;padding:28px 20px;border:1px solid #dbe3ec;border-radius:22px;background:#fff;text-align:center;box-shadow:0 18px 55px rgba(30,54,88,.10)}
+.public-error h2{font-size:19px;font-weight:700;color:#172033}
+.public-error p{margin-top:10px;font-size:14px;font-weight:700;line-height:1.8;color:#667085}
+.public-record-badge{position:fixed;z-index:45;top:10px;left:50%;transform:translateX(-50%);padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.94);border:1px solid #dfe6ee;box-shadow:0 6px 18px rgba(30,54,88,.08);font-size:11px;font-weight:700;color:#344054;white-space:nowrap}
+@media print{.public-record-badge{display:none!important}.public-view .preview-area{padding:0!important;background:#fff!important}}
+
 </style>
 </head>
 <body>
@@ -170,7 +182,7 @@ button{cursor:pointer}
     <div class="field"><label>اسم المدير / المديرة</label><input id="managerName" type="text" placeholder="اكتب الاسم"></div>
    </div>
    <div class="field"><label>العام الدراسي</label><input id="schoolYear" type="text" value="2026-2027"></div>
-   <div class="status ok" style="margin-top:0">تنسيق السجل ثابت: <b>Times New Roman</b>، داخل الجدول 14 غير عريض، أعلى السجل 16 عريض، وأسفل الجدول 14 عريض. الإطار مزخرف وعريض جداً.<br>كل صفحة تحتوي رمز QR واحد فقط، وعند مسحه يفتح صفحة السجلات نفسها.</div>
+   <div class="status ok" style="margin-top:0">تنسيق السجل ثابت: <b>Times New Roman</b>، داخل الجدول 14 غير عريض، أعلى السجل 16 عريض، وأسفل الجدول 14 عريض. الإطار مزخرف وعريض جداً.<br>كل صفحة تحتوي رمز QR واحد فقط، وعند مسحه يفتح نسخة السجل مباشرة بدون حساب أو تسجيل دخول.</div>
   </div>
 
   <div class="actions">
@@ -204,6 +216,13 @@ async function dbGet(path,{fresh=false,ttl=READ_TTL}={}){
  READ_PENDING.set(path,run);try{return await run}finally{if(READ_PENDING.get(path)===run)READ_PENDING.delete(path)}
 }
 const dbGetFresh=path=>dbGet(path,{fresh:true,ttl:0});
+async function dbPut(path,value){
+ path=cleanPath(path);
+ const r=await fetch(`${DB}/${path}.json`,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(value)});
+ if(!r.ok)throw new Error("DB_WRITE");
+ READ_CACHE.set(path,{at:Date.now(),value});
+ return await r.json().catch(()=>value)
+}
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 function norm(v){return String(v??"").trim().toLowerCase().replace(/[\u064b-\u065f\u0670]/g,"").replace(/ـ/g,"").replace(/[أإآٱ]/g,"ا").replace(/ى/g,"ي").replace(/\s+/g," ")}
 function safeKey(v){return String(v??"").replace(/[.#$\[\]\/]/g,"_")}
@@ -285,6 +304,12 @@ function currentSelection(){
 function randomRecordToken(){
  try{const a=new Uint32Array(2);crypto.getRandomValues(a);return[...a].map(n=>n.toString(36)).join("").toUpperCase()}catch{return Math.random().toString(36).slice(2,12).toUpperCase()}
 }
+function randomPublicKey(){
+ try{
+  const a=new Uint8Array(18);crypto.getRandomValues(a);
+  return [...a].map(b=>b.toString(16).padStart(2,"0")).join("");
+ }catch{return`${Date.now().toString(36)}${Math.random().toString(36).slice(2,18)}`.replace(/[^a-z0-9]/gi,"")}
+}
 async function sha256Hex(value){
  try{if(!crypto?.subtle)return"";const bytes=new TextEncoder().encode(String(value||"")),hash=await crypto.subtle.digest("SHA-256",bytes);return[...new Uint8Array(hash)].map(b=>b.toString(16).padStart(2,"0")).join("")}catch{return""}
 }
@@ -326,18 +351,13 @@ function recordPageBaseURL(){
  }catch{}
  return "https://altahdi-school.github.io/student-AhLtahadi/records.html";
 }
-function qrRecordURL(selection,recordId,pageIndex,totalPages,fingerprint=""){
+function qrRecordURL(publicKey,pageIndex){
  const url=new URL(recordPageBaseURL());
- url.searchParams.set("record",recordId);
+ url.searchParams.set("record",String(publicKey||""));
  url.searchParams.set("page",String(pageIndex+1));
- url.searchParams.set("pages",String(totalPages));
- url.searchParams.set("class",String(selection.c.id||""));
- url.searchParams.set("room",String(selection.room||"ALL"));
- url.searchParams.set("subject",String(selection.subject.id||""));
- if(fingerprint)url.searchParams.set("sig",String(fingerprint).slice(0,16));
  return url.toString();
 }
-function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalStudents,fingerprint){
+function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalStudents,fingerprint,publicKey=""){
  const perPage=25,blankCount=Math.max(0,perPage-rows.length),year=$("schoolYear").value.trim()||"2026-2027";
  const classText=selection.c.name||"—",roomText=selection.room?roomLabel(selection.room):(rows[0]?.student?.roomNumber?roomLabel(rows[0].student.roomNumber):"كل القاعات"),stage=stageLabel(selection.c),gender=genderLabel(selection.c),isPrimary=classStageValue(selection.c)==="primary";
  const adminName=isPrimary?"إدارة ابتدائية التحدي المختلطة الأهلية":"إدارة ثانوية التحدي الأهلية المختلطة";
@@ -355,7 +375,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
  ${cellGrade(r.secondFinal,p,selection.mode)}
  <td></td></tr>`}).join("");
  const blanks=Array.from({length:blankCount},()=>`<tr class="blank-row"><td>—</td><td>—</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`).join("");
- const qr=selection.mode==="grades"?`<div class="qr-code" data-code="${esc(qrRecordURL(selection,recordId,pageIndex,totalPages,fingerprint))}"></div><div class="record-id">${esc(recordId)} / P${pageIndex+1}</div>`:"";
+ const qr=selection.mode==="grades"&&publicKey?`<div class="qr-code" data-code="${esc(qrRecordURL(publicKey,pageIndex))}"></div><div class="record-id">${esc(recordId)} / P${pageIndex+1}</div>`:"";
  return `<section class="print-page">
   <div class="page-frame"></div><div class="page-corner bl">◆</div><div class="page-corner tr">◆</div><img class="watermark-logo" src="logo.png" alt="">
   ${pageIndex>0?`<div class="continuation">تكملة السجل</div>`:""}
@@ -368,9 +388,9 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
    <table class="record-table">
     <thead><tr>
      <th class="seq">ت</th><th class="name">${esc(studentNameHead)}</th>
-     <th class="vertical">معدل الفصل الأول</th><th class="vertical">نصف السنة</th><th class="vertical">معدل الفصل الثاني</th>
-     <th class="vertical">السعي السنوي</th><th class="vertical">الامتحان النهائي</th><th class="vertical">الدرجة النهائية</th>
-     <th class="vertical">درجة الدور الثاني</th><th class="vertical">الدرجة النهائية</th>
+     <th class="vertical"><span class="vlabel">معدل الفصل الأول</span></th><th class="vertical"><span class="vlabel">نصف السنة</span></th><th class="vertical"><span class="vlabel">معدل الفصل الثاني</span></th>
+     <th class="vertical"><span class="vlabel">السعي السنوي</span></th><th class="vertical"><span class="vlabel">الامتحان النهائي</span></th><th class="vertical"><span class="vlabel">الدرجة النهائية</span></th>
+     <th class="vertical"><span class="vlabel">درجة الدور الثاني</span></th><th class="vertical"><span class="vlabel">الدرجة النهائية</span></th>
      <th class="note">الملاحظات</th>
     </tr></thead>
     <tbody>${body}${blanks}</tbody>
@@ -392,12 +412,71 @@ function fitPreview(){
 }
 function resetPrintScale(){document.querySelectorAll(".print-page").forEach(p=>{p.style.transform="";p.style.marginBottom=""})}
 
+
+function publicSnapshotPayload(sel,rows,recordId,fingerprint,publicKey){
+ return{
+  version:2,recordId,publicKey,fingerprint,createdAt:Date.now(),
+  schoolYear:$("schoolYear").value.trim()||"2026-2027",
+  mode:sel.mode,teacher:sel.teacher,manager:sel.manager,managerTitle:sel.managerTitle,
+  room:sel.room||"",
+  classData:{id:String(sel.c.id||""),name:String(sel.c.name||""),stage:sel.c.stage||sel.c.classStage||"",gender:sel.c.gender||""},
+  subject:{id:String(sel.subject.id||""),name:String(sel.subject.name||""),passGrade:Number(sel.subject.passGrade??50),maxGrade:Number(sel.subject.maxGrade??100)},
+  rows:rows.map(x=>({
+   student:{code:String(x.student.code||""),name:String(x.student.name||""),roomNumber:x.student.roomNumber??""},
+   row:{term1:x.row.term1??"",midyear:x.row.midyear??"",term2:x.row.term2??"",annual:x.row.annual??"",finalExam:x.row.finalExam??"",final:x.row.final??"",secondRound:x.row.secondRound??"",secondFinal:x.row.secondFinal??"",passGrade:Number(x.row.passGrade??sel.subject.passGrade??50)}
+  }))
+ }
+}
+async function publishRecordSnapshot(sel,rows,recordId,fingerprint){
+ const publicKey=randomPublicKey();
+ const snap=publicSnapshotPayload(sel,rows,recordId,fingerprint,publicKey);
+ const integrity=await sha256Hex(JSON.stringify({recordId:snap.recordId,publicKey:snap.publicKey,schoolYear:snap.schoolYear,mode:snap.mode,teacher:snap.teacher,manager:snap.manager,managerTitle:snap.managerTitle,room:snap.room,classData:snap.classData,subject:snap.subject,rows:snap.rows}));
+ snap.integrity=integrity;
+ await dbPut(`publicRecords/${encodeURIComponent(publicKey)}`,snap);
+ return{publicKey,snapshot:snap}
+}
+async function verifyPublicSnapshot(snap){
+ if(!snap||!snap.recordId||!snap.publicKey||!Array.isArray(snap.rows))return false;
+ const expected=await sha256Hex(JSON.stringify({recordId:snap.recordId,publicKey:snap.publicKey,schoolYear:snap.schoolYear,mode:snap.mode,teacher:snap.teacher,manager:snap.manager,managerTitle:snap.managerTitle,room:snap.room,classData:snap.classData,subject:snap.subject,rows:snap.rows}));
+ return !snap.integrity||!expected||String(expected)===String(snap.integrity)
+}
+function publicError(title,message){
+ document.body.classList.add("public-view");
+ $("loader").classList.add("hidden");$("app").classList.remove("hidden");
+ $("printPages").innerHTML=`<div class="public-error"><h2>${esc(title)}</h2><p>${esc(message)}</p></div>`;
+ $("emptyPreview").classList.add("hidden");
+}
+async function initPublicRecord(publicKey){
+ try{
+  document.body.classList.add("public-view");
+  const snap=await dbGetFresh(`publicRecords/${encodeURIComponent(publicKey)}`);
+  if(!snap){publicError("السجل غير موجود","هذا الرمز لا يحتوي سجلاً منشوراً، أو أنه من إصدار قديم. أنشئ معاينة جديدة للسجل ثم اطبعه من جديد.");return}
+  const ok=await verifyPublicSnapshot(snap);
+  if(!ok){publicError("تعذر التحقق من السجل","بيانات السجل لا تطابق بصمته المحفوظة.");return}
+  $("schoolYear").value=snap.schoolYear||"2026-2027";
+  const sel={c:snap.classData||{},room:snap.room||"",subject:snap.subject||{},teacher:snap.teacher||"",manager:snap.manager||"",managerTitle:snap.managerTitle||"مدير",mode:snap.mode||"grades"};
+  const rows=(snap.rows||[]).map(x=>({student:x.student||{},row:{...(x.row||{}),...snap.subject,passGrade:Number(x?.row?.passGrade??snap?.subject?.passGrade??50)}}));
+  const perPage=25,total=Math.max(1,Math.ceil(rows.length/perPage)),requested=Math.max(1,Math.min(total,Number(new URLSearchParams(location.search).get("page")||1)));
+  CURRENT={...sel,rows,generatedAt:snap.createdAt||0,recordId:snap.recordId,fingerprint:snap.fingerprint||"",publicKey:snap.publicKey,public:true};
+  let html="";for(let i=0;i<total;i++)html+=pageHTML(rows.slice(i*perPage,(i+1)*perPage),i,total,sel,i*perPage,snap.recordId,rows.length,snap.fingerprint||"",snap.publicKey);
+  $("printPages").innerHTML=html;$("emptyPreview").classList.add("hidden");
+  $("loader").classList.add("hidden");$("app").classList.remove("hidden");
+  const badge=document.createElement("div");badge.className="public-record-badge";badge.textContent="سجل درجات موثق — بدون تسجيل دخول";document.body.appendChild(badge);
+  renderBarcodes();setTimeout(()=>{fitPreview();const pages=[...document.querySelectorAll(".print-page")];pages[requested-1]?.scrollIntoView({block:"start",behavior:"auto"})},80)
+ }catch(error){
+  console.error("PUBLIC_RECORD_ERROR",error);
+  publicError("تعذر فتح السجل","تعذر تحميل السجل الآن. تأكد من الاتصال بالإنترنت وحاول مرة أخرى.")
+ }
+}
+
 async function buildPreview(){
  const btn=$("previewBtn");btn.disabled=true;toast("جاري تجهيز السجل...");
  try{
   savePrefs();const sel=currentSelection(),rows=await prepareRows(sel),perPage=25,total=Math.ceil(rows.length/perPage),recordId=makeRecordId(sel.c,sel.room,sel.subject),fingerprint=await sha256Hex(JSON.stringify({recordId,classId:sel.c.id,room:sel.room,subjectId:sel.subject.id,students:rows.map(x=>[x.student.code,x.student.name,x.row.term1,x.row.midyear,x.row.term2,x.row.annual,x.row.finalExam,x.row.final,x.row.secondRound,x.row.secondFinal]),teacher:sel.teacher,manager:sel.manager,year:$("schoolYear").value.trim()}));
-  CURRENT={...sel,rows,generatedAt:Date.now(),recordId,fingerprint};
-  let html="";for(let i=0;i<total;i++)html+=pageHTML(rows.slice(i*perPage,(i+1)*perPage),i,total,sel,i*perPage,recordId,rows.length,fingerprint);
+  toast("جاري نشر نسخة التحقق الخاصة بالـ QR...");
+  const published=sel.mode==="grades"?await publishRecordSnapshot(sel,rows,recordId,fingerprint):{publicKey:"",snapshot:null};
+  CURRENT={...sel,rows,generatedAt:Date.now(),recordId,fingerprint,publicKey:published.publicKey};
+  let html="";for(let i=0;i<total;i++)html+=pageHTML(rows.slice(i*perPage,(i+1)*perPage),i,total,sel,i*perPage,recordId,rows.length,fingerprint,published.publicKey);
   $("printPages").innerHTML=html;$("emptyPreview").classList.add("hidden");renderBarcodes();
   $("previewInfo").textContent=`${rows.length} طالب/ة — ${total} صفحة A4 — ${sel.mode==="grades"?"بدرجات":"بدون درجات"}`;
   $("printBtn").disabled=false;toast("السجل جاهز للطباعة.","ok");setTimeout(fitPreview,60)
@@ -419,6 +498,8 @@ window.addEventListener("afterprint",()=>setTimeout(fitPreview,100));
 
 async function init(){
  try{
+  const publicKey=String(new URLSearchParams(location.search).get("record")||"").trim();
+  if(publicKey){await initPublicRecord(publicKey);return}
   if(!loadSession()){location.replace("index.html");return}
   ADMIN_USER=await dbGetFresh(`users/${encodeURIComponent(SESSION.code)}`);
   if(!ADMIN_USER||!isAdminRole(ADMIN_USER)){logout();return}
