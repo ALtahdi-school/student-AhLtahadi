@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#075fcf">
 <title>سجلات الدرجات | مدرسة التحدي الأهلية المختلطة</title>
-<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root{
  --blue:#075fcf;--blue2:#064aa7;--bg:#f4f7fb;--card:#fff;--text:#182230;--muted:#667085;
@@ -63,7 +63,7 @@ button{cursor:pointer}
 .empty-preview h3{font-size:16px}
 .empty-preview p{margin-top:6px;font-size:9px;line-height:1.8}
 .print-page{
- --page-scale:1;
+ --page-scale:1;--table-weight:900;--outer-weight:900;
  position:relative;width:210mm;height:297mm;overflow:hidden;background:#fff;color:#111;
  border:1px solid #c9ced5;box-shadow:0 13px 35px rgba(30,50,70,.14);font-family:Tahoma,Arial,sans-serif;
  animation:pageReveal .42s cubic-bezier(.16,1,.3,1)
@@ -71,46 +71,46 @@ button{cursor:pointer}
 @keyframes pageReveal{from{opacity:0;transform:translateY(12px) scale(.99)}to{opacity:1;transform:none}}
 .page-inner{position:relative;z-index:2;height:100%;padding:7.5mm 7mm 7mm}
 .watermark-logo{position:absolute;z-index:0;top:51%;left:50%;width:82mm;height:82mm;transform:translate(-50%,-50%);object-fit:contain;opacity:.055;filter:grayscale(1);pointer-events:none}
-.page-frame{position:absolute;inset:4.2mm;border:var(--frame-width,1.8px) solid #111;pointer-events:none}
-.page-frame.double{border-style:double;border-width:calc(var(--frame-width,1.8px)*2.2)}
-.page-frame.ornate{border-style:double;border-width:calc(var(--frame-width,1.8px)*2.7);outline:1px solid #444;outline-offset:-3mm}
-.page-frame.ornate:before,.page-frame.ornate:after{content:"◆";position:absolute;width:8mm;height:8mm;display:flex;align-items:center;justify-content:center;background:#fff;color:#111;font-size:11px}
-.page-frame.ornate:before{top:-4mm;right:-4mm}.page-frame.ornate:after{bottom:-4mm;left:-4mm}
-.record-head{position:relative;min-height:47mm;display:grid;grid-template-columns:1fr 72mm 1fr;align-items:start;gap:4mm;padding:1mm 4mm 2mm}
-.head-side{padding-top:8mm;text-align:center;font-weight:900}
-.head-side .small{font-size:11px;font-weight:900;line-height:1.65}
-.head-side .school{margin-top:1.5mm;font-size:12px;font-weight:900;line-height:1.65}
-.head-center{text-align:center}
-.ministry-logo{width:25mm;height:25mm;display:block;margin:0 auto 1mm;object-fit:contain}
-.head-center h2{font-size:17px;font-weight:900;line-height:1.35}
-.head-center h3{margin-top:1mm;font-size:12px;font-weight:900}
-.head-center .gender-line{margin-top:1mm;font-size:10px;font-weight:900}
-.head-center p{margin-top:1mm;font-size:10px;font-weight:900}
-.record-meta{display:flex;align-items:center;justify-content:center;gap:5mm;margin-top:1mm;font-size:9px;font-weight:900}
-.record-meta span{padding:.7mm 2mm;border-bottom:1.2px solid #222}
+.page-frame{position:absolute;inset:4.2mm;border:6px double #111;outline:1.2px solid #333;outline-offset:-3mm;pointer-events:none}
+.page-frame:before,.page-frame:after{content:"◆";position:absolute;width:8mm;height:8mm;display:flex;align-items:center;justify-content:center;background:#fff;color:#111;font-size:11px;font-weight:900}
+.page-frame:before{top:-4mm;right:-4mm}.page-frame:after{bottom:-4mm;left:-4mm}
+.page-corner{position:absolute;z-index:1;width:8mm;height:8mm;display:flex;align-items:center;justify-content:center;background:#fff;color:#111;font-size:11px;font-weight:900;pointer-events:none}
+.page-corner.bl{left:1mm;bottom:1mm}.page-corner.tr{right:1mm;top:1mm}
+.record-head{position:relative;min-height:42mm;display:grid;grid-template-columns:1fr 78mm 1fr;align-items:start;gap:3mm;padding:0 4mm 1.5mm;font-weight:var(--outer-weight)}
+.head-side{padding-top:8mm;text-align:center;font-weight:var(--outer-weight)}
+.head-side .small{font-size:11px;font-weight:var(--outer-weight);line-height:1.5}
+.head-center{text-align:center;font-weight:var(--outer-weight)}
+.ministry-logo{width:24mm;height:24mm;display:block;margin:0 auto 0;object-fit:contain}
+.head-center h2{margin-top:.2mm;font-size:17px;font-weight:var(--outer-weight);line-height:1.2}
+.head-center h3{margin-top:.8mm;font-size:12px;font-weight:var(--outer-weight)}
+.head-center .gender-line{margin-top:.7mm;font-size:10px;font-weight:var(--outer-weight)}
+.head-center p{margin-top:.7mm;font-size:10px;font-weight:var(--outer-weight)}
+.record-meta{display:flex;align-items:center;justify-content:center;gap:5mm;margin-top:.6mm;font-size:9px;font-weight:var(--outer-weight)}
+.record-meta span{padding:.5mm 2mm;border-bottom:1.2px solid #222}
 .record-table{width:100%;border-collapse:collapse;table-layout:fixed;direction:rtl}
-.record-table th,.record-table td{border:.8px solid #333;text-align:center;vertical-align:middle}
-.record-table thead th{height:25mm;padding:1mm;font-size:8.3px;font-weight:900}
+.record-table th,.record-table td{border:.8px solid #333;text-align:center;vertical-align:middle;font-weight:var(--table-weight)}
+.record-table thead th{height:24mm;padding:1mm;font-size:8.2px;font-weight:var(--table-weight)}
 .record-table thead th.vertical{writing-mode:vertical-rl;transform:rotate(180deg);font-size:8px;letter-spacing:.2px}
 .record-table th.seq{width:9mm}
 .record-table th.name{width:52mm;font-size:12px}
 .record-table th.note{width:27mm}
-.record-table tbody td{height:7.55mm;padding:.7mm .9mm;font-size:8.3px}
-.record-table tbody td.seq{font-size:8px;font-weight:900}
-.record-table tbody td.name{text-align:right;padding-right:1.8mm;font-size:9.2px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.record-table tbody td.grade{font-size:10px;font-weight:800}
+.record-table tbody td{height:6.7mm;padding:.55mm .8mm;font-size:8.1px}
+.record-table tbody td.seq{font-size:8px;font-weight:var(--table-weight)}
+.record-table tbody td.name{text-align:right;padding-right:1.8mm;font-size:9.1px;font-weight:var(--table-weight);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.record-table tbody td.grade{font-size:9.8px;font-weight:var(--table-weight)}
 .record-table tbody td.grade.fail{color:#d00000;text-decoration:underline;text-decoration-thickness:1.2px;text-underline-offset:2px;font-weight:900}
 .record-table tbody tr.blank-row td{color:transparent}
-.record-footer{position:absolute;right:10mm;left:10mm;bottom:8mm;height:31mm;display:grid;grid-template-columns:1fr 62mm 1fr;align-items:end;gap:6mm;border-top:2px solid #222;padding-top:3mm}
-.signature{text-align:center;font-size:10px;font-weight:900;line-height:1.65}
-.signature strong{display:block;margin-top:1mm;font-size:11px;font-weight:900}
-.barcode-zone{text-align:center;align-self:end}
-.barcode-zone svg{display:block;width:50mm!important;height:10mm!important;margin:auto;max-width:100%}
-.record-id{margin-top:.3mm;direction:ltr;font-family:Arial,sans-serif;font-size:5.5px;font-weight:800;letter-spacing:.35px}
-.auditor{margin-top:.9mm;text-align:center;font-size:8.5px;font-weight:900}
-.manager{margin-top:1mm;text-align:center;font-size:9.5px;font-weight:900;line-height:1.5}
-.manager strong{display:block;font-size:11px;font-weight:900}
-.page-no{position:absolute;bottom:4.8mm;left:7mm;font-size:6.5px;font-weight:800}
+.record-footer{position:absolute;right:10mm;left:10mm;bottom:8.5mm;height:29mm;display:grid;grid-template-columns:1fr 58mm 1fr;align-items:end;gap:5mm;border-top:2.2px solid #222;padding-top:2.5mm;font-weight:var(--outer-weight)}
+.signature{text-align:center;font-size:10px;font-weight:var(--outer-weight);line-height:1.6}
+.signature strong{display:block;margin-top:.8mm;font-size:11px;font-weight:var(--outer-weight)}
+.barcode-zone{text-align:center;align-self:end;font-weight:var(--outer-weight)}
+.qr-code{width:19mm;height:19mm;margin:0 auto .5mm;padding:1mm;background:#fff}
+.qr-code canvas,.qr-code img{display:block!important;width:17mm!important;height:17mm!important;margin:auto}
+.record-id{margin-top:.2mm;direction:ltr;font-family:Arial,sans-serif;font-size:5px;font-weight:700;letter-spacing:.25px}
+.auditor{margin-top:.6mm;text-align:center;font-size:8.5px;font-weight:var(--outer-weight)}
+.manager{margin-top:1mm;text-align:center;font-size:9.5px;font-weight:var(--outer-weight);line-height:1.5}
+.manager strong{display:block;font-size:11px;font-weight:var(--outer-weight)}
+.page-no{position:absolute;z-index:5;bottom:6.6mm;left:8mm;padding:.4mm 1.2mm;background:#fff;font-size:6.5px;font-weight:var(--outer-weight)}
 .continuation{position:absolute;top:6mm;left:7mm;padding:1mm 2mm;border-radius:999px;background:#f4f4f4;font-size:6.5px;font-weight:900}
 @media(max-width:1050px){
  .layout{grid-template-columns:1fr}.panel{position:static}.preview-area{min-height:500px}
@@ -163,10 +163,10 @@ button{cursor:pointer}
    </div>
    <div class="field"><label>العام الدراسي</label><input id="schoolYear" type="text" value="2026-2027"></div>
    <div class="inline">
-    <div class="field"><label>شكل إطار السجل</label><select id="frameStyle"><option value="double">رسمي مزدوج</option><option value="ornate">مزخرف</option><option value="solid">عريض بسيط</option></select></div>
-    <div class="field"><label>سماكة الإطار</label><select id="frameWidth"><option value="1.2">متوسط</option><option value="1.8" selected>عريض</option><option value="2.4">عريض جداً</option></select></div>
+    <div class="field"><label>سماكة خط الجدول</label><select id="tableFontWeight"><option value="500">عادي</option><option value="700">عريض</option><option value="900" selected>عريض جداً</option></select><small>يتحكم بخط أسماء الطلبة والدرجات داخل الجدول.</small></div>
+    <div class="field"><label>سماكة الخط خارج الجدول</label><select id="outerFontWeight"><option value="500">عادي</option><option value="700">عريض</option><option value="900" selected>عريض جداً</option></select><small>يتحكم بالعناوين والتواقيع وبيانات أعلى وأسفل السجل.</small></div>
    </div>
-   <div class="status ok" style="margin-top:0">شعار وزارة التربية يُقرأ تلقائياً من <b>ministry-logo.png</b>، والعلامة المائية من شعار المدرسة <b>logo.png</b>.</div>
+   <div class="status ok" style="margin-top:0">الإطار ثابت على <b>مزخرف وعريض جداً</b>. شعار وزارة التربية يُقرأ تلقائياً من <b>ministry-logo.PNG</b>، والعلامة المائية من <b>logo.png</b>.</div>
   </div>
 
   <div class="actions">
@@ -243,8 +243,8 @@ function buildAllSubjectRows(c,raw){
 }
 function subjectRowForStudent(c,raw,subject){return buildAllSubjectRows(c,raw).find(r=>String(r.id)===String(subject.id)||norm(r.name)===norm(subject.name))||{...subject,term1:"",midyear:"",term2:"",annual:"",finalExam:"",final:"",secondRound:"",secondFinal:""}}
 
-function savePrefs(){const x={teacherName:$("teacherName").value,managerName:$("managerName").value,managerTitle:$("managerTitle").value,schoolYear:$("schoolYear").value,frameStyle:$("frameStyle").value,frameWidth:$("frameWidth").value};localStorage.setItem("tahadi_records_prefs",JSON.stringify(x))}
-function loadPrefs(){try{const x=JSON.parse(localStorage.getItem("tahadi_records_prefs")||"{}");["teacherName","managerName","managerTitle","schoolYear","frameStyle","frameWidth"].forEach(k=>{if(x[k]!==undefined&&$(k))$(k).value=x[k]})}catch{}}
+function savePrefs(){const x={teacherName:$("teacherName").value,managerName:$("managerName").value,managerTitle:$("managerTitle").value,schoolYear:$("schoolYear").value,tableFontWeight:$("tableFontWeight").value,outerFontWeight:$("outerFontWeight").value};localStorage.setItem("tahadi_records_prefs",JSON.stringify(x))}
+function loadPrefs(){try{const x=JSON.parse(localStorage.getItem("tahadi_records_prefs")||"{}");["teacherName","managerName","managerTitle","schoolYear","tableFontWeight","outerFontWeight"].forEach(k=>{if(x[k]!==undefined&&$(k))$(k).value=x[k]})}catch{}}
 
 function fillClasses(){
  const rows=Object.values(DATA.classes||{}).filter(Boolean).sort((a,b)=>String(a.name||"").localeCompare(String(b.name||""),"ar")||Number(a.roomNumber||0)-Number(b.roomNumber||0));
@@ -295,8 +295,9 @@ async function prepareRows(selection){
  return selection.students.map((student,i)=>({student,row:subjectRowForStudent(selection.c,grades[i]||{},selection.subject)}))
 }
 
-function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId){
- const perPage=25,blankCount=Math.max(0,perPage-rows.length),year=$("schoolYear").value.trim()||"2026-2027",frameStyle=$("frameStyle").value||"double",frameWidth=$("frameWidth").value||"1.8";
+function qrRecordText(selection,recordId,rowsCount){return["مدرسة التحدي الأهلية المختلطة","سجل درجات الإدارة",`رقم السجل: ${recordId}`,`الصف: ${selection.c.name||""}`,`القاعة: ${selection.room?roomLabel(selection.room):"كل القاعات"}`,`المادة: ${selection.subject.name||""}`,`مدرس المادة: ${selection.teacher||""}`,`عدد الطلبة: ${rowsCount}`,`العام الدراسي: ${$("schoolYear").value.trim()||"2026-2027"}`].join("\n")}
+function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalStudents){
+ const perPage=25,blankCount=Math.max(0,perPage-rows.length),year=$("schoolYear").value.trim()||"2026-2027",tableWeight=$("tableFontWeight").value||"900",outerWeight=$("outerFontWeight").value||"900";
  const classText=selection.c.name||"—",roomText=selection.room?roomLabel(selection.room):(rows[0]?.student?.roomNumber?roomLabel(rows[0].student.roomNumber):"كل القاعات"),stage=stageLabel(selection.c),gender=genderLabel(selection.c),isPrimary=classStageValue(selection.c)==="primary";
  const adminName=isPrimary?"إدارة ابتدائية التحدي المختلطة الأهلية":"إدارة ثانوية التحدي الأهلية المختلطة";
  const studentNameHead=isPrimary?"اسم التلميذ":"اسم الطالب";
@@ -313,15 +314,15 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId){
  ${cellGrade(r.secondFinal,p,selection.mode)}
  <td></td></tr>`}).join("");
  const blanks=Array.from({length:blankCount},()=>`<tr class="blank-row"><td>—</td><td>—</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`).join("");
- const barcode=selection.mode==="grades"?`<svg class="barcode" data-code="${esc(recordId)}"></svg><div class="record-id">${esc(recordId)}</div>`:"";
- return `<section class="print-page" style="--frame-width:${esc(frameWidth)}px">
-  <div class="page-frame ${esc(frameStyle)}"></div><img class="watermark-logo" src="logo.png" alt="">
+ const qr=selection.mode==="grades"?`<div class="qr-code" data-code="${esc(qrRecordText(selection,recordId,totalStudents))}"></div><div class="record-id">${esc(recordId)}</div>`:"";
+ return `<section class="print-page" style="--table-weight:${esc(tableWeight)};--outer-weight:${esc(outerWeight)}">
+  <div class="page-frame"></div><div class="page-corner bl">◆</div><div class="page-corner tr">◆</div><img class="watermark-logo" src="logo.png" alt="">
   ${pageIndex>0?`<div class="continuation">تكملة السجل</div>`:""}
   <div class="page-inner">
    <header class="record-head">
     <div class="head-side"><div class="small">${esc(adminName)}</div></div>
-    <div class="head-center"><img class="ministry-logo" src="ministry-logo.png" alt="شعار وزارة التربية"><h2>سجل درجات الإدارة</h2><h3>${esc(classText)} — ${esc(roomText)}</h3><div class="gender-line">${esc(gender)}</div><p>للعام الدراسي ${esc(year)}</p><div class="record-meta"><span>المادة: ${esc(selection.subject.name)}</span></div></div>
-    <div class="head-side"><div class="small">وزارة التربية</div><div class="school">مدرسة التحدي الأهلية المختلطة</div></div>
+    <div class="head-center"><img class="ministry-logo" src="ministry-logo.PNG" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/ALtahdi-school/student-AhLtahadi/main/ministry-logo.PNG'" alt="شعار وزارة التربية"><h2>سجل درجات الإدارة</h2><h3>${esc(classText)} — ${esc(roomText)}</h3><div class="gender-line">${esc(gender)}</div><p>للعام الدراسي ${esc(year)}</p><div class="record-meta"><span>المادة: ${esc(selection.subject.name)}</span></div></div>
+    <div class="head-side"></div>
    </header>
    <table class="record-table">
     <thead><tr>
@@ -335,14 +336,15 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId){
    </table>
    <footer class="record-footer">
     <div class="signature">مدرس المادة<strong>${esc(selection.teacher)}</strong></div>
-    <div class="barcode-zone">${barcode}<div class="auditor">المدقق : <strong>أحمد عبد الرحمن أحمد</strong></div></div>
+    <div class="barcode-zone">${qr}<div class="auditor">المدقق : <strong>أحمد عبد الرحمن أحمد</strong></div></div>
     <div class="manager">${esc(selection.managerTitle)} المدرسة<strong>${esc(selection.manager)}</strong></div>
    </footer>
    <div class="page-no">صفحة ${pageIndex+1} من ${totalPages}</div>
   </div>
  </section>`
 }
-function renderBarcodes(){document.querySelectorAll(".barcode").forEach(el=>{try{JsBarcode(el,el.dataset.code,{format:"CODE128",displayValue:false,height:40,width:1.2,margin:0})}catch(e){console.error("BARCODE_ERROR",e)}})}
+function renderBarcodes(){document.querySelectorAll(".qr-code").forEach(el=>{try{el.innerHTML="";new QRCode(el,{text:el.dataset.code||"",width:68,height:68,correctLevel:QRCode.CorrectLevel.M})}catch(e){console.error("QR_ERROR",e)}})}
+
 function fitPreview(){
  const area=$("previewArea"),pages=[...document.querySelectorAll(".print-page")];if(!pages.length)return;
  const max=Math.min(1,(area.clientWidth-26)/(210*3.7795275591));pages.forEach(p=>{p.style.transform=`scale(${max})`;p.style.transformOrigin="top center";p.style.marginBottom=`${-(297*3.7795275591)*(1-max)}px`})
@@ -354,7 +356,7 @@ async function buildPreview(){
  try{
   savePrefs();const sel=currentSelection(),rows=await prepareRows(sel),perPage=25,total=Math.ceil(rows.length/perPage),recordId=makeRecordId(sel.c,sel.room,sel.subject);
   CURRENT={...sel,rows,generatedAt:Date.now(),recordId};
-  let html="";for(let i=0;i<total;i++)html+=pageHTML(rows.slice(i*perPage,(i+1)*perPage),i,total,sel,i*perPage,recordId);
+  let html="";for(let i=0;i<total;i++)html+=pageHTML(rows.slice(i*perPage,(i+1)*perPage),i,total,sel,i*perPage,recordId,rows.length);
   $("printPages").innerHTML=html;$("emptyPreview").classList.add("hidden");renderBarcodes();
   $("previewInfo").textContent=`${rows.length} طالب/ة — ${total} صفحة A4 — ${sel.mode==="grades"?"بدرجات":"بدون درجات"}`;
   $("printBtn").disabled=false;toast("السجل جاهز للطباعة.","ok");setTimeout(fitPreview,60)
