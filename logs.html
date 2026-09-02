@@ -12,7 +12,7 @@
  --border:#dfe6ee;--green:#078746;--red:#c62828;--orange:#d56c00;--shadow:0 18px 55px rgba(30,54,88,.11)
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:"Times New Roman",Times,serif}
 button,input,select{font:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
@@ -63,54 +63,54 @@ button{cursor:pointer}
 .empty-preview h3{font-size:16px}
 .empty-preview p{margin-top:6px;font-size:9px;line-height:1.8}
 .print-page{
- --page-scale:1;--table-weight:900;--outer-weight:900;
+ --page-scale:1;
  position:relative;width:210mm;height:297mm;overflow:hidden;background:#fff;color:#111;
- border:1px solid #c9ced5;box-shadow:0 13px 35px rgba(30,50,70,.14);font-family:Tahoma,Arial,sans-serif;
+ border:1px solid #c9ced5;box-shadow:0 13px 35px rgba(30,50,70,.14);font-family:"Times New Roman",Times,serif;
  animation:pageReveal .42s cubic-bezier(.16,1,.3,1)
 }
 @keyframes pageReveal{from{opacity:0;transform:translateY(12px) scale(.99)}to{opacity:1;transform:none}}
 .page-inner{position:relative;z-index:2;height:100%;padding:7.5mm 7mm 7mm}
-.watermark-logo{position:absolute;z-index:0;top:51%;left:50%;width:82mm;height:82mm;transform:translate(-50%,-50%);object-fit:contain;opacity:.055;filter:grayscale(1);pointer-events:none}
+.watermark-logo{position:absolute;z-index:0;top:52%;left:50%;width:125mm;height:125mm;transform:translate(-50%,-50%);object-fit:contain;opacity:.045;filter:grayscale(1);pointer-events:none}
 .page-frame{position:absolute;inset:4.2mm;border:6px double #111;outline:1.2px solid #333;outline-offset:-3mm;pointer-events:none}
 .page-frame:before,.page-frame:after{content:"◆";position:absolute;width:8mm;height:8mm;display:flex;align-items:center;justify-content:center;background:#fff;color:#111;font-size:11px;font-weight:900}
 .page-frame:before{top:-4mm;right:-4mm}.page-frame:after{bottom:-4mm;left:-4mm}
 .page-corner{position:absolute;z-index:1;width:8mm;height:8mm;display:flex;align-items:center;justify-content:center;background:#fff;color:#111;font-size:11px;font-weight:900;pointer-events:none}
 .page-corner.bl{left:1mm;bottom:1mm}.page-corner.tr{right:1mm;top:1mm}
-.record-head{position:relative;min-height:42mm;display:grid;grid-template-columns:1fr 78mm 1fr;align-items:start;gap:3mm;padding:0 4mm 1.5mm;font-weight:var(--outer-weight)}
-.head-side{padding-top:8mm;text-align:center;font-weight:var(--outer-weight)}
-.head-side .small{font-size:16px;font-weight:var(--outer-weight);line-height:1.35}
-.head-center{text-align:center;font-weight:var(--outer-weight)}
+.record-head{position:relative;min-height:42mm;display:grid;grid-template-columns:1fr 78mm 1fr;align-items:start;gap:3mm;padding:0 4mm 1.5mm;font-size:16px;font-weight:700}
+.head-side{padding-top:5.5mm;text-align:center;font-size:16px;font-weight:700;line-height:1.25}
+.head-side .small{font-size:16px;font-weight:700;line-height:1.25}
+.head-center{text-align:center;font-size:16px;font-weight:700}
 .ministry-logo{width:24mm;height:24mm;display:block;margin:0 auto 0;object-fit:contain}
-.head-center h2{margin-top:.2mm;font-size:16px;font-weight:var(--outer-weight);line-height:1.2}
-.head-center h3{margin-top:.7mm;font-size:16px;font-weight:var(--outer-weight)}
-.head-center .gender-line{margin-top:.6mm;font-size:16px;font-weight:var(--outer-weight)}
-.head-center p{margin-top:.6mm;font-size:16px;font-weight:var(--outer-weight)}
-.record-meta{display:flex;align-items:center;justify-content:center;gap:5mm;margin-top:.6mm;font-size:16px;font-weight:var(--outer-weight)}
+.head-center h2{margin-top:.2mm;font-size:16px;font-weight:700;line-height:1.2}
+.head-center h3{margin-top:.7mm;font-size:16px;font-weight:700}
+.head-center .gender-line{margin-top:.6mm;font-size:16px;font-weight:700}
+.head-center p{margin-top:.6mm;font-size:16px;font-weight:700}
+.record-meta{display:flex;align-items:center;justify-content:center;gap:5mm;margin-top:.6mm;font-size:16px;font-weight:700}
 .record-meta span{padding:.5mm 2mm;border-bottom:1.2px solid #222}
 .record-table{width:100%;border-collapse:collapse;table-layout:fixed;direction:rtl}
-.record-table th,.record-table td{border:.8px solid #333;text-align:center;vertical-align:middle;font-weight:var(--table-weight)}
-.record-table thead th{height:24mm;padding:.8mm;font-size:14px;font-weight:var(--table-weight);line-height:1.15}
+.record-table th,.record-table td{border:.8px solid #333;text-align:center;vertical-align:middle;font-size:14px;font-weight:400}
+.record-table thead th{height:24mm;padding:.8mm;font-size:14px;font-weight:400;line-height:1.15}
 .record-table thead th.vertical{writing-mode:vertical-rl;transform:rotate(180deg);font-size:14px;letter-spacing:0;line-height:1.05}
 .record-table th.seq{width:9mm}
 .record-table th.name{width:52mm;font-size:14px}
 .record-table th.note{width:27mm}
 .record-table tbody td{height:6.25mm;padding:.25mm .55mm;font-size:14px;line-height:1.08}
-.record-table tbody td.seq{font-size:14px;font-weight:var(--table-weight)}
-.record-table tbody td.name{text-align:right;padding-right:1.5mm;font-size:14px;font-weight:var(--table-weight);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.record-table tbody td.grade{font-size:14px;font-weight:var(--table-weight)}
-.record-table tbody td.grade.fail{color:#d00000;text-decoration:underline;text-decoration-thickness:1.2px;text-underline-offset:2px;font-weight:900}
+.record-table tbody td.seq{font-size:14px;font-weight:400}
+.record-table tbody td.name{text-align:right;padding-right:1.5mm;font-size:14px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:clip}
+.record-table tbody td.grade{font-size:14px;font-weight:400}
+.record-table tbody td.grade.fail{color:#d00000;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:2px;font-weight:400}
 .record-table tbody tr.blank-row td{color:transparent}
-.record-footer{position:absolute;right:10mm;left:10mm;bottom:8.5mm;height:34mm;display:grid;grid-template-columns:1fr 58mm 1fr;align-items:end;gap:5mm;border-top:2.2px solid #222;padding-top:2.5mm;font-weight:var(--outer-weight)}
-.signature{text-align:center;font-size:14px;font-weight:var(--outer-weight);line-height:1.4}
-.signature strong{display:block;margin-top:.7mm;font-size:14px;font-weight:var(--outer-weight)}
-.barcode-zone{text-align:center;align-self:end;font-weight:var(--outer-weight)}
+.record-footer{position:absolute;right:10mm;left:10mm;bottom:8.5mm;height:34mm;display:grid;grid-template-columns:1fr 58mm 1fr;align-items:end;gap:5mm;border-top:2.2px solid #222;padding-top:2.5mm;font-size:14px;font-weight:700}
+.signature{text-align:center;font-size:14px;font-weight:700;line-height:1.4}
+.signature strong{display:block;margin-top:.7mm;font-size:14px;font-weight:700}
+.barcode-zone{text-align:center;align-self:end;font-size:14px;font-weight:700}
 .qr-code{width:23mm;height:23mm;margin:0 auto .6mm;padding:1mm;background:#fff}
 .qr-code canvas,.qr-code img{display:block!important;width:21mm!important;height:21mm!important;margin:auto;image-rendering:auto}
-.record-id{margin-top:.2mm;direction:ltr;font-family:Arial,sans-serif;font-size:5px;font-weight:700;letter-spacing:.25px}
-.auditor{margin-top:.7mm;text-align:center;font-size:14px;font-weight:var(--outer-weight);line-height:1.25}
-.manager{margin-top:.8mm;text-align:center;font-size:14px;font-weight:var(--outer-weight);line-height:1.35}
-.manager strong{display:block;font-size:14px;font-weight:var(--outer-weight)}
-.page-no{position:absolute;z-index:5;bottom:6.8mm;left:8mm;padding:.4mm 1.2mm;background:#fff;font-size:10px;font-weight:var(--outer-weight)}
+.record-id{margin-top:.2mm;direction:ltr;font-family:"Times New Roman",Times,serif;font-size:5px;font-weight:700;letter-spacing:.25px}
+.auditor{margin-top:.7mm;text-align:center;font-size:14px;font-weight:700;line-height:1.25}
+.manager{margin-top:.8mm;text-align:center;font-size:14px;font-weight:700;line-height:1.35}
+.manager strong{display:block;font-size:14px;font-weight:700}
+.page-no{position:absolute;z-index:5;bottom:6.8mm;left:8mm;padding:.4mm 1.2mm;background:#fff;font-size:10px;font-weight:700}
 .continuation{position:absolute;top:6mm;left:7mm;padding:1mm 2mm;border-radius:999px;background:#f4f4f4;font-size:6.5px;font-weight:900}
 @media(max-width:1050px){
  .layout{grid-template-columns:1fr}.panel{position:static}.preview-area{min-height:500px}
@@ -130,6 +130,12 @@ button{cursor:pointer}
  .print-page{width:210mm!important;height:297mm!important;margin:0!important;border:0!important;box-shadow:none!important;break-after:page;page-break-after:always;animation:none!important}
  .print-page:last-child{break-after:auto;page-break-after:auto}
 }
+
+.school-side-logo{width:30mm;height:30mm;display:block;margin:2.2mm auto 0;object-fit:contain}
+.admin-title{font-size:16px;font-weight:700;line-height:1.15}
+.admin-title .admin-word{display:block;font-size:16px;font-weight:700;margin-bottom:1mm}
+.admin-title .admin-school{display:block;font-size:16px;font-weight:700;line-height:1.25}
+
 </style>
 </head>
 <body>
@@ -162,11 +168,7 @@ button{cursor:pointer}
     <div class="field"><label>اسم المدير / المديرة</label><input id="managerName" type="text" placeholder="اكتب الاسم"></div>
    </div>
    <div class="field"><label>العام الدراسي</label><input id="schoolYear" type="text" value="2026-2027"></div>
-   <div class="inline">
-    <div class="field"><label>سماكة خط الجدول</label><select id="tableFontWeight"><option value="500">عادي</option><option value="700">عريض</option><option value="900" selected>عريض جداً</option></select><small>يتحكم بخط أسماء الطلبة والدرجات داخل الجدول.</small></div>
-    <div class="field"><label>سماكة الخط خارج الجدول</label><select id="outerFontWeight"><option value="500">عادي</option><option value="700">عريض</option><option value="900" selected>عريض جداً</option></select><small>يتحكم بالعناوين والتواقيع وبيانات أعلى وأسفل السجل.</small></div>
-   </div>
-   <div class="status ok" style="margin-top:0">الإطار ثابت على <b>مزخرف وعريض جداً</b>. شعار وزارة التربية يُقرأ تلقائياً من <b>ministry-logo.PNG</b>، والعلامة المائية من <b>logo.png</b>.</div>
+   <div class="status ok" style="margin-top:0">تنسيق السجل ثابت: <b>Times New Roman</b>، داخل الجدول 14 غير عريض، أعلى السجل 16 عريض، وأسفل الجدول 14 عريض. الإطار مزخرف وعريض جداً.</div>
   </div>
 
   <div class="actions">
@@ -243,8 +245,8 @@ function buildAllSubjectRows(c,raw){
 }
 function subjectRowForStudent(c,raw,subject){return buildAllSubjectRows(c,raw).find(r=>String(r.id)===String(subject.id)||norm(r.name)===norm(subject.name))||{...subject,term1:"",midyear:"",term2:"",annual:"",finalExam:"",final:"",secondRound:"",secondFinal:""}}
 
-function savePrefs(){const x={teacherName:$("teacherName").value,managerName:$("managerName").value,managerTitle:$("managerTitle").value,schoolYear:$("schoolYear").value,tableFontWeight:$("tableFontWeight").value,outerFontWeight:$("outerFontWeight").value};localStorage.setItem("tahadi_records_prefs",JSON.stringify(x))}
-function loadPrefs(){try{const x=JSON.parse(localStorage.getItem("tahadi_records_prefs")||"{}");["teacherName","managerName","managerTitle","schoolYear","tableFontWeight","outerFontWeight"].forEach(k=>{if(x[k]!==undefined&&$(k))$(k).value=x[k]})}catch{}}
+function savePrefs(){const x={teacherName:$("teacherName").value,managerName:$("managerName").value,managerTitle:$("managerTitle").value,schoolYear:$("schoolYear").value};localStorage.setItem("tahadi_records_prefs",JSON.stringify(x))}
+function loadPrefs(){try{const x=JSON.parse(localStorage.getItem("tahadi_records_prefs")||"{}");["teacherName","managerName","managerTitle","schoolYear"].forEach(k=>{if(x[k]!==undefined&&$(k))$(k).value=x[k]})}catch{}}
 
 function fillClasses(){
  const rows=Object.values(DATA.classes||{}).filter(Boolean).sort((a,b)=>String(a.name||"").localeCompare(String(b.name||""),"ar")||Number(a.roomNumber||0)-Number(b.roomNumber||0));
@@ -277,14 +279,35 @@ function currentSelection(){
  if(!students.length)throw new Error("لا يوجد طلاب ضمن الاختيار الحالي");
  return{c,room,subject,students,teacher,manager,managerTitle,mode:selectedMode()}
 }
+
+function randomRecordToken(){
+ try{const a=new Uint32Array(2);crypto.getRandomValues(a);return[...a].map(n=>n.toString(36)).join("").toUpperCase()}catch{return Math.random().toString(36).slice(2,12).toUpperCase()}
+}
+async function sha256Hex(value){
+ try{if(!crypto?.subtle)return"";const bytes=new TextEncoder().encode(String(value||"")),hash=await crypto.subtle.digest("SHA-256",bytes);return[...new Uint8Array(hash)].map(b=>b.toString(16).padStart(2,"0")).join("")}catch{return""}
+}
 function makeRecordId(c,room,subject){
  const d=new Date(),stamp=`${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}${String(d.getHours()).padStart(2,"0")}${String(d.getMinutes()).padStart(2,"0")}`;
- return `THD-${safeKey(c.id).slice(-8)}-${safeKey(room||"ALL")}-${safeKey(subject.id).slice(-8)}-${stamp}`.toUpperCase()
+ return `THD-${safeKey(c.id).slice(-6)}-${safeKey(room||"ALL")}-${safeKey(subject.id).slice(-6)}-${stamp}-${randomRecordToken().slice(0,8)}`.toUpperCase()
 }
 function gradeHTML(v,pass,mode){
  if(mode==="blank"||!isGrade(v))return"";
  const n=Number(v),fail=n<Number(pass??50);
  return `<span class="${fail?"fail":""}">${esc(Number.isInteger(n)?n:Math.round(n*10)/10)}</span>`
+}
+
+let NAME_MEASURE_CANVAS=null;
+function studentNameForRecord(value){
+ const full=String(value||"").trim().replace(/\s+/g," ");
+ if(!full)return"—";
+ const parts=full.split(" ").filter(Boolean);
+ if(parts.length<=3)return full;
+ try{
+  NAME_MEASURE_CANVAS=NAME_MEASURE_CANVAS||document.createElement("canvas");
+  const ctx=NAME_MEASURE_CANVAS.getContext("2d");
+  if(ctx){ctx.font='400 14px "Times New Roman"';if(ctx.measureText(full).width<=182)return full;}
+ }catch{}
+ return parts.slice(0,3).join(" ");
 }
 function cellGrade(v,pass,mode){const n=mode==="blank"?"":v,fail=mode!=="blank"&&isGrade(n)&&Number(n)<Number(pass??50);return `<td class="grade ${fail?"fail":""}">${mode==="blank"?"":esc(isGrade(n)?(Number.isInteger(Number(n))?Number(n):Math.round(Number(n)*10)/10):"")}</td>`}
 
@@ -295,15 +318,15 @@ async function prepareRows(selection){
  return selection.students.map((student,i)=>({student,row:subjectRowForStudent(selection.c,grades[i]||{},selection.subject)}))
 }
 
-function qrRecordText(selection,recordId,rowsCount){return`TAHADI|${recordId}|${selection.room||"ALL"}|${rowsCount}`}
-function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalStudents){
- const perPage=25,blankCount=Math.max(0,perPage-rows.length),year=$("schoolYear").value.trim()||"2026-2027",tableWeight=$("tableFontWeight").value||"900",outerWeight=$("outerFontWeight").value||"900";
+function qrRecordText(selection,recordId,rowsCount,fingerprint=""){return`TAHADI|${recordId}|${selection.room||"ALL"}|${rowsCount}|${String(fingerprint||"").slice(0,16)}`}
+function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalStudents,fingerprint){
+ const perPage=25,blankCount=Math.max(0,perPage-rows.length),year=$("schoolYear").value.trim()||"2026-2027";
  const classText=selection.c.name||"—",roomText=selection.room?roomLabel(selection.room):(rows[0]?.student?.roomNumber?roomLabel(rows[0].student.roomNumber):"كل القاعات"),stage=stageLabel(selection.c),gender=genderLabel(selection.c),isPrimary=classStageValue(selection.c)==="primary";
  const adminName=isPrimary?"إدارة ابتدائية التحدي المختلطة الأهلية":"إدارة ثانوية التحدي الأهلية المختلطة";
  const studentNameHead=isPrimary?"اسم التلميذ":"اسم الطالب";
  const body=rows.map((x,i)=>{const r=x.row,p=Number(r.passGrade??selection.subject.passGrade??50);return`<tr>
  <td class="seq">${startIndex+i+1}</td>
- <td class="name">${esc(x.student.name||"—")}</td>
+ <td class="name">${esc(studentNameForRecord(x.student.name))}</td>
  ${cellGrade(r.term1,p,selection.mode)}
  ${cellGrade(r.midyear,p,selection.mode)}
  ${cellGrade(r.term2,p,selection.mode)}
@@ -314,15 +337,15 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
  ${cellGrade(r.secondFinal,p,selection.mode)}
  <td></td></tr>`}).join("");
  const blanks=Array.from({length:blankCount},()=>`<tr class="blank-row"><td>—</td><td>—</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`).join("");
- const qr=selection.mode==="grades"?`<div class="qr-code" data-code="${esc(qrRecordText(selection,recordId,totalStudents))}"></div><div class="record-id">${esc(recordId)}</div>`:"";
- return `<section class="print-page" style="--table-weight:${esc(tableWeight)};--outer-weight:${esc(outerWeight)}">
+ const qr=selection.mode==="grades"&&pageIndex===totalPages-1?`<div class="qr-code" data-code="${esc(qrRecordText(selection,recordId,totalStudents,fingerprint))}"></div><div class="record-id">${esc(recordId)}</div>`:"";
+ return `<section class="print-page">
   <div class="page-frame"></div><div class="page-corner bl">◆</div><div class="page-corner tr">◆</div><img class="watermark-logo" src="logo.png" alt="">
   ${pageIndex>0?`<div class="continuation">تكملة السجل</div>`:""}
   <div class="page-inner">
    <header class="record-head">
-    <div class="head-side"><div class="small">${esc(adminName)}</div></div>
+    <div class="head-side"><div class="admin-title"><span class="admin-word">إدارة</span><span class="admin-school">${esc(isPrimary?"ابتدائية التحدي الأهلية المختلطة":"ثانوية التحدي الأهلية المختلطة")}</span></div></div>
     <div class="head-center"><img class="ministry-logo" src="ministry-logo.PNG" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/ALtahdi-school/student-AhLtahadi/main/ministry-logo.PNG'" alt="شعار وزارة التربية"><h2>سجل درجات الإدارة</h2><h3>${esc(classText)} — ${esc(roomText)}</h3><div class="gender-line">${esc(gender)}</div><p>للعام الدراسي ${esc(year)}</p><div class="record-meta"><span>المادة: ${esc(selection.subject.name)}</span></div></div>
-    <div class="head-side"></div>
+    <div class="head-side"><img class="school-side-logo" src="logo.png" alt="شعار المدرسة"></div>
    </header>
    <table class="record-table">
     <thead><tr>
@@ -336,7 +359,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
    </table>
    <footer class="record-footer">
     <div class="signature">مدرس المادة<strong>${esc(selection.teacher)}</strong></div>
-    <div class="barcode-zone">${qr}<div class="auditor">المدقق : <strong>أحمد عبد الرحمن أحمد</strong></div></div>
+    <div class="barcode-zone">${qr}${selection.mode==="grades"&&pageIndex===totalPages-1?`<div class="auditor">المدقق : <strong>أحمد عبد الرحمن أحمد</strong></div>`:""}</div>
     <div class="manager">${esc(selection.managerTitle)} المدرسة<strong>${esc(selection.manager)}</strong></div>
    </footer>
    <div class="page-no">صفحة ${pageIndex+1} من ${totalPages}</div>
@@ -354,19 +377,20 @@ function resetPrintScale(){document.querySelectorAll(".print-page").forEach(p=>{
 async function buildPreview(){
  const btn=$("previewBtn");btn.disabled=true;toast("جاري تجهيز السجل...");
  try{
-  savePrefs();const sel=currentSelection(),rows=await prepareRows(sel),perPage=25,total=Math.ceil(rows.length/perPage),recordId=makeRecordId(sel.c,sel.room,sel.subject);
-  CURRENT={...sel,rows,generatedAt:Date.now(),recordId};
-  let html="";for(let i=0;i<total;i++)html+=pageHTML(rows.slice(i*perPage,(i+1)*perPage),i,total,sel,i*perPage,recordId,rows.length);
+  savePrefs();const sel=currentSelection(),rows=await prepareRows(sel),perPage=25,total=Math.ceil(rows.length/perPage),recordId=makeRecordId(sel.c,sel.room,sel.subject),fingerprint=await sha256Hex(JSON.stringify({recordId,classId:sel.c.id,room:sel.room,subjectId:sel.subject.id,students:rows.map(x=>[x.student.code,x.student.name,x.row.term1,x.row.midyear,x.row.term2,x.row.annual,x.row.finalExam,x.row.final,x.row.secondRound,x.row.secondFinal]),teacher:sel.teacher,manager:sel.manager,year:$("schoolYear").value.trim()}));
+  CURRENT={...sel,rows,generatedAt:Date.now(),recordId,fingerprint};
+  let html="";for(let i=0;i<total;i++)html+=pageHTML(rows.slice(i*perPage,(i+1)*perPage),i,total,sel,i*perPage,recordId,rows.length,fingerprint);
   $("printPages").innerHTML=html;$("emptyPreview").classList.add("hidden");renderBarcodes();
   $("previewInfo").textContent=`${rows.length} طالب/ة — ${total} صفحة A4 — ${sel.mode==="grades"?"بدرجات":"بدون درجات"}`;
   $("printBtn").disabled=false;toast("السجل جاهز للطباعة.","ok");setTimeout(fitPreview,60)
  }catch(error){console.error(error);toast(error.message||"تعذر إنشاء السجل","error");$("printBtn").disabled=true}
  finally{btn.disabled=false}
 }
-function printRecord(){
+async function waitPrintAssets(){const imgs=[...document.querySelectorAll("#printPages img")];await Promise.all(imgs.map(img=>img.complete?Promise.resolve():new Promise(resolve=>{img.onload=resolve;img.onerror=resolve})));await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))}
+async function printRecord(){
  if(!CURRENT.rows?.length){toast("أنشئ معاينة السجل أولاً","error");return}
- savePrefs();resetPrintScale();
- setTimeout(()=>{window.print();setTimeout(fitPreview,400)},60)
+ savePrefs();resetPrintScale();$("printBtn").disabled=true;
+ try{toast("جاري تجهيز الطباعة...");await waitPrintAssets();window.print()}finally{$("printBtn").disabled=false;setTimeout(fitPreview,250)}
 }
 
 $("classSelect").addEventListener("change",fillRooms);
