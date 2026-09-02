@@ -90,17 +90,17 @@ button{cursor:pointer}
 .record-meta{display:flex;align-items:center;justify-content:center;gap:5mm;margin-top:.6mm;font-size:17px;font-weight:700}
 .record-meta span{padding:.5mm 2mm;border-bottom:1.2px solid #222}
 .record-table{width:100%;border-collapse:collapse;table-layout:fixed;direction:rtl}
-.record-table th,.record-table td{border:.8px solid #333;text-align:center;vertical-align:middle;font-size:14px;font-weight:700}
-.record-table thead th{height:24mm;padding:.8mm;font-size:14px;font-weight:700;line-height:1.15}
-.record-table thead th.vertical{position:relative;height:24mm;padding:0;overflow:hidden;font-size:14px;line-height:1;direction:rtl}.record-table thead th.vertical .vlabel{position:absolute;top:50%;left:50%;display:block;white-space:nowrap;direction:rtl;unicode-bidi:plaintext;font-family:"Times New Roman",Times,serif;font-size:14px;font-weight:700;line-height:1;transform:translate(-50%,-50%) rotate(-90deg);transform-origin:center}
+.record-table th,.record-table td{border:.8px solid #333;text-align:center;vertical-align:middle;font-size:15px;font-weight:700}
+.record-table thead th{height:24.5mm;padding:.9mm;font-size:15px;font-weight:700;line-height:1.15}
+.record-table thead th.vertical{position:relative;height:24.5mm;padding:0;overflow:hidden;font-size:15px;line-height:1;direction:rtl}.record-table thead th.vertical .vlabel{position:absolute;top:50%;left:50%;display:block;white-space:nowrap;direction:rtl;unicode-bidi:plaintext;font-family:"Times New Roman",Times,serif;font-size:15px;font-weight:700;line-height:1;transform:translate(-50%,-50%) rotate(-90deg);transform-origin:center}
 .record-table th.seq{width:9mm}
-.record-table th.name{width:52mm;font-size:14px}
+.record-table th.name{width:53mm;font-size:15px}
 .record-table th.note{width:27mm}
-.record-table tbody td{height:6.25mm;padding:.25mm .55mm;font-size:14px;line-height:1.08}
-.record-table tbody td.seq{font-size:14px;font-weight:700}
-.record-table tbody td.name{text-align:right;padding-right:1.5mm;font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:clip}
-.record-table tbody td.grade{font-size:14px;font-weight:700}
-.record-table tbody td.grade.fail{color:#d00000;text-decoration:underline;text-decoration-thickness:1.6px;text-underline-offset:2px;font-weight:700}
+.record-table tbody td{height:6.5mm;padding:.35mm .65mm;font-size:15px;line-height:1.08}
+.record-table tbody td.seq{font-size:15px;font-weight:700}
+.record-table tbody td.name{text-align:right;padding-right:1.7mm;font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:clip}
+.record-table tbody td.grade{font-size:15px;font-weight:700}
+.record-table tbody td.grade.fail{color:#d00000;text-decoration:underline;text-decoration-thickness:1.7px;text-underline-offset:2px;font-weight:700}
 .record-table tbody tr.blank-row td{color:transparent}
 .record-footer{position:absolute;right:10mm;left:10mm;bottom:8.5mm;height:41mm;display:grid;grid-template-columns:1fr 64mm 1fr;align-items:end;gap:5mm;border-top:2.2px solid #222;padding-top:2.5mm;font-size:14px;font-weight:700}
 .signature{text-align:center;font-size:16px;font-weight:700;line-height:1.35;transform:translateY(-3mm)}
@@ -412,7 +412,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
  ${cellGrade(r.secondFinal,p,selection.mode)}
  <td></td></tr>`}).join("");
  const blanks=Array.from({length:blankCount},()=>`<tr class="blank-row"><td>—</td><td>—</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`).join("");
- const qr=selection.mode==="grades"&&publicKey?`<div class="qr-code" data-code="${esc(qrRecordURL(publicKey))}"></div><div class="record-id">${esc(recordId)}</div><div class="qr-link-label">رابط PDF للسجل</div>`:"";
+ const qr=selection.mode==="grades"&&publicKey?`<div class="qr-code" data-code="${esc(qrRecordURL(publicKey))}"></div><div class="record-id">${esc(recordId)}</div><div class="qr-link-label"></div>`:"";
  return `<section class="print-page">
   <div class="page-frame"></div><div class="page-corner bl">◆</div><div class="page-corner tr">◆</div><img class="watermark-logo" src="logo.png" alt="">
   ${pageIndex>0?`<div class="continuation">تكملة السجل</div>`:""}
