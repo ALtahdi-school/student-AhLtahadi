@@ -105,7 +105,9 @@ button{cursor:pointer}
 .signature strong{display:block;margin-top:.7mm;font-size:14px;font-weight:700}
 .barcode-zone{text-align:center;align-self:end;font-size:14px;font-weight:700}
 .qr-code{width:23mm;height:23mm;margin:0 auto .6mm;padding:1mm;background:#fff}
-.qr-code canvas,.qr-code img{display:block!important;width:21mm!important;height:21mm!important;margin:auto;image-rendering:auto}
+.qr-code canvas,.qr-code img{width:21mm!important;height:21mm!important;margin:auto;image-rendering:auto}
+.qr-code canvas{display:block!important}
+.qr-code img{display:none!important}
 .record-id{margin-top:.2mm;direction:ltr;font-family:"Times New Roman",Times,serif;font-size:5px;font-weight:700;letter-spacing:.25px}
 .auditor{margin-top:.7mm;text-align:center;font-size:14px;font-weight:700;line-height:1.25}
 .manager{margin-top:.8mm;text-align:center;font-size:14px;font-weight:700;line-height:1.35}
@@ -168,7 +170,7 @@ button{cursor:pointer}
     <div class="field"><label>اسم المدير / المديرة</label><input id="managerName" type="text" placeholder="اكتب الاسم"></div>
    </div>
    <div class="field"><label>العام الدراسي</label><input id="schoolYear" type="text" value="2026-2027"></div>
-   <div class="status ok" style="margin-top:0">تنسيق السجل ثابت: <b>Times New Roman</b>، داخل الجدول 14 غير عريض، أعلى السجل 16 عريض، وأسفل الجدول 14 عريض. الإطار مزخرف وعريض جداً.</div>
+   <div class="status ok" style="margin-top:0">تنسيق السجل ثابت: <b>Times New Roman</b>، داخل الجدول 14 غير عريض، أعلى السجل 16 عريض، وأسفل الجدول 14 عريض. الإطار مزخرف وعريض جداً.<br>كل صفحة تحتوي رمز QR واحد فقط، وعند مسحه يفتح صفحة السجلات نفسها.</div>
   </div>
 
   <div class="actions">
@@ -318,7 +320,23 @@ async function prepareRows(selection){
  return selection.students.map((student,i)=>({student,row:subjectRowForStudent(selection.c,grades[i]||{},selection.subject)}))
 }
 
-function qrRecordText(selection,recordId,rowsCount,fingerprint=""){return`TAHADI|${recordId}|${selection.room||"ALL"}|${rowsCount}|${String(fingerprint||"").slice(0,16)}`}
+function recordPageBaseURL(){
+ try{
+  if(/^https?:$/i.test(location.protocol))return `${location.origin}${location.pathname}`;
+ }catch{}
+ return "https://altahdi-school.github.io/student-AhLtahadi/records.html";
+}
+function qrRecordURL(selection,recordId,pageIndex,totalPages,fingerprint=""){
+ const url=new URL(recordPageBaseURL());
+ url.searchParams.set("record",recordId);
+ url.searchParams.set("page",String(pageIndex+1));
+ url.searchParams.set("pages",String(totalPages));
+ url.searchParams.set("class",String(selection.c.id||""));
+ url.searchParams.set("room",String(selection.room||"ALL"));
+ url.searchParams.set("subject",String(selection.subject.id||""));
+ if(fingerprint)url.searchParams.set("sig",String(fingerprint).slice(0,16));
+ return url.toString();
+}
 function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalStudents,fingerprint){
  const perPage=25,blankCount=Math.max(0,perPage-rows.length),year=$("schoolYear").value.trim()||"2026-2027";
  const classText=selection.c.name||"—",roomText=selection.room?roomLabel(selection.room):(rows[0]?.student?.roomNumber?roomLabel(rows[0].student.roomNumber):"كل القاعات"),stage=stageLabel(selection.c),gender=genderLabel(selection.c),isPrimary=classStageValue(selection.c)==="primary";
@@ -337,7 +355,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
  ${cellGrade(r.secondFinal,p,selection.mode)}
  <td></td></tr>`}).join("");
  const blanks=Array.from({length:blankCount},()=>`<tr class="blank-row"><td>—</td><td>—</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`).join("");
- const qr=selection.mode==="grades"?`<div class="qr-code" data-code="${esc(qrRecordText(selection,recordId,totalStudents,fingerprint))}"></div><div class="record-id">${esc(recordId)}</div>`:"";
+ const qr=selection.mode==="grades"?`<div class="qr-code" data-code="${esc(qrRecordURL(selection,recordId,pageIndex,totalPages,fingerprint))}"></div><div class="record-id">${esc(recordId)} / P${pageIndex+1}</div>`:"";
  return `<section class="print-page">
   <div class="page-frame"></div><div class="page-corner bl">◆</div><div class="page-corner tr">◆</div><img class="watermark-logo" src="logo.png" alt="">
   ${pageIndex>0?`<div class="continuation">تكملة السجل</div>`:""}
@@ -366,7 +384,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
   </div>
  </section>`
 }
-function renderBarcodes(){document.querySelectorAll(".qr-code").forEach(el=>{try{el.innerHTML="";const text=String(el.dataset.code||"").trim();if(!text)return;if(typeof QRCode==="undefined")throw new Error("QR_LIBRARY_NOT_LOADED");new QRCode(el,{text,width:96,height:96,colorDark:"#000000",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.L});requestAnimationFrame(()=>{const qr=el.querySelector("canvas,img");if(qr){qr.style.display="block";qr.style.width="21mm";qr.style.height="21mm";qr.style.margin="auto"}})}catch(e){console.error("QR_ERROR",e);el.innerHTML='<div style="font-size:9px;font-weight:900;line-height:1.4;text-align:center">تعذر إنشاء<br>رمز السجل</div>'}})}
+function renderBarcodes(){document.querySelectorAll(".qr-code").forEach(el=>{try{el.innerHTML="";const text=String(el.dataset.code||"").trim();if(!text)return;if(typeof QRCode==="undefined")throw new Error("QR_LIBRARY_NOT_LOADED");new QRCode(el,{text,width:128,height:128,colorDark:"#000000",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});requestAnimationFrame(()=>{const canvas=el.querySelector("canvas"),img=el.querySelector("img");if(canvas){canvas.style.display="block";canvas.style.width="21mm";canvas.style.height="21mm";canvas.style.margin="auto";if(img)img.remove();}else if(img){img.style.display="block";img.style.width="21mm";img.style.height="21mm";img.style.margin="auto";}})}catch(e){console.error("QR_ERROR",e);el.innerHTML='<div style="font-size:9px;font-weight:700;line-height:1.4;text-align:center">تعذر إنشاء<br>رمز السجل</div>'}})}
 
 function fitPreview(){
  const area=$("previewArea"),pages=[...document.querySelectorAll(".print-page")];if(!pages.length)return;
