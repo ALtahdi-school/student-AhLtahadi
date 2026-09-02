@@ -110,7 +110,7 @@ button{cursor:pointer}
 .qr-code canvas,.qr-code img{width:28mm!important;height:28mm!important;margin:auto;image-rendering:auto}
 .qr-code canvas{display:block!important}
 .qr-code img{display:none!important}
-.record-id{margin-top:.2mm;direction:ltr;font-family:"Times New Roman",Times,serif;font-size:5px;font-weight:700;letter-spacing:.25px}
+.record-id{margin-top:.2mm;direction:ltr;font-family:"Times New Roman",Times,serif;font-size:5px;font-weight:700;letter-spacing:.25px}.qr-link-label{margin-top:.4mm;font-size:10px;font-weight:700;line-height:1.1}
 .auditor{margin-top:.7mm;text-align:center;font-size:14px;font-weight:700;line-height:1.25}
 .manager{margin-top:.8mm;text-align:center;font-size:14px;font-weight:700;line-height:1.35}
 .manager strong{display:block;font-size:14px;font-weight:700}
@@ -184,7 +184,7 @@ button{cursor:pointer}
     <div class="field"><label>اسم المدير / المديرة</label><input id="managerName" type="text" placeholder="اكتب الاسم"></div>
    </div>
    <div class="field"><label>العام الدراسي</label><input id="schoolYear" type="text" value="2026-2027"></div>
-   <div class="status ok" style="margin-top:0">تنسيق السجل ثابت: <b>Times New Roman</b>، داخل الجدول 14 غير عريض، أعلى السجل 16 عريض، وأسفل الجدول 14 عريض. الإطار مزخرف وعريض جداً.<br>كل صفحة تحتوي رمز QR واحد فقط، وعند مسحه يُنشئ ويفتح ملف PDF يحتوي جميع صفحات السجل بدون حساب أو تسجيل دخول، سواء كان السجل بدرجات أو بدون درجات.</div>
+   <div class="status ok" style="margin-top:0">تنسيق السجل ثابت: <b>Times New Roman</b>، داخل الجدول 14 غير عريض، أعلى السجل 16 عريض، وأسفل الجدول 14 عريض. الإطار مزخرف وعريض جداً.<br>كل صفحة تحتوي رمز QR واحد فقط لنفس السجل. عند مسحه يفتح ملف PDF كاملاً بجميع صفحات السجل بدون حساب أو تسجيل دخول، سواء كان بدرجات أو بدون درجات.</div>
   </div>
 
   <div class="actions">
@@ -353,10 +353,9 @@ function recordPageBaseURL(){
  }catch{}
  return "https://altahdi-school.github.io/student-AhLtahadi/records.html";
 }
-function qrRecordURL(publicKey,pageIndex){
+function qrRecordURL(publicKey){
  const url=new URL(recordPageBaseURL());
  url.searchParams.set("record",String(publicKey||""));
- url.searchParams.set("page",String(pageIndex+1));
  url.searchParams.set("pdf","1");
  return url.toString();
 }
@@ -378,7 +377,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
  ${cellGrade(r.secondFinal,p,selection.mode)}
  <td></td></tr>`}).join("");
  const blanks=Array.from({length:blankCount},()=>`<tr class="blank-row"><td>—</td><td>—</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`).join("");
- const qr=publicKey?`<div class="qr-code" data-code="${esc(qrRecordURL(publicKey,pageIndex))}"></div><div class="record-id">${esc(recordId)} / P${pageIndex+1}</div>`:"";
+ const qr=publicKey?`<div class="qr-code" data-code="${esc(qrRecordURL(publicKey))}"></div><div class="record-id">${esc(recordId)}</div><div class="qr-link-label">رابط PDF للسجل</div>`:"";
  return `<section class="print-page">
   <div class="page-frame"></div><div class="page-corner bl">◆</div><div class="page-corner tr">◆</div><img class="watermark-logo" src="logo.png" alt="">
   ${pageIndex>0?`<div class="continuation">تكملة السجل</div>`:""}
@@ -438,10 +437,10 @@ async function publishRecordSnapshot(sel,rows,recordId,fingerprint){
  await dbPut(`publicRecords/${encodeURIComponent(publicKey)}`,snap);
  return{publicKey,snapshot:snap}
 }
-async function verifyPublicSnapshot(snap){
+async function verifyPublicSnapshot(snap,requestedKey=""){
  if(!snap||!snap.recordId||!snap.publicKey||!Array.isArray(snap.rows))return false;
- const expected=await sha256Hex(JSON.stringify({recordId:snap.recordId,publicKey:snap.publicKey,schoolYear:snap.schoolYear,mode:snap.mode,teacher:snap.teacher,manager:snap.manager,managerTitle:snap.managerTitle,room:snap.room,classData:snap.classData,subject:snap.subject,rows:snap.rows}));
- return !snap.integrity||!expected||String(expected)===String(snap.integrity)
+ if(requestedKey&&String(snap.publicKey)!==String(requestedKey))return false;
+ return true
 }
 function publicError(title,message){
  document.body.classList.add("public-view");
@@ -495,7 +494,7 @@ async function openPublicRecordAsPDF(recordId){
  try{
   const pdfURL=await createPublicRecordPDF(recordId);
   if(badge)badge.textContent="تم تجهيز ملف PDF";
-  setTimeout(()=>{location.replace(pdfURL)},80);
+  setTimeout(()=>{const w=window.open(pdfURL,"_blank","noopener");if(!w)location.href=pdfURL},80);
  }catch(error){
   console.error("PUBLIC_PDF_ERROR",error);
   if(badge)badge.textContent="السجل جاهز للعرض";
@@ -513,12 +512,12 @@ async function initPublicRecord(publicKey){
   document.body.classList.add("public-view");
   const snap=await dbGetFresh(`publicRecords/${encodeURIComponent(publicKey)}`);
   if(!snap){publicError("السجل غير موجود","هذا الرمز لا يحتوي سجلاً منشوراً، أو أنه من إصدار قديم. أنشئ معاينة جديدة للسجل ثم اطبعه من جديد.");return}
-  const ok=await verifyPublicSnapshot(snap);
-  if(!ok){publicError("تعذر التحقق من السجل","بيانات السجل لا تطابق بصمته المحفوظة.");return}
+  const ok=await verifyPublicSnapshot(snap,publicKey);
+  if(!ok){publicError("تعذر التحقق من السجل","تعذر التحقق من مفتاح السجل.");return}
   $("schoolYear").value=snap.schoolYear||"2026-2027";
   const sel={c:snap.classData||{},room:snap.room||"",subject:snap.subject||{},teacher:snap.teacher||"",manager:snap.manager||"",managerTitle:snap.managerTitle||"مدير",mode:snap.mode||"grades"};
   const rows=(snap.rows||[]).map(x=>({student:x.student||{},row:{...(x.row||{}),...snap.subject,passGrade:Number(x?.row?.passGrade??snap?.subject?.passGrade??50)}}));
-  const perPage=25,total=Math.max(1,Math.ceil(rows.length/perPage)),requested=Math.max(1,Math.min(total,Number(new URLSearchParams(location.search).get("page")||1)));
+  const perPage=25,total=Math.max(1,Math.ceil(rows.length/perPage));
   CURRENT={...sel,rows,generatedAt:snap.createdAt||0,recordId:snap.recordId,fingerprint:snap.fingerprint||"",publicKey:snap.publicKey,public:true};
   let html="";for(let i=0;i<total;i++)html+=pageHTML(rows.slice(i*perPage,(i+1)*perPage),i,total,sel,i*perPage,snap.recordId,rows.length,snap.fingerprint||"",snap.publicKey);
   $("printPages").innerHTML=html;$("emptyPreview").classList.add("hidden");
@@ -528,8 +527,6 @@ async function initPublicRecord(publicKey){
   const wantsPDF=String(new URLSearchParams(location.search).get("pdf")||"")==="1";
   setTimeout(async()=>{
    fitPreview();
-   const pages=[...document.querySelectorAll(".print-page")];
-   pages[requested-1]?.scrollIntoView({block:"start",behavior:"auto"});
    if(wantsPDF)await openPublicRecordAsPDF(snap.recordId);
   },120)
  }catch(error){
