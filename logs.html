@@ -548,7 +548,7 @@ async function openPublicRecordAsPDF(recordId){
   const fallback=document.createElement("div");
   fallback.className="public-record-badge";
   fallback.style.top="48px";
-  fallback.textContent="تعذر فتح PDF تلقائياً - السجل ظاهر بالكامل أدناه";
+  fallback.textContent="هذا السجل للعرض فقط";
   document.body.appendChild(fallback);
   setTimeout(fitPreview,100);
  }
