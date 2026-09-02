@@ -97,13 +97,13 @@ button{cursor:pointer}
 .record-table{width:100%;border-collapse:collapse;table-layout:fixed;direction:rtl}
 .record-table th,.record-table td{border:.8px solid #333;text-align:center;vertical-align:middle;font-size:15px;font-weight:700}
 .record-table thead th{height:24.5mm;padding:.9mm;font-size:15px;font-weight:700;line-height:1.15}
-.record-table thead th.vertical{position:relative;height:24.5mm;padding:0;overflow:hidden;font-size:15px;line-height:1;direction:rtl}.record-table thead th.vertical .vlabel{position:absolute;top:50%;left:50%;display:block;white-space:nowrap;direction:rtl;unicode-bidi:plaintext;font-family:"Times New Roman",Times,serif;font-size:15px;font-weight:700;line-height:1;transform:translate(-50%,-50%) rotate(-90deg);transform-origin:center}
-.record-table th.seq{width:9mm}
-.record-table th.name{width:53mm;font-size:15px}
-.record-table th.note{width:27mm}
+.record-table thead th.vertical{position:relative;width:13.5mm;height:24.5mm;padding:0;overflow:hidden;font-size:15px;line-height:1;direction:rtl}.record-table thead th.vertical .vlabel{position:absolute;top:50%;left:50%;display:block;white-space:nowrap;direction:rtl;unicode-bidi:plaintext;font-family:"Times New Roman",Times,serif;font-size:15px;font-weight:700;line-height:1;transform:translate(-50%,-50%) rotate(-90deg);transform-origin:center}
+.record-table th.seq{width:8mm}
+.record-table th.name{width:64mm;font-size:15px}
+.record-table th.note{width:16mm}
 .record-table tbody td{height:6.5mm;padding:.35mm .65mm;font-size:15px;line-height:1.08}
 .record-table tbody td.seq{font-size:15px;font-weight:700}
-.record-table tbody td.name{text-align:right;padding-right:1.7mm;font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:clip}
+.record-table tbody td.name{text-align:right;padding:0 1.4mm;font-size:15px;font-weight:700;white-space:nowrap;overflow:visible;text-overflow:clip;line-height:1.02}
 .record-table tbody td.grade{font-size:15px;font-weight:700}
 .record-table tbody td.grade.fail{color:#d00000;text-decoration:underline;text-decoration-thickness:1.7px;text-underline-offset:2px;font-weight:700}
 .record-table tbody tr.blank-row td{color:transparent}
@@ -159,7 +159,9 @@ button{cursor:pointer}
 @media print{.public-record-badge{display:none!important}.public-view .preview-area{padding:0!important;background:#fff!important}}
 
 
-.record-table tbody tr:last-child td{border-bottom:0!important}
+
+
+.record-table tbody tr:last-child td{border-bottom:.8px solid #333!important}
 
 </style>
 </head>
@@ -374,16 +376,22 @@ function gradeHTML(v,pass,mode){
 
 let NAME_MEASURE_CANVAS=null;
 function studentNameForRecord(value){
- const full=String(value||"").trim().replace(/\s+/g," ");
- if(!full)return"—";
- const parts=full.split(" ").filter(Boolean);
- if(parts.length<=3)return full;
+ return String(value||"").trim().replace(/\s+/g," ")||"—"
+}
+function studentNameFontSize(value){
+ const text=studentNameForRecord(value);
+ if(!text||text==="—")return 15;
  try{
   NAME_MEASURE_CANVAS=NAME_MEASURE_CANVAS||document.createElement("canvas");
   const ctx=NAME_MEASURE_CANVAS.getContext("2d");
-  if(ctx){ctx.font='400 14px "Times New Roman"';if(ctx.measureText(full).width<=182)return full;}
- }catch{}
- return parts.slice(0,3).join(" ");
+  if(!ctx)return 15;
+  const targetPx=232;
+  for(const size of [15,14.5,14,13.5,13,12.5,12,11.5]){
+   ctx.font=`700 ${size}px "Times New Roman"`;
+   if(ctx.measureText(text).width<=targetPx)return size
+  }
+  return 11
+ }catch{return 13}
 }
 function cellGrade(v,pass,mode){const n=mode==="blank"?"":v,fail=mode!=="blank"&&isGrade(n)&&Number(n)<Number(pass??50);return `<td class="grade ${fail?"fail":""}">${mode==="blank"?"":esc(isGrade(n)?(Number.isInteger(Number(n))?Number(n):Math.round(Number(n)*10)/10):"")}</td>`}
 
@@ -413,7 +421,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
  const studentNameHead=isPrimary?(selection.selectedGender==="female"?"اسم التلميذة":"اسم التلميذ"):(selection.selectedGender==="female"?"اسم الطالبة":"اسم الطالب");
  const body=rows.map((x,i)=>{const r=x.row,p=Number(r.passGrade??selection.subject.passGrade??50);return`<tr>
  <td class="seq">${startIndex+i+1}</td>
- <td class="name">${esc(studentNameForRecord(x.student.name))}</td>
+ <td class="name" style="font-size:${studentNameFontSize(x.student.name)}px">${esc(studentNameForRecord(x.student.name))}</td>
  ${cellGrade(r.term1,p,selection.mode)}
  ${cellGrade(r.midyear,p,selection.mode)}
  ${cellGrade(r.term2,p,selection.mode)}
@@ -424,7 +432,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
  ${cellGrade(r.secondFinal,p,selection.mode)}
  <td></td></tr>`}).join("");
  const blanks=Array.from({length:blankCount},()=>`<tr class="blank-row"><td>—</td><td>—</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`).join("");
- const qr=selection.mode==="grades"&&publicKey?`<div class="qr-code" data-code="${esc(qrRecordURL(publicKey))}"></div><div class="record-id">${esc(recordId)}</div><div class="qr-link-label"></div>`:"";
+ const qr=selection.mode==="grades"&&publicKey?`<div class="qr-code" data-code="${esc(qrRecordURL(publicKey))}"></div><div class="record-id">${esc(recordId)}</div><div class="qr-link-label">رابط PDF للسجل</div>`:"";
  return `<section class="print-page">
   <div class="page-frame"></div><div class="page-corner bl">◆</div><div class="page-corner tr">◆</div><img class="watermark-logo" src="logo.png" alt="">
   ${pageIndex>0?`<div class="continuation">تكملة السجل</div>`:""}
@@ -548,7 +556,7 @@ async function openPublicRecordAsPDF(recordId){
   const fallback=document.createElement("div");
   fallback.className="public-record-badge";
   fallback.style.top="48px";
-  fallback.textContent="هذا السجل للعرض فقط";
+  fallback.textContent="تعذر فتح PDF تلقائياً - السجل ظاهر بالكامل أدناه";
   document.body.appendChild(fallback);
   setTimeout(fitPreview,100);
  }
