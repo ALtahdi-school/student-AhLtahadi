@@ -76,7 +76,7 @@ button{cursor:pointer}
 .page-frame:before{top:-4mm;right:-4mm}.page-frame:after{bottom:-4mm;left:-4mm}
 .page-corner{position:absolute;z-index:1;width:8mm;height:8mm;display:flex;align-items:center;justify-content:center;background:#fff;color:#111;font-size:11px;font-weight:900;pointer-events:none}
 .page-corner.bl{left:1mm;bottom:1mm}.page-corner.tr{right:1mm;top:1mm}
-.record-head{position:relative;min-height:42mm;display:grid;grid-template-columns:1fr 78mm 1fr;align-items:start;gap:3mm;padding:0 4mm 1.5mm;font-size:16px;font-weight:700}
+.record-head{position:relative;min-height:46mm;display:grid;grid-template-columns:1fr 78mm 1fr;align-items:start;gap:3mm;padding:0 4mm 1.5mm;font-size:16px;font-weight:700}
 .head-side{padding-top:5.5mm;text-align:center;font-size:16px;font-weight:700;line-height:1.25}
 .head-side .small{font-size:16px;font-weight:700;line-height:1.25}
 .head-center{text-align:center;font-size:16px;font-weight:700}
@@ -88,17 +88,17 @@ button{cursor:pointer}
 .record-meta{display:flex;align-items:center;justify-content:center;gap:5mm;margin-top:.6mm;font-size:16px;font-weight:700}
 .record-meta span{padding:.5mm 2mm;border-bottom:1.2px solid #222}
 .record-table{width:100%;border-collapse:collapse;table-layout:fixed;direction:rtl}
-.record-table th,.record-table td{border:.8px solid #333;text-align:center;vertical-align:middle;font-size:14px;font-weight:400}
-.record-table thead th{height:24mm;padding:.8mm;font-size:14px;font-weight:400;line-height:1.15}
+.record-table th,.record-table td{border:.8px solid #333;text-align:center;vertical-align:middle;font-size:14px;font-weight:700}
+.record-table thead th{height:24mm;padding:.8mm;font-size:14px;font-weight:700;line-height:1.15}
 .record-table thead th.vertical{writing-mode:vertical-rl;transform:rotate(180deg);font-size:14px;letter-spacing:0;line-height:1.05}
 .record-table th.seq{width:9mm}
 .record-table th.name{width:52mm;font-size:14px}
 .record-table th.note{width:27mm}
 .record-table tbody td{height:6.25mm;padding:.25mm .55mm;font-size:14px;line-height:1.08}
-.record-table tbody td.seq{font-size:14px;font-weight:400}
-.record-table tbody td.name{text-align:right;padding-right:1.5mm;font-size:14px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:clip}
-.record-table tbody td.grade{font-size:14px;font-weight:400}
-.record-table tbody td.grade.fail{color:#d00000;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:2px;font-weight:400}
+.record-table tbody td.seq{font-size:14px;font-weight:700}
+.record-table tbody td.name{text-align:right;padding-right:1.5mm;font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:clip}
+.record-table tbody td.grade{font-size:14px;font-weight:700}
+.record-table tbody td.grade.fail{color:#d00000;text-decoration:underline;text-decoration-thickness:1.6px;text-underline-offset:2px;font-weight:700}
 .record-table tbody tr.blank-row td{color:transparent}
 .record-footer{position:absolute;right:10mm;left:10mm;bottom:8.5mm;height:34mm;display:grid;grid-template-columns:1fr 58mm 1fr;align-items:end;gap:5mm;border-top:2.2px solid #222;padding-top:2.5mm;font-size:14px;font-weight:700}
 .signature{text-align:center;font-size:14px;font-weight:700;line-height:1.4}
@@ -131,9 +131,9 @@ button{cursor:pointer}
  .print-page:last-child{break-after:auto;page-break-after:auto}
 }
 
-.school-side-logo{width:30mm;height:30mm;display:block;margin:2.2mm auto 0;object-fit:contain}
+.school-side-logo{width:40mm;height:40mm;display:block;margin:.5mm auto 0;object-fit:contain}
 .admin-title{font-size:16px;font-weight:700;line-height:1.15}
-.admin-title .admin-word{display:block;font-size:16px;font-weight:700;margin-bottom:1mm}
+.admin-title .admin-word{display:block;font-size:22px;font-weight:700;margin-bottom:1.2mm}
 .admin-title .admin-school{display:block;font-size:16px;font-weight:700;line-height:1.25}
 
 </style>
@@ -337,7 +337,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
  ${cellGrade(r.secondFinal,p,selection.mode)}
  <td></td></tr>`}).join("");
  const blanks=Array.from({length:blankCount},()=>`<tr class="blank-row"><td>—</td><td>—</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`).join("");
- const qr=selection.mode==="grades"&&pageIndex===totalPages-1?`<div class="qr-code" data-code="${esc(qrRecordText(selection,recordId,totalStudents,fingerprint))}"></div><div class="record-id">${esc(recordId)}</div>`:"";
+ const qr=selection.mode==="grades"?`<div class="qr-code" data-code="${esc(qrRecordText(selection,recordId,totalStudents,fingerprint))}"></div><div class="record-id">${esc(recordId)}</div>`:"";
  return `<section class="print-page">
   <div class="page-frame"></div><div class="page-corner bl">◆</div><div class="page-corner tr">◆</div><img class="watermark-logo" src="logo.png" alt="">
   ${pageIndex>0?`<div class="continuation">تكملة السجل</div>`:""}
@@ -359,7 +359,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
    </table>
    <footer class="record-footer">
     <div class="signature">مدرس المادة<strong>${esc(selection.teacher)}</strong></div>
-    <div class="barcode-zone">${qr}${selection.mode==="grades"&&pageIndex===totalPages-1?`<div class="auditor">المدقق : <strong>أحمد عبد الرحمن أحمد</strong></div>`:""}</div>
+    <div class="barcode-zone">${qr}${selection.mode==="grades"?`<div class="auditor">المدقق : <strong>أحمد عبد الرحمن أحمد</strong></div>`:""}</div>
     <div class="manager">${esc(selection.managerTitle)} المدرسة<strong>${esc(selection.manager)}</strong></div>
    </footer>
    <div class="page-no">صفحة ${pageIndex+1} من ${totalPages}</div>
