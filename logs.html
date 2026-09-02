@@ -398,7 +398,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
  const perPage=25,blankCount=Math.max(0,perPage-rows.length),year=$("schoolYear").value.trim()||"2026-2027";
  const classText=selection.c.name||"—",roomText=selection.room?roomLabel(selection.room):(rows[0]?.student?.roomNumber?roomLabel(rows[0].student.roomNumber):"كل القاعات"),stage=stageLabel(selection.c),gender=genderLabel(selection.c),isPrimary=classStageValue(selection.c)==="primary";
  const adminName=isPrimary?"إدارة ابتدائية التحدي المختلطة الأهلية":"إدارة ثانوية التحدي الأهلية المختلطة";
- const studentNameHead=isPrimary?"اسم التلميذ":"اسم الطالب";
+ const studentNameHead=isPrimary?(selection.selectedGender==="female"?"اسم التلميذة":"اسم التلميذ"):(selection.selectedGender==="female"?"اسم الطالبة":"اسم الطالب");
  const body=rows.map((x,i)=>{const r=x.row,p=Number(r.passGrade??selection.subject.passGrade??50);return`<tr>
  <td class="seq">${startIndex+i+1}</td>
  <td class="name">${esc(studentNameForRecord(x.student.name))}</td>
@@ -412,7 +412,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
  ${cellGrade(r.secondFinal,p,selection.mode)}
  <td></td></tr>`}).join("");
  const blanks=Array.from({length:blankCount},()=>`<tr class="blank-row"><td>—</td><td>—</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`).join("");
- const qr=selection.mode==="grades"&&publicKey?`<div class="qr-code" data-code="${esc(qrRecordURL(publicKey))}"></div><div class="record-id">${esc(recordId)}</div><div class="qr-link-label"></div>`:"";
+ const qr=selection.mode==="grades"&&publicKey?`<div class="qr-code" data-code="${esc(qrRecordURL(publicKey))}"></div><div class="record-id">${esc(recordId)}</div><div class="qr-link-label">رابط PDF للسجل</div>`:"";
  return `<section class="print-page">
   <div class="page-frame"></div><div class="page-corner bl">◆</div><div class="page-corner tr">◆</div><img class="watermark-logo" src="logo.png" alt="">
   ${pageIndex>0?`<div class="continuation">تكملة السجل</div>`:""}
