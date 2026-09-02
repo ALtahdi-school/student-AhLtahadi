@@ -100,12 +100,12 @@ button{cursor:pointer}
 .record-table tbody td.grade{font-size:14px;font-weight:700}
 .record-table tbody td.grade.fail{color:#d00000;text-decoration:underline;text-decoration-thickness:1.6px;text-underline-offset:2px;font-weight:700}
 .record-table tbody tr.blank-row td{color:transparent}
-.record-footer{position:absolute;right:10mm;left:10mm;bottom:8.5mm;height:34mm;display:grid;grid-template-columns:1fr 58mm 1fr;align-items:end;gap:5mm;border-top:2.2px solid #222;padding-top:2.5mm;font-size:14px;font-weight:700}
+.record-footer{position:absolute;right:10mm;left:10mm;bottom:8.5mm;height:41mm;display:grid;grid-template-columns:1fr 64mm 1fr;align-items:end;gap:5mm;border-top:2.2px solid #222;padding-top:2.5mm;font-size:14px;font-weight:700}
 .signature{text-align:center;font-size:14px;font-weight:700;line-height:1.4}
 .signature strong{display:block;margin-top:.7mm;font-size:14px;font-weight:700}
 .barcode-zone{text-align:center;align-self:end;font-size:14px;font-weight:700}
-.qr-code{width:23mm;height:23mm;margin:0 auto .6mm;padding:1mm;background:#fff}
-.qr-code canvas,.qr-code img{width:21mm!important;height:21mm!important;margin:auto;image-rendering:auto}
+.qr-code{width:30mm;height:30mm;margin:0 auto .8mm;padding:1mm;background:#fff}
+.qr-code canvas,.qr-code img{width:28mm!important;height:28mm!important;margin:auto;image-rendering:auto}
 .qr-code canvas{display:block!important}
 .qr-code img{display:none!important}
 .record-id{margin-top:.2mm;direction:ltr;font-family:"Times New Roman",Times,serif;font-size:5px;font-weight:700;letter-spacing:.25px}
@@ -384,7 +384,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
   </div>
  </section>`
 }
-function renderBarcodes(){document.querySelectorAll(".qr-code").forEach(el=>{try{el.innerHTML="";const text=String(el.dataset.code||"").trim();if(!text)return;if(typeof QRCode==="undefined")throw new Error("QR_LIBRARY_NOT_LOADED");new QRCode(el,{text,width:128,height:128,colorDark:"#000000",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});requestAnimationFrame(()=>{const canvas=el.querySelector("canvas"),img=el.querySelector("img");if(canvas){canvas.style.display="block";canvas.style.width="21mm";canvas.style.height="21mm";canvas.style.margin="auto";if(img)img.remove();}else if(img){img.style.display="block";img.style.width="21mm";img.style.height="21mm";img.style.margin="auto";}})}catch(e){console.error("QR_ERROR",e);el.innerHTML='<div style="font-size:9px;font-weight:700;line-height:1.4;text-align:center">تعذر إنشاء<br>رمز السجل</div>'}})}
+function renderBarcodes(){document.querySelectorAll(".qr-code").forEach(el=>{try{el.innerHTML="";const text=String(el.dataset.code||"").trim();if(!text)return;if(typeof QRCode==="undefined")throw new Error("QR_LIBRARY_NOT_LOADED");new QRCode(el,{text,width:180,height:180,colorDark:"#000000",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});requestAnimationFrame(()=>{const canvas=el.querySelector("canvas"),img=el.querySelector("img");if(canvas){canvas.style.display="block";canvas.style.width="28mm";canvas.style.height="28mm";canvas.style.margin="auto";if(img)img.remove();}else if(img){img.style.display="block";img.style.width="28mm";img.style.height="28mm";img.style.margin="auto";}})}catch(e){console.error("QR_ERROR",e);el.innerHTML='<div style="font-size:9px;font-weight:700;line-height:1.4;text-align:center">تعذر إنشاء<br>رمز السجل</div>'}})}
 
 function fitPreview(){
  const area=$("previewArea"),pages=[...document.querySelectorAll(".print-page")];if(!pages.length)return;
