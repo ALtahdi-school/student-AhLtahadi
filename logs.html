@@ -6,6 +6,8 @@
 <meta name="theme-color" content="#075fcf">
 <title>سجلات الدرجات | مدرسة التحدي الأهلية المختلطة</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
 <style>
 :root{
  --blue:#075fcf;--blue2:#064aa7;--bg:#f4f7fb;--card:#fff;--text:#182230;--muted:#667085;
@@ -182,7 +184,7 @@ button{cursor:pointer}
     <div class="field"><label>اسم المدير / المديرة</label><input id="managerName" type="text" placeholder="اكتب الاسم"></div>
    </div>
    <div class="field"><label>العام الدراسي</label><input id="schoolYear" type="text" value="2026-2027"></div>
-   <div class="status ok" style="margin-top:0">تنسيق السجل ثابت: <b>Times New Roman</b>، داخل الجدول 14 غير عريض، أعلى السجل 16 عريض، وأسفل الجدول 14 عريض. الإطار مزخرف وعريض جداً.<br>كل صفحة تحتوي رمز QR واحد فقط، وعند مسحه يفتح نسخة السجل مباشرة بدون حساب أو تسجيل دخول.</div>
+   <div class="status ok" style="margin-top:0">تنسيق السجل ثابت: <b>Times New Roman</b>، داخل الجدول 14 غير عريض، أعلى السجل 16 عريض، وأسفل الجدول 14 عريض. الإطار مزخرف وعريض جداً.<br>كل صفحة تحتوي رمز QR واحد فقط، وعند مسحه يُنشئ ويفتح ملف PDF يحتوي جميع صفحات السجل بدون حساب أو تسجيل دخول، سواء كان السجل بدرجات أو بدون درجات.</div>
   </div>
 
   <div class="actions">
@@ -355,6 +357,7 @@ function qrRecordURL(publicKey,pageIndex){
  const url=new URL(recordPageBaseURL());
  url.searchParams.set("record",String(publicKey||""));
  url.searchParams.set("page",String(pageIndex+1));
+ url.searchParams.set("pdf","1");
  return url.toString();
 }
 function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalStudents,fingerprint,publicKey=""){
@@ -375,7 +378,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
  ${cellGrade(r.secondFinal,p,selection.mode)}
  <td></td></tr>`}).join("");
  const blanks=Array.from({length:blankCount},()=>`<tr class="blank-row"><td>—</td><td>—</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`).join("");
- const qr=selection.mode==="grades"&&publicKey?`<div class="qr-code" data-code="${esc(qrRecordURL(publicKey,pageIndex))}"></div><div class="record-id">${esc(recordId)} / P${pageIndex+1}</div>`:"";
+ const qr=publicKey?`<div class="qr-code" data-code="${esc(qrRecordURL(publicKey,pageIndex))}"></div><div class="record-id">${esc(recordId)} / P${pageIndex+1}</div>`:"";
  return `<section class="print-page">
   <div class="page-frame"></div><div class="page-corner bl">◆</div><div class="page-corner tr">◆</div><img class="watermark-logo" src="logo.png" alt="">
   ${pageIndex>0?`<div class="continuation">تكملة السجل</div>`:""}
@@ -397,7 +400,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
    </table>
    <footer class="record-footer">
     <div class="signature">مدرس المادة<strong>${esc(selection.teacher)}</strong></div>
-    <div class="barcode-zone">${qr}${selection.mode==="grades"?`<div class="auditor">المدقق : <strong>أحمد عبد الرحمن أحمد</strong></div>`:""}</div>
+    <div class="barcode-zone">${qr}${publicKey?`<div class="auditor">المدقق : <strong>أحمد عبد الرحمن أحمد</strong></div>`:""}</div>
     <div class="manager">${esc(selection.managerTitle)} المدرسة<strong>${esc(selection.manager)}</strong></div>
    </footer>
    <div class="page-no">صفحة ${pageIndex+1} من ${totalPages}</div>
@@ -446,6 +449,65 @@ function publicError(title,message){
  $("printPages").innerHTML=`<div class="public-error"><h2>${esc(title)}</h2><p>${esc(message)}</p></div>`;
  $("emptyPreview").classList.add("hidden");
 }
+
+function isMobilePDFDevice(){return /iphone|ipad|ipod|android|mobile/i.test(navigator.userAgent||"")}
+async function waitPublicRecordAssets(){
+ const imgs=[...document.querySelectorAll("#printPages img")];
+ await Promise.all(imgs.map(img=>img.complete?Promise.resolve():new Promise(resolve=>{img.onload=resolve;img.onerror=resolve})));
+ await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+}
+async function createPublicRecordPDF(recordId){
+ if(typeof html2canvas==="undefined"||!window.jspdf?.jsPDF)throw new Error("PDF_LIBRARY_NOT_LOADED");
+ await waitPublicRecordAssets();
+ resetPrintScale();
+ const pages=[...document.querySelectorAll("#printPages .print-page")];
+ if(!pages.length)throw new Error("NO_RECORD_PAGES");
+ const {jsPDF}=window.jspdf;
+ const pdf=new jsPDF({orientation:"portrait",unit:"mm",format:"a4",compress:true});
+ pdf.setProperties({title:`سجل درجات ${recordId||""}`,subject:"سجل درجات الإدارة",author:"مدرسة التحدي الأهلية المختلطة",creator:"منصة التحدي"});
+ const scale=isMobilePDFDevice()?1.45:1.8;
+ for(let i=0;i<pages.length;i++){
+  const canvas=await html2canvas(pages[i],{
+   scale,
+   backgroundColor:"#ffffff",
+   useCORS:true,
+   allowTaint:false,
+   logging:false,
+   width:pages[i].scrollWidth,
+   height:pages[i].scrollHeight,
+   windowWidth:pages[i].scrollWidth,
+   windowHeight:pages[i].scrollHeight,
+   scrollX:0,scrollY:0
+  });
+  if(i>0)pdf.addPage("a4","portrait");
+  const img=canvas.toDataURL("image/jpeg",.94);
+  pdf.addImage(img,"JPEG",0,0,210,297,undefined,"FAST");
+  canvas.width=1;canvas.height=1;
+ }
+ const blob=pdf.output("blob");
+ const blobURL=URL.createObjectURL(blob);
+ sessionStorage.setItem("tahadi_last_public_pdf",blobURL);
+ return blobURL;
+}
+async function openPublicRecordAsPDF(recordId){
+ let badge=document.querySelector(".public-record-badge");
+ if(badge)badge.textContent="جاري تجهيز ملف PDF...";
+ try{
+  const pdfURL=await createPublicRecordPDF(recordId);
+  if(badge)badge.textContent="تم تجهيز ملف PDF";
+  setTimeout(()=>{location.replace(pdfURL)},80);
+ }catch(error){
+  console.error("PUBLIC_PDF_ERROR",error);
+  if(badge)badge.textContent="السجل جاهز للعرض";
+  const fallback=document.createElement("div");
+  fallback.className="public-record-badge";
+  fallback.style.top="48px";
+  fallback.textContent="تعذر فتح PDF تلقائياً - السجل ظاهر بالكامل أدناه";
+  document.body.appendChild(fallback);
+  setTimeout(fitPreview,100);
+ }
+}
+
 async function initPublicRecord(publicKey){
  try{
   document.body.classList.add("public-view");
@@ -461,8 +523,15 @@ async function initPublicRecord(publicKey){
   let html="";for(let i=0;i<total;i++)html+=pageHTML(rows.slice(i*perPage,(i+1)*perPage),i,total,sel,i*perPage,snap.recordId,rows.length,snap.fingerprint||"",snap.publicKey);
   $("printPages").innerHTML=html;$("emptyPreview").classList.add("hidden");
   $("loader").classList.add("hidden");$("app").classList.remove("hidden");
-  const badge=document.createElement("div");badge.className="public-record-badge";badge.textContent="سجل درجات موثق — بدون تسجيل دخول";document.body.appendChild(badge);
-  renderBarcodes();setTimeout(()=>{fitPreview();const pages=[...document.querySelectorAll(".print-page")];pages[requested-1]?.scrollIntoView({block:"start",behavior:"auto"})},80)
+  const badge=document.createElement("div");badge.className="public-record-badge";badge.textContent="سجل درجات موثق — يفتح PDF بدون تسجيل دخول";document.body.appendChild(badge);
+  renderBarcodes();
+  const wantsPDF=String(new URLSearchParams(location.search).get("pdf")||"")==="1";
+  setTimeout(async()=>{
+   fitPreview();
+   const pages=[...document.querySelectorAll(".print-page")];
+   pages[requested-1]?.scrollIntoView({block:"start",behavior:"auto"});
+   if(wantsPDF)await openPublicRecordAsPDF(snap.recordId);
+  },120)
  }catch(error){
   console.error("PUBLIC_RECORD_ERROR",error);
   publicError("تعذر فتح السجل","تعذر تحميل السجل الآن. تأكد من الاتصال بالإنترنت وحاول مرة أخرى.")
@@ -474,7 +543,7 @@ async function buildPreview(){
  try{
   savePrefs();const sel=currentSelection(),rows=await prepareRows(sel),perPage=25,total=Math.ceil(rows.length/perPage),recordId=makeRecordId(sel.c,sel.room,sel.subject),fingerprint=await sha256Hex(JSON.stringify({recordId,classId:sel.c.id,room:sel.room,subjectId:sel.subject.id,students:rows.map(x=>[x.student.code,x.student.name,x.row.term1,x.row.midyear,x.row.term2,x.row.annual,x.row.finalExam,x.row.final,x.row.secondRound,x.row.secondFinal]),teacher:sel.teacher,manager:sel.manager,year:$("schoolYear").value.trim()}));
   toast("جاري نشر نسخة التحقق الخاصة بالـ QR...");
-  const published=sel.mode==="grades"?await publishRecordSnapshot(sel,rows,recordId,fingerprint):{publicKey:"",snapshot:null};
+  const published=await publishRecordSnapshot(sel,rows,recordId,fingerprint);
   CURRENT={...sel,rows,generatedAt:Date.now(),recordId,fingerprint,publicKey:published.publicKey};
   let html="";for(let i=0;i<total;i++)html+=pageHTML(rows.slice(i*perPage,(i+1)*perPage),i,total,sel,i*perPage,recordId,rows.length,fingerprint,published.publicKey);
   $("printPages").innerHTML=html;$("emptyPreview").classList.add("hidden");renderBarcodes();
