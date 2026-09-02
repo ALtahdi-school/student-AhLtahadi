@@ -83,11 +83,11 @@ button{cursor:pointer}
 .head-side .small{font-size:16px;font-weight:700;line-height:1.25}
 .head-center{text-align:center;font-size:16px;font-weight:700}
 .ministry-logo{width:24mm;height:24mm;display:block;margin:0 auto 0;object-fit:contain}
-.head-center h2{margin-top:.2mm;font-size:16px;font-weight:700;line-height:1.2}
-.head-center h3{margin-top:.7mm;font-size:16px;font-weight:700}
-.head-center .gender-line{margin-top:.6mm;font-size:16px;font-weight:700}
-.head-center p{margin-top:.6mm;font-size:16px;font-weight:700}
-.record-meta{display:flex;align-items:center;justify-content:center;gap:5mm;margin-top:.6mm;font-size:16px;font-weight:700}
+.head-center h2{margin-top:.2mm;font-size:20px;font-weight:700;line-height:1.15}
+.head-center h3{margin-top:.7mm;font-size:18px;font-weight:700}
+.head-center .gender-line{margin-top:.6mm;font-size:17px;font-weight:700}
+.head-center p{margin-top:.6mm;font-size:17px;font-weight:700}
+.record-meta{display:flex;align-items:center;justify-content:center;gap:5mm;margin-top:.6mm;font-size:17px;font-weight:700}
 .record-meta span{padding:.5mm 2mm;border-bottom:1.2px solid #222}
 .record-table{width:100%;border-collapse:collapse;table-layout:fixed;direction:rtl}
 .record-table th,.record-table td{border:.8px solid #333;text-align:center;vertical-align:middle;font-size:14px;font-weight:700}
@@ -103,8 +103,8 @@ button{cursor:pointer}
 .record-table tbody td.grade.fail{color:#d00000;text-decoration:underline;text-decoration-thickness:1.6px;text-underline-offset:2px;font-weight:700}
 .record-table tbody tr.blank-row td{color:transparent}
 .record-footer{position:absolute;right:10mm;left:10mm;bottom:8.5mm;height:41mm;display:grid;grid-template-columns:1fr 64mm 1fr;align-items:end;gap:5mm;border-top:2.2px solid #222;padding-top:2.5mm;font-size:14px;font-weight:700}
-.signature{text-align:center;font-size:14px;font-weight:700;line-height:1.4}
-.signature strong{display:block;margin-top:.7mm;font-size:14px;font-weight:700}
+.signature{text-align:center;font-size:16px;font-weight:700;line-height:1.35;transform:translateY(-3mm)}
+.signature strong{display:block;margin-top:.7mm;font-size:18px;font-weight:700}
 .barcode-zone{text-align:center;align-self:end;font-size:14px;font-weight:700}
 .qr-code{width:30mm;height:30mm;margin:0 auto .8mm;padding:1mm;background:#fff}
 .qr-code canvas,.qr-code img{width:28mm!important;height:28mm!important;margin:auto;image-rendering:auto}
@@ -112,8 +112,8 @@ button{cursor:pointer}
 .qr-code img{display:none!important}
 .record-id{margin-top:.2mm;direction:ltr;font-family:"Times New Roman",Times,serif;font-size:5px;font-weight:700;letter-spacing:.25px}.qr-link-label{margin-top:.4mm;font-size:10px;font-weight:700;line-height:1.1}
 .auditor{margin-top:.7mm;text-align:center;font-size:14px;font-weight:700;line-height:1.25}
-.manager{margin-top:.8mm;text-align:center;font-size:14px;font-weight:700;line-height:1.35}
-.manager strong{display:block;font-size:14px;font-weight:700}
+.manager{margin-top:.8mm;text-align:center;font-size:16px;font-weight:700;line-height:1.3;transform:translateY(-3mm)}
+.manager strong{display:block;margin-top:.7mm;font-size:18px;font-weight:700}
 .page-no{position:absolute;z-index:5;bottom:6.8mm;left:8mm;padding:.4mm 1.2mm;background:#fff;font-size:10px;font-weight:700}
 .continuation{position:absolute;top:6mm;left:7mm;padding:1mm 2mm;border-radius:999px;background:#f4f4f4;font-size:6.5px;font-weight:900}
 @media(max-width:1050px){
@@ -165,10 +165,11 @@ button{cursor:pointer}
 
 <div class="layout">
  <aside class="panel no-print">
-  <div class="panel-head"><h2>إعداد سجل الأستاذ</h2><p>اختر الصف والقاعة والمادة، ثم عاين السجل واطبعه مباشرة بحجم A4.</p></div>
+  <div class="panel-head"><h2>إعداد سجل الأستاذ</h2><p>اختر الجنس أولاً، ثم المرحلة، ثم الصف والقاعة والمادة، وبعدها عاين السجل واطبعه مباشرة بحجم A4.</p></div>
   <div class="form-grid">
-   <div class="field"><label>الصف</label><select id="classSelect"><option value="">اختر الصف</option></select></div>
-   <div class="field"><label>القاعة / المجموعة</label><select id="roomSelect" disabled><option value="">اختر القاعة</option></select></div>
+   <div class="field"><label>الجنس</label><select id="genderSelect"><option value="">اختر الجنس</option><option value="male">بنين</option><option value="female">بنات</option></select></div>
+   <div class="field"><label>المرحلة</label><select id="stageSelect" disabled><option value="">اختر المرحلة</option><option value="secondary">ثانوية</option><option value="primary">ابتدائية</option></select></div>
+   <div class="field"><label>الصف / القاعة / الجنس</label><select id="classSelect" disabled><option value="">اختر الصف والقاعة</option></select><small>تظهر الخيارات حسب الجنس والمرحلة، ويظهر الصف والقاعة والجنس داخل نفس الخيار.</small></div>
    <div class="field"><label>المادة</label><select id="subjectSelect" disabled><option value="">اختر المادة</option></select><small>المادة تُقرأ من المواد المعرفة للصف في صفحة الإدارة.</small></div>
 
    <div class="field"><label>نوع السجل</label>
@@ -184,7 +185,7 @@ button{cursor:pointer}
     <div class="field"><label>اسم المدير / المديرة</label><input id="managerName" type="text" placeholder="اكتب الاسم"></div>
    </div>
    <div class="field"><label>العام الدراسي</label><input id="schoolYear" type="text" value="2026-2027"></div>
-   <div class="status ok" style="margin-top:0">تنسيق السجل ثابت: <b>Times New Roman</b>، داخل الجدول 14 غير عريض، أعلى السجل 16 عريض، وأسفل الجدول 14 عريض. الإطار مزخرف وعريض جداً.<br>كل صفحة تحتوي رمز QR واحد فقط لنفس السجل. عند مسحه يفتح ملف PDF كاملاً بجميع صفحات السجل بدون حساب أو تسجيل دخول، سواء كان بدرجات أو بدون درجات.</div>
+   <div class="status ok" style="margin-top:0">تنسيق السجل ثابت: <b>Times New Roman</b>، داخل الجدول 14 غير عريض، أعلى السجل 16 عريض، وأسفل الجدول 14 عريض. الإطار مزخرف وعريض جداً.<br>إذا اخترت «بدرجات» يظهر QR واحد في كل صفحة ويفتح PDF الكامل للسجل بدون تسجيل دخول. إذا اخترت «بدون درجات» لا يظهر QR.</div>
   </div>
 
   <div class="actions">
@@ -207,7 +208,7 @@ button{cursor:pointer}
 <script>
 const DB="https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
 const $=id=>document.getElementById(id);
-let SESSION={},ADMIN_USER={},DATA={classes:{},students:{}},CURRENT={students:[],subject:null,classData:null,room:"",mode:"grades",generatedAt:0,recordId:""};
+let SESSION={},ADMIN_USER={},DATA={classes:{},students:{}},CLASS_CHOICES={},CURRENT={students:[],subject:null,classData:null,room:"",mode:"grades",generatedAt:0,recordId:""};
 
 const READ_CACHE=new Map(),READ_PENDING=new Map(),READ_TTL=2500;
 function cleanPath(p){return String(p||"").replace(/^\/+|\/+$/g,"")}
@@ -271,36 +272,70 @@ function subjectRowForStudent(c,raw,subject){return buildAllSubjectRows(c,raw).f
 function savePrefs(){const x={teacherName:$("teacherName").value,managerName:$("managerName").value,managerTitle:$("managerTitle").value,schoolYear:$("schoolYear").value};localStorage.setItem("tahadi_records_prefs",JSON.stringify(x))}
 function loadPrefs(){try{const x=JSON.parse(localStorage.getItem("tahadi_records_prefs")||"{}");["teacherName","managerName","managerTitle","schoolYear"].forEach(k=>{if(x[k]!==undefined&&$(k))$(k).value=x[k]})}catch{}}
 
-function fillClasses(){
- const rows=Object.values(DATA.classes||{}).filter(Boolean).sort((a,b)=>String(a.name||"").localeCompare(String(b.name||""),"ar")||Number(a.roomNumber||0)-Number(b.roomNumber||0));
- $("classSelect").innerHTML='<option value="">اختر الصف</option>'+rows.map(c=>`<option value="${esc(c.id)}">${esc(c.name)} - ${stageLabel(c)} - ${genderLabel(c)}</option>`).join("")
+function studentGenderValue(s,c){
+ const raw=s?.gender||s?.studentGender||c?.gender||"";
+ return normalizeGender(raw)
 }
 function classStudents(classId){return Object.entries(DATA.students||{}).map(([code,s])=>({code,...(s||{})})).filter(s=>String(s.classId||"")===String(classId))}
-function fillRooms(){
- const id=$("classSelect").value,c=DATA.classes[id],students=classStudents(id);
- $("roomSelect").disabled=!id;$("subjectSelect").disabled=!id;
- if(!id){$("roomSelect").innerHTML='<option value="">اختر القاعة</option>';$("subjectSelect").innerHTML='<option value="">اختر المادة</option>';return}
- const rooms=[...new Set(students.map(s=>String(s.roomNumber??"")).filter(Boolean))].sort((a,b)=>Number(a)-Number(b));
- if(!rooms.length&&c?.roomNumber)rooms.push(String(c.roomNumber));
- $("roomSelect").innerHTML='<option value="">كل القاعات</option>'+rooms.map(r=>`<option value="${esc(r)}">${esc(roomLabel(r))}</option>`).join("");
+function resetClassAndSubject(){
+ CLASS_CHOICES={};
+ $("classSelect").innerHTML='<option value="">اختر الصف والقاعة</option>';
+ $("classSelect").disabled=true;
+ $("subjectSelect").innerHTML='<option value="">اختر المادة</option>';
+ $("subjectSelect").disabled=true;
+}
+function onGenderChange(){
+ const gender=$("genderSelect").value;
+ $("stageSelect").disabled=!gender;
+ $("stageSelect").value="";
+ resetClassAndSubject();
+ toast(gender?"اختر المرحلة الدراسية.":"اختر الجنس أولاً.")
+}
+function buildClassChoices(){
+ const gender=$("genderSelect").value,stage=$("stageSelect").value;
+ resetClassAndSubject();
+ if(!gender||!stage)return;
+ let seq=0,options=[];
+ Object.entries(DATA.classes||{}).forEach(([classId,c])=>{
+  if(!c||classStageValue(c)!==stage)return;
+  const students=classStudents(classId).filter(st=>studentGenderValue(st,c)===gender);
+  const rooms=[...new Set(students.map(st=>String(st.roomNumber??c.roomNumber??"")).filter(Boolean))];
+  if(!rooms.length&&normalizeGender(c)===gender)rooms.push(String(c.roomNumber??""));
+  rooms.forEach(room=>{
+   const key=`C${++seq}`;
+   CLASS_CHOICES[key]={classId:String(classId),room:String(room||""),gender,stage};
+   options.push({key,c,room,count:students.filter(st=>String(st.roomNumber??c.roomNumber??"")===String(room)).length})
+  })
+ });
+ options.sort((a,b)=>String(a.c.name||"").localeCompare(String(b.c.name||""),"ar")||Number(a.room||0)-Number(b.room||0));
+ $("classSelect").innerHTML='<option value="">اختر الصف والقاعة</option>'+options.map(x=>`<option value="${esc(x.key)}">${esc(x.c.name||"بدون اسم")} — ${esc(roomLabel(x.room))} — ${gender==="female"?"بنات":"بنين"}</option>`).join("");
+ $("classSelect").disabled=!options.length;
+ toast(options.length?`تم العثور على ${options.length} خيار صف/قاعة.`:"لا توجد صفوف مطابقة للاختيار.",options.length?"ok":"error")
+}
+function onClassChoiceChange(){
+ const choice=CLASS_CHOICES[$("classSelect").value];
+ $("subjectSelect").disabled=!choice;
+ if(!choice){$("subjectSelect").innerHTML='<option value="">اختر المادة</option>';return}
+ const c=DATA.classes[choice.classId]||{};
  const subjects=normalizeClassSubjects(c);
  $("subjectSelect").innerHTML='<option value="">اختر المادة</option>'+subjects.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join("");
- toast(students.length?`تم العثور على ${students.length} طالب/ة في الصف.`:"لا يوجد طلاب في هذا الصف.",students.length?"ok":"error")
+ const count=classStudents(choice.classId).filter(st=>String(st.roomNumber??c.roomNumber??"")===String(choice.room)&&studentGenderValue(st,c)===choice.gender).length;
+ toast(count?`تم العثور على ${count} طالب/ة في ${roomLabel(choice.room)}.`:"لا يوجد طلاب ضمن هذا الاختيار.",count?"ok":"error")
 }
-
 function selectedMode(){return document.querySelector('input[name="recordMode"]:checked')?.value||"grades"}
 function currentSelection(){
- const classId=$("classSelect").value,c=DATA.classes[classId],room=$("roomSelect").value,subjectId=$("subjectSelect").value,subject=normalizeClassSubjects(c||{}).find(x=>String(x.id)===String(subjectId));
+ const choice=CLASS_CHOICES[$("classSelect").value];
+ if(!choice)throw new Error("اختر الصف والقاعة");
+ const classId=choice.classId,c=DATA.classes[classId],room=choice.room,subjectId=$("subjectSelect").value,subject=normalizeClassSubjects(c||{}).find(x=>String(x.id)===String(subjectId));
  if(!c)throw new Error("اختر الصف");
  if(!subject)throw new Error("اختر المادة");
  const teacher=$("teacherName").value.trim();if(!teacher)throw new Error("اكتب اسم الأستاذ");
  const manager=$("managerName").value.trim();if(!manager)throw new Error("اكتب اسم المدير / المديرة");
  const managerTitle=$("managerTitle").value||"مدير";
- let students=classStudents(classId);
- if(room)students=students.filter(x=>String(x.roomNumber??"")===String(room));
+ let students=classStudents(classId).filter(st=>String(st.roomNumber??c.roomNumber??"")===String(room)&&studentGenderValue(st,c)===choice.gender);
  students.sort((a,b)=>String(a.name||"").localeCompare(String(b.name||""),"ar"));
  if(!students.length)throw new Error("لا يوجد طلاب ضمن الاختيار الحالي");
- return{c,room,subject,students,teacher,manager,managerTitle,mode:selectedMode()}
+ return{c,room,subject,students,teacher,manager,managerTitle,mode:selectedMode(),selectedGender:choice.gender,selectedStage:choice.stage}
 }
 
 function randomRecordToken(){
@@ -377,7 +412,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
  ${cellGrade(r.secondFinal,p,selection.mode)}
  <td></td></tr>`}).join("");
  const blanks=Array.from({length:blankCount},()=>`<tr class="blank-row"><td>—</td><td>—</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`).join("");
- const qr=publicKey?`<div class="qr-code" data-code="${esc(qrRecordURL(publicKey))}"></div><div class="record-id">${esc(recordId)}</div><div class="qr-link-label">رابط PDF للسجل</div>`:"";
+ const qr=selection.mode==="grades"&&publicKey?`<div class="qr-code" data-code="${esc(qrRecordURL(publicKey))}"></div><div class="record-id">${esc(recordId)}</div><div class="qr-link-label">رابط PDF للسجل</div>`:"";
  return `<section class="print-page">
   <div class="page-frame"></div><div class="page-corner bl">◆</div><div class="page-corner tr">◆</div><img class="watermark-logo" src="logo.png" alt="">
   ${pageIndex>0?`<div class="continuation">تكملة السجل</div>`:""}
@@ -399,7 +434,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
    </table>
    <footer class="record-footer">
     <div class="signature">مدرس المادة<strong>${esc(selection.teacher)}</strong></div>
-    <div class="barcode-zone">${qr}${publicKey?`<div class="auditor">المدقق : <strong>أحمد عبد الرحمن أحمد</strong></div>`:""}</div>
+    <div class="barcode-zone">${qr}${selection.mode==="grades"&&publicKey?`<div class="auditor">المدقق : <strong>أحمد عبد الرحمن أحمد</strong></div>`:""}</div>
     <div class="manager">${esc(selection.managerTitle)} المدرسة<strong>${esc(selection.manager)}</strong></div>
    </footer>
    <div class="page-no">صفحة ${pageIndex+1} من ${totalPages}</div>
@@ -540,7 +575,7 @@ async function buildPreview(){
  try{
   savePrefs();const sel=currentSelection(),rows=await prepareRows(sel),perPage=25,total=Math.ceil(rows.length/perPage),recordId=makeRecordId(sel.c,sel.room,sel.subject),fingerprint=await sha256Hex(JSON.stringify({recordId,classId:sel.c.id,room:sel.room,subjectId:sel.subject.id,students:rows.map(x=>[x.student.code,x.student.name,x.row.term1,x.row.midyear,x.row.term2,x.row.annual,x.row.finalExam,x.row.final,x.row.secondRound,x.row.secondFinal]),teacher:sel.teacher,manager:sel.manager,year:$("schoolYear").value.trim()}));
   toast("جاري نشر نسخة التحقق الخاصة بالـ QR...");
-  const published=await publishRecordSnapshot(sel,rows,recordId,fingerprint);
+  const published=sel.mode==="grades"?await publishRecordSnapshot(sel,rows,recordId,fingerprint):{publicKey:"",snapshot:null};
   CURRENT={...sel,rows,generatedAt:Date.now(),recordId,fingerprint,publicKey:published.publicKey};
   let html="";for(let i=0;i<total;i++)html+=pageHTML(rows.slice(i*perPage,(i+1)*perPage),i,total,sel,i*perPage,recordId,rows.length,fingerprint,published.publicKey);
   $("printPages").innerHTML=html;$("emptyPreview").classList.add("hidden");renderBarcodes();
@@ -556,7 +591,9 @@ async function printRecord(){
  try{toast("جاري تجهيز الطباعة...");await waitPrintAssets();window.print()}finally{$("printBtn").disabled=false;setTimeout(fitPreview,250)}
 }
 
-$("classSelect").addEventListener("change",fillRooms);
+$("genderSelect").addEventListener("change",onGenderChange);
+$("stageSelect").addEventListener("change",buildClassChoices);
+$("classSelect").addEventListener("change",onClassChoiceChange);
 $("previewBtn").addEventListener("click",buildPreview);
 $("printBtn").addEventListener("click",printRecord);
 window.addEventListener("resize",()=>setTimeout(fitPreview,80));
@@ -572,7 +609,7 @@ async function init(){
   const[classes,students]=await Promise.all([dbGetFresh("classes"),dbGetFresh("students")]);
   DATA.classes=classes||{};Object.entries(DATA.classes).forEach(([id,c])=>{if(c&&!c.id)c.id=id});
   DATA.students=students||{};Object.entries(DATA.students).forEach(([code,x])=>{if(x&&!x.code)x.code=code});
-  loadPrefs();fillClasses();$("loader").classList.add("hidden");$("app").classList.remove("hidden");toast("اختر الصف والقاعة والمادة ثم اضغط معاينة السجل.")
+  loadPrefs();resetClassAndSubject();$("loader").classList.add("hidden");$("app").classList.remove("hidden");toast("ابدأ باختيار الجنس، ثم المرحلة، ثم الصف والقاعة والمادة.")
  }catch(error){console.error("INIT_ERROR",error);$("loader").innerHTML='<div class="loader-card"><p style="color:#c62828">تعذر تحميل صفحة السجلات</p></div>'}
 }
 window.addEventListener("load",init);
