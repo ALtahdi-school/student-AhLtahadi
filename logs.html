@@ -78,39 +78,39 @@ button{cursor:pointer}
 .page-corner.bl{left:1mm;bottom:1mm}.page-corner.tr{right:1mm;top:1mm}
 .record-head{position:relative;min-height:42mm;display:grid;grid-template-columns:1fr 78mm 1fr;align-items:start;gap:3mm;padding:0 4mm 1.5mm;font-weight:var(--outer-weight)}
 .head-side{padding-top:8mm;text-align:center;font-weight:var(--outer-weight)}
-.head-side .small{font-size:11px;font-weight:var(--outer-weight);line-height:1.5}
+.head-side .small{font-size:16px;font-weight:var(--outer-weight);line-height:1.35}
 .head-center{text-align:center;font-weight:var(--outer-weight)}
 .ministry-logo{width:24mm;height:24mm;display:block;margin:0 auto 0;object-fit:contain}
-.head-center h2{margin-top:.2mm;font-size:17px;font-weight:var(--outer-weight);line-height:1.2}
-.head-center h3{margin-top:.8mm;font-size:12px;font-weight:var(--outer-weight)}
-.head-center .gender-line{margin-top:.7mm;font-size:10px;font-weight:var(--outer-weight)}
-.head-center p{margin-top:.7mm;font-size:10px;font-weight:var(--outer-weight)}
-.record-meta{display:flex;align-items:center;justify-content:center;gap:5mm;margin-top:.6mm;font-size:9px;font-weight:var(--outer-weight)}
+.head-center h2{margin-top:.2mm;font-size:16px;font-weight:var(--outer-weight);line-height:1.2}
+.head-center h3{margin-top:.7mm;font-size:16px;font-weight:var(--outer-weight)}
+.head-center .gender-line{margin-top:.6mm;font-size:16px;font-weight:var(--outer-weight)}
+.head-center p{margin-top:.6mm;font-size:16px;font-weight:var(--outer-weight)}
+.record-meta{display:flex;align-items:center;justify-content:center;gap:5mm;margin-top:.6mm;font-size:16px;font-weight:var(--outer-weight)}
 .record-meta span{padding:.5mm 2mm;border-bottom:1.2px solid #222}
 .record-table{width:100%;border-collapse:collapse;table-layout:fixed;direction:rtl}
 .record-table th,.record-table td{border:.8px solid #333;text-align:center;vertical-align:middle;font-weight:var(--table-weight)}
-.record-table thead th{height:24mm;padding:1mm;font-size:8.2px;font-weight:var(--table-weight)}
-.record-table thead th.vertical{writing-mode:vertical-rl;transform:rotate(180deg);font-size:8px;letter-spacing:.2px}
+.record-table thead th{height:24mm;padding:.8mm;font-size:14px;font-weight:var(--table-weight);line-height:1.15}
+.record-table thead th.vertical{writing-mode:vertical-rl;transform:rotate(180deg);font-size:14px;letter-spacing:0;line-height:1.05}
 .record-table th.seq{width:9mm}
-.record-table th.name{width:52mm;font-size:12px}
+.record-table th.name{width:52mm;font-size:14px}
 .record-table th.note{width:27mm}
-.record-table tbody td{height:6.7mm;padding:.55mm .8mm;font-size:8.1px}
-.record-table tbody td.seq{font-size:8px;font-weight:var(--table-weight)}
-.record-table tbody td.name{text-align:right;padding-right:1.8mm;font-size:9.1px;font-weight:var(--table-weight);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.record-table tbody td.grade{font-size:9.8px;font-weight:var(--table-weight)}
+.record-table tbody td{height:6.25mm;padding:.25mm .55mm;font-size:14px;line-height:1.08}
+.record-table tbody td.seq{font-size:14px;font-weight:var(--table-weight)}
+.record-table tbody td.name{text-align:right;padding-right:1.5mm;font-size:14px;font-weight:var(--table-weight);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.record-table tbody td.grade{font-size:14px;font-weight:var(--table-weight)}
 .record-table tbody td.grade.fail{color:#d00000;text-decoration:underline;text-decoration-thickness:1.2px;text-underline-offset:2px;font-weight:900}
 .record-table tbody tr.blank-row td{color:transparent}
-.record-footer{position:absolute;right:10mm;left:10mm;bottom:8.5mm;height:29mm;display:grid;grid-template-columns:1fr 58mm 1fr;align-items:end;gap:5mm;border-top:2.2px solid #222;padding-top:2.5mm;font-weight:var(--outer-weight)}
-.signature{text-align:center;font-size:10px;font-weight:var(--outer-weight);line-height:1.6}
-.signature strong{display:block;margin-top:.8mm;font-size:11px;font-weight:var(--outer-weight)}
+.record-footer{position:absolute;right:10mm;left:10mm;bottom:8.5mm;height:34mm;display:grid;grid-template-columns:1fr 58mm 1fr;align-items:end;gap:5mm;border-top:2.2px solid #222;padding-top:2.5mm;font-weight:var(--outer-weight)}
+.signature{text-align:center;font-size:14px;font-weight:var(--outer-weight);line-height:1.4}
+.signature strong{display:block;margin-top:.7mm;font-size:14px;font-weight:var(--outer-weight)}
 .barcode-zone{text-align:center;align-self:end;font-weight:var(--outer-weight)}
-.qr-code{width:19mm;height:19mm;margin:0 auto .5mm;padding:1mm;background:#fff}
-.qr-code canvas,.qr-code img{display:block!important;width:17mm!important;height:17mm!important;margin:auto}
+.qr-code{width:23mm;height:23mm;margin:0 auto .6mm;padding:1mm;background:#fff}
+.qr-code canvas,.qr-code img{display:block!important;width:21mm!important;height:21mm!important;margin:auto;image-rendering:auto}
 .record-id{margin-top:.2mm;direction:ltr;font-family:Arial,sans-serif;font-size:5px;font-weight:700;letter-spacing:.25px}
-.auditor{margin-top:.6mm;text-align:center;font-size:8.5px;font-weight:var(--outer-weight)}
-.manager{margin-top:1mm;text-align:center;font-size:9.5px;font-weight:var(--outer-weight);line-height:1.5}
-.manager strong{display:block;font-size:11px;font-weight:var(--outer-weight)}
-.page-no{position:absolute;z-index:5;bottom:6.6mm;left:8mm;padding:.4mm 1.2mm;background:#fff;font-size:6.5px;font-weight:var(--outer-weight)}
+.auditor{margin-top:.7mm;text-align:center;font-size:14px;font-weight:var(--outer-weight);line-height:1.25}
+.manager{margin-top:.8mm;text-align:center;font-size:14px;font-weight:var(--outer-weight);line-height:1.35}
+.manager strong{display:block;font-size:14px;font-weight:var(--outer-weight)}
+.page-no{position:absolute;z-index:5;bottom:6.8mm;left:8mm;padding:.4mm 1.2mm;background:#fff;font-size:10px;font-weight:var(--outer-weight)}
 .continuation{position:absolute;top:6mm;left:7mm;padding:1mm 2mm;border-radius:999px;background:#f4f4f4;font-size:6.5px;font-weight:900}
 @media(max-width:1050px){
  .layout{grid-template-columns:1fr}.panel{position:static}.preview-area{min-height:500px}
@@ -295,7 +295,7 @@ async function prepareRows(selection){
  return selection.students.map((student,i)=>({student,row:subjectRowForStudent(selection.c,grades[i]||{},selection.subject)}))
 }
 
-function qrRecordText(selection,recordId,rowsCount){return["مدرسة التحدي الأهلية المختلطة","سجل درجات الإدارة",`رقم السجل: ${recordId}`,`الصف: ${selection.c.name||""}`,`القاعة: ${selection.room?roomLabel(selection.room):"كل القاعات"}`,`المادة: ${selection.subject.name||""}`,`مدرس المادة: ${selection.teacher||""}`,`عدد الطلبة: ${rowsCount}`,`العام الدراسي: ${$("schoolYear").value.trim()||"2026-2027"}`].join("\n")}
+function qrRecordText(selection,recordId,rowsCount){return`TAHADI|${recordId}|${selection.room||"ALL"}|${rowsCount}`}
 function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalStudents){
  const perPage=25,blankCount=Math.max(0,perPage-rows.length),year=$("schoolYear").value.trim()||"2026-2027",tableWeight=$("tableFontWeight").value||"900",outerWeight=$("outerFontWeight").value||"900";
  const classText=selection.c.name||"—",roomText=selection.room?roomLabel(selection.room):(rows[0]?.student?.roomNumber?roomLabel(rows[0].student.roomNumber):"كل القاعات"),stage=stageLabel(selection.c),gender=genderLabel(selection.c),isPrimary=classStageValue(selection.c)==="primary";
@@ -343,7 +343,7 @@ function pageHTML(rows,pageIndex,totalPages,selection,startIndex,recordId,totalS
   </div>
  </section>`
 }
-function renderBarcodes(){document.querySelectorAll(".qr-code").forEach(el=>{try{el.innerHTML="";new QRCode(el,{text:el.dataset.code||"",width:68,height:68,correctLevel:QRCode.CorrectLevel.M})}catch(e){console.error("QR_ERROR",e)}})}
+function renderBarcodes(){document.querySelectorAll(".qr-code").forEach(el=>{try{el.innerHTML="";const text=String(el.dataset.code||"").trim();if(!text)return;if(typeof QRCode==="undefined")throw new Error("QR_LIBRARY_NOT_LOADED");new QRCode(el,{text,width:96,height:96,colorDark:"#000000",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.L});requestAnimationFrame(()=>{const qr=el.querySelector("canvas,img");if(qr){qr.style.display="block";qr.style.width="21mm";qr.style.height="21mm";qr.style.margin="auto"}})}catch(e){console.error("QR_ERROR",e);el.innerHTML='<div style="font-size:9px;font-weight:900;line-height:1.4;text-align:center">تعذر إنشاء<br>رمز السجل</div>'}})}
 
 function fitPreview(){
  const area=$("previewArea"),pages=[...document.querySelectorAll(".print-page")];if(!pages.length)return;
