@@ -3,49 +3,40 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <meta name="theme-color" content="#0b63d8">
+<meta name="theme-color" content="#0b63d8">
 
-    <title>إدارة وظائف التحدي | مدرسة التحدي</title>
+<title>إدارة وظائف التحدي | مدرسة التحدي</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
+<link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+<link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
 
 
 <style>
 
-/* =========================================================
-   RESET
-========================================================= */
-
 *,
 *::before,
 *::after {
-
     box-sizing: border-box;
-
     margin: 0;
     padding: 0;
-
     -webkit-tap-highlight-color: transparent;
 }
 
-
 :root {
-
     --blue: #0b63d8;
     --blue-dark: #0649a8;
     --blue-light: #edf5ff;
@@ -71,23 +62,15 @@
     --bg: #f6f9fd;
 }
 
-
 html {
-
     width: 100%;
-
     min-height: 100%;
-
     background: var(--bg);
-
     -webkit-text-size-adjust: 100%;
 }
 
-
 body {
-
     width: 100%;
-
     min-height: 100vh;
 
     font-family:
@@ -105,25 +88,20 @@ body {
         );
 
     overflow-x: hidden;
-
     -webkit-font-smoothing: antialiased;
 }
-
 
 button,
 input,
 select,
 textarea {
-
     font-family:
         "Cairo",
         Arial,
         sans-serif;
 }
 
-
 button {
-
     cursor: pointer;
 }
 
@@ -133,21 +111,14 @@ button {
 ========================================================= */
 
 .background {
-
     position: fixed;
-
     inset: 0;
-
     z-index: 0;
-
     overflow: hidden;
-
     pointer-events: none;
 }
 
-
 .background::before {
-
     content: "";
 
     position: absolute;
@@ -169,9 +140,7 @@ button {
         );
 }
 
-
 .background::after {
-
     content: "";
 
     position: absolute;
@@ -198,13 +167,10 @@ button {
 ========================================================= */
 
 .app {
-
     position: relative;
-
     z-index: 1;
 
     width: 100%;
-
     min-height: 100vh;
 
     padding:
@@ -213,13 +179,9 @@ button {
         50px;
 }
 
-
 .container {
-
     width: 100%;
-
     max-width: 1650px;
-
     margin: 0 auto;
 }
 
@@ -229,17 +191,12 @@ button {
 ========================================================= */
 
 .header {
-
     text-align: center;
-
     margin-bottom: 25px;
 }
 
-
 .logo-box {
-
     width: 160px;
-
     min-height: 60px;
 
     margin:
@@ -248,23 +205,16 @@ button {
         12px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 }
 
-
 .logo-text {
-
     width: 100%;
-
     min-height: 60px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     padding:
@@ -283,7 +233,6 @@ button {
         );
 
     font-size: 22px;
-
     font-weight: 900;
 
     white-space: nowrap;
@@ -293,75 +242,56 @@ button {
         rgba(11,99,216,.18);
 }
 
-
 .school-name {
-
-    color:
-        var(--blue-dark);
+    color: var(--blue-dark);
 
     font-size: 25px;
-
     font-weight: 900;
 
     line-height: 1.5;
 }
 
-
 .department {
-
     margin-top: 3px;
 
     color: var(--muted);
 
     font-size: 12px;
-
     font-weight: 700;
 }
 
-
 .page-title {
-
     margin-top: 16px;
 
     color: var(--text);
 
     font-size: 23px;
-
     font-weight: 900;
 }
 
-
 .page-description {
-
     margin-top: 5px;
 
     color: var(--muted);
 
     font-size: 10px;
-
     font-weight: 600;
 }
 
 
 /* =========================================================
-   TOP STATS
+   STATISTICS
 ========================================================= */
 
 .statistics {
-
     display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 
     gap: 12px;
-
     margin-bottom: 18px;
 }
 
-
 .stat-card {
-
     padding:
         17px
         16px;
@@ -380,25 +310,18 @@ button {
         rgba(16,35,63,.06);
 }
 
-
 .stat-label {
-
     color: var(--muted);
-
     font-size: 10px;
-
     font-weight: 700;
 }
 
-
 .stat-number {
-
     margin-top: 3px;
 
     color: var(--text);
 
     font-size: 25px;
-
     font-weight: 900;
 }
 
@@ -408,7 +331,6 @@ button {
 ========================================================= */
 
 .stage-navigation {
-
     margin-bottom: 18px;
 
     padding: 15px;
@@ -426,37 +348,26 @@ button {
         rgba(16,35,63,.07);
 }
 
-
 .stage-nav-title {
-
     margin-bottom: 10px;
 
     color: var(--text);
 
     font-size: 13px;
-
     font-weight: 900;
 }
 
-
 .stage-tabs {
-
     display: flex;
-
     flex-wrap: wrap;
-
     gap: 8px;
 }
 
-
 .stage-tab {
-
     min-height: 42px;
 
     display: inline-flex;
-
     align-items: center;
-
     justify-content: center;
 
     gap: 7px;
@@ -472,31 +383,22 @@ button {
     border-radius: 11px;
 
     color: #526277;
-
-    background:
-        #f8fafc;
+    background: #f8fafc;
 
     font-size: 9px;
-
     font-weight: 800;
 
     transition: .15s;
 }
 
-
 .stage-tab:hover {
-
-    border-color:
-        var(--blue);
+    border-color: var(--blue);
 }
 
-
 .stage-tab.active {
-
     color: white;
 
-    border-color:
-        var(--blue);
+    border-color: var(--blue);
 
     background:
         linear-gradient(
@@ -510,17 +412,12 @@ button {
         rgba(11,99,216,.17);
 }
 
-
 .stage-tab-count {
-
     min-width: 23px;
-
     height: 23px;
 
     display: inline-flex;
-
     align-items: center;
-
     justify-content: center;
 
     padding:
@@ -533,16 +430,11 @@ button {
         rgba(0,0,0,.06);
 
     font-size: 8px;
-
     font-weight: 900;
 }
 
-
-.stage-tab.active
-.stage-tab-count {
-
-    background:
-        rgba(255,255,255,.18);
+.stage-tab.active .stage-tab-count {
+    background: rgba(255,255,255,.18);
 }
 
 
@@ -551,7 +443,6 @@ button {
 ========================================================= */
 
 .control-panel {
-
     margin-bottom: 18px;
 
     padding: 17px;
@@ -576,15 +467,11 @@ button {
 ========================================================= */
 
 .search-box {
-
     position: relative;
 }
 
-
 .search-box input {
-
     width: 100%;
-
     height: 50px;
 
     padding:
@@ -601,67 +488,53 @@ button {
 
     outline: none;
 
-    background:
-        #f9fbfe;
+    background: #f9fbfe;
 
     color: var(--text);
 
     font-size: 12px;
-
     font-weight: 700;
 
     transition: .15s;
 }
 
-
 .search-box input:focus {
+    border-color: var(--blue);
 
-    border-color:
-        var(--blue);
-
-    background:
-        white;
+    background: white;
 
     box-shadow:
         0 0 0 4px
         rgba(11,99,216,.06);
 }
 
-
 .search-icon {
-
     position: absolute;
 
     right: 15px;
-
     top: 50%;
 
     transform:
         translateY(-50%);
 
-    color:
-        #7b8ba0;
+    color: #7b8ba0;
 
     font-size: 16px;
 }
 
 
 /* =========================================================
-   FILTER TITLE
+   FILTER
 ========================================================= */
 
 .filter-title-row {
-
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
 
     gap: 12px;
 
     margin-top: 15px;
-
     padding-top: 15px;
 
     border-top:
@@ -669,29 +542,21 @@ button {
         #edf1f6;
 }
 
-
 .filter-title {
-
     font-size: 12px;
-
     font-weight: 900;
 }
 
-
 .filter-description {
-
     margin-top: 2px;
 
     color: var(--muted);
 
     font-size: 8px;
-
     font-weight: 600;
 }
 
-
 .clear-filters {
-
     height: 36px;
 
     padding:
@@ -704,24 +569,14 @@ button {
 
     border-radius: 9px;
 
-    color:
-        #a6212c;
-
-    background:
-        #fff5f6;
+    color: #a6212c;
+    background: #fff5f6;
 
     font-size: 9px;
-
     font-weight: 800;
 }
 
-
-/* =========================================================
-   EXCEL FILTERS
-========================================================= */
-
 .excel-filters {
-
     display: grid;
 
     grid-template-columns:
@@ -731,21 +586,15 @@ button {
         );
 
     gap: 9px;
-
     margin-top: 10px;
 }
 
-
 .excel-filter {
-
     position: relative;
-
     min-width: 0;
 }
 
-
 .excel-filter-label {
-
     display: block;
 
     margin-bottom: 4px;
@@ -753,21 +602,15 @@ button {
     color: #66758a;
 
     font-size: 8px;
-
     font-weight: 800;
 }
 
-
 .excel-filter-button {
-
     width: 100%;
-
     min-height: 40px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
 
     gap: 7px;
@@ -782,45 +625,28 @@ button {
 
     border-radius: 9px;
 
-    background:
-        #f9fbfe;
-
+    background: #f9fbfe;
     color: #45566d;
 
     font-size: 9px;
-
     font-weight: 700;
 
     text-align: right;
 }
 
-
-.excel-filter.active
-.excel-filter-button {
-
-    border-color:
-        var(--blue);
-
-    color:
-        var(--blue-dark);
-
-    background:
-        var(--blue-light);
+.excel-filter.active .excel-filter-button {
+    border-color: var(--blue);
+    color: var(--blue-dark);
+    background: var(--blue-light);
 }
 
-
 .filter-button-text {
-
     overflow: hidden;
-
     text-overflow: ellipsis;
-
     white-space: nowrap;
 }
 
-
 .excel-filter-menu {
-
     position: absolute;
 
     z-index: 500;
@@ -831,13 +657,10 @@ button {
     right: 0;
 
     width: 100%;
-
     min-width: 220px;
-
     max-height: 350px;
 
     display: none;
-
     overflow: hidden;
 
     border:
@@ -853,22 +676,15 @@ button {
         rgba(16,35,63,.18);
 }
 
-
 .excel-filter.open {
-
     z-index: 600;
 }
 
-
-.excel-filter.open
-.excel-filter-menu {
-
+.excel-filter.open .excel-filter-menu {
     display: block;
 }
 
-
 .filter-search {
-
     padding: 8px;
 
     border-bottom:
@@ -876,11 +692,8 @@ button {
         #edf1f6;
 }
 
-
 .filter-search input {
-
     width: 100%;
-
     height: 35px;
 
     padding:
@@ -895,15 +708,12 @@ button {
 
     border-radius: 8px;
 
-    background:
-        #f8fafc;
+    background: #f8fafc;
 
     font-size: 9px;
 }
 
-
 .filter-actions {
-
     display: flex;
 
     gap: 5px;
@@ -915,9 +725,7 @@ button {
         #edf1f6;
 }
 
-
 .filter-action {
-
     flex: 1;
 
     height: 31px;
@@ -926,29 +734,19 @@ button {
 
     border-radius: 7px;
 
-    background:
-        #f0f4f9;
-
-    color:
-        #536278;
+    background: #f0f4f9;
+    color: #536278;
 
     font-size: 8px;
-
     font-weight: 800;
 }
 
-
 .filter-action.primary {
-
     color: white;
-
-    background:
-        var(--blue);
+    background: var(--blue);
 }
 
-
 .filter-options {
-
     max-height: 250px;
 
     overflow-y: auto;
@@ -956,13 +754,10 @@ button {
     padding: 5px;
 }
 
-
 .filter-option {
-
     min-height: 36px;
 
     display: flex;
-
     align-items: center;
 
     gap: 7px;
@@ -976,76 +771,55 @@ button {
     cursor: pointer;
 }
 
-
 .filter-option:hover {
-
-    background:
-        #f4f8fd;
+    background: #f4f8fd;
 }
 
-
 .filter-option input {
-
     width: 15px;
     height: 15px;
 
-    accent-color:
-        var(--blue);
+    accent-color: var(--blue);
 }
 
-
 .filter-option-text {
-
     flex: 1;
-
     min-width: 0;
 
     overflow: hidden;
-
     white-space: nowrap;
-
     text-overflow: ellipsis;
 
     font-size: 9px;
-
     font-weight: 700;
 }
 
-
 .filter-option-count {
-
-    color:
-        #98a4b3;
+    color: #98a4b3;
 
     font-size: 8px;
 }
 
-
 .filter-empty {
-
     padding:
         18px
         8px;
 
     text-align: center;
 
-    color:
-        var(--muted);
+    color: var(--muted);
 
     font-size: 9px;
 }
 
 
 /* =========================================================
-   RESULTS HEADER
+   RESULTS
 ========================================================= */
 
 .results-header {
-
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
 
     gap: 10px;
@@ -1056,32 +830,69 @@ button {
         10px;
 }
 
-
 .results-title {
-
     font-size: 15px;
-
     font-weight: 900;
 }
 
-
 .results-count {
-
     padding:
         5px
         10px;
 
     border-radius: 20px;
 
-    color:
-        var(--blue-dark);
-
-    background:
-        var(--blue-light);
+    color: var(--blue-dark);
+    background: var(--blue-light);
 
     font-size: 9px;
-
     font-weight: 900;
+}
+
+.results-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.pdf-export-button {
+    min-height: 38px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding:
+        0
+        14px;
+
+    border: 0;
+    border-radius: 10px;
+
+    color: #fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--red),
+            #a80f17
+        );
+
+    box-shadow:
+        0 7px 18px
+        rgba(215,25,32,.16);
+
+    font-size: 9px;
+    font-weight: 900;
+}
+
+.pdf-export-button:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    box-shadow: none;
 }
 
 
@@ -1090,16 +901,12 @@ button {
 ========================================================= */
 
 .table-wrapper {
-
     width: 100%;
-
     max-height: 680px;
 
-    overflow:
-        auto;
+    overflow: auto;
 
-    background:
-        white;
+    background: white;
 
     border:
         1px solid
@@ -1111,35 +918,24 @@ button {
         0 12px 40px
         rgba(16,35,63,.07);
 
-    -webkit-overflow-scrolling:
-        touch;
+    -webkit-overflow-scrolling: touch;
 }
 
-
 table {
-
     width: 100%;
-
     min-width: 1950px;
 
-    border-collapse:
-        separate;
-
+    border-collapse: separate;
     border-spacing: 0;
 
     text-align: right;
 }
 
-
 thead {
-
-    background:
-        #eef5ff;
+    background: #eef5ff;
 }
 
-
 th {
-
     position: sticky;
 
     top: 0;
@@ -1151,9 +947,7 @@ th {
         11px;
 
     color: #536278;
-
-    background:
-        #eef5ff;
+    background: #eef5ff;
 
     white-space: nowrap;
 
@@ -1166,20 +960,15 @@ th {
         #e6edf6;
 
     font-size: 9px;
-
     font-weight: 900;
 }
 
-
 td {
-
     padding:
         12px
         10px;
 
-    color:
-        #35445a;
-
+    color: #35445a;
     background: white;
 
     white-space: nowrap;
@@ -1193,55 +982,46 @@ td {
         #f0f3f7;
 
     font-size: 9px;
-
     font-weight: 600;
 }
 
-
 tbody tr {
-
     cursor: pointer;
-
     transition: .15s;
 }
 
-
 tbody tr:hover td {
-
-    background:
-        #f7faff;
+    background: #f7faff;
 }
-
 
 .uid {
-
     direction: ltr;
 
-    color:
-        var(--blue-dark);
+    color: var(--blue-dark);
 
-    font-family:
-        Arial,
-        sans-serif;
+    font-family: Arial, sans-serif;
 
     font-weight: 900;
 }
-
 
 .name-cell {
-
-    color: var(--text);
+    color: var(--blue-dark);
 
     font-weight: 900;
+
+    cursor: pointer;
+
+    text-decoration: underline;
+
+    text-decoration-color:
+        rgba(11,99,216,.25);
+
+    text-underline-offset: 3px;
 }
 
-
 .phone-cell {
-
     direction: ltr;
-
     text-align: right;
-
     font-weight: 800;
 }
 
@@ -1251,11 +1031,8 @@ tbody tr:hover td {
 ========================================================= */
 
 .badge {
-
     display: inline-flex;
-
     align-items: center;
-
     justify-content: center;
 
     min-height: 25px;
@@ -1267,79 +1044,49 @@ tbody tr:hover td {
     border-radius: 7px;
 
     font-size: 8px;
-
     font-weight: 900;
 }
 
-
 .badge-default {
-
-    color:
-        #526277;
-
-    background:
-        #f1f4f8;
+    color: #526277;
+    background: #f1f4f8;
 }
-
 
 .badge-green {
-
-    color:
-        #067343;
-
-    background:
-        var(--green-light);
+    color: #067343;
+    background: var(--green-light);
 }
-
 
 .badge-red {
-
-    color:
-        #b4232d;
-
-    background:
-        var(--red-light);
+    color: #b4232d;
+    background: var(--red-light);
 }
-
 
 .badge-orange {
-
-    color:
-        #9a6700;
-
-    background:
-        var(--orange-light);
+    color: #9a6700;
+    background: var(--orange-light);
 }
 
-
 .badge-blue {
-
-    color:
-        var(--blue-dark);
-
-    background:
-        var(--blue-light);
+    color: var(--blue-dark);
+    background: var(--blue-light);
 }
 
 
 /* =========================================================
-   MOBILE CARDS
+   MOBILE
 ========================================================= */
 
 .mobile-list {
-
     display: none;
 }
 
-
 .applicant-card {
-
     margin-bottom: 10px;
 
     padding: 14px;
 
-    background:
-        white;
+    background: white;
 
     border:
         1px solid
@@ -1354,76 +1101,54 @@ tbody tr:hover td {
     cursor: pointer;
 }
 
-
 .card-name {
-
     color: var(--text);
 
     font-size: 13px;
-
     font-weight: 900;
 }
 
-
 .card-code {
-
     margin-top: 2px;
 
-    color:
-        var(--blue-dark);
+    color: var(--blue-dark);
 
     direction: ltr;
 
     font-size: 8px;
-
     font-weight: 800;
 }
 
-
 .card-grid {
-
     display: grid;
-
-    grid-template-columns:
-        1fr 1fr;
+    grid-template-columns: 1fr 1fr;
 
     gap: 6px;
 
     margin-top: 11px;
 }
 
-
 .card-field {
-
     padding: 7px;
 
-    background:
-        #f8fafc;
+    background: #f8fafc;
 
     border-radius: 9px;
 }
 
-
 .card-label {
-
-    color:
-        #8995a6;
+    color: #8995a6;
 
     font-size: 7px;
-
     font-weight: 800;
 }
 
-
 .card-value {
-
     margin-top: 2px;
 
-    color:
-        #34435a;
+    color: #34435a;
 
     font-size: 8px;
-
     font-weight: 700;
 
     word-break: break-word;
@@ -1435,7 +1160,6 @@ tbody tr:hover td {
 ========================================================= */
 
 .empty-state {
-
     display: none;
 
     padding:
@@ -1444,11 +1168,9 @@ tbody tr:hover td {
 
     text-align: center;
 
-    color:
-        var(--muted);
+    color: var(--muted);
 
-    background:
-        white;
+    background: white;
 
     border:
         1px solid
@@ -1457,7 +1179,6 @@ tbody tr:hover td {
     border-radius: 18px;
 
     font-size: 10px;
-
     font-weight: 700;
 }
 
@@ -1467,9 +1188,7 @@ tbody tr:hover td {
 ========================================================= */
 
 .modal-overlay {
-
     position: fixed;
-
     inset: 0;
 
     z-index: 20000;
@@ -1477,7 +1196,6 @@ tbody tr:hover td {
     display: none;
 
     align-items: flex-start;
-
     justify-content: center;
 
     padding:
@@ -1489,27 +1207,20 @@ tbody tr:hover td {
     background:
         rgba(16,35,63,.58);
 
-    backdrop-filter:
-        blur(7px);
+    backdrop-filter: blur(7px);
 }
 
-
 .modal-overlay.show {
-
     display: flex;
 }
 
-
 .modal {
-
     width: 100%;
-
     max-width: 950px;
 
     overflow: hidden;
 
-    background:
-        white;
+    background: white;
 
     border-radius: 22px;
 
@@ -1518,13 +1229,9 @@ tbody tr:hover td {
         rgba(0,0,0,.24);
 }
 
-
 .modal-header {
-
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
 
     gap: 15px;
@@ -1543,21 +1250,15 @@ tbody tr:hover td {
         );
 }
 
-
 .modal-name {
-
     font-size: 16px;
-
     font-weight: 900;
 }
 
-
 .modal-code {
-
     margin-top: 3px;
 
     direction: ltr;
-
     text-align: right;
 
     font-size: 8px;
@@ -1565,29 +1266,21 @@ tbody tr:hover td {
     opacity: .85;
 }
 
-
 .close-modal {
-
     width: 39px;
     height: 39px;
 
     border: 0;
-
     border-radius: 10px;
 
     color: white;
-
-    background:
-        rgba(255,255,255,.15);
+    background: rgba(255,255,255,.15);
 
     font-size: 20px;
-
     font-weight: 900;
 }
 
-
 .modal-body {
-
     padding: 18px;
 }
 
@@ -1597,17 +1290,13 @@ tbody tr:hover td {
 ========================================================= */
 
 .section-title {
-
     margin-bottom: 11px;
 
     font-size: 13px;
-
     font-weight: 900;
 }
 
-
 .info-grid {
-
     display: grid;
 
     grid-template-columns:
@@ -1618,9 +1307,7 @@ tbody tr:hover td {
     margin-bottom: 20px;
 }
 
-
 .info-box {
-
     min-width: 0;
 
     padding: 9px;
@@ -1631,34 +1318,170 @@ tbody tr:hover td {
 
     border-radius: 9px;
 
-    background:
-        #fafcff;
+    background: #fafcff;
 }
 
-
 .info-label {
-
-    color:
-        var(--muted);
+    color: var(--muted);
 
     font-size: 7px;
-
     font-weight: 800;
 }
 
-
 .info-value {
-
     margin-top: 2px;
 
-    color:
-        var(--text);
+    color: var(--text);
 
     font-size: 9px;
-
     font-weight: 800;
 
     word-break: break-word;
+}
+
+
+/* =========================================================
+   WHATSAPP
+========================================================= */
+
+.whatsapp-card {
+    margin-bottom: 20px;
+
+    padding: 16px;
+
+    border:
+        1px solid
+        #c7ecd6;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f1fff7,
+            #ffffff
+        );
+
+    box-shadow:
+        0 7px 22px
+        rgba(7,148,85,.06);
+}
+
+.whatsapp-card-header {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-bottom: 11px;
+}
+
+.whatsapp-title {
+    color: #087747;
+
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.whatsapp-subtitle {
+    margin-top: 2px;
+
+    color: #718096;
+
+    font-size: 8px;
+    font-weight: 700;
+}
+
+.whatsapp-phone {
+    direction: ltr;
+
+    padding:
+        5px
+        9px;
+
+    border-radius: 20px;
+
+    color: #087747;
+    background: #ddf9e9;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 9px;
+    font-weight: 900;
+}
+
+.whatsapp-message {
+    width: 100%;
+    min-height: 120px;
+
+    resize: vertical;
+
+    padding: 12px;
+
+    outline: none;
+
+    border:
+        1.5px solid
+        #cfe7d8;
+
+    border-radius: 11px;
+
+    color: var(--text);
+
+    background: white;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    line-height: 1.8;
+}
+
+.whatsapp-message:focus {
+    border-color: #25d366;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(37,211,102,.08);
+}
+
+.whatsapp-button {
+    width: 100%;
+    min-height: 48px;
+
+    margin-top: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    border: 0;
+    border-radius: 11px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #25d366,
+            #128c7e
+        );
+
+    box-shadow:
+        0 8px 22px
+        rgba(37,211,102,.20);
+
+    font-size: 10px;
+    font-weight: 900;
+}
+
+.whatsapp-button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+    box-shadow: none;
 }
 
 
@@ -1667,7 +1490,6 @@ tbody tr:hover td {
 ========================================================= */
 
 .stage-card {
-
     margin-bottom: 11px;
 
     padding: 15px;
@@ -1681,13 +1503,10 @@ tbody tr:hover td {
     background: white;
 }
 
-
 .stage-header {
-
     display: flex;
 
     align-items: center;
-
     justify-content: space-between;
 
     gap: 10px;
@@ -1695,40 +1514,28 @@ tbody tr:hover td {
     margin-bottom: 11px;
 }
 
-
 .stage-name {
-
     font-size: 11px;
-
     font-weight: 900;
 }
 
-
 .stage-description {
-
     margin-top: 2px;
 
-    color:
-        var(--muted);
+    color: var(--muted);
 
     font-size: 7px;
-
     font-weight: 600;
 }
 
-
 .stage-actions {
-
     display: flex;
-
     flex-wrap: wrap;
 
     gap: 7px;
 }
 
-
 .stage-button {
-
     min-height: 39px;
 
     padding:
@@ -1741,111 +1548,59 @@ tbody tr:hover td {
 
     border-radius: 9px;
 
-    background:
-        #f8fafc;
-
-    color:
-        #526277;
+    background: #f8fafc;
+    color: #526277;
 
     font-size: 8px;
-
     font-weight: 900;
 
     transition: .15s;
 }
 
-
 .stage-button.green {
-
-    color:
-        #067343;
-
-    border-color:
-        #c5ead7;
-
-    background:
-        var(--green-light);
+    color: #067343;
+    border-color: #c5ead7;
+    background: var(--green-light);
 }
-
 
 .stage-button.red {
-
-    color:
-        #b4232d;
-
-    border-color:
-        #ffd1d5;
-
-    background:
-        var(--red-light);
+    color: #b4232d;
+    border-color: #ffd1d5;
+    background: var(--red-light);
 }
-
 
 .stage-button.orange {
-
-    color:
-        #9a6700;
-
-    border-color:
-        #ffe1a5;
-
-    background:
-        var(--orange-light);
+    color: #9a6700;
+    border-color: #ffe1a5;
+    background: var(--orange-light);
 }
-
 
 .stage-button.blue {
-
-    color:
-        var(--blue-dark);
-
-    border-color:
-        #c9ddf9;
-
-    background:
-        var(--blue-light);
+    color: var(--blue-dark);
+    border-color: #c9ddf9;
+    background: var(--blue-light);
 }
-
 
 .stage-button.active {
-
     color: white;
 
-    border-color:
-        var(--blue);
-
-    background:
-        var(--blue);
+    border-color: var(--blue);
+    background: var(--blue);
 }
-
 
 .stage-button.green.active {
-
-    background:
-        var(--green);
-
-    border-color:
-        var(--green);
+    background: var(--green);
+    border-color: var(--green);
 }
-
 
 .stage-button.red.active {
-
-    background:
-        var(--red);
-
-    border-color:
-        var(--red);
+    background: var(--red);
+    border-color: var(--red);
 }
 
-
 .stage-button.orange.active {
-
-    background:
-        var(--orange);
-
-    border-color:
-        var(--orange);
+    background: var(--orange);
+    border-color: var(--orange);
 }
 
 
@@ -1854,7 +1609,6 @@ tbody tr:hover td {
 ========================================================= */
 
 .date-area {
-
     display: grid;
 
     grid-template-columns:
@@ -1866,11 +1620,8 @@ tbody tr:hover td {
     margin-top: 9px;
 }
 
-
 .date-input {
-
     width: 100%;
-
     height: 41px;
 
     padding:
@@ -1885,20 +1636,14 @@ tbody tr:hover td {
 
     outline: none;
 
-    background:
-        #fafcff;
-
-    color:
-        var(--text);
+    background: #fafcff;
+    color: var(--text);
 
     font-size: 9px;
-
     font-weight: 700;
 }
 
-
 .save-date {
-
     height: 41px;
 
     padding:
@@ -1906,16 +1651,12 @@ tbody tr:hover td {
         14px;
 
     border: 0;
-
     border-radius: 9px;
 
     color: white;
-
-    background:
-        var(--blue);
+    background: var(--blue);
 
     font-size: 8px;
-
     font-weight: 900;
 }
 
@@ -1925,19 +1666,14 @@ tbody tr:hover td {
 ========================================================= */
 
 .loading-screen {
-
     position: fixed;
-
     inset: 0;
 
     z-index: 30000;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     flex-direction: column;
 
     gap: 12px;
@@ -1946,23 +1682,17 @@ tbody tr:hover td {
         rgba(255,255,255,.97);
 
     opacity: 0;
-
     visibility: hidden;
 
     transition: .2s;
 }
 
-
 .loading-screen.active {
-
     opacity: 1;
-
     visibility: visible;
 }
 
-
 .loader-circle {
-
     width: 46px;
     height: 46px;
 
@@ -1970,11 +1700,8 @@ tbody tr:hover td {
         4px solid
         #e6eefb;
 
-    border-top-color:
-        var(--blue);
-
-    border-right-color:
-        var(--red);
+    border-top-color: var(--blue);
+    border-right-color: var(--red);
 
     border-radius: 50%;
 
@@ -1982,24 +1709,16 @@ tbody tr:hover td {
         spin .75s linear infinite;
 }
 
-
 @keyframes spin {
-
     to {
-
-        transform:
-            rotate(360deg);
+        transform: rotate(360deg);
     }
 }
 
-
 .loading-text {
-
-    color:
-        var(--text);
+    color: var(--text);
 
     font-size: 10px;
-
     font-weight: 800;
 }
 
@@ -2009,13 +1728,11 @@ tbody tr:hover td {
 ========================================================= */
 
 .toast {
-
     position: fixed;
 
     z-index: 40000;
 
     bottom: 20px;
-
     left: 50%;
 
     width:
@@ -2033,46 +1750,33 @@ tbody tr:hover td {
     border-radius: 13px;
 
     opacity: 0;
-
     visibility: hidden;
 
     color: white;
-
-    background:
-        #10233f;
+    background: #10233f;
 
     text-align: center;
 
     font-size: 9px;
-
     font-weight: 800;
 
     transition: .2s;
 }
 
-
 .toast.show {
-
     opacity: 1;
-
     visibility: visible;
 
     transform:
         translate(-50%, 0);
 }
 
-
 .toast.success {
-
-    background:
-        var(--green);
+    background: var(--green);
 }
 
-
 .toast.error {
-
-    background:
-        var(--red);
+    background: var(--red);
 }
 
 
@@ -2081,16 +1785,13 @@ tbody tr:hover td {
 ========================================================= */
 
 .footer {
-
     margin-top: 25px;
 
     text-align: center;
 
-    color:
-        #a1acb9;
+    color: #a1acb9;
 
     font-size: 8px;
-
     font-weight: 600;
 }
 
@@ -2102,83 +1803,65 @@ tbody tr:hover td {
 @media (max-width: 1250px) {
 
     .excel-filters {
-
         grid-template-columns:
             repeat(4, 1fr);
     }
-}
 
+}
 
 @media (max-width: 950px) {
 
     .excel-filters {
-
         grid-template-columns:
             repeat(3, 1fr);
     }
-}
 
+}
 
 @media (max-width: 800px) {
 
     .table-wrapper {
-
         display: none;
     }
 
-
     .mobile-list {
-
         display: block;
     }
 
-
     .info-grid {
-
         grid-template-columns:
             repeat(2, 1fr);
     }
-
 
     .excel-filters {
-
         grid-template-columns:
             repeat(2, 1fr);
     }
 
-
     .school-name {
-
         font-size: 20px;
     }
 
-
     .page-title {
-
         font-size: 19px;
     }
-}
 
+}
 
 @media (max-width: 520px) {
 
     .app {
-
         padding:
             20px
             10px
             40px;
     }
 
-
     .statistics {
-
         gap: 7px;
     }
 
-
     .stat-card {
-
         padding:
             12px
             8px;
@@ -2186,30 +1869,22 @@ tbody tr:hover td {
         text-align: center;
     }
 
-
     .stat-number {
-
         font-size: 19px;
     }
 
-
     .stat-label {
-
         font-size: 7px;
     }
 
-
     .stage-tabs {
-
         display: grid;
 
         grid-template-columns:
             repeat(2, 1fr);
     }
 
-
     .stage-tab {
-
         width: 100%;
 
         padding:
@@ -2217,28 +1892,19 @@ tbody tr:hover td {
             7px;
     }
 
-
     .stage-header {
-
-        align-items:
-            flex-start;
-
-        flex-direction:
-            column;
+        align-items: flex-start;
+        flex-direction: column;
     }
 
-
     .stage-actions {
-
         display: grid;
 
         grid-template-columns:
             1fr 1fr;
     }
 
-
     .stage-button {
-
         width: 100%;
 
         padding:
@@ -2246,22 +1912,15 @@ tbody tr:hover td {
             6px;
     }
 
-
     .date-area {
-
-        grid-template-columns:
-            1fr;
+        grid-template-columns: 1fr;
     }
 
-
     .save-date {
-
         width: 100%;
     }
 
-
     .excel-filter-menu {
-
         position: fixed;
 
         top: 50%;
@@ -2279,49 +1938,10 @@ tbody tr:hover td {
         z-index: 2000;
     }
 
-
     .card-grid {
-
-        grid-template-columns:
-            1fr;
+        grid-template-columns: 1fr;
     }
-}
 
-
-/* =========================================================
-   PDF EXPORT BUTTON
-========================================================= */
-
-.results-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.pdf-export-button {
-    min-height: 38px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    padding: 0 14px;
-    border: 0;
-    border-radius: 10px;
-    color: #fff;
-    background: linear-gradient(135deg, var(--red), #a80f17);
-    box-shadow: 0 7px 18px rgba(215,25,32,.16);
-    font-size: 9px;
-    font-weight: 900;
-}
-
-.pdf-export-button:disabled {
-    opacity: .55;
-    cursor: not-allowed;
-    box-shadow: none;
-}
-
-@media (max-width: 520px) {
     .results-header {
         align-items: flex-start;
         flex-direction: column;
@@ -2334,6 +1954,11 @@ tbody tr:hover td {
     .pdf-export-button {
         flex: 1;
     }
+
+    .whatsapp-card-header {
+        flex-direction: column;
+    }
+
 }
 
 </style>
@@ -2346,10 +1971,6 @@ tbody tr:hover td {
 
 <div class="background"></div>
 
-
-<!-- =========================================================
-     LOADING
-========================================================= -->
 
 <div
     id="loadingScreen"
@@ -2368,75 +1989,49 @@ tbody tr:hover td {
 </div>
 
 
-<!-- =========================================================
-     TOAST
-========================================================= -->
-
 <div
     id="toast"
     class="toast">
 </div>
 
 
-<!-- =========================================================
-     APP
-========================================================= -->
-
 <main class="app">
 
 <div class="container">
 
-
-<!-- =========================================================
-     HEADER
-========================================================= -->
 
 <header class="header">
 
     <div class="logo-box">
 
         <div class="logo-text">
-
             وظائف التحدي
-
         </div>
 
     </div>
 
 
     <div class="school-name">
-
         مدرسة التحدي الأهلية المختلطة
-
     </div>
 
 
     <div class="department">
-
         قسم الحوكمة
-
     </div>
 
 
     <div class="page-title">
-
         إدارة ومتابعة طلبات التوظيف
-
     </div>
 
 
     <div class="page-description">
-
         متابعة مراحل المتقدمين والتحكم بحالة كل طلب
-
     </div>
 
 </header>
 
-
-<!-- =========================================================
-     STATISTICS
-========================================================= -->
 
 <section class="statistics">
 
@@ -2487,16 +2082,10 @@ tbody tr:hover td {
 </section>
 
 
-<!-- =========================================================
-     STAGE NAVIGATION
-========================================================= -->
-
 <section class="stage-navigation">
 
     <div class="stage-nav-title">
-
         متابعة مراحل الطلبات
-
     </div>
 
 
@@ -2511,8 +2100,7 @@ tbody tr:hover td {
 
             الكل
 
-            <span
-                class="stage-tab-count">
+            <span class="stage-tab-count">
                 0
             </span>
 
@@ -2661,20 +2249,12 @@ tbody tr:hover td {
 
         </button>
 
-
     </div>
 
 </section>
 
 
-<!-- =========================================================
-     CONTROL PANEL
-========================================================= -->
-
 <section class="control-panel">
-
-
-    <!-- SEARCH -->
 
     <div class="search-box">
 
@@ -2691,23 +2271,16 @@ tbody tr:hover td {
     </div>
 
 
-    <!-- FILTER TITLE -->
-
     <div class="filter-title-row">
 
         <div>
 
             <div class="filter-title">
-
                 فلاتر البيانات
-
             </div>
 
-
             <div class="filter-description">
-
                 يمكنك اختيار قيمة أو أكثر من أي حقل
-
             </div>
 
         </div>
@@ -2725,8 +2298,6 @@ tbody tr:hover td {
     </div>
 
 
-    <!-- FILTERS -->
-
     <div
         id="excelFilters"
         class="excel-filters">
@@ -2734,10 +2305,6 @@ tbody tr:hover td {
 
 </section>
 
-
-<!-- =========================================================
-     RESULTS
-========================================================= -->
 
 <div class="results-header">
 
@@ -2774,12 +2341,7 @@ tbody tr:hover td {
 </div>
 
 
-<!-- =========================================================
-     TABLE
-========================================================= -->
-
-<div
-    class="table-wrapper">
+<div class="table-wrapper">
 
 <table>
 
@@ -2788,45 +2350,25 @@ tbody tr:hover td {
 <tr>
 
     <th>UID</th>
-
     <th>الاسم</th>
-
     <th>الجنس</th>
-
     <th>المواليد</th>
-
     <th>رقم الهاتف</th>
-
     <th>العنوان</th>
-
     <th>المرحلة</th>
-
     <th>المادة</th>
-
     <th>الشهادة</th>
-
     <th>الجامعة</th>
-
     <th>الكلية</th>
-
     <th>تخصص الدراسة</th>
-
     <th>سنة التخرج</th>
-
     <th>المعدل</th>
-
     <th>مرحلة التدقيق</th>
-
     <th>الحاجة إليك</th>
-
     <th>مرحلة المقابلة</th>
-
     <th>تاريخ المقابلة</th>
-
     <th>قرار اللجنة</th>
-
     <th>حالة القبول</th>
-
     <th>تاريخ المباشرة</th>
 
 </tr>
@@ -2842,19 +2384,11 @@ tbody tr:hover td {
 </div>
 
 
-<!-- =========================================================
-     MOBILE
-========================================================= -->
-
 <div
     id="mobileList"
     class="mobile-list">
 </div>
 
-
-<!-- =========================================================
-     EMPTY
-========================================================= -->
 
 <div
     id="emptyState"
@@ -2928,14 +2462,8 @@ tbody tr:hover td {
 <div class="modal-body">
 
 
-<!-- =====================================================
-     APPLICANT DATA
-===================================================== -->
-
 <div class="section-title">
-
     بيانات المتقدم
-
 </div>
 
 
@@ -2945,16 +2473,62 @@ tbody tr:hover td {
 </div>
 
 
-<div class="section-title">
+<!-- =========================================================
+     WHATSAPP
+========================================================= -->
 
-    مراحل الطلب
+<div class="whatsapp-card">
+
+    <div class="whatsapp-card-header">
+
+        <div>
+
+            <div class="whatsapp-title">
+                مراسلة المتقدم عبر واتساب
+            </div>
+
+            <div class="whatsapp-subtitle">
+                اكتب الرسالة التي تريد إرسالها، وسيتم فتح واتساب على رقم المتقدم الحالي.
+            </div>
+
+        </div>
+
+
+        <div
+            id="whatsappPhone"
+            class="whatsapp-phone">
+
+            لا يوجد رقم
+
+        </div>
+
+    </div>
+
+
+    <textarea
+        id="whatsappMessage"
+        class="whatsapp-message"
+        placeholder="اكتب رسالتك هنا..."></textarea>
+
+
+    <button
+        id="whatsappButton"
+        class="whatsapp-button"
+        type="button">
+
+        مراسلة عبر واتساب
+
+    </button>
 
 </div>
 
 
-<!-- =====================================================
-     REVIEW
-===================================================== -->
+<div class="section-title">
+    مراحل الطلب
+</div>
+
+
+<!-- REVIEW -->
 
 <div class="stage-card">
 
@@ -2963,15 +2537,11 @@ tbody tr:hover td {
         <div>
 
             <div class="stage-name">
-
                 1. مرحلة التدقيق
-
             </div>
 
             <div class="stage-description">
-
                 تدقيق البيانات والمعلومات المقدمة
-
             </div>
 
         </div>
@@ -3024,9 +2594,7 @@ tbody tr:hover td {
 </div>
 
 
-<!-- =====================================================
-     NEED
-===================================================== -->
+<!-- NEED -->
 
 <div class="stage-card">
 
@@ -3035,15 +2603,11 @@ tbody tr:hover td {
         <div>
 
             <div class="stage-name">
-
                 2. مرحلة الحاجة إليك
-
             </div>
 
             <div class="stage-description">
-
                 تحديد حاجة المدرسة إلى المتقدم
-
             </div>
 
         </div>
@@ -3096,9 +2660,7 @@ tbody tr:hover td {
 </div>
 
 
-<!-- =====================================================
-     INTERVIEW
-===================================================== -->
+<!-- INTERVIEW -->
 
 <div class="stage-card">
 
@@ -3107,15 +2669,11 @@ tbody tr:hover td {
         <div>
 
             <div class="stage-name">
-
                 3. مرحلة المقابلة
-
             </div>
 
             <div class="stage-description">
-
                 تحديد انتقال المتقدم إلى المقابلة
-
             </div>
 
         </div>
@@ -3168,9 +2726,7 @@ tbody tr:hover td {
 </div>
 
 
-<!-- =====================================================
-     INTERVIEW DATE
-===================================================== -->
+<!-- INTERVIEW DATE -->
 
 <div class="stage-card">
 
@@ -3179,15 +2735,11 @@ tbody tr:hover td {
         <div>
 
             <div class="stage-name">
-
                 4. تاريخ المقابلة
-
             </div>
 
             <div class="stage-description">
-
                 التاريخ والوقت الذي يظهر للمتقدم
-
             </div>
 
         </div>
@@ -3226,9 +2778,7 @@ tbody tr:hover td {
 </div>
 
 
-<!-- =====================================================
-     COMMITTEE
-===================================================== -->
+<!-- COMMITTEE -->
 
 <div class="stage-card">
 
@@ -3237,15 +2787,11 @@ tbody tr:hover td {
         <div>
 
             <div class="stage-name">
-
                 5. قرار لجنة المقابلات
-
             </div>
 
             <div class="stage-description">
-
                 قبول أو عدم قبول بعد المقابلة
-
             </div>
 
         </div>
@@ -3286,9 +2832,7 @@ tbody tr:hover td {
 </div>
 
 
-<!-- =====================================================
-     ACCEPTANCE
-===================================================== -->
+<!-- ACCEPTANCE -->
 
 <div class="stage-card">
 
@@ -3297,15 +2841,11 @@ tbody tr:hover td {
         <div>
 
             <div class="stage-name">
-
                 6. حالة القبول النهائية
-
             </div>
 
             <div class="stage-description">
-
                 الحالة التي تظهر ضمن مراحل الطلب
-
             </div>
 
         </div>
@@ -3346,9 +2886,7 @@ tbody tr:hover td {
 </div>
 
 
-<!-- =====================================================
-     START DATE
-===================================================== -->
+<!-- START DATE -->
 
 <div class="stage-card">
 
@@ -3357,15 +2895,11 @@ tbody tr:hover td {
         <div>
 
             <div class="stage-name">
-
                 7. تاريخ المباشرة
-
             </div>
 
             <div class="stage-description">
-
                 يحدد بعد قبول المتقدم
-
             </div>
 
         </div>
@@ -3411,16 +2945,8 @@ tbody tr:hover td {
 </div>
 
 
-<!-- =========================================================
-     FIREBASE
-========================================================= -->
-
 <script type="module">
 
-
-/* =========================================================
-   FIREBASE IMPORT
-========================================================= */
 
 import {
     initializeApp
@@ -3438,10 +2964,6 @@ import {
 from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
-
-/* =========================================================
-   FIREBASE CONFIG
-========================================================= */
 
 const firebaseConfig = {
 
@@ -3472,10 +2994,6 @@ const firebaseConfig = {
 };
 
 
-/* =========================================================
-   INITIALIZE
-========================================================= */
-
 const app =
     initializeApp(
         firebaseConfig
@@ -3487,10 +3005,6 @@ const db =
         app
     );
 
-
-/* =========================================================
-   ELEMENTS
-========================================================= */
 
 const loadingScreen =
     document.getElementById(
@@ -3618,9 +3132,23 @@ const startDateInput =
     );
 
 
-/* =========================================================
-   DATA
-========================================================= */
+const whatsappPhone =
+    document.getElementById(
+        "whatsappPhone"
+    );
+
+
+const whatsappMessage =
+    document.getElementById(
+        "whatsappMessage"
+    );
+
+
+const whatsappButton =
+    document.getElementById(
+        "whatsappButton"
+    );
+
 
 let allApplicants = [];
 
@@ -3635,7 +3163,7 @@ const activeFilters = {};
 
 
 /* =========================================================
-   STAGE FILTER DEFINITIONS
+   STAGE FILTERS
 ========================================================= */
 
 const stageFilters = {
@@ -3814,214 +3342,158 @@ const stageFilters = {
 
 
 /* =========================================================
-   FILTER FIELD DEFINITIONS
+   FILTER FIELDS
 ========================================================= */
 
 const filterFields = [
 
     {
         key: "uid",
-
         label: "UID",
-
         getValue:
             applicant =>
                 applicant.uid
     },
 
-
     {
         key: "fullName",
-
         label: "الاسم",
-
         getValue:
             applicant =>
                 applicant?.personal?.fullName
     },
 
-
     {
         key: "gender",
-
         label: "الجنس",
-
         getValue:
             applicant =>
                 applicant?.personal?.gender
     },
 
-
     {
         key: "birthDate",
-
         label: "المواليد",
-
         getValue:
             applicant =>
                 applicant?.personal?.birthDate
     },
 
-
     {
         key: "phone",
-
         label: "رقم الهاتف",
-
         getValue:
             applicant =>
                 applicant?.personal?.phone
     },
 
-
     {
         key: "address",
-
         label: "عنوان السكن",
-
         getValue:
             applicant =>
                 applicant?.personal?.address
     },
 
-
     {
         key: "schoolLevel",
-
         label: "المرحلة",
-
         getValue:
             applicant =>
                 applicant?.job?.schoolLevel
     },
 
-
     {
         key: "jobSpecialization",
-
         label: "المادة",
-
         getValue:
             applicant =>
                 applicant?.job?.specialization
     },
 
-
     {
         key: "certificate",
-
         label: "الشهادة",
-
         getValue:
             applicant =>
                 applicant?.education?.certificate
     },
 
-
     {
         key: "university",
-
         label: "الجامعة",
-
         getValue:
             applicant =>
                 applicant?.education?.university
     },
 
-
     {
         key: "college",
-
         label: "الكلية",
-
         getValue:
             applicant =>
                 applicant?.education?.college
     },
 
-
     {
         key: "educationSpecialization",
-
         label: "تخصص الدراسة",
-
         getValue:
             applicant =>
                 applicant?.education?.specialization
     },
 
-
     {
         key: "graduationYear",
-
         label: "سنة التخرج",
-
         getValue:
             applicant =>
                 applicant?.education?.graduationYear
     },
 
-
     {
         key: "gpa",
-
         label: "المعدل",
-
         getValue:
             applicant =>
                 applicant?.education?.gpa
     },
 
-
     {
         key: "governmentEmployee",
-
         label: "موظف حكومي",
-
         getValue:
             applicant =>
                 applicant?.experience?.governmentEmployee
     },
 
-
     {
         key: "reviewStage",
-
         label: "مرحلة التدقيق",
-
         getValue:
             applicant =>
                 applicant.reviewStage
     },
 
-
     {
         key: "needStatus",
-
         label: "الحاجة إليك",
-
         getValue:
             applicant =>
                 applicant.needStatus
     },
 
-
     {
         key: "interviewStage",
-
         label: "مرحلة المقابلة",
-
         getValue:
             applicant =>
                 applicant.interviewStage
     },
 
-
     {
         key: "interviewDate",
-
         label: "تاريخ المقابلة",
-
         getValue:
             applicant =>
                 applicant.interviewDate
@@ -4031,10 +3503,8 @@ const filterFields = [
                     : "غير محدد"
     },
 
-
     {
         key: "committeeDecision",
-
         label: "قرار اللجنة",
 
         getValue:
@@ -4044,9 +3514,7 @@ const filterFields = [
                     applicant.committeeDecision ===
                     "رفض"
                 ) {
-
                     return "عدم قبول";
-
                 }
 
                 return (
@@ -4057,21 +3525,16 @@ const filterFields = [
             }
     },
 
-
     {
         key: "acceptanceStatus",
-
         label: "حالة القبول",
-
         getValue:
             applicant =>
                 applicant.acceptanceStatus
     },
 
-
     {
         key: "startDate",
-
         label: "تاريخ المباشرة",
 
         getValue:
@@ -4098,9 +3561,7 @@ function escapeHTML(
         value === null ||
         value === undefined
     ) {
-
         return "";
-
     }
 
 
@@ -4131,10 +3592,6 @@ function escapeHTML(
 }
 
 
-/* =========================================================
-   NORMALIZE TEXT
-========================================================= */
-
 function normalizeText(
     value
 ) {
@@ -4160,10 +3617,6 @@ function normalizeText(
 }
 
 
-/* =========================================================
-   DISPLAY VALUE
-========================================================= */
-
 function displayValue(
     value
 ) {
@@ -4173,9 +3626,7 @@ function displayValue(
         value === undefined ||
         String(value).trim() === ""
     ) {
-
         return "لم يتم تحديدها بعد";
-
     }
 
 
@@ -4183,10 +3634,6 @@ function displayValue(
 
 }
 
-
-/* =========================================================
-   NAME
-========================================================= */
 
 function getApplicantName(
     applicant
@@ -4201,10 +3648,6 @@ function getApplicantName(
 }
 
 
-/* =========================================================
-   PHONE
-========================================================= */
-
 function getApplicantPhone(
     applicant
 ) {
@@ -4216,6 +3659,263 @@ function getApplicantPhone(
     );
 
 }
+
+
+/* =========================================================
+   WHATSAPP HELPERS
+========================================================= */
+
+function convertArabicDigits(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /[٠-٩]/g,
+        function(number) {
+
+            return String(
+                "٠١٢٣٤٥٦٧٨٩"
+                    .indexOf(number)
+            );
+
+        }
+    )
+    .replace(
+        /[۰-۹]/g,
+        function(number) {
+
+            return String(
+                "۰۱۲۳۴۵۶۷۸۹"
+                    .indexOf(number)
+            );
+
+        }
+    );
+
+}
+
+
+function normalizeWhatsAppPhone(
+    value
+) {
+
+    let phone =
+        convertArabicDigits(
+            value
+        )
+        .replace(
+            /\D/g,
+            ""
+        );
+
+
+    if (!phone) {
+        return "";
+    }
+
+
+    /*
+        مثال:
+        009647851521585
+        إلى:
+        9647851521585
+    */
+
+    if (
+        phone.startsWith(
+            "00964"
+        )
+    ) {
+
+        phone =
+            phone.substring(
+                2
+            );
+
+    }
+
+
+    /*
+        إذا الرقم أصلاً دولي
+        9647...
+    */
+
+    if (
+        phone.startsWith(
+            "964"
+        )
+    ) {
+
+        return phone;
+
+    }
+
+
+    /*
+        إذا الرقم:
+        0785...
+        نحذف الصفر ونضيف 964
+    */
+
+    if (
+        phone.startsWith(
+            "07"
+        )
+    ) {
+
+        return (
+            "964" +
+            phone.substring(
+                1
+            )
+        );
+
+    }
+
+
+    /*
+        إذا الرقم:
+        785...
+    */
+
+    if (
+        phone.startsWith(
+            "7"
+        )
+    ) {
+
+        return (
+            "964" +
+            phone
+        );
+
+    }
+
+
+    return phone;
+
+}
+
+
+function refreshWhatsAppUI() {
+
+    if (!selectedApplicant) {
+
+        whatsappPhone.textContent =
+            "لا يوجد رقم";
+
+        whatsappButton.disabled =
+            true;
+
+        return;
+
+    }
+
+
+    const originalPhone =
+        getApplicantPhone(
+            selectedApplicant
+        );
+
+
+    const normalizedPhone =
+        normalizeWhatsAppPhone(
+            originalPhone
+        );
+
+
+    if (!normalizedPhone) {
+
+        whatsappPhone.textContent =
+            "لا يوجد رقم هاتف";
+
+        whatsappButton.disabled =
+            true;
+
+        return;
+
+    }
+
+
+    whatsappPhone.textContent =
+        originalPhone;
+
+
+    whatsappButton.disabled =
+        false;
+
+}
+
+
+function openApplicantWhatsApp() {
+
+    if (!selectedApplicant) {
+
+        showToast(
+            "لم يتم تحديد متقدم.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const phone =
+        normalizeWhatsAppPhone(
+            getApplicantPhone(
+                selectedApplicant
+            )
+        );
+
+
+    if (!phone) {
+
+        showToast(
+            "لا يوجد رقم هاتف صالح لهذا المتقدم.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const message =
+        whatsappMessage.value.trim();
+
+
+    let whatsappUrl =
+        "https://wa.me/" +
+        phone;
+
+
+    if (message) {
+
+        whatsappUrl +=
+            "?text=" +
+            encodeURIComponent(
+                message
+            );
+
+    }
+
+
+    window.open(
+        whatsappUrl,
+        "_blank"
+    );
+
+}
+
+
+whatsappButton.addEventListener(
+    "click",
+    openApplicantWhatsApp
+);
 
 
 /* =========================================================
@@ -4234,7 +3934,8 @@ function sortApplicantsAlphabetically(
                     getApplicantName(b),
                     "ar",
                     {
-                        sensitivity: "base"
+                        sensitivity:
+                            "base"
                     }
                 );
 
@@ -4245,7 +3946,7 @@ function sortApplicantsAlphabetically(
 
 
 /* =========================================================
-   DATE FORMAT
+   DATE
 ========================================================= */
 
 function formatDate(
@@ -4253,9 +3954,7 @@ function formatDate(
 ) {
 
     if (!value) {
-
         return "غير محدد";
-
     }
 
 
@@ -4297,18 +3996,12 @@ function formatDate(
 }
 
 
-/* =========================================================
-   DATE ONLY
-========================================================= */
-
 function formatDateOnly(
     value
 ) {
 
     if (!value) {
-
         return "غير محدد";
-
     }
 
 
@@ -4341,7 +4034,7 @@ function formatDateOnly(
 
 
 /* =========================================================
-   BADGE CLASS
+   BADGES
 ========================================================= */
 
 function getBadgeClass(
@@ -4355,9 +4048,7 @@ function getBadgeClass(
 
 
     if (!text) {
-
         return "badge-default";
-
     }
 
 
@@ -4426,10 +4117,6 @@ function getBadgeClass(
 }
 
 
-/* =========================================================
-   BADGE HTML
-========================================================= */
-
 function badgeHTML(
     value
 ) {
@@ -4451,7 +4138,7 @@ function badgeHTML(
 
 
 /* =========================================================
-   LOADING
+   LOADING / TOAST
 ========================================================= */
 
 function showLoading(
@@ -4480,10 +4167,6 @@ function showLoading(
 
 }
 
-
-/* =========================================================
-   TOAST
-========================================================= */
 
 function showToast(
     message,
@@ -4533,8 +4216,7 @@ function showToast(
 
 
 /* =========================================================
-   LOAD APPLICANTS
-   نفس طريقة الكود الأصلي
+   LOAD
 ========================================================= */
 
 async function loadApplicants() {
@@ -4612,12 +4294,9 @@ async function loadApplicants() {
 
         updateStatistics();
 
-
         createExcelFilters();
 
-
         updateStageCounters();
-
 
         renderApplicants();
 
@@ -4712,9 +4391,7 @@ function updateStageCounters() {
 
 
                 if (!config) {
-
                     return;
-
                 }
 
 
@@ -4748,7 +4425,7 @@ function updateStageCounters() {
 
 
 /* =========================================================
-   STAGE TAB EVENTS
+   STAGE TAB
 ========================================================= */
 
 document
@@ -4837,10 +4514,6 @@ function getFilterValue(
 
 }
 
-
-/* =========================================================
-   UNIQUE VALUES
-========================================================= */
 
 function getUniqueFilterValues(
     field
@@ -5205,9 +4878,7 @@ function renderFilterOptions(
 
 
     if (!wrapper) {
-
         return;
-
     }
 
 
@@ -5248,9 +4919,7 @@ function renderFilterOptions(
         container.innerHTML = `
 
             <div class="filter-empty">
-
                 لا توجد نتائج
-
             </div>
 
         `;
@@ -5372,7 +5041,7 @@ function renderFilterOptions(
 
 
 /* =========================================================
-   UPDATE FILTER BUTTON
+   FILTER BUTTON
 ========================================================= */
 
 function updateFilterButton(
@@ -5434,10 +5103,6 @@ function updateFilterButton(
 
 }
 
-
-/* =========================================================
-   CLOSE FILTER MENUS
-========================================================= */
 
 function closeFilterMenus(
     except = null
@@ -5507,7 +5172,6 @@ clearFiltersButton.addEventListener(
 
         createExcelFilters();
 
-
         renderApplicants();
 
 
@@ -5521,7 +5185,7 @@ clearFiltersButton.addEventListener(
 
 
 /* =========================================================
-   SEARCH ALL VALUES RECURSIVELY
+   SEARCH
 ========================================================= */
 
 function collectSearchValues(
@@ -5533,14 +5197,13 @@ function collectSearchValues(
         value === null ||
         value === undefined
     ) {
-
         return output;
-
     }
 
 
     if (
-        typeof value === "object"
+        typeof value ===
+        "object"
     ) {
 
         Object.values(
@@ -5568,17 +5231,11 @@ function collectSearchValues(
 }
 
 
-/* =========================================================
-   FILTER APPLICANTS
-========================================================= */
-
 function getFilteredApplicants() {
 
     let result =
         [...allApplicants];
 
-
-    /* القسم الحالي */
 
     const stageConfig =
         stageFilters[
@@ -5599,8 +5256,6 @@ function getFilteredApplicants() {
 
     }
 
-
-    /* Excel filters */
 
     result =
         result.filter(
@@ -5642,8 +5297,6 @@ function getFilteredApplicants() {
             }
         );
 
-
-    /* البحث العام */
 
     const search =
         normalizeText(
@@ -5692,7 +5345,7 @@ function getFilteredApplicants() {
 
 
 /* =========================================================
-   RENDER APPLICANTS
+   RENDER
 ========================================================= */
 
 function renderApplicants() {
@@ -5787,185 +5440,125 @@ function renderTableRow(
     row.innerHTML = `
 
         <td>
-
             <span class="uid">
-
-                ${escapeHTML(
-                    applicant.uid
-                )}
-
+                ${escapeHTML(applicant.uid)}
             </span>
-
         </td>
 
-
         <td>
-
             <span class="name-cell">
-
                 ${escapeHTML(
                     personal.fullName ||
                     "غير متوفر"
                 )}
-
             </span>
-
         </td>
 
-
         <td>
-
             ${escapeHTML(
                 personal.gender ||
                 "غير متوفر"
             )}
-
         </td>
 
-
         <td>
-
             ${escapeHTML(
                 personal.birthDate ||
                 "غير متوفر"
             )}
-
         </td>
 
-
         <td>
-
             <span class="phone-cell">
-
                 ${escapeHTML(
                     personal.phone ||
                     "غير متوفر"
                 )}
-
             </span>
-
         </td>
 
-
         <td>
-
             ${escapeHTML(
                 personal.address ||
                 "غير متوفر"
             )}
-
         </td>
 
-
         <td>
-
             ${escapeHTML(
                 job.schoolLevel ||
                 "غير متوفر"
             )}
-
         </td>
 
-
         <td>
-
             ${escapeHTML(
                 job.specialization ||
                 "غير متوفر"
             )}
-
         </td>
 
-
         <td>
-
             ${escapeHTML(
                 education.certificate ||
                 "غير متوفر"
             )}
-
         </td>
 
-
         <td>
-
             ${escapeHTML(
                 education.university ||
                 "غير متوفر"
             )}
-
         </td>
 
-
         <td>
-
             ${escapeHTML(
                 education.college ||
                 "غير متوفر"
             )}
-
         </td>
 
-
         <td>
-
             ${escapeHTML(
                 education.specialization ||
                 "غير متوفر"
             )}
-
         </td>
 
-
         <td>
-
             ${escapeHTML(
                 education.graduationYear ||
                 "غير متوفر"
             )}
-
         </td>
 
-
         <td>
-
             ${escapeHTML(
                 education.gpa ||
                 "غير متوفر"
             )}
-
         </td>
 
-
         <td>
-
             ${badgeHTML(
                 applicant.reviewStage
             )}
-
         </td>
 
-
         <td>
-
             ${badgeHTML(
                 applicant.needStatus
             )}
-
         </td>
 
-
         <td>
-
             ${badgeHTML(
                 applicant.interviewStage
             )}
-
         </td>
 
-
         <td>
-
             ${escapeHTML(
                 applicant.interviewDate
                     ? formatDate(
@@ -5973,30 +5566,21 @@ function renderTableRow(
                     )
                     : "غير محدد"
             )}
-
         </td>
 
-
         <td>
-
             ${badgeHTML(
                 committeeDisplay
             )}
-
         </td>
 
-
         <td>
-
             ${badgeHTML(
                 applicant.acceptanceStatus
             )}
-
         </td>
 
-
         <td>
-
             ${escapeHTML(
                 applicant.startDate
                     ? formatDateOnly(
@@ -6004,7 +5588,6 @@ function renderTableRow(
                     )
                     : "غير محدد"
             )}
-
         </td>
 
     `;
@@ -6060,62 +5643,51 @@ function renderMobileCard(
     card.innerHTML = `
 
         <div class="card-name">
-
             ${escapeHTML(
                 personal.fullName ||
                 "غير متوفر"
             )}
-
         </div>
 
 
         <div class="card-code">
-
             ${escapeHTML(
                 applicant.uid
             )}
-
         </div>
 
 
         <div class="card-grid">
-
 
             ${mobileField(
                 "رقم الهاتف",
                 personal.phone
             )}
 
-
             ${mobileField(
                 "المادة",
                 job.specialization
             )}
-
 
             ${mobileField(
                 "مرحلة التدقيق",
                 applicant.reviewStage
             )}
 
-
             ${mobileField(
                 "الحاجة إليك",
                 applicant.needStatus
             )}
-
 
             ${mobileField(
                 "المقابلة",
                 applicant.interviewStage
             )}
 
-
             ${mobileField(
                 "حالة القبول",
                 applicant.acceptanceStatus
             )}
-
 
         </div>
 
@@ -6141,10 +5713,6 @@ function renderMobileCard(
 }
 
 
-/* =========================================================
-   MOBILE FIELD
-========================================================= */
-
 function mobileField(
     label,
     value
@@ -6155,18 +5723,14 @@ function mobileField(
         <div class="card-field">
 
             <div class="card-label">
-
                 ${escapeHTML(label)}
-
             </div>
 
 
             <div class="card-value">
-
                 ${escapeHTML(
                     displayValue(value)
                 )}
-
             </div>
 
         </div>
@@ -6217,12 +5781,24 @@ function openApplicant(
         applicant.uid;
 
 
+    /*
+        نفرغ الرسالة عند فتح متقدم جديد
+        حتى لا تنرسل رسالة المتقدم السابق بالخطأ
+    */
+
+    whatsappMessage.value =
+        "";
+
+
     renderApplicantInfo(
         applicant
     );
 
 
     refreshStageUI();
+
+
+    refreshWhatsAppUI();
 
 
     applicantModal.classList.add(
@@ -6376,18 +5952,14 @@ function renderApplicantInfo(
                     <div class="info-box">
 
                         <div class="info-label">
-
                             ${escapeHTML(label)}
-
                         </div>
 
 
                         <div class="info-value">
-
                             ${escapeHTML(
                                 displayValue(value)
                             )}
-
                         </div>
 
                     </div>
@@ -6408,9 +5980,7 @@ function renderApplicantInfo(
 function refreshStageUI() {
 
     if (!selectedApplicant) {
-
         return;
-
     }
 
 
@@ -6527,7 +6097,7 @@ function refreshStageUI() {
 
 
 /* =========================================================
-   SET BADGE ELEMENT
+   BADGE ELEMENT
 ========================================================= */
 
 function setBadgeElement(
@@ -6628,9 +6198,7 @@ async function updateApplicantFields(
 ) {
 
     if (!selectedApplicant) {
-
         return;
-
     }
 
 
@@ -6684,15 +6252,11 @@ async function updateApplicantFields(
 
         updateStatistics();
 
-
         updateStageCounters();
-
 
         refreshStageUI();
 
-
         renderApplicants();
-
 
         createExcelFilters();
 
@@ -6729,7 +6293,7 @@ async function updateApplicantFields(
 
 
 /* =========================================================
-   NORMAL STATUS BUTTONS
+   STATUS BUTTONS
 ========================================================= */
 
 document
@@ -6931,9 +6495,7 @@ document
         async function() {
 
             if (!selectedApplicant) {
-
                 return;
-
             }
 
 
@@ -6982,7 +6544,7 @@ document
 
 
 /* =========================================================
-   DATE INPUT HELPERS
+   DATE INPUT
 ========================================================= */
 
 function normalizeDateTimeInput(
@@ -6990,9 +6552,7 @@ function normalizeDateTimeInput(
 ) {
 
     if (!value) {
-
         return "";
-
     }
 
 
@@ -7025,9 +6585,7 @@ function normalizeDateInput(
 ) {
 
     if (!value) {
-
         return "";
-
     }
 
 
@@ -7131,15 +6689,15 @@ function closeApplicantModal() {
     selectedApplicant =
         null;
 
+
+    whatsappMessage.value =
+        "";
+
 }
 
 
-
-
 /* =========================================================
-   FILTERED PDF EXPORT
-   يطبع فقط النتائج الظاهرة بعد البحث + الفلاتر + تبويب المرحلة
-   كل متقدم في ورقة A4 مستقلة
+   PDF
 ========================================================= */
 
 function pdfSafeValue(value) {
@@ -7156,7 +6714,11 @@ function pdfSafeValue(value) {
 }
 
 
-function pdfInfoItem(label, value, extraClass = "") {
+function pdfInfoItem(
+    label,
+    value,
+    extraClass = ""
+) {
 
     return `
         <div class="pdf-info-item ${extraClass}">
@@ -7168,52 +6730,107 @@ function pdfInfoItem(label, value, extraClass = "") {
             </div>
         </div>
     `;
+
 }
 
 
-function pdfStatusItem(label, value) {
+function pdfStatusItem(
+    label,
+    value
+) {
 
-    const display = pdfSafeValue(value);
-    const normalized = normalizeText(display);
+    const display =
+        pdfSafeValue(
+            value
+        );
 
-    let statusClass = "status-neutral";
+
+    const normalized =
+        normalizeText(
+            display
+        );
+
+
+    let statusClass =
+        "status-neutral";
+
 
     if (
-        normalized.includes("مقبول") ||
-        normalized.includes("قبول") ||
-        normalized.includes("تم التدقيق") ||
-        normalized.includes("توجد حاجه") ||
-        normalized.includes("مؤهل للمقابله")
+        normalized.includes(
+            "مقبول"
+        ) ||
+        normalized.includes(
+            "قبول"
+        ) ||
+        normalized.includes(
+            "تم التدقيق"
+        ) ||
+        normalized.includes(
+            "توجد حاجه"
+        ) ||
+        normalized.includes(
+            "مؤهل للمقابله"
+        )
     ) {
-        statusClass = "status-success";
+
+        statusClass =
+            "status-success";
+
     }
     else if (
-        normalized.includes("رفض") ||
-        normalized.includes("عدم قبول") ||
-        normalized.includes("لم يجتز") ||
-        normalized.includes("لا توجد حاجه") ||
-        normalized.includes("غير مؤهل") ||
-        normalized.includes("حظ اوفر")
+        normalized.includes(
+            "رفض"
+        ) ||
+        normalized.includes(
+            "عدم قبول"
+        ) ||
+        normalized.includes(
+            "لم يجتز"
+        ) ||
+        normalized.includes(
+            "لا توجد حاجه"
+        ) ||
+        normalized.includes(
+            "غير مؤهل"
+        ) ||
+        normalized.includes(
+            "حظ اوفر"
+        )
     ) {
-        statusClass = "status-danger";
+
+        statusClass =
+            "status-danger";
+
     }
     else if (
-        normalized.includes("قيد") ||
-        normalized.includes("بانتظار")
+        normalized.includes(
+            "قيد"
+        ) ||
+        normalized.includes(
+            "بانتظار"
+        )
     ) {
-        statusClass = "status-warning";
+
+        statusClass =
+            "status-warning";
+
     }
+
 
     return `
         <div class="pdf-status-row">
+
             <div class="pdf-status-label">
                 ${escapeHTML(label)}
             </div>
+
             <div class="pdf-status-value ${statusClass}">
                 ${escapeHTML(display)}
             </div>
+
         </div>
     `;
+
 }
 
 
@@ -7221,83 +6838,129 @@ function getCurrentFilterSummary() {
 
     const parts = [];
 
+
     const stageConfig =
-        stageFilters[currentStageFilter];
+        stageFilters[
+            currentStageFilter
+        ];
+
 
     if (
         stageConfig &&
-        currentStageFilter !== "all"
+        currentStageFilter !==
+        "all"
     ) {
+
         parts.push(
             `القسم: ${stageConfig.label}`
         );
+
     }
 
+
     const search =
-        String(searchInput.value || "").trim();
+        String(
+            searchInput.value ||
+            ""
+        ).trim();
+
 
     if (search) {
+
         parts.push(
             `البحث: ${search}`
         );
+
     }
+
 
     filterFields.forEach(
         function(field) {
 
             const selected =
-                activeFilters[field.key];
+                activeFilters[
+                    field.key
+                ];
+
 
             if (
                 selected &&
                 selected.size
             ) {
+
                 parts.push(
                     `${field.label}: ${Array.from(selected).join("، ")}`
                 );
+
             }
+
         }
     );
+
 
     return parts.length
         ? parts.join(" | ")
         : "جميع المتقدمين";
+
 }
 
 
-function buildApplicantPdfPage(applicant, index, total) {
+function buildApplicantPdfPage(
+    applicant,
+    index,
+    total
+) {
 
     const personal =
-        applicant.personal || {};
+        applicant.personal ||
+        {};
+
 
     const job =
-        applicant.job || {};
+        applicant.job ||
+        {};
+
 
     const education =
-        applicant.education || {};
+        applicant.education ||
+        {};
+
 
     const experience =
-        applicant.experience || {};
+        applicant.experience ||
+        {};
+
 
     const committeeDisplay =
-        applicant.committeeDecision === "رفض"
+        applicant.committeeDecision ===
+        "رفض"
             ? "عدم قبول"
             : applicant.committeeDecision;
 
+
     const interviewDate =
         applicant.interviewDate
-            ? formatDate(applicant.interviewDate)
+            ? formatDate(
+                applicant.interviewDate
+            )
             : "غير محدد";
+
 
     const startDate =
         applicant.startDate
-            ? formatDateOnly(applicant.startDate)
+            ? formatDateOnly(
+                applicant.startDate
+            )
             : "غير محدد";
+
 
     const submittedAt =
         applicant.submittedAt
-            ? formatDate(applicant.submittedAt)
+            ? formatDate(
+                applicant.submittedAt
+            )
             : "غير متوفر";
+
 
     return `
         <section class="pdf-page">
@@ -7305,99 +6968,276 @@ function buildApplicantPdfPage(applicant, index, total) {
             <div class="pdf-top-line"></div>
 
             <header class="pdf-header">
+
                 <div>
-                    <div class="pdf-brand">وظائف التحدي</div>
-                    <div class="pdf-school">مدرسة التحدي الأهلية المختلطة</div>
-                    <div class="pdf-department">قسم الحوكمة — استمارة بيانات متقدم</div>
+
+                    <div class="pdf-brand">
+                        وظائف التحدي
+                    </div>
+
+                    <div class="pdf-school">
+                        مدرسة التحدي الأهلية المختلطة
+                    </div>
+
+                    <div class="pdf-department">
+                        قسم الحوكمة — استمارة بيانات متقدم
+                    </div>
+
                 </div>
 
                 <div class="pdf-page-number">
                     ${index + 1} / ${total}
                 </div>
+
             </header>
 
+
             <div class="pdf-applicant-title">
+
                 <div>
+
                     <div class="pdf-name">
-                        ${escapeHTML(pdfSafeValue(personal.fullName))}
+                        ${escapeHTML(
+                            pdfSafeValue(
+                                personal.fullName
+                            )
+                        )}
                     </div>
+
                     <div class="pdf-subtitle">
                         بيانات طلب التوظيف
                     </div>
+
                 </div>
 
                 <div class="pdf-uid-box">
+
                     <span>UID</span>
-                    <strong>${escapeHTML(pdfSafeValue(applicant.uid))}</strong>
+
+                    <strong>
+                        ${escapeHTML(
+                            pdfSafeValue(
+                                applicant.uid
+                            )
+                        )}
+                    </strong>
+
                 </div>
+
             </div>
 
-            <div class="pdf-section-title">البيانات الشخصية</div>
+
+            <div class="pdf-section-title">
+                البيانات الشخصية
+            </div>
+
             <div class="pdf-grid pdf-grid-3">
-                ${pdfInfoItem("الاسم", personal.fullName, "span-2")}
-                ${pdfInfoItem("الجنس", personal.gender)}
-                ${pdfInfoItem("المواليد", personal.birthDate)}
-                ${pdfInfoItem("رقم الهاتف", personal.phone)}
-                ${pdfInfoItem("عنوان السكن", personal.address, "span-3")}
+
+                ${pdfInfoItem(
+                    "الاسم",
+                    personal.fullName,
+                    "span-2"
+                )}
+
+                ${pdfInfoItem(
+                    "الجنس",
+                    personal.gender
+                )}
+
+                ${pdfInfoItem(
+                    "المواليد",
+                    personal.birthDate
+                )}
+
+                ${pdfInfoItem(
+                    "رقم الهاتف",
+                    personal.phone
+                )}
+
+                ${pdfInfoItem(
+                    "عنوان السكن",
+                    personal.address,
+                    "span-3"
+                )}
+
             </div>
 
-            <div class="pdf-section-title">بيانات الوظيفة المطلوبة</div>
+
+            <div class="pdf-section-title">
+                بيانات الوظيفة المطلوبة
+            </div>
+
             <div class="pdf-grid pdf-grid-2">
-                ${pdfInfoItem("المرحلة", job.schoolLevel)}
-                ${pdfInfoItem("المادة / الاختصاص", job.specialization)}
+
+                ${pdfInfoItem(
+                    "المرحلة",
+                    job.schoolLevel
+                )}
+
+                ${pdfInfoItem(
+                    "المادة / الاختصاص",
+                    job.specialization
+                )}
+
             </div>
 
-            <div class="pdf-section-title">المؤهل الدراسي</div>
+
+            <div class="pdf-section-title">
+                المؤهل الدراسي
+            </div>
+
             <div class="pdf-grid pdf-grid-3">
-                ${pdfInfoItem("الشهادة", education.certificate)}
-                ${pdfInfoItem("الجامعة", education.university)}
-                ${pdfInfoItem("الكلية", education.college)}
-                ${pdfInfoItem("تخصص الدراسة", education.specialization, "span-2")}
-                ${pdfInfoItem("سنة التخرج", education.graduationYear)}
-                ${pdfInfoItem("المعدل", education.gpa)}
-                ${pdfInfoItem("تاريخ التقديم", submittedAt, "span-2")}
+
+                ${pdfInfoItem(
+                    "الشهادة",
+                    education.certificate
+                )}
+
+                ${pdfInfoItem(
+                    "الجامعة",
+                    education.university
+                )}
+
+                ${pdfInfoItem(
+                    "الكلية",
+                    education.college
+                )}
+
+                ${pdfInfoItem(
+                    "تخصص الدراسة",
+                    education.specialization,
+                    "span-2"
+                )}
+
+                ${pdfInfoItem(
+                    "سنة التخرج",
+                    education.graduationYear
+                )}
+
+                ${pdfInfoItem(
+                    "المعدل",
+                    education.gpa
+                )}
+
+                ${pdfInfoItem(
+                    "تاريخ التقديم",
+                    submittedAt,
+                    "span-2"
+                )}
+
             </div>
 
-            <div class="pdf-section-title">الخبرات والمعلومات الوظيفية</div>
+
+            <div class="pdf-section-title">
+                الخبرات والمعلومات الوظيفية
+            </div>
+
             <div class="pdf-grid pdf-grid-2">
-                ${pdfInfoItem("موظف حكومي", experience.governmentEmployee)}
-                ${pdfInfoItem("العمل السابق", experience.previousWork)}
-                ${pdfInfoItem("الخبرات", experience.experience, "span-2")}
+
+                ${pdfInfoItem(
+                    "موظف حكومي",
+                    experience.governmentEmployee
+                )}
+
+                ${pdfInfoItem(
+                    "العمل السابق",
+                    experience.previousWork
+                )}
+
+                ${pdfInfoItem(
+                    "الخبرات",
+                    experience.experience,
+                    "span-2"
+                )}
+
             </div>
 
-            <div class="pdf-section-title">مراحل الطلب</div>
+
+            <div class="pdf-section-title">
+                مراحل الطلب
+            </div>
+
             <div class="pdf-status-box">
-                ${pdfStatusItem("مرحلة التدقيق", applicant.reviewStage)}
-                ${pdfStatusItem("الحاجة إليك", applicant.needStatus)}
-                ${pdfStatusItem("مرحلة المقابلة", applicant.interviewStage)}
-                ${pdfStatusItem("تاريخ المقابلة", interviewDate)}
-                ${pdfStatusItem("قرار لجنة المقابلات", committeeDisplay)}
-                ${pdfStatusItem("حالة القبول النهائية", applicant.acceptanceStatus)}
-                ${pdfStatusItem("تاريخ المباشرة", startDate)}
+
+                ${pdfStatusItem(
+                    "مرحلة التدقيق",
+                    applicant.reviewStage
+                )}
+
+                ${pdfStatusItem(
+                    "الحاجة إليك",
+                    applicant.needStatus
+                )}
+
+                ${pdfStatusItem(
+                    "مرحلة المقابلة",
+                    applicant.interviewStage
+                )}
+
+                ${pdfStatusItem(
+                    "تاريخ المقابلة",
+                    interviewDate
+                )}
+
+                ${pdfStatusItem(
+                    "قرار لجنة المقابلات",
+                    committeeDisplay
+                )}
+
+                ${pdfStatusItem(
+                    "حالة القبول النهائية",
+                    applicant.acceptanceStatus
+                )}
+
+                ${pdfStatusItem(
+                    "تاريخ المباشرة",
+                    startDate
+                )}
+
             </div>
+
 
             <footer class="pdf-footer">
-                <div>مدرسة التحدي الأهلية المختلطة — قسم الحوكمة</div>
-                <div>وثيقة داخلية لتنظيم ومراجعة طلبات التوظيف</div>
+
+                <div>
+                    مدرسة التحدي الأهلية المختلطة — قسم الحوكمة
+                </div>
+
+                <div>
+                    وثيقة داخلية لتنظيم ومراجعة طلبات التوظيف
+                </div>
+
             </footer>
 
         </section>
     `;
+
 }
 
+
+/* =========================================================
+   PDF EXPORT
+========================================================= */
 
 function exportFilteredApplicantsToPdf() {
 
     const applicants =
         getFilteredApplicants();
 
-    if (!applicants.length) {
+
+    if (
+        !applicants.length
+    ) {
+
         showToast(
             "لا توجد نتائج ظاهرة لتصديرها إلى PDF.",
             "error"
         );
+
         return;
+
     }
+
 
     const printWindow =
         window.open(
@@ -7406,533 +7246,1067 @@ function exportFilteredApplicantsToPdf() {
             "width=1100,height=850"
         );
 
+
     if (!printWindow) {
+
         showToast(
             "تعذر فتح نافذة PDF. اسمح بالنوافذ المنبثقة ثم أعد المحاولة.",
             "error"
         );
+
         return;
+
     }
+
 
     const filterSummary =
         getCurrentFilterSummary();
 
+
     const pages =
         applicants
-            .map(
-                (applicant, index) =>
-                    buildApplicantPdfPage(
-                        applicant,
-                        index,
-                        applicants.length
-                    )
-            )
-            .join("");
+        .map(
+            (
+                applicant,
+                index
+            ) =>
+                buildApplicantPdfPage(
+                    applicant,
+                    index,
+                    applicants.length
+                )
+        )
+        .join("");
+
 
     printWindow.document.open();
 
+
     printWindow.document.write(`
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>بيانات المتقدمين - وظائف التحدي</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-    * { box-sizing: border-box; }
 
-    html, body {
-        margin: 0;
-        padding: 0;
-        background: #eef3f8;
-        color: #10233f;
-        font-family: "Cairo", Arial, sans-serif;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0">
+
+<title>
+    بيانات المتقدمين - وظائف التحدي
+</title>
+
+<link
+    rel="preconnect"
+    href="https://fonts.googleapis.com">
+
+<link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+    background: #eef3f8;
+    color: #10233f;
+
+    font-family:
+        "Cairo",
+        Arial,
+        sans-serif;
+
+    -webkit-print-color-adjust:
+        exact !important;
+
+    print-color-adjust:
+        exact !important;
+}
+
+.pdf-toolbar {
+    position: sticky;
+
+    top: 0;
+
+    z-index: 50;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    padding:
+        12px
+        18px;
+
+    background: #10233f;
+    color: white;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,.16);
+}
+
+.pdf-toolbar-title {
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.pdf-toolbar-summary {
+    margin-top: 2px;
+
+    color: #dce8f8;
+
+    font-size: 8px;
+    font-weight: 600;
+
+    max-width: 760px;
+}
+
+.pdf-toolbar button {
+    min-width: 130px;
+    height: 40px;
+
+    border: 0;
+    border-radius: 10px;
+
+    color: white;
+    background: #d71920;
+
+    font-family: inherit;
+
+    font-size: 10px;
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+.pdf-pages {
+    padding:
+        18px
+        0
+        35px;
+}
+
+.pdf-page {
+    position: relative;
+
+    width: 210mm;
+    min-height: 297mm;
+
+    margin:
+        0
+        auto
+        18px;
+
+    padding:
+        15mm
+        14mm
+        13mm;
+
+    overflow: hidden;
+
+    background: #fff;
+
+    box-shadow:
+        0 10px 35px
+        rgba(16,35,63,.11);
+
+    page-break-after:
+        always;
+
+    break-after:
+        page;
+}
+
+.pdf-page:last-child {
+    page-break-after:
+        auto;
+
+    break-after:
+        auto;
+}
+
+.pdf-top-line {
+    position: absolute;
+
+    top: 0;
+    right: 0;
+    left: 0;
+
+    height: 5mm;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0b63d8 0 76%,
+            #d71920 76% 100%
+        );
+}
+
+.pdf-header {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-bottom: 6mm;
+
+    border-bottom:
+        1px solid
+        #dfe7f1;
+}
+
+.pdf-brand {
+    color: #0b63d8;
+
+    font-size: 10px;
+    font-weight: 900;
+}
+
+.pdf-school {
+    margin-top: 1mm;
+
+    color: #10233f;
+
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.pdf-department {
+    margin-top: 1mm;
+
+    color: #718096;
+
+    font-size: 8px;
+    font-weight: 700;
+}
+
+.pdf-page-number {
+    min-width: 18mm;
+
+    padding:
+        2.2mm
+        3mm;
+
+    border:
+        1px solid
+        #d8e4f2;
+
+    border-radius: 3mm;
+
+    color: #0b63d8;
+    background: #edf5ff;
+
+    text-align: center;
+
+    direction: ltr;
+
+    font-size: 9px;
+    font-weight: 900;
+}
+
+.pdf-applicant-title {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    margin-top: 5mm;
+
+    padding:
+        4mm
+        4.5mm;
+
+    border:
+        1px solid
+        #dce7f4;
+
+    border-radius: 4mm;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f7fbff,
+            #ffffff
+        );
+}
+
+.pdf-name {
+    color: #10233f;
+
+    font-size: 15px;
+    font-weight: 900;
+}
+
+.pdf-subtitle {
+    margin-top: .8mm;
+
+    color: #718096;
+
+    font-size: 7.5px;
+    font-weight: 700;
+}
+
+.pdf-uid-box {
+    min-width: 40mm;
+
+    padding:
+        2.5mm
+        3mm;
+
+    border-radius: 3mm;
+
+    background: #10233f;
+    color: #fff;
+
+    text-align: center;
+}
+
+.pdf-uid-box span {
+    display: block;
+
+    color: #b9c9dc;
+
+    font-size: 6.5px;
+    font-weight: 700;
+}
+
+.pdf-uid-box strong {
+    display: block;
+
+    margin-top: .5mm;
+
+    direction: ltr;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size: 10px;
+    font-weight: 900;
+
+    letter-spacing: .4px;
+}
+
+.pdf-section-title {
+    margin-top: 4.2mm;
+    margin-bottom: 2mm;
+
+    padding-right: 2.5mm;
+
+    border-right:
+        3px solid
+        #0b63d8;
+
+    color: #10233f;
+
+    font-size: 9px;
+    font-weight: 900;
+}
+
+.pdf-grid {
+    display: grid;
+
+    gap: 2mm;
+}
+
+.pdf-grid-2 {
+    grid-template-columns:
+        repeat(2, 1fr);
+}
+
+.pdf-grid-3 {
+    grid-template-columns:
+        repeat(3, 1fr);
+}
+
+.pdf-info-item {
+    min-height: 14.5mm;
+
+    padding:
+        2.4mm
+        3mm;
+
+    border:
+        1px solid
+        #e4ebf3;
+
+    border-radius: 2.5mm;
+
+    background: #fbfdff;
+}
+
+.pdf-info-label {
+    color: #7d8a9b;
+
+    font-size: 6.5px;
+    font-weight: 800;
+}
+
+.pdf-info-value {
+    margin-top: 1mm;
+
+    color: #24364f;
+
+    font-size: 8.2px;
+    font-weight: 800;
+
+    line-height: 1.55;
+
+    word-break: break-word;
+}
+
+.span-2 {
+    grid-column: span 2;
+}
+
+.span-3 {
+    grid-column: span 3;
+}
+
+.pdf-status-box {
+    overflow: hidden;
+
+    border:
+        1px solid
+        #dfe7f0;
+
+    border-radius: 3mm;
+}
+
+.pdf-status-row {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1.25fr;
+
+    min-height: 9.2mm;
+
+    border-bottom:
+        1px solid
+        #e8eef5;
+}
+
+.pdf-status-row:last-child {
+    border-bottom: 0;
+}
+
+.pdf-status-label,
+.pdf-status-value {
+    display: flex;
+    align-items: center;
+
+    padding:
+        1.8mm
+        3mm;
+
+    font-size: 7.3px;
+    font-weight: 800;
+}
+
+.pdf-status-label {
+    color: #526277;
+    background: #f7f9fc;
+
+    border-left:
+        1px solid
+        #e5ebf2;
+}
+
+.pdf-status-value {
+    color: #34435a;
+    background: #fff;
+}
+
+.status-success {
+    color: #067343;
+    background: #edfff5;
+}
+
+.status-danger {
+    color: #b4232d;
+    background: #fff1f2;
+}
+
+.status-warning {
+    color: #9a6700;
+    background: #fff8e7;
+}
+
+.status-neutral {
+    color: #45566d;
+    background: #f8fafc;
+}
+
+.pdf-footer {
+    position: absolute;
+
+    right: 14mm;
+    left: 14mm;
+    bottom: 7mm;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding-top: 2mm;
+
+    border-top:
+        1px solid
+        #e3eaf2;
+
+    color: #8793a3;
+
+    font-size: 6px;
+    font-weight: 700;
+}
+
+@page {
+    size: A4 portrait;
+    margin: 0;
+}
+
+@media print {
+
+    html,
+    body {
+        background: white;
     }
 
     .pdf-toolbar {
-        position: sticky;
-        top: 0;
-        z-index: 50;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        padding: 12px 18px;
-        background: #10233f;
-        color: white;
-        box-shadow: 0 5px 20px rgba(0,0,0,.16);
-    }
-
-    .pdf-toolbar-title {
-        font-size: 13px;
-        font-weight: 900;
-    }
-
-    .pdf-toolbar-summary {
-        margin-top: 2px;
-        color: #dce8f8;
-        font-size: 8px;
-        font-weight: 600;
-        max-width: 760px;
-    }
-
-    .pdf-toolbar button {
-        min-width: 130px;
-        height: 40px;
-        border: 0;
-        border-radius: 10px;
-        color: white;
-        background: #d71920;
-        font-family: inherit;
-        font-size: 10px;
-        font-weight: 900;
-        cursor: pointer;
+        display: none !important;
     }
 
     .pdf-pages {
-        padding: 18px 0 35px;
+        padding: 0;
     }
 
     .pdf-page {
-        position: relative;
         width: 210mm;
+        height: 297mm;
         min-height: 297mm;
-        margin: 0 auto 18px;
-        padding: 15mm 14mm 13mm;
-        overflow: hidden;
-        background: #fff;
-        box-shadow: 0 10px 35px rgba(16,35,63,.11);
-        page-break-after: always;
-        break-after: page;
-    }
 
-    .pdf-page:last-child {
-        page-break-after: auto;
-        break-after: auto;
-    }
-
-    .pdf-top-line {
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        height: 5mm;
-        background: linear-gradient(90deg, #0b63d8 0 76%, #d71920 76% 100%);
-    }
-
-    .pdf-header {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 20px;
-        padding-bottom: 6mm;
-        border-bottom: 1px solid #dfe7f1;
-    }
-
-    .pdf-brand {
-        color: #0b63d8;
-        font-size: 10px;
-        font-weight: 900;
-    }
-
-    .pdf-school {
-        margin-top: 1mm;
-        color: #10233f;
-        font-size: 16px;
-        font-weight: 900;
-    }
-
-    .pdf-department {
-        margin-top: 1mm;
-        color: #718096;
-        font-size: 8px;
-        font-weight: 700;
-    }
-
-    .pdf-page-number {
-        min-width: 18mm;
-        padding: 2.2mm 3mm;
-        border: 1px solid #d8e4f2;
-        border-radius: 3mm;
-        color: #0b63d8;
-        background: #edf5ff;
-        text-align: center;
-        direction: ltr;
-        font-size: 9px;
-        font-weight: 900;
-    }
-
-    .pdf-applicant-title {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        margin-top: 5mm;
-        padding: 4mm 4.5mm;
-        border: 1px solid #dce7f4;
-        border-radius: 4mm;
-        background: linear-gradient(135deg, #f7fbff, #ffffff);
-    }
-
-    .pdf-name {
-        color: #10233f;
-        font-size: 15px;
-        font-weight: 900;
-    }
-
-    .pdf-subtitle {
-        margin-top: .8mm;
-        color: #718096;
-        font-size: 7.5px;
-        font-weight: 700;
-    }
-
-    .pdf-uid-box {
-        min-width: 40mm;
-        padding: 2.5mm 3mm;
-        border-radius: 3mm;
-        background: #10233f;
-        color: #fff;
-        text-align: center;
-    }
-
-    .pdf-uid-box span {
-        display: block;
-        color: #b9c9dc;
-        font-size: 6.5px;
-        font-weight: 700;
-    }
-
-    .pdf-uid-box strong {
-        display: block;
-        margin-top: .5mm;
-        direction: ltr;
-        font-family: Arial, sans-serif;
-        font-size: 10px;
-        font-weight: 900;
-        letter-spacing: .4px;
-    }
-
-    .pdf-section-title {
-        margin-top: 4.2mm;
-        margin-bottom: 2mm;
-        padding-right: 2.5mm;
-        border-right: 3px solid #0b63d8;
-        color: #10233f;
-        font-size: 9px;
-        font-weight: 900;
-    }
-
-    .pdf-grid {
-        display: grid;
-        gap: 2mm;
-    }
-
-    .pdf-grid-2 { grid-template-columns: repeat(2, 1fr); }
-    .pdf-grid-3 { grid-template-columns: repeat(3, 1fr); }
-
-    .pdf-info-item {
-        min-height: 14.5mm;
-        padding: 2.4mm 3mm;
-        border: 1px solid #e4ebf3;
-        border-radius: 2.5mm;
-        background: #fbfdff;
-    }
-
-    .pdf-info-label {
-        color: #7d8a9b;
-        font-size: 6.5px;
-        font-weight: 800;
-    }
-
-    .pdf-info-value {
-        margin-top: 1mm;
-        color: #24364f;
-        font-size: 8.2px;
-        font-weight: 800;
-        line-height: 1.55;
-        word-break: break-word;
-    }
-
-    .span-2 { grid-column: span 2; }
-    .span-3 { grid-column: span 3; }
-
-    .pdf-status-box {
-        overflow: hidden;
-        border: 1px solid #dfe7f0;
-        border-radius: 3mm;
-    }
-
-    .pdf-status-row {
-        display: grid;
-        grid-template-columns: 1fr 1.25fr;
-        min-height: 9.2mm;
-        border-bottom: 1px solid #e8eef5;
-    }
-
-    .pdf-status-row:last-child { border-bottom: 0; }
-
-    .pdf-status-label,
-    .pdf-status-value {
-        display: flex;
-        align-items: center;
-        padding: 1.8mm 3mm;
-        font-size: 7.3px;
-        font-weight: 800;
-    }
-
-    .pdf-status-label {
-        color: #526277;
-        background: #f7f9fc;
-        border-left: 1px solid #e5ebf2;
-    }
-
-    .pdf-status-value {
-        color: #34435a;
-        background: #fff;
-    }
-
-    .status-success { color: #067343; background: #edfff5; }
-    .status-danger { color: #b4232d; background: #fff1f2; }
-    .status-warning { color: #9a6700; background: #fff8e7; }
-    .status-neutral { color: #45566d; background: #f8fafc; }
-
-    .pdf-footer {
-        position: absolute;
-        right: 14mm;
-        left: 14mm;
-        bottom: 7mm;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        padding-top: 2mm;
-        border-top: 1px solid #e3eaf2;
-        color: #8793a3;
-        font-size: 6px;
-        font-weight: 700;
-    }
-
-    @page {
-        size: A4 portrait;
         margin: 0;
+
+        box-shadow: none;
     }
 
-    @media print {
-        html, body { background: white; }
-        .pdf-toolbar { display: none !important; }
-        .pdf-pages { padding: 0; }
-        .pdf-page {
-            width: 210mm;
-            height: 297mm;
-            min-height: 297mm;
-            margin: 0;
-            box-shadow: none;
-        }
-    }
+}
+
 </style>
+
 </head>
+
+
 <body>
 
+
 <div class="pdf-toolbar">
+
     <div>
+
         <div class="pdf-toolbar-title">
             ${applicants.length} متقدم — جاهز للحفظ PDF
         </div>
+
         <div class="pdf-toolbar-summary">
             ${escapeHTML(filterSummary)}
         </div>
+
     </div>
 
-    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
-        <button id="downloadPdfBtn" type="button" style="background:#079455">
+
+    <div
+        style="
+            display:flex;
+            gap:8px;
+            flex-wrap:wrap;
+            justify-content:flex-end
+        ">
+
+        <button
+            id="downloadPdfBtn"
+            type="button"
+            style="background:#079455">
+
             تنزيل PDF
+
         </button>
-        <button type="button" onclick="window.print()">
+
+
+        <button
+            type="button"
+            onclick="window.print()">
+
             طباعة
+
         </button>
+
     </div>
+
 </div>
 
+
 <main class="pdf-pages">
+
     ${pages}
+
 </main>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"><\/script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"><\/script>
+
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"><\/script>
+
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"><\/script>
+
+
 <script>
-    function sanitizeFileName(value) {
-        return String(value || "")
-            .replace(/[\\/:*?"<>|]/g, "-")
-            .replace(/\s+/g, " ")
-            .trim();
+
+function sanitizeFileName(
+    value
+) {
+
+    return String(
+        value ||
+        ""
+    )
+    .replace(
+        /[\\\\/:*?"<>|]/g,
+        "-"
+    )
+    .replace(
+        /\\s+/g,
+        " "
+    )
+    .trim();
+
+}
+
+
+async function downloadPdfFile() {
+
+    const button =
+        document.getElementById(
+            "downloadPdfBtn"
+        );
+
+
+    const pageElements =
+        Array.from(
+            document.querySelectorAll(
+                ".pdf-page"
+            )
+        );
+
+
+    const originalText =
+        button.textContent;
+
+
+    if (
+        typeof html2canvas ===
+            "undefined" ||
+        typeof window.jspdf ===
+            "undefined" ||
+        typeof window.jspdf.jsPDF ===
+            "undefined"
+    ) {
+
+        alert(
+            "تعذر تحميل أداة إنشاء PDF. استخدم زر الطباعة مؤقتاً."
+        );
+
+        return;
+
     }
 
-    async function downloadPdfFile() {
-        const button = document.getElementById("downloadPdfBtn");
-        const pageElements = Array.from(document.querySelectorAll(".pdf-page"));
-        const originalText = button.textContent;
 
-        /*
-           ملاحظة مهمة:
-           لا نستخدم html2pdf().from(.pdf-pages) هنا، لأن تحويل الحاوية كاملة
-           مع page-break وقياسات A4 بالـ mm قد ينتج صفحات بيضاء في بعض المتصفحات.
-           بدلاً من ذلك نلتقط كل ورقة وحدها ثم نضيفها إلى jsPDF.
-        */
+    if (!pageElements.length) {
+
+        alert(
+            "لا توجد صفحات لتصديرها."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        button.disabled =
+            true;
+
+
+        button.textContent =
+            "جارٍ تجهيز PDF...";
+
+
         if (
-            typeof html2canvas === "undefined" ||
-            typeof window.jspdf === "undefined" ||
-            typeof window.jspdf.jsPDF === "undefined"
+            document.fonts &&
+            document.fonts.ready
         ) {
-            alert("تعذر تحميل أداة إنشاء PDF. استخدم زر الطباعة مؤقتاً.");
-            return;
+
+            await document.fonts.ready;
+
         }
 
-        if (!pageElements.length) {
-            alert("لا توجد صفحات لتصديرها.");
-            return;
-        }
 
-        try {
-            button.disabled = true;
-            button.textContent = "جارٍ تجهيز PDF...";
+        await new Promise(
+            resolve =>
+                requestAnimationFrame(
+                    () =>
+                        requestAnimationFrame(
+                            resolve
+                        )
+                )
+        );
 
-            /* انتظار تحميل خط Cairo بالكامل قبل التصوير */
-            if (document.fonts && document.fonts.ready) {
-                await document.fonts.ready;
-            }
 
-            /* إعطاء المتصفح فرصة لإكمال الـ layout والرسم */
-            await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        const {
+            jsPDF
+        } =
+            window.jspdf;
 
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF({
-                orientation: "portrait",
-                unit: "mm",
-                format: "a4",
-                compress: true
+
+        const pdf =
+            new jsPDF({
+
+                orientation:
+                    "portrait",
+
+                unit:
+                    "mm",
+
+                format:
+                    "a4",
+
+                compress:
+                    true
+
             });
 
-            const pageWidth = 210;
-            const pageHeight = 297;
 
-            for (let i = 0; i < pageElements.length; i++) {
-                const page = pageElements[i];
+        const pageWidth =
+            210;
 
-                button.textContent =
-                    "جارٍ إنشاء الصفحة " + (i + 1) + " من " + pageElements.length + "...";
 
-                /*
-                   نضمن أن الصفحة مرئية وثابتة الأبعاد وقت التصوير.
-                   نخزن القيم الأصلية ثم نعيدها حتى لا تتغير المعاينة.
-                */
-                const oldBoxShadow = page.style.boxShadow;
-                const oldMargin = page.style.margin;
-                const oldTransform = page.style.transform;
-                const oldWidth = page.style.width;
-                const oldHeight = page.style.height;
-                const oldMinHeight = page.style.minHeight;
-                const oldOverflow = page.style.overflow;
+        const pageHeight =
+            297;
 
-                page.style.boxShadow = "none";
-                page.style.margin = "0";
-                page.style.transform = "none";
-                page.style.width = "210mm";
-                page.style.height = "297mm";
-                page.style.minHeight = "297mm";
-                page.style.overflow = "hidden";
 
-                /* الانتقال للصفحة يساعد بعض إصدارات Chrome/WebView على رسمها قبل الالتقاط */
-                page.scrollIntoView({ block: "start", behavior: "auto" });
-                await new Promise(resolve => requestAnimationFrame(resolve));
+        for (
+            let i = 0;
+            i < pageElements.length;
+            i++
+        ) {
 
-                const canvas = await html2canvas(page, {
-                    scale: 2,
-                    useCORS: true,
-                    allowTaint: false,
-                    backgroundColor: "#ffffff",
-                    logging: false,
-                    letterRendering: true,
-                    removeContainer: true,
-                    imageTimeout: 15000,
-                    scrollX: 0,
-                    scrollY: -window.scrollY,
-                    windowWidth: Math.max(document.documentElement.clientWidth, page.scrollWidth),
-                    windowHeight: Math.max(document.documentElement.clientHeight, page.scrollHeight)
-                });
+            const page =
+                pageElements[i];
 
-                page.style.boxShadow = oldBoxShadow;
-                page.style.margin = oldMargin;
-                page.style.transform = oldTransform;
-                page.style.width = oldWidth;
-                page.style.height = oldHeight;
-                page.style.minHeight = oldMinHeight;
-                page.style.overflow = oldOverflow;
 
-                if (!canvas.width || !canvas.height) {
-                    throw new Error("فشل التقاط الصفحة رقم " + (i + 1));
-                }
+            button.textContent =
+                "جارٍ إنشاء الصفحة " +
+                (i + 1) +
+                " من " +
+                pageElements.length +
+                "...";
 
-                const imageData = canvas.toDataURL("image/jpeg", 0.96);
 
-                if (i > 0) {
-                    pdf.addPage("a4", "portrait");
-                }
+            const oldBoxShadow =
+                page.style.boxShadow;
 
-                /* الصورة نفسها A4، لذلك نضعها على كامل الورقة بدون قص أو فراغات */
-                pdf.addImage(
-                    imageData,
-                    "JPEG",
-                    0,
-                    0,
-                    pageWidth,
-                    pageHeight,
-                    undefined,
-                    "FAST"
+            const oldMargin =
+                page.style.margin;
+
+            const oldTransform =
+                page.style.transform;
+
+            const oldWidth =
+                page.style.width;
+
+            const oldHeight =
+                page.style.height;
+
+            const oldMinHeight =
+                page.style.minHeight;
+
+            const oldOverflow =
+                page.style.overflow;
+
+
+            page.style.boxShadow =
+                "none";
+
+            page.style.margin =
+                "0";
+
+            page.style.transform =
+                "none";
+
+            page.style.width =
+                "210mm";
+
+            page.style.height =
+                "297mm";
+
+            page.style.minHeight =
+                "297mm";
+
+            page.style.overflow =
+                "hidden";
+
+
+            page.scrollIntoView({
+
+                block:
+                    "start",
+
+                behavior:
+                    "auto"
+
+            });
+
+
+            await new Promise(
+                resolve =>
+                    requestAnimationFrame(
+                        resolve
+                    )
+            );
+
+
+            const canvas =
+                await html2canvas(
+                    page,
+                    {
+
+                        scale:
+                            2,
+
+                        useCORS:
+                            true,
+
+                        allowTaint:
+                            false,
+
+                        backgroundColor:
+                            "#ffffff",
+
+                        logging:
+                            false,
+
+                        letterRendering:
+                            true,
+
+                        removeContainer:
+                            true,
+
+                        imageTimeout:
+                            15000,
+
+                        scrollX:
+                            0,
+
+                        scrollY:
+                            -window.scrollY,
+
+                        windowWidth:
+                            Math.max(
+                                document.documentElement.clientWidth,
+                                page.scrollWidth
+                            ),
+
+                        windowHeight:
+                            Math.max(
+                                document.documentElement.clientHeight,
+                                page.scrollHeight
+                            )
+
+                    }
                 );
 
-                /* تحرير ذاكرة الصورة بعد كل صفحة، مهم عند وجود عدد كبير من المتقدمين */
-                canvas.width = 1;
-                canvas.height = 1;
+
+            page.style.boxShadow =
+                oldBoxShadow;
+
+            page.style.margin =
+                oldMargin;
+
+            page.style.transform =
+                oldTransform;
+
+            page.style.width =
+                oldWidth;
+
+            page.style.height =
+                oldHeight;
+
+            page.style.minHeight =
+                oldMinHeight;
+
+            page.style.overflow =
+                oldOverflow;
+
+
+            if (
+                !canvas.width ||
+                !canvas.height
+            ) {
+
+                throw new Error(
+                    "فشل التقاط الصفحة رقم " +
+                    (i + 1)
+                );
+
             }
 
-            const fileName = sanitizeFileName(
+
+            const imageData =
+                canvas.toDataURL(
+                    "image/jpeg",
+                    0.96
+                );
+
+
+            if (i > 0) {
+
+                pdf.addPage(
+                    "a4",
+                    "portrait"
+                );
+
+            }
+
+
+            pdf.addImage(
+
+                imageData,
+
+                "JPEG",
+
+                0,
+                0,
+
+                pageWidth,
+                pageHeight,
+
+                undefined,
+
+                "FAST"
+
+            );
+
+
+            canvas.width =
+                1;
+
+            canvas.height =
+                1;
+
+        }
+
+
+        const fileName =
+            sanitizeFileName(
                 "طلبات التوظيف - مدرسة التحدي - ${applicants.length} متقدم.pdf"
             );
 
-            pdf.save(fileName);
 
-            button.textContent = "تم تنزيل PDF";
+        pdf.save(
+            fileName
+        );
 
-            setTimeout(function() {
-                button.textContent = originalText;
-                button.disabled = false;
-            }, 1200);
-        }
-        catch (error) {
-            console.error("PDF Export Error:", error);
-            button.disabled = false;
-            button.textContent = originalText;
-            alert(
-                "تعذر تنزيل PDF مباشرة. جرّب مرة أخرى، أو استخدم زر الطباعة كخيار احتياطي."
-            );
-        }
+
+        button.textContent =
+            "تم تنزيل PDF";
+
+
+        setTimeout(
+            function() {
+
+                button.textContent =
+                    originalText;
+
+                button.disabled =
+                    false;
+
+            },
+            1200
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "PDF Export Error:",
+            error
+        );
+
+
+        button.disabled =
+            false;
+
+
+        button.textContent =
+            originalText;
+
+
+        alert(
+            "تعذر تنزيل PDF مباشرة. جرّب مرة أخرى، أو استخدم زر الطباعة كخيار احتياطي."
+        );
+
     }
 
-    document.getElementById("downloadPdfBtn")
-        .addEventListener("click", downloadPdfFile);
+}
+
+
+document
+    .getElementById(
+        "downloadPdfBtn"
+    )
+    .addEventListener(
+        "click",
+        downloadPdfFile
+    );
+
 <\/script>
 
+
 </body>
+
 </html>
     `);
 
+
     printWindow.document.close();
+
 }
 
 
