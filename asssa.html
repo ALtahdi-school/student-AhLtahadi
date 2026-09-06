@@ -27,6 +27,10 @@
 
 <style>
 
+/* =========================================================
+   RESET
+========================================================= */
+
 *,
 *::before,
 *::after {
@@ -327,7 +331,7 @@ button {
 
 
 /* =========================================================
-   STAGE NAV
+   STAGE NAVIGATION
 ========================================================= */
 
 .stage-navigation {
@@ -524,7 +528,7 @@ button {
 
 
 /* =========================================================
-   FILTER
+   FILTERS
 ========================================================= */
 
 .filter-title-row {
@@ -889,12 +893,6 @@ button {
     font-weight: 900;
 }
 
-.pdf-export-button:disabled {
-    opacity: .55;
-    cursor: not-allowed;
-    box-shadow: none;
-}
-
 
 /* =========================================================
    TABLE
@@ -1074,7 +1072,7 @@ tbody tr:hover td {
 
 
 /* =========================================================
-   MOBILE
+   MOBILE LIST
 ========================================================= */
 
 .mobile-list {
@@ -1337,6 +1335,87 @@ tbody tr:hover td {
     font-weight: 800;
 
     word-break: break-word;
+}
+
+
+/* =========================================================
+   INTERVIEW PRINT BUTTON
+========================================================= */
+
+.interview-print-card {
+    margin-bottom: 20px;
+
+    padding: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    border:
+        1px solid
+        #cbdff9;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #edf5ff,
+            #ffffff
+        );
+
+    box-shadow:
+        0 8px 24px
+        rgba(11,99,216,.07);
+}
+
+.interview-print-title {
+    color: var(--blue-dark);
+
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.interview-print-description {
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 8px;
+    font-weight: 700;
+
+    line-height: 1.7;
+}
+
+.interview-print-button {
+    flex: none;
+
+    min-height: 44px;
+
+    padding:
+        0
+        17px;
+
+    border: 0;
+    border-radius: 10px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--blue-dark)
+        );
+
+    box-shadow:
+        0 8px 20px
+        rgba(11,99,216,.18);
+
+    font-size: 9px;
+    font-weight: 900;
 }
 
 
@@ -1955,8 +2034,14 @@ tbody tr:hover td {
         flex: 1;
     }
 
-    .whatsapp-card-header {
+    .whatsapp-card-header,
+    .interview-print-card {
         flex-direction: column;
+        align-items: stretch;
+    }
+
+    .interview-print-button {
+        width: 100%;
     }
 
 }
@@ -2412,7 +2497,7 @@ tbody tr:hover td {
 
 
 <!-- =========================================================
-     MODAL
+     APPLICANT MODAL
 ========================================================= -->
 
 <div
@@ -2470,6 +2555,37 @@ tbody tr:hover td {
 <div
     id="applicantInfo"
     class="info-grid">
+</div>
+
+
+<!-- =========================================================
+     INTERVIEW FORM PRINT
+========================================================= -->
+
+<div class="interview-print-card">
+
+    <div>
+
+        <div class="interview-print-title">
+            استمارة مقابلة المتقدم
+        </div>
+
+        <div class="interview-print-description">
+            طباعة ورقة A4 تحتوي على بيانات المتقدم في النصف الأول ونموذج تقييم لجنة المقابلات في النصف الثاني.
+        </div>
+
+    </div>
+
+
+    <button
+        id="printInterviewFormButton"
+        class="interview-print-button"
+        type="button">
+
+        طباعة استمارة المقابلة
+
+    </button>
+
 </div>
 
 
@@ -3006,6 +3122,10 @@ const db =
     );
 
 
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
 const loadingScreen =
     document.getElementById(
         "loadingScreen"
@@ -3147,6 +3267,12 @@ const whatsappMessage =
 const whatsappButton =
     document.getElementById(
         "whatsappButton"
+    );
+
+
+const printInterviewFormButton =
+    document.getElementById(
+        "printInterviewFormButton"
     );
 
 
@@ -3662,7 +3788,7 @@ function getApplicantPhone(
 
 
 /* =========================================================
-   WHATSAPP HELPERS
+   WHATSAPP
 ========================================================= */
 
 function convertArabicDigits(
@@ -3717,13 +3843,6 @@ function normalizeWhatsAppPhone(
     }
 
 
-    /*
-        مثال:
-        009647851521585
-        إلى:
-        9647851521585
-    */
-
     if (
         phone.startsWith(
             "00964"
@@ -3738,11 +3857,6 @@ function normalizeWhatsAppPhone(
     }
 
 
-    /*
-        إذا الرقم أصلاً دولي
-        9647...
-    */
-
     if (
         phone.startsWith(
             "964"
@@ -3753,12 +3867,6 @@ function normalizeWhatsAppPhone(
 
     }
 
-
-    /*
-        إذا الرقم:
-        0785...
-        نحذف الصفر ونضيف 964
-    */
 
     if (
         phone.startsWith(
@@ -3775,11 +3883,6 @@ function normalizeWhatsAppPhone(
 
     }
 
-
-    /*
-        إذا الرقم:
-        785...
-    */
 
     if (
         phone.startsWith(
@@ -4216,7 +4319,7 @@ function showToast(
 
 
 /* =========================================================
-   LOAD
+   LOAD APPLICANTS
 ========================================================= */
 
 async function loadApplicants() {
@@ -4425,7 +4528,7 @@ function updateStageCounters() {
 
 
 /* =========================================================
-   STAGE TAB
+   STAGE TAB EVENTS
 ========================================================= */
 
 document
@@ -4483,7 +4586,7 @@ document
 
 
 /* =========================================================
-   FILTER VALUE
+   FILTER VALUES
 ========================================================= */
 
 function getFilterValue(
@@ -5345,7 +5448,7 @@ function getFilteredApplicants() {
 
 
 /* =========================================================
-   RENDER
+   RENDER APPLICANTS
 ========================================================= */
 
 function renderApplicants() {
@@ -5613,7 +5716,7 @@ function renderTableRow(
 
 
 /* =========================================================
-   MOBILE CARD
+   MOBILE
 ========================================================= */
 
 function renderMobileCard(
@@ -5780,11 +5883,6 @@ function openApplicant(
     modalCode.textContent =
         applicant.uid;
 
-
-    /*
-        نفرغ الرسالة عند فتح متقدم جديد
-        حتى لا تنرسل رسالة المتقدم السابق بالخطأ
-    */
 
     whatsappMessage.value =
         "";
@@ -6190,7 +6288,7 @@ function refreshActiveButtons() {
 
 
 /* =========================================================
-   UPDATE FIELDS
+   UPDATE FIREBASE
 ========================================================= */
 
 async function updateApplicantFields(
@@ -6440,7 +6538,7 @@ document
 
 
 /* =========================================================
-   SAVE INTERVIEW DATE
+   INTERVIEW DATE
 ========================================================= */
 
 document
@@ -6483,7 +6581,7 @@ document
 
 
 /* =========================================================
-   SAVE START DATE
+   START DATE
 ========================================================= */
 
 document
@@ -6544,7 +6642,7 @@ document
 
 
 /* =========================================================
-   DATE INPUT
+   DATE INPUT HELPERS
 ========================================================= */
 
 function normalizeDateTimeInput(
@@ -6697,7 +6795,2084 @@ function closeApplicantModal() {
 
 
 /* =========================================================
-   PDF
+   INTERVIEW FORM
+========================================================= */
+
+function interviewSafe(
+    value,
+    fallback = "غير متوفر"
+) {
+
+    if (
+        value === null ||
+        value === undefined ||
+        String(value).trim() === ""
+    ) {
+
+        return fallback;
+
+    }
+
+
+    return String(value);
+
+}
+
+
+function interviewField(
+    label,
+    value,
+    className = ""
+) {
+
+    return `
+
+        <div
+            class="candidate-field ${className}">
+
+            <div class="candidate-label">
+                ${escapeHTML(label)}
+            </div>
+
+            <div class="candidate-value">
+                ${escapeHTML(
+                    interviewSafe(
+                        value
+                    )
+                )}
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+function printApplicantInterviewForm() {
+
+    if (!selectedApplicant) {
+
+        showToast(
+            "افتح بيانات أحد المتقدمين أولاً.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const applicant =
+        selectedApplicant;
+
+
+    const personal =
+        applicant.personal ||
+        {};
+
+
+    const job =
+        applicant.job ||
+        {};
+
+
+    const education =
+        applicant.education ||
+        {};
+
+
+    const experience =
+        applicant.experience ||
+        {};
+
+
+    const applicantName =
+        getApplicantName(
+            applicant
+        );
+
+
+    const interviewDate =
+        applicant.interviewDate
+            ? formatDate(
+                applicant.interviewDate
+            )
+            : "لم يتم تحديد الموعد";
+
+
+    const reviewText =
+        applicant.reviewStage ||
+        "لم يتم تحديد مرحلة التدقيق";
+
+
+    const reviewClass =
+        applicant.reviewStage ===
+        "تم التدقيق"
+            ? "review-success"
+            : "review-pending";
+
+
+    const printWindow =
+        window.open(
+            "",
+            "_blank",
+            "width=1000,height=950"
+        );
+
+
+    if (!printWindow) {
+
+        showToast(
+            "تعذر فتح نافذة الطباعة. اسمح بالنوافذ المنبثقة ثم حاول مرة أخرى.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    printWindow.document.open();
+
+
+    printWindow.document.write(`
+
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0">
+
+<title>
+    استمارة مقابلة - ${escapeHTML(applicantName)}
+</title>
+
+
+<link
+    rel="preconnect"
+    href="https://fonts.googleapis.com">
+
+
+<link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin>
+
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+
+<style>
+
+* {
+    box-sizing:
+        border-box;
+}
+
+
+html,
+body {
+
+    margin: 0;
+    padding: 0;
+
+    background:
+        #eef3f8;
+
+    color:
+        #10233f;
+
+    font-family:
+        "Cairo",
+        Arial,
+        sans-serif;
+
+    -webkit-print-color-adjust:
+        exact !important;
+
+    print-color-adjust:
+        exact !important;
+
+}
+
+
+.toolbar {
+
+    position:
+        sticky;
+
+    top: 0;
+
+    z-index:
+        100;
+
+    min-height:
+        58px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        12px;
+
+    padding:
+        10px
+        16px;
+
+    background:
+        #10233f;
+
+    color:
+        white;
+
+}
+
+
+.toolbar-title {
+
+    font-size:
+        13px;
+
+    font-weight:
+        900;
+
+}
+
+
+.toolbar-subtitle {
+
+    margin-top:
+        2px;
+
+    color:
+        #cfdaea;
+
+    font-size:
+        8px;
+
+}
+
+
+.toolbar button {
+
+    min-width:
+        125px;
+
+    height:
+        40px;
+
+    border:
+        0;
+
+    border-radius:
+        9px;
+
+    color:
+        white;
+
+    background:
+        #0b63d8;
+
+    font-family:
+        inherit;
+
+    font-size:
+        10px;
+
+    font-weight:
+        900;
+
+    cursor:
+        pointer;
+
+}
+
+
+.page-wrap {
+
+    padding:
+        18px
+        0
+        30px;
+
+}
+
+
+.page {
+
+    position:
+        relative;
+
+    width:
+        210mm;
+
+    height:
+        297mm;
+
+    margin:
+        0
+        auto;
+
+    overflow:
+        hidden;
+
+    background:
+        white;
+
+    box-shadow:
+        0
+        12px
+        40px
+        rgba(16,35,63,.14);
+
+}
+
+
+.top-strip {
+
+    position:
+        absolute;
+
+    top: 0;
+    right: 0;
+    left: 0;
+
+    height:
+        5mm;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0b63d8
+            0
+            81%,
+            #d71920
+            81%
+            100%
+        );
+
+}
+
+
+.page-body {
+
+    position:
+        absolute;
+
+    top:
+        5mm;
+
+    right: 0;
+    left: 0;
+    bottom: 0;
+
+}
+
+
+/* =====================================================
+   FIRST HALF
+===================================================== */
+
+.first-half {
+
+    position:
+        absolute;
+
+    top: 0;
+    right: 0;
+    left: 0;
+
+    height:
+        50%;
+
+    padding:
+        7mm
+        11mm
+        5mm;
+
+    overflow:
+        hidden;
+
+}
+
+
+.school-header {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        10px;
+
+    padding-bottom:
+        3mm;
+
+    border-bottom:
+        1px solid
+        #d9e4ef;
+
+}
+
+
+.school-name {
+
+    color:
+        #0b63d8;
+
+    font-size:
+        18px;
+
+    font-weight:
+        900;
+
+}
+
+
+.school-department {
+
+    margin-top:
+        .6mm;
+
+    color:
+        #718096;
+
+    font-size:
+        10px;
+
+    font-weight:
+        700;
+
+}
+
+
+.form-name {
+
+    padding:
+        2mm
+        4mm;
+
+    border:
+        1px solid
+        #c8dcf8;
+
+    border-radius:
+        3mm;
+
+    color:
+        #0649a8;
+
+    background:
+        #edf5ff;
+
+    font-size:
+        12px;
+
+    font-weight:
+        900;
+
+}
+
+
+.applicant-name-box {
+
+    margin-top:
+        3mm;
+
+    padding:
+        2.5mm
+        3.5mm;
+
+    border-radius:
+        3mm;
+
+    color:
+        white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #10233f,
+            #244c7b
+        );
+
+}
+
+
+.applicant-name-label {
+
+    color:
+        #bdcce0;
+
+    font-size:
+        9px;
+
+    font-weight:
+        700;
+
+}
+
+
+.applicant-name {
+
+    margin-top:
+        .5mm;
+
+    font-size:
+        18px;
+
+    font-weight:
+        900;
+
+}
+
+
+.candidate-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap:
+        1.8mm;
+
+    margin-top:
+        2.5mm;
+
+}
+
+
+.candidate-field {
+
+    min-height:
+        11.7mm;
+
+    padding:
+        1.5mm
+        2mm;
+
+    border:
+        1px solid
+        #e0e8f1;
+
+    border-radius:
+        2mm;
+
+    background:
+        #fbfdff;
+
+}
+
+
+.span-2 {
+
+    grid-column:
+        span 2;
+
+}
+
+
+.span-4 {
+
+    grid-column:
+        1 / -1;
+
+}
+
+
+.candidate-label {
+
+    color:
+        #77869a;
+
+    font-size:
+        9px;
+
+    font-weight:
+        800;
+
+}
+
+
+.candidate-value {
+
+    margin-top:
+        .4mm;
+
+    color:
+        #10233f;
+
+    font-size:
+        12px;
+
+    font-weight:
+        800;
+
+    line-height:
+        1.35;
+
+    word-break:
+        break-word;
+
+}
+
+
+.interview-status {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1.5fr
+        .5fr;
+
+    gap:
+        2mm;
+
+    margin-top:
+        2.5mm;
+
+}
+
+
+.interview-date {
+
+    min-height:
+        11mm;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        3mm;
+
+    padding:
+        1.5mm
+        3mm;
+
+    border:
+        1px solid
+        #cbdcf3;
+
+    border-radius:
+        2.5mm;
+
+    background:
+        #f2f7ff;
+
+}
+
+
+.interview-date-label {
+
+    color:
+        #66758a;
+
+    font-size:
+        10px;
+
+    font-weight:
+        800;
+
+}
+
+
+.interview-date-value {
+
+    color:
+        #0649a8;
+
+    font-size:
+        12px;
+
+    font-weight:
+        900;
+
+}
+
+
+.review-state {
+
+    min-height:
+        11mm;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        1.5mm;
+
+    border-radius:
+        2.5mm;
+
+    text-align:
+        center;
+
+    font-size:
+        12px;
+
+    font-weight:
+        900;
+
+}
+
+
+.review-success {
+
+    border:
+        1px solid
+        #bce4cf;
+
+    color:
+        #067343;
+
+    background:
+        #edfff5;
+
+}
+
+
+.review-pending {
+
+    border:
+        1px solid
+        #f0d597;
+
+    color:
+        #906200;
+
+    background:
+        #fff8e7;
+
+}
+
+
+/* =====================================================
+   DIVIDER
+===================================================== */
+
+.divider {
+
+    position:
+        absolute;
+
+    top:
+        50%;
+
+    right:
+        10mm;
+
+    left:
+        10mm;
+
+    height:
+        1px;
+
+    background:
+        #aab9ca;
+
+}
+
+
+.divider-label {
+
+    position:
+        absolute;
+
+    z-index:
+        5;
+
+    top:
+        50%;
+
+    right:
+        50%;
+
+    transform:
+        translate(
+            50%,
+            -50%
+        );
+
+    padding:
+        1.3mm
+        8mm;
+
+    border:
+        1px solid
+        #b5c4d4;
+
+    border-radius:
+        20mm;
+
+    color:
+        #405670;
+
+    background:
+        white;
+
+    font-size:
+        9px;
+
+    font-weight:
+        900;
+
+}
+
+
+/* =====================================================
+   SECOND HALF
+===================================================== */
+
+.second-half {
+
+    position:
+        absolute;
+
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    height:
+        50%;
+
+    padding:
+        6mm
+        10mm
+        6mm;
+
+    overflow:
+        hidden;
+
+}
+
+
+.committee-header {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        10px;
+
+    margin-bottom:
+        2.5mm;
+
+}
+
+
+.committee-title {
+
+    color:
+        #10233f;
+
+    font-size:
+        16px;
+
+    font-weight:
+        900;
+
+}
+
+
+.committee-subtitle {
+
+    margin-top:
+        .4mm;
+
+    color:
+        #748296;
+
+    font-size:
+        9px;
+
+    font-weight:
+        700;
+
+}
+
+
+.committee-applicant {
+
+    padding:
+        1.5mm
+        3mm;
+
+    border:
+        1px solid
+        #dce5ef;
+
+    border-radius:
+        2mm;
+
+    color:
+        #526277;
+
+    background:
+        #f8fafc;
+
+    font-size:
+        9px;
+
+    font-weight:
+        800;
+
+}
+
+
+.assessment-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:
+        1.7mm;
+
+}
+
+
+.assessment-box {
+
+    min-height:
+        18mm;
+
+    overflow:
+        hidden;
+
+    border:
+        1px solid
+        #dbe5ef;
+
+    border-radius:
+        2.4mm;
+
+    background:
+        white;
+
+}
+
+
+.assessment-title {
+
+    padding:
+        1.5mm
+        2.2mm;
+
+    color:
+        #173657;
+
+    background:
+        #edf5ff;
+
+    border-bottom:
+        1px solid
+        #d9e4f0;
+
+    font-size:
+        11px;
+
+    font-weight:
+        900;
+
+}
+
+
+.assessment-hint {
+
+    margin-right:
+        1mm;
+
+    color:
+        #708399;
+
+    font-size:
+        7px;
+
+    font-weight:
+        600;
+
+}
+
+
+.writing-area {
+
+    position:
+        relative;
+
+    height:
+        12mm;
+
+    background:
+        #fff;
+
+}
+
+
+.writing-area::before,
+.writing-area::after {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    right:
+        2.5mm;
+
+    left:
+        2.5mm;
+
+    height:
+        1px;
+
+    background:
+        #d8e0ea;
+
+}
+
+
+.writing-area::before {
+
+    top:
+        4mm;
+
+}
+
+
+.writing-area::after {
+
+    top:
+        9mm;
+
+}
+
+
+.notes-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:
+        1.7mm;
+
+    margin-top:
+        1.7mm;
+
+}
+
+
+.big-note {
+
+    min-height:
+        24mm;
+
+    border:
+        1px solid
+        #dbe5ef;
+
+    border-radius:
+        2.4mm;
+
+    overflow:
+        hidden;
+
+}
+
+
+.big-note-title {
+
+    padding:
+        1.5mm
+        2.2mm;
+
+    color:
+        #173657;
+
+    background:
+        #f5f8fc;
+
+    border-bottom:
+        1px solid
+        #dde5ef;
+
+    font-size:
+        11px;
+
+    font-weight:
+        900;
+
+}
+
+
+.big-writing {
+
+    position:
+        relative;
+
+    height:
+        17mm;
+
+}
+
+
+.big-writing .line {
+
+    position:
+        absolute;
+
+    right:
+        2.5mm;
+
+    left:
+        2.5mm;
+
+    height:
+        1px;
+
+    background:
+        #d8e0e9;
+
+}
+
+
+.big-writing .l1 {
+    top: 4mm;
+}
+
+.big-writing .l2 {
+    top: 9mm;
+}
+
+.big-writing .l3 {
+    top: 14mm;
+}
+
+
+.final-area {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        .85fr
+        1.15fr;
+
+    gap:
+        1.7mm;
+
+    margin-top:
+        1.7mm;
+
+}
+
+
+.final-box {
+
+    padding:
+        2mm
+        2.5mm;
+
+    border:
+        1px solid
+        #d9e3ee;
+
+    border-radius:
+        2.5mm;
+
+}
+
+
+.final-title {
+
+    color:
+        #10233f;
+
+    font-size:
+        11px;
+
+    font-weight:
+        900;
+
+    margin-bottom:
+        1.5mm;
+
+}
+
+
+.option-row {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        3mm;
+
+    flex-wrap:
+        wrap;
+
+}
+
+
+.option {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        1.2mm;
+
+    color:
+        #40536b;
+
+    font-size:
+        8.5px;
+
+    font-weight:
+        800;
+
+}
+
+
+.checkbox {
+
+    width:
+        3.5mm;
+
+    height:
+        3.5mm;
+
+    border:
+        1.2px solid
+        #64748b;
+
+    border-radius:
+        .7mm;
+
+    background:
+        white;
+
+}
+
+
+.signature-row {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:
+        4mm;
+
+    margin-top:
+        2mm;
+
+}
+
+
+.signature-field {
+
+    display:
+        flex;
+
+    align-items:
+        flex-end;
+
+    min-height:
+        8mm;
+
+    border-bottom:
+        1px solid
+        #7f8c9c;
+
+    color:
+        #526277;
+
+    font-size:
+        8.5px;
+
+    font-weight:
+        800;
+
+}
+
+
+.footer {
+
+    position:
+        absolute;
+
+    right:
+        10mm;
+
+    left:
+        10mm;
+
+    bottom:
+        3mm;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        10px;
+
+    color:
+        #8996a7;
+
+    font-size:
+        7px;
+
+    font-weight:
+        700;
+
+}
+
+
+@page {
+
+    size:
+        A4 portrait;
+
+    margin:
+        0;
+
+}
+
+
+@media print {
+
+    html,
+    body {
+
+        width:
+            210mm;
+
+        height:
+            297mm;
+
+        background:
+            white;
+
+    }
+
+
+    .toolbar {
+
+        display:
+            none !important;
+
+    }
+
+
+    .page-wrap {
+
+        padding:
+            0;
+
+    }
+
+
+    .page {
+
+        width:
+            210mm;
+
+        height:
+            297mm;
+
+        margin:
+            0;
+
+        box-shadow:
+            none;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="toolbar">
+
+    <div>
+
+        <div class="toolbar-title">
+
+            استمارة مقابلة:
+            ${escapeHTML(applicantName)}
+
+        </div>
+
+        <div class="toolbar-subtitle">
+            بيانات المتقدم ونموذج تقييم لجنة المقابلات
+        </div>
+
+    </div>
+
+
+    <button
+        type="button"
+        onclick="window.print()">
+
+        طباعة الاستمارة
+
+    </button>
+
+</div>
+
+
+<div class="page-wrap">
+
+
+<section class="page">
+
+
+<div class="top-strip"></div>
+
+
+<div class="page-body">
+
+
+<!-- =====================================================
+     FIRST HALF
+===================================================== -->
+
+<section class="first-half">
+
+
+<div class="school-header">
+
+    <div>
+
+        <div class="school-name">
+            مدرسة التحدي الأهلية المختلطة
+        </div>
+
+        <div class="school-department">
+            قسم الحوكمة — لجنة المقابلات
+        </div>
+
+    </div>
+
+
+    <div class="form-name">
+        استمارة مقابلة متقدم
+    </div>
+
+</div>
+
+
+<div class="applicant-name-box">
+
+    <div class="applicant-name-label">
+        اسم المتقدم
+    </div>
+
+    <div class="applicant-name">
+        ${escapeHTML(applicantName)}
+    </div>
+
+</div>
+
+
+<div class="candidate-grid">
+
+    ${interviewField(
+        "عنوان السكن",
+        personal.address,
+        "span-2"
+    )}
+
+    ${interviewField(
+        "رقم الهاتف",
+        personal.phone
+    )}
+
+    ${interviewField(
+        "المواليد",
+        personal.birthDate
+    )}
+
+    ${interviewField(
+        "المرحلة المتقدم لها",
+        job.schoolLevel
+    )}
+
+    ${interviewField(
+        "المادة / الاختصاص",
+        job.specialization
+    )}
+
+    ${interviewField(
+        "الشهادة",
+        education.certificate
+    )}
+
+    ${interviewField(
+        "المعدل",
+        education.gpa
+    )}
+
+    ${interviewField(
+        "الجامعة",
+        education.university
+    )}
+
+    ${interviewField(
+        "الكلية",
+        education.college
+    )}
+
+    ${interviewField(
+        "تخصص الدراسة",
+        education.specialization
+    )}
+
+    ${interviewField(
+        "سنة التخرج",
+        education.graduationYear
+    )}
+
+    ${interviewField(
+        "الخبرات",
+        experience.experience,
+        "span-2"
+    )}
+
+    ${interviewField(
+        "العمل السابق",
+        experience.previousWork,
+        "span-2"
+    )}
+
+</div>
+
+
+<div class="interview-status">
+
+    <div class="interview-date">
+
+        <span class="interview-date-label">
+            تاريخ المقابلة:
+        </span>
+
+        <span class="interview-date-value">
+            ${escapeHTML(interviewDate)}
+        </span>
+
+    </div>
+
+
+    <div class="review-state ${reviewClass}">
+        ${escapeHTML(reviewText)}
+    </div>
+
+</div>
+
+
+</section>
+
+
+<div class="divider"></div>
+
+<div class="divider-label">
+    تقييم لجنة المقابلات
+</div>
+
+
+<!-- =====================================================
+     SECOND HALF
+===================================================== -->
+
+<section class="second-half">
+
+
+<div class="committee-header">
+
+    <div>
+
+        <div class="committee-title">
+            استمارة تقييم لجنة المقابلات
+        </div>
+
+        <div class="committee-subtitle">
+            يخصص هذا القسم لملاحظات وتقييم أعضاء لجنة المقابلة
+        </div>
+
+    </div>
+
+
+    <div class="committee-applicant">
+        المتقدم:
+        ${escapeHTML(applicantName)}
+    </div>
+
+</div>
+
+
+<div class="assessment-grid">
+
+
+    <div class="assessment-box">
+
+        <div class="assessment-title">
+
+            طريقة الإلقاء
+
+            <span class="assessment-hint">
+                وضوح الشرح وتسلسل الأفكار
+            </span>
+
+        </div>
+
+        <div class="writing-area"></div>
+
+    </div>
+
+
+    <div class="assessment-box">
+
+        <div class="assessment-title">
+
+            الحضور والثقة بالنفس
+
+            <span class="assessment-hint">
+                الثبات والهدوء والتفاعل
+            </span>
+
+        </div>
+
+        <div class="writing-area"></div>
+
+    </div>
+
+
+    <div class="assessment-box">
+
+        <div class="assessment-title">
+
+            الصوت ومخارج الحروف
+
+            <span class="assessment-hint">
+                وضوح الصوت وسلامة النطق
+            </span>
+
+        </div>
+
+        <div class="writing-area"></div>
+
+    </div>
+
+
+    <div class="assessment-box">
+
+        <div class="assessment-title">
+
+            الشخصية والسلوك
+
+            <span class="assessment-hint">
+                اللباقة والجدية والانضباط
+            </span>
+
+        </div>
+
+        <div class="writing-area"></div>
+
+    </div>
+
+
+    <div class="assessment-box">
+
+        <div class="assessment-title">
+
+            إدارة الصف والتعامل مع الطلبة
+
+            <span class="assessment-hint">
+                ضبط الصف والتعامل مع المواقف
+            </span>
+
+        </div>
+
+        <div class="writing-area"></div>
+
+    </div>
+
+
+    <div class="assessment-box">
+
+        <div class="assessment-title">
+
+            التواصل وطرح الأسئلة
+
+            <span class="assessment-hint">
+                الحوار والاستماع والإجابة
+            </span>
+
+        </div>
+
+        <div class="writing-area"></div>
+
+    </div>
+
+
+    <div class="assessment-box">
+
+        <div class="assessment-title">
+
+            السبورة ووسائل الشرح
+
+            <span class="assessment-hint">
+                التنظيم والخط ووسائل الإيضاح
+            </span>
+
+        </div>
+
+        <div class="writing-area"></div>
+
+    </div>
+
+
+    <div class="assessment-box">
+
+        <div class="assessment-title">
+
+            المظهر العام
+
+            <span class="assessment-hint">
+                المظهر المهني الملائم
+            </span>
+
+        </div>
+
+        <div class="writing-area"></div>
+
+    </div>
+
+
+</div>
+
+
+<div class="notes-grid">
+
+
+    <div class="big-note">
+
+        <div class="big-note-title">
+            نقاط القوة
+        </div>
+
+        <div class="big-writing">
+
+            <div class="line l1"></div>
+            <div class="line l2"></div>
+            <div class="line l3"></div>
+
+        </div>
+
+    </div>
+
+
+    <div class="big-note">
+
+        <div class="big-note-title">
+            نقاط تحتاج إلى تطوير
+        </div>
+
+        <div class="big-writing">
+
+            <div class="line l1"></div>
+            <div class="line l2"></div>
+            <div class="line l3"></div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<div class="final-area">
+
+
+    <div class="final-box">
+
+        <div class="final-title">
+            التقييم العام
+        </div>
+
+        <div class="option-row">
+
+            <span class="option">
+                <span class="checkbox"></span>
+                ممتاز
+            </span>
+
+            <span class="option">
+                <span class="checkbox"></span>
+                جيد جداً
+            </span>
+
+            <span class="option">
+                <span class="checkbox"></span>
+                جيد
+            </span>
+
+            <span class="option">
+                <span class="checkbox"></span>
+                مقبول
+            </span>
+
+            <span class="option">
+                <span class="checkbox"></span>
+                ضعيف
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="final-box">
+
+        <div class="final-title">
+            توصية اللجنة
+        </div>
+
+        <div class="option-row">
+
+            <span class="option">
+                <span class="checkbox"></span>
+                مناسب للتعيين
+            </span>
+
+            <span class="option">
+                <span class="checkbox"></span>
+                مناسب مع ملاحظات
+            </span>
+
+            <span class="option">
+                <span class="checkbox"></span>
+                مقابلة ثانية
+            </span>
+
+            <span class="option">
+                <span class="checkbox"></span>
+                غير مناسب
+            </span>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<div
+    class="big-note"
+    style="
+        margin-top:1.7mm;
+        min-height:21mm
+    ">
+
+    <div class="big-note-title">
+        ملاحظات لجنة المقابلة
+    </div>
+
+    <div
+        class="big-writing"
+        style="height:14mm">
+
+        <div
+            class="line l1"
+            style="top:3.5mm">
+        </div>
+
+        <div
+            class="line l2"
+            style="top:8mm">
+        </div>
+
+        <div
+            class="line l3"
+            style="top:12.5mm">
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="signature-row">
+
+    <div class="signature-field">
+        اسم عضو اللجنة:
+    </div>
+
+    <div class="signature-field">
+        التوقيع:
+    </div>
+
+</div>
+
+
+</section>
+
+
+<div class="footer">
+
+    <div>
+        مدرسة التحدي الأهلية المختلطة — قسم الحوكمة
+    </div>
+
+    <div>
+        استمارة داخلية خاصة بلجنة المقابلات
+    </div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+</div>
+
+
+<script>
+
+window.addEventListener(
+    "load",
+    function() {
+
+        if (
+            document.fonts &&
+            document.fonts.ready
+        ) {
+
+            document.fonts.ready.then(
+                function() {
+
+                    setTimeout(
+                        function() {
+
+                            window.print();
+
+                        },
+                        300
+                    );
+
+                }
+            );
+
+        } else {
+
+            setTimeout(
+                function() {
+
+                    window.print();
+
+                },
+                400
+            );
+
+        }
+
+    }
+);
+
+<\/script>
+
+
+</body>
+
+</html>
+
+    `);
+
+
+    printWindow.document.close();
+
+}
+
+
+printInterviewFormButton.addEventListener(
+    "click",
+    printApplicantInterviewForm
+);
+
+
+/* =========================================================
+   PDF EXPORT HELPERS
 ========================================================= */
 
 function pdfSafeValue(value) {
@@ -6904,6 +9079,10 @@ function getCurrentFilterSummary() {
 
 }
 
+
+/* =========================================================
+   BUILD PDF APPLICANT PAGE
+========================================================= */
 
 function buildApplicantPdfPage(
     applicant,
@@ -7216,7 +9395,7 @@ function buildApplicantPdfPage(
 
 
 /* =========================================================
-   PDF EXPORT
+   EXPORT FILTERED PDF
 ========================================================= */
 
 function exportFilteredApplicantsToPdf() {
@@ -8039,69 +10218,6 @@ async function downloadPdfFile() {
                 "...";
 
 
-            const oldBoxShadow =
-                page.style.boxShadow;
-
-            const oldMargin =
-                page.style.margin;
-
-            const oldTransform =
-                page.style.transform;
-
-            const oldWidth =
-                page.style.width;
-
-            const oldHeight =
-                page.style.height;
-
-            const oldMinHeight =
-                page.style.minHeight;
-
-            const oldOverflow =
-                page.style.overflow;
-
-
-            page.style.boxShadow =
-                "none";
-
-            page.style.margin =
-                "0";
-
-            page.style.transform =
-                "none";
-
-            page.style.width =
-                "210mm";
-
-            page.style.height =
-                "297mm";
-
-            page.style.minHeight =
-                "297mm";
-
-            page.style.overflow =
-                "hidden";
-
-
-            page.scrollIntoView({
-
-                block:
-                    "start",
-
-                behavior:
-                    "auto"
-
-            });
-
-
-            await new Promise(
-                resolve =>
-                    requestAnimationFrame(
-                        resolve
-                    )
-            );
-
-
             const canvas =
                 await html2canvas(
                     page,
@@ -8135,44 +10251,10 @@ async function downloadPdfFile() {
                             0,
 
                         scrollY:
-                            -window.scrollY,
-
-                        windowWidth:
-                            Math.max(
-                                document.documentElement.clientWidth,
-                                page.scrollWidth
-                            ),
-
-                        windowHeight:
-                            Math.max(
-                                document.documentElement.clientHeight,
-                                page.scrollHeight
-                            )
+                            -window.scrollY
 
                     }
                 );
-
-
-            page.style.boxShadow =
-                oldBoxShadow;
-
-            page.style.margin =
-                oldMargin;
-
-            page.style.transform =
-                oldTransform;
-
-            page.style.width =
-                oldWidth;
-
-            page.style.height =
-                oldHeight;
-
-            page.style.minHeight =
-                oldMinHeight;
-
-            page.style.overflow =
-                oldOverflow;
 
 
             if (
@@ -8279,7 +10361,7 @@ async function downloadPdfFile() {
 
 
         alert(
-            "تعذر تنزيل PDF مباشرة. جرّب مرة أخرى، أو استخدم زر الطباعة كخيار احتياطي."
+            "تعذر تنزيل PDF مباشرة. جرّب مرة أخرى، أو استخدم زر الطباعة."
         );
 
     }
