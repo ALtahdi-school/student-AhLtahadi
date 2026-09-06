@@ -46,6 +46,32 @@
 .board-a4-table .pdf-grade.fail{color:#fff!important;background:#d00000!important;text-decoration:none!important}
 .board-a4-foot{right:28px;left:28px;bottom:8px;font-size:9px}
 
+
+/* ===== بورد مضغوط + A4 كامل + الدرجة الحرجة 45-أقل من50 ===== */
+.board-scroll{overflow:hidden!important;position:relative}
+.grade-board{width:max-content!important;min-width:0!important;font-size:10px!important;transform-origin:top right}
+.grade-board th,.grade-board td{padding:3px 2px!important;line-height:1.15!important}
+.grade-board .seq{min-width:28px!important;width:28px!important}
+.grade-board .name{min-width:150px!important;max-width:170px!important;width:160px!important}
+.grade-board .subject-head{min-width:118px!important;font-size:9px!important}
+.grade-board .subgrade{min-width:34px!important;width:34px!important;font-size:7px!important;white-space:normal!important}
+.grade-board .status{min-width:76px!important;width:76px!important;font-size:8px!important;white-space:normal!important}
+.board-grade-input{width:32px!important;height:23px!important;padding:0!important;font-size:9px!important}
+.readonly-grade{min-width:30px!important;min-height:23px!important;font-size:9px!important}
+.grade-cell.critical,.grade-board tbody tr:nth-child(even) td.grade-cell.critical,.grade-board tbody tr.editing-row>td.grade-cell.critical{background:#000!important;color:#fff!important;text-decoration:none!important}
+.grade-cell.critical .board-grade-input,.board-grade-input.critical{background:#000!important;color:#fff!important;border-color:#000!important;text-decoration:none!important}
+.grade-cell.critical .readonly-grade{color:#fff!important}
+.board-a4{width:1123px!important;height:794px!important;padding:16px 18px 15px!important;font-size:7px!important}
+.board-a4-head{grid-template-columns:52px 1fr 125px!important;gap:6px!important;padding-bottom:5px!important}
+.board-a4-head img{width:46px!important;height:46px!important}.board-a4-title h2{font-size:14px!important}.board-a4-title h3{font-size:11px!important}.board-a4-title p{font-size:8px!important;margin-top:2px!important}
+.board-a4-meta{font-size:7px!important;line-height:1.35!important}.board-a4-rule{margin:4px 0!important;padding:3px 5px!important;font-size:7px!important}
+.board-a4-table{width:100%!important;table-layout:fixed!important;font-size:var(--pdfFont,6.5px)!important}
+.board-a4-table th,.board-a4-table td{padding:1px!important;line-height:1.05!important;overflow:hidden!important;text-overflow:clip!important;white-space:normal!important}
+.board-a4-table thead th{font-size:var(--pdfHeadFont,6px)!important}.board-a4-table tbody td{height:var(--pdfRowH,14px)!important;font-size:var(--pdfFont,6.5px)!important}
+.board-a4-table .a4-seq{width:2.5%!important}.board-a4-table .a4-name{width:11%!important;padding-right:3px!important;font-size:var(--pdfNameFont,7px)!important}.board-a4-table .a4-status{width:6.5%!important;font-size:var(--pdfHeadFont,6px)!important}
+.board-a4-table .subject-title{font-size:var(--pdfSubjectFont,6px)!important;line-height:1!important}.board-a4-table .small-head{font-size:var(--pdfHeadFont,5.5px)!important;line-height:1!important}
+.board-a4-table .pdf-grade.critical{background:#000!important;color:#fff!important;text-decoration:none!important}
+.board-a4-foot{right:18px!important;left:18px!important;bottom:5px!important;padding-top:3px!important;font-size:6px!important}
 </style>
 </head>
 <body>
@@ -131,13 +157,14 @@ async function removeBoardRule(){if(!selection.classId)return;try{await dbPatch(
 function evaluateRule(model,rule){if(!rule)return{type:"none",text:"—",css:""};const rows=model.academic;if(!rows.length||rows.some(r=>!isGrade(r.annual)))return{type:"wait",text:"غير مكتمل",css:"wait"};if(rule.type==="exemption"){const perc=rows.map(r=>Number(r.annual)/Math.max(1,Number(r.maxGrade||100))*100),avg=perc.reduce((a,b)=>a+b,0)/perc.length,min=Math.min(...perc),ok=avg>=Number(rule.minAverage??85)&&min>=Number(rule.minSubjectGrade??75);return{type:ok?"good":"bad",text:ok?"معفي عام":"غير معفي",css:ok?"good":"bad",details:`المعدل ${Math.round(avg*10)/10}%`}}const failed=rows.filter(r=>Number(r.annual)<Number(r.passGrade??50)),maxSubjects=Number(rule.maxSubjects??3),bonus=Number(rule.bonusPerSubject??10),deficits=failed.map(r=>Number(r.passGrade??50)-Number(r.annual)),ok=failed.length<=maxSubjects&&deficits.every(d=>d<=bonus);return{type:ok?"good":"bad",text:ok?"داخل وزاري":"غير داخل",css:ok?"good":"bad",details:failed.length?`${failed.length} مواد`:"لا توجد مواد راسبة"}}
 
 function gradeFail(value,row){return isGrade(value)&&Number(value)<Number(row.passGrade??50)}
+function criticalGrade(value){return isGrade(value)&&Number(value)>=45&&Number(value)<50}
 function boardInputCell(code,row,field){
- const value=row[field],fail=gradeFail(value,row),auto=!!row.autoType;
- if(auto)return`<td class="grade-cell ${fail?"fail":""}"><span class="readonly-grade">${gradeDisplay(value)}</span></td>`;
- return`<td class="grade-cell ${fail?"fail":""}"><input class="board-grade-input ${fail?"fail":""}" type="number" inputmode="decimal" min="0" max="${Number(row.maxGrade||100)}" step=".5" value="${isGrade(value)?Number(value):""}" data-code="${esc(code)}" data-subject="${esc(row.id)}" data-field="${field}" data-pass="${Number(row.passGrade??50)}" data-max="${Number(row.maxGrade||100)}" onfocus="boardGradeFocus(this)" onblur="boardGradeBlur(this)" oninput="boardGradeChanged(this)"></td>`
+ const value=row[field],critical=criticalGrade(value),fail=gradeFail(value,row)&&!critical,auto=!!row.autoType,cls=critical?"critical":fail?"fail":"";
+ if(auto)return`<td class="grade-cell ${cls}"><span class="readonly-grade">${gradeDisplay(value)}</span></td>`;
+ return`<td class="grade-cell ${cls}"><input class="board-grade-input ${cls}" type="number" inputmode="decimal" min="0" max="${Number(row.maxGrade||100)}" step=".5" value="${isGrade(value)?Number(value):""}" data-code="${esc(code)}" data-subject="${esc(row.id)}" data-field="${field}" data-pass="${Number(row.passGrade??50)}" data-max="${Number(row.maxGrade||100)}" onfocus="boardGradeFocus(this)" onblur="boardGradeBlur(this)" oninput="boardGradeChanged(this)"></td>`
 }
-function annualCell(code,row){const fail=gradeFail(row.annual,row);return`<td class="grade-cell annual ${fail?"fail":"pass"}" data-annual-code="${esc(code)}" data-annual-subject="${esc(row.id)}">${gradeDisplay(row.annual)}</td>`}
-function pdfAnnualCell(value,row){const fail=gradeFail(value,row);return`<td class="pdf-grade annual ${fail?"fail":"pass"}">${gradeDisplay(value)}</td>`}
+function annualCell(code,row){const critical=criticalGrade(row.annual),fail=gradeFail(row.annual,row)&&!critical;return`<td class="grade-cell annual ${critical?"critical":fail?"fail":"pass"}" data-annual-code="${esc(code)}" data-annual-subject="${esc(row.id)}">${gradeDisplay(row.annual)}</td>`}
+function pdfGradeCell(value,row,annual=false){const critical=criticalGrade(value),fail=gradeFail(value,row)&&!critical;return`<td class="pdf-grade ${annual?"annual":""} ${critical?"critical":fail?"fail":"pass"}">${gradeDisplay(value)}</td>`}
 function boardGradeFocus(input){input.closest("tr")?.classList.add("editing-row")}
 function boardGradeBlur(input){input.closest("tr")?.classList.remove("editing-row")}
 function dirtyCellKey(code,subject,field){return`${code}|||${subject}|||${field}`}
@@ -147,26 +174,33 @@ function getLocalGradeValue(code,subject,field){
 }
 function boardGradeChanged(input){
  const code=input.dataset.code,subject=input.dataset.subject,field=input.dataset.field,max=Number(input.dataset.max||100),pass=Number(input.dataset.pass||50);
- let value=input.value===""?"":Number(input.value);
- const invalid=value!==""&&(!Number.isFinite(value)||value<0||value>max);
- input.classList.toggle("fail",value!==""&&!invalid&&value<pass);
- input.classList.add("dirty");
- input.style.borderColor=invalid?"#d92d20":"";
- dirtyGradeStudents.add(code);
- dirtyGradeCells.set(dirtyCellKey(code,subject,field),value);
- const row=input.closest("tr"),name=row?.querySelector(".name");if(name)name.classList.add("grade-changed");
- if(row)row.classList.add("editing-row");
+ const value=input.value===""?"":Number(input.value),invalid=value!==""&&(!Number.isFinite(value)||value<0||value>max),critical=!invalid&&criticalGrade(value),fail=value!==""&&!invalid&&value<pass&&!critical,td=input.closest("td");
+ input.classList.toggle("critical",critical);input.classList.toggle("fail",fail);td?.classList.toggle("critical",critical);td?.classList.toggle("fail",fail);
+ input.classList.add("dirty");input.style.borderColor=invalid?"#d92d20":"";dirtyGradeStudents.add(code);dirtyGradeCells.set(dirtyCellKey(code,subject,field),value);
+ const row=input.closest("tr"),name=row?.querySelector(".name");if(name)name.classList.add("grade-changed");if(row)row.classList.add("editing-row");
  const t1=getLocalGradeValue(code,subject,"term1"),mid=getLocalGradeValue(code,subject,"midyear"),t2=getLocalGradeValue(code,subject,"term2"),annual=computeAnnual(t1,mid,t2),annualCellEl=document.querySelector(`[data-annual-code="${CSS.escape(code)}"][data-annual-subject="${CSS.escape(subject)}"]`);
- if(annualCellEl){annualCellEl.textContent=gradeDisplay(annual);annualCellEl.classList.toggle("fail",annual!==""&&annual<pass);annualCellEl.classList.toggle("pass",annual===""||annual>=pass)}
- const btn=$("saveGradesBtn");btn.disabled=dirtyGradeStudents.size===0;btn.textContent=dirtyGradeStudents.size?`حفظ الدرجات (${dirtyGradeStudents.size})`:"حفظ الدرجات";
+ if(annualCellEl){const c=criticalGrade(annual),f=annual!==""&&annual<pass&&!c;annualCellEl.textContent=gradeDisplay(annual);annualCellEl.classList.toggle("critical",c);annualCellEl.classList.toggle("fail",f);annualCellEl.classList.toggle("pass",annual===""||annual>=pass)}
+ const btn=$("saveGradesBtn");btn.disabled=dirtyGradeStudents.size===0;btn.textContent=dirtyGradeStudents.size?`حفظ الدرجات (${dirtyGradeStudents.size})`:"حفظ الدرجات";fitBoardToPage();
 }
 function filteredModels(){const q=norm($("studentSearch")?.value),models=currentModels();return q?models.filter(m=>norm(m.student.name).includes(q)):models}
 function currentModels(){const students=classStudents(selection.classId,selection.gender);return students.map(st=>({student:st,model:buildStudentModel(st,DATA.classes[selection.classId],DATA.grades[st.code]||{})}))}
 function rowForSubject(model,sub){return model.rows.find(r=>String(r.id)===String(sub.id)||norm(r.name)===norm(sub.name))||{...sub,term1:"",midyear:"",term2:"",annual:""}}
 
-function renderBoard(){if(!selection.classId)return;const c=DATA.classes[selection.classId],subjects=normalizeClassSubjects(c),items=filteredModels(),person=personLabel(c,selection.gender),rule=activeRule;$("summary").innerHTML=`<span class="badge blue">${items.length} ${person}</span><span class="badge orange">${subjects.length} مادة</span><span class="badge purple">${esc(ruleLabel(rule))}</span><span class="badge green">السعي = (الأول + نصف السنة + الثاني) ÷ 3</span><span class="badge blue">الكسر 0.5 فأعلى يُجبر للدرجة التالية</span>`;if(!items.length){$("boardScroll").innerHTML='<div class="empty">لا توجد أسماء مطابقة.</div>';return}const h1=subjects.map(s=>`<th colspan="4" class="subject-head">${esc(s.name)} <span style="font-size:10px;color:#667085">النجاح ${s.passGrade}</span></th>`).join(""),h2=subjects.map(()=>`<th class="subgrade">الفصل الأول</th><th class="subgrade">نصف السنة</th><th class="subgrade">الفصل الثاني</th><th class="subgrade">السعي</th>`).join(""),rows=items.map((item,i)=>{const status=evaluateRule(item.model,rule),changed=item.student.gradeBoardGradeChanged===true||dirtyGradeStudents.has(item.student.code);return`<tr data-student-code="${esc(item.student.code)}"><td class="seq">${i+1}</td><td class="name ${changed?"grade-changed":""}">${esc(item.student.name||"—")}</td>${subjects.map(s=>{const r=rowForSubject(item.model,s);return boardInputCell(item.student.code,r,"term1")+boardInputCell(item.student.code,r,"midyear")+boardInputCell(item.student.code,r,"term2")+annualCell(item.student.code,r)}).join("")}<td class="rule-status status ${status.css}" title="${esc(status.details||"")}">${esc(status.text)}</td></tr>`}).join("");$("boardScroll").innerHTML=`<table class="grade-board"><thead><tr><th rowspan="2" class="seq">ت</th><th rowspan="2" class="name">اسم ${esc(person)}</th>${h1}<th rowspan="2" class="status">نتيجة القاعدة</th></tr><tr>${h2}</tr></thead><tbody>${rows}</tbody></table>`}
-
-
+function fitBoardToPage(){
+ const wrap=$("boardScroll"),table=wrap?.querySelector(".grade-board");if(!wrap||!table)return;
+ table.style.transform="none";wrap.style.height="auto";
+ const naturalW=table.scrollWidth,naturalH=table.offsetHeight,availableW=Math.max(280,wrap.clientWidth-2),availableH=Math.max(360,window.innerHeight-155),scale=Math.min(1,availableW/Math.max(1,naturalW),availableH/Math.max(1,naturalH));
+ table.style.transform=`scale(${scale})`;table.style.transformOrigin="top right";wrap.style.height=`${Math.ceil(naturalH*scale)+2}px`;
+}
+let boardResizeTimer=null;window.addEventListener("resize",()=>{clearTimeout(boardResizeTimer);boardResizeTimer=setTimeout(fitBoardToPage,100)});
+function renderBoard(){
+ if(!selection.classId)return;const c=DATA.classes[selection.classId],subjects=normalizeClassSubjects(c),items=filteredModels(),person=personLabel(c,selection.gender),rule=activeRule;
+ $("summary").innerHTML=`<span class="badge blue">${items.length} ${person}</span><span class="badge orange">${subjects.length} مادة</span><span class="badge purple">${esc(ruleLabel(rule))}</span><span class="badge green">كل مادة: فصل أول + نصف سنة + فصل ثاني + سعي</span><span class="badge blue">45 إلى أقل من 50: خلية سوداء وكتابة بيضاء</span>`;
+ if(!items.length){$("boardScroll").innerHTML='<div class="empty">لا توجد أسماء مطابقة.</div>';return}
+ const h1=subjects.map(s=>`<th colspan="4" class="subject-head">${esc(s.name)}</th>`).join(""),h2=subjects.map(()=>`<th class="subgrade">فصل أول</th><th class="subgrade">نصف سنة</th><th class="subgrade">فصل ثاني</th><th class="subgrade">سعي</th>`).join("");
+ const rows=items.map((item,i)=>{const status=evaluateRule(item.model,rule),changed=item.student.gradeBoardGradeChanged===true||dirtyGradeStudents.has(item.student.code);return`<tr data-student-code="${esc(item.student.code)}"><td class="seq">${i+1}</td><td class="name ${changed?"grade-changed":""}">${esc(item.student.name||"—")}</td>${subjects.map(s=>{const r=rowForSubject(item.model,s);return boardInputCell(item.student.code,r,"term1")+boardInputCell(item.student.code,r,"midyear")+boardInputCell(item.student.code,r,"term2")+annualCell(item.student.code,r)}).join("")}<td class="rule-status status ${status.css}" title="${esc(status.details||"")}">${esc(status.text)}</td></tr>`}).join("");
+ $("boardScroll").innerHTML=`<table class="grade-board"><thead><tr><th rowspan="2" class="seq">ت</th><th rowspan="2" class="name">اسم ${esc(person)}</th>${h1}<th rowspan="2" class="status">القاعدة</th></tr><tr>${h2}</tr></thead><tbody>${rows}</tbody></table>`;requestAnimationFrame(()=>requestAnimationFrame(fitBoardToPage));
+}
 async function saveBoardGrades(){
  if(!dirtyGradeStudents.size){toast("لا توجد درجات معدلة للحفظ");return}
  const invalid=[...document.querySelectorAll(".board-grade-input")].find(i=>i.value!==""&&(!Number.isFinite(Number(i.value))||Number(i.value)<0||Number(i.value)>Number(i.dataset.max||100)));
@@ -206,26 +240,22 @@ function fileSafe(v){return String(v||"بورد").replace(/[\\/:*?"<>|]+/g,"-").
 
 function chunk(arr,size){const out=[];for(let i=0;i<arr.length;i+=size)out.push(arr.slice(i,i+size));return out}
 function pdfPageHTML(c,gender,subjects,studentItems,pageIndex,totalPages,studentStart,rule){
- const person=personLabel(c,gender),year=$("schoolYear").value.trim()||"2026-2027",subjectHeaders=subjects.map(s=>`<th class="subject-annual-head">${esc(s.name)}<br><span style="font-size:9px">السعي</span></th>`).join(""),rows=studentItems.map((item,i)=>{const status=evaluateRule(item.model,rule),changed=item.student.gradeBoardGradeChanged===true;return`<tr><td>${studentStart+i+1}</td><td class="a4-name pdf-name ${changed?"changed":""}">${esc(item.student.name||"—")}</td>${subjects.map(s=>{const r=rowForSubject(item.model,s);return pdfAnnualCell(r.annual,r)}).join("")}<td class="pdf-status ${status.css}">${esc(status.text)}</td></tr>`}).join("");return`<section class="board-a4"><div class="board-a4-head"><img src="logo.png" alt=""><div class="board-a4-title"><h2>مدرسة التحدي الأهلية المختلطة</h2><h3>بورد السعي السنوي - ${esc(c.name||"الصف")}</h3><p>${gender==="female"?"إناث":"ذكور"} | ${esc(roomLabel(c.roomNumber))} | ${esc(year)}</p></div><div class="board-a4-meta"><div>جميع المواد: ${subjects.length}</div><div>الصفحة ${pageIndex+1} من ${totalPages}</div><div>عدد ${person}: ${classStudents(c.id,gender).length}</div></div></div><div class="board-a4-rule">${esc(ruleLabel(rule))} — السعي = (الفصل الأول + نصف السنة + الفصل الثاني) ÷ 3، والكسر 0.5 فأعلى يُجبر.</div><table class="board-a4-table"><thead><tr><th class="a4-seq">ت</th><th class="a4-name">اسم ${esc(person)}</th>${subjectHeaders}<th class="a4-status">القاعدة</th></tr></thead><tbody>${rows}</tbody></table><div class="board-a4-foot"><span>قسم الحوكمة - بورد السعي السنوي لجميع المواد</span><span>${esc(year)}</span></div></section>`}
+ const person=personLabel(c,gender),year=$("schoolYear").value.trim()||"2026-2027",count=Math.max(1,studentItems.length),subCount=Math.max(1,subjects.length),rowH=Math.max(5,Math.min(22,Math.floor(600/count))),pdfFont=Math.max(3.8,Math.min(7.2,rowH*.58)),headFont=subCount>=12?4.5:subCount>=9?5:5.8,subjectFont=subCount>=12?4.6:subCount>=9?5.2:6;
+ const subjectHeaders=subjects.map(s=>`<th colspan="4" class="subject-title">${esc(s.name)}</th>`).join(""),subHeaders=subjects.map(()=>`<th class="small-head">فصل أول</th><th class="small-head">نصف سنة</th><th class="small-head">فصل ثاني</th><th class="small-head">سعي</th>`).join("");
+ const rows=studentItems.map((item,i)=>{const status=evaluateRule(item.model,rule),changed=item.student.gradeBoardGradeChanged===true;return`<tr><td>${studentStart+i+1}</td><td class="a4-name pdf-name ${changed?"changed":""}">${esc(item.student.name||"—")}</td>${subjects.map(s=>{const r=rowForSubject(item.model,s);return pdfGradeCell(r.term1,r)+pdfGradeCell(r.midyear,r)+pdfGradeCell(r.term2,r)+pdfGradeCell(r.annual,r,true)}).join("")}<td class="pdf-status ${status.css}">${esc(status.text)}</td></tr>`}).join("");
+ return`<section class="board-a4" style="--pdfRowH:${rowH}px;--pdfFont:${pdfFont}px;--pdfNameFont:${Math.max(5.5,pdfFont+.6)}px;--pdfHeadFont:${headFont}px;--pdfSubjectFont:${subjectFont}px"><div class="board-a4-head"><img src="logo.png" alt=""><div class="board-a4-title"><h2>مدرسة التحدي الأهلية المختلطة</h2><h3>بورد الدرجات الكامل - ${esc(c.name||"الصف")}</h3><p>${gender==="female"?"إناث":"ذكور"} | ${esc(roomLabel(c.roomNumber))} | ${esc(year)}</p></div><div class="board-a4-meta"><div>المواد: ${subjects.length}</div><div>عدد ${person}: ${studentItems.length}</div><div>A4 أفقي - صفحة واحدة</div></div></div><div class="board-a4-rule">كل مادة: الفصل الأول + نصف السنة + الفصل الثاني + السعي — الدرجة الحرجة من 45 إلى أقل من 50 بالأسود والكتابة بيضاء.</div><table class="board-a4-table"><thead><tr><th rowspan="2" class="a4-seq">ت</th><th rowspan="2" class="a4-name">اسم ${esc(person)}</th>${subjectHeaders}<th rowspan="2" class="a4-status">القاعدة</th></tr><tr>${subHeaders}</tr></thead><tbody>${rows}</tbody></table><div class="board-a4-foot"><span>قسم الحوكمة - بورد الدرجات الكامل</span><span>${esc(year)}</span></div></section>`
+}
 async function downloadBoardPDF(){
  if(!selection.classId){toast("اختر الصف أولاً");return}
  if(dirtyGradeStudents.size){toast("احفظ الدرجات المعدلة أولاً قبل تحميل PDF");return}
  const btn=$("downloadBtn");btn.disabled=true;btn.textContent="جاري تجهيز PDF...";
  try{
-  const c=DATA.classes[selection.classId],subjects=normalizeClassSubjects(c),models=currentModels(),studentGroups=chunk(models,18);
-  if(!studentGroups.length)throw new Error("لا توجد بيانات");
-  const host=$("pdfHost");host.innerHTML=studentGroups.map((students,i)=>pdfPageHTML(c,selection.gender,subjects,students,i,studentGroups.length,i*18,activeRule)).join("");
-  const els=[...host.querySelectorAll(".board-a4")],{jsPDF}=window.jspdf,pdf=new jsPDF({orientation:"landscape",unit:"mm",format:"a4",compress:true});
-  for(let i=0;i<els.length;i++){
-   await waitImages(els[i]);await waitPaint();if(i)pdf.addPage("a4","landscape");
-   const canvas=await html2canvas(els[i],{scale:2,useCORS:true,allowTaint:true,backgroundColor:"#fff",logging:false,width:1123,height:794,windowWidth:1123,windowHeight:794});
-   pdf.addImage(canvas.toDataURL("image/jpeg",.96),"JPEG",0,0,297,210,undefined,"FAST");canvas.width=1;canvas.height=1
-  }
-  pdf.save(`بورد_السعي_السنوي_${fileSafe(c.name)}_${selection.gender==="female"?"بنات":"بنين"}_${fileSafe($("schoolYear").value)}.pdf`);
-  host.innerHTML="";toast("تم تحميل بورد السعي لجميع المواد PDF أفقي")
+  const c=DATA.classes[selection.classId],subjects=normalizeClassSubjects(c),models=currentModels();if(!models.length)throw new Error("لا توجد بيانات");
+  const host=$("pdfHost");host.innerHTML=pdfPageHTML(c,selection.gender,subjects,models,0,1,0,activeRule);const el=host.querySelector(".board-a4"),{jsPDF}=window.jspdf,pdf=new jsPDF({orientation:"landscape",unit:"mm",format:"a4",compress:true});
+  await waitImages(el);await waitPaint();const canvas=await html2canvas(el,{scale:2,useCORS:true,allowTaint:true,backgroundColor:"#fff",logging:false,width:1123,height:794,windowWidth:1123,windowHeight:794});pdf.addImage(canvas.toDataURL("image/jpeg",.97),"JPEG",0,0,297,210,undefined,"FAST");canvas.width=1;canvas.height=1;
+  pdf.save(`بورد_الدرجات_الكامل_${fileSafe(c.name)}_${selection.gender==="female"?"بنات":"بنين"}_${fileSafe($("schoolYear").value)}.pdf`);host.innerHTML="";toast("تم تحميل البورد كامل في صفحة A4 واحدة")
  }catch(e){console.error(e);$("pdfHost").innerHTML="";toast("تعذر إنشاء بورد الدرجات PDF")}finally{btn.disabled=false;btn.textContent="تحميل البورد PDF أفقي"}
 }
-
 async function refreshCore(){if(dirtyGradeStudents.size){toast("احفظ الدرجات المعدلة قبل التحديث");return}try{$("loading").classList.remove("hidden");const[students,classes]=await Promise.all([dbGet("students"),dbGet("classes")]);DATA.students=students||{};DATA.classes=classes||{};Object.entries(DATA.students).forEach(([code,s])=>{if(s&&!s.code)s.code=code});Object.entries(DATA.classes).forEach(([id,c])=>{if(c&&!c.id)c.id=id});renderClasses();if(selection.classId&&DATA.classes[selection.classId]){activeRule=inheritedBoardRule(DATA.classes[selection.classId]);await loadGradesForSelection();renderRuleBox();renderBoard()}toast("تم تحديث البيانات")}catch(e){console.error(e);toast("تعذر تحديث البيانات")}finally{$("loading").classList.add("hidden")}}
 
 (async function init(){try{if(!await verifyAdmin())return;const[students,classes]=await Promise.all([dbGet("students"),dbGet("classes")]);DATA.students=students||{};DATA.classes=classes||{};Object.entries(DATA.students).forEach(([code,s])=>{if(s&&!s.code)s.code=code});Object.entries(DATA.classes).forEach(([id,c])=>{if(c&&!c.id)c.id=id});renderClasses()}catch(e){console.error(e);toast("تعذر تحميل بورد الدرجات")}finally{$("loading").classList.add("hidden")}})();
