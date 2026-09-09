@@ -24,7 +24,7 @@
 .record-download-btn{width:100%;height:50px;margin-top:2px;border:0;border-radius:14px;background:linear-gradient(135deg,#0872e7,#06499e);color:#fff;font-size:10px;font-weight:900}
 .record-download-btn:disabled{opacity:.55}
 .record-pdf-host{position:fixed;left:-12000px;top:0;width:794px;pointer-events:none;z-index:-99999}
-.record-print-page{position:relative;width:210mm;height:297mm;overflow:hidden;background:#fff;color:#111;font-family:"Times New Roman",Times,serif}
+.record-print-page{position:relative;width:210mm;height:297mm;overflow:hidden;background:#fff;color:#111;border:1px solid #c9ced5;box-shadow:0 13px 35px rgba(30,50,70,.14);font-family:"Times New Roman",Times,serif}
 .record-page-inner{position:relative;z-index:2;height:100%;padding:7.5mm 7mm 7mm;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
 .record-watermark-logo{position:absolute;z-index:0;top:52%;left:50%;width:125mm;height:125mm;transform:translate(-50%,-50%);object-fit:contain;opacity:.075;filter:none!important;mix-blend-mode:normal;pointer-events:none;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
 .record-page-frame{position:absolute;inset:4.2mm;border:6px double #111;outline:1.2px solid #333;outline-offset:-3mm;pointer-events:none}
@@ -151,10 +151,10 @@ function loadExternalScript(url){
  return new Promise((resolve,reject)=>{
   const existing=[...document.scripts].find(x=>x.src===url);
   if(existing){
-   if(existing.dataset.loaded==="1")return resolve();
+   if(existing.dataset.loaded==="1"||existing.readyState==="complete")return resolve();
    existing.addEventListener("load",()=>resolve(),{once:true});
    existing.addEventListener("error",()=>reject(new Error("SCRIPT_LOAD_FAILED")),{once:true});
-   setTimeout(()=>resolve(),1200);
+   setTimeout(()=>resolve(),1400);
    return
   }
   const script=document.createElement("script");
@@ -164,26 +164,29 @@ function loadExternalScript(url){
   document.head.appendChild(script)
  })
 }
-async function ensurePDFLibraries(){
+async function ensureRecordLibraries(){
+ if(typeof QRCode==="undefined"){
+  const sources=[
+   "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js",
+   "https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"
+  ];
+  for(const url of sources){try{await loadExternalScript(url);if(typeof QRCode!=="undefined")break}catch{}}
+ }
  if(typeof html2canvas==="undefined"){
-  const html2canvasSources=[
+  const sources=[
    "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",
    "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js",
    "https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"
   ];
-  for(const url of html2canvasSources){
-   try{await loadExternalScript(url);if(typeof html2canvas!=="undefined")break}catch{}
-  }
+  for(const url of sources){try{await loadExternalScript(url);if(typeof html2canvas!=="undefined")break}catch{}}
  }
  if(!window.jspdf?.jsPDF&&!window.jsPDF){
-  const jsPdfSources=[
+  const sources=[
    "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",
    "https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js",
    "https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"
   ];
-  for(const url of jsPdfSources){
-   try{await loadExternalScript(url);if(window.jspdf?.jsPDF||window.jsPDF)break}catch{}
-  }
+  for(const url of sources){try{await loadExternalScript(url);if(window.jspdf?.jsPDF||window.jsPDF)break}catch{}}
  }
  return typeof html2canvas!=="undefined"&&!!(window.jspdf?.jsPDF||window.jsPDF)
 }
@@ -203,23 +206,154 @@ function recordRandomToken(){try{const a=new Uint32Array(2);crypto.getRandomValu
 function recordRandomPublicKey(){try{const a=new Uint8Array(18);crypto.getRandomValues(a);return[...a].map(b=>b.toString(16).padStart(2,"0")).join("")}catch{return`${Date.now().toString(36)}${Math.random().toString(36).slice(2,18)}`.replace(/[^a-z0-9]/gi,"")}}
 async function recordSha256(value){try{if(!crypto?.subtle)return"";const bytes=new TextEncoder().encode(String(value||"")),hash=await crypto.subtle.digest("SHA-256",bytes);return[...new Uint8Array(hash)].map(b=>b.toString(16).padStart(2,"0")).join("")}catch{return""}}
 function recordSafeKey(v){return String(v??"").replace(/[.#$\[\]\/]/g,"_")}
-function recordMakeId(c,subject){const d=new Date(),stamp=`${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}${String(d.getHours()).padStart(2,"0")}${String(d.getMinutes()).padStart(2,"0")}`;return`THD-${recordSafeKey(c.id).slice(-6)}-${recordSafeKey(c.roomNumber||"ALL")}-${recordSafeKey(subject.id).slice(-6)}-${stamp}-${recordRandomToken().slice(0,8)}`.toUpperCase()}
-function recordQRURL(publicKey){const base=`${location.origin}${location.pathname.replace(/[^/]+$/,"records.html")}`,url=new URL(base);url.searchParams.set("record",String(publicKey||""));url.searchParams.set("pdf","1");return url.toString()}
+function recordMakeId(c,room,subject){const d=new Date(),stamp=`${d.getFullYear()}${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}${String(d.getHours()).padStart(2,"0")}${String(d.getMinutes()).padStart(2,"0")}`;return`THD-${recordSafeKey(c.id).slice(-6)}-${recordSafeKey(room||"ALL")}-${recordSafeKey(subject.id).slice(-6)}-${stamp}-${recordRandomToken().slice(0,8)}`.toUpperCase()}
+function recordPageBaseURL(){try{if(/^https?:$/i.test(location.protocol))return new URL("records.html",location.href).toString()}catch{}return"https://altahdi-school.github.io/student-AhLtahadi/records.html"}
+function recordQRURL(publicKey){const url=new URL(recordPageBaseURL());url.searchParams.set("record",String(publicKey||""));url.searchParams.set("pdf","1");return url.toString()}
 let RECORD_NAME_CANVAS=null;
 function recordStudentName(value){return String(value||"").trim().replace(/\s+/g," ")||"—"}
 function recordStudentNameSize(value){const text=recordStudentName(value);if(!text||text==="—")return 15;try{RECORD_NAME_CANVAS=RECORD_NAME_CANVAS||document.createElement("canvas");const ctx=RECORD_NAME_CANVAS.getContext("2d");if(!ctx)return 15;const targetPx=232;for(const size of [15,14.5,14,13.5,13,12.5,12,11.5]){ctx.font=`700 ${size}px "Times New Roman"`;if(ctx.measureText(text).width<=targetPx)return size}return 11}catch{return 13}}
 function recordCellGrade(v,pass,mode){const n=mode==="blank"?"":v,fail=mode!=="blank"&&recordIsGrade(n)&&Number(n)<Number(pass??50);return`<td class="grade ${fail?"fail":""}">${mode==="blank"?"":esc(recordIsGrade(n)?(Number.isInteger(Number(n))?Number(n):Math.round(Number(n)*10)/10):"")}</td>`}
 function teacherRecordStudents(){return studentsOfClass(selectedClassId).slice().sort((a,b)=>String(a.name||"").localeCompare(String(b.name||""),"ar",{sensitivity:"base"}))}
 function teacherRecordRowForStudent(st,a,mode){if(mode==="blank")return{subjectId:a.subjectId,subjectName:a.subjectName,maxGrade:a.maxGrade,passGrade:a.passGrade,term1:"",midyear:"",term2:"",annual:"",finalExam:"",final:"",secondRound:"",secondFinal:""};const rec=grades[st.code]||{},annual=recordAnnual(rec),final=recordFinal(rec,annual),secondFinal=recordGradeNum(rec.secondRoundFinal??rec.finalSecondRound??rec.secondFinal);return{subjectId:a.subjectId,subjectName:a.subjectName,maxGrade:a.maxGrade,passGrade:a.passGrade,term1:recordGradeNum(rec.term1),midyear:recordGradeNum(rec.midyear),term2:recordGradeNum(rec.term2),annual,finalExam:recordGradeNum(rec.finalExam),final,secondRound:recordGradeNum(rec.secondRound),secondFinal}}
-function recordPageHTML(rows,pageIndex,totalPages,ctx,startIndex,recordId,publicKey=""){const perPage=25,blankCount=Math.max(0,perPage-rows.length),isPrimary=recordClassStageValue(ctx.c)==="primary",studentNameHead=isPrimary?(ctx.gender==="female"?"اسم التلميذة":"اسم التلميذ"):(ctx.gender==="female"?"اسم الطالبة":"اسم الطالب"),body=rows.map((x,i)=>{const r=x.row,p=Number(r.passGrade??ctx.a.passGrade??50);return`<tr><td class="seq">${startIndex+i+1}</td><td class="name" style="font-size:${recordStudentNameSize(x.student.name)}px">${esc(recordStudentName(x.student.name))}</td>${recordCellGrade(r.term1,p,ctx.mode)}${recordCellGrade(r.midyear,p,ctx.mode)}${recordCellGrade(r.term2,p,ctx.mode)}${recordCellGrade(r.annual,p,ctx.mode)}${recordCellGrade(r.finalExam,p,ctx.mode)}${recordCellGrade(r.final,p,ctx.mode)}${recordCellGrade(r.secondRound,p,ctx.mode)}${recordCellGrade(r.secondFinal,p,ctx.mode)}<td></td></tr>`}).join(""),blanks=Array.from({length:blankCount},()=>`<tr class="blank-row"><td>—</td><td>—</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`).join(""),qr=ctx.mode==="grades"&&publicKey?`<div class="record-admin-qr-block"><div class="record-qr-code" data-code="${esc(recordQRURL(publicKey))}"></div><div class="record-record-id">${esc(recordId)}</div></div>`:"";return`<section class="record-print-page"><div class="record-page-frame"></div><div class="record-page-corner bl">◆</div><div class="record-page-corner tr">◆</div><img class="record-watermark-logo" src="logo.png" alt="">${pageIndex>0?`<div class="record-continuation">تكملة السجل</div>`:""}<div class="record-page-inner"><header class="record-head"><div class="record-head-side"><div class="record-admin-title"><span class="admin-word">إدارة</span><span class="admin-school">${esc(isPrimary?"ابتدائية التحدي الأهلية المختلطة":"ثانوية التحدي الأهلية المختلطة")}</span></div>${qr}</div><div class="record-head-center"><img class="record-ministry-logo" src="ministry-logo.PNG" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/ALtahdi-school/student-AhLtahadi/main/ministry-logo.PNG'" alt="شعار وزارة التربية"><h2>سجل درجات الإدارة</h2><h3>${esc(ctx.c.name||"—")} — ${esc(recordRoomLabel(ctx.c.roomNumber))}</h3><div class="record-gender-line">${esc(recordGenderLabel(ctx.gender))}</div><p>للعام الدراسي ${esc(ctx.year)}</p><div class="record-meta"><span>المادة: ${esc(ctx.a.subjectName)}</span></div></div><div class="record-head-side"><img class="record-school-side-logo" src="logo.png" alt="شعار المدرسة"></div></header><table class="record-table-pdf"><thead><tr><th class="seq">ت</th><th class="name">${esc(studentNameHead)}</th><th class="vertical"><span class="vlabel">معدل الفصل الأول</span></th><th class="vertical"><span class="vlabel">نصف السنة</span></th><th class="vertical"><span class="vlabel">معدل الفصل الثاني</span></th><th class="vertical"><span class="vlabel">السعي السنوي</span></th><th class="vertical"><span class="vlabel">الامتحان النهائي</span></th><th class="vertical"><span class="vlabel">الدرجة النهائية</span></th><th class="vertical"><span class="vlabel">درجة الدور الثاني</span></th><th class="vertical"><span class="vlabel">الدرجة النهائية</span></th><th class="note">الملاحظات</th></tr></thead><tbody>${body}${blanks}</tbody></table><footer class="record-footer-pdf"><div class="record-signature">مدرس المادة<strong>${esc(ctx.teacherName)}</strong></div><div class="record-footer-auditor">${ctx.mode==="grades"&&publicKey?`<span>المدقق</span><strong>أحمد عبد الرحمن أحمد</strong>`:""}</div><div class="record-manager">${esc(ctx.managerTitle)} المدرسة<strong>${esc(ctx.managerName)}</strong></div></footer><div class="record-page-no">صفحة ${pageIndex+1} من ${totalPages}</div></div></section>`}
-function renderTeacherRecordQR(){document.querySelectorAll("#recordPdfHost .record-qr-code").forEach(el=>{try{el.innerHTML="";const text=String(el.dataset.code||"").trim();if(!text||typeof QRCode==="undefined")return;new QRCode(el,{text,width:160,height:160,colorDark:"#000000",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});requestAnimationFrame(()=>{const canvas=el.querySelector("canvas"),img=el.querySelector("img");if(canvas){canvas.style.display="block";canvas.style.width="21.5mm";canvas.style.height="21.5mm";canvas.style.margin="auto";if(img)img.remove()}})}catch(e){console.error("TEACHER_RECORD_QR_ERROR",e)}})}
-async function publishTeacherRecord(ctx,rows,recordId){const publicKey=recordRandomPublicKey(),snap={version:2,recordId,publicKey,createdAt:Date.now(),schoolYear:ctx.year,mode:ctx.mode,teacher:ctx.teacherName,manager:ctx.managerName,managerTitle:ctx.managerTitle,room:ctx.c.roomNumber??"",classData:{id:String(ctx.c.id||selectedClassId||""),name:String(ctx.c.name||""),stage:ctx.c.stage||ctx.c.classStage||"",gender:ctx.gender},subject:{id:String(ctx.a.subjectId||""),name:String(ctx.a.subjectName||""),passGrade:Number(ctx.a.passGrade??50),maxGrade:Number(ctx.a.maxGrade??100)},rows:rows.map(x=>({student:{code:String(x.student.code||""),name:String(x.student.name||""),roomNumber:x.student.roomNumber??ctx.c.roomNumber??""},row:{term1:x.row.term1??"",midyear:x.row.midyear??"",term2:x.row.term2??"",annual:x.row.annual??"",finalExam:x.row.finalExam??"",final:x.row.final??"",secondRound:x.row.secondRound??"",secondFinal:x.row.secondFinal??"",passGrade:Number(x.row.passGrade??ctx.a.passGrade??50)}}))};snap.integrity=await recordSha256(JSON.stringify({recordId:snap.recordId,publicKey:snap.publicKey,schoolYear:snap.schoolYear,mode:snap.mode,teacher:snap.teacher,manager:snap.manager,managerTitle:snap.managerTitle,room:snap.room,classData:snap.classData,subject:snap.subject,rows:snap.rows}));await dbPut(`publicRecords/${encodeURIComponent(publicKey)}`,snap);return publicKey}
-async function waitTeacherRecordAssets(){const root=$("recordPdfHost"),imgs=[...root.querySelectorAll("img")];await Promise.all(imgs.map(img=>img.complete?Promise.resolve():new Promise(resolve=>{img.onload=resolve;img.onerror=resolve})));await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))}
+function recordPageHTML(rows,pageIndex,totalPages,ctx,startIndex,recordId,publicKey=""){
+ const perPage=25,blankCount=Math.max(0,perPage-rows.length),isPrimary=recordClassStageValue(ctx.c)==="primary";
+ const studentNameHead=isPrimary?(ctx.gender==="female"?"اسم التلميذة":"اسم التلميذ"):(ctx.gender==="female"?"اسم الطالبة":"اسم الطالب");
+ const body=rows.map((x,i)=>{const r=x.row,p=Number(r.passGrade??ctx.a.passGrade??50);return`<tr>
+ <td class="seq">${startIndex+i+1}</td>
+ <td class="name" style="font-size:${recordStudentNameSize(x.student.name)}px">${esc(recordStudentName(x.student.name))}</td>
+ ${recordCellGrade(r.term1,p,ctx.mode)}
+ ${recordCellGrade(r.midyear,p,ctx.mode)}
+ ${recordCellGrade(r.term2,p,ctx.mode)}
+ ${recordCellGrade(r.annual,p,ctx.mode)}
+ ${recordCellGrade(r.finalExam,p,ctx.mode)}
+ ${recordCellGrade(r.final,p,ctx.mode)}
+ ${recordCellGrade(r.secondRound,p,ctx.mode)}
+ ${recordCellGrade(r.secondFinal,p,ctx.mode)}
+ <td></td></tr>`}).join("");
+ const blanks=Array.from({length:blankCount},()=>`<tr class="blank-row"><td>—</td><td>—</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`).join("");
+ const qr=ctx.mode==="grades"&&publicKey?`<div class="record-admin-qr-block"><div class="record-qr-code" data-code="${esc(recordQRURL(publicKey))}"></div><div class="record-record-id">${esc(recordId)}</div></div>`:"";
+ return`<section class="record-print-page">
+ <div class="record-page-frame"></div><div class="record-page-corner bl">◆</div><div class="record-page-corner tr">◆</div><img class="record-watermark-logo" src="logo.png" alt="">
+ ${pageIndex>0?`<div class="record-continuation">تكملة السجل</div>`:""}
+ <div class="record-page-inner">
+  <header class="record-head">
+   <div class="record-head-side"><div class="record-admin-title"><span class="admin-word">إدارة</span><span class="admin-school">${esc(isPrimary?"ابتدائية التحدي الأهلية المختلطة":"ثانوية التحدي الأهلية المختلطة")}</span></div>${qr}</div>
+   <div class="record-head-center"><img class="record-ministry-logo" src="ministry-logo.PNG" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/ALtahdi-school/student-AhLtahadi/main/ministry-logo.PNG'" alt="شعار وزارة التربية"><h2>سجل درجات الإدارة</h2><h3>${esc(ctx.c.name||"—")} — ${esc(recordRoomLabel(ctx.room))}</h3><div class="record-gender-line">${esc(recordGenderLabel(ctx.gender))}</div><p>للعام الدراسي ${esc(ctx.year)}</p><div class="record-meta"><span>المادة: ${esc(ctx.a.subjectName)}</span></div></div>
+   <div class="record-head-side"><img class="record-school-side-logo" src="logo.png" alt="شعار المدرسة"></div>
+  </header>
+  <table class="record-table-pdf"><thead><tr>
+   <th class="seq">ت</th><th class="name">${esc(studentNameHead)}</th>
+   <th class="vertical"><span class="vlabel">معدل الفصل الأول</span></th><th class="vertical"><span class="vlabel">نصف السنة</span></th><th class="vertical"><span class="vlabel">معدل الفصل الثاني</span></th>
+   <th class="vertical"><span class="vlabel">السعي السنوي</span></th><th class="vertical"><span class="vlabel">الامتحان النهائي</span></th><th class="vertical"><span class="vlabel">الدرجة النهائية</span></th>
+   <th class="vertical"><span class="vlabel">درجة الدور الثاني</span></th><th class="vertical"><span class="vlabel">الدرجة النهائية</span></th>
+   <th class="note">الملاحظات</th>
+  </tr></thead><tbody>${body}${blanks}</tbody></table>
+  <footer class="record-footer-pdf">
+   <div class="record-signature">مدرس المادة<strong>${esc(ctx.teacherName)}</strong></div>
+   <div class="record-footer-auditor">${ctx.mode==="grades"&&publicKey?`<span>المدقق</span><strong>أحمد عبد الرحمن أحمد</strong>`:""}</div>
+   <div class="record-manager">${esc(ctx.managerTitle)} المدرسة<strong>${esc(ctx.managerName)}</strong></div>
+  </footer>
+  <div class="record-page-no">صفحة ${pageIndex+1} من ${totalPages}</div>
+ </div></section>`
+}
+function renderTeacherRecordQR(){
+ document.querySelectorAll("#recordPdfHost .record-qr-code").forEach(el=>{
+  try{
+   el.innerHTML="";const text=String(el.dataset.code||"").trim();if(!text||typeof QRCode==="undefined")return;
+   new QRCode(el,{text,width:320,height:320,colorDark:"#000000",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
+   requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    const canvas=el.querySelector("canvas"),img=el.querySelector("img");
+    if(canvas){canvas.style.display="block";canvas.style.width="21.5mm";canvas.style.height="21.5mm";canvas.style.margin="auto";if(img)img.remove()}
+    else if(img){img.style.display="block";img.style.width="21.5mm";img.style.height="21.5mm";img.style.margin="auto"}
+   }))
+  }catch(e){console.error("TEACHER_RECORD_QR_ERROR",e)}
+ })
+}
+async function waitTeacherRecordQR(){
+ const root=$("recordPdfHost"),expected=root.querySelectorAll(".record-qr-code").length;
+ if(!expected)return;
+ for(let i=0;i<30;i++){
+  if(root.querySelectorAll(".record-qr-code canvas,.record-qr-code img").length>=expected)return;
+  await new Promise(r=>setTimeout(r,40))
+ }
+}
+async function publishTeacherRecord(ctx,rows,recordId,fingerprint){
+ const publicKey=recordRandomPublicKey();
+ const snap={version:2,recordId,publicKey,fingerprint,createdAt:Date.now(),schoolYear:ctx.year,mode:ctx.mode,teacher:ctx.teacherName,manager:ctx.managerName,managerTitle:ctx.managerTitle,room:ctx.room||"",classData:{id:String(ctx.c.id||selectedClassId||""),name:String(ctx.c.name||""),stage:ctx.c.stage||ctx.c.classStage||"",gender:ctx.gender},subject:{id:String(ctx.a.subjectId||""),name:String(ctx.a.subjectName||""),passGrade:Number(ctx.a.passGrade??50),maxGrade:Number(ctx.a.maxGrade??100)},rows:rows.map(x=>({student:{code:String(x.student.code||""),name:String(x.student.name||""),roomNumber:x.student.roomNumber??ctx.room??""},row:{term1:x.row.term1??"",midyear:x.row.midyear??"",term2:x.row.term2??"",annual:x.row.annual??"",finalExam:x.row.finalExam??"",final:x.row.final??"",secondRound:x.row.secondRound??"",secondFinal:x.row.secondFinal??"",passGrade:Number(x.row.passGrade??ctx.a.passGrade??50)}}))};
+ snap.integrity=await recordSha256(JSON.stringify({recordId:snap.recordId,publicKey:snap.publicKey,schoolYear:snap.schoolYear,mode:snap.mode,teacher:snap.teacher,manager:snap.manager,managerTitle:snap.managerTitle,room:snap.room,classData:snap.classData,subject:snap.subject,rows:snap.rows}));
+ await dbPut(`publicRecords/${encodeURIComponent(publicKey)}`,snap);
+ return publicKey
+}
+async function waitTeacherRecordAssets(){
+ const root=$("recordPdfHost"),imgs=[...root.querySelectorAll("img")];
+ await Promise.all(imgs.map(img=>img.complete?Promise.resolve():new Promise(resolve=>{img.onload=resolve;img.onerror=resolve})));
+ await waitTeacherRecordQR();
+ await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))
+}
 function recordFileName(v){return String(v||"سجل").replace(/[\\/:*?"<>|]+/g,"-").replace(/\s+/g,"_")}
 function recordPrefsLoad(){try{const x=JSON.parse(localStorage.getItem("tahadi_teacher_record_prefs")||"{}");if(x.managerName)$("recordManagerName").value=x.managerName;if(x.managerTitle)$("recordManagerTitle").value=x.managerTitle;if(x.schoolYear)$("recordSchoolYear").value=x.schoolYear}catch{}}
 function recordPrefsSave(){localStorage.setItem("tahadi_teacher_record_prefs",JSON.stringify({managerName:$("recordManagerName").value.trim(),managerTitle:$("recordManagerTitle").value,schoolYear:$("recordSchoolYear").value.trim()}))}
-async function openTeacherRecordModal(){if(!selectedClassId||!activeAssignment()){toast("اختر الصف والمادة أولاً");return}if(gradesDirty){toast("احفظ الدرجات المعدلة أولاً ثم اسحب السجل");return}const a=activeAssignment(),c=classes[selectedClassId]||{},list=teacherRecordStudents();$("recordSummary").innerHTML=`<strong>${esc(c.name||"الصف")} — ${esc(a.subjectName||"المادة")}</strong><br>${esc(recordRoomLabel(c.roomNumber))} — ${list.length} طالب/ة — مدرس المادة: ${esc(teacher.name||teacherUser.name||"—")}`;recordPrefsLoad();$("recordModal").classList.add("show");ensurePDFLibraries().catch(()=>{})}
-async function downloadTeacherRecordPDF(){if(!selectedClassId||!activeAssignment())return toast("اختر الصف أولاً");if(gradesDirty)return toast("احفظ الدرجات المعدلة أولاً");const managerName=$("recordManagerName").value.trim();if(!managerName)return toast("اكتب اسم المدير / المديرة");const managerTitle=$("recordManagerTitle").value||"مدير",year=$("recordSchoolYear").value.trim()||"2026-2027",mode=teacherRecordMode(),a=activeAssignment(),c=classes[selectedClassId]||{},list=teacherRecordStudents(),gender=recordNormalizeGender(list[0]?.gender||c.gender||"male"),teacherName=teacher.name||teacherUser.name||"—",btn=$("downloadRecordBtn");if(!list.length)return toast("لا يوجد طلاب في الصف");if(!await ensurePDFLibraries())return toast("تعذر تحميل مكتبة PDF. تأكد من اتصال الإنترنت ثم حاول مرة أخرى");btn.disabled=true;btn.textContent="جاري تجهيز السجل...";try{recordPrefsSave();const rows=list.map(st=>({student:st,row:teacherRecordRowForStudent(st,a,mode)})),recordId=recordMakeId(c,a),ctx={c:{...c,id:c.id||selectedClassId},a,gender,teacherName,managerName,managerTitle,year,mode},publicKey=mode==="grades"?await publishTeacherRecord(ctx,rows,recordId):"",perPage=25,total=Math.max(1,Math.ceil(rows.length/perPage)),host=$("recordPdfHost");host.innerHTML=Array.from({length:total},(_,i)=>recordPageHTML(rows.slice(i*perPage,(i+1)*perPage),i,total,ctx,i*perPage,recordId,publicKey)).join("");renderTeacherRecordQR();await waitTeacherRecordAssets();const pages=[...host.querySelectorAll(".record-print-page")],JsPDFCtor=window.jspdf?.jsPDF||window.jsPDF,pdf=new JsPDFCtor({orientation:"portrait",unit:"mm",format:"a4",compress:true});pdf.setProperties({title:`سجل درجات ${c.name||""} - ${a.subjectName||""}`,subject:"سجل درجات الإدارة",author:"مدرسة التحدي الأهلية المختلطة",creator:"منصة الأستاذ"});for(let i=0;i<pages.length;i++){if(i)pdf.addPage("a4","portrait");const canvas=await html2canvas(pages[i],{scale:1.8,backgroundColor:"#fff",useCORS:true,allowTaint:false,logging:false,width:pages[i].scrollWidth,height:pages[i].scrollHeight,windowWidth:pages[i].scrollWidth,windowHeight:pages[i].scrollHeight,scrollX:0,scrollY:0});pdf.addImage(canvas.toDataURL("image/jpeg",.94),"JPEG",0,0,210,297,undefined,"FAST");canvas.width=1;canvas.height=1}pdf.save(`سجل_${mode==="grades"?"بدرجات":"بدون_درجات"}_${recordFileName(c.name)}_${recordFileName(a.subjectName)}_${recordFileName(year)}.pdf`);host.innerHTML="";$("recordModal").classList.remove("show");toast("تم تحميل السجل PDF")}catch(e){console.error("TEACHER_RECORD_PDF_ERROR",e);$("recordPdfHost").innerHTML="";toast("تعذر إنشاء السجل")}finally{btn.disabled=false;btn.textContent="تحميل السجل PDF"}}
+function isAppleMobile(){return /iphone|ipad|ipod/i.test(navigator.userAgent||"")}
+function isMobileRecordPDF(){return /iphone|ipad|ipod|android|mobile/i.test(navigator.userAgent||"")}
+function addSharpQRToPDF(pdf,page){
+ const qr=page.querySelector(".record-qr-code canvas");
+ if(!qr)return;
+ try{
+  const pr=page.getBoundingClientRect(),rr=qr.getBoundingClientRect();
+  if(!pr.width||!pr.height||!rr.width||!rr.height)return;
+  const x=(rr.left-pr.left)*210/pr.width,y=(rr.top-pr.top)*297/pr.height,w=rr.width*210/pr.width,h=rr.height*297/pr.height;
+  pdf.addImage(qr.toDataURL("image/png"),"PNG",x,y,w,h,undefined,"FAST")
+ }catch(e){console.error("QR_PDF_OVERLAY_ERROR",e)}
+}
+async function saveTeacherRecordBlob(pdf,filename){
+ const blob=pdf.output("blob"),url=URL.createObjectURL(blob);
+ try{
+  const a=document.createElement("a");a.href=url;a.download=filename;a.rel="noopener";a.style.display="none";document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),1000);
+  if(isAppleMobile())setTimeout(()=>{try{const w=window.open(url,"_blank","noopener");if(!w)location.href=url}catch{}},350)
+ }finally{setTimeout(()=>URL.revokeObjectURL(url),60000)}
+}
+async function openTeacherRecordModal(){
+ if(!selectedClassId||!activeAssignment()){toast("اختر الصف والمادة أولاً");return}
+ if(gradesDirty){toast("احفظ الدرجات المعدلة أولاً ثم اسحب السجل");return}
+ const a=activeAssignment(),c=classes[selectedClassId]||{},list=teacherRecordStudents();
+ $("recordSummary").innerHTML=`<strong>${esc(c.name||"الصف")} — ${esc(a.subjectName||"المادة")}</strong><br>${esc(recordRoomLabel(c.roomNumber))} — ${list.length} طالب/ة — مدرس المادة: ${esc(teacher.name||teacherUser.name||"—")}`;
+ recordPrefsLoad();$("recordModal").classList.add("show");ensureRecordLibraries().catch(()=>{})
+}
+async function downloadTeacherRecordPDF(){
+ if(!selectedClassId||!activeAssignment())return toast("اختر الصف أولاً");
+ if(gradesDirty)return toast("احفظ الدرجات المعدلة أولاً");
+ const managerName=$("recordManagerName").value.trim();if(!managerName)return toast("اكتب اسم المدير / المديرة");
+ const managerTitle=$("recordManagerTitle").value||"مدير",year=$("recordSchoolYear").value.trim()||"2026-2027",mode=teacherRecordMode(),a=activeAssignment(),c=classes[selectedClassId]||{},list=teacherRecordStudents(),room=String(c.roomNumber??list[0]?.roomNumber??""),gender=recordNormalizeGender(list[0]?.gender||c.gender||"male"),teacherName=teacher.name||teacherUser.name||"—",btn=$("downloadRecordBtn");
+ if(!list.length)return toast("لا يوجد طلاب في الصف");
+ if(!await ensureRecordLibraries())return toast("تعذر تحميل مكتبات السجل. تأكد من اتصال الإنترنت ثم حاول مرة أخرى");
+ btn.disabled=true;btn.textContent="جاري تجهيز السجل...";
+ try{
+  recordPrefsSave();
+  const rows=list.map(st=>({student:st,row:teacherRecordRowForStudent(st,a,mode)}));
+  const recordId=recordMakeId({...c,id:c.id||selectedClassId},room,{id:a.subjectId});
+  const ctx={c:{...c,id:c.id||selectedClassId},a,room,gender,teacherName,managerName,managerTitle,year,mode};
+  const fingerprint=await recordSha256(JSON.stringify({recordId,classId:ctx.c.id,room,subjectId:a.subjectId,students:rows.map(x=>[x.student.code,x.student.name,x.row.term1,x.row.midyear,x.row.term2,x.row.annual,x.row.finalExam,x.row.final,x.row.secondRound,x.row.secondFinal]),teacher:teacherName,manager:managerName,year}));
+  const publicKey=mode==="grades"?await publishTeacherRecord(ctx,rows,recordId,fingerprint):"";
+  const perPage=25,total=Math.max(1,Math.ceil(rows.length/perPage)),host=$("recordPdfHost");
+  host.innerHTML=Array.from({length:total},(_,i)=>recordPageHTML(rows.slice(i*perPage,(i+1)*perPage),i,total,ctx,i*perPage,recordId,publicKey)).join("");
+  renderTeacherRecordQR();await waitTeacherRecordAssets();
+  const pages=[...host.querySelectorAll(".record-print-page")],JsPDFCtor=window.jspdf?.jsPDF||window.jsPDF,pdf=new JsPDFCtor({orientation:"portrait",unit:"mm",format:"a4",compress:true});
+  pdf.setProperties({title:`سجل درجات ${c.name||""} - ${a.subjectName||""}`,subject:"سجل درجات الإدارة",author:"مدرسة التحدي الأهلية المختلطة",creator:"منصة الأستاذ"});
+  const scale=isMobileRecordPDF()?1.45:1.8;
+  for(let i=0;i<pages.length;i++){
+   if(i)pdf.addPage("a4","portrait");
+   const canvas=await html2canvas(pages[i],{scale,backgroundColor:"#ffffff",useCORS:true,allowTaint:false,logging:false,width:pages[i].scrollWidth,height:pages[i].scrollHeight,windowWidth:pages[i].scrollWidth,windowHeight:pages[i].scrollHeight,scrollX:0,scrollY:0});
+   pdf.addImage(canvas.toDataURL("image/jpeg",.96),"JPEG",0,0,210,297,undefined,"FAST");
+   addSharpQRToPDF(pdf,pages[i]);
+   canvas.width=1;canvas.height=1
+  }
+  const filename=`سجل_${mode==="grades"?"بدرجات":"بدون_درجات"}_${recordFileName(c.name)}_${recordFileName(a.subjectName)}_${recordFileName(year)}.pdf`;
+  await saveTeacherRecordBlob(pdf,filename);
+  host.innerHTML="";$("recordModal").classList.remove("show");toast("تم تجهيز وتحميل السجل PDF")
+ }catch(e){
+  console.error("TEACHER_RECORD_PDF_ERROR",e);$("recordPdfHost").innerHTML="";toast("تعذر إنشاء السجل")
+ }finally{btn.disabled=false;btn.textContent="تحميل السجل PDF"}
+}
 $("openRecordBtn").onclick=openTeacherRecordModal;
 $("closeRecordModal").onclick=()=> $("recordModal").classList.remove("show");
 $("recordModal").addEventListener("click",e=>{if(e.target===$("recordModal"))$("recordModal").classList.remove("show")});
