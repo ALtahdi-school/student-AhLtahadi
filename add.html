@@ -142,7 +142,7 @@
   </div>
 
   <div class="teacher-lock-intro">
-   القفل هنا خاص بمنصة الأستاذ فقط ولا يمنع الإدارة من مشاهدة الدرجات. عند القفل لا يستطيع الأستاذ مشاهدة أو تعديل درجات الفترة المحددة. وعند الفتح يتم أيضاً إعادة فتح أي قفل نتج عن الحفظ السابق لتلك الفترة.
+   القفل هنا خاص بمنصة الأستاذ فقط ولا يمنع الإدارة من مشاهدة الدرجات. عند القفل لا يستطيع الأستاذ مشاهدة أو تعديل درجات الفترة المحددة، ويشمل ذلك الفصل الأول ونصف السنة والفصل الثاني والامتحانات النهائية والدور الثاني والسعي السنوي. وعند الفتح يتم أيضاً إعادة فتح أي قفل نتج عن الحفظ السابق لتلك الفترة.
   </div>
 
   <div class="teacher-lock-grid">
@@ -153,6 +153,7 @@
      <div class="teacher-lock-period"><input id="tl_midyear" type="checkbox" value="midyear"><label for="tl_midyear"><span>نصف السنة</span><span>نصف</span></label></div>
      <div class="teacher-lock-period"><input id="tl_term2" type="checkbox" value="term2"><label for="tl_term2"><span>الفصل الثاني</span><span>ف2</span></label></div>
      <div class="teacher-lock-period"><input id="tl_finalExam" type="checkbox" value="finalExam"><label for="tl_finalExam"><span>الامتحانات النهائية</span><span>نهائي</span></label></div>
+     <div class="teacher-lock-period"><input id="tl_secondRound" type="checkbox" value="secondRound"><label for="tl_secondRound"><span>الدور الثاني</span><span>د2</span></label></div>
      <div class="teacher-lock-period"><input id="tl_annual" type="checkbox" value="annual"><label for="tl_annual"><span>السعي السنوي</span><span>السعي</span></label></div>
     </div>
    </div>
@@ -660,6 +661,7 @@ const TEACHER_LOCK_PERIODS={
  midyear:"نصف السنة",
  term2:"الفصل الثاني",
  finalExam:"الامتحانات النهائية",
+ secondRound:"الدور الثاني",
  annual:"السعي السنوي"
 };
 function teacherLockValue(v){return v===true||v?.locked===true}
