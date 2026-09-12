@@ -643,9 +643,8 @@ function maskLockedRecordRow(row){
 }
 async function fetchGroupRows(group,mode){
  if(mode==="blank")return group.list.map(st=>({student:st,row:{subjectId:group.a.subjectId,subjectName:group.a.subjectName,maxGrade:group.a.maxGrade,passGrade:group.a.passGrade,term1:"",midyear:"",term2:"",annual:"",finalExam:"",final:"",secondRound:"",secondFinal:""}}));
- await loadGradeLocks();
  const raws=await Promise.all(group.list.map(st=>dbGet(`grades/${encodeURIComponent(st.code)}`).catch(()=>({}))));
- return group.list.map((st,i)=>({student:st,row:maskLockedRecordRow(recordRowFromRaw(raws[i]||{},group.a))}))
+ return group.list.map((st,i)=>({student:st,row:recordRowFromRaw(raws[i]||{},group.a)}))
 }
 function recordRawValue(v){const t=rawText(v);if(!t)return"";const n=Number(t);return Number.isFinite(n)?n:t}
 function recordCalcValue(v){const t=rawText(v);if(!t)return null;const n=Number(t);return Number.isFinite(n)?n:0}
