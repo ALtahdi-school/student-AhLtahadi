@@ -254,6 +254,32 @@
 .record-cover-lines.multi .record-cover-line{line-height:1.55}
 
 
+
+/* ===== تمييز الصفوف حسب الجنس ===== */
+.class-card.gender-male,.record-class-option.gender-male{--gender-accent:#075fcf;--gender-soft:#eaf3ff;--gender-border:#86b8f3}
+.class-card.gender-female,.record-class-option.gender-female{--gender-accent:#d84f94;--gender-soft:#fff0f7;--gender-border:#eaa1c7}
+.class-card.gender-mixed,.record-class-option.gender-mixed{--gender-accent:#6d4bd1;--gender-soft:linear-gradient(90deg,#eaf3ff 0 49.5%,#fff0f7 50.5% 100%);--gender-border:#b69cdd}
+
+.class-card.gender-male,.class-card.gender-female{background:var(--gender-soft);border-color:var(--gender-border)}
+.class-card.gender-mixed{background:var(--gender-soft);border-color:var(--gender-border)}
+.class-card.gender-male.active,.class-card.gender-female.active,.class-card.gender-mixed.active{border-color:var(--gender-accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--gender-accent) 14%,transparent),var(--shadow)}
+.class-card .class-icon.gender-label{width:auto;min-width:58px;height:32px;padding:0 10px;border-radius:10px;background:var(--gender-accent);color:#fff;font-size:9px;letter-spacing:0;font-weight:900}
+.class-card .class-count{background:#fff;color:var(--gender-accent);border:1px solid var(--gender-border)}
+.class-card.gender-male h4,.class-card.gender-female h4,.class-card.gender-mixed h4{color:var(--gender-accent)}
+.class-card.gender-male p,.class-card.gender-female p,.class-card.gender-mixed p{color:#475467}
+
+.record-class-option.gender-male,.record-class-option.gender-female{background:var(--gender-soft);border-color:var(--gender-border)}
+.record-class-option.gender-mixed{background:var(--gender-soft);border-color:var(--gender-border)}
+.record-class-option.gender-male h4,.record-class-option.gender-female h4,.record-class-option.gender-mixed h4{color:var(--gender-accent)}
+.record-class-option.gender-male.selected,.record-class-option.gender-female.selected,.record-class-option.gender-mixed.selected{border-color:var(--gender-accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--gender-accent) 14%,transparent)}
+.record-class-option.gender-male.selected:after,.record-class-option.gender-female.selected:after,.record-class-option.gender-mixed.selected:after{background:var(--gender-accent)}
+.record-gender-badge{display:inline-flex;align-items:center;justify-content:center;min-width:54px;height:24px;margin-top:6px;padding:0 8px;border-radius:999px;background:var(--gender-accent);color:#fff;font-size:8px;font-weight:900}
+@supports not (color:color-mix(in srgb,#000 10%,transparent)){
+ .class-card.gender-male.active,.record-class-option.gender-male.selected{box-shadow:0 0 0 3px rgba(7,95,207,.14),var(--shadow)}
+ .class-card.gender-female.active,.record-class-option.gender-female.selected{box-shadow:0 0 0 3px rgba(216,79,148,.14),var(--shadow)}
+ .class-card.gender-mixed.active,.record-class-option.gender-mixed.selected{box-shadow:0 0 0 3px rgba(109,75,209,.14),var(--shadow)}
+}
+
 </style></head>
 <body>
 <div id="loaderScreen" class="loader-screen"><div class="loader-box"><img src="logo.png" class="loader-logo" alt=""><div class="spinner"></div><p>جاري تحميل منصة الأستاذ</p></div></div>
@@ -394,8 +420,21 @@ async function loadBaseData(){const[a,b]=await Promise.all([dbGet("classes"),dbG
 function assignmentFor(classId){return assignments.find(a=>a.classId===classId)||null}function activeAssignment(){return assignmentFor(selectedClassId)}function subjectMax(){return Number(activeAssignment()?.maxGrade||100)}function subjectPass(){return Number(activeAssignment()?.passGrade??50)}
 function studentsOfClass(classId){return Object.entries(students).map(([code,s])=>({code,...s})).filter(s=>s.classId===classId&&s.deleted!==true).sort((a,b)=>(Number(a.serial||999999)-Number(b.serial||999999))||String(a.name||"").localeCompare(String(b.name||""),"ar"))}
 function renderTeacher(){const names=[...new Set(assignments.map(a=>a.subjectName))];$("teacherName").textContent=teacher.name||teacherUser.name||"—";$("teacherSubject").textContent=`المواد: ${names.join("، ")||teacher.subject||"—"}`}
-function renderClasses(){if(!assignments.length){$("classesGrid").innerHTML=`<div class="empty">لا توجد مادة وصف مسندان إلى حسابك حالياً. يجب ربط الأستاذ من صفحة الإدارة بمادة موجودة داخل الصف.</div>`;return}$("classesGrid").innerHTML=assignments.map(a=>{const c=classes[a.classId]||{},count=studentsOfClass(a.classId).length;return`<button type="button" class="class-card ${selectedClassId===a.classId?"active":""}" onclick="selectClass('${safeJS(a.classId)}')"><div class="class-count">${count}</div><div class="class-icon">د</div><h4>${esc(c.name||a.classId)}</h4><p>${esc(a.subjectName)}<br>القاعة ${esc(c.roomNumber||"—")} | من ${a.maxGrade} | النجاح ${a.passGrade}</p></button>`}).join("")}
-async function selectClass(classId){selectedClassId=classId;selectedPeriod="term1";$("searchInput").value="";$("gradesSection").classList.remove("hidden");renderClasses();await Promise.all([loadClassGrades(),loadFormulas(),loadGradeLocks(),loadSubmissionState()]);renderPeriodButtons();renderFormulaInfo();renderGradeTable();const a=activeAssignment(),c=classes[classId]||{};$("selectedClassTitle").textContent=`${c.name||"الصف"} - ${a?.subjectName||"المادة"}`;$("studentCount").textContent=`${studentsOfClass(classId).length} طالب`;setTimeout(()=>$("gradesSection").scrollIntoView({behavior:"smooth",block:"start"}),100)}
+function renderClasses(){
+ if(!assignments.length){$("classesGrid").innerHTML=`<div class="empty">لا توجد مادة وصف مسندان إلى حسابك حالياً. يجب ربط الأستاذ من صفحة الإدارة بمادة موجودة داخل الصف.</div>`;return}
+ $("classesGrid").innerHTML=assignments.map(a=>{
+  const c=classes[a.classId]||{},list=studentsOfClass(a.classId),count=list.length,gender=recordGenderFromList(c,list),genderText=gender==="female"?"بنات":gender==="male"?"بنين":"بنين و بنات",genderClass=gender==="female"?"gender-female":gender==="male"?"gender-male":"gender-mixed";
+  return`<button type="button" class="class-card ${genderClass} ${selectedClassId===a.classId?"active":""}" onclick="selectClass('${safeJS(a.classId)}')"><div class="class-count">${count}</div><div class="class-icon gender-label">${genderText}</div><h4>${esc(c.name||a.classId)}</h4><p>${esc(a.subjectName)}<br>${esc(recordRoomLabel(c.roomNumber))} | من ${a.maxGrade} | النجاح ${a.passGrade}</p></button>`
+ }).join("")
+}
+async function selectClass(classId){
+ selectedClassId=classId;selectedPeriod="term1";$("searchInput").value="";$("gradesSection").classList.remove("hidden");renderClasses();
+ await Promise.all([loadClassGrades(),loadFormulas(),loadGradeLocks(),loadSubmissionState()]);renderPeriodButtons();renderFormulaInfo();renderGradeTable();
+ const a=activeAssignment(),c=classes[classId]||{},list=studentsOfClass(classId),gender=recordGenderFromList(c,list),genderText=gender==="female"?"بنات":gender==="male"?"بنين":"بنين و بنات";
+ $("selectedClassTitle").textContent=`${c.name||"الصف"} - ${a?.subjectName||"المادة"} - ${genderText}`;
+ $("studentCount").textContent=`${list.length} اسم — ${genderText}`;
+ setTimeout(()=>$("gradesSection").scrollIntoView({behavior:"smooth",block:"start"}),100)
+}
 function gradePath(code){const a=activeAssignment();return`grades/${encodeURIComponent(code)}/${encodeURIComponent(a.subjectId)}`}async function loadClassGrades(){gradesDirty=false;grades={};gradeKeys={};const a=activeAssignment(),list=studentsOfClass(selectedClassId),res=await Promise.all(list.map(s=>dbGet(`grades/${encodeURIComponent(s.code)}`)));list.forEach((st,i)=>{const all=res[i]||{},entry=Object.entries(all).find(([k,r])=>String(r?.subjectId||"")===String(a.subjectId)||String(k)===String(a.subjectId)||norm(r?.subjectName||r?.subject||k)===norm(a.subjectName));gradeKeys[st.code]=entry?.[0]||a.subjectId;grades[st.code]=entry?.[1]||{}})}
 function formulaBasePath(){const a=activeAssignment();return`gradeSchemas/${encodeURIComponent(TEACHER_CODE)}/${encodeURIComponent(selectedClassId)}/${encodeURIComponent(a.subjectId)}`}async function loadFormulas(){formulas=await dbGet(formulaBasePath())||{};if(!Object.keys(formulas).length){const a=activeAssignment(),legacy=safeKey(a?.subjectName||"");if(legacy&&legacy!==a?.subjectId)formulas=await dbGet(`gradeSchemas/${encodeURIComponent(TEACHER_CODE)}/${encodeURIComponent(selectedClassId)}/${encodeURIComponent(legacy)}`)||{}}}
 function activeComponents(period){const c=formulas?.[period]?.components||{};return COMPONENTS.filter(x=>num(c[x.key])!==null&&Number(c[x.key])>0).map(x=>({...x,max:Number(c[x.key])}))}
@@ -548,7 +587,10 @@ function recordClassStudents(classId){return studentsOfClass(classId).slice().so
 function genderRank(g){const x=recordNormalizeGender(g);return x==="male"?0:x==="female"?1:2}
 function selectedRecordIndexes(){return[...RECORD_ASSIGNMENT_INDEXES].sort((a,b)=>a-b)}
 function renderRecordClassChoices(){
- $("recordClassChoices").innerHTML=assignments.map((a,i)=>{const c=classes[a.classId]||{},list=recordClassStudents(a.classId),gender=recordGenderFromList(c,list),sel=RECORD_ASSIGNMENT_INDEXES.has(i);return`<button type="button" class="record-class-option ${sel?"selected":""}" onclick="chooseRecordAssignment(${i})"><h4>${esc(c.name||a.classId)}</h4><p>${esc(a.subjectName)} — ${esc(recordRoomLabel(c.roomNumber))}<br>${esc(recordGenderLabel(gender))} — ${list.length} اسم</p></button>`}).join("");
+ $("recordClassChoices").innerHTML=assignments.map((a,i)=>{
+  const c=classes[a.classId]||{},list=recordClassStudents(a.classId),gender=recordGenderFromList(c,list),sel=RECORD_ASSIGNMENT_INDEXES.has(i),genderText=gender==="female"?"بنات":gender==="male"?"بنين":"بنين و بنات",genderClass=gender==="female"?"gender-female":gender==="male"?"gender-male":"gender-mixed";
+  return`<button type="button" class="record-class-option ${genderClass} ${sel?"selected":""}" onclick="chooseRecordAssignment(${i})"><h4>${esc(c.name||a.classId)}</h4><p>${esc(a.subjectName)} — ${esc(recordRoomLabel(c.roomNumber))}<br>${list.length} اسم</p><span class="record-gender-badge">${genderText}</span></button>`
+ }).join("");
  const n=RECORD_ASSIGNMENT_INDEXES.size;$("recordSelectionNote").textContent=n?`تم تحديد ${n} صف/مادة. سيتم ترتيب البنين أولاً ثم البنات.`:"لم يتم تحديد أي صف بعد."
 }
 function chooseRecordAssignment(i){i=Number(i);if(RECORD_ASSIGNMENT_INDEXES.has(i))RECORD_ASSIGNMENT_INDEXES.delete(i);else RECORD_ASSIGNMENT_INDEXES.add(i);renderRecordClassChoices()}
