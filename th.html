@@ -280,6 +280,10 @@
  .class-card.gender-mixed.active,.record-class-option.gender-mixed.selected{box-shadow:0 0 0 3px rgba(109,75,209,.14),var(--shadow)}
 }
 
+
+.admin-locked-score{display:flex;align-items:center;justify-content:center;width:82px;height:38px;margin:auto;border:1px solid #efb9b9;border-radius:10px;background:#fff1f1;color:#9b1c1c;font-size:8px;font-weight:900}
+.total-col.admin-locked-annual{background:#fff1f1!important;color:#9b1c1c!important}
+
 </style></head>
 <body>
 <div id="loaderScreen" class="loader-screen"><div class="loader-box"><img src="logo.png" class="loader-logo" alt=""><div class="spinner"></div><p>جاري تحميل منصة الأستاذ</p></div></div>
@@ -365,6 +369,7 @@ async function loadGradeLocks(){try{GRADE_LOCKS=await dbGet("settings/gradeLocks
 function periodLockInfo(period=selectedPeriod){
  const a=activeAssignment(),cid=selectedClassId,sid=a?.subjectId||"",x=GRADE_LOCKS||{};
  const candidates=[
+  x?.teachers?.[TEACHER_CODE]?.[period],
   x?.global?.[period],x?.periods?.[period],
   x?.classes?.[cid]?.[period],
   x?.classes?.[cid]?.subjects?.[sid]?.[period],
@@ -374,7 +379,7 @@ function periodLockInfo(period=selectedPeriod){
  return{locked:false}
 }
 function periodLocked(period=selectedPeriod){return periodLockInfo(period).locked===true}
-function lockText(period=selectedPeriod){return`نعتذر، الإدارة منعت التعديل على درجات ${PERIODS[period]?.label||period}.`}
+function lockPeriodLabel(period){return period==="annual"?"السعي السنوي":(PERIODS[period]?.label||period)}function lockText(period=selectedPeriod){return`نعتذر، الإدارة منعت عرض أو تعديل درجات ${lockPeriodLabel(period)}.`}
 async function refreshLocksAndCheck(period=selectedPeriod){await loadGradeLocks();return periodLocked(period)}
 function submissionBasePath(){
  const a=activeAssignment();return a?`teacherGradeSubmissions/${encodeURIComponent(TEACHER_CODE)}/${encodeURIComponent(selectedClassId)}/${encodeURIComponent(a.subjectId)}`:""
@@ -442,7 +447,7 @@ function formulaConfigured(period){const list=activeComponents(period);return li
 function renderPeriodButtons(){
  $("periodTools").innerHTML=Object.entries(PERIODS).map(([k,v])=>`<button type="button" class="period-btn ${formulaConfigured(k)?"configured":""} ${selectedPeriod===k?"selected":""} ${editLocked(k)?"submitted":""}" onclick="selectPeriod('${k}')">${editLocked(k)?"🔒 ":""}${esc(v.label)}</button>`).join("")
 }
-function selectPeriod(period){selectedPeriod=period;renderPeriodButtons();renderFormulaInfo();renderGradeTable()}
+async function selectPeriod(period){selectedPeriod=period;await Promise.all([loadGradeLocks(),loadSubmissionState()]);renderPeriodButtons();renderFormulaInfo();renderGradeTable();if(editLocked(period))toast(editLockText(period))}
 function renderFormulaInfo(){
  const list=activeComponents(selectedPeriod),a=activeAssignment(),locked=editLocked(selectedPeriod),txt=formulaConfigured(selectedPeriod)?`${list.map(x=>`${x.label} (${x.max})`).join(" + ")} = ${subjectMax()}`:`يمكن إدخال درجة ${PERIODS[selectedPeriod].label} مباشرة من ${subjectMax()}، أو إعداد تقسيم الدرجة إلى مفردات.`;
  $("formulaInfo").className=`grade-info ${locked?"locked":""}`;
@@ -472,19 +477,21 @@ function classGenderForUI(c,list){
 }
 function personHead(c,gender){const primary=recordClassStageValue(c)==="primary";return primary?(gender==="female"?"اسم التلميذة":gender==="male"?"اسم التلميذ":"اسم التلاميذ"):(gender==="female"?"اسم الطالبة":gender==="male"?"اسم الطالب":"اسم الطلبة")}
 function renderGradeTable(){
- const list=filteredStudents(),components=activeComponents(selectedPeriod),configured=formulaConfigured(selectedPeriod),max=subjectMax(),pass=subjectPass(),locked=editLocked(selectedPeriod),c=classes[selectedClassId]||{},gender=classGenderForUI(c,list);
+ const list=filteredStudents(),components=activeComponents(selectedPeriod),configured=formulaConfigured(selectedPeriod),max=subjectMax(),pass=subjectPass(),locked=editLocked(selectedPeriod),annualLocked=periodLocked("annual"),c=classes[selectedClassId]||{},gender=classGenderForUI(c,list);
  if(!list.length){$("tableArea").innerHTML=`<div class="empty">لا توجد أسماء مطابقة.</div>`;return}
  const cols=configured?components.map(comp=>`<th class="score-col"><span class="column-title">${esc(comp.label)}</span><span class="column-max">من ${comp.max}</span></th>`).join(""):`<th class="score-col"><span class="column-title">${esc(PERIODS[selectedPeriod].label)}</span><span class="column-max">من ${max}</span></th>`;
- $("tableArea").innerHTML=`<div class="table-wrap"><table class="grade-table"><thead><tr><th class="seq-col">ت</th><th class="name-col">${esc(personHead(c,gender))}</th>${cols}<th class="total-col"><span class="column-title">السعي السنوي</span><span class="column-max">محسوب تلقائياً</span></th></tr></thead><tbody>${list.map((st,i)=>{
-  const annual=annualPreview(st.code),annualFail=annual!==null&&annual<pass;
-  const inputs=configured?components.map(comp=>{
-   const raw=componentValue(st.code,selectedPeriod,comp.key),localPass=Number(comp.max)*.5,critical=isCriticalGrade(raw,comp.max,localPass);
-   return`<td class="score-col"><input class="score-input ${locked?"locked-grade":""} ${critical?"critical":""} ${rawText(raw)!==""&&!Number.isFinite(Number(raw))?"textual":""}" type="text" inputmode="decimal" data-student="${esc(st.code)}" data-component="${esc(comp.key)}" data-max="${comp.max}" data-pass="${localPass}" data-original="${esc(raw)}" value="${esc(raw)}" ${locked?"disabled":""} onfocus="scoreFocus(this)" oninput="scoreChanged(this)"></td>`
-  }).join(""):(()=>{
-   const raw=directValue(st.code,selectedPeriod),critical=isCriticalGrade(raw,max,pass);
-   return`<td class="score-col"><input class="score-input ${locked?"locked-grade":""} ${critical?"critical":""} ${rawText(raw)!==""&&!Number.isFinite(Number(raw))?"textual":""}" type="text" inputmode="decimal" data-student="${esc(st.code)}" data-direct="1" data-max="${max}" data-pass="${pass}" data-original="${esc(raw)}" value="${esc(raw)}" ${locked?"disabled":""} onfocus="scoreFocus(this)" oninput="scoreChanged(this)"></td>`
-  })();
-  return`<tr><td class="seq-col">${esc(st.serial||i+1)}</td><td class="name-col"><div class="student-name">${esc(st.name||"—")}</div><div class="student-code">${esc(st.code)}</div></td>${inputs}<td id="annual_${safeId(st.code)}" class="total-col ${annualFail?"fail":""}">${annual===null?"—":annual}</td></tr>`
+ $("tableArea").innerHTML=`<div class="table-wrap"><table class="grade-table"><thead><tr><th class="seq-col">ت</th><th class="name-col">${esc(personHead(c,gender))}</th>${cols}<th class="total-col ${annualLocked?"admin-locked-annual":""}"><span class="column-title">السعي السنوي</span><span class="column-max">${annualLocked?"مقفل من الإدارة":"محسوب تلقائياً"}</span></th></tr></thead><tbody>${list.map((st,i)=>{
+  const annual=annualPreview(st.code),annualFail=!annualLocked&&annual!==null&&annual<pass;
+  const inputs=locked
+   ?(configured?components.map(()=>`<td class="score-col"><div class="admin-locked-score">مقفل</div></td>`).join(""):`<td class="score-col"><div class="admin-locked-score">مقفل</div></td>`)
+   :(configured?components.map(comp=>{
+     const raw=componentValue(st.code,selectedPeriod,comp.key),localPass=Number(comp.max)*.5,critical=isCriticalGrade(raw,comp.max,localPass);
+     return`<td class="score-col"><input class="score-input ${critical?"critical":""} ${rawText(raw)!==""&&!Number.isFinite(Number(raw))?"textual":""}" type="text" inputmode="decimal" data-student="${esc(st.code)}" data-component="${esc(comp.key)}" data-max="${comp.max}" data-pass="${localPass}" data-original="${esc(raw)}" value="${esc(raw)}" onfocus="scoreFocus(this)" oninput="scoreChanged(this)"></td>`
+    }).join(""):(()=>{
+     const raw=directValue(st.code,selectedPeriod),critical=isCriticalGrade(raw,max,pass);
+     return`<td class="score-col"><input class="score-input ${critical?"critical":""} ${rawText(raw)!==""&&!Number.isFinite(Number(raw))?"textual":""}" type="text" inputmode="decimal" data-student="${esc(st.code)}" data-direct="1" data-max="${max}" data-pass="${pass}" data-original="${esc(raw)}" value="${esc(raw)}" onfocus="scoreFocus(this)" oninput="scoreChanged(this)"></td>`
+    })());
+  return`<tr><td class="seq-col">${esc(st.serial||i+1)}</td><td class="name-col"><div class="student-name">${esc(st.name||"—")}</div><div class="student-code">${esc(st.code)}</div></td>${inputs}<td id="annual_${safeId(st.code)}" class="total-col ${annualLocked?"admin-locked-annual":annualFail?"fail":""}">${annualLocked?"مقفل":(annual===null?"—":annual)}</td></tr>`
  }).join("")}</tbody></table></div>`;
  $("saveGradesBtn").disabled=locked
 }
@@ -500,7 +507,7 @@ function scoreChanged(input){
  const rec=ensureRecord(code),stored=storedGradeValue(raw);
  if(input.dataset.direct){if(raw==="")delete rec[selectedPeriod];else rec[selectedPeriod]=stored}
  else{rec.components??={};rec.components[selectedPeriod]??={};if(raw==="")delete rec.components[selectedPeriod][input.dataset.component];else rec.components[selectedPeriod][input.dataset.component]=stored;const total=periodTotal(code,selectedPeriod);if(total===null)delete rec[selectedPeriod];else rec[selectedPeriod]=total}
- const annual=annualPreview(code),annualCell=$(`annual_${safeId(code)}`);if(annualCell){annualCell.textContent=annual===null?"—":annual;annualCell.classList.toggle("fail",annual!==null&&annual<subjectPass())}
+ const annual=annualPreview(code),annualCell=$(`annual_${safeId(code)}`),annualLocked=periodLocked("annual");if(annualCell){annualCell.textContent=annualLocked?"مقفل":(annual===null?"—":annual);annualCell.classList.toggle("admin-locked-annual",annualLocked);annualCell.classList.toggle("fail",!annualLocked&&annual!==null&&annual<subjectPass())}
 }
 function openFormulaModal(period){if(editLocked(period)){toast(editLockText(period),"warn");return}editingPeriod=period;const values=formulas?.[period]?.components||{};$("formulaModalTitle").textContent=`تقسيم ${PERIODS[period].label}`;$("formulaModalDesc").textContent=`اختر مفردات التقييم. يجب أن يكون مجموعها ${subjectMax()} وهي الدرجة العظمى للمادة في هذا الصف.`;$("componentList").innerHTML=COMPONENTS.map(comp=>{const v=num(values[comp.key]),checked=v!==null&&v>0;return`<div class="component-item"><input type="checkbox" class="component-check" data-key="${esc(comp.key)}" ${checked?"checked":""} onchange="componentToggle(this)"><div class="component-name">${esc(comp.label)}</div><input type="number" class="max-input" data-max-key="${esc(comp.key)}" min="0.5" max="${subjectMax()}" step="0.5" value="${checked?v:""}" ${checked?"":"disabled"} oninput="updateFormulaTotal()" placeholder="الدرجة"></div>`}).join("");updateFormulaTotal();$("formulaModal").classList.add("show")}
 function componentToggle(ch){const i=document.querySelector(`[data-max-key="${CSS.escape(ch.dataset.key)}"]`);i.disabled=!ch.checked;if(!ch.checked)i.value="";else if(!i.value)i.value="1";updateFormulaTotal()}
@@ -625,10 +632,20 @@ function recordCommonInput(){
  const subjects=uniqText(groups.map(g=>g.a.subjectName)),classesText=uniqText(groups.map(g=>g.c.name||g.a.classId)),genders=uniqText(groups.map(g=>g.gender)),gender=genders.length===1?genders[0]:"mixed";
  return{groups,teacherName:teacher.name||teacherUser.name||"—",managerName,managerTitle:$("hubManagerTitle").value||"مدير",year:"2026-2027",subjectsText:subjects.join("، "),classesText:classesText.join("، "),roomsText:roomSummary(groups),gender,schoolAdminsText:schoolAdminSummary(groups)}
 }
+function maskLockedRecordRow(row){
+ const out={...row};
+ if(periodLocked("term1"))out.term1="";
+ if(periodLocked("midyear"))out.midyear="";
+ if(periodLocked("term2"))out.term2="";
+ if(periodLocked("finalExam")){out.finalExam="";out.final=""}
+ if(periodLocked("annual"))out.annual="";
+ return out
+}
 async function fetchGroupRows(group,mode){
  if(mode==="blank")return group.list.map(st=>({student:st,row:{subjectId:group.a.subjectId,subjectName:group.a.subjectName,maxGrade:group.a.maxGrade,passGrade:group.a.passGrade,term1:"",midyear:"",term2:"",annual:"",finalExam:"",final:"",secondRound:"",secondFinal:""}}));
+ await loadGradeLocks();
  const raws=await Promise.all(group.list.map(st=>dbGet(`grades/${encodeURIComponent(st.code)}`).catch(()=>({}))));
- return group.list.map((st,i)=>({student:st,row:recordRowFromRaw(raws[i]||{},group.a)}))
+ return group.list.map((st,i)=>({student:st,row:maskLockedRecordRow(recordRowFromRaw(raws[i]||{},group.a))}))
 }
 function recordRawValue(v){const t=rawText(v);if(!t)return"";const n=Number(t);return Number.isFinite(n)?n:t}
 function recordCalcValue(v){const t=rawText(v);if(!t)return null;const n=Number(t);return Number.isFinite(n)?n:0}
