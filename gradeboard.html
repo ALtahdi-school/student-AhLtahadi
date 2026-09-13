@@ -254,6 +254,13 @@ button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!impo
        </div>
        <div class="field"><label>سعي المادة المطلوب للإعفاء الفردي</label><input id="individualMinSubject" type="number" min="0" max="100" step=".5" value="90"></div>
       </div>
+      <label class="rule-enable" style="margin-top:10px;padding:9px;border:1px solid #dbe6f2;border-radius:10px;background:#f8fbff">
+       <input id="exemptionMaxActivities" type="checkbox">
+       احتساب الرياضة والفنية بالدرجة العظمى للمادة عند حساب الإعفاء
+      </label>
+      <div class="rule-note" style="margin-top:8px">
+       عند تفعيل هذا الخيار تُحتسب الرياضة والفنية بأقصى درجة مسموحة للمادة، ولا تتجاوز الدرجة العظمى المحددة للمادة. يستخدم هذا فقط في حساب الإعفاء العام والفردي ولا يغيّر الدرجة الأصلية المخزنة للطالب.
+      </div>
       <div class="rule-note" style="margin-top:8px">
        الإعفاء الفردي يُفحص فقط إذا لم يحصل الطالب على الإعفاء العام. ويظهر عدد المواد التي حقق بها الإعفاء الفردي.
       </div>
@@ -513,7 +520,8 @@ function defaultBoardRules(){
    minAverage:85,
    minSubjectGrade:75,
    failPolicy:"block",
-   individualMinSubjectGrade:90
+   individualMinSubjectGrade:90,
+   maximizeActivitiesForExemption:false
   }
  }
 }
@@ -535,7 +543,8 @@ function rulesForClass(c){
    minAverage:Number(c.gradeBoardRule.minAverage??85),
    minSubjectGrade:Number(c.gradeBoardRule.minSubjectGrade??75),
    individualMinSubjectGrade:Number(c.gradeBoardRule.individualMinSubjectGrade??90),
-   failPolicy:c.gradeBoardRule.failPolicy==="allow"?"allow":"block"
+   failPolicy:c.gradeBoardRule.failPolicy==="allow"?"allow":"block",
+   maximizeActivitiesForExemption:!!c.gradeBoardRule.maximizeActivitiesForExemption
   }
  }
  return out
@@ -568,13 +577,34 @@ function ministerialStatus(model,rule){
 function failedSubjectCount(model){
  return model.academic.filter(r=>rawText(r.annual)!==""&&Number(calcGrade(r.annual)||0)<Number(r.passGrade??50)).length
 }
-function maxAnnualPercent(model){
- const vals=model.academic.filter(r=>rawText(r.annual)!=="").map(r=>(Number(calcGrade(r.annual)||0)/Math.max(1,Number(r.maxGrade||100)))*100);
+function exemptionRows(model,rule){
+ const academic=model.academic||[];
+ if(!academic.length||academic.some(r=>rawText(r.annual)===""))return null;
+ const maximize=!!rule?.maximizeActivitiesForExemption;
+ return (model.rows||[]).map(r=>{
+  if(maximize&&["sport","art"].includes(String(r.autoType||""))){
+   const max=Math.max(0,Number(r.maxGrade||100));
+   return{...r,annual:max}
+  }
+  return r
+ })
+}
+function exemptionAverage(model,rule){
+ const rows=exemptionRows(model,rule);
+ if(!rows||!rows.length||rows.some(r=>rawText(r.annual)===""))return"";
+ const vals=rows.map(r=>(Number(calcGrade(r.annual)||0)/Math.max(1,Number(r.maxGrade||100)))*100);
+ return Math.round(vals.reduce((a,b)=>a+b,0)/vals.length)
+}
+function maxAnnualPercent(model,rule){
+ const rows=exemptionRows(model,rule);
+ if(!rows)return"";
+ const vals=rows.filter(r=>rawText(r.annual)!=="").map(r=>(Number(calcGrade(r.annual)||0)/Math.max(1,Number(r.maxGrade||100)))*100);
  return vals.length?Math.round(Math.max(...vals)):""
 }
 function individualExemptionSubjects(model,rule){
- const threshold=Number(rule?.individualMinSubjectGrade??90);
- return model.academic.filter(r=>{
+ const threshold=Number(rule?.individualMinSubjectGrade??90),rows=exemptionRows(model,rule);
+ if(!rows)return[];
+ return rows.filter(r=>{
   if(rawText(r.annual)==="")return false;
   const p=(Number(calcGrade(r.annual)||0)/Math.max(1,Number(r.maxGrade||100)))*100;
   return p>=threshold&&Number(calcGrade(r.annual)||0)>=Number(r.passGrade??50)
@@ -582,27 +612,28 @@ function individualExemptionSubjects(model,rule){
 }
 function exemptionStatus(model,rule){
  if(!rule?.enabled)return{css:"off",text:"",details:""};
- const rows=model.academic,avg=annualAverage(model);
- if(avg===""||!rows.length||rows.some(r=>rawText(r.annual)===""))return{css:"wait",text:"غير مكتمل",details:""};
+ const rows=exemptionRows(model,rule),avg=exemptionAverage(model,rule);
+ if(!rows||avg===""||rows.some(r=>rawText(r.annual)===""))return{css:"wait",text:"غير مكتمل",details:""};
  const percs=rows.map(r=>(Number(calcGrade(r.annual)||0)/Math.max(1,Number(r.maxGrade||100)))*100);
- const min=Math.min(...percs),fails=failedSubjectCount(model),highest=maxAnnualPercent(model);
+ const min=Math.min(...percs),fails=failedSubjectCount(model),highest=maxAnnualPercent(model,rule);
  const failAllowed=String(rule.failPolicy||"block")==="allow";
  const general=avg>=Number(rule.minAverage??85)&&min>=Number(rule.minSubjectGrade??75)&&(failAllowed||fails===0);
+ const activityNote=rule.maximizeActivitiesForExemption?" — الرياضة والفنية محسوبتان بالحد الأعلى":"";
  if(general)return{
   css:"good",
   text:"إعفاء عام",
-  details:`المعدل ${avg} — أعلى سعي ${highest} — أقل سعي ${Math.round(min)} — مواد الرسوب ${fails}`
+  details:`المعدل ${avg} — أعلى سعي ${highest} — أقل سعي ${Math.round(min)} — مواد الرسوب ${fails}${activityNote}`
  };
  const individual=individualExemptionSubjects(model,rule);
  if(individual.length)return{
   css:"good",
   text:`إعفاء فردي ${individual.length}`,
-  details:`المواد: ${individual.map(x=>x.name).join("، ")} — أعلى سعي ${highest} — مواد الرسوب ${fails}`
+  details:`المواد: ${individual.map(x=>x.name).join("، ")} — أعلى سعي ${highest} — مواد الرسوب ${fails}${activityNote}`
  };
  return{
   css:"bad",
   text:"غير مؤهل",
-  details:`المعدل ${avg} — أعلى سعي ${highest} — أقل سعي ${Math.round(min)} — مواد الرسوب ${fails}`
+  details:`المعدل ${avg} — أعلى سعي ${highest} — أقل سعي ${Math.round(min)} — مواد الرسوب ${fails}${activityNote}`
  }
 }
 function anyActiveMinisterial(){
@@ -625,7 +656,8 @@ function loadRulesForActiveGroups(){
  $("exemptionMinAverage").value=Number(sharedRuleValue("exemption.minAverage",85));
  $("exemptionMinSubject").value=Number(sharedRuleValue("exemption.minSubjectGrade",75));
  $("exemptionFailPolicy").value=String(sharedRuleValue("exemption.failPolicy","block"))==="allow"?"allow":"block";
- $("individualMinSubject").value=Number(sharedRuleValue("exemption.individualMinSubjectGrade",90))
+ $("individualMinSubject").value=Number(sharedRuleValue("exemption.individualMinSubjectGrade",90));
+ $("exemptionMaxActivities").checked=!!sharedRuleValue("exemption.maximizeActivitiesForExemption",false)
 }
 async function saveBoardRules(){
  const ids=uniqueActiveClassIds();if(!ids.length)return toast("لا توجد صفوف ظاهرة في البورد.","warn");
@@ -640,7 +672,8 @@ async function saveBoardRules(){
    minAverage:Math.max(0,Number($("exemptionMinAverage").value||0)),
    minSubjectGrade:Math.max(0,Number($("exemptionMinSubject").value||0)),
    failPolicy:$("exemptionFailPolicy").value==="allow"?"allow":"block",
-   individualMinSubjectGrade:Math.max(0,Number($("individualMinSubject").value||0))
+   individualMinSubjectGrade:Math.max(0,Number($("individualMinSubject").value||0)),
+   maximizeActivitiesForExemption:$("exemptionMaxActivities").checked
   },
   updatedAt:Date.now(),updatedBy:adminCode()
  };
@@ -780,7 +813,8 @@ function renderBoardGroup(g){
 function renderAllBoards(){
  if(!ACTIVE_GROUPS.length)return;
  const totalStudents=ACTIVE_GROUPS.reduce((n,g)=>n+g.students.length,0),totalSubjects=ACTIVE_GROUPS.reduce((n,g)=>n+normalizeClassSubjects(g.c).length,0);
- $("summary").innerHTML=`<span class="badge blue">${ACTIVE_GROUPS.length} صف/مجموعة</span><span class="badge green">${totalStudents} اسم</span><span class="badge orange">${totalSubjects} مجموع المواد المعروضة</span><span class="badge purple">الحرج بالسعي: أسود</span><span class="badge orange">الحرج بالفصول: برتقالي</span><span class="badge red">الراسب بالسعي: أحمر</span>`;
+ const boostedActivities=ACTIVE_GROUPS.some(g=>rulesForClass(g.c).exemption?.enabled&&rulesForClass(g.c).exemption?.maximizeActivitiesForExemption);
+ $("summary").innerHTML=`<span class="badge blue">${ACTIVE_GROUPS.length} صف/مجموعة</span><span class="badge green">${totalStudents} اسم</span><span class="badge orange">${totalSubjects} مجموع المواد المعروضة</span><span class="badge purple">الحرج بالسعي: أسود</span><span class="badge orange">الحرج بالفصول: برتقالي</span><span class="badge red">الراسب بالسعي: أحمر</span>${boostedActivities?'<span class="badge green">الإعفاء: الرياضة والفنية بالحد الأعلى</span>':""}`;
  $("boardGroups").innerHTML=ACTIVE_GROUPS.map(renderBoardGroup).join("");
  requestAnimationFrame(()=>requestAnimationFrame(fitAllBoards))
 }
