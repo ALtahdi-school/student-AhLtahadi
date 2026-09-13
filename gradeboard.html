@@ -203,6 +203,7 @@ button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!impo
     <div class="field"><label>بحث باسم الطالب</label><input id="studentSearch" type="search" placeholder="اكتب اسم الطالب"></div>
     <button id="editGradesBtn" class="btn btn-o" onclick="toggleEditMode()">تعديل الدرجات</button>
     <button id="saveGradesBtn" class="btn btn-g" onclick="saveBoardGrades()" disabled>حفظ الدرجات</button>
+    <button id="clearChangedBtn" class="btn btn-r" onclick="clearGradeChangedMarkers()">حذف علامة تم تعديلهم</button>
     <button class="btn btn-v" onclick="toggleRulesPanel()">قواعد الوزاري والإعفاء</button>
     <button id="excelBtn" class="btn btn-g" onclick="downloadExcel()">تحميل Excel</button>
     <button id="downloadBtn" class="btn btn-p" onclick="downloadBoardPDF()">تحميل PDF</button>
@@ -218,38 +219,52 @@ button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!impo
 
    <div id="rulesPanel" class="rules-panel hidden">
     <div class="rules-head">
-     <div><strong>قواعد البورد</strong><p>تُحفظ القواعد للصف المختار وتُحسب من السعي السنوي.</p></div>
-     <div class="field" style="min-width:210px"><label>الصف الذي تريد ضبط قواعده</label><select id="rulesClassSelect" onchange="loadRuleEditorForSelectedClass()"></select></div>
+     <div>
+      <strong>قواعد البورد</strong>
+      <p>هذه القواعد تطبق تلقائياً على جميع الصفوف الموجودة حالياً في البورد فقط. لا تحتاج إلى اختيار الصف مرة ثانية.</p>
+     </div>
+     <span id="rulesTargetSummary" class="badge blue">—</span>
     </div>
 
     <div class="rules-grid">
      <div class="rule-card">
       <h4>قاعدة الدخول الوزاري</h4>
-      <p>حدد عدد المواد الراسبة المسموح بها، وأقصى عدد درجات يحتاجها الطالب في كل مادة حتى يصل إلى النجاح.</p>
+      <p>لا يظهر عمود الدخول الوزاري في البورد إلا إذا فعّلت هذه القاعدة ثم حفظتها.</p>
       <label class="rule-enable"><input id="ministerialEnabled" type="checkbox"> تفعيل قاعدة الدخول الوزاري</label>
       <div class="rule-fields">
        <div class="field"><label>أقصى عدد مواد راسب بها</label><input id="ministerialMaxSubjects" type="number" min="0" max="30" value="3"></div>
-       <div class="field"><label>أقصى نقص مسموح لكل مادة</label><input id="ministerialMaxDeficit" type="number" min="0" max="100" step=".5" value="10"></div>
+       <div class="field"><label>أقصى نقص مسموح لكل مادة حتى النجاح</label><input id="ministerialMaxDeficit" type="number" min="0" max="100" step=".5" value="10"></div>
       </div>
      </div>
 
      <div class="rule-card">
-      <h4>قاعدة الإعفاء الشامل</h4>
-      <p>يُحسب المعدل من السعي السنوي بدون كسور، مع شرط أقل سعي مسموح في أي مادة.</p>
-      <label class="rule-enable"><input id="exemptionEnabled" type="checkbox"> تفعيل قاعدة الإعفاء الشامل</label>
+      <h4>قاعدة الإعفاء العام والفردي</h4>
+      <p>إذا تحقق الإعفاء العام يظهر «إعفاء عام». وإذا لم يتحقق، يفحص النظام الإعفاء الفردي لكل مادة حسب سعيها السنوي.</p>
+      <label class="rule-enable"><input id="exemptionEnabled" type="checkbox"> تفعيل قاعدة الإعفاء</label>
+
       <div class="rule-fields">
-       <div class="field"><label>أقل معدل للإعفاء</label><input id="exemptionMinAverage" type="number" min="0" max="100" step=".5" value="85"></div>
-       <div class="field"><label>أقل سعي في أي مادة</label><input id="exemptionMinSubject" type="number" min="0" max="100" step=".5" value="75"></div>
+       <div class="field"><label>المعدل المطلوب للإعفاء العام</label><input id="exemptionMinAverage" type="number" min="0" max="100" step=".5" value="85"></div>
+       <div class="field"><label>أقل سعي مسموح في المواد للإعفاء العام</label><input id="exemptionMinSubject" type="number" min="0" max="100" step=".5" value="75"></div>
+       <div class="field">
+        <label>إذا كان الطالب راسباً بمادة</label>
+        <select id="exemptionFailPolicy">
+         <option value="block">لا يتحقق الإعفاء العام</option>
+         <option value="allow">يمكن أن يتحقق الإعفاء العام</option>
+        </select>
+       </div>
+       <div class="field"><label>سعي المادة المطلوب للإعفاء الفردي</label><input id="individualMinSubject" type="number" min="0" max="100" step=".5" value="90"></div>
+      </div>
+      <div class="rule-note" style="margin-top:8px">
+       الإعفاء الفردي يُفحص فقط إذا لم يحصل الطالب على الإعفاء العام. ويظهر عدد المواد التي حقق بها الإعفاء الفردي.
       </div>
      </div>
     </div>
 
     <div class="rules-actions">
-     <button class="btn btn-g" onclick="saveBoardRules()">حفظ القواعد</button>
-     <button class="btn btn-r" onclick="clearBoardRules()">إلغاء قواعد هذا الصف</button>
+     <button class="btn btn-g" onclick="saveBoardRules()">حفظ القواعد لكل الصفوف المحددة</button>
+     <button class="btn btn-r" onclick="clearBoardRules()">إلغاء القواعد من الصفوف المحددة</button>
     </div>
    </div>
-
    <div id="summary" class="summary"></div>
    <div id="boardGroups" class="board-groups"><div class="empty">حدد الصفوف ثم ادخل إلى البورد.</div></div>
   </div>
@@ -493,55 +508,127 @@ function gradeState(value,row,annual=false){
 function defaultBoardRules(){
  return{
   ministerial:{enabled:false,maxSubjects:3,maxDeficitPerSubject:10},
-  exemption:{enabled:false,minAverage:85,minSubjectGrade:75}
+  exemption:{
+   enabled:false,
+   minAverage:85,
+   minSubjectGrade:75,
+   failPolicy:"block",
+   individualMinSubjectGrade:90
+  }
  }
 }
 function rulesForClass(c){
  const out=defaultBoardRules();
  if(c?.gradeBoardRules?.ministerial)out.ministerial={...out.ministerial,...c.gradeBoardRules.ministerial};
  if(c?.gradeBoardRules?.exemption)out.exemption={...out.exemption,...c.gradeBoardRules.exemption};
- if(c?.gradeBoardRule?.type==="ministerial")out.ministerial={enabled:true,maxSubjects:Number(c.gradeBoardRule.maxSubjects??3),maxDeficitPerSubject:Number(c.gradeBoardRule.bonusPerSubject??10)};
- if(c?.gradeBoardRule?.type==="exemption")out.exemption={enabled:true,minAverage:Number(c.gradeBoardRule.minAverage??85),minSubjectGrade:Number(c.gradeBoardRule.minSubjectGrade??75)};
+ if(c?.gradeBoardRule?.type==="ministerial"){
+  out.ministerial={
+   enabled:true,
+   maxSubjects:Number(c.gradeBoardRule.maxSubjects??3),
+   maxDeficitPerSubject:Number(c.gradeBoardRule.bonusPerSubject??10)
+  }
+ }
+ if(c?.gradeBoardRule?.type==="exemption"){
+  out.exemption={
+   ...out.exemption,
+   enabled:true,
+   minAverage:Number(c.gradeBoardRule.minAverage??85),
+   minSubjectGrade:Number(c.gradeBoardRule.minSubjectGrade??75),
+   individualMinSubjectGrade:Number(c.gradeBoardRule.individualMinSubjectGrade??90),
+   failPolicy:c.gradeBoardRule.failPolicy==="allow"?"allow":"block"
+  }
+ }
  return out
 }
+function uniqueActiveClassIds(){return[...new Set(ACTIVE_GROUPS.map(g=>g.classId).filter(Boolean))]}
+function activeClassesLabel(){
+ const ids=uniqueActiveClassIds();
+ return ids.map(id=>DATA.classes[id]?.name||id).join("، ")
+}
+function allSelectedRules(){
+ const ids=uniqueActiveClassIds();
+ return ids.map(id=>rulesForClass(DATA.classes[id]||{}))
+}
+function sharedRuleValue(path,fallback){
+ const rules=allSelectedRules();if(!rules.length)return fallback;
+ const parts=path.split(".");
+ const vals=rules.map(r=>parts.reduce((x,k)=>x?.[k],r));
+ return vals.every(v=>String(v)===String(vals[0]))?vals[0]:fallback
+}
 function ministerialStatus(model,rule){
- if(!rule?.enabled)return{css:"off",text:"غير مفعّل",details:""};
- const rows=model.academic;if(!rows.length||rows.some(r=>rawText(r.annual)===""))return{css:"wait",text:"غير مكتمل",details:""};
+ if(!rule?.enabled)return{css:"off",text:"",details:""};
+ const rows=model.academic;
+ if(!rows.length||rows.some(r=>rawText(r.annual)===""))return{css:"wait",text:"غير مكتمل",details:""};
  const failed=rows.filter(r=>Number(calcGrade(r.annual)||0)<Number(r.passGrade??50));
  const deficits=failed.map(r=>Number(r.passGrade??50)-Number(calcGrade(r.annual)||0));
  const ok=failed.length<=Number(rule.maxSubjects??3)&&deficits.every(d=>d<=Number(rule.maxDeficitPerSubject??10));
  if(!failed.length)return{css:"good",text:"مؤهل",details:"لا توجد مواد راسبة"};
- return{css:ok?"good":"bad",text:ok?"مؤهل":"غير مؤهل",details:`${failed.length} مواد — أكبر نقص ${Math.max(...deficits)} درجة`}
+ return{css:ok?"good":"bad",text:ok?"مؤهل":"غير مؤهل",details:`${failed.length} مواد راسبة — أكبر نقص ${Math.max(...deficits)} درجة`}
+}
+function failedSubjectCount(model){
+ return model.academic.filter(r=>rawText(r.annual)!==""&&Number(calcGrade(r.annual)||0)<Number(r.passGrade??50)).length
+}
+function maxAnnualPercent(model){
+ const vals=model.academic.filter(r=>rawText(r.annual)!=="").map(r=>(Number(calcGrade(r.annual)||0)/Math.max(1,Number(r.maxGrade||100)))*100);
+ return vals.length?Math.round(Math.max(...vals)):""
+}
+function individualExemptionSubjects(model,rule){
+ const threshold=Number(rule?.individualMinSubjectGrade??90);
+ return model.academic.filter(r=>{
+  if(rawText(r.annual)==="")return false;
+  const p=(Number(calcGrade(r.annual)||0)/Math.max(1,Number(r.maxGrade||100)))*100;
+  return p>=threshold&&Number(calcGrade(r.annual)||0)>=Number(r.passGrade??50)
+ })
 }
 function exemptionStatus(model,rule){
- if(!rule?.enabled)return{css:"off",text:"غير مفعّل",details:""};
+ if(!rule?.enabled)return{css:"off",text:"",details:""};
  const rows=model.academic,avg=annualAverage(model);
- if(avg===""||rows.some(r=>rawText(r.annual)===""))return{css:"wait",text:"غير مكتمل",details:""};
+ if(avg===""||!rows.length||rows.some(r=>rawText(r.annual)===""))return{css:"wait",text:"غير مكتمل",details:""};
  const percs=rows.map(r=>(Number(calcGrade(r.annual)||0)/Math.max(1,Number(r.maxGrade||100)))*100);
- const min=Math.min(...percs),ok=avg>=Number(rule.minAverage??85)&&min>=Number(rule.minSubjectGrade??75);
- return{css:ok?"good":"bad",text:ok?"مؤهل إعفاء شامل":"غير مؤهل",details:`المعدل ${avg} — أقل مادة ${Math.round(min)}`}
+ const min=Math.min(...percs),fails=failedSubjectCount(model),highest=maxAnnualPercent(model);
+ const failAllowed=String(rule.failPolicy||"block")==="allow";
+ const general=avg>=Number(rule.minAverage??85)&&min>=Number(rule.minSubjectGrade??75)&&(failAllowed||fails===0);
+ if(general)return{
+  css:"good",
+  text:"إعفاء عام",
+  details:`المعدل ${avg} — أعلى سعي ${highest} — أقل سعي ${Math.round(min)} — مواد الرسوب ${fails}`
+ };
+ const individual=individualExemptionSubjects(model,rule);
+ if(individual.length)return{
+  css:"good",
+  text:`إعفاء فردي ${individual.length}`,
+  details:`المواد: ${individual.map(x=>x.name).join("، ")} — أعلى سعي ${highest} — مواد الرسوب ${fails}`
+ };
+ return{
+  css:"bad",
+  text:"غير مؤهل",
+  details:`المعدل ${avg} — أعلى سعي ${highest} — أقل سعي ${Math.round(min)} — مواد الرسوب ${fails}`
+ }
+}
+function anyActiveMinisterial(){
+ return ACTIVE_GROUPS.some(g=>rulesForClass(g.c).ministerial.enabled)
+}
+function anyActiveExemption(){
+ return ACTIVE_GROUPS.some(g=>rulesForClass(g.c).exemption.enabled)
 }
 function toggleRulesPanel(){
  $("rulesPanel").classList.toggle("hidden");
- if(!$("rulesPanel").classList.contains("hidden")){renderRulesClassSelect();loadRuleEditorForSelectedClass()}
+ if(!$("rulesPanel").classList.contains("hidden"))loadRulesForActiveGroups()
 }
-function renderRulesClassSelect(){
- const unique=new Map();
- ACTIVE_GROUPS.forEach(g=>{if(!unique.has(g.classId))unique.set(g.classId,g)});
- $("rulesClassSelect").innerHTML=[...unique.values()].map(g=>`<option value="${esc(g.classId)}">${esc(g.c.name||g.classId)}</option>`).join("")
-}
-function loadRuleEditorForSelectedClass(){
- const id=$("rulesClassSelect").value,c=DATA.classes[id];if(!c)return;
- const rules=rulesForClass(c);
- $("ministerialEnabled").checked=!!rules.ministerial.enabled;
- $("ministerialMaxSubjects").value=Number(rules.ministerial.maxSubjects??3);
- $("ministerialMaxDeficit").value=Number(rules.ministerial.maxDeficitPerSubject??10);
- $("exemptionEnabled").checked=!!rules.exemption.enabled;
- $("exemptionMinAverage").value=Number(rules.exemption.minAverage??85);
- $("exemptionMinSubject").value=Number(rules.exemption.minSubjectGrade??75)
+function loadRulesForActiveGroups(){
+ const ids=uniqueActiveClassIds();
+ $("rulesTargetSummary").textContent=ids.length?`تطبق على ${ids.length} صف/صفوف`:"لا توجد صفوف";
+ $("ministerialEnabled").checked=!!sharedRuleValue("ministerial.enabled",false);
+ $("ministerialMaxSubjects").value=Number(sharedRuleValue("ministerial.maxSubjects",3));
+ $("ministerialMaxDeficit").value=Number(sharedRuleValue("ministerial.maxDeficitPerSubject",10));
+ $("exemptionEnabled").checked=!!sharedRuleValue("exemption.enabled",false);
+ $("exemptionMinAverage").value=Number(sharedRuleValue("exemption.minAverage",85));
+ $("exemptionMinSubject").value=Number(sharedRuleValue("exemption.minSubjectGrade",75));
+ $("exemptionFailPolicy").value=String(sharedRuleValue("exemption.failPolicy","block"))==="allow"?"allow":"block";
+ $("individualMinSubject").value=Number(sharedRuleValue("exemption.individualMinSubjectGrade",90))
 }
 async function saveBoardRules(){
- const id=$("rulesClassSelect").value,c=DATA.classes[id];if(!c)return toast("اختر الصف أولاً","warn");
+ const ids=uniqueActiveClassIds();if(!ids.length)return toast("لا توجد صفوف ظاهرة في البورد.","warn");
  const rules={
   ministerial:{
    enabled:$("ministerialEnabled").checked,
@@ -551,23 +638,33 @@ async function saveBoardRules(){
   exemption:{
    enabled:$("exemptionEnabled").checked,
    minAverage:Math.max(0,Number($("exemptionMinAverage").value||0)),
-   minSubjectGrade:Math.max(0,Number($("exemptionMinSubject").value||0))
+   minSubjectGrade:Math.max(0,Number($("exemptionMinSubject").value||0)),
+   failPolicy:$("exemptionFailPolicy").value==="allow"?"allow":"block",
+   individualMinSubjectGrade:Math.max(0,Number($("individualMinSubject").value||0))
   },
   updatedAt:Date.now(),updatedBy:adminCode()
  };
  try{
-  await dbPatch(`classes/${encodeURIComponent(id)}`,{gradeBoardRules:rules});
-  DATA.classes[id].gradeBoardRules=rules;
+  const updates={};
+  ids.forEach(id=>updates[`classes/${id}/gradeBoardRules`]=rules);
+  await dbPatch("",updates);
+  ids.forEach(id=>{if(DATA.classes[id])DATA.classes[id].gradeBoardRules=JSON.parse(JSON.stringify(rules))});
   renderAllBoards();
-  toast("تم حفظ قواعد الوزاري والإعفاء لهذا الصف.","success")
+  toast(`تم حفظ القواعد وتطبيقها على ${ids.length} صف/صفوف موجودة في البورد.`,"success")
  }catch(e){console.error(e);toast("تعذر حفظ القواعد.","error")}
 }
 async function clearBoardRules(){
- const id=$("rulesClassSelect").value;if(!id)return;
+ const ids=uniqueActiveClassIds();if(!ids.length)return;
  try{
-  await dbPatch(`classes/${encodeURIComponent(id)}`,{gradeBoardRules:null,gradeBoardRule:null});
-  delete DATA.classes[id].gradeBoardRules;delete DATA.classes[id].gradeBoardRule;
-  loadRuleEditorForSelectedClass();renderAllBoards();toast("تم إلغاء قواعد هذا الصف.","success")
+  const updates={};
+  ids.forEach(id=>{
+   updates[`classes/${id}/gradeBoardRules`]=null;
+   updates[`classes/${id}/gradeBoardRule`]=null
+  });
+  await dbPatch("",updates);
+  ids.forEach(id=>{if(DATA.classes[id]){delete DATA.classes[id].gradeBoardRules;delete DATA.classes[id].gradeBoardRule}});
+  loadRulesForActiveGroups();renderAllBoards();
+  toast(`تم إلغاء قواعد البورد من ${ids.length} صف/صفوف.`,"success")
  }catch(e){console.error(e);toast("تعذر إلغاء القواعد.","error")}
 }
 
@@ -601,7 +698,7 @@ async function enterSelectedBoards(){
   $("editGradesBtn").textContent="تعديل الدرجات";
   $("saveGradesBtn").disabled=true;$("saveGradesBtn").textContent="حفظ الدرجات";
   $("boardSubtitle").textContent=`${ACTIVE_GROUPS.length} صف/مجموعة — البنين أولاً ثم البنات`;
-  renderRulesClassSelect();renderAllBoards();
+  renderAllBoards();
   $("boardPanel").scrollIntoView({behavior:"smooth",block:"start"})
  }catch(e){console.error(e);toast("تعذر تحميل الدرجات.","error")}
  finally{$("enterBoardBtn").disabled=false;$("enterBoardBtn").textContent="دخول إلى البورد"}
@@ -650,19 +747,21 @@ function boardInputCell(code,row,field){
 }
 function annualCell(code,row){const state=gradeState(row.annual,row,true);return`<td class="grade-cell annual ${state}" data-annual-code="${esc(code)}" data-annual-subject="${esc(row.id)}"><span class="readonly-grade">${gradeDisplay(row.annual)}</span></td>`}
 function renderBoardGroup(g){
- const subjects=normalizeClassSubjects(g.c),baseItems=searchModels(currentModelsForGroup(g)),rules=rulesForClass(g.c),person=personLabel(g.c,g.gender);
+ const subjects=normalizeClassSubjects(g.c),baseItems=searchModels(currentModelsForGroup(g)),rules=rulesForClass(g.c),person=personLabel(g.c,g.gender),showMinisterial=!!rules.ministerial.enabled,showExemption=!!rules.exemption.enabled;
  if(!baseItems.length)return`<section class="board-group ${g.gender}"><div class="board-group-head ${g.gender}"><div><h4>${esc(g.c.name)} — ${g.gender==="female"?"بنات":"بنين"}</h4></div></div><div class="empty">لا توجد أسماء مطابقة.</div></section>`;
  const h1=subjects.map(s=>`<th colspan="4" class="subject-head">${esc(s.name)}</th>`).join("");
  const h2=subjects.map(()=>`<th class="subgrade">ف1</th><th class="subgrade">نصف</th><th class="subgrade">ف2</th><th class="subgrade">سعي</th>`).join("");
+ const ruleHeads=`${showMinisterial?'<th rowspan="2" class="status">دخول وزاري</th>':""}${showExemption?'<th rowspan="2" class="status">الإعفاء</th>':""}`;
  const rows=baseItems.map((item,i)=>{
-  const lm=liveModel(item,subjects),avg=annualAverage(lm),minister=ministerialStatus(lm,rules.ministerial),exempt=exemptionStatus(lm,rules.exemption),changed=item.student.gradeBoardGradeChanged===true||dirtyGradeStudents.has(item.student.code);
+  const lm=liveModel(item,subjects),avg=annualAverage(lm),fails=failedSubjectCount(lm),minister=ministerialStatus(lm,rules.ministerial),exempt=exemptionStatus(lm,rules.exemption),changed=item.student.gradeBoardGradeChanged===true||dirtyGradeStudents.has(item.student.code);
   return`<tr data-student-code="${esc(item.student.code)}">
    <td class="seq">${i+1}</td>
    <td class="name ${changed?"grade-changed":""}">${esc(item.student.name||"—")}</td>
    ${subjects.map(s=>{const r=lm.rows.find(x=>String(x.id)===String(s.id));return boardInputCell(item.student.code,r,"term1")+boardInputCell(item.student.code,r,"midyear")+boardInputCell(item.student.code,r,"term2")+annualCell(item.student.code,r)}).join("")}
    <td class="average average-cell" data-average-code="${esc(item.student.code)}">${avg===""?"—":avg}</td>
-   <td class="rule-status status ${minister.css}" data-ministerial-code="${esc(item.student.code)}" title="${esc(minister.details||"")}">${esc(minister.text)}</td>
-   <td class="rule-status status ${exempt.css}" data-exemption-code="${esc(item.student.code)}" title="${esc(exempt.details||"")}">${esc(exempt.text)}</td>
+   <td class="average average-cell" data-fail-count-code="${esc(item.student.code)}">${fails}</td>
+   ${showMinisterial?`<td class="rule-status status ${minister.css}" data-ministerial-code="${esc(item.student.code)}" title="${esc(minister.details||"")}">${esc(minister.text)}</td>`:""}
+   ${showExemption?`<td class="rule-status status ${exempt.css}" data-exemption-code="${esc(item.student.code)}" title="${esc(exempt.details||"")}">${esc(exempt.text)}</td>`:""}
   </tr>`
  }).join("");
  return`<section class="board-group ${g.gender}" data-group-key="${esc(g.key)}">
@@ -672,7 +771,7 @@ function renderBoardGroup(g){
   </div>
   <div class="board-viewport"><div class="board-stage">
    <table class="grade-board">
-    <thead><tr><th rowspan="2" class="seq">ت</th><th rowspan="2" class="name">اسم ${esc(person)}</th>${h1}<th rowspan="2" class="average">المعدل</th><th rowspan="2" class="status">دخول وزاري</th><th rowspan="2" class="status">إعفاء شامل</th></tr><tr>${h2}</tr></thead>
+    <thead><tr><th rowspan="2" class="seq">ت</th><th rowspan="2" class="name">اسم ${esc(person)}</th>${h1}<th rowspan="2" class="average">المعدل</th><th rowspan="2" class="average">مواد الرسوب</th>${ruleHeads}</tr><tr>${h2}</tr></thead>
     <tbody>${rows}</tbody>
    </table>
   </div></div>
@@ -727,6 +826,7 @@ function refreshStudentComputedCells(code){
   }
  }
  const avg=annualAverage(lm),avgCell=document.querySelector(`[data-average-code="${CSS.escape(code)}"]`);if(avgCell)avgCell.textContent=avg===""?"—":avg;
+ const failCell=document.querySelector(`[data-fail-count-code="${CSS.escape(code)}"]`);if(failCell)failCell.textContent=String(failedSubjectCount(lm));
  const m=ministerialStatus(lm,rules.ministerial),mCell=document.querySelector(`[data-ministerial-code="${CSS.escape(code)}"]`);
  if(mCell){mCell.className=`rule-status status ${m.css}`;mCell.textContent=m.text;mCell.title=m.details||""}
  const e=exemptionStatus(lm,rules.exemption),eCell=document.querySelector(`[data-exemption-code="${CSS.escape(code)}"]`);
@@ -786,6 +886,34 @@ async function saveBoardGrades(){
  }catch(e){console.error("GRADEBOARD_SAVE_ERROR",e);toast("تعذر حفظ الدرجات.","error");btn.disabled=false;btn.textContent=`حفظ الدرجات (${dirtyGradeStudents.size})`}
 }
 
+async function clearGradeChangedMarkers(){
+ if(!ACTIVE_GROUPS.length)return toast("ادخل إلى البورد أولاً.","warn");
+ if(dirtyGradeStudents.size)return toast("احفظ الدرجات المعدلة أولاً قبل حذف علامة تم تعديلهم.","warn");
+ const codes=[...new Set(ACTIVE_GROUPS.flatMap(g=>g.students.map(st=>st.code)).filter(Boolean))];
+ const changed=codes.filter(code=>DATA.students[code]?.gradeBoardGradeChanged===true);
+ if(!changed.length)return toast("لا يوجد طلاب عليهم علامة تم تعديل الدرجات.","warn");
+ const btn=$("clearChangedBtn");btn.disabled=true;btn.textContent="جاري الحذف...";
+ try{
+  const updates={};
+  changed.forEach(code=>{
+   updates[`students/${code}/gradeBoardGradeChanged`]=null;
+   updates[`students/${code}/gradeBoardGradeChangedAt`]=null;
+   updates[`students/${code}/gradeBoardGradeChangedBy`]=null
+  });
+  await dbPatch("",updates);
+  changed.forEach(code=>{
+   if(DATA.students[code]){
+    delete DATA.students[code].gradeBoardGradeChanged;
+    delete DATA.students[code].gradeBoardGradeChangedAt;
+    delete DATA.students[code].gradeBoardGradeChangedBy
+   }
+  });
+  renderAllBoards();
+  toast(`تم حذف علامة التعديل من ${changed.length} طالب/ة، وبقوا مثل باقي الطلبة بدون تغيير درجاتهم.`,"success")
+ }catch(e){console.error(e);toast("تعذر حذف علامة تم تعديلهم.","error")}
+ finally{btn.disabled=false;btn.textContent="حذف علامة تم تعديلهم"}
+}
+
 /* =========================
    Excel
 ========================= */
@@ -798,15 +926,20 @@ function downloadExcel(){
  try{
   const wb=XLSX.utils.book_new(),year=$("schoolYear").value.trim()||"2026-2027";
   ACTIVE_GROUPS.forEach((g,gi)=>{
-   const subjects=normalizeClassSubjects(g.c),rules=rulesForClass(g.c),items=currentModelsForGroup(g);
+   const subjects=normalizeClassSubjects(g.c),rules=rulesForClass(g.c),items=currentModelsForGroup(g),showMinisterial=!!rules.ministerial.enabled,showExemption=!!rules.exemption.enabled;
    const head=["ت","كود الطالب","اسم الطالب"];
    subjects.forEach(s=>head.push(`${s.name} - فصل أول`,`${s.name} - نصف السنة`,`${s.name} - فصل ثاني`,`${s.name} - السعي`));
-   head.push("المعدل","الدخول الوزاري","الإعفاء الشامل");
+   head.push("المعدل","عدد مواد الرسوب");
+   if(showMinisterial)head.push("الدخول الوزاري");
+   if(showExemption)head.push("الإعفاء");
    const aoa=[head];
    items.forEach((item,i)=>{
-    const lm=liveModel(item,subjects),avg=annualAverage(lm),m=ministerialStatus(lm,rules.ministerial),e=exemptionStatus(lm,rules.exemption),row=[i+1,item.student.code||"",item.student.name||""];
+    const lm=liveModel(item,subjects),avg=annualAverage(lm),fails=failedSubjectCount(lm),m=ministerialStatus(lm,rules.ministerial),e=exemptionStatus(lm,rules.exemption),row=[i+1,item.student.code||"",item.student.name||""];
     lm.rows.forEach(r=>row.push(excelValue(r.term1),excelValue(r.midyear),excelValue(r.term2),excelValue(r.annual)));
-    row.push(avg===""?"":avg,m.text,e.text);aoa.push(row)
+    row.push(avg===""?"":avg,fails);
+    if(showMinisterial)row.push(m.text);
+    if(showExemption)row.push(e.text);
+    aoa.push(row)
    });
    const ws=XLSX.utils.aoa_to_sheet(aoa);
    ws["!freeze"]={xSplit:3,ySplit:1};
@@ -818,7 +951,6 @@ function downloadExcel(){
   toast("تم إنشاء ملف Excel للبورد.","success")
  }catch(e){console.error("EXCEL_ERROR",e);toast("تعذر إنشاء ملف Excel.","error")}
 }
-
 /* =========================
    PDF
 ========================= */
@@ -830,16 +962,17 @@ function pdfGradeCell(value,row,annual=false){
  return`<td class="pdf-grade ${annual?"annual":"term"} ${state}">${gradeDisplay(value)}</td>`
 }
 function pdfPageHTML(g,subjects,studentItems,pageIndex,totalPages,studentStart){
- const c=g.c,person=personLabel(c,g.gender),year=$("schoolYear").value.trim()||"2026-2027",count=Math.max(1,studentItems.length),subCount=Math.max(1,subjects.length),rowH=Math.max(5,Math.min(22,Math.floor(600/count))),pdfFont=Math.max(3.6,Math.min(7,rowH*.56)),headFont=subCount>=12?4.2:subCount>=9?4.8:5.6,subjectFont=subCount>=12?4.4:subCount>=9?5:5.8,rules=rulesForClass(c);
+ const c=g.c,person=personLabel(c,g.gender),year=$("schoolYear").value.trim()||"2026-2027",count=Math.max(1,studentItems.length),subCount=Math.max(1,subjects.length),rowH=Math.max(5,Math.min(22,Math.floor(600/count))),pdfFont=Math.max(3.6,Math.min(7,rowH*.56)),headFont=subCount>=12?4.2:subCount>=9?4.8:5.6,subjectFont=subCount>=12?4.4:subCount>=9?5:5.8,rules=rulesForClass(c),showMinisterial=!!rules.ministerial.enabled,showExemption=!!rules.exemption.enabled;
  const subjectHeaders=subjects.map(s=>`<th colspan="4" class="subject-title">${esc(s.name)}</th>`).join(""),subHeaders=subjects.map(()=>`<th class="small-head">ف1</th><th class="small-head">نصف</th><th class="small-head">ف2</th><th class="small-head">سعي</th>`).join("");
+ const optionalHeads=`${showMinisterial?'<th rowspan="2" class="a4-status">وزاري</th>':""}${showExemption?'<th rowspan="2" class="a4-status">الإعفاء</th>':""}`;
  const rows=studentItems.map((item,i)=>{
-  const lm=liveModel(item,subjects),avg=annualAverage(lm),m=ministerialStatus(lm,rules.ministerial),e=exemptionStatus(lm,rules.exemption);
-  return`<tr><td>${studentStart+i+1}</td><td class="a4-name">${esc(item.student.name||"—")}</td>${lm.rows.map(r=>pdfGradeCell(r.term1,r)+pdfGradeCell(r.midyear,r)+pdfGradeCell(r.term2,r)+pdfGradeCell(r.annual,r,true)).join("")}<td>${avg===""?"—":avg}</td><td class="pdf-status ${m.css}">${esc(m.text)}</td><td class="pdf-status ${e.css}">${esc(e.text)}</td></tr>`
+  const lm=liveModel(item,subjects),avg=annualAverage(lm),fails=failedSubjectCount(lm),m=ministerialStatus(lm,rules.ministerial),e=exemptionStatus(lm,rules.exemption);
+  return`<tr><td>${studentStart+i+1}</td><td class="a4-name">${esc(item.student.name||"—")}</td>${lm.rows.map(r=>pdfGradeCell(r.term1,r)+pdfGradeCell(r.midyear,r)+pdfGradeCell(r.term2,r)+pdfGradeCell(r.annual,r,true)).join("")}<td>${avg===""?"—":avg}</td><td>${fails}</td>${showMinisterial?`<td class="pdf-status ${m.css}">${esc(m.text)}</td>`:""}${showExemption?`<td class="pdf-status ${e.css}">${esc(e.text)}</td>`:""}</tr>`
  }).join("");
  return`<section class="board-a4" style="--pdfRowH:${rowH}px;--pdfFont:${pdfFont}px;--pdfNameFont:${Math.max(5.2,pdfFont+.6)}px;--pdfHeadFont:${headFont}px;--pdfSubjectFont:${subjectFont}px">
   <div class="board-a4-head"><img src="logo.png" alt=""><div class="board-a4-title"><h2>مدرسة التحدي الأهلية المختلطة</h2><h3>بورد الدرجات - ${esc(c.name||"الصف")}</h3><p>${g.gender==="female"?"بنات":"بنين"} | ${esc(roomLabel(c.roomNumber))} | ${esc(year)}</p></div><div class="board-a4-meta"><div>المواد: ${subjects.length}</div><div>الصفحة: ${pageIndex+1} / ${totalPages}</div><div>A4 أفقي</div></div></div>
   <div class="board-a4-rule">ف1 + نصف السنة + ف2 + السعي — الحرج بالفصول برتقالي، الحرج بالسعي أسود، والرسوب بالسعي أحمر.</div>
-  <table class="board-a4-table"><thead><tr><th rowspan="2" class="a4-seq">ت</th><th rowspan="2" class="a4-name">اسم ${esc(person)}</th>${subjectHeaders}<th rowspan="2">المعدل</th><th rowspan="2" class="a4-status">وزاري</th><th rowspan="2" class="a4-status">إعفاء</th></tr><tr>${subHeaders}</tr></thead><tbody>${rows}</tbody></table>
+  <table class="board-a4-table"><thead><tr><th rowspan="2" class="a4-seq">ت</th><th rowspan="2" class="a4-name">اسم ${esc(person)}</th>${subjectHeaders}<th rowspan="2">المعدل</th><th rowspan="2">مواد الرسوب</th>${optionalHeads}</tr><tr>${subHeaders}</tr></thead><tbody>${rows}</tbody></table>
   <div class="board-a4-foot"><span>قسم الحوكمة - بورد الدرجات</span><span>${esc(year)}</span></div>
  </section>`
 }
@@ -884,7 +1017,7 @@ async function refreshCore(){
   Object.entries(DATA.classes).forEach(([id,x])=>{if(x&&!x.id)x.id=id});
   renderClasses();
   if(ACTIVE_GROUPS.length){
-   ACTIVE_GROUPS=selectedGroups();await loadGradesForGroups(ACTIVE_GROUPS);renderRulesClassSelect();renderAllBoards()
+   ACTIVE_GROUPS=selectedGroups();await loadGradesForGroups(ACTIVE_GROUPS);renderAllBoards()
   }
   toast("تم تحديث البيانات.","success")
  }catch(e){console.error(e);toast("تعذر تحديث البيانات.","error")}
