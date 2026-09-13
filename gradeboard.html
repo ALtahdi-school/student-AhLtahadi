@@ -2,263 +2,906 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes,viewport-fit=cover">
 <meta name="theme-color" content="#075fcf">
 <title>بورد الدرجات | مدرسة التحدي الأهلية المختلطة</title>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
 <style>
-:root{--p:#075fcf;--pd:#06469c;--ps:#edf5ff;--g:#078b50;--gs:#ecfdf3;--r:#d92d20;--rs:#fff1f0;--o:#dc6803;--os:#fff6ed;--v:#6938ef;--vs:#f4f3ff;--bg:#f4f7fb;--text:#172033;--muted:#667085;--border:#e4e7ec}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}html{scroll-behavior:smooth}body{min-height:100vh;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
-.loading{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#fff}.loader{width:48px;height:48px;border:4px solid #e8edf4;border-top-color:var(--p);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
-.header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}.header-in{width:min(1600px,100%);min-height:70px;margin:auto;padding:8px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}.brand{display:flex;align-items:center;gap:10px;min-width:0}.brand img{width:48px;height:48px;object-fit:contain}.brand h1{font-size:15px;font-weight:900}.brand p{margin-top:3px;color:var(--p);font-size:9px;font-weight:900}.top-actions{display:flex;gap:7px;flex-wrap:wrap}.btn{min-height:39px;padding:0 13px;border:0;border-radius:10px;font-size:9px;font-weight:900;transition:.15s}.btn:active{transform:scale(.98)}.btn:disabled{opacity:.45;cursor:default}.btn-p{color:#fff;background:var(--p)}.btn-soft{color:var(--p);background:var(--ps)}.btn-g{color:#fff;background:var(--g)}.btn-r{color:#fff;background:var(--r)}.btn-o{color:#fff;background:var(--o)}.btn-v{color:#fff;background:var(--v)}
-.main{width:min(1600px,100%);margin:auto;padding:15px 14px 45px}.hero{padding:18px;border-radius:18px;color:#fff;background:linear-gradient(135deg,#0870e8,#064594);box-shadow:0 14px 35px rgba(7,95,207,.14);margin-bottom:14px}.hero h2{font-size:20px;font-weight:900}.hero p{margin-top:6px;font-size:10px;line-height:1.8;opacity:.94}
-.panel{margin-bottom:14px;border:1px solid var(--border);border-radius:17px;background:#fff;box-shadow:0 10px 30px rgba(16,24,40,.05);overflow:hidden}.panel-head{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--border)}.panel-head h3{font-size:14px;font-weight:900}.panel-head p{margin-top:3px;color:var(--muted);font-size:8.5px;line-height:1.6}.panel-body{padding:14px}
-.class-groups{display:grid;grid-template-columns:1fr 1fr;gap:12px;direction:rtl}.gender-column{min-width:0;padding:10px;border:1px solid var(--border);border-radius:15px;background:#fff}.gender-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px;padding:9px 10px;border-radius:10px;font-size:11px;font-weight:900}.gender-head.male{color:#075fcf;background:#edf5ff}.gender-head.female{color:#7a2bbd;background:#f8efff}.class-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:8px}.class-card{min-height:93px;padding:12px;border:1px solid var(--border);border-radius:13px;background:#fff;cursor:pointer;transition:.15s}.class-card:hover{transform:translateY(-2px);border-color:#9fc8f7}.class-card.active{border-color:var(--p);box-shadow:0 0 0 3px rgba(7,95,207,.10)}.class-card h4{font-size:13px;font-weight:900}.class-card .meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}.badge{display:inline-flex;min-height:23px;align-items:center;justify-content:center;padding:0 8px;border-radius:999px;font-size:7px;font-weight:900}.blue{color:var(--p);background:var(--ps)}.purple{color:var(--v);background:var(--vs)}.green{color:var(--g);background:var(--gs)}.orange{color:var(--o);background:var(--os)}.red{color:var(--r);background:var(--rs)}.class-count{margin-top:9px;color:var(--muted);font-size:8px;font-weight:900}
-.board-toolbar{display:grid;grid-template-columns:minmax(180px,1fr) minmax(150px,.7fr) auto auto auto auto;gap:8px;align-items:end}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:8px;font-weight:900;color:#344054}.field input,.field select{width:100%;height:42px;padding:0 10px;border:1.5px solid var(--border);border-radius:9px;background:#fff;outline:none}.field input:focus,.field select:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(7,95,207,.06)}
-.rule-box{margin-top:11px;padding:12px;border:1px solid #dbe6f2;border-radius:13px;background:#f8fbff}.rule-top{display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap}.rule-title strong{font-size:11px;color:var(--p)}.rule-title p{margin-top:4px;font-size:7.5px;color:var(--muted);line-height:1.7}.rule-actions{display:flex;gap:6px;flex-wrap:wrap}.rule-editor{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}.rule-note{grid-column:1/-1;padding:8px 10px;border-radius:9px;background:#fff;color:#475467;font-size:8px;font-weight:800;line-height:1.8}
-.summary{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}.summary .badge{min-height:27px;font-size:8px}
-.board-scroll{overflow:auto;border:1px solid #cfd7e2;border-radius:12px;background:#fff}.grade-board{width:max-content;min-width:100%;border-collapse:collapse;direction:rtl;font-family:"Times New Roman",Times,serif;font-size:13px;font-weight:700}.grade-board th,.grade-board td{border:1px solid #4b5563;padding:7px 6px;text-align:center;vertical-align:middle;white-space:nowrap}.grade-board thead th{position:sticky;top:0;z-index:3;background:#eaf3ff;color:#172033;font-weight:700}.grade-board thead tr:first-child th{top:0}.grade-board thead tr:nth-child(2) th{top:36px;background:#f6f9fd}.grade-board .seq{min-width:46px}.grade-board .name{position:sticky;right:0;z-index:2;min-width:240px;max-width:320px;text-align:right;background:#fff}.grade-board thead .name{z-index:5;background:#eaf3ff}.grade-board tbody tr:nth-child(even) .name,.grade-board tbody tr:nth-child(even) td{background:#fcfdff}.grade-board .subject-head{min-width:210px;color:#06469c}.grade-board .subgrade{min-width:72px}.grade-board .status{min-width:120px}.grade-cell.fail:not(.annual){color:#d00000!important;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:2px;font-weight:700}.grade-cell.annual.fail{background:#d00000!important;color:#fff!important;font-weight:700}.grade-cell.annual.pass{background:#f2fbf5}.rule-status.good{color:#067647;background:#ecfdf3}.rule-status.bad{color:#b42318;background:#fff1f0}.rule-status.wait{color:#b54708;background:#fff6ed}
-.empty{padding:25px;text-align:center;color:var(--muted);font-size:9px}.toast{position:fixed;z-index:30000;left:50%;bottom:22px;transform:translate(-50%,30px);min-width:220px;max-width:calc(100% - 24px);padding:10px 14px;border-radius:10px;background:#101828;color:#fff;text-align:center;font-size:9px;font-weight:800;opacity:0;visibility:hidden;transition:.2s}.toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
-.pdf-host{position:fixed;left:-12000px;top:0;width:1123px;pointer-events:none;z-index:-99999}.board-a4{position:relative;width:794px;height:1123px;padding:30px 32px 28px;overflow:hidden;background:#fff;color:#111;direction:rtl;font-family:"Times New Roman",Times,serif;font-size:13px;font-weight:700}.board-a4-head{display:grid;grid-template-columns:74px 1fr 150px;align-items:center;gap:10px;padding-bottom:10px;border-bottom:3px double #111}.board-a4-head img{width:67px;height:67px;object-fit:contain}.board-a4-title{text-align:center}.board-a4-title h2{font-size:20px;font-weight:700}.board-a4-title h3{margin-top:3px;font-size:16px;font-weight:700}.board-a4-title p{margin-top:4px;font-size:13px;font-weight:700}.board-a4-meta{text-align:left;font-size:11px;line-height:1.65;font-weight:700}.board-a4-rule{margin:8px 0;padding:6px 8px;border:1px solid #555;text-align:center;font-size:12px;font-weight:700}.board-a4-table{width:100%;min-width:0;border-collapse:collapse;table-layout:fixed;font-size:13px;font-weight:700}.board-a4-table th,.board-a4-table td{border:1.15px solid #222;padding:3px 2px;text-align:center;vertical-align:middle;font-weight:700}.board-a4-table thead th{background:#eef3f8}.board-a4-table .a4-seq{width:7%}.board-a4-table .a4-name{width:24%;text-align:right;padding-right:5px}.board-a4-table .a4-status{width:13%}.board-a4-table tbody td{height:34px}.board-a4-table .subject-title{font-size:13px}.board-a4-table .small-head{font-size:11px;line-height:1.2}.board-a4-table .pdf-grade.fail:not(.annual){color:#d00000;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:2px}.board-a4-table .pdf-grade.annual.fail{background:#d00000;color:#fff}.board-a4-table .pdf-status.good{background:#ecfdf3}.board-a4-table .pdf-status.bad{background:#fff1f0;color:#b42318}.board-a4-table .pdf-status.wait{background:#fff6ed;color:#b54708}.board-a4-foot{position:absolute;right:32px;left:32px;bottom:12px;display:flex;align-items:center;justify-content:space-between;padding-top:6px;border-top:1px solid #777;font-size:10px;font-weight:700}
-@media(max-width:850px){.class-groups{grid-template-columns:1fr 1fr;gap:6px}.gender-column{padding:6px}.class-list{grid-template-columns:1fr}.board-toolbar{grid-template-columns:1fr 1fr}.board-toolbar>.btn{width:100%}.rule-editor{grid-template-columns:1fr 1fr}.main{padding:10px 7px 35px}.header-in{padding:7px 8px}.brand img{width:39px;height:39px}.brand h1{font-size:11px}.brand p{font-size:7px}.top-actions .btn{padding:0 9px;font-size:7.5px}.grade-board .name{min-width:190px}.grade-board{font-size:13px}}
-@media(max-width:560px){.class-groups{gap:5px}.gender-head{font-size:8px;padding:7px}.class-card{padding:8px;min-height:84px}.class-card h4{font-size:10px}.board-toolbar{grid-template-columns:1fr}.rule-editor{grid-template-columns:1fr}.rule-actions{width:100%}.rule-actions .btn{flex:1}.panel-body{padding:9px}}
+:root{
+ --p:#075fcf;--pd:#06469c;--ps:#edf5ff;
+ --pink:#d84f94;--pinks:#fff0f7;--pinkb:#eaa1c7;
+ --g:#078b50;--gs:#ecfdf3;--r:#d92d20;--rs:#fff1f0;
+ --o:#dc6803;--os:#fff6ed;--v:#6938ef;--vs:#f4f3ff;
+ --bg:#f4f7fb;--text:#172033;--muted:#667085;--border:#e4e7ec;
+ --shadow:0 12px 32px rgba(16,24,40,.07);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{min-height:100dvh;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;overflow-x:hidden}
+button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.loading{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#fff}
+.loader-wrap{text-align:center}.loader{width:48px;height:48px;margin:auto;border:4px solid #e8edf4;border-top-color:var(--p);border-radius:50%;animation:spin .8s linear infinite}.loader-wrap p{margin-top:11px;color:var(--muted);font-size:9px;font-weight:900}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-.grade-board tbody tr.editing-row>td{background:#fff7d6!important}
-.grade-board tbody tr.editing-row>.name{background:#fff1bd!important}
+.header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.header-in{width:min(1800px,100%);min-height:70px;margin:auto;padding:8px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}.brand img{width:48px;height:48px;object-fit:contain}
+.brand h1{font-size:15px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.brand p{margin-top:3px;color:var(--p);font-size:9px;font-weight:900}
+.top-actions{display:flex;gap:7px;flex-wrap:wrap}
+.btn{min-height:39px;padding:0 13px;border:0;border-radius:10px;font-size:9px;font-weight:900;transition:.15s}
+.btn:active{transform:scale(.98)}.btn:disabled{opacity:.45;cursor:default}.btn-p{color:#fff;background:var(--p)}.btn-soft{color:var(--p);background:var(--ps)}.btn-g{color:#fff;background:var(--g)}.btn-r{color:#fff;background:var(--r)}.btn-o{color:#fff;background:var(--o)}.btn-v{color:#fff;background:var(--v)}
+
+.main{width:min(1800px,100%);margin:auto;padding:15px 14px 50px}
+.hero{padding:18px;border-radius:18px;color:#fff;background:linear-gradient(135deg,#0870e8,#064594);box-shadow:0 14px 35px rgba(7,95,207,.14);margin-bottom:14px}
+.hero h2{font-size:20px;font-weight:900}.hero p{margin-top:6px;font-size:10px;line-height:1.8;opacity:.94}
+.security-note{margin-top:10px;display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.14);font-size:8px;font-weight:900}
+
+.panel{margin-bottom:14px;border:1px solid var(--border);border-radius:17px;background:#fff;box-shadow:var(--shadow);overflow:hidden}
+.panel-head{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--border)}
+.panel-head h3{font-size:14px;font-weight:900}.panel-head p{margin-top:3px;color:var(--muted);font-size:8.5px;line-height:1.6}.panel-body{padding:14px}
+
+.class-groups{display:grid;grid-template-columns:1fr 1fr;gap:12px;direction:rtl}
+.gender-column{min-width:0;padding:10px;border:1px solid var(--border);border-radius:15px;background:#fff}
+.gender-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px;padding:10px 11px;border-radius:11px;font-size:11px;font-weight:900}
+.gender-head.male{color:var(--p);background:var(--ps);border:1px solid #b6d4f7}.gender-head.female{color:var(--pink);background:var(--pinks);border:1px solid var(--pinkb)}
+.class-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.class-card{position:relative;min-height:100px;padding:12px;border:1.5px solid var(--border);border-radius:14px;cursor:pointer;transition:.15s;text-align:right}
+.class-card.male{background:var(--ps);border-color:#a9cef8}.class-card.female{background:var(--pinks);border-color:var(--pinkb)}
+.class-card:hover{transform:translateY(-2px)}.class-card.male.active{border-color:var(--p);box-shadow:0 0 0 3px rgba(7,95,207,.13)}.class-card.female.active{border-color:var(--pink);box-shadow:0 0 0 3px rgba(216,79,148,.13)}
+.class-card.active:after{content:"✓";position:absolute;left:9px;top:9px;width:25px;height:25px;display:flex;align-items:center;justify-content:center;border-radius:50%;color:#fff;font-size:11px;font-weight:900}
+.class-card.male.active:after{background:var(--p)}.class-card.female.active:after{background:var(--pink)}
+.class-card h4{padding-left:28px;font-size:12px;font-weight:900}.class-card.male h4{color:var(--p)}.class-card.female h4{color:var(--pink)}
+.class-card .meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.badge{display:inline-flex;min-height:23px;align-items:center;justify-content:center;padding:0 8px;border-radius:999px;font-size:7px;font-weight:900}
+.blue{color:var(--p);background:#fff}.pink{color:var(--pink);background:#fff}.purple{color:var(--v);background:var(--vs)}.green{color:var(--g);background:var(--gs)}.orange{color:var(--o);background:var(--os)}.red{color:var(--r);background:var(--rs)}
+.class-count{margin-top:9px;color:#475467;font-size:8px;font-weight:900}
+.class-enter-bar{margin-top:11px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px;border:1px solid #dce7f4;border-radius:13px;background:#f8fbff}
+.class-enter-bar strong{font-size:9px}.class-enter-actions{display:flex;gap:7px;flex-wrap:wrap}
+
+.board-toolbar{display:grid;grid-template-columns:minmax(145px,.55fr) minmax(180px,1fr) auto auto auto auto auto;gap:8px;align-items:end}
+.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:8px;font-weight:900;color:#344054}
+.field input,.field select{width:100%;height:42px;padding:0 10px;border:1.5px solid var(--border);border-radius:9px;background:#fff;outline:none}
+.field input:focus,.field select:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(7,95,207,.06)}
+
+.zoom-tools{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:10px;padding:8px 9px;border:1px solid var(--border);border-radius:11px;background:#f9fbfd}
+.zoom-tools .btn{min-height:34px;padding:0 10px}.zoom-value{min-width:62px;text-align:center;font-size:8px;font-weight:900;color:#475467}
+
+.rules-panel{margin-top:11px;padding:12px;border:1px solid #dbe6f2;border-radius:13px;background:#f8fbff}
+.rules-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.rules-head strong{font-size:11px;color:var(--p)}
+.rules-head p{margin-top:3px;color:var(--muted);font-size:7.5px;line-height:1.7}
+.rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.rule-card{padding:11px;border:1px solid var(--border);border-radius:12px;background:#fff}.rule-card h4{font-size:10px;font-weight:900}.rule-card p{margin-top:3px;color:var(--muted);font-size:7.5px;line-height:1.6}
+.rule-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:9px}
+.rule-enable{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:8px;font-weight:900}.rule-enable input{width:18px;height:18px;accent-color:var(--p)}
+.rules-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:10px}
+
+.summary{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.summary .badge{min-height:27px;font-size:8px}
+.board-groups{display:grid;gap:14px}
+.board-group{border:1px solid #cfd7e2;border-radius:14px;background:#fff;overflow:hidden}
+.board-group-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-bottom:1px solid var(--border)}
+.board-group-head.male{background:#eef6ff}.board-group-head.female{background:#fff1f7}
+.board-group-head h4{font-size:11px;font-weight:900}.board-group-head p{margin-top:3px;color:#667085;font-size:7.5px}.board-group-head .group-average{font-size:8px;font-weight:900}
+.board-viewport{width:100%;overflow:hidden;background:#fff}
+.board-stage{position:relative;transform-origin:top right}
+.grade-board{width:max-content;min-width:0;border-collapse:collapse;direction:rtl;font-family:"Times New Roman",Times,serif;font-size:10px;font-weight:700;transform-origin:top right}
+.grade-board th,.grade-board td{border:1px solid #4b5563;padding:3px 2px;text-align:center;vertical-align:middle;white-space:nowrap;line-height:1.15}
+.grade-board thead th{background:#eaf3ff;color:#172033;font-weight:700}.board-group.female .grade-board thead th{background:#fff0f7}
+.grade-board .seq{min-width:28px;width:28px}.grade-board .name{min-width:155px;max-width:175px;width:165px;text-align:right;background:#fff}
+.grade-board .subject-head{min-width:136px;font-size:9px}.grade-board .subgrade{min-width:34px;width:34px;font-size:7px;white-space:normal}
+.grade-board .average{min-width:48px;width:48px;font-size:8px}.grade-board .status{min-width:78px;width:78px;font-size:7.5px;white-space:normal}
+.grade-board tbody tr:nth-child(even) td{background:#fcfdff}.grade-board tbody tr.editing-row>td{background:#fff7d6!important}.grade-board tbody tr.editing-row>.name{background:#fff1bd!important}
 .grade-board .name.grade-changed{color:#dc6803!important;background:#fff6ed!important}
-.grade-board .name.grade-changed::after{content:"تم تعديل الدرجات";display:inline-flex;margin-inline-start:7px;padding:2px 6px;border-radius:999px;background:#dc6803;color:#fff;font-family:Tahoma,Arial,sans-serif;font-size:7px;font-weight:900;vertical-align:middle}
-.board-grade-input{width:58px;height:31px;border:1px solid transparent;border-radius:6px;background:transparent;text-align:center;font-family:"Times New Roman",Times,serif;font-size:13px;font-weight:700;outline:none}
-.board-grade-input:hover{border-color:#b8c4d4;background:#fff}
-.board-grade-input:focus{border-color:#075fcf;background:#fff;box-shadow:0 0 0 2px rgba(7,95,207,.10)}
-.board-grade-input.fail{color:#d00000;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:2px}
-.board-grade-input.dirty{background:#fff6ed;border-color:#f5b782}
-.readonly-grade{display:inline-flex;min-width:48px;min-height:31px;align-items:center;justify-content:center}
-.save-state{display:inline-flex;margin-inline-start:6px;font-family:Tahoma,Arial,sans-serif;font-size:7px;font-weight:900;color:#dc6803}
-.board-a4{width:1123px;height:794px;padding:24px 28px 24px;font-size:13px}
-.board-a4-head{grid-template-columns:72px 1fr 165px}
-.board-a4-head img{width:62px;height:62px}.board-a4-title h2{font-size:19px}.board-a4-title h3{font-size:16px}.board-a4-title p{font-size:12px}
-.board-a4-rule{margin:6px 0;padding:5px 7px;font-size:11px}
-.board-a4-table{font-size:13px;table-layout:fixed}.board-a4-table th,.board-a4-table td{padding:3px 2px}.board-a4-table tbody td{height:31px}
-.board-a4-table .a4-seq{width:4%}.board-a4-table .a4-name{width:22%;text-align:right;padding-right:5px}.board-a4-table .a4-status{width:10%}
-.board-a4-table .subject-annual-head{font-size:12px;line-height:1.15;white-space:normal;word-break:break-word}
-.board-a4-table .pdf-name.changed{color:#dc6803;background:#fff6ed}
-.board-a4-table .pdf-grade.fail{color:#fff!important;background:#d00000!important;text-decoration:none!important}
-.board-a4-foot{right:28px;left:28px;bottom:8px;font-size:9px}
+.grade-board .name.grade-changed::after{content:"معدل";display:inline-flex;margin-inline-start:5px;padding:2px 5px;border-radius:999px;background:#dc6803;color:#fff;font-family:Tahoma,Arial,sans-serif;font-size:6px;font-weight:900}
 
+.board-grade-input{width:32px;height:24px;padding:0;border:1px solid transparent;border-radius:5px;background:transparent;text-align:center;font-family:"Times New Roman",Times,serif;font-size:9px;font-weight:700;outline:none}
+.board-grade-input:hover{border-color:#b8c4d4;background:#fff}.board-grade-input:focus{border-color:#075fcf;background:#fff;box-shadow:0 0 0 2px rgba(7,95,207,.10)}
+.board-grade-input.dirty{background:#fff6ed;border-color:#f5b782}.readonly-grade{display:inline-flex;min-width:30px;min-height:23px;align-items:center;justify-content:center;font-size:9px}
+.grade-cell.textual{background:#fff6ed!important;color:#9a4c00!important}
 
-/* ===== بورد مضغوط + A4 كامل + الدرجة الحرجة 45-أقل من50 ===== */
-.board-scroll{overflow:hidden!important;position:relative}
-.grade-board{width:max-content!important;min-width:0!important;font-size:10px!important;transform-origin:top right}
-.grade-board th,.grade-board td{padding:3px 2px!important;line-height:1.15!important}
-.grade-board .seq{min-width:28px!important;width:28px!important}
-.grade-board .name{min-width:150px!important;max-width:170px!important;width:160px!important}
-.grade-board .subject-head{min-width:118px!important;font-size:9px!important}
-.grade-board .subgrade{min-width:34px!important;width:34px!important;font-size:7px!important;white-space:normal!important}
-.grade-board .status{min-width:76px!important;width:76px!important;font-size:8px!important;white-space:normal!important}
-.board-grade-input{width:32px!important;height:23px!important;padding:0!important;font-size:9px!important}
-.readonly-grade{min-width:30px!important;min-height:23px!important;font-size:9px!important}
-.grade-cell.critical,.grade-board tbody tr:nth-child(even) td.grade-cell.critical,.grade-board tbody tr.editing-row>td.grade-cell.critical{background:#000!important;color:#fff!important;text-decoration:none!important}
-.grade-cell.critical .board-grade-input,.board-grade-input.critical{background:#000!important;color:#fff!important;border-color:#000!important;text-decoration:none!important}
-.grade-cell.critical .readonly-grade{color:#fff!important}
-.board-a4{width:1123px!important;height:794px!important;padding:16px 18px 15px!important;font-size:7px!important}
-.board-a4-head{grid-template-columns:52px 1fr 125px!important;gap:6px!important;padding-bottom:5px!important}
-.board-a4-head img{width:46px!important;height:46px!important}.board-a4-title h2{font-size:14px!important}.board-a4-title h3{font-size:11px!important}.board-a4-title p{font-size:8px!important;margin-top:2px!important}
-.board-a4-meta{font-size:7px!important;line-height:1.35!important}.board-a4-rule{margin:4px 0!important;padding:3px 5px!important;font-size:7px!important}
-.board-a4-table{width:100%!important;table-layout:fixed!important;font-size:var(--pdfFont,6.5px)!important}
-.board-a4-table th,.board-a4-table td{padding:1px!important;line-height:1.05!important;overflow:hidden!important;text-overflow:clip!important;white-space:normal!important}
-.board-a4-table thead th{font-size:var(--pdfHeadFont,6px)!important}.board-a4-table tbody td{height:var(--pdfRowH,14px)!important;font-size:var(--pdfFont,6.5px)!important}
-.board-a4-table .a4-seq{width:2.5%!important}.board-a4-table .a4-name{width:11%!important;padding-right:3px!important;font-size:var(--pdfNameFont,7px)!important}.board-a4-table .a4-status{width:6.5%!important;font-size:var(--pdfHeadFont,6px)!important}
-.board-a4-table .subject-title{font-size:var(--pdfSubjectFont,6px)!important;line-height:1!important}.board-a4-table .small-head{font-size:var(--pdfHeadFont,5.5px)!important;line-height:1!important}
-.board-a4-table .pdf-grade.critical{background:#000!important;color:#fff!important;text-decoration:none!important}
-.board-a4-foot{right:18px!important;left:18px!important;bottom:5px!important;padding-top:3px!important;font-size:6px!important}
+/* الفصل الأول/نصف السنة/الفصل الثاني: الراسب أحمر تحته خط */
+.grade-cell.term.fail,.grade-cell.term.fail .readonly-grade,.grade-cell.term.fail .board-grade-input{color:#d00000!important;text-decoration:underline;text-decoration-thickness:1.7px;text-underline-offset:2px}
+/* الدرجة الحرجة في الثلاث فترات: برتقالي وكتابة بيضاء */
+.grade-cell.term.critical{background:#dc6803!important;color:#fff!important;text-decoration:none!important}.grade-cell.term.critical .readonly-grade,.grade-cell.term.critical .board-grade-input{background:#dc6803!important;color:#fff!important;border-color:#dc6803!important;text-decoration:none!important}
+/* السعي الحرج: أسود وأبيض */
+.grade-cell.annual.critical{background:#000!important;color:#fff!important}.grade-cell.annual.critical .readonly-grade{color:#fff!important}
+/* السعي الراسب: أحمر وأبيض */
+.grade-cell.annual.fail{background:#d00000!important;color:#fff!important}.grade-cell.annual.fail .readonly-grade{color:#fff!important}.grade-cell.annual.pass{background:#f2fbf5!important}
+
+.rule-status.good{color:#067647;background:#ecfdf3!important}.rule-status.bad{color:#b42318;background:#fff1f0!important}.rule-status.wait{color:#b54708;background:#fff6ed!important}.rule-status.off{color:#667085;background:#f2f4f7!important}
+.average-cell{font-weight:900;background:#f8fbff!important}
+
+.empty{padding:25px;text-align:center;color:var(--muted);font-size:9px;line-height:1.8}
+.toast{position:fixed;z-index:30000;left:50%;top:max(82px,calc(env(safe-area-inset-top) + 72px));transform:translate(-50%,-14px);width:min(560px,calc(100% - 22px));padding:11px 13px;border:1px solid #dbe7f4;border-radius:13px;background:#fff;color:#26354a;text-align:center;font-size:9px;font-weight:900;box-shadow:0 18px 45px rgba(16,24,40,.18);opacity:0;visibility:hidden;transition:.2s}
+.toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}.toast.error{border-color:#f0bcbc;background:#fff6f6;color:#b42318}.toast.success{border-color:#b7e6ca;background:#f4fff8;color:#067647}.toast.warn{border-color:#f8d6aa;background:#fffaf2;color:#b54708}
+
+.pdf-host{position:fixed;left:-14000px;top:0;width:1123px;pointer-events:none;z-index:-99999}
+.board-a4{position:relative;width:1123px;height:794px;padding:16px 18px 15px;overflow:hidden;background:#fff;color:#111;direction:rtl;font-family:"Times New Roman",Times,serif;font-size:7px;font-weight:700}
+.board-a4-head{display:grid;grid-template-columns:52px 1fr 125px;align-items:center;gap:6px;padding-bottom:5px;border-bottom:3px double #111}.board-a4-head img{width:46px;height:46px;object-fit:contain}
+.board-a4-title{text-align:center}.board-a4-title h2{font-size:14px}.board-a4-title h3{margin-top:2px;font-size:11px}.board-a4-title p{margin-top:2px;font-size:8px}.board-a4-meta{text-align:left;font-size:7px;line-height:1.35}
+.board-a4-rule{margin:4px 0;padding:3px 5px;border:1px solid #555;text-align:center;font-size:7px}
+.board-a4-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:var(--pdfFont,6.5px)}.board-a4-table th,.board-a4-table td{border:1px solid #222;padding:1px;text-align:center;vertical-align:middle;overflow:hidden;white-space:normal;line-height:1.05}
+.board-a4-table thead th{background:#eef3f8;font-size:var(--pdfHeadFont,6px)}.board-a4-table tbody td{height:var(--pdfRowH,14px);font-size:var(--pdfFont,6.5px)}
+.board-a4-table .a4-seq{width:2.5%}.board-a4-table .a4-name{width:11%;text-align:right;padding-right:3px;font-size:var(--pdfNameFont,7px)}.board-a4-table .a4-status{width:6.5%;font-size:var(--pdfHeadFont,6px)}
+.board-a4-table .subject-title{font-size:var(--pdfSubjectFont,6px);line-height:1}.board-a4-table .small-head{font-size:var(--pdfHeadFont,5.5px);line-height:1}
+.board-a4-table .pdf-grade.term.fail{color:#d00000;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:1px}
+.board-a4-table .pdf-grade.term.critical{background:#dc6803;color:#fff;text-decoration:none}.board-a4-table .pdf-grade.annual.critical{background:#000;color:#fff}.board-a4-table .pdf-grade.annual.fail{background:#d00000;color:#fff}
+.board-a4-table .pdf-status.good{background:#ecfdf3}.board-a4-table .pdf-status.bad{background:#fff1f0;color:#b42318}.board-a4-table .pdf-status.wait{background:#fff6ed;color:#b54708}.board-a4-table .pdf-status.off{background:#f2f4f7;color:#667085}
+.board-a4-foot{position:absolute;right:18px;left:18px;bottom:5px;display:flex;align-items:center;justify-content:space-between;padding-top:3px;border-top:1px solid #777;font-size:6px}
+
+@media(max-width:1050px){
+ .board-toolbar{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:850px){
+ .class-groups{grid-template-columns:1fr 1fr;gap:6px}.gender-column{padding:6px}.class-list{grid-template-columns:1fr}
+ .main{padding:10px 7px 35px}.header-in{padding:7px 8px}.brand img{width:39px;height:39px}.brand h1{font-size:11px}.brand p{font-size:7px}.top-actions .btn{padding:0 9px;font-size:7.5px}
+ .board-toolbar{grid-template-columns:1fr 1fr}.rules-grid{grid-template-columns:1fr}.rule-fields{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+ .header-in{align-items:flex-start}.top-actions{justify-content:flex-end}.hero{padding:14px}.hero h2{font-size:16px}
+ .class-groups{grid-template-columns:1fr;gap:8px}.gender-head{font-size:9px;padding:8px}.class-card{padding:9px;min-height:86px}.class-card h4{font-size:10px}
+ .class-enter-bar{align-items:stretch;flex-direction:column}.class-enter-actions{display:grid;grid-template-columns:1fr 1fr}.class-enter-actions .btn{width:100%}
+ .board-toolbar{grid-template-columns:1fr 1fr}.board-toolbar>.field{grid-column:span 1}.board-toolbar>.btn{width:100%}
+ .rule-fields{grid-template-columns:1fr}.rules-actions{display:grid;grid-template-columns:1fr 1fr}.rules-actions .btn{width:100%}
+ .panel-body{padding:9px}.panel-head{padding:11px}.panel-head h3{font-size:12px}
+ .zoom-tools{justify-content:center}
+}
+@media(max-width:390px){
+ .board-toolbar{grid-template-columns:1fr}.brand h1{max-width:180px}
+}
 </style>
 </head>
+
 <body>
-<div id="loading" class="loading"><div class="loader"></div></div>
-<header class="header"><div class="header-in"><div class="brand"><img src="logo.png" alt="شعار المدرسة"><div><h1>مدرسة التحدي الأهلية المختلطة</h1><p>قسم الحوكمة - بورد الدرجات</p></div></div><div class="top-actions"><button class="btn btn-soft" onclick="location.href='add.html'">الرجوع إلى الإدارة</button><button class="btn btn-r" onclick="logout()">تسجيل الخروج</button></div></div></header>
+<div id="loading" class="loading"><div class="loader-wrap"><div class="loader"></div><p>جاري التحقق من صلاحية الإدارة</p></div></div>
+
+<header class="header">
+ <div class="header-in">
+  <div class="brand"><img src="logo.png" alt="شعار المدرسة"><div><h1>مدرسة التحدي الأهلية المختلطة</h1><p>قسم الحوكمة - بورد الدرجات</p></div></div>
+  <div class="top-actions">
+   <button class="btn btn-soft" onclick="backToAdmin()">الرجوع إلى الإدارة</button>
+   <button class="btn btn-r" onclick="logout()">تسجيل الخروج</button>
+  </div>
+ </div>
+</header>
+
 <main class="main">
-<section class="hero"><h2>بورد الدرجات</h2><p>اختر الصف من جهة البنين أو البنات. تظهر أسماء الطلبة أبجدياً ودرجات الفصل الأول ونصف السنة والفصل الثاني والسعي السنوي لكل مادة.</p></section>
+ <section class="hero">
+  <h2>بورد الدرجات</h2>
+  <p>اختر صفاً واحداً أو عدة صفوف ثم اضغط «دخول إلى البورد». يظهر كل صف في بورد مستقل، وجميع مواده مع الفصل الأول ونصف السنة والفصل الثاني والسعي السنوي.</p>
+  <div class="security-note">دخول الإدارة فقط — لا يعمل الرابط المباشر بدون المرور من صفحة الإدارة</div>
+ </section>
 
-<section class="panel"><div class="panel-head"><div><h3>اختيار الصف</h3><p>صفوف الذكور في جهة وصفوف الإناث في الجهة المقابلة. الصف المختلط يظهر حسب جنس الطلبة الموجودين فيه.</p></div><button class="btn btn-soft" onclick="refreshCore()">تحديث الصفوف</button></div><div class="panel-body"><div id="classGroups" class="class-groups"></div></div></section>
+ <section id="classPanel" class="panel">
+  <div class="panel-head">
+   <div><h3>1) اختيار الصفوف</h3><p>البنين بالأزرق والبنات بالوردي. يمكن تحديد أكثر من صف ثم الدخول إلى البورد.</p></div>
+   <button class="btn btn-soft" onclick="refreshCore()">تحديث الصفوف</button>
+  </div>
+  <div class="panel-body">
+   <div id="classGroups" class="class-groups"></div>
+   <div class="class-enter-bar">
+    <strong id="selectionSummary">لم يتم تحديد أي صف.</strong>
+    <div class="class-enter-actions">
+     <button class="btn btn-soft" onclick="clearClassSelection()">إلغاء التحديد</button>
+     <button id="enterBoardBtn" class="btn btn-p" onclick="enterSelectedBoards()" disabled>دخول إلى البورد</button>
+    </div>
+   </div>
+  </div>
+ </section>
 
-<section id="boardPanel" class="panel hidden">
-<div class="panel-head"><div><h3 id="boardTitle">بورد الصف</h3><p id="boardSubtitle">—</p></div></div>
-<div class="panel-body">
-<div class="board-toolbar">
- <div class="field"><label>العام الدراسي</label><input id="schoolYear" value="2026-2027"></div>
- <div class="field"><label>بحث باسم الطالب</label><input id="studentSearch" type="search" placeholder="اكتب اسم الطالب"></div>
- <button class="btn btn-v" onclick="openRuleEditor('exemption')">إضافة قاعدة إعفاء</button>
- <button class="btn btn-o" onclick="openRuleEditor('ministerial')">إضافة قاعدة دخول وزاري</button>
- <button id="saveGradesBtn" class="btn btn-g" onclick="saveBoardGrades()" disabled>حفظ الدرجات</button>
- <button id="downloadBtn" class="btn btn-p" onclick="downloadBoardPDF()">تحميل البورد PDF أفقي</button>
-</div>
+ <section id="boardPanel" class="panel hidden">
+  <div class="panel-head">
+   <div><h3>2) البورد</h3><p id="boardSubtitle">—</p></div>
+   <button class="btn btn-soft" onclick="changeSelectedClasses()">تغيير الصفوف</button>
+  </div>
+  <div class="panel-body">
+   <div class="board-toolbar">
+    <div class="field"><label>العام الدراسي</label><input id="schoolYear" value="2026-2027"></div>
+    <div class="field"><label>بحث باسم الطالب</label><input id="studentSearch" type="search" placeholder="اكتب اسم الطالب"></div>
+    <button id="editGradesBtn" class="btn btn-o" onclick="toggleEditMode()">تعديل الدرجات</button>
+    <button id="saveGradesBtn" class="btn btn-g" onclick="saveBoardGrades()" disabled>حفظ الدرجات</button>
+    <button class="btn btn-v" onclick="toggleRulesPanel()">قواعد الوزاري والإعفاء</button>
+    <button id="excelBtn" class="btn btn-g" onclick="downloadExcel()">تحميل Excel</button>
+    <button id="downloadBtn" class="btn btn-p" onclick="downloadBoardPDF()">تحميل PDF</button>
+   </div>
 
-<div id="ruleBox" class="rule-box hidden">
- <div class="rule-top"><div class="rule-title"><strong id="ruleTitle">قاعدة البورد</strong><p id="ruleDescription">—</p></div><div class="rule-actions"><button class="btn btn-g" onclick="saveBoardRule()">حفظ القاعدة لهذا الصف</button><button class="btn btn-r" onclick="removeBoardRule()">إلغاء القاعدة</button></div></div>
- <div id="ruleEditor" class="rule-editor"></div>
-</div>
+   <div class="zoom-tools">
+    <span class="zoom-value" id="zoomValue">ملاءمة 100%</span>
+    <button class="btn btn-soft" onclick="changeBoardZoom(-.25)">تصغير −</button>
+    <button class="btn btn-soft" onclick="resetBoardZoom()">ملاءمة الشاشة</button>
+    <button class="btn btn-soft" onclick="changeBoardZoom(.25)">تكبير +</button>
+    <span style="color:#667085;font-size:7px;font-weight:800">الوضع الافتراضي يعرض البورد كاملاً بدون سحب يمين/يسار. عند التكبير يمكن التحريك.</span>
+   </div>
 
-<div id="summary" class="summary"></div>
-<div id="boardScroll" class="board-scroll"><div class="empty">اختر صفاً لعرض الدرجات.</div></div>
-</div>
-</section>
+   <div id="rulesPanel" class="rules-panel hidden">
+    <div class="rules-head">
+     <div><strong>قواعد البورد</strong><p>تُحفظ القواعد للصف المختار وتُحسب من السعي السنوي.</p></div>
+     <div class="field" style="min-width:210px"><label>الصف الذي تريد ضبط قواعده</label><select id="rulesClassSelect" onchange="loadRuleEditorForSelectedClass()"></select></div>
+    </div>
+
+    <div class="rules-grid">
+     <div class="rule-card">
+      <h4>قاعدة الدخول الوزاري</h4>
+      <p>حدد عدد المواد الراسبة المسموح بها، وأقصى عدد درجات يحتاجها الطالب في كل مادة حتى يصل إلى النجاح.</p>
+      <label class="rule-enable"><input id="ministerialEnabled" type="checkbox"> تفعيل قاعدة الدخول الوزاري</label>
+      <div class="rule-fields">
+       <div class="field"><label>أقصى عدد مواد راسب بها</label><input id="ministerialMaxSubjects" type="number" min="0" max="30" value="3"></div>
+       <div class="field"><label>أقصى نقص مسموح لكل مادة</label><input id="ministerialMaxDeficit" type="number" min="0" max="100" step=".5" value="10"></div>
+      </div>
+     </div>
+
+     <div class="rule-card">
+      <h4>قاعدة الإعفاء الشامل</h4>
+      <p>يُحسب المعدل من السعي السنوي بدون كسور، مع شرط أقل سعي مسموح في أي مادة.</p>
+      <label class="rule-enable"><input id="exemptionEnabled" type="checkbox"> تفعيل قاعدة الإعفاء الشامل</label>
+      <div class="rule-fields">
+       <div class="field"><label>أقل معدل للإعفاء</label><input id="exemptionMinAverage" type="number" min="0" max="100" step=".5" value="85"></div>
+       <div class="field"><label>أقل سعي في أي مادة</label><input id="exemptionMinSubject" type="number" min="0" max="100" step=".5" value="75"></div>
+      </div>
+     </div>
+    </div>
+
+    <div class="rules-actions">
+     <button class="btn btn-g" onclick="saveBoardRules()">حفظ القواعد</button>
+     <button class="btn btn-r" onclick="clearBoardRules()">إلغاء قواعد هذا الصف</button>
+    </div>
+   </div>
+
+   <div id="summary" class="summary"></div>
+   <div id="boardGroups" class="board-groups"><div class="empty">حدد الصفوف ثم ادخل إلى البورد.</div></div>
+  </div>
+ </section>
 </main>
+
 <div id="pdfHost" class="pdf-host"></div>
 <div id="toast" class="toast"></div>
 
 <script>
 const DB="https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app";
 const $=id=>document.getElementById(id);
-const norm=v=>String(v||"").trim().toLowerCase();
+const norm=v=>String(v??"").trim().toLowerCase();
 const esc=v=>String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+const jsq=v=>JSON.stringify(String(v??""));
 const DATA={students:{},classes:{},grades:{}};
-let selection={classId:"",gender:""},activeRule=null,toastTimer=null,dirtyGradeStudents=new Set(),dirtyGradeCells=new Map();
 
-function toast(text){const el=$("toast");el.textContent=text;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),2300)}
+let SELECTED_KEYS=new Set();
+let ACTIVE_GROUPS=[];
+let EDIT_MODE=false;
+let BOARD_ZOOM=1;
+let dirtyGradeStudents=new Set();
+let dirtyGradeCells=new Map();
+let toastTimer=0;
+
+/* =========================
+   رسائل الصفحة
+========================= */
+function toast(text,type=""){
+ const el=$("toast");
+ el.textContent=String(text||"");
+ el.className=`toast show ${type}`.trim();
+ clearTimeout(toastTimer);
+ toastTimer=setTimeout(()=>el.className="toast",3600)
+}
+
+/* =========================
+   الجلسة والحماية
+========================= */
 function session(){try{return JSON.parse(sessionStorage.getItem("tahadi_session")||"{}")}catch{return{}}}
 function adminCode(){return session().code||""}
-function logout(){sessionStorage.removeItem("tahadi_session");sessionStorage.removeItem("tahadi_code");sessionStorage.removeItem("tahadi_role");localStorage.removeItem("tahadi_remembered_login");location.replace("index.html")}
-async function req(path,method="GET",data){const o={method,cache:"no-store"};if(data!==undefined){o.headers={"Content-Type":"application/json"};o.body=JSON.stringify(data)}const r=await fetch(`${DB}/${String(path||"").replace(/^\/+|\/+$/g,"")}.json`,o);if(!r.ok)throw new Error(`${method}_${path}_${r.status}`);return method==="DELETE"?true:await r.json()}
+function logout(){
+ sessionStorage.removeItem("tahadi_session");
+ sessionStorage.removeItem("tahadi_code");
+ sessionStorage.removeItem("tahadi_role");
+ sessionStorage.removeItem("tahadi_gradeboard_gate");
+ localStorage.removeItem("tahadi_remembered_login");
+ location.replace("index.html")
+}
+function backToAdmin(){location.href="add.html"}
+
+async function req(path,method="GET",data){
+ const o={method,cache:"no-store"};
+ if(data!==undefined){o.headers={"Content-Type":"application/json"};o.body=JSON.stringify(data)}
+ const clean=String(path||"").replace(/^\/+|\/+$/g,"");
+ const r=await fetch(`${DB}/${clean}.json`,o);
+ if(!r.ok)throw new Error(`${method}_${path}_${r.status}`);
+ return method==="DELETE"?true:await r.json()
+}
 const dbGet=path=>req(path),dbPatch=(path,data)=>req(path,"PATCH",data);
 
-function normalizeGender(value){const g=norm(typeof value==="object"?value?.gender:value);if(["female","f","girl","girls","اناث","إناث","انثى","أنثى"].includes(g))return"female";if(["mixed","mix","مختلط","مختلطة"].includes(g))return"mixed";return"male"}
-function classStageValue(c){const raw=norm(c?.stage||c?.classStage||c?.schoolStage||"");if(["primary","ابتدائية","ابتدائي"].includes(raw))return"primary";if(["secondary","ثانوية","ثانوي"].includes(raw))return"secondary";return/ابتدائ|ابتدائي/.test(norm(c?.name||""))?"primary":"secondary"}
+function cameFromAdminPage(){
+ try{
+  if(!document.referrer)return false;
+  const ref=new URL(document.referrer);
+  const sameSite=ref.protocol===location.protocol&&ref.host===location.host;
+  return sameSite&&/\/add\.html$/i.test(ref.pathname)
+ }catch{return false}
+}
+function validGate(code){
+ try{
+  const x=JSON.parse(sessionStorage.getItem("tahadi_gradeboard_gate")||"{}");
+  return x.code===code&&Number(x.at)>0&&(Date.now()-Number(x.at))<8*60*60*1000
+ }catch{return false}
+}
+async function verifyAdmin(){
+ const s=session();
+ if(!s.code){location.replace("index.html");return false}
+ const u=await dbGet(`users/${encodeURIComponent(s.code)}`);
+ if(!u||!["admin","administrator","add"].includes(norm(u.role))||u.active===false){
+  logout();return false
+ }
+ if(!validGate(s.code)){
+  if(!cameFromAdminPage()){
+   toast("لا يمكن فتح بورد الدرجات من الرابط مباشرة. افتحه من صفحة الإدارة.","error");
+   setTimeout(()=>location.replace("add.html"),900);
+   return false
+  }
+  sessionStorage.setItem("tahadi_gradeboard_gate",JSON.stringify({code:s.code,at:Date.now()}))
+ }
+ return true
+}
+
+/* =========================
+   أدوات الصفوف والطلاب
+========================= */
+function normalizeGender(value){
+ const g=norm(typeof value==="object"?value?.gender:value);
+ if(["female","f","girl","girls","اناث","إناث","انثى","أنثى","بنات"].includes(g))return"female";
+ if(["mixed","mix","مختلط","مختلطة"].includes(g))return"mixed";
+ return"male"
+}
+function classStageValue(c){
+ const raw=norm(c?.stage||c?.classStage||c?.schoolStage||"");
+ if(["primary","ابتدائية","ابتدائي"].includes(raw))return"primary";
+ if(["secondary","ثانوية","ثانوي"].includes(raw))return"secondary";
+ return/ابتدائ|ابتدائي/.test(norm(c?.name||""))?"primary":"secondary"
+}
 function classStageLabel(c){return classStageValue(c)==="primary"?"ابتدائية":"ثانوية"}
 function roomLabel(v){const n=Number(v);if(n===101)return"الطلاب الجدد";if(n===102)return"الطلاب المنقولين";return n?`القاعة ${n}`:"بدون قاعة"}
 function personLabel(c,g){const p=classStageValue(c)==="primary";return p?(g==="female"?"التلميذة":"التلميذ"):(g==="female"?"الطالبة":"الطالب")}
+function groupKey(classId,gender){return`${classId}|||${gender}`}
+function parseGroupKey(key){const i=key.lastIndexOf("|||");return{classId:key.slice(0,i),gender:key.slice(i+3)}}
 
-async function verifyAdmin(){const s=session();if(!s.code){location.replace("index.html");return false}const u=await dbGet(`users/${encodeURIComponent(s.code)}`);if(!u||!["admin","administrator","add"].includes(norm(u.role))||u.active===false){logout();return false}return true}
-
-function normalizeClassSubjects(c){let rows=Array.isArray(c?.subjects)?c.subjects:Object.values(c?.subjects||{});rows=rows.filter(Boolean).map((s,i)=>({id:String(s.id||`SUB_${i+1}`),name:String(s.name||s.subjectName||"").trim(),maxGrade:Number(s.maxGrade||100),passGrade:Number(s.passGrade??50),order:Number(s.order||i+1),autoType:s.autoType||""})).filter(s=>s.name);if(!rows.some(s=>s.autoType==="sport"))rows.push({id:"SPORT",name:"الرياضة",maxGrade:100,passGrade:50,order:rows.length+1,autoType:"sport"});if(!rows.some(s=>s.autoType==="art"))rows.push({id:"ART",name:"الفنية",maxGrade:100,passGrade:50,order:rows.length+1,autoType:"art"});return rows.sort((a,b)=>a.order-b.order)}
-function isGrade(v){return v!==undefined&&v!==null&&v!==""&&Number.isFinite(Number(v))}
-function gradeNum(v){return isGrade(v)?Number(v):""}
-function boardRound(v){const n=Number(v);if(!Number.isFinite(n))return"";const floor=Math.floor(n),fraction=n-floor;return fraction>=.5?floor+1:floor}
-function gradeDisplay(v){if(!isGrade(v))return"—";const n=Number(v);return Number.isInteger(n)?String(n):String(Math.round(n*10)/10)}
-function recordSubjectName(rec,key=""){return String(rec?.subjectName||rec?.subject||rec?.name||key||"").trim()}
-function findGradeRecord(raw,subject){return Object.entries(raw||{}).find(([key,r])=>String(r?.subjectId||"")===String(subject.id)||String(key)===String(subject.id)||norm(recordSubjectName(r,key))===norm(subject.name))?.[1]||{}}
-function computeAnnual(t1,mid,t2){return isGrade(t1)&&isGrade(mid)&&isGrade(t2)?boardRound((Number(t1)+Number(mid)+Number(t2))/3):""}
-function activityGrade(rows,field){const vals=rows.filter(r=>!r.autoType&&isGrade(r[field])).map(r=>Number(r[field])/Math.max(1,Number(r.maxGrade||100))*100);if(!vals.length)return"";const high=Math.max(...vals);if(high>=100)return 100;if(high>80)return 90;return 85}
-function buildStudentModel(st,c,raw){let rows=normalizeClassSubjects(c).map(sub=>{if(sub.autoType)return{...sub,term1:"",midyear:"",term2:"",annual:""};const rec=findGradeRecord(raw,sub),term1=gradeNum(rec.term1),midyear=gradeNum(rec.midyear),term2=gradeNum(rec.term2);return{...sub,term1,midyear,term2,annual:computeAnnual(term1,midyear,term2)}});const academic=rows.filter(r=>!r.autoType);rows=rows.map(r=>{if(!r.autoType)return r;const term1=activityGrade(academic,"term1"),midyear=activityGrade(academic,"midyear"),term2=activityGrade(academic,"term2");return{...r,term1,midyear,term2,annual:computeAnnual(term1,midyear,term2)}});return{student:st,rows,academic:rows.filter(r=>!r.autoType)}}
-
-function classStudents(classId,gender){return Object.values(DATA.students||{}).filter(s=>s&&s.hidden!==true&&s.classId===classId&&normalizeGender(s.gender)===gender).sort((a,b)=>String(a.name||"").localeCompare(String(b.name||""),"ar",{sensitivity:"base"}))}
-function classEntries(gender){return Object.values(DATA.classes||{}).filter(Boolean).map(c=>{const cg=normalizeGender(c),count=classStudents(c.id,gender).length;if(cg===gender)return{c,count};if(cg==="mixed"&&count>0)return{c,count};return null}).filter(Boolean).sort((a,b)=>String(a.c.name||"").localeCompare(String(b.c.name||""),"ar",{sensitivity:"base"})||Number(a.c.roomNumber||0)-Number(b.c.roomNumber||0))}
-function classCard(item,gender){const c=item.c,active=selection.classId===c.id&&selection.gender===gender;return`<article class="class-card ${active?"active":""}" onclick="selectClass('${esc(c.id)}','${gender}')"><h4>${esc(c.name||"بدون اسم")}</h4><div class="meta"><span class="badge ${gender==="female"?"purple":"blue"}">${gender==="female"?"إناث":"ذكور"}</span><span class="badge green">${classStageLabel(c)}</span><span class="badge orange">${esc(roomLabel(c.roomNumber))}</span>${normalizeGender(c)==="mixed"?`<span class="badge purple">مختلط</span>`:""}</div><div class="class-count">${item.count} ${esc(personLabel(c,gender))}</div></article>`}
-function renderClasses(){const male=classEntries("male"),female=classEntries("female"),col=(title,g,list)=>`<section class="gender-column"><div class="gender-head ${g}"><span>${title}</span><span>${list.length} صف</span></div><div class="class-list">${list.length?list.map(x=>classCard(x,g)).join(""):`<div class="empty">لا توجد صفوف</div>`}</div></section>`;$("classGroups").innerHTML=col("البنين","male",male)+col("البنات","female",female)}
-
-function inheritedBoardRule(c){if(c?.gradeBoardRule&&["exemption","ministerial"].includes(c.gradeBoardRule.type))return{...c.gradeBoardRule};const rules=(Array.isArray(c?.resultRules)?c.resultRules:[]).filter(r=>r&&r.enabled!==false&&["exemption","ministerial"].includes(r.type)).sort((a,b)=>Number(a.priority||99)-Number(b.priority||99));if(!rules.length)return null;const r=rules[0];return r.type==="exemption"?{type:"exemption",minAverage:Number(r.minAverage??85),minSubjectGrade:Number(r.minSubjectGrade??75),source:"resultRules"}:{type:"ministerial",maxSubjects:Number(r.maxSubjects??3),bonusPerSubject:Number(r.bonusPerSubject??10),source:"resultRules"}}
-function ruleLabel(rule){return!rule?"بدون قاعدة":rule.type==="exemption"?`إعفاء: المعدل ${rule.minAverage}%، أقل مادة ${rule.minSubjectGrade}%`:`دخول وزاري: حتى ${rule.maxSubjects} مواد، جبر أقصى ${rule.bonusPerSubject} درجات للمادة`}
-function renderRuleBox(){if(!activeRule){$("ruleBox").classList.add("hidden");return}$("ruleBox").classList.remove("hidden");const ex=activeRule.type==="exemption";$("ruleTitle").textContent=ex?"قاعدة الإعفاء":"قاعدة دخول وزاري";$("ruleDescription").textContent=ex?"يُفحص السعي السنوي بعد اكتمال درجات المواد.":"يُفحص عدد المواد الراسبة ومقدار الدرجات اللازمة للوصول إلى درجة النجاح.";if(ex){$("ruleEditor").innerHTML=`<div class="field"><label>أقل معدل سنوي للإعفاء</label><input id="ruleMinAverage" type="number" min="0" max="100" step=".5" value="${Number(activeRule.minAverage??85)}"></div><div class="field"><label>أقل سعي مسموح في أي مادة</label><input id="ruleMinSubject" type="number" min="0" max="100" step=".5" value="${Number(activeRule.minSubjectGrade??75)}"></div><div class="rule-note">مثال: إذا كان المعدل 85% فأعلى، ولا توجد مادة أقل من 75%، تظهر حالة الطالب «معفي عام».</div>`}else{$("ruleEditor").innerHTML=`<div class="field"><label>أقصى عدد مواد تحتاج جبر</label><input id="ruleMaxSubjects" type="number" min="0" max="20" value="${Number(activeRule.maxSubjects??3)}"></div><div class="field"><label>أقصى درجات جبر لكل مادة</label><input id="ruleBonus" type="number" min="0" max="100" step=".5" value="${Number(activeRule.bonusPerSubject??10)}"></div><div class="rule-note">يُعد الطالب داخلاً وزارياً إذا كان عدد مواد الرسوب ضمن الحد، وكل مادة تحتاج إلى عدد درجات لا يتجاوز حد الجبر المحدد حتى تصل إلى درجة النجاح.</div>`}}
-function openRuleEditor(type){if(!selection.classId){toast("اختر الصف أولاً");return}activeRule=type==="exemption"?{type:"exemption",minAverage:85,minSubjectGrade:75}:{type:"ministerial",maxSubjects:3,bonusPerSubject:10};renderRuleBox();renderBoard()}
-function collectRuleEditor(){if(!activeRule)return null;if(activeRule.type==="exemption")return{type:"exemption",minAverage:Math.max(0,Number($("ruleMinAverage")?.value||85)),minSubjectGrade:Math.max(0,Number($("ruleMinSubject")?.value||75))};return{type:"ministerial",maxSubjects:Math.max(0,Math.floor(Number($("ruleMaxSubjects")?.value||3))),bonusPerSubject:Math.max(0,Number($("ruleBonus")?.value||10))}}
-async function saveBoardRule(){if(!selection.classId||!activeRule)return;try{activeRule=collectRuleEditor();const now=Date.now(),row={...activeRule,updatedAt:now,updatedBy:adminCode()};await dbPatch(`classes/${encodeURIComponent(selection.classId)}`,{gradeBoardRule:row});DATA.classes[selection.classId].gradeBoardRule=row;activeRule=row;renderRuleBox();renderBoard();toast("تم حفظ قاعدة البورد لهذا الصف")}catch(e){console.error(e);toast("تعذر حفظ القاعدة")}}
-async function removeBoardRule(){if(!selection.classId)return;try{await dbPatch(`classes/${encodeURIComponent(selection.classId)}`,{gradeBoardRule:null});delete DATA.classes[selection.classId].gradeBoardRule;activeRule=null;renderRuleBox();renderBoard();toast("تم إلغاء قاعدة البورد")}catch(e){console.error(e);toast("تعذر إلغاء القاعدة")}}
-
-function evaluateRule(model,rule){if(!rule)return{type:"none",text:"—",css:""};const rows=model.academic;if(!rows.length||rows.some(r=>!isGrade(r.annual)))return{type:"wait",text:"غير مكتمل",css:"wait"};if(rule.type==="exemption"){const perc=rows.map(r=>Number(r.annual)/Math.max(1,Number(r.maxGrade||100))*100),avg=perc.reduce((a,b)=>a+b,0)/perc.length,min=Math.min(...perc),ok=avg>=Number(rule.minAverage??85)&&min>=Number(rule.minSubjectGrade??75);return{type:ok?"good":"bad",text:ok?"معفي عام":"غير معفي",css:ok?"good":"bad",details:`المعدل ${Math.round(avg*10)/10}%`}}const failed=rows.filter(r=>Number(r.annual)<Number(r.passGrade??50)),maxSubjects=Number(rule.maxSubjects??3),bonus=Number(rule.bonusPerSubject??10),deficits=failed.map(r=>Number(r.passGrade??50)-Number(r.annual)),ok=failed.length<=maxSubjects&&deficits.every(d=>d<=bonus);return{type:ok?"good":"bad",text:ok?"داخل وزاري":"غير داخل",css:ok?"good":"bad",details:failed.length?`${failed.length} مواد`:"لا توجد مواد راسبة"}}
-
-function gradeFail(value,row){return isGrade(value)&&Number(value)<Number(row.passGrade??50)}
-function criticalGrade(value){return isGrade(value)&&Number(value)>=45&&Number(value)<50}
-function boardInputCell(code,row,field){
- const value=row[field],critical=criticalGrade(value),fail=gradeFail(value,row)&&!critical,auto=!!row.autoType,cls=critical?"critical":fail?"fail":"";
- if(auto)return`<td class="grade-cell ${cls}"><span class="readonly-grade">${gradeDisplay(value)}</span></td>`;
- return`<td class="grade-cell ${cls}"><input class="board-grade-input ${cls}" type="number" inputmode="decimal" min="0" max="${Number(row.maxGrade||100)}" step=".5" value="${isGrade(value)?Number(value):""}" data-code="${esc(code)}" data-subject="${esc(row.id)}" data-field="${field}" data-pass="${Number(row.passGrade??50)}" data-max="${Number(row.maxGrade||100)}" onfocus="boardGradeFocus(this)" onblur="boardGradeBlur(this)" oninput="boardGradeChanged(this)"></td>`
+function normalizeClassSubjects(c){
+ let rows=Array.isArray(c?.subjects)?c.subjects:Object.values(c?.subjects||{});
+ rows=rows.filter(Boolean).map((s,i)=>({
+  id:String(s.id||`SUB_${i+1}`),
+  name:String(s.name||s.subjectName||"").trim(),
+  maxGrade:Number(s.maxGrade||100),
+  passGrade:Number(s.passGrade??50),
+  order:Number(s.order||i+1),
+  autoType:s.autoType||""
+ })).filter(s=>s.name);
+ if(!rows.some(s=>s.autoType==="sport"))rows.push({id:"SPORT",name:"الرياضة",maxGrade:100,passGrade:50,order:rows.length+1,autoType:"sport"});
+ if(!rows.some(s=>s.autoType==="art"))rows.push({id:"ART",name:"الفنية",maxGrade:100,passGrade:50,order:rows.length+1,autoType:"art"});
+ return rows.sort((a,b)=>a.order-b.order)
 }
-function annualCell(code,row){const critical=criticalGrade(row.annual),fail=gradeFail(row.annual,row)&&!critical;return`<td class="grade-cell annual ${critical?"critical":fail?"fail":"pass"}" data-annual-code="${esc(code)}" data-annual-subject="${esc(row.id)}">${gradeDisplay(row.annual)}</td>`}
-function pdfGradeCell(value,row,annual=false){const critical=criticalGrade(value),fail=gradeFail(value,row)&&!critical;return`<td class="pdf-grade ${annual?"annual":""} ${critical?"critical":fail?"fail":"pass"}">${gradeDisplay(value)}</td>`}
+function classStudents(classId,gender){
+ return Object.values(DATA.students||{}).filter(s=>s&&s.hidden!==true&&s.classId===classId&&normalizeGender(s.gender)===gender)
+ .sort((a,b)=>String(a.name||"").localeCompare(String(b.name||""),"ar",{sensitivity:"base"}))
+}
+function classEntries(gender){
+ return Object.values(DATA.classes||{}).filter(Boolean).map(c=>{
+  const cg=normalizeGender(c),count=classStudents(c.id,gender).length;
+  if(cg===gender)return{c,count};
+  if(cg==="mixed"&&count>0)return{c,count};
+  return null
+ }).filter(Boolean).sort((a,b)=>String(a.c.name||"").localeCompare(String(b.c.name||""),"ar",{sensitivity:"base"})||Number(a.c.roomNumber||0)-Number(b.c.roomNumber||0))
+}
+function classCard(item,gender){
+ const c=item.c,key=groupKey(c.id,gender),active=SELECTED_KEYS.has(key),genderText=gender==="female"?"بنات":"بنين";
+ return`<article class="class-card ${gender} ${active?"active":""}" onclick='toggleClassSelection(${jsq(c.id)},${jsq(gender)})'>
+  <h4>${esc(c.name||"بدون اسم")}</h4>
+  <div class="meta">
+   <span class="badge ${gender==="female"?"pink":"blue"}">${genderText}</span>
+   <span class="badge green">${classStageLabel(c)}</span>
+   <span class="badge orange">${esc(roomLabel(c.roomNumber))}</span>
+   ${normalizeGender(c)==="mixed"?`<span class="badge purple">مختلط</span>`:""}
+  </div>
+  <div class="class-count">${item.count} ${esc(personLabel(c,gender))}</div>
+ </article>`
+}
+function renderClasses(){
+ const male=classEntries("male"),female=classEntries("female");
+ const col=(title,g,list)=>`<section class="gender-column">
+  <div class="gender-head ${g}"><span>${title}</span><span>${list.length} صف</span></div>
+  <div class="class-list">${list.length?list.map(x=>classCard(x,g)).join(""):`<div class="empty">لا توجد صفوف</div>`}</div>
+ </section>`;
+ $("classGroups").innerHTML=col("البنين","male",male)+col("البنات","female",female);
+ updateSelectionSummary()
+}
+function toggleClassSelection(id,gender){
+ const key=groupKey(id,gender);
+ if(SELECTED_KEYS.has(key))SELECTED_KEYS.delete(key);else SELECTED_KEYS.add(key);
+ renderClasses()
+}
+function clearClassSelection(){SELECTED_KEYS.clear();renderClasses()}
+function updateSelectionSummary(){
+ const n=SELECTED_KEYS.size;
+ $("selectionSummary").textContent=n?`تم تحديد ${n} صف/مجموعة.`:"لم يتم تحديد أي صف.";
+ $("enterBoardBtn").disabled=!n
+}
+function selectedGroups(){
+ return[...SELECTED_KEYS].map(parseGroupKey).map(x=>({
+  key:groupKey(x.classId,x.gender),
+  classId:x.classId,
+  gender:x.gender,
+  c:DATA.classes[x.classId],
+  students:classStudents(x.classId,x.gender)
+ })).filter(x=>x.c&&x.students.length)
+ .sort((a,b)=>(a.gender==="male"?0:1)-(b.gender==="male"?0:1)||String(a.c.name||"").localeCompare(String(b.c.name||""),"ar"))
+}
+
+/* =========================
+   الدرجات والحسابات
+========================= */
+function rawText(v){return String(v??"").trim()}
+function numericGrade(v){const t=rawText(v),n=Number(t);return t!==""&&Number.isFinite(n)?n:null}
+function calcGrade(v){const t=rawText(v);if(t==="")return null;const n=Number(t);return Number.isFinite(n)?n:0}
+function storedGradeValue(v){const t=rawText(v);if(t==="")return null;const n=Number(t);return Number.isFinite(n)?n:t}
+function gradeDisplay(v){const t=rawText(v);if(!t)return"—";const n=Number(t);return Number.isFinite(n)?String(Number.isInteger(n)?n:Math.round(n*10)/10):t}
+function boardRound(v){const n=Number(v);if(!Number.isFinite(n))return"";return Math.round(n)}
+function computeAnnual(t1,mid,t2){
+ const a=calcGrade(t1),b=calcGrade(mid),c=calcGrade(t2);
+ return a!==null&&b!==null&&c!==null?boardRound((a+b+c)/3):""
+}
+function recordSubjectName(rec,key=""){return String(rec?.subjectName||rec?.subject||rec?.name||key||"").trim()}
+function findGradeEntry(raw,subject){
+ const found=Object.entries(raw||{}).find(([key,r])=>String(r?.subjectId||"")===String(subject.id)||String(key)===String(subject.id)||norm(recordSubjectName(r,key))===norm(subject.name));
+ return found||["",{}]
+}
+function activityGrade(rows,field){
+ const vals=rows.filter(r=>!r.autoType&&rawText(r[field])!=="").map(r=>(Number(calcGrade(r[field])||0)/Math.max(1,Number(r.maxGrade||100)))*100);
+ if(!vals.length)return"";
+ const high=Math.max(...vals);if(high>=100)return 100;if(high>80)return 90;return 85
+}
+function buildStudentModel(st,c,raw){
+ let rows=normalizeClassSubjects(c).map(sub=>{
+  if(sub.autoType)return{...sub,term1:"",midyear:"",term2:"",annual:""};
+  const rec=findGradeEntry(raw,sub)[1]||{},term1=rec.term1??"",midyear=rec.midyear??"",term2=rec.term2??"";
+  return{...sub,term1,midyear,term2,annual:computeAnnual(term1,midyear,term2)}
+ });
+ const academic=rows.filter(r=>!r.autoType);
+ rows=rows.map(r=>{
+  if(!r.autoType)return r;
+  const term1=activityGrade(academic,"term1"),midyear=activityGrade(academic,"midyear"),term2=activityGrade(academic,"term2");
+  return{...r,term1,midyear,term2,annual:computeAnnual(term1,midyear,term2)}
+ });
+ return{student:st,rows,academic:rows.filter(r=>!r.autoType)}
+}
+function rowForSubject(model,sub){return model.rows.find(r=>String(r.id)===String(sub.id)||norm(r.name)===norm(sub.name))||{...sub,term1:"",midyear:"",term2:"",annual:""}}
+function annualAverage(model){
+ const rows=model.academic;
+ if(!rows.length||rows.some(r=>rawText(r.annual)===""))return"";
+ const vals=rows.map(r=>(Number(calcGrade(r.annual)||0)/Math.max(1,Number(r.maxGrade||100)))*100);
+ return Math.round(vals.reduce((a,b)=>a+b,0)/vals.length)
+}
+function gradeState(value,row,annual=false){
+ const raw=rawText(value);if(!raw)return"";
+ const n=Number(raw);if(!Number.isFinite(n))return"textual";
+ const pass=Number(row.passGrade??50),gap=Math.max(1,pass*.10);
+ if(n>=pass)return"pass";
+ if(n>=pass-gap)return"critical";
+ return"fail"
+}
+
+/* =========================
+   القواعد
+========================= */
+function defaultBoardRules(){
+ return{
+  ministerial:{enabled:false,maxSubjects:3,maxDeficitPerSubject:10},
+  exemption:{enabled:false,minAverage:85,minSubjectGrade:75}
+ }
+}
+function rulesForClass(c){
+ const out=defaultBoardRules();
+ if(c?.gradeBoardRules?.ministerial)out.ministerial={...out.ministerial,...c.gradeBoardRules.ministerial};
+ if(c?.gradeBoardRules?.exemption)out.exemption={...out.exemption,...c.gradeBoardRules.exemption};
+ if(c?.gradeBoardRule?.type==="ministerial")out.ministerial={enabled:true,maxSubjects:Number(c.gradeBoardRule.maxSubjects??3),maxDeficitPerSubject:Number(c.gradeBoardRule.bonusPerSubject??10)};
+ if(c?.gradeBoardRule?.type==="exemption")out.exemption={enabled:true,minAverage:Number(c.gradeBoardRule.minAverage??85),minSubjectGrade:Number(c.gradeBoardRule.minSubjectGrade??75)};
+ return out
+}
+function ministerialStatus(model,rule){
+ if(!rule?.enabled)return{css:"off",text:"غير مفعّل",details:""};
+ const rows=model.academic;if(!rows.length||rows.some(r=>rawText(r.annual)===""))return{css:"wait",text:"غير مكتمل",details:""};
+ const failed=rows.filter(r=>Number(calcGrade(r.annual)||0)<Number(r.passGrade??50));
+ const deficits=failed.map(r=>Number(r.passGrade??50)-Number(calcGrade(r.annual)||0));
+ const ok=failed.length<=Number(rule.maxSubjects??3)&&deficits.every(d=>d<=Number(rule.maxDeficitPerSubject??10));
+ if(!failed.length)return{css:"good",text:"مؤهل",details:"لا توجد مواد راسبة"};
+ return{css:ok?"good":"bad",text:ok?"مؤهل":"غير مؤهل",details:`${failed.length} مواد — أكبر نقص ${Math.max(...deficits)} درجة`}
+}
+function exemptionStatus(model,rule){
+ if(!rule?.enabled)return{css:"off",text:"غير مفعّل",details:""};
+ const rows=model.academic,avg=annualAverage(model);
+ if(avg===""||rows.some(r=>rawText(r.annual)===""))return{css:"wait",text:"غير مكتمل",details:""};
+ const percs=rows.map(r=>(Number(calcGrade(r.annual)||0)/Math.max(1,Number(r.maxGrade||100)))*100);
+ const min=Math.min(...percs),ok=avg>=Number(rule.minAverage??85)&&min>=Number(rule.minSubjectGrade??75);
+ return{css:ok?"good":"bad",text:ok?"مؤهل إعفاء شامل":"غير مؤهل",details:`المعدل ${avg} — أقل مادة ${Math.round(min)}`}
+}
+function toggleRulesPanel(){
+ $("rulesPanel").classList.toggle("hidden");
+ if(!$("rulesPanel").classList.contains("hidden")){renderRulesClassSelect();loadRuleEditorForSelectedClass()}
+}
+function renderRulesClassSelect(){
+ const unique=new Map();
+ ACTIVE_GROUPS.forEach(g=>{if(!unique.has(g.classId))unique.set(g.classId,g)});
+ $("rulesClassSelect").innerHTML=[...unique.values()].map(g=>`<option value="${esc(g.classId)}">${esc(g.c.name||g.classId)}</option>`).join("")
+}
+function loadRuleEditorForSelectedClass(){
+ const id=$("rulesClassSelect").value,c=DATA.classes[id];if(!c)return;
+ const rules=rulesForClass(c);
+ $("ministerialEnabled").checked=!!rules.ministerial.enabled;
+ $("ministerialMaxSubjects").value=Number(rules.ministerial.maxSubjects??3);
+ $("ministerialMaxDeficit").value=Number(rules.ministerial.maxDeficitPerSubject??10);
+ $("exemptionEnabled").checked=!!rules.exemption.enabled;
+ $("exemptionMinAverage").value=Number(rules.exemption.minAverage??85);
+ $("exemptionMinSubject").value=Number(rules.exemption.minSubjectGrade??75)
+}
+async function saveBoardRules(){
+ const id=$("rulesClassSelect").value,c=DATA.classes[id];if(!c)return toast("اختر الصف أولاً","warn");
+ const rules={
+  ministerial:{
+   enabled:$("ministerialEnabled").checked,
+   maxSubjects:Math.max(0,Math.floor(Number($("ministerialMaxSubjects").value||0))),
+   maxDeficitPerSubject:Math.max(0,Number($("ministerialMaxDeficit").value||0))
+  },
+  exemption:{
+   enabled:$("exemptionEnabled").checked,
+   minAverage:Math.max(0,Number($("exemptionMinAverage").value||0)),
+   minSubjectGrade:Math.max(0,Number($("exemptionMinSubject").value||0))
+  },
+  updatedAt:Date.now(),updatedBy:adminCode()
+ };
+ try{
+  await dbPatch(`classes/${encodeURIComponent(id)}`,{gradeBoardRules:rules});
+  DATA.classes[id].gradeBoardRules=rules;
+  renderAllBoards();
+  toast("تم حفظ قواعد الوزاري والإعفاء لهذا الصف.","success")
+ }catch(e){console.error(e);toast("تعذر حفظ القواعد.","error")}
+}
+async function clearBoardRules(){
+ const id=$("rulesClassSelect").value;if(!id)return;
+ try{
+  await dbPatch(`classes/${encodeURIComponent(id)}`,{gradeBoardRules:null,gradeBoardRule:null});
+  delete DATA.classes[id].gradeBoardRules;delete DATA.classes[id].gradeBoardRule;
+  loadRuleEditorForSelectedClass();renderAllBoards();toast("تم إلغاء قواعد هذا الصف.","success")
+ }catch(e){console.error(e);toast("تعذر إلغاء القواعد.","error")}
+}
+
+/* =========================
+   تحميل الصفوف والدخول
+========================= */
+async function loadGradesForGroups(groups){
+ const map=new Map();
+ groups.forEach(g=>g.students.forEach(st=>map.set(st.code,st)));
+ const missing=[...map.values()].filter(st=>DATA.grades[st.code]===undefined);
+ let next=0;
+ async function worker(){
+  while(next<missing.length){
+   const st=missing[next++];
+   try{DATA.grades[st.code]=await dbGet(`grades/${encodeURIComponent(st.code)}`)||{}}catch{DATA.grades[st.code]={}}
+  }
+ }
+ await Promise.all(Array.from({length:Math.min(8,Math.max(1,missing.length))},worker))
+}
+async function enterSelectedBoards(){
+ if(!SELECTED_KEYS.size)return toast("حدد صفاً واحداً على الأقل.","warn");
+ if(dirtyGradeStudents.size)return toast("احفظ الدرجات المعدلة أولاً.","warn");
+ ACTIVE_GROUPS=selectedGroups();
+ if(!ACTIVE_GROUPS.length)return toast("الصفوف المحددة لا تحتوي أسماء.","warn");
+ $("enterBoardBtn").disabled=true;$("enterBoardBtn").textContent="جاري التحميل...";
+ try{
+  await loadGradesForGroups(ACTIVE_GROUPS);
+  EDIT_MODE=false;BOARD_ZOOM=1;
+  $("boardPanel").classList.remove("hidden");
+  $("rulesPanel").classList.add("hidden");
+  $("editGradesBtn").textContent="تعديل الدرجات";
+  $("saveGradesBtn").disabled=true;$("saveGradesBtn").textContent="حفظ الدرجات";
+  $("boardSubtitle").textContent=`${ACTIVE_GROUPS.length} صف/مجموعة — البنين أولاً ثم البنات`;
+  renderRulesClassSelect();renderAllBoards();
+  $("boardPanel").scrollIntoView({behavior:"smooth",block:"start"})
+ }catch(e){console.error(e);toast("تعذر تحميل الدرجات.","error")}
+ finally{$("enterBoardBtn").disabled=false;$("enterBoardBtn").textContent="دخول إلى البورد"}
+}
+function changeSelectedClasses(){
+ if(dirtyGradeStudents.size)return toast("احفظ الدرجات المعدلة قبل تغيير الصفوف.","warn");
+ $("classPanel").scrollIntoView({behavior:"smooth",block:"start"})
+}
+
+/* =========================
+   عرض البورد والتكبير
+========================= */
+function currentModelsForGroup(g){
+ return g.students.map(st=>({student:st,model:buildStudentModel(st,g.c,DATA.grades[st.code]||{})}))
+}
+function searchModels(items){
+ const q=norm($("studentSearch")?.value);return q?items.filter(x=>norm(x.student.name).includes(q)||norm(x.student.code).includes(q)):items
+}
+function dirtyCellKey(code,subject,field){return`${code}|||${subject}|||${field}`}
+function getDirtyOrStored(code,subject,field,fallback){
+ const key=dirtyCellKey(code,subject,field);
+ return dirtyGradeCells.has(key)?dirtyGradeCells.get(key):fallback
+}
+function liveRow(item,sub){
+ const base=rowForSubject(item.model,sub);
+ if(sub.autoType)return base;
+ const term1=getDirtyOrStored(item.student.code,sub.id,"term1",base.term1);
+ const midyear=getDirtyOrStored(item.student.code,sub.id,"midyear",base.midyear);
+ const term2=getDirtyOrStored(item.student.code,sub.id,"term2",base.term2);
+ return{...base,term1,midyear,term2,annual:computeAnnual(term1,midyear,term2)}
+}
+function liveModel(item,subjects){
+ const rows=subjects.map(s=>liveRow(item,s)),academic=rows.filter(r=>!r.autoType);
+ return{student:item.student,rows,academic}
+}
+function boardInputCell(code,row,field){
+ const value=row[field],state=gradeState(value,row,false),auto=!!row.autoType,cellCls=`grade-cell term ${state}`;
+ if(auto||!EDIT_MODE)return`<td class="${cellCls}"><span class="readonly-grade">${gradeDisplay(value)}</span></td>`;
+ return`<td class="${cellCls}">
+  <input class="board-grade-input ${state}" type="text" inputmode="decimal"
+   value="${esc(rawText(value))}"
+   data-code="${esc(code)}" data-subject="${esc(row.id)}" data-field="${field}"
+   data-pass="${Number(row.passGrade??50)}" data-max="${Number(row.maxGrade||100)}"
+   onfocus="boardGradeFocus(this)" onblur="boardGradeBlur(this)" oninput="boardGradeChanged(this)">
+ </td>`
+}
+function annualCell(code,row){const state=gradeState(row.annual,row,true);return`<td class="grade-cell annual ${state}" data-annual-code="${esc(code)}" data-annual-subject="${esc(row.id)}"><span class="readonly-grade">${gradeDisplay(row.annual)}</span></td>`}
+function renderBoardGroup(g){
+ const subjects=normalizeClassSubjects(g.c),baseItems=searchModels(currentModelsForGroup(g)),rules=rulesForClass(g.c),person=personLabel(g.c,g.gender);
+ if(!baseItems.length)return`<section class="board-group ${g.gender}"><div class="board-group-head ${g.gender}"><div><h4>${esc(g.c.name)} — ${g.gender==="female"?"بنات":"بنين"}</h4></div></div><div class="empty">لا توجد أسماء مطابقة.</div></section>`;
+ const h1=subjects.map(s=>`<th colspan="4" class="subject-head">${esc(s.name)}</th>`).join("");
+ const h2=subjects.map(()=>`<th class="subgrade">ف1</th><th class="subgrade">نصف</th><th class="subgrade">ف2</th><th class="subgrade">سعي</th>`).join("");
+ const rows=baseItems.map((item,i)=>{
+  const lm=liveModel(item,subjects),avg=annualAverage(lm),minister=ministerialStatus(lm,rules.ministerial),exempt=exemptionStatus(lm,rules.exemption),changed=item.student.gradeBoardGradeChanged===true||dirtyGradeStudents.has(item.student.code);
+  return`<tr data-student-code="${esc(item.student.code)}">
+   <td class="seq">${i+1}</td>
+   <td class="name ${changed?"grade-changed":""}">${esc(item.student.name||"—")}</td>
+   ${subjects.map(s=>{const r=lm.rows.find(x=>String(x.id)===String(s.id));return boardInputCell(item.student.code,r,"term1")+boardInputCell(item.student.code,r,"midyear")+boardInputCell(item.student.code,r,"term2")+annualCell(item.student.code,r)}).join("")}
+   <td class="average average-cell" data-average-code="${esc(item.student.code)}">${avg===""?"—":avg}</td>
+   <td class="rule-status status ${minister.css}" data-ministerial-code="${esc(item.student.code)}" title="${esc(minister.details||"")}">${esc(minister.text)}</td>
+   <td class="rule-status status ${exempt.css}" data-exemption-code="${esc(item.student.code)}" title="${esc(exempt.details||"")}">${esc(exempt.text)}</td>
+  </tr>`
+ }).join("");
+ return`<section class="board-group ${g.gender}" data-group-key="${esc(g.key)}">
+  <div class="board-group-head ${g.gender}">
+   <div><h4>${esc(g.c.name||"الصف")} — ${g.gender==="female"?"بنات":"بنين"}</h4><p>${esc(classStageLabel(g.c))} | ${esc(roomLabel(g.c.roomNumber))} | ${subjects.length} مادة | ${baseItems.length} اسم</p></div>
+   <div class="group-average">السعي والمعدل بدون كسور</div>
+  </div>
+  <div class="board-viewport"><div class="board-stage">
+   <table class="grade-board">
+    <thead><tr><th rowspan="2" class="seq">ت</th><th rowspan="2" class="name">اسم ${esc(person)}</th>${h1}<th rowspan="2" class="average">المعدل</th><th rowspan="2" class="status">دخول وزاري</th><th rowspan="2" class="status">إعفاء شامل</th></tr><tr>${h2}</tr></thead>
+    <tbody>${rows}</tbody>
+   </table>
+  </div></div>
+ </section>`
+}
+function renderAllBoards(){
+ if(!ACTIVE_GROUPS.length)return;
+ const totalStudents=ACTIVE_GROUPS.reduce((n,g)=>n+g.students.length,0),totalSubjects=ACTIVE_GROUPS.reduce((n,g)=>n+normalizeClassSubjects(g.c).length,0);
+ $("summary").innerHTML=`<span class="badge blue">${ACTIVE_GROUPS.length} صف/مجموعة</span><span class="badge green">${totalStudents} اسم</span><span class="badge orange">${totalSubjects} مجموع المواد المعروضة</span><span class="badge purple">الحرج بالسعي: أسود</span><span class="badge orange">الحرج بالفصول: برتقالي</span><span class="badge red">الراسب بالسعي: أحمر</span>`;
+ $("boardGroups").innerHTML=ACTIVE_GROUPS.map(renderBoardGroup).join("");
+ requestAnimationFrame(()=>requestAnimationFrame(fitAllBoards))
+}
+function fitOneBoard(groupEl){
+ const viewport=groupEl.querySelector(".board-viewport"),stage=groupEl.querySelector(".board-stage"),table=groupEl.querySelector(".grade-board");
+ if(!viewport||!stage||!table)return;
+ table.style.transform="none";stage.style.width="auto";stage.style.height="auto";
+ const naturalW=table.scrollWidth,naturalH=table.offsetHeight,available=Math.max(260,viewport.clientWidth-2),fit=Math.min(1,available/Math.max(1,naturalW)),scale=Math.max(.08,fit*BOARD_ZOOM);
+ table.style.transform=`scale(${scale})`;
+ table.style.transformOrigin="top right";
+ stage.style.width=`${Math.ceil(naturalW*scale)}px`;
+ stage.style.height=`${Math.ceil(naturalH*scale)}px`;
+ viewport.style.overflowX=scale>fit+.002?"auto":"hidden";
+ viewport.style.overflowY="hidden"
+}
+function fitAllBoards(){document.querySelectorAll(".board-group").forEach(fitOneBoard);$("zoomValue").textContent=`ملاءمة ${Math.round(BOARD_ZOOM*100)}%`}
+function changeBoardZoom(delta){BOARD_ZOOM=Math.max(.5,Math.min(3,BOARD_ZOOM+delta));fitAllBoards()}
+function resetBoardZoom(){BOARD_ZOOM=1;fitAllBoards()}
+let resizeTimer=0;window.addEventListener("resize",()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(fitAllBoards,100)});
+
+/* =========================
+   تعديل وحفظ الدرجات
+========================= */
+function toggleEditMode(){
+ if(EDIT_MODE){
+  if(dirtyGradeStudents.size)return toast("احفظ الدرجات المعدلة قبل إنهاء وضع التعديل.","warn");
+  EDIT_MODE=false;$("editGradesBtn").textContent="تعديل الدرجات";renderAllBoards();return
+ }
+ EDIT_MODE=true;$("editGradesBtn").textContent="إنهاء التعديل";renderAllBoards();toast("تم تفعيل تعديل الدرجات. عدّل ثم اضغط حفظ.","success")
+}
 function boardGradeFocus(input){input.closest("tr")?.classList.add("editing-row")}
 function boardGradeBlur(input){input.closest("tr")?.classList.remove("editing-row")}
-function dirtyCellKey(code,subject,field){return`${code}|||${subject}|||${field}`}
-function getLocalGradeValue(code,subject,field){
- const input=document.querySelector(`.board-grade-input[data-code="${CSS.escape(code)}"][data-subject="${CSS.escape(subject)}"][data-field="${field}"]`);
- return input&&input.value!==""?Number(input.value):""
+function refreshStudentComputedCells(code){
+ const st=DATA.students[code];if(!st)return;
+ const g=ACTIVE_GROUPS.find(x=>x.classId===st.classId&&x.students.some(s=>s.code===code));if(!g)return;
+ const subjects=normalizeClassSubjects(g.c),baseItem={student:st,model:buildStudentModel(st,g.c,DATA.grades[code]||{})},lm=liveModel(baseItem,subjects),rules=rulesForClass(g.c);
+ for(const r of lm.rows){
+  const cell=document.querySelector(`[data-annual-code="${CSS.escape(code)}"][data-annual-subject="${CSS.escape(String(r.id))}"]`);
+  if(cell){
+   const state=gradeState(r.annual,r,true);
+   cell.className=`grade-cell annual ${state}`;
+   const span=cell.querySelector(".readonly-grade");if(span)span.textContent=gradeDisplay(r.annual)
+  }
+ }
+ const avg=annualAverage(lm),avgCell=document.querySelector(`[data-average-code="${CSS.escape(code)}"]`);if(avgCell)avgCell.textContent=avg===""?"—":avg;
+ const m=ministerialStatus(lm,rules.ministerial),mCell=document.querySelector(`[data-ministerial-code="${CSS.escape(code)}"]`);
+ if(mCell){mCell.className=`rule-status status ${m.css}`;mCell.textContent=m.text;mCell.title=m.details||""}
+ const e=exemptionStatus(lm,rules.exemption),eCell=document.querySelector(`[data-exemption-code="${CSS.escape(code)}"]`);
+ if(eCell){eCell.className=`rule-status status ${e.css}`;eCell.textContent=e.text;eCell.title=e.details||""}
 }
 function boardGradeChanged(input){
- const code=input.dataset.code,subject=input.dataset.subject,field=input.dataset.field,max=Number(input.dataset.max||100),pass=Number(input.dataset.pass||50);
- const value=input.value===""?"":Number(input.value),invalid=value!==""&&(!Number.isFinite(value)||value<0||value>max),critical=!invalid&&criticalGrade(value),fail=value!==""&&!invalid&&value<pass&&!critical,td=input.closest("td");
- input.classList.toggle("critical",critical);input.classList.toggle("fail",fail);td?.classList.toggle("critical",critical);td?.classList.toggle("fail",fail);
- input.classList.add("dirty");input.style.borderColor=invalid?"#d92d20":"";dirtyGradeStudents.add(code);dirtyGradeCells.set(dirtyCellKey(code,subject,field),value);
- const row=input.closest("tr"),name=row?.querySelector(".name");if(name)name.classList.add("grade-changed");if(row)row.classList.add("editing-row");
- const t1=getLocalGradeValue(code,subject,"term1"),mid=getLocalGradeValue(code,subject,"midyear"),t2=getLocalGradeValue(code,subject,"term2"),annual=computeAnnual(t1,mid,t2),annualCellEl=document.querySelector(`[data-annual-code="${CSS.escape(code)}"][data-annual-subject="${CSS.escape(subject)}"]`);
- if(annualCellEl){const c=criticalGrade(annual),f=annual!==""&&annual<pass&&!c;annualCellEl.textContent=gradeDisplay(annual);annualCellEl.classList.toggle("critical",c);annualCellEl.classList.toggle("fail",f);annualCellEl.classList.toggle("pass",annual===""||annual>=pass)}
- const btn=$("saveGradesBtn");btn.disabled=dirtyGradeStudents.size===0;btn.textContent=dirtyGradeStudents.size?`حفظ الدرجات (${dirtyGradeStudents.size})`:"حفظ الدرجات";fitBoardToPage();
-}
-function filteredModels(){const q=norm($("studentSearch")?.value),models=currentModels();return q?models.filter(m=>norm(m.student.name).includes(q)):models}
-function currentModels(){const students=classStudents(selection.classId,selection.gender);return students.map(st=>({student:st,model:buildStudentModel(st,DATA.classes[selection.classId],DATA.grades[st.code]||{})}))}
-function rowForSubject(model,sub){return model.rows.find(r=>String(r.id)===String(sub.id)||norm(r.name)===norm(sub.name))||{...sub,term1:"",midyear:"",term2:"",annual:""}}
-
-function fitBoardToPage(){
- const wrap=$("boardScroll"),table=wrap?.querySelector(".grade-board");if(!wrap||!table)return;
- table.style.transform="none";wrap.style.height="auto";
- const naturalW=table.scrollWidth,naturalH=table.offsetHeight,availableW=Math.max(280,wrap.clientWidth-2),availableH=Math.max(360,window.innerHeight-155),scale=Math.min(1,availableW/Math.max(1,naturalW),availableH/Math.max(1,naturalH));
- table.style.transform=`scale(${scale})`;table.style.transformOrigin="top right";wrap.style.height=`${Math.ceil(naturalH*scale)+2}px`;
-}
-let boardResizeTimer=null;window.addEventListener("resize",()=>{clearTimeout(boardResizeTimer);boardResizeTimer=setTimeout(fitBoardToPage,100)});
-function renderBoard(){
- if(!selection.classId)return;const c=DATA.classes[selection.classId],subjects=normalizeClassSubjects(c),items=filteredModels(),person=personLabel(c,selection.gender),rule=activeRule;
- $("summary").innerHTML=`<span class="badge blue">${items.length} ${person}</span><span class="badge orange">${subjects.length} مادة</span><span class="badge purple">${esc(ruleLabel(rule))}</span><span class="badge green">كل مادة: فصل أول + نصف سنة + فصل ثاني + سعي</span><span class="badge blue">45 إلى أقل من 50: خلية سوداء وكتابة بيضاء</span>`;
- if(!items.length){$("boardScroll").innerHTML='<div class="empty">لا توجد أسماء مطابقة.</div>';return}
- const h1=subjects.map(s=>`<th colspan="4" class="subject-head">${esc(s.name)}</th>`).join(""),h2=subjects.map(()=>`<th class="subgrade">فصل أول</th><th class="subgrade">نصف سنة</th><th class="subgrade">فصل ثاني</th><th class="subgrade">سعي</th>`).join("");
- const rows=items.map((item,i)=>{const status=evaluateRule(item.model,rule),changed=item.student.gradeBoardGradeChanged===true||dirtyGradeStudents.has(item.student.code);return`<tr data-student-code="${esc(item.student.code)}"><td class="seq">${i+1}</td><td class="name ${changed?"grade-changed":""}">${esc(item.student.name||"—")}</td>${subjects.map(s=>{const r=rowForSubject(item.model,s);return boardInputCell(item.student.code,r,"term1")+boardInputCell(item.student.code,r,"midyear")+boardInputCell(item.student.code,r,"term2")+annualCell(item.student.code,r)}).join("")}<td class="rule-status status ${status.css}" title="${esc(status.details||"")}">${esc(status.text)}</td></tr>`}).join("");
- $("boardScroll").innerHTML=`<table class="grade-board"><thead><tr><th rowspan="2" class="seq">ت</th><th rowspan="2" class="name">اسم ${esc(person)}</th>${h1}<th rowspan="2" class="status">القاعدة</th></tr><tr>${h2}</tr></thead><tbody>${rows}</tbody></table>`;requestAnimationFrame(()=>requestAnimationFrame(fitBoardToPage));
+ const code=input.dataset.code,subject=input.dataset.subject,field=input.dataset.field,max=Number(input.dataset.max||100),pass=Number(input.dataset.pass||50),raw=input.value.trim(),n=Number(raw);
+ const invalid=raw!==""&&Number.isFinite(n)&&(n<0||n>max),td=input.closest("td");
+ input.style.borderColor=invalid?"#d92d20":"";
+ if(invalid)return toast(`الدرجة يجب أن تكون بين 0 و ${max}`,"error");
+ const state=gradeState(raw,{passGrade:pass,maxGrade:max},false);
+ if(td)td.className=`grade-cell term ${state}`;
+ input.className=`board-grade-input ${state} dirty`;
+ dirtyGradeStudents.add(code);dirtyGradeCells.set(dirtyCellKey(code,subject,field),raw);
+ const row=input.closest("tr"),name=row?.querySelector(".name");if(name)name.classList.add("grade-changed");
+ $("saveGradesBtn").disabled=false;$("saveGradesBtn").textContent=`حفظ الدرجات (${dirtyGradeStudents.size})`;
+ refreshStudentComputedCells(code)
 }
 async function saveBoardGrades(){
- if(!dirtyGradeStudents.size){toast("لا توجد درجات معدلة للحفظ");return}
- const invalid=[...document.querySelectorAll(".board-grade-input")].find(i=>i.value!==""&&(!Number.isFinite(Number(i.value))||Number(i.value)<0||Number(i.value)>Number(i.dataset.max||100)));
- if(invalid){invalid.focus();toast(`الدرجة يجب أن تكون بين 0 و ${invalid.dataset.max}`);return}
- const btn=$("saveGradesBtn");btn.disabled=true;btn.textContent="جاري حفظ الدرجات...";
+ if(!dirtyGradeStudents.size)return toast("لا توجد درجات معدلة للحفظ.","warn");
+ const btn=$("saveGradesBtn");btn.disabled=true;btn.textContent="جاري الحفظ...";
  try{
-  const updates={},now=Date.now(),c=DATA.classes[selection.classId],subjects=normalizeClassSubjects(c).filter(x=>!x.autoType);
+  const updates={},now=Date.now();
   for(const code of dirtyGradeStudents){
-   const raw=DATA.grades[code]||{};
+   const st=DATA.students[code];if(!st)continue;
+   const c=DATA.classes[st.classId];if(!c)continue;
+   const raw=DATA.grades[code]||{},subjects=normalizeClassSubjects(c).filter(s=>!s.autoType);
    for(const sub of subjects){
-    const old=findGradeRecord(raw,sub),base=`grades/${code}/${sub.id}`;
-    const fields={};
+    const [oldKey,oldRec]=findGradeEntry(raw,sub),fields={};
+    let touched=false;
     for(const field of ["term1","midyear","term2"]){
      const k=dirtyCellKey(code,sub.id,field);
-     if(dirtyGradeCells.has(k))fields[field]=dirtyGradeCells.get(k);
-     else fields[field]=gradeNum(old[field])
+     if(dirtyGradeCells.has(k)){fields[field]=dirtyGradeCells.get(k);touched=true}else fields[field]=oldRec?.[field]??""
     }
-    const annual=computeAnnual(fields.term1,fields.midyear,fields.term2);
-    updates[base]={...old,subjectId:sub.id,subjectName:sub.name,maxGrade:sub.maxGrade,passGrade:sub.passGrade,classId:selection.classId,term1:fields.term1===""?null:Number(fields.term1),midyear:fields.midyear===""?null:Number(fields.midyear),term2:fields.term2===""?null:Number(fields.term2),annual:annual===""?null:Number(annual),adminEditedAt:now,adminEditedBy:adminCode()};
+    if(!touched)continue;
+    const annual=computeAnnual(fields.term1,fields.midyear,fields.term2),base=`grades/${code}/${sub.id}`;
+    updates[base]={
+     ...(oldRec||{}),
+     subjectId:sub.id,subjectName:sub.name,maxGrade:sub.maxGrade,passGrade:sub.passGrade,classId:st.classId,
+     term1:storedGradeValue(fields.term1),midyear:storedGradeValue(fields.midyear),term2:storedGradeValue(fields.term2),
+     annual:annual===""?null:Number(annual),adminEditedAt:now,adminEditedBy:adminCode()
+    };
+    if(oldKey&&oldKey!==sub.id)updates[`grades/${code}/${oldKey}`]=null
    }
    updates[`students/${code}/gradeBoardGradeChanged`]=true;
    updates[`students/${code}/gradeBoardGradeChangedAt`]=now;
-   updates[`students/${code}/gradeBoardGradeChangedBy`]=adminCode();
+   updates[`students/${code}/gradeBoardGradeChangedBy`]=adminCode()
   }
   await dbPatch("",updates);
-  for(const code of dirtyGradeStudents){DATA.students[code].gradeBoardGradeChanged=true;DATA.students[code].gradeBoardGradeChangedAt=now;DATA.students[code].gradeBoardGradeChangedBy=adminCode();DATA.grades[code]=await dbGet(`grades/${encodeURIComponent(code)}`)||{}}
-  dirtyGradeStudents.clear();dirtyGradeCells.clear();renderBoard();btn.textContent="حفظ الدرجات";toast("تم حفظ جميع الدرجات المعدلة")
- }catch(e){console.error("GRADEBOARD_SAVE_ERROR",e);toast("تعذر حفظ الدرجات")}finally{btn.disabled=dirtyGradeStudents.size===0;if(dirtyGradeStudents.size)btn.textContent=`حفظ الدرجات (${dirtyGradeStudents.size})`}
+  for(const code of dirtyGradeStudents){
+   if(DATA.students[code]){DATA.students[code].gradeBoardGradeChanged=true;DATA.students[code].gradeBoardGradeChangedAt=now;DATA.students[code].gradeBoardGradeChangedBy=adminCode()}
+   DATA.grades[code]=await dbGet(`grades/${encodeURIComponent(code)}`)||{}
+  }
+  dirtyGradeStudents.clear();dirtyGradeCells.clear();EDIT_MODE=false;
+  $("editGradesBtn").textContent="تعديل الدرجات";$("saveGradesBtn").disabled=true;$("saveGradesBtn").textContent="حفظ الدرجات";
+  renderAllBoards();toast("تم حفظ جميع الدرجات المعدلة وربطها بسجل الطالب.","success")
+ }catch(e){console.error("GRADEBOARD_SAVE_ERROR",e);toast("تعذر حفظ الدرجات.","error");btn.disabled=false;btn.textContent=`حفظ الدرجات (${dirtyGradeStudents.size})`}
 }
-async function loadGradesForSelection(){const students=classStudents(selection.classId,selection.gender),missing=students.filter(s=>DATA.grades[s.code]===undefined);let next=0;async function worker(){while(next<missing.length){const st=missing[next++];try{DATA.grades[st.code]=await dbGet(`grades/${encodeURIComponent(st.code)}`)||{}}catch{DATA.grades[st.code]={}}}}await Promise.all(Array.from({length:Math.min(6,Math.max(1,missing.length))},worker))}
-async function selectClass(id,gender){if(dirtyGradeStudents.size&&!confirm("توجد درجات معدلة لم يتم حفظها. هل تريد الانتقال بدون حفظ؟"))return;if(dirtyGradeStudents.size){dirtyGradeStudents.clear();dirtyGradeCells.clear();$("saveGradesBtn").disabled=true;$("saveGradesBtn").textContent="حفظ الدرجات"}selection={classId:id,gender};renderClasses();$("boardPanel").classList.remove("hidden");const c=DATA.classes[id],person=personLabel(c,gender);$("boardTitle").textContent=`بورد ${c?.name||"الصف"} - ${gender==="female"?"إناث":"ذكور"}`;$("boardSubtitle").textContent=`${classStageLabel(c)} | ${roomLabel(c?.roomNumber)} | ترتيب أسماء ${person} أبجدياً`;$("boardScroll").innerHTML='<div class="empty">جاري تحميل الدرجات...</div>';activeRule=inheritedBoardRule(c);renderRuleBox();try{await loadGradesForSelection();renderBoard();$("boardPanel").scrollIntoView({behavior:"smooth",block:"start"})}catch(e){console.error(e);$("boardScroll").innerHTML='<div class="empty">تعذر تحميل الدرجات.</div>'}}
-$("studentSearch").addEventListener("input",()=>{if(dirtyGradeStudents.size){toast("احفظ الدرجات المعدلة قبل استخدام البحث");$("studentSearch").value="";return}renderBoard()});
 
+/* =========================
+   Excel
+========================= */
+function excelValue(v){const t=rawText(v);if(!t)return"";const n=Number(t);return Number.isFinite(n)?n:t}
+function safeSheetName(name){return String(name||"صف").replace(/[\\\/\?\*\[\]:]/g,"-").slice(0,31)}
+function downloadExcel(){
+ if(!ACTIVE_GROUPS.length)return toast("ادخل إلى البورد أولاً.","warn");
+ if(dirtyGradeStudents.size)return toast("احفظ الدرجات المعدلة قبل تحميل Excel.","warn");
+ if(typeof XLSX==="undefined")return toast("تعذر تحميل مكتبة Excel. تحقق من الإنترنت.","error");
+ try{
+  const wb=XLSX.utils.book_new(),year=$("schoolYear").value.trim()||"2026-2027";
+  ACTIVE_GROUPS.forEach((g,gi)=>{
+   const subjects=normalizeClassSubjects(g.c),rules=rulesForClass(g.c),items=currentModelsForGroup(g);
+   const head=["ت","كود الطالب","اسم الطالب"];
+   subjects.forEach(s=>head.push(`${s.name} - فصل أول`,`${s.name} - نصف السنة`,`${s.name} - فصل ثاني`,`${s.name} - السعي`));
+   head.push("المعدل","الدخول الوزاري","الإعفاء الشامل");
+   const aoa=[head];
+   items.forEach((item,i)=>{
+    const lm=liveModel(item,subjects),avg=annualAverage(lm),m=ministerialStatus(lm,rules.ministerial),e=exemptionStatus(lm,rules.exemption),row=[i+1,item.student.code||"",item.student.name||""];
+    lm.rows.forEach(r=>row.push(excelValue(r.term1),excelValue(r.midyear),excelValue(r.term2),excelValue(r.annual)));
+    row.push(avg===""?"":avg,m.text,e.text);aoa.push(row)
+   });
+   const ws=XLSX.utils.aoa_to_sheet(aoa);
+   ws["!freeze"]={xSplit:3,ySplit:1};
+   ws["!cols"]=head.map((h,i)=>({wch:i===2?28:i<3?12:14}));
+   const gender=g.gender==="female"?"بنات":"بنين",sheetName=safeSheetName(`${g.c.name}-${gender}-${gi+1}`);
+   XLSX.utils.book_append_sheet(wb,ws,sheetName)
+  });
+  XLSX.writeFile(wb,`بورد_الدرجات_${String(year).replace(/[^\d-]/g,"")}.xlsx`);
+  toast("تم إنشاء ملف Excel للبورد.","success")
+ }catch(e){console.error("EXCEL_ERROR",e);toast("تعذر إنشاء ملف Excel.","error")}
+}
+
+/* =========================
+   PDF
+========================= */
 function waitImages(root){return Promise.all([...root.querySelectorAll("img")].map(img=>img.complete?Promise.resolve():new Promise(resolve=>{img.onload=resolve;img.onerror=resolve})))}
 function waitPaint(){return new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))}
 function fileSafe(v){return String(v||"بورد").replace(/[\\/:*?"<>|]+/g,"-").replace(/\s+/g,"_")}
-
-function chunk(arr,size){const out=[];for(let i=0;i<arr.length;i+=size)out.push(arr.slice(i,i+size));return out}
-function pdfPageHTML(c,gender,subjects,studentItems,pageIndex,totalPages,studentStart,rule){
- const person=personLabel(c,gender),year=$("schoolYear").value.trim()||"2026-2027",count=Math.max(1,studentItems.length),subCount=Math.max(1,subjects.length),rowH=Math.max(5,Math.min(22,Math.floor(600/count))),pdfFont=Math.max(3.8,Math.min(7.2,rowH*.58)),headFont=subCount>=12?4.5:subCount>=9?5:5.8,subjectFont=subCount>=12?4.6:subCount>=9?5.2:6;
- const subjectHeaders=subjects.map(s=>`<th colspan="4" class="subject-title">${esc(s.name)}</th>`).join(""),subHeaders=subjects.map(()=>`<th class="small-head">فصل أول</th><th class="small-head">نصف سنة</th><th class="small-head">فصل ثاني</th><th class="small-head">سعي</th>`).join("");
- const rows=studentItems.map((item,i)=>{const status=evaluateRule(item.model,rule),changed=item.student.gradeBoardGradeChanged===true;return`<tr><td>${studentStart+i+1}</td><td class="a4-name pdf-name ${changed?"changed":""}">${esc(item.student.name||"—")}</td>${subjects.map(s=>{const r=rowForSubject(item.model,s);return pdfGradeCell(r.term1,r)+pdfGradeCell(r.midyear,r)+pdfGradeCell(r.term2,r)+pdfGradeCell(r.annual,r,true)}).join("")}<td class="pdf-status ${status.css}">${esc(status.text)}</td></tr>`}).join("");
- return`<section class="board-a4" style="--pdfRowH:${rowH}px;--pdfFont:${pdfFont}px;--pdfNameFont:${Math.max(5.5,pdfFont+.6)}px;--pdfHeadFont:${headFont}px;--pdfSubjectFont:${subjectFont}px"><div class="board-a4-head"><img src="logo.png" alt=""><div class="board-a4-title"><h2>مدرسة التحدي الأهلية المختلطة</h2><h3>بورد الدرجات الكامل - ${esc(c.name||"الصف")}</h3><p>${gender==="female"?"إناث":"ذكور"} | ${esc(roomLabel(c.roomNumber))} | ${esc(year)}</p></div><div class="board-a4-meta"><div>المواد: ${subjects.length}</div><div>عدد ${person}: ${studentItems.length}</div><div>A4 أفقي - صفحة واحدة</div></div></div><div class="board-a4-rule">كل مادة: الفصل الأول + نصف السنة + الفصل الثاني + السعي — الدرجة الحرجة من 45 إلى أقل من 50 بالأسود والكتابة بيضاء.</div><table class="board-a4-table"><thead><tr><th rowspan="2" class="a4-seq">ت</th><th rowspan="2" class="a4-name">اسم ${esc(person)}</th>${subjectHeaders}<th rowspan="2" class="a4-status">القاعدة</th></tr><tr>${subHeaders}</tr></thead><tbody>${rows}</tbody></table><div class="board-a4-foot"><span>قسم الحوكمة - بورد الدرجات الكامل</span><span>${esc(year)}</span></div></section>`
+function pdfGradeCell(value,row,annual=false){
+ const state=gradeState(value,row,annual);
+ return`<td class="pdf-grade ${annual?"annual":"term"} ${state}">${gradeDisplay(value)}</td>`
+}
+function pdfPageHTML(g,subjects,studentItems,pageIndex,totalPages,studentStart){
+ const c=g.c,person=personLabel(c,g.gender),year=$("schoolYear").value.trim()||"2026-2027",count=Math.max(1,studentItems.length),subCount=Math.max(1,subjects.length),rowH=Math.max(5,Math.min(22,Math.floor(600/count))),pdfFont=Math.max(3.6,Math.min(7,rowH*.56)),headFont=subCount>=12?4.2:subCount>=9?4.8:5.6,subjectFont=subCount>=12?4.4:subCount>=9?5:5.8,rules=rulesForClass(c);
+ const subjectHeaders=subjects.map(s=>`<th colspan="4" class="subject-title">${esc(s.name)}</th>`).join(""),subHeaders=subjects.map(()=>`<th class="small-head">ف1</th><th class="small-head">نصف</th><th class="small-head">ف2</th><th class="small-head">سعي</th>`).join("");
+ const rows=studentItems.map((item,i)=>{
+  const lm=liveModel(item,subjects),avg=annualAverage(lm),m=ministerialStatus(lm,rules.ministerial),e=exemptionStatus(lm,rules.exemption);
+  return`<tr><td>${studentStart+i+1}</td><td class="a4-name">${esc(item.student.name||"—")}</td>${lm.rows.map(r=>pdfGradeCell(r.term1,r)+pdfGradeCell(r.midyear,r)+pdfGradeCell(r.term2,r)+pdfGradeCell(r.annual,r,true)).join("")}<td>${avg===""?"—":avg}</td><td class="pdf-status ${m.css}">${esc(m.text)}</td><td class="pdf-status ${e.css}">${esc(e.text)}</td></tr>`
+ }).join("");
+ return`<section class="board-a4" style="--pdfRowH:${rowH}px;--pdfFont:${pdfFont}px;--pdfNameFont:${Math.max(5.2,pdfFont+.6)}px;--pdfHeadFont:${headFont}px;--pdfSubjectFont:${subjectFont}px">
+  <div class="board-a4-head"><img src="logo.png" alt=""><div class="board-a4-title"><h2>مدرسة التحدي الأهلية المختلطة</h2><h3>بورد الدرجات - ${esc(c.name||"الصف")}</h3><p>${g.gender==="female"?"بنات":"بنين"} | ${esc(roomLabel(c.roomNumber))} | ${esc(year)}</p></div><div class="board-a4-meta"><div>المواد: ${subjects.length}</div><div>الصفحة: ${pageIndex+1} / ${totalPages}</div><div>A4 أفقي</div></div></div>
+  <div class="board-a4-rule">ف1 + نصف السنة + ف2 + السعي — الحرج بالفصول برتقالي، الحرج بالسعي أسود، والرسوب بالسعي أحمر.</div>
+  <table class="board-a4-table"><thead><tr><th rowspan="2" class="a4-seq">ت</th><th rowspan="2" class="a4-name">اسم ${esc(person)}</th>${subjectHeaders}<th rowspan="2">المعدل</th><th rowspan="2" class="a4-status">وزاري</th><th rowspan="2" class="a4-status">إعفاء</th></tr><tr>${subHeaders}</tr></thead><tbody>${rows}</tbody></table>
+  <div class="board-a4-foot"><span>قسم الحوكمة - بورد الدرجات</span><span>${esc(year)}</span></div>
+ </section>`
 }
 async function downloadBoardPDF(){
- if(!selection.classId){toast("اختر الصف أولاً");return}
- if(dirtyGradeStudents.size){toast("احفظ الدرجات المعدلة أولاً قبل تحميل PDF");return}
+ if(!ACTIVE_GROUPS.length)return toast("ادخل إلى البورد أولاً.","warn");
+ if(dirtyGradeStudents.size)return toast("احفظ الدرجات المعدلة قبل تحميل PDF.","warn");
  const btn=$("downloadBtn");btn.disabled=true;btn.textContent="جاري تجهيز PDF...";
  try{
-  const c=DATA.classes[selection.classId],subjects=normalizeClassSubjects(c),models=currentModels();if(!models.length)throw new Error("لا توجد بيانات");
-  const host=$("pdfHost");host.innerHTML=pdfPageHTML(c,selection.gender,subjects,models,0,1,0,activeRule);const el=host.querySelector(".board-a4"),{jsPDF}=window.jspdf,pdf=new jsPDF({orientation:"landscape",unit:"mm",format:"a4",compress:true});
-  await waitImages(el);await waitPaint();const canvas=await html2canvas(el,{scale:2,useCORS:true,allowTaint:true,backgroundColor:"#fff",logging:false,width:1123,height:794,windowWidth:1123,windowHeight:794});pdf.addImage(canvas.toDataURL("image/jpeg",.97),"JPEG",0,0,297,210,undefined,"FAST");canvas.width=1;canvas.height=1;
-  pdf.save(`بورد_الدرجات_الكامل_${fileSafe(c.name)}_${selection.gender==="female"?"بنات":"بنين"}_${fileSafe($("schoolYear").value)}.pdf`);host.innerHTML="";toast("تم تحميل البورد كامل في صفحة A4 واحدة")
- }catch(e){console.error(e);$("pdfHost").innerHTML="";toast("تعذر إنشاء بورد الدرجات PDF")}finally{btn.disabled=false;btn.textContent="تحميل البورد PDF أفقي"}
+  const host=$("pdfHost"),pagesHTML=[];
+  for(const g of ACTIVE_GROUPS){
+   const subjects=normalizeClassSubjects(g.c),models=currentModelsForGroup(g),perPage=18,total=Math.max(1,Math.ceil(models.length/perPage));
+   for(let p=0;p<total;p++)pagesHTML.push(pdfPageHTML(g,subjects,models.slice(p*perPage,(p+1)*perPage),p,total,p*perPage))
+  }
+  host.innerHTML=pagesHTML.join("");
+  const els=[...host.querySelectorAll(".board-a4")],{jsPDF}=window.jspdf,pdf=new jsPDF({orientation:"landscape",unit:"mm",format:"a4",compress:true});
+  for(let i=0;i<els.length;i++){
+   if(i)pdf.addPage("a4","landscape");await waitImages(els[i]);await waitPaint();
+   const canvas=await html2canvas(els[i],{scale:1.8,useCORS:true,allowTaint:true,backgroundColor:"#fff",logging:false,width:1123,height:794,windowWidth:1123,windowHeight:794});
+   pdf.addImage(canvas.toDataURL("image/jpeg",.97),"JPEG",0,0,297,210,undefined,"FAST");canvas.width=1;canvas.height=1
+  }
+  pdf.save(`بورد_الدرجات_${fileSafe($("schoolYear").value)}.pdf`);host.innerHTML="";
+  toast("تم تحميل بورد الدرجات PDF.","success")
+ }catch(e){console.error(e);$("pdfHost").innerHTML="";toast("تعذر إنشاء PDF.","error")}
+ finally{btn.disabled=false;btn.textContent="تحميل PDF"}
 }
-async function refreshCore(){if(dirtyGradeStudents.size){toast("احفظ الدرجات المعدلة قبل التحديث");return}try{$("loading").classList.remove("hidden");const[students,classes]=await Promise.all([dbGet("students"),dbGet("classes")]);DATA.students=students||{};DATA.classes=classes||{};Object.entries(DATA.students).forEach(([code,s])=>{if(s&&!s.code)s.code=code});Object.entries(DATA.classes).forEach(([id,c])=>{if(c&&!c.id)c.id=id});renderClasses();if(selection.classId&&DATA.classes[selection.classId]){activeRule=inheritedBoardRule(DATA.classes[selection.classId]);await loadGradesForSelection();renderRuleBox();renderBoard()}toast("تم تحديث البيانات")}catch(e){console.error(e);toast("تعذر تحديث البيانات")}finally{$("loading").classList.add("hidden")}}
 
-(async function init(){try{if(!await verifyAdmin())return;const[students,classes]=await Promise.all([dbGet("students"),dbGet("classes")]);DATA.students=students||{};DATA.classes=classes||{};Object.entries(DATA.students).forEach(([code,s])=>{if(s&&!s.code)s.code=code});Object.entries(DATA.classes).forEach(([id,c])=>{if(c&&!c.id)c.id=id});renderClasses()}catch(e){console.error(e);toast("تعذر تحميل بورد الدرجات")}finally{$("loading").classList.add("hidden")}})();
+/* =========================
+   تحديث وتهيئة
+========================= */
+$("studentSearch").addEventListener("input",()=>{
+ if(dirtyGradeStudents.size){$("studentSearch").value="";return toast("احفظ الدرجات المعدلة قبل البحث.","warn")}
+ renderAllBoards()
+});
+
+async function refreshCore(){
+ if(dirtyGradeStudents.size)return toast("احفظ الدرجات المعدلة قبل التحديث.","warn");
+ try{
+  $("loading").classList.remove("hidden");
+  const[students,classes]=await Promise.all([dbGet("students"),dbGet("classes")]);
+  DATA.students=students||{};DATA.classes=classes||{};
+  Object.entries(DATA.students).forEach(([code,x])=>{if(x&&!x.code)x.code=code});
+  Object.entries(DATA.classes).forEach(([id,x])=>{if(x&&!x.id)x.id=id});
+  renderClasses();
+  if(ACTIVE_GROUPS.length){
+   ACTIVE_GROUPS=selectedGroups();await loadGradesForGroups(ACTIVE_GROUPS);renderRulesClassSelect();renderAllBoards()
+  }
+  toast("تم تحديث البيانات.","success")
+ }catch(e){console.error(e);toast("تعذر تحديث البيانات.","error")}
+ finally{$("loading").classList.add("hidden")}
+}
+
+(async function init(){
+ try{
+  if(!await verifyAdmin())return;
+  const[students,classes]=await Promise.all([dbGet("students"),dbGet("classes")]);
+  DATA.students=students||{};DATA.classes=classes||{};
+  Object.entries(DATA.students).forEach(([code,x])=>{if(x&&!x.code)x.code=code});
+  Object.entries(DATA.classes).forEach(([id,x])=>{if(x&&!x.id)x.id=id});
+  renderClasses()
+ }catch(e){console.error(e);toast("تعذر تحميل بورد الدرجات.","error")}
+ finally{$("loading").classList.add("hidden")}
+})();
 </script>
 </body>
 </html>
