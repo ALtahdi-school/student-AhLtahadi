@@ -256,10 +256,10 @@ button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!impo
       </div>
       <label class="rule-enable" style="margin-top:10px;padding:9px;border:1px solid #dbe6f2;border-radius:10px;background:#f8fbff">
        <input id="exemptionMaxActivities" type="checkbox">
-       احتساب الرياضة والفنية بالدرجة العظمى للمادة عند حساب الإعفاء
+       رفع الرياضة والفنية فعلياً للدرجة العظمى إذا كان ذلك يجعل الطالب مؤهلاً للإعفاء العام
       </label>
       <div class="rule-note" style="margin-top:8px">
-       عند تفعيل هذا الخيار تُحتسب الرياضة والفنية بأقصى درجة مسموحة للمادة، ولا تتجاوز الدرجة العظمى المحددة للمادة. يستخدم هذا فقط في حساب الإعفاء العام والفردي ولا يغيّر الدرجة الأصلية المخزنة للطالب.
+       عند تفعيل هذا الخيار وحفظ القواعد، يفحص النظام كل طالب في الصفوف الموجودة بالبورد. إذا كان الطالب لا يحقق الإعفاء العام بدرجاته الحالية، لكنه يحققه عند رفع الرياضة والفنية، تُحفظ الرياضة والفنية فعلياً بالدرجة العظمى المحددة لكل مادة، من دون تجاوز حد المادة. إذا لم يؤدِّ الرفع إلى الإعفاء العام فلا تتغير درجات الطالب.
       </div>
       <div class="rule-note" style="margin-top:8px">
        الإعفاء الفردي يُفحص فقط إذا لم يحصل الطالب على الإعفاء العام. ويظهر عدد المواد التي حقق بها الإعفاء الفردي.
@@ -481,15 +481,24 @@ function activityGrade(rows,field){
 }
 function buildStudentModel(st,c,raw){
  let rows=normalizeClassSubjects(c).map(sub=>{
-  if(sub.autoType)return{...sub,term1:"",midyear:"",term2:"",annual:""};
-  const rec=findGradeEntry(raw,sub)[1]||{},term1=rec.term1??"",midyear=rec.midyear??"",term2=rec.term2??"";
-  return{...sub,term1,midyear,term2,annual:computeAnnual(term1,midyear,term2)}
+  const rec=findGradeEntry(raw,sub)[1]||{};
+  if(!sub.autoType){
+   const term1=rec.term1??"",midyear=rec.midyear??"",term2=rec.term2??"";
+   return{...sub,term1,midyear,term2,annual:computeAnnual(term1,midyear,term2)}
+  }
+  const hasStored=["term1","midyear","term2","annual"].some(k=>rawText(rec[k])!=="");
+  if(hasStored){
+   const term1=rec.term1??"",midyear=rec.midyear??"",term2=rec.term2??"",computed=computeAnnual(term1,midyear,term2);
+   return{...sub,term1,midyear,term2,annual:computed!==""?computed:(rec.annual??""),storedActivity:true}
+  }
+  return{...sub,term1:"",midyear:"",term2:"",annual:"",storedActivity:false}
  });
  const academic=rows.filter(r=>!r.autoType);
  rows=rows.map(r=>{
   if(!r.autoType)return r;
+  if(r.storedActivity){const x={...r};delete x.storedActivity;return x}
   const term1=activityGrade(academic,"term1"),midyear=activityGrade(academic,"midyear"),term2=activityGrade(academic,"term2");
-  return{...r,term1,midyear,term2,annual:computeAnnual(term1,midyear,term2)}
+  const x={...r,term1,midyear,term2,annual:computeAnnual(term1,midyear,term2)};delete x.storedActivity;return x
  });
  return{student:st,rows,academic:rows.filter(r=>!r.autoType)}
 }
@@ -580,14 +589,7 @@ function failedSubjectCount(model){
 function exemptionRows(model,rule){
  const academic=model.academic||[];
  if(!academic.length||academic.some(r=>rawText(r.annual)===""))return null;
- const maximize=!!rule?.maximizeActivitiesForExemption;
- return (model.rows||[]).map(r=>{
-  if(maximize&&["sport","art"].includes(String(r.autoType||""))){
-   const max=Math.max(0,Number(r.maxGrade||100));
-   return{...r,annual:max}
-  }
-  return r
- })
+ return (model.rows||[]).map(r=>({...r}))
 }
 function exemptionAverage(model,rule){
  const rows=exemptionRows(model,rule);
@@ -610,6 +612,27 @@ function individualExemptionSubjects(model,rule){
   return p>=threshold&&Number(calcGrade(r.annual)||0)>=Number(r.passGrade??50)
  })
 }
+function generalExemptionCheck(model,rule){
+ const rows=exemptionRows(model,rule),avg=exemptionAverage(model,rule);
+ if(!rows||avg===""||rows.some(r=>rawText(r.annual)===""))return{complete:false,eligible:false,avg:"",min:"",fails:failedSubjectCount(model),highest:""};
+ const percs=rows.map(r=>(Number(calcGrade(r.annual)||0)/Math.max(1,Number(r.maxGrade||100)))*100);
+ const min=Math.min(...percs),fails=failedSubjectCount(model),highest=maxAnnualPercent(model,rule),failAllowed=String(rule?.failPolicy||"block")==="allow";
+ const eligible=avg>=Number(rule?.minAverage??85)&&min>=Number(rule?.minSubjectGrade??75)&&(failAllowed||fails===0);
+ return{complete:true,eligible,avg,min,fails,highest}
+}
+function modelWithMaxActivities(model){
+ const rows=(model.rows||[]).map(r=>{
+  if(["sport","art"].includes(String(r.autoType||""))){
+   const max=Math.max(0,Number(r.maxGrade||100));
+   return{...r,term1:max,midyear:max,term2:max,annual:max}
+  }
+  return{...r}
+ });
+ return{...model,rows,academic:rows.filter(r=>!r.autoType)}
+}
+function exemptionActivitySubjects(c){
+ return normalizeClassSubjects(c).filter(r=>["sport","art"].includes(String(r.autoType||"")))
+}
 function exemptionStatus(model,rule){
  if(!rule?.enabled)return{css:"off",text:"",details:""};
  const rows=exemptionRows(model,rule),avg=exemptionAverage(model,rule);
@@ -618,7 +641,7 @@ function exemptionStatus(model,rule){
  const min=Math.min(...percs),fails=failedSubjectCount(model),highest=maxAnnualPercent(model,rule);
  const failAllowed=String(rule.failPolicy||"block")==="allow";
  const general=avg>=Number(rule.minAverage??85)&&min>=Number(rule.minSubjectGrade??75)&&(failAllowed||fails===0);
- const activityNote=rule.maximizeActivitiesForExemption?" — الرياضة والفنية محسوبتان بالحد الأعلى":"";
+ const activityNote=rule.maximizeActivitiesForExemption?" — خيار رفع الرياضة والفنية للمؤهلين مفعّل":"";
  if(general)return{
   css:"good",
   text:"إعفاء عام",
@@ -661,6 +684,7 @@ function loadRulesForActiveGroups(){
 }
 async function saveBoardRules(){
  const ids=uniqueActiveClassIds();if(!ids.length)return toast("لا توجد صفوف ظاهرة في البورد.","warn");
+ if(dirtyGradeStudents.size)return toast("احفظ الدرجات المعدلة في البورد أولاً قبل تطبيق قواعد الإعفاء.","warn");
  const rules={
   ministerial:{
    enabled:$("ministerialEnabled").checked,
@@ -678,13 +702,82 @@ async function saveBoardRules(){
   updatedAt:Date.now(),updatedBy:adminCode()
  };
  try{
-  const updates={};
+  const updates={},now=Date.now(),by=adminCode(),changedCodes=new Set(),seenCodes=new Set();
   ids.forEach(id=>updates[`classes/${id}/gradeBoardRules`]=rules);
+
+  if(rules.exemption.enabled&&rules.exemption.maximizeActivitiesForExemption){
+   for(const g of ACTIVE_GROUPS){
+    if(!ids.includes(g.classId))continue;
+    const activitySubs=exemptionActivitySubjects(g.c);
+    if(!activitySubs.length)continue;
+
+    for(const st of g.students){
+     if(!st?.code||seenCodes.has(st.code))continue;
+     seenCodes.add(st.code);
+
+     const raw=DATA.grades[st.code]||{},model=buildStudentModel(st,g.c,raw),before=generalExemptionCheck(model,rules.exemption);
+     if(!before.complete||before.eligible)continue;
+
+     const promoted=modelWithMaxActivities(model),after=generalExemptionCheck(promoted,rules.exemption);
+     if(!after.complete||!after.eligible)continue;
+
+     for(const sub of activitySubs){
+      const max=Math.max(0,Number(sub.maxGrade||100)),[oldKey,oldRec]=findGradeEntry(raw,sub),base=`grades/${st.code}/${sub.id}`;
+      updates[base]={
+       ...(oldRec||{}),
+       subjectId:sub.id,
+       subjectName:sub.name,
+       maxGrade:max,
+       passGrade:Number(sub.passGrade??50),
+       classId:g.classId,
+       term1:max,
+       midyear:max,
+       term2:max,
+       annual:max,
+       adminEditedAt:now,
+       adminEditedBy:by,
+       exemptionAdjustedAt:now,
+       exemptionAdjustedBy:by,
+       exemptionAdjustment:"max_activity_for_general_exemption"
+      };
+      if(oldKey&&oldKey!==sub.id)updates[`grades/${st.code}/${oldKey}`]=null
+     }
+
+     updates[`students/${st.code}/gradeBoardGradeChanged`]=true;
+     updates[`students/${st.code}/gradeBoardGradeChangedAt`]=now;
+     updates[`students/${st.code}/gradeBoardGradeChangedBy`]=by;
+     changedCodes.add(st.code)
+    }
+   }
+  }
+
   await dbPatch("",updates);
   ids.forEach(id=>{if(DATA.classes[id])DATA.classes[id].gradeBoardRules=JSON.parse(JSON.stringify(rules))});
+
+  if(changedCodes.size){
+   const codes=[...changedCodes],limit=6;let next=0;
+   async function worker(){
+    while(next<codes.length){
+     const code=codes[next++];
+     DATA.grades[code]=await dbGet(`grades/${encodeURIComponent(code)}`)||{};
+     if(DATA.students[code]){
+      DATA.students[code].gradeBoardGradeChanged=true;
+      DATA.students[code].gradeBoardGradeChangedAt=now;
+      DATA.students[code].gradeBoardGradeChangedBy=by
+     }
+    }
+   }
+   await Promise.all(Array.from({length:Math.min(limit,codes.length)},worker))
+  }
+
   renderAllBoards();
-  toast(`تم حفظ القواعد وتطبيقها على ${ids.length} صف/صفوف موجودة في البورد.`,"success")
- }catch(e){console.error(e);toast("تعذر حفظ القواعد.","error")}
+  if(rules.exemption.enabled&&rules.exemption.maximizeActivitiesForExemption){
+   if(changedCodes.size)toast(`تم حفظ القواعد، ورفع الرياضة والفنية فعلياً للحد الأعلى لـ ${changedCodes.size} طالب/ة لأن ذلك حقق لهم الإعفاء العام.`,"success");
+   else toast(`تم حفظ القواعد. لم يوجد طالب يحتاج رفع الرياضة والفنية حتى يحقق الإعفاء العام.`,"success")
+  }else{
+   toast(`تم حفظ القواعد وتطبيقها على ${ids.length} صف/صفوف موجودة في البورد.`,"success")
+  }
+ }catch(e){console.error(e);toast("تعذر حفظ القواعد أو تطبيق درجات الإعفاء.","error")}
 }
 async function clearBoardRules(){
  const ids=uniqueActiveClassIds();if(!ids.length)return;
@@ -814,7 +907,7 @@ function renderAllBoards(){
  if(!ACTIVE_GROUPS.length)return;
  const totalStudents=ACTIVE_GROUPS.reduce((n,g)=>n+g.students.length,0),totalSubjects=ACTIVE_GROUPS.reduce((n,g)=>n+normalizeClassSubjects(g.c).length,0);
  const boostedActivities=ACTIVE_GROUPS.some(g=>rulesForClass(g.c).exemption?.enabled&&rulesForClass(g.c).exemption?.maximizeActivitiesForExemption);
- $("summary").innerHTML=`<span class="badge blue">${ACTIVE_GROUPS.length} صف/مجموعة</span><span class="badge green">${totalStudents} اسم</span><span class="badge orange">${totalSubjects} مجموع المواد المعروضة</span><span class="badge purple">الحرج بالسعي: أسود</span><span class="badge orange">الحرج بالفصول: برتقالي</span><span class="badge red">الراسب بالسعي: أحمر</span>${boostedActivities?'<span class="badge green">الإعفاء: الرياضة والفنية بالحد الأعلى</span>':""}`;
+ $("summary").innerHTML=`<span class="badge blue">${ACTIVE_GROUPS.length} صف/مجموعة</span><span class="badge green">${totalStudents} اسم</span><span class="badge orange">${totalSubjects} مجموع المواد المعروضة</span><span class="badge purple">الحرج بالسعي: أسود</span><span class="badge orange">الحرج بالفصول: برتقالي</span><span class="badge red">الراسب بالسعي: أحمر</span>${boostedActivities?'<span class="badge green">الإعفاء: رفع فعلي للرياضة والفنية عند الحاجة</span>':""}`;
  $("boardGroups").innerHTML=ACTIVE_GROUPS.map(renderBoardGroup).join("");
  requestAnimationFrame(()=>requestAnimationFrame(fitAllBoards))
 }
