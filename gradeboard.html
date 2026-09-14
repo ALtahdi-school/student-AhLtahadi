@@ -812,7 +812,7 @@ async function saveBoardRules(){
        adminEditedBy:by,
        exemptionAdjustedAt:now,
        exemptionAdjustedBy:by,
-       exemptionAdjustment:"max_activity_for_general_exemption"
+       exemptionAdjustment:"max_activity_for_general_exemption",updatedAt:now,updatedBy:by,updatedSource:"gradeboard_exemption",canonicalVersion:1
       };
       if(oldKey&&oldKey!==sub.id)updates[`grades/${st.code}/${oldKey}`]=null
      }
@@ -1064,13 +1064,21 @@ async function saveBoardGrades(){
      if(dirtyGradeCells.has(k)){fields[field]=dirtyGradeCells.get(k);touched=true}else fields[field]=oldRec?.[field]??""
     }
     if(!touched)continue;
-    const annual=computeAnnual(fields.term1,fields.midyear,fields.term2),base=`grades/${code}/${sub.id}`;
-    updates[base]={
+    const annual=computeAnnual(fields.term1,fields.midyear,fields.term2),base=`grades/${code}/${sub.id}`,record={
      ...(oldRec||{}),
      subjectId:sub.id,subjectName:sub.name,maxGrade:sub.maxGrade,passGrade:sub.passGrade,classId:st.classId,
      term1:storedGradeValue(fields.term1),midyear:storedGradeValue(fields.midyear),term2:storedGradeValue(fields.term2),
-     annual:annual===""?null:Number(annual),adminEditedAt:now,adminEditedBy:adminCode()
+     annual:annual===""?null:Number(annual),adminEditedAt:now,adminEditedBy:adminCode(),
+     updatedAt:now,updatedBy:adminCode(),updatedSource:"gradeboard",canonicalVersion:1,
+     components:{...(oldRec?.components||{})},gradeOverrides:{...(oldRec?.gradeOverrides||{})}
     };
+    for(const field of ["term1","midyear","term2"]){
+     if(dirtyGradeCells.has(dirtyCellKey(code,sub.id,field))){
+      delete record.components[field];
+      record.gradeOverrides[field]={source:"gradeboard",updatedAt:now,updatedBy:adminCode()}
+     }
+    }
+    updates[base]=record;
     if(oldKey&&oldKey!==sub.id)updates[`grades/${code}/${oldKey}`]=null
    }
    updates[`students/${code}/gradeBoardGradeChanged`]=true;
