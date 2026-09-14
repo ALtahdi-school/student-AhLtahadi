@@ -161,7 +161,11 @@
 
 /* ================= السجلات - الترتيب الجديد ================= */
 .records-launch{margin:12px 0 4px;padding:13px;border:1px solid #dce7f4;border-radius:19px;background:#fff;box-shadow:var(--shadow)}
+.records-launch-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .records-launch-btn{width:100%;min-height:54px;border:0;border-radius:15px;color:#fff;background:linear-gradient(135deg,#6938ef,#5030c9);font-size:11px;font-weight:900}
+.exams-launch-btn{width:100%;min-height:54px;border:0;border-radius:15px;color:#fff;background:linear-gradient(135deg,#075fcf,#064494);font-size:11px;font-weight:900}
+.exams-launch-btn:active,.records-launch-btn:active{transform:scale(.985)}
+@media(max-width:560px){.records-launch-actions{grid-template-columns:1fr 1fr;gap:7px}.records-launch-btn,.exams-launch-btn{min-height:50px;font-size:9px}}
 .records-hub-card{max-width:650px}
 .records-hub-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
 .records-hub-back{min-height:36px;padding:0 10px;border:0;border-radius:10px;background:#edf5ff;color:#075fcf;font-size:8px;font-weight:900}
@@ -362,7 +366,12 @@ body.alert-open{overflow:hidden}
 <div id="loaderScreen" class="loader-screen"><div class="loader-box"><img src="logo.png" class="loader-logo" alt=""><div class="spinner"></div><p>جاري تحميل منصة الأستاذ</p></div></div>
 <header class="topbar"><div class="brand"><img src="logo.png" class="logo" alt=""><div><h1>مدرسة التحدي الأهلية المختلطة</h1><p>منصة الأستاذ</p></div></div><button id="logoutBtn" class="logout" type="button">خروج</button></header>
 <main class="main"><section class="teacher-card"><div class="teacher-label">الأستاذ</div><div id="teacherName" class="teacher-name">—</div><div id="teacherSubject" class="teacher-subject">المادة: —</div></section><div class="section-head"><h3>الصفوف والمواد المسندة إليك</h3><span>حسب إعدادات الإدارة</span></div><section id="classesGrid" class="classes-grid"></section>
-<section class="records-launch"><button id="openRecordsHubBtn" class="records-launch-btn" type="button">سحب السجلات</button></section>
+<section class="records-launch">
+ <div class="records-launch-actions">
+  <button id="openRecordsHubBtn" class="records-launch-btn" type="button">سحب السجلات</button>
+  <button id="openExamsPageBtn" class="exams-launch-btn" type="button">الامتحانات و التصحيح</button>
+ </div>
+</section>
 <section class="objection-launch"><button id="openTeacherObjectionsBtn" class="objection-launch-btn" type="button">اعتراضات الدرجات <span id="teacherObjectionCount" class="objection-count">0</span></button></section>
 <section id="gradesSection" class="hidden"><div class="section-head"><h3 id="selectedClassTitle">درجات الصف</h3><span id="studentCount">0 طالب</span></div><div id="periodTools" class="period-tools"></div><div id="formulaInfo" class="grade-info"></div><input id="searchInput" class="search" type="search" placeholder="بحث باسم الطالب أو الكود..." autocomplete="off"><div id="tableArea"></div><div class="save-bar"><button id="saveGradesBtn" class="save-btn" type="button">حفظ درجات الصف</button><button id="reloadBtn" class="reload-btn" type="button" title="إعادة تحميل">↻</button></div></section></main>
 
@@ -935,7 +944,8 @@ async function initPublicTeacherRecord(publicKey){
   const blob=pdf.output("blob"),url=URL.createObjectURL(blob);$("loaderScreen").querySelector("p").textContent=outdated?"هذا الباركود قديم — جاري فتح السجل القديم PDF...":"جاري فتح ملف السجل PDF...";setTimeout(()=>location.replace(url),120)
  }catch(e){console.error("PUBLIC_RECORD_ERROR",e);$("loaderScreen").querySelector("p").textContent=e.message||"تعذر فتح السجل"}
 }
-$("openRecordsHubBtn").onclick=openRecordsHub;$("closeRecordsHubBtn").onclick=closeRecordsHub;$("closeRecordsHubBtn2").onclick=closeRecordsHub;$("recordsHomeBtn").onclick=closeRecordsHub;$("recordsHomeBtn2").onclick=closeRecordsHub;$("recordsBackTypesBtn").onclick=backRecordTypes;$("recordsHubModal").addEventListener("click",e=>{if(e.target===$("recordsHubModal"))closeRecordsHub()});document.querySelectorAll("[data-record-kind]").forEach(b=>b.addEventListener("click",()=>showRecordType(b.dataset.recordKind)));$("hubDownloadBtn").onclick=downloadHubRecord;
+$("openRecordsHubBtn").onclick=openRecordsHub;
+$("openExamsPageBtn").onclick=()=>{location.href="examples.html"};$("closeRecordsHubBtn").onclick=closeRecordsHub;$("closeRecordsHubBtn2").onclick=closeRecordsHub;$("recordsHomeBtn").onclick=closeRecordsHub;$("recordsHomeBtn2").onclick=closeRecordsHub;$("recordsBackTypesBtn").onclick=backRecordTypes;$("recordsHubModal").addEventListener("click",e=>{if(e.target===$("recordsHubModal"))closeRecordsHub()});document.querySelectorAll("[data-record-kind]").forEach(b=>b.addEventListener("click",()=>showRecordType(b.dataset.recordKind)));$("hubDownloadBtn").onclick=downloadHubRecord;
 
 
 const OBJECTION_PERIOD_LABELS={term1:"الفصل الأول",midyear:"نصف السنة",term2:"الفصل الثاني",annual:"السعي السنوي",finalExam:"نهاية السنة / الامتحان النهائي",secondRound:"الدور الثاني"};
