@@ -473,7 +473,7 @@ button{
 
 .students-table{
     width:100%;
-    min-width:720px;
+    min-width:980px;
 
     border-collapse:collapse;
 }
@@ -1030,6 +1030,132 @@ button{
 
 }
 
+
+/* =========================================================
+   MONTHLY ACCOUNT ACTIVATION / WHATSAPP
+========================================================= */
+
+.table-tools{
+    align-items:center;
+}
+
+.show-all-btn{
+    flex:none;
+    height:47px;
+    padding:0 13px;
+    border:0;
+    border-radius:14px;
+    background:var(--blue-soft);
+    color:var(--blue);
+    font-size:9px;
+    font-weight:900;
+}
+
+.whatsapp-btn{
+    min-height:34px;
+    padding:0 10px;
+    border:0;
+    border-radius:10px;
+    background:#eafaf1;
+    color:#067647;
+    font-size:8px;
+    font-weight:900;
+    white-space:nowrap;
+}
+
+.whatsapp-btn:disabled{
+    opacity:.45;
+    cursor:default;
+}
+
+.activation-type{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:24px;
+    padding:0 8px;
+    border-radius:99px;
+    font-size:7.5px;
+    font-weight:900;
+}
+
+.activation-type.monthly{
+    background:#eef6ff;
+    color:#075fcf;
+}
+
+.activation-type.permanent{
+    background:#f4f0ff;
+    color:#6938ef;
+}
+
+.activation-type.off{
+    background:#f2f4f7;
+    color:#667085;
+}
+
+.permanent-switch{
+    display:flex!important;
+    align-items:flex-start;
+    gap:9px;
+    margin-top:12px!important;
+    padding:11px;
+    border:1px solid #d8cfff;
+    border-radius:13px;
+    background:#f7f5ff;
+    color:#5030c9!important;
+    line-height:1.7;
+}
+
+.permanent-switch input{
+    width:20px;
+    height:20px;
+    flex:none;
+    margin-top:1px;
+    accent-color:#6938ef;
+}
+
+.activation-note{
+    margin-top:10px;
+    padding:10px 11px;
+    border-radius:13px;
+    background:#fff8e8;
+    color:#8a5200;
+    font-size:8px;
+    font-weight:800;
+    line-height:1.8;
+}
+
+.account-active-summary{
+    margin-top:14px;
+    padding:12px;
+    border:1px solid #bde7cd;
+    border-radius:15px;
+    background:var(--green-bg);
+    color:var(--green);
+    font-size:9px;
+    font-weight:900;
+    line-height:1.9;
+}
+
+.actions.single{
+    grid-template-columns:1fr;
+}
+
+.action.activate.hidden{
+    display:none!important;
+}
+
+@media(max-width:650px){
+    .table-tools{
+        flex-direction:column;
+    }
+
+    .show-all-btn{
+        width:100%;
+    }
+}
+
 </style>
 
 </head>
@@ -1121,8 +1247,8 @@ button{
         </h2>
 
         <p>
-            اختر الصف لعرض الطلاب، ثم اضغط على اسم الطالب لإدارة
-            صلاحية الحسابات وتسجيل دفعة القسط.
+            اختر الصف أو ابحث عن الطالب مباشرة. التفعيل الشهري ينتهي
+            تلقائياً يوم 28، والتفعيل الدائم يبقى إلى أن تلغيه الإدارة.
         </p>
 
     </div>
@@ -1219,13 +1345,12 @@ button{
 
 <section
     id="studentsSection"
-    class="hidden"
 >
 
     <div class="section-head">
 
         <h3 id="selectedClassTitle">
-            الطلاب
+            جميع الطلاب
         </h3>
 
         <span id="studentsCount">
@@ -1241,9 +1366,17 @@ button{
             id="searchInput"
             class="search"
             type="text"
-            placeholder="بحث باسم الطالب أو الكود"
+            placeholder="بحث باسم الطالب أو الكود أو رقم ولي الأمر"
             autocomplete="off"
         >
+
+        <button
+            id="showAllBtn"
+            class="show-all-btn"
+            type="button"
+        >
+            عرض كل الطلاب
+        </button>
 
     </div>
 
@@ -1376,7 +1509,7 @@ button{
         >
 
             <label>
-                مبلغ الدفعة
+                مبلغ الدفعة (اختياري)
             </label>
 
             <input
@@ -1386,20 +1519,41 @@ button{
                 min="0"
                 step="250"
                 inputmode="numeric"
-                placeholder="أدخل المبلغ"
+                placeholder="أدخل المبلغ إن وجدت دفعة"
             >
 
             <div
                 id="activationHelp"
                 class="activation-help"
             >
-                يجب تسجيل مبلغ الدفعة قبل تفعيل الطالب من الحسابات.
+                يمكن تفعيل الحساب بدون تسجيل دفعة. إذا أدخلت مبلغاً سيتم حفظه ضمن دفعات الطالب.
+            </div>
+
+            <label class="permanent-switch">
+                <input
+                    id="permanentActivation"
+                    type="checkbox"
+                >
+                <span>
+                    تفعيل دائم — يبقى حساب الطالب مفعّلاً ولا يدخل ضمن الإيقاف الشهري.
+                    إلغاء التفعيل الدائم يكون من الإدارة فقط.
+                </span>
+            </label>
+
+            <div class="activation-note">
+                التفعيل العادي ينتهي تلقائياً في يوم 28. المحاسب يستطيع التفعيل فقط،
+                ولا يستطيع إلغاء التفعيل بعد اعتماده.
             </div>
 
         </div>
 
+        <div
+            id="activeAccountSummary"
+            class="account-active-summary hidden"
+        ></div>
 
-        <div class="actions">
+
+        <div class="actions single">
 
             <button
                 id="activateBtn"
@@ -1407,15 +1561,6 @@ button{
                 type="button"
             >
                 تفعيل
-            </button>
-
-
-            <button
-                id="disableBtn"
-                class="action disable"
-                type="button"
-            >
-                إلغاء التفعيل
             </button>
 
         </div>
@@ -1583,6 +1728,444 @@ function money(value){
 
 }
 
+
+
+/* =========================================================
+   ACCOUNTING MONTHLY ACCESS
+   التفعيل العادي ينتهي يوم 28.
+   التفعيل الدائم لا ينتهي إلا إذا ألغته الإدارة.
+========================================================= */
+
+function cutoffTimestampForDate(dateValue){
+
+    const date =
+        dateValue instanceof Date
+            ? new Date(dateValue.getTime())
+            : new Date(dateValue);
+
+    const nowTime =
+        date.getTime();
+
+    let cutoff =
+        new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            28,
+            0,
+            0,
+            0,
+            0
+        );
+
+    /*
+       إذا تم التفعيل يوم 28 أو بعده،
+       يكون تاريخ الإيقاف في 28 من الشهر القادم.
+    */
+    if(
+        nowTime >=
+        cutoff.getTime()
+    ){
+
+        cutoff =
+            new Date(
+                date.getFullYear(),
+                date.getMonth() + 1,
+                28,
+                0,
+                0,
+                0,
+                0
+            );
+
+    }
+
+    return cutoff.getTime();
+
+}
+
+
+function legacyCurrentCutoffTimestamp(){
+
+    const now =
+        new Date();
+
+    return new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        28,
+        0,
+        0,
+        0,
+        0
+    ).getTime();
+
+}
+
+
+function formatDateTime(timestamp){
+
+    if(
+        !timestamp
+    ){
+        return "—";
+    }
+
+    try{
+
+        return new Intl.DateTimeFormat(
+            "ar-IQ",
+            {
+                year:"numeric",
+                month:"2-digit",
+                day:"2-digit"
+            }
+        ).format(
+            new Date(timestamp)
+        );
+
+    }
+    catch{
+
+        return "—";
+
+    }
+
+}
+
+
+function isPermanentAccounting(student){
+
+    return (
+        student?.accountantPermanent === true &&
+        student?.accountantApproved === true
+    );
+
+}
+
+
+function isAccountantActive(student){
+
+    if(
+        !student ||
+        student.accountantApproved !== true
+    ){
+        return false;
+    }
+
+    if(
+        student.accountantPermanent === true
+    ){
+        return true;
+    }
+
+    const until =
+        num(
+            student.accountantApprovedUntil
+        );
+
+    /*
+       للسجلات القديمة قبل هذا التعديل:
+       إذا ماكو تاريخ انتهاء، نبقي قيمة accountantApproved
+       مؤقتاً إلى أن تعمل مزامنة الإيقاف.
+    */
+    if(
+        !until
+    ){
+        return true;
+    }
+
+    return Date.now() < until;
+
+}
+
+
+function accountingTypeText(student){
+
+    if(
+        !isAccountantActive(student)
+    ){
+        return "غير مفعّل";
+    }
+
+    if(
+        student.accountantPermanent === true
+    ){
+        return "دائم";
+    }
+
+    return "شهري";
+
+}
+
+
+function guardianPhone(student){
+
+    return String(
+        student?.guardianPhone ||
+        student?.guardianNumber ||
+        student?.parentPhone ||
+        student?.guardianMobile ||
+        student?.phoneGuardian ||
+        student?.fatherPhone ||
+        ""
+    ).trim();
+
+}
+
+
+function whatsappNumber(value){
+
+    let digits =
+        String(value || "")
+        .replace(/\D/g,"");
+
+    if(
+        digits.startsWith("00")
+    ){
+        digits =
+            digits.slice(2);
+    }
+
+    if(
+        digits.startsWith("0")
+    ){
+        digits =
+            "964" +
+            digits.slice(1);
+    }
+
+    if(
+        digits.length === 10 &&
+        digits.startsWith("7")
+    ){
+        digits =
+            "964" +
+            digits;
+    }
+
+    return digits;
+
+}
+
+
+function openGuardianWhatsApp(code){
+
+    const student =
+        students[code];
+
+    if(
+        !student
+    ){
+        return;
+    }
+
+    const phone =
+        whatsappNumber(
+            guardianPhone(student)
+        );
+
+    if(
+        !phone
+    ){
+
+        toast(
+            "لا يوجد رقم ولي أمر مسجل لهذا الطالب"
+        );
+
+        return;
+    }
+
+    const message =
+        encodeURIComponent(
+            `السلام عليكم، ولي أمر الطالب ${student.name || ""}`
+        );
+
+    window.open(
+        `https://wa.me/${phone}?text=${message}`,
+        "_blank",
+        "noopener"
+    );
+
+}
+
+
+async function syncAccountingExpiry(){
+
+    const now =
+        Date.now();
+
+    const update = {};
+
+    let changed =
+        0;
+
+    Object.entries(
+        students
+    ).forEach(
+        ([code,student]) => {
+
+            if(
+                !student ||
+                student.deleted === true ||
+                student.accountantApproved !== true
+            ){
+                return;
+            }
+
+            /*
+               التفعيل الدائم مستثنى كلياً.
+               الإدارة فقط تلغي هذا النوع.
+            */
+            if(
+                student.accountantPermanent === true
+            ){
+                return;
+            }
+
+            let until =
+                num(
+                    student.accountantApprovedUntil
+                );
+
+            /*
+               ترحيل السجلات القديمة:
+               إذا كان مفعلاً بدون تاريخ انتهاء،
+               نربطه بيوم 28 من الشهر الحالي.
+            */
+            if(
+                !until
+            ){
+
+                until =
+                    legacyCurrentCutoffTimestamp();
+
+                update[
+                    `${code}/accountantApprovedUntil`
+                ] =
+                    until;
+
+                student.accountantApprovedUntil =
+                    until;
+
+            }
+
+            if(
+                now >= until
+            ){
+
+                update[
+                    `${code}/accountantApproved`
+                ] =
+                    false;
+
+                update[
+                    `${code}/accountantDisabledAt`
+                ] =
+                    now;
+
+                update[
+                    `${code}/accountantDisabledReason`
+                ] =
+                    "monthly_cutoff_day_28";
+
+                update[
+                    `${code}/accountantApprovalMode`
+                ] =
+                    "monthly_expired";
+
+                student.accountantApproved =
+                    false;
+
+                changed++;
+
+            }
+
+        }
+    );
+
+    if(
+        Object.keys(update).length
+    ){
+
+        await dbPatch(
+            "students",
+            update
+        );
+
+    }
+
+    return changed;
+
+}
+
+
+function allStudents(){
+
+    return Object.entries(
+        students
+    )
+    .map(
+        ([code,value]) => ({
+            code,
+            ...value
+        })
+    )
+    .filter(
+        student =>
+            student &&
+            student.deleted !== true
+    )
+    .sort(
+        (a,b) =>
+            String(a.name || "")
+            .localeCompare(
+                String(b.name || ""),
+                "ar",
+                {
+                    sensitivity:"base"
+                }
+            )
+    );
+
+}
+
+
+function showAllStudents(
+    scroll = true
+){
+
+    selectedClassId =
+        "";
+
+    $("searchInput").value =
+        "";
+
+    $("studentsSection")
+        .classList.remove(
+            "hidden"
+        );
+
+    renderClasses();
+
+    renderStudentsTable();
+
+    if(
+        scroll
+    ){
+
+        setTimeout(
+            () =>
+                $("studentsSection")
+                .scrollIntoView({
+                    behavior:"smooth",
+                    block:"start"
+                }),
+            60
+        );
+
+    }
+
+}
 
 function genderText(value){
 
@@ -1975,198 +2558,12 @@ function calculatePaymentSummary(){
 
 async function runMonthlyAccountingReset(){
 
-    const now =
-        new Date();
-
-
-    if(
-        now.getDate() !== 29
-    ){
-        return;
-    }
-
-
-    const year =
-        now.getFullYear();
-
-
-    const month =
-        String(
-            now.getMonth() + 1
-        ).padStart(
-            2,
-            "0"
-        );
-
-
-    const resetKey =
-        `${year}-${month}`;
-
-
-    const lastReset =
-        await dbGet(
-            `meta/accountingMonthlyReset/${resetKey}`
-        );
-
-
     /*
-       سبق تنفيذ إعادة الضبط
-       لهذا الشهر.
+       الاسم محفوظ حتى لا نغيّر هيكل الصفحة،
+       لكن التنفيذ الجديد يفحص تاريخ الانتهاء يومياً
+       وليس يوم 29 فقط.
     */
-
-    if(
-        lastReset &&
-        lastReset.completed === true
-    ){
-        return;
-    }
-
-
-    const update = {};
-
-
-    let changed =
-        0;
-
-
-    Object.entries(
-        students
-    )
-    .forEach(
-        ([code,student]) => {
-
-
-            const summary =
-                paymentSummary[
-                    code
-                ] || {
-                    total:0,
-                    remaining:0
-                };
-
-
-            /*
-               الطالب المجاني:
-               القسط الكلي 0
-               والمتبقي 0
-
-               يبقى مفعلاً.
-            */
-
-            const freeStudent =
-
-                summary.total === 0 &&
-                summary.remaining === 0;
-
-
-            if(
-                freeStudent
-            ){
-                return;
-            }
-
-
-            if(
-                student.accountantApproved === true
-            ){
-
-                update[
-                    `${code}/accountantApproved`
-                ] =
-                    false;
-
-
-                update[
-                    `${code}/accountantDisabledAt`
-                ] =
-                    Date.now();
-
-
-                update[
-                    `${code}/accountantDisabledReason`
-                ] =
-                    "monthly_reset_day_29";
-
-
-                changed++;
-
-            }
-
-        }
-    );
-
-
-    /*
-       PATCH واحد لكل الطلاب.
-    */
-
-    if(
-        Object.keys(update).length
-    ){
-
-        await dbPatch(
-            "students",
-            update
-        );
-
-
-        Object.entries(
-            students
-        )
-        .forEach(
-            ([code,student]) => {
-
-                const summary =
-                    paymentSummary[
-                        code
-                    ] || {
-                        total:0,
-                        remaining:0
-                    };
-
-
-                const freeStudent =
-                    summary.total === 0 &&
-                    summary.remaining === 0;
-
-
-                if(
-                    !freeStudent
-                ){
-
-                    student.accountantApproved =
-                        false;
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /*
-       نحفظ أنه تم التنفيذ.
-    */
-
-    await dbPatch(
-        `meta/accountingMonthlyReset/${resetKey}`,
-        {
-
-            completed:
-                true,
-
-            timestamp:
-                Date.now(),
-
-            executedBy:
-                session.code,
-
-            disabledStudents:
-                changed
-
-        }
-    );
+    return syncAccountingExpiry();
 
 }
 
@@ -2388,26 +2785,33 @@ function filteredCurrentStudents(){
             $("searchInput").value
         );
 
-
-    return classStudents(
+    const source =
         selectedClassId
-    )
+            ? classStudents(
+                selectedClassId
+            )
+            : allStudents();
+
+    return source
     .filter(
         student => {
 
-            if(!search){
+            if(
+                !search
+            ){
                 return true;
             }
-
 
             const data =
                 norm(
                     [
                         student.name,
-                        student.code
+                        student.code,
+                        guardianPhone(student),
+                        student.studentPhone,
+                        student.phone
                     ].join(" ")
                 );
-
 
             return data.includes(
                 search
@@ -2425,21 +2829,16 @@ function filteredCurrentStudents(){
 
 function renderStudentsTable(){
 
-    if(
-        !selectedClassId
-    ){
-        return;
-    }
-
-
     const list =
         filteredCurrentStudents();
 
 
     $("selectedClassTitle").textContent =
-        className(
-            selectedClassId
-        );
+        selectedClassId
+            ? className(
+                selectedClassId
+            )
+            : "جميع الطلاب";
 
 
     $("studentsCount").textContent =
@@ -2453,7 +2852,7 @@ function renderStudentsTable(){
         $("tableArea").innerHTML = `
 
             <div class="empty">
-                لا يوجد طلاب في هذا الصف.
+                لا توجد نتائج مطابقة.
             </div>
 
         `;
@@ -2473,37 +2872,23 @@ function renderStudentsTable(){
 
                     <tr>
 
-                        <th>
-                            #
-                        </th>
+                        <th>#</th>
 
-                        <th>
-                            اسم الطالب
-                        </th>
+                        <th>اسم الطالب</th>
 
-                        <th>
-                            الجنس
-                        </th>
+                        <th>الصف</th>
 
-                        <th>
-                            القاعة
-                        </th>
+                        <th>القاعة</th>
 
-                        <th>
-                            القسط الكلي
-                        </th>
+                        <th>حالة الحساب</th>
 
-                        <th>
-                            المدفوع
-                        </th>
+                        <th>نوع التفعيل</th>
 
-                        <th>
-                            المتبقي
-                        </th>
+                        <th>ينتهي</th>
 
-                        <th>
-                            حالة الحسابات
-                        </th>
+                        <th>المتبقي</th>
+
+                        <th>ولي الأمر</th>
 
                     </tr>
 
@@ -2527,8 +2912,20 @@ function renderStudentsTable(){
 
 
                                 const active =
-                                    student.accountantApproved ===
-                                    true;
+                                    isAccountantActive(
+                                        student
+                                    );
+
+
+                                const permanent =
+                                    active &&
+                                    student.accountantPermanent === true;
+
+
+                                const phone =
+                                    guardianPhone(
+                                        student
+                                    );
 
 
                                 return `
@@ -2558,27 +2955,12 @@ function renderStudentsTable(){
 
 
                                         <td>
-                                            ${esc(genderText(student.gender))}
+                                            ${esc(className(student.classId))}
                                         </td>
 
 
                                         <td>
                                             ${esc(student.roomNumber || "—")}
-                                        </td>
-
-
-                                        <td class="amount">
-                                            ${esc(money(summary.total))}
-                                        </td>
-
-
-                                        <td class="amount">
-                                            ${esc(money(summary.paid))}
-                                        </td>
-
-
-                                        <td class="amount">
-                                            ${esc(money(summary.remaining))}
                                         </td>
 
 
@@ -2592,12 +2974,78 @@ function renderStudentsTable(){
                                                 }
                                             "
                                         >
-
                                             ${
                                                 active
                                                     ? "مفعّل"
                                                     : "غير مفعّل"
                                             }
+                                        </td>
+
+
+                                        <td>
+
+                                            <span
+                                                class="
+                                                    activation-type
+                                                    ${
+                                                        !active
+                                                            ? "off"
+                                                            : permanent
+                                                                ? "permanent"
+                                                                : "monthly"
+                                                    }
+                                                "
+                                            >
+                                                ${
+                                                    !active
+                                                        ? "متوقف"
+                                                        : permanent
+                                                            ? "دائم"
+                                                            : "شهري"
+                                                }
+                                            </span>
+
+                                        </td>
+
+
+                                        <td>
+                                            ${
+                                                !active
+                                                    ? "—"
+                                                    : permanent
+                                                        ? "بدون انتهاء"
+                                                        : esc(
+                                                            formatDateTime(
+                                                                student.accountantApprovedUntil
+                                                            )
+                                                        )
+                                            }
+                                        </td>
+
+
+                                        <td class="amount">
+                                            ${esc(money(summary.remaining))}
+                                        </td>
+
+
+                                        <td>
+
+                                            <button
+                                                type="button"
+                                                class="whatsapp-btn"
+                                                ${
+                                                    phone
+                                                        ? ""
+                                                        : "disabled"
+                                                }
+                                                onclick="
+                                                    openGuardianWhatsApp(
+                                                        '${safeJS(student.code)}'
+                                                    )
+                                                "
+                                            >
+                                                واتساب ولي الأمر
+                                            </button>
 
                                         </td>
 
@@ -2653,6 +3101,17 @@ function openStudent(
             paid:0,
             remaining:0
         };
+
+
+    const active =
+        isAccountantActive(
+            student
+        );
+
+
+    const permanent =
+        active &&
+        student.accountantPermanent === true;
 
 
     $("modalAvatar").textContent =
@@ -2722,13 +3181,83 @@ function openStudent(
             </span>
 
             <strong>
-
                 ${
-                    student.accountantApproved === true
+                    active
                         ? "مفعّل"
                         : "غير مفعّل"
                 }
+            </strong>
 
+        </div>
+
+
+        <div class="info">
+
+            <span>
+                نوع التفعيل
+            </span>
+
+            <strong>
+                ${
+                    !active
+                        ? "—"
+                        : permanent
+                            ? "دائم"
+                            : "شهري"
+                }
+            </strong>
+
+        </div>
+
+
+        <div class="info">
+
+            <span>
+                تاريخ الانتهاء
+            </span>
+
+            <strong>
+                ${
+                    !active
+                        ? "—"
+                        : permanent
+                            ? "إلى أن تلغيه الإدارة"
+                            : esc(
+                                formatDateTime(
+                                    student.accountantApprovedUntil
+                                )
+                            )
+                }
+            </strong>
+
+        </div>
+
+
+        <div class="info">
+
+            <span>
+                رقم ولي الأمر
+            </span>
+
+            <strong>
+                ${esc(guardianPhone(student) || "غير مسجل")}
+            </strong>
+
+        </div>
+
+
+        <div class="info">
+
+            <span>
+                الإجراء
+            </span>
+
+            <strong>
+                ${
+                    active
+                        ? "لا يمكن للمحاسب إلغاء التفعيل"
+                        : "بانتظار التفعيل"
+                }
             </strong>
 
         </div>
@@ -2758,43 +3287,59 @@ function openStudent(
         "";
 
 
+    $("permanentActivation").checked =
+        false;
+
+
     /*
-       الطالب المجاني:
-       القسط 0 والمتبقي 0.
-
-       لا يحتاج مبلغ عند التفعيل.
+       بعد التفعيل يختفي قسم التفعيل من المحاسب.
+       لا يوجد زر إلغاء تفعيل للمحاسب.
     */
-
-    const freeStudent =
-        summary.total === 0 &&
-        summary.remaining === 0;
-
 
     $("activationArea")
         .classList.toggle(
             "hidden",
-            freeStudent
+            active
+        );
+
+
+    $("activateBtn")
+        .classList.toggle(
+            "hidden",
+            active
+        );
+
+
+    $("activeAccountSummary")
+        .classList.toggle(
+            "hidden",
+            !active
         );
 
 
     if(
-        freeStudent
+        active
     ){
 
-        $("activationHelp").textContent =
-            "الطالب قسطه الكلي صفر ولا يحتاج تسجيل دفعة.";
+        $("activeAccountSummary").innerHTML =
+            permanent
+                ? `
+                    الحساب مفعّل تفعيل دائم.<br>
+                    يبقى فعالاً إلى أن تلغيه الإدارة.
+                  `
+                : `
+                    الحساب مفعّل لهذا الشهر.<br>
+                    الإيقاف التلقائي: يوم
+                    ${esc(formatDateTime(student.accountantApprovedUntil))}
+                  `;
 
     }
+    else{
 
+        $("activeAccountSummary").innerHTML =
+            "";
 
-    $("activateBtn").disabled =
-        student.accountantApproved ===
-        true;
-
-
-    $("disableBtn").disabled =
-        student.accountantApproved !==
-        true;
+    }
 
 
     $("studentModal")
@@ -2829,8 +3374,24 @@ async () => {
     }
 
 
+    if(
+        isAccountantActive(
+            student
+        )
+    ){
+
+        toast(
+            "حساب الطالب مفعّل بالفعل"
+        );
+
+        return;
+    }
+
+
     /*
-       نعيد حساب الدفعات قبل التفعيل.
+       الدفعة أصبحت اختيارية.
+       إذا كتب المحاسب مبلغاً نحفظه،
+       وإذا تركه صفراً يتم التفعيل فقط.
     */
 
     const currentPayments =
@@ -2858,63 +3419,42 @@ async () => {
         };
 
 
-    const freeStudent =
-        summary.total === 0 &&
-        summary.remaining === 0;
+    const amount =
+        num(
+            $("paymentAmount").value
+        );
 
-
-    let amount =
-        0;
-
-
-    /*
-       إذا مو طالب مجاني،
-       لازم المحاسب يدخل دفعة.
-    */
 
     if(
-        !freeStudent
+        amount < 0
     ){
 
-        amount =
-            num(
-                $("paymentAmount").value
-            );
+        toast(
+            "مبلغ الدفعة غير صحيح"
+        );
 
-
-        if(
-            amount <= 0
-        ){
-
-            toast(
-                "يجب إدخال مبلغ الدفعة قبل تفعيل الطالب"
-            );
-
-
-            $("paymentAmount")
-                .focus();
-
-
-            return;
-
-        }
-
-
-        if(
-            summary.remaining > 0 &&
-            amount >
-            summary.remaining
-        ){
-
-            toast(
-                "مبلغ الدفعة أكبر من المبلغ المتبقي"
-            );
-
-            return;
-
-        }
-
+        return;
     }
+
+
+    if(
+        amount > 0 &&
+        summary.remaining > 0 &&
+        amount >
+        summary.remaining
+    ){
+
+        toast(
+            "مبلغ الدفعة أكبر من المبلغ المتبقي"
+        );
+
+        return;
+    }
+
+
+    const permanent =
+        $("permanentActivation")
+        .checked === true;
 
 
     $("activateBtn").disabled =
@@ -2932,10 +3472,13 @@ async () => {
             Date.now();
 
 
-        /*
-           إذا توجد دفعة،
-           نسجلها أولاً.
-        */
+        const approvedUntil =
+            permanent
+                ? null
+                : cutoffTimestampForDate(
+                    new Date(now)
+                );
+
 
         if(
             amount > 0
@@ -2955,7 +3498,9 @@ async () => {
                         now,
 
                     note:
-                        "دفعة تفعيل الحسابات",
+                        permanent
+                            ? "دفعة مع تفعيل دائم للحسابات"
+                            : "دفعة مع تفعيل شهري للحسابات",
 
                     type:
                         "account_activation",
@@ -2972,14 +3517,6 @@ async () => {
         }
 
 
-        /*
-           تفعيل صلاحية المحاسب فقط.
-           لا نغير:
-           adminApproved
-           behaviorBlocked
-           accountActive
-        */
-
         await dbPatch(
             `students/${encodeURIComponent(code)}`,
             {
@@ -2994,15 +3531,22 @@ async () => {
                     session.code,
 
                 accountantLastPaymentAmount:
-                    amount
+                    amount,
+
+                accountantPermanent:
+                    permanent,
+
+                accountantApprovalMode:
+                    permanent
+                        ? "permanent"
+                        : "monthly",
+
+                accountantApprovedUntil:
+                    approvedUntil
 
             }
         );
 
-
-        /*
-           تحديث النسخة المحلية.
-        */
 
         students[
             code
@@ -3016,9 +3560,31 @@ async () => {
             now;
 
 
-        /*
-           إعادة جلب الدفعات.
-        */
+        students[
+            code
+        ].accountantApprovedBy =
+            session.code;
+
+
+        students[
+            code
+        ].accountantPermanent =
+            permanent;
+
+
+        students[
+            code
+        ].accountantApprovalMode =
+            permanent
+                ? "permanent"
+                : "monthly";
+
+
+        students[
+            code
+        ].accountantApprovedUntil =
+            approvedUntil;
+
 
         payments[
             code
@@ -3041,9 +3607,9 @@ async () => {
 
 
         toast(
-            amount > 0
-                ? "تم تسجيل الدفعة وتفعيل الطالب من الحسابات"
-                : "تم تفعيل الطالب من الحسابات"
+            permanent
+                ? "تم تفعيل الطالب تفعيل دائم — الإلغاء من الإدارة فقط"
+                : `تم تفعيل الطالب حتى يوم ${formatDateTime(approvedUntil)}`
         );
 
 
@@ -3064,6 +3630,9 @@ async () => {
 
     finally{
 
+        $("activateBtn").disabled =
+            false;
+
         $("activateBtn").textContent =
             "تفعيل";
 
@@ -3073,139 +3642,9 @@ async () => {
 
 
 /* =========================================================
-   ASK TO DISABLE
+   ACCOUNTANT CANNOT DISABLE
+   إلغاء التفعيل متاح للإدارة فقط.
 ========================================================= */
-
-$("disableBtn").onclick =
-    () => {
-
-        if(
-            !selectedStudentCode
-        ){
-            return;
-        }
-
-
-        $("confirmModal")
-            .classList.add(
-                "show"
-            );
-
-    };
-
-
-/* =========================================================
-   CANCEL DISABLE
-========================================================= */
-
-$("cancelDisable").onclick =
-    () => {
-
-        $("confirmModal")
-            .classList.remove(
-                "show"
-            );
-
-    };
-
-
-/* =========================================================
-   CONFIRM DISABLE
-========================================================= */
-
-$("confirmDisable").onclick =
-async () => {
-
-    const code =
-        selectedStudentCode;
-
-
-    if(
-        !code ||
-        !students[
-            code
-        ]
-    ){
-        return;
-    }
-
-
-    $("confirmDisable").disabled =
-        true;
-
-
-    try{
-
-
-        await dbPatch(
-            `students/${encodeURIComponent(code)}`,
-            {
-
-                accountantApproved:
-                    false,
-
-                accountantDisabledAt:
-                    Date.now(),
-
-                accountantDisabledBy:
-                    session.code,
-
-                accountantDisabledReason:
-                    "manual"
-
-            }
-        );
-
-
-        students[
-            code
-        ].accountantApproved =
-            false;
-
-
-        $("confirmModal")
-            .classList.remove(
-                "show"
-            );
-
-
-        renderStats();
-
-        renderStudentsTable();
-
-        openStudent(
-            code
-        );
-
-
-        toast(
-            "تم إلغاء تفعيل الطالب من الحسابات"
-        );
-
-
-    }
-
-    catch(error){
-
-        console.error(
-            error
-        );
-
-
-        toast(
-            "تعذر إلغاء التفعيل"
-        );
-
-    }
-
-    finally{
-
-        $("confirmDisable").disabled =
-            false;
-
-    }
-
-};
 
 
 /* =========================================================
@@ -3228,8 +3667,9 @@ function renderStats(){
     const active =
         list.filter(
             ([code,student]) =>
-                student.accountantApproved ===
-                true
+                isAccountantActive(
+                    student
+                )
         ).length;
 
 
@@ -3343,6 +3783,13 @@ $("searchInput").addEventListener(
 );
 
 
+$("showAllBtn").onclick =
+    () =>
+        showAllStudents(
+            true
+        );
+
+
 /* =========================================================
    LOGOUT
 ========================================================= */
@@ -3379,15 +3826,13 @@ async function init(){
 
 
         /*
-           بعدها نفحص يوم 29.
+           فحص انتهاء التفعيل الشهري.
+           أي تفعيل عادي وصل إلى يوم 28
+           يتوقف، أما الدائم فلا يتأثر.
         */
 
         await runMonthlyAccountingReset();
 
-
-        /*
-           إعادة حساب الملخص بعد reset.
-        */
 
         calculatePaymentSummary();
 
@@ -3395,6 +3840,51 @@ async function init(){
         renderClasses();
 
         renderStats();
+
+        showAllStudents(
+            false
+        );
+
+
+        /*
+           طالما صفحة المحاسب مفتوحة،
+           نعيد الفحص كل 5 دقائق حتى إذا دخل
+           يوم 28 أثناء بقاء الصفحة مفتوحة
+           يتم تحديث الحالات.
+        */
+
+        window.accountingExpiryTimer =
+            setInterval(
+                async () => {
+
+                    try{
+
+                        const changed =
+                            await syncAccountingExpiry();
+
+                        if(
+                            changed > 0
+                        ){
+
+                            renderStats();
+
+                            renderStudentsTable();
+
+                        }
+
+                    }
+                    catch(error){
+
+                        console.error(
+                            "ACCOUNTING_EXPIRY_SYNC",
+                            error
+                        );
+
+                    }
+
+                },
+                5 * 60 * 1000
+            );
 
 
         $("loaderScreen")
