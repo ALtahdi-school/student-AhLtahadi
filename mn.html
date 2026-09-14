@@ -1235,27 +1235,27 @@ button{
 }
 
 .students-table tbody tr.gender-boy{
-    background:#eaf4ff;
+    background:#fff;
 }
 
 .students-table tbody tr.gender-boy:hover{
-    background:#e5f1ff;
+    background:#fbfdff;
 }
 
 .students-table tbody tr.gender-girl{
-    background:#fff0f6;
+    background:#fff;
 }
 
 .students-table tbody tr.gender-girl:hover{
-    background:#ffe8f2;
+    background:#fbfdff;
 }
 
 .gender-boy td:first-child{
-    border-right:4px solid #2f80ed;
+    border-right:0;
 }
 
 .gender-girl td:first-child{
-    border-right:4px solid #e15b96;
+    border-right:0;
 }
 
 .gender-empty{
@@ -1300,6 +1300,160 @@ button{
 .student-name-btn.account-inactive-name:hover,
 .student-name-btn.account-inactive-name:focus{
     color:#b83b72;
+}
+
+
+/* =========================================================
+   WHITE STUDENT TABLE
+========================================================= */
+
+.students-table tbody td{
+    background:#fff;
+    color:#172033;
+}
+
+.students-table tbody tr:hover td{
+    background:#fbfdff;
+}
+
+.students-table .student-name-btn{
+    color:#172033 !important;
+    text-decoration-color:#172033 !important;
+}
+
+.students-table .status-cell.active{
+    background:#fff !important;
+    color:#172033 !important;
+}
+
+.students-table .status-cell.inactive{
+    background:#ffe5e5 !important;
+    color:#b42318 !important;
+}
+
+
+/* =========================================================
+   CLASS BUTTONS BY GENDER
+========================================================= */
+
+.classes-by-gender{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    align-items:start;
+}
+
+.class-gender-group{
+    min-width:0;
+    padding:12px;
+    border-radius:22px;
+    background:#fff;
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+}
+
+.class-gender-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:10px;
+    font-size:11px;
+    font-weight:900;
+}
+
+.class-gender-title span{
+    min-width:28px;
+    height:28px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 8px;
+    border-radius:99px;
+    background:#fff;
+    font-size:8px;
+    font-weight:900;
+}
+
+.class-gender-group.boys-group{
+    border-color:#b9d9ff;
+}
+
+.class-gender-group.boys-group .class-gender-title{
+    color:#075fcf;
+}
+
+.class-gender-group.girls-group{
+    border-color:#f3bfd4;
+}
+
+.class-gender-group.girls-group .class-gender-title{
+    color:#c72c72;
+}
+
+.class-list-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+}
+
+.class-card.boy-class{
+    border-color:#9fc9ff;
+    background:#eaf4ff;
+}
+
+.class-card.boy-class .class-icon{
+    background:#d9ebff;
+    color:#075fcf;
+}
+
+.class-card.boy-class.active{
+    border-color:#075fcf;
+    box-shadow:
+        0 0 0 3px rgba(7,95,207,.08),
+        var(--shadow);
+}
+
+.class-card.girl-class{
+    border-color:#efb3ce;
+    background:#fff0f6;
+}
+
+.class-card.girl-class .class-icon{
+    background:#ffe0ee;
+    color:#c72c72;
+}
+
+.class-card.girl-class.active{
+    border-color:#d64a89;
+    box-shadow:
+        0 0 0 3px rgba(214,74,137,.08),
+        var(--shadow);
+}
+
+.class-card.boy-class h4,
+.class-card.boy-class p,
+.class-card.girl-class h4,
+.class-card.girl-class p{
+    color:#172033;
+}
+
+.class-card.boy-class .class-count,
+.class-card.girl-class .class-count{
+    background:#fff;
+    color:#475467;
+}
+
+@media(max-width:800px){
+    .classes-by-gender{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:430px){
+    .class-list-grid{
+        grid-template-columns:1fr 1fr;
+    }
 }
 
 </style>
@@ -1481,7 +1635,7 @@ button{
 
 <section
     id="classesGrid"
-    class="classes"
+    class="classes-by-gender"
 ></section>
 
 
@@ -2778,6 +2932,137 @@ function classStudents(
    RENDER CLASSES
 ========================================================= */
 
+
+function classGender(
+    id,
+    item
+){
+
+    const raw =
+        norm(
+            [
+                item?.gender,
+                item?.studentGender,
+                item?.type,
+                item?.section,
+                item?.group,
+                item?.name,
+                id
+            ].join(" ")
+        );
+
+
+    if(
+        raw.includes("female") ||
+        raw.includes("girl") ||
+        raw.includes("بنات") ||
+        raw.includes("اناث") ||
+        raw.includes("إناث") ||
+        raw.includes("بنت")
+    ){
+        return "female";
+    }
+
+
+    if(
+        raw.includes("male") ||
+        raw.includes("boy") ||
+        raw.includes("بنين") ||
+        raw.includes("ذكور") ||
+        raw.includes("ولد")
+    ){
+        return "male";
+    }
+
+
+    /*
+       إذا الصف نفسه ما بيه حقل جنس،
+       نحدد الجنس من الطلاب الموجودين داخله.
+    */
+    const list =
+        classStudents(
+            id
+        );
+
+
+    const females =
+        list.filter(
+            student =>
+                student.gender === "female"
+        ).length;
+
+
+    const males =
+        list.length -
+        females;
+
+
+    return females > males
+        ? "female"
+        : "male";
+
+}
+
+
+function renderClassButton(
+    id,
+    item,
+    gender
+){
+
+    const count =
+        classStudents(
+            id
+        ).length;
+
+
+    return `
+
+        <button
+            type="button"
+            class="
+                class-card
+                ${
+                    gender === "female"
+                        ? "girl-class"
+                        : "boy-class"
+                }
+                ${
+                    selectedClassId === id
+                        ? "active"
+                        : ""
+                }
+            "
+            onclick="
+                selectClass(
+                    '${safeJS(id)}'
+                )
+            "
+        >
+
+            <div class="class-count">
+                ${count}
+            </div>
+
+            <div class="class-icon">
+                ص
+            </div>
+
+            <h4>
+                ${esc(item.name || "صف")}
+            </h4>
+
+            <p>
+                ${count} طالب
+            </p>
+
+        </button>
+
+    `;
+
+}
+
+
 function renderClasses(){
 
     const classList =
@@ -2822,57 +3107,90 @@ function renderClasses(){
     }
 
 
-    $("classesGrid").innerHTML =
-        classList.map(
-            ([id,item]) => {
+    const boys =
+        classList.filter(
+            ([id,item]) =>
+                classGender(
+                    id,
+                    item
+                ) !== "female"
+        );
 
-                const count =
-                    classStudents(
-                        id
-                    ).length;
+
+    const girls =
+        classList.filter(
+            ([id,item]) =>
+                classGender(
+                    id,
+                    item
+                ) === "female"
+        );
 
 
-                return `
+    $("classesGrid").className =
+        "classes-by-gender";
 
-                    <button
-                        type="button"
-                        class="
-                            class-card
-                            ${
-                                selectedClassId === id
-                                    ? "active"
-                                    : ""
-                            }
-                        "
-                        onclick="
-                            selectClass(
-                                '${safeJS(id)}'
-                            )
-                        "
-                    >
 
-                        <div class="class-count">
-                            ${count}
-                        </div>
+    $("classesGrid").innerHTML = `
 
-                        <div class="class-icon">
-                            ص
-                        </div>
+        <section class="class-gender-group boys-group">
 
-                        <h4>
-                            ${esc(item.name || "صف")}
-                        </h4>
+            <div class="class-gender-title">
+                <strong>صفوف البنين</strong>
+                <span>${boys.length}</span>
+            </div>
 
-                        <p>
-                            ${count} طالب
-                        </p>
+            <div class="class-list-grid">
+                ${
+                    boys.length
+                        ? boys.map(
+                            ([id,item]) =>
+                                renderClassButton(
+                                    id,
+                                    item,
+                                    "male"
+                                )
+                        ).join("")
+                        : `
+                            <div class="empty">
+                                لا توجد صفوف بنين.
+                            </div>
+                          `
+                }
+            </div>
 
-                    </button>
+        </section>
 
-                `;
 
-            }
-        ).join("");
+        <section class="class-gender-group girls-group">
+
+            <div class="class-gender-title">
+                <strong>صفوف البنات</strong>
+                <span>${girls.length}</span>
+            </div>
+
+            <div class="class-list-grid">
+                ${
+                    girls.length
+                        ? girls.map(
+                            ([id,item]) =>
+                                renderClassButton(
+                                    id,
+                                    item,
+                                    "female"
+                                )
+                        ).join("")
+                        : `
+                            <div class="empty">
+                                لا توجد صفوف بنات.
+                            </div>
+                          `
+                }
+            </div>
+
+        </section>
+
+    `;
 
 }
 
@@ -3008,285 +3326,204 @@ function renderStudentsTable(){
     }
 
 
-    const boys =
-        list.filter(
-            student =>
-                student.gender !== "female"
-        );
+    $("tableArea").innerHTML = `
+
+        <div class="table-wrap">
+
+            <table class="students-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>اسم الطالب</th>
+
+                        <th>الصف</th>
+
+                        <th>القاعة</th>
+
+                        <th>حالة الحساب</th>
+
+                        <th>نوع التفعيل</th>
+
+                        <th>ينتهي</th>
+
+                        <th>المتبقي</th>
+
+                        <th>ولي الأمر</th>
+
+                    </tr>
+
+                </thead>
 
 
-    const girls =
-        list.filter(
-            student =>
-                student.gender === "female"
-        );
+                <tbody>
+
+                    ${
+                        list.map(
+                            (student,index) => {
+
+                                const summary =
+                                    paymentSummary[
+                                        student.code
+                                    ] || {
+                                        total:0,
+                                        paid:0,
+                                        remaining:0
+                                    };
 
 
-    function genderTable(
-        items,
-        type
-    ){
-
-        if(
-            !items.length
-        ){
-
-            return `
-
-                <div class="gender-empty">
-                    لا يوجد طلاب في هذه الجهة.
-                </div>
-
-            `;
-
-        }
+                                const active =
+                                    isAccountantActive(
+                                        student
+                                    );
 
 
-        return `
-
-            <div class="table-wrap">
-
-                <table class="students-table">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>#</th>
-
-                            <th>اسم الطالب</th>
-
-                            <th>الصف</th>
-
-                            <th>القاعة</th>
-
-                            <th>حالة الحساب</th>
-
-                            <th>نوع التفعيل</th>
-
-                            <th>ينتهي</th>
-
-                            <th>المتبقي</th>
-
-                            <th>ولي الأمر</th>
-
-                        </tr>
-
-                    </thead>
+                                const permanent =
+                                    active &&
+                                    student.accountantPermanent === true;
 
 
-                    <tbody>
-
-                        ${
-                            items.map(
-                                (student,index) => {
-
-                                    const summary =
-                                        paymentSummary[
-                                            student.code
-                                        ] || {
-                                            total:0,
-                                            paid:0,
-                                            remaining:0
-                                        };
+                                const phone =
+                                    guardianPhone(
+                                        student
+                                    );
 
 
-                                    const active =
-                                        isAccountantActive(
-                                            student
-                                        );
+                                return `
+
+                                    <tr>
+
+                                        <td>
+                                            ${index + 1}
+                                        </td>
 
 
-                                    const permanent =
-                                        active &&
-                                        student.accountantPermanent === true;
+                                        <td>
+
+                                            <button
+                                                type="button"
+                                                class="student-name-btn"
+                                                onclick="
+                                                    openStudent(
+                                                        '${safeJS(student.code)}'
+                                                    )
+                                                "
+                                            >
+                                                ${esc(student.name || "—")}
+                                            </button>
+
+                                        </td>
 
 
-                                    const phone =
-                                        guardianPhone(
-                                            student
-                                        );
+                                        <td>
+                                            ${esc(className(student.classId))}
+                                        </td>
 
 
-                                    return `
+                                        <td>
+                                            ${esc(student.roomNumber || "—")}
+                                        </td>
 
-                                        <tr
-                                            class="${
-                                                type === "girls"
-                                                    ? "gender-girl"
-                                                    : "gender-boy"
-                                            }"
+
+                                        <td
+                                            class="
+                                                status-cell
+                                                ${
+                                                    active
+                                                        ? "active"
+                                                        : "inactive"
+                                                }
+                                            "
                                         >
-
-                                            <td>
-                                                ${index + 1}
-                                            </td>
-
-
-                                            <td>
-
-                                                <button
-                                                    type="button"
-                                                    class="
-                                                        student-name-btn
-                                                        ${
-                                                            active
-                                                                ? "account-active-name"
-                                                                : "account-inactive-name"
-                                                        }
-                                                    "
-                                                    onclick="
-                                                        openStudent(
-                                                            '${safeJS(student.code)}'
-                                                        )
-                                                    "
-                                                >
-                                                    ${esc(student.name || "—")}
-                                                </button>
-
-                                            </td>
+                                            ${
+                                                active
+                                                    ? "مفعّل"
+                                                    : "غير مفعّل"
+                                            }
+                                        </td>
 
 
-                                            <td>
-                                                ${esc(className(student.classId))}
-                                            </td>
+                                        <td>
 
-
-                                            <td>
-                                                ${esc(student.roomNumber || "—")}
-                                            </td>
-
-
-                                            <td
+                                            <span
                                                 class="
-                                                    status-cell
+                                                    activation-type
                                                     ${
-                                                        active
-                                                            ? "active"
-                                                            : "inactive"
+                                                        !active
+                                                            ? "off"
+                                                            : permanent
+                                                                ? "permanent"
+                                                                : "monthly"
                                                     }
                                                 "
                                             >
                                                 ${
-                                                    active
-                                                        ? "مفعّل"
-                                                        : "غير مفعّل"
-                                                }
-                                            </td>
-
-
-                                            <td>
-
-                                                <span
-                                                    class="
-                                                        activation-type
-                                                        ${
-                                                            !active
-                                                                ? "off"
-                                                                : permanent
-                                                                    ? "permanent"
-                                                                    : "monthly"
-                                                        }
-                                                    "
-                                                >
-                                                    ${
-                                                        !active
-                                                            ? "متوقف"
-                                                            : permanent
-                                                                ? "دائم"
-                                                                : "شهري"
-                                                    }
-                                                </span>
-
-                                            </td>
-
-
-                                            <td>
-                                                ${
                                                     !active
-                                                        ? "—"
+                                                        ? "متوقف"
                                                         : permanent
-                                                            ? "بدون انتهاء"
-                                                            : esc(
-                                                                formatDateTime(
-                                                                    student.accountantApprovedUntil
-                                                                )
-                                                            )
+                                                            ? "دائم"
+                                                            : "شهري"
                                                 }
-                                            </td>
+                                            </span>
+
+                                        </td>
 
 
-                                            <td class="amount">
-                                                ${esc(money(summary.remaining))}
-                                            </td>
-
-
-                                            <td>
-
-                                                <button
-                                                    type="button"
-                                                    class="whatsapp-btn"
-                                                    ${
-                                                        phone
-                                                            ? ""
-                                                            : "disabled"
-                                                    }
-                                                    onclick="
-                                                        openGuardianWhatsApp(
-                                                            '${safeJS(student.code)}'
+                                        <td>
+                                            ${
+                                                !active
+                                                    ? "—"
+                                                    : permanent
+                                                        ? "بدون انتهاء"
+                                                        : esc(
+                                                            formatDateTime(
+                                                                student.accountantApprovedUntil
+                                                            )
                                                         )
-                                                    "
-                                                >
-                                                    واتساب ولي الأمر
-                                                </button>
-
-                                            </td>
-
-                                        </tr>
-
-                                    `;
-
-                                }
-                            ).join("")
-                        }
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        `;
-
-    }
+                                            }
+                                        </td>
 
 
-    $("tableArea").innerHTML = `
-
-        <div class="gender-tables">
-
-            <section class="gender-panel boys">
-
-                <div class="gender-panel-head">
-                    <strong>البنين</strong>
-                    <span>${boys.length}</span>
-                </div>
-
-                ${genderTable(boys,"boys")}
-
-            </section>
+                                        <td class="amount">
+                                            ${esc(money(summary.remaining))}
+                                        </td>
 
 
-            <section class="gender-panel girls">
+                                        <td>
 
-                <div class="gender-panel-head">
-                    <strong>البنات</strong>
-                    <span>${girls.length}</span>
-                </div>
+                                            <button
+                                                type="button"
+                                                class="whatsapp-btn"
+                                                ${
+                                                    phone
+                                                        ? ""
+                                                        : "disabled"
+                                                }
+                                                onclick="
+                                                    openGuardianWhatsApp(
+                                                        '${safeJS(student.code)}'
+                                                    )
+                                                "
+                                            >
+                                                واتساب ولي الأمر
+                                            </button>
 
-                ${genderTable(girls,"girls")}
+                                        </td>
 
-            </section>
+                                    </tr>
+
+                                `;
+
+                            }
+                        ).join("")
+                    }
+
+                </tbody>
+
+            </table>
 
         </div>
 
