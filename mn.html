@@ -1162,10 +1162,15 @@ button{
 ========================================================= */
 
 .gender-tables{
-    display:grid;
-    grid-template-columns:1fr 1fr;
+    display:flex;
+    flex-direction:row;
+    direction:rtl;
     gap:14px;
-    align-items:start;
+    align-items:flex-start;
+}
+
+.gender-panel{
+    flex:1 1 0;
 }
 
 .gender-panel{
@@ -1230,7 +1235,7 @@ button{
 }
 
 .students-table tbody tr.gender-boy{
-    background:#f0f7ff;
+    background:#eaf4ff;
 }
 
 .students-table tbody tr.gender-boy:hover{
@@ -1238,7 +1243,7 @@ button{
 }
 
 .students-table tbody tr.gender-girl{
-    background:#fff3f8;
+    background:#fff0f6;
 }
 
 .students-table tbody tr.gender-girl:hover{
@@ -1263,8 +1268,38 @@ button{
 
 @media(max-width:900px){
     .gender-tables{
-        grid-template-columns:1fr;
+        flex-direction:column;
     }
+
+    .gender-panel{
+        width:100%;
+        flex:none;
+    }
+}
+
+
+/* =========================================================
+   STUDENT NAME COLOR BY ACCOUNT STATUS
+========================================================= */
+
+.student-name-btn.account-active-name{
+    color:#078746;
+    text-decoration-color:#078746;
+}
+
+.student-name-btn.account-inactive-name{
+    color:#d94f8a;
+    text-decoration-color:#d94f8a;
+}
+
+.student-name-btn.account-active-name:hover,
+.student-name-btn.account-active-name:focus{
+    color:#056a37;
+}
+
+.student-name-btn.account-inactive-name:hover,
+.student-name-btn.account-inactive-name:focus{
+    color:#b83b72;
 }
 
 </style>
@@ -3092,7 +3127,14 @@ function renderStudentsTable(){
 
                                                 <button
                                                     type="button"
-                                                    class="student-name-btn"
+                                                    class="
+                                                        student-name-btn
+                                                        ${
+                                                            active
+                                                                ? "account-active-name"
+                                                                : "account-inactive-name"
+                                                        }
+                                                    "
                                                     onclick="
                                                         openStudent(
                                                             '${safeJS(student.code)}'
