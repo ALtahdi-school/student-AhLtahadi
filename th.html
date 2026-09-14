@@ -284,6 +284,60 @@
 .admin-locked-score{display:flex;align-items:center;justify-content:center;width:82px;height:38px;margin:auto;border:1px solid #efb9b9;border-radius:10px;background:#fff1f1;color:#9b1c1c;font-size:8px;font-weight:900}
 .total-col.admin-locked-annual{background:#fff1f1!important;color:#9b1c1c!important}
 
+
+/* ================= تنبيه ملء الشاشة ================= */
+#toast{display:none!important}
+.screen-alert{
+ position:fixed;
+ inset:0;
+ z-index:50000;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:18px;
+ background:rgba(8,20,38,.74);
+ backdrop-filter:blur(8px);
+ -webkit-backdrop-filter:blur(8px);
+}
+.screen-alert.show{display:flex}
+.screen-alert-card{
+ width:min(520px,100%);
+ max-height:min(78dvh,650px);
+ overflow:auto;
+ padding:24px 20px 20px;
+ border-radius:24px;
+ background:#fff;
+ box-shadow:0 28px 90px rgba(0,0,0,.32);
+ text-align:center;
+ animation:screenAlertIn .18s ease-out;
+}
+.screen-alert-icon{
+ width:62px;height:62px;margin:0 auto 12px;
+ display:flex;align-items:center;justify-content:center;
+ border-radius:20px;background:#fff4e5;color:#b54708;
+ font-size:30px;font-weight:900;
+}
+.screen-alert.success .screen-alert-icon{background:#ecfdf3;color:#067647}
+.screen-alert.error .screen-alert-icon{background:#fff1f0;color:#b42318}
+.screen-alert.warn .screen-alert-icon{background:#fff4e5;color:#b54708}
+.screen-alert.info .screen-alert-icon{background:#edf5ff;color:#075fcf}
+.screen-alert-title{font-size:18px;font-weight:900;color:#172033}
+.screen-alert-text{margin-top:10px;color:#475467;font-size:12px;font-weight:800;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}
+.screen-alert-ok{width:100%;height:50px;margin-top:18px;border:0;border-radius:14px;background:#075fcf;color:#fff;font-size:11px;font-weight:900}
+.screen-alert.success .screen-alert-ok{background:#078746}
+.screen-alert.error .screen-alert-ok{background:#b42318}
+.screen-alert.warn .screen-alert-ok{background:#b54708}
+@keyframes screenAlertIn{from{opacity:0;transform:scale(.94) translateY(10px)}to{opacity:1;transform:none}}
+body.alert-open{overflow:hidden}
+@media(max-width:560px){
+ .screen-alert{padding:14px}
+ .screen-alert-card{padding:22px 16px 16px;border-radius:22px}
+ .screen-alert-icon{width:58px;height:58px;font-size:27px}
+ .screen-alert-title{font-size:16px}
+ .screen-alert-text{font-size:11px}
+ .screen-alert-ok{height:48px}
+}
+
 </style></head>
 <body>
 <div id="loaderScreen" class="loader-screen"><div class="loader-box"><img src="logo.png" class="loader-logo" alt=""><div class="spinner"></div><p>جاري تحميل منصة الأستاذ</p></div></div>
@@ -353,12 +407,45 @@
 <div id="draftPdfHost" class="draft-pdf-host"></div>
 <div id="oralPdfHost" class="oral-pdf-host"></div>
 
-<div id="formulaModal" class="modal"><div class="modal-card"><div class="modal-head"><h3 id="formulaModalTitle">تقسيم الدرجة</h3><button id="closeFormulaModal" class="close" type="button">×</button></div><p id="formulaModalDesc" class="modal-desc"></p><div id="componentList" class="component-list"></div><div id="formulaTotal" class="formula-total"><span>مجموع الدرجات</span><strong>0</strong></div><button id="saveFormulaBtn" class="modal-save" type="button">اعتماد التقسيم</button></div></div><div id="toast" class="toast"></div>
+<div id="formulaModal" class="modal"><div class="modal-card"><div class="modal-head"><h3 id="formulaModalTitle">تقسيم الدرجة</h3><button id="closeFormulaModal" class="close" type="button">×</button></div><p id="formulaModalDesc" class="modal-desc"></p><div id="componentList" class="component-list"></div><div id="formulaTotal" class="formula-total"><span>مجموع الدرجات</span><strong>0</strong></div><button id="saveFormulaBtn" class="modal-save" type="button">اعتماد التقسيم</button></div></div>
+<div id="toast" class="toast"></div>
+<div id="screenAlert" class="screen-alert info" role="alertdialog" aria-modal="true" aria-labelledby="screenAlertTitle" aria-describedby="screenAlertText">
+ <div class="screen-alert-card">
+  <div id="screenAlertIcon" class="screen-alert-icon">!</div>
+  <div id="screenAlertTitle" class="screen-alert-title">تنبيه</div>
+  <div id="screenAlertText" class="screen-alert-text"></div>
+  <button id="screenAlertOk" class="screen-alert-ok" type="button">موافق</button>
+ </div>
+</div>
 <script>
 const DB="https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app",PERIODS={term1:{label:"الفصل الأول"},midyear:{label:"نصف السنة"},term2:{label:"الفصل الثاني"},finalExam:{label:"الامتحان النهائي"},secondRound:{label:"الدور الثاني"}},COMPONENTS=[["month1","شهر 1"],["month2","شهر 2"],["month3","شهر 3"],["month4","شهر 4"],["grammar","قواعد"],["literature","أدب"],["composition","إنشاء"],["oral","شفهي"],["practical","عملي"],["behavior","سلوك"],["attendance","حضور"],["drawing","رسم"],["preparation","تحضير"],["homework","واجب"],["daily","يومي"],["monthly","شهري"]].map(([key,label])=>({key,label}));
 let session={},teacherUser={},teacher={},classes={},students={},grades={},gradeKeys={},formulas={},assignments=[],TEACHER_CODE="",selectedClassId="",selectedPeriod="term1",editingPeriod="",gradesDirty=false,GRADE_LOCKS={},SUBMISSIONS={},lastCriticalKey="",RECORD_KIND="",RECORD_ASSIGNMENT_INDEXES=new Set();
 const $=id=>document.getElementById(id),esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c])),norm=v=>String(v??"").trim().toLowerCase(),num=v=>v===""||v===null||v===undefined?null:(Number.isFinite(Number(v))?Number(v):null),safeJS=v=>String(v||"").replace(/\\/g,"\\\\").replace(/'/g,"\\'"),safeId=v=>String(v||"").replace(/[^a-zA-Z0-9_-]/g,"_"),safeKey=v=>String(v||"").trim().toLowerCase().replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي").replace(/[^a-z0-9\u0600-\u06ff]+/gi,"_").replace(/^_+|_+$/g,"");
-function toast(text,type=""){window.alert(String(text||""))}
+let SCREEN_ALERT_LAST_FOCUS=null;
+function closeScreenAlert(){
+ const el=$("screenAlert");if(!el)return;
+ el.classList.remove("show");
+ document.body.classList.remove("alert-open");
+ const back=SCREEN_ALERT_LAST_FOCUS;
+ SCREEN_ALERT_LAST_FOCUS=null;
+ if(back&&document.contains(back)&&typeof back.focus==="function"){
+  setTimeout(()=>{try{back.focus({preventScroll:true})}catch{back.focus()}},0)
+ }
+}
+function toast(text,type="warn"){
+ const el=$("screenAlert"),title=$("screenAlertTitle"),msg=$("screenAlertText"),icon=$("screenAlertIcon"),ok=$("screenAlertOk");
+ if(!el||!msg)return;
+ const t=["success","error","warn","info"].includes(type)?type:"warn";
+ SCREEN_ALERT_LAST_FOCUS=document.activeElement&&document.activeElement!==ok?document.activeElement:SCREEN_ALERT_LAST_FOCUS;
+ el.className=`screen-alert ${t} show`;
+ title.textContent=t==="success"?"تم بنجاح":t==="error"?"خطأ":t==="info"?"معلومة":"تنبيه";
+ icon.textContent=t==="success"?"✓":t==="error"?"×":t==="info"?"i":"!";
+ msg.textContent=String(text||"");
+ document.body.classList.add("alert-open");
+ setTimeout(()=>ok?.focus(),0)
+}
+$("screenAlertOk").onclick=closeScreenAlert;
+$("screenAlert").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key==="Escape"){e.preventDefault();closeScreenAlert()}});
 async function req(path,method="GET",data=undefined){const o={method,cache:"no-store"};if(data!==undefined){o.headers={"Content-Type":"application/json"};o.body=JSON.stringify(data)}const r=await fetch(`${DB}/${path}.json`,o);if(!r.ok)throw new Error(`${method}_${r.status}`);return method==="DELETE"?true:r.json()}const dbGet=p=>req(p),dbPatch=(p,d)=>req(p,"PATCH",d),dbPut=(p,d)=>req(p,"PUT",d);
 
 function rawText(v){return String(v??"").trim()}
@@ -509,6 +596,47 @@ function scoreChanged(input){
  else{rec.components??={};rec.components[selectedPeriod]??={};if(raw==="")delete rec.components[selectedPeriod][input.dataset.component];else rec.components[selectedPeriod][input.dataset.component]=stored;const total=periodTotal(code,selectedPeriod);if(total===null)delete rec[selectedPeriod];else rec[selectedPeriod]=total}
  const annual=annualPreview(code),annualCell=$(`annual_${safeId(code)}`),annualLocked=periodLocked("annual");if(annualCell){annualCell.textContent=annualLocked?"مقفل":(annual===null?"—":annual);annualCell.classList.toggle("admin-locked-annual",annualLocked);annualCell.classList.toggle("fail",!annualLocked&&annual!==null&&annual<subjectPass())}
 }
+
+function focusScoreInput(target){
+ if(!target||target.disabled)return false;
+ try{target.focus({preventScroll:true})}catch{target.focus()}
+ try{target.select()}catch{}
+ target.scrollIntoView({behavior:"smooth",block:"center",inline:"nearest"});
+ return true
+}
+function scoreKeyNav(event,input){
+ if(!input?.classList?.contains("score-input"))return;
+ const key=event.key;
+ if(!["Enter","ArrowDown","ArrowUp","ArrowLeft","ArrowRight"].includes(key))return;
+
+ const row=input.closest("tr"),tbody=row?.parentElement,cell=input.closest("td");
+ if(!row||!tbody||!cell)return;
+ const rows=[...tbody.querySelectorAll(":scope > tr")];
+ const cells=[...row.children];
+ const rowIndex=rows.indexOf(row),cellIndex=cells.indexOf(cell);
+ let target=null;
+
+ if(key==="Enter"||key==="ArrowDown"||key==="ArrowUp"){
+  const step=key==="ArrowUp"?-1:1;
+  for(let r=rowIndex+step;r>=0&&r<rows.length;r+=step){
+   const candidate=rows[r].children[cellIndex]?.querySelector(".score-input:not(:disabled)");
+   if(candidate){target=candidate;break}
+  }
+ }else{
+  const step=key==="ArrowLeft"?1:-1;
+  for(let c=cellIndex+step;c>=0&&c<cells.length;c+=step){
+   const candidate=cells[c]?.querySelector(".score-input:not(:disabled)");
+   if(candidate){target=candidate;break}
+  }
+ }
+
+ if(target){
+  event.preventDefault();
+  event.stopPropagation();
+  focusScoreInput(target)
+ }
+}
+
 function openFormulaModal(period){if(editLocked(period)){toast(editLockText(period),"warn");return}editingPeriod=period;const values=formulas?.[period]?.components||{};$("formulaModalTitle").textContent=`تقسيم ${PERIODS[period].label}`;$("formulaModalDesc").textContent=`اختر مفردات التقييم. يجب أن يكون مجموعها ${subjectMax()} وهي الدرجة العظمى للمادة في هذا الصف.`;$("componentList").innerHTML=COMPONENTS.map(comp=>{const v=num(values[comp.key]),checked=v!==null&&v>0;return`<div class="component-item"><input type="checkbox" class="component-check" data-key="${esc(comp.key)}" ${checked?"checked":""} onchange="componentToggle(this)"><div class="component-name">${esc(comp.label)}</div><input type="number" class="max-input" data-max-key="${esc(comp.key)}" min="0.5" max="${subjectMax()}" step="0.5" value="${checked?v:""}" ${checked?"":"disabled"} oninput="updateFormulaTotal()" placeholder="الدرجة"></div>`}).join("");updateFormulaTotal();$("formulaModal").classList.add("show")}
 function componentToggle(ch){const i=document.querySelector(`[data-max-key="${CSS.escape(ch.dataset.key)}"]`);i.disabled=!ch.checked;if(!ch.checked)i.value="";else if(!i.value)i.value="1";updateFormulaTotal()}
 function formulaFormData(){const out={};document.querySelectorAll(".component-check:checked").forEach(ch=>{const i=document.querySelector(`[data-max-key="${CSS.escape(ch.dataset.key)}"]`),v=num(i.value);if(v!==null&&v>0)out[ch.dataset.key]=v});return out}
@@ -535,6 +663,10 @@ function missingGradeEntry(){
  }
  return null
 }
+$("tableArea").addEventListener("keydown",e=>{
+ const input=e.target.closest?.(".score-input");
+ if(input)scoreKeyNav(e,input)
+});
 $("saveGradesBtn").onclick=async()=>{
  if(!selectedClassId||!activeAssignment()||!validateScores())return;
  if(await refreshEditLock(selectedPeriod)){toast(editLockText(selectedPeriod));renderPeriodButtons();renderFormulaInfo();renderGradeTable();return}
