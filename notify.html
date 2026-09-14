@@ -8,6 +8,19 @@
 *{box-sizing:border-box;margin:0;padding:0}body{font-family:Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text)}button,input,select,textarea{font:inherit}.hidden{display:none!important}.header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);z-index:10}.header-in{width:min(1100px,100%);min-height:68px;margin:auto;padding:8px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px}.brand{display:flex;align-items:center;gap:9px}.brand img{width:45px;height:45px;object-fit:contain}.brand h1{font-size:14px}.brand p{margin-top:3px;color:var(--p);font-size:8px;font-weight:900}.btn{min-height:39px;padding:0 12px;border:0;border-radius:10px;font-size:9px;font-weight:900;cursor:pointer}.btn-p{color:#fff;background:var(--p)}.btn-soft{color:var(--p);background:var(--ps)}.btn-g{color:#fff;background:var(--g)}.btn-r{color:#fff;background:var(--r)}
 .main{width:min(1100px,100%);margin:auto;padding:14px}.hero{padding:17px;border-radius:18px;color:#fff;background:linear-gradient(135deg,#0870e8,#064594)}.hero h2{font-size:18px}.hero p{margin-top:5px;font-size:9px;line-height:1.8}.panel{margin-top:12px;border:1px solid var(--border);border-radius:15px;background:#fff;overflow:hidden}.panel-head{padding:12px 14px;border-bottom:1px solid var(--border)}.panel-head h3{font-size:13px}.panel-body{padding:13px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}.field label{font-size:8px;font-weight:900}.field input,.field select,.field textarea{width:100%;border:1px solid var(--border);border-radius:9px;outline:none}.field input,.field select{height:42px;padding:0 9px}.field textarea{min-height:110px;padding:9px;resize:vertical}.notice-list{display:grid;gap:8px}.notice{padding:11px;border:1px solid var(--border);border-radius:12px;background:#fff}.notice.off{opacity:.6}.notice-head{display:flex;justify-content:space-between;gap:8px}.notice h4{font-size:10px}.notice p{margin-top:6px;color:#475467;font-size:8px;line-height:1.7;white-space:pre-wrap}.notice-meta{margin-top:6px;color:var(--muted);font-size:7px}.notice-actions{display:flex;gap:5px;margin-top:8px}.toast{position:fixed;left:50%;top:78px;transform:translate(-50%,-8px);opacity:0;visibility:hidden;width:min(500px,calc(100% - 20px));padding:10px;border-radius:11px;background:#172033;color:#fff;text-align:center;font-size:9px;font-weight:900;transition:.2s}.toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
 @media(max-width:650px){.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+
+.confirm-overlay{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(17,32,51,.66);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.confirm-overlay.show{display:flex}
+.confirm-card{width:min(430px,100%);padding:22px 18px 18px;border-radius:20px;background:#fff;box-shadow:0 28px 80px rgba(0,0,0,.28);text-align:center}
+.confirm-icon{width:60px;height:60px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;border-radius:18px;background:#fff1f0;color:#d92d20;font-size:28px;font-weight:900}
+.confirm-card h3{font-size:15px;font-weight:900}
+.confirm-card p{margin-top:8px;color:#667085;font-size:9px;line-height:1.8}
+.confirm-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+.confirm-actions button{height:44px;border:0;border-radius:11px;font-size:9px;font-weight:900;cursor:pointer}
+.confirm-cancel{background:#f1f4f7;color:#475467}
+.confirm-delete{background:#d92d20;color:#fff}
+.confirm-delete:disabled{opacity:.55;cursor:default}
+
 </style></head>
 <body>
 <header class="header"><div class="header-in"><div class="brand"><img src="logo.png" alt=""><div><h1>مدرسة التحدي الأهلية المختلطة</h1><p>قسم الحوكمة - التبليغات</p></div></div><div><button class="btn btn-soft" onclick="location.href='add.html'">الإدارة</button> <button class="btn btn-r" onclick="logout()">خروج</button></div></div></header>
@@ -20,7 +33,27 @@
 <div class="field full"><label>نص التبليغ</label><textarea id="message" maxlength="1200" placeholder="اكتب التبليغ"></textarea></div>
 <div class="field full"><button id="sendBtn" class="btn btn-p" onclick="sendNotice()">إرسال التبليغ</button></div>
 </div></div></section>
-<section class="panel"><div class="panel-head"><h3>آخر التبليغات</h3></div><div class="panel-body"><div id="noticeList" class="notice-list"></div></div></section></main><div id="toast" class="toast"></div>
+<section class="panel">
+<div class="panel-head" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+  <h3>آخر التبليغات</h3>
+  <button id="deleteAllBtn" class="btn btn-r" type="button" onclick="openDeleteAllConfirm()">حذف جميع التبليغات</button>
+</div>
+<div class="panel-body"><div id="noticeList" class="notice-list"></div></div>
+</section></main>
+
+<div id="deleteAllConfirm" class="confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="deleteAllTitle">
+  <div class="confirm-card">
+    <div class="confirm-icon">!</div>
+    <h3 id="deleteAllTitle">حذف جميع التبليغات</h3>
+    <p>سيتم حذف جميع التبليغات نهائياً من قاعدة البيانات Firebase. لا يمكن التراجع عن هذه العملية.</p>
+    <div class="confirm-actions">
+      <button type="button" class="confirm-cancel" onclick="closeDeleteAllConfirm()">إلغاء</button>
+      <button id="confirmDeleteAllBtn" type="button" class="confirm-delete" onclick="deleteAllNotices()">حذف الجميع</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
 <script>
 const DB="https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app",$=id=>document.getElementById(id),norm=v=>String(v||"").trim().toLowerCase(),esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 let STUDENTS={},CLASSES={},NOTICES={},timer=0;
@@ -40,6 +73,39 @@ function targetText(n){if(n.studentCode)return`طالب: ${STUDENTS[n.studentCod
 function renderNotices(){const rows=Object.entries(NOTICES).map(([id,n])=>({id,...n})).sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0)).slice(0,80);$("noticeList").innerHTML=rows.length?rows.map(n=>`<article class="notice ${n.active===false?"off":""}"><div class="notice-head"><h4>${esc(n.title||"تبليغ")}</h4><span style="font-size:7px;color:#98a2b3">${new Date(Number(n.createdAt||0)).toLocaleString("ar-IQ")}</span></div><p>${esc(n.message||n.text||"")}</p><div class="notice-meta">${esc(targetText(n))}</div><div class="notice-actions"><button class="btn btn-soft" onclick="toggleNotice('${esc(n.id)}',${n.active===false?"true":"false"})">${n.active===false?"تفعيل":"إيقاف"}</button><button class="btn btn-r" onclick="deleteNotice('${esc(n.id)}')">حذف</button></div></article>`).join(""):'<div style="padding:20px;text-align:center;color:#667085;font-size:9px">لا توجد تبليغات.</div>'}
 async function toggleNotice(id,active){try{await dbPatch(`notifications/${encodeURIComponent(id)}`,{active});NOTICES[id].active=active;renderNotices()}catch(e){toast("تعذر تعديل التبليغ")}}
 async function deleteNotice(id){try{await dbDelete(`notifications/${encodeURIComponent(id)}`);delete NOTICES[id];renderNotices();toast("تم حذف التبليغ")}catch(e){toast("تعذر حذف التبليغ")}}
+
+function openDeleteAllConfirm(){
+ if(!Object.keys(NOTICES||{}).length)return toast("لا توجد تبليغات للحذف");
+ $("deleteAllConfirm").classList.add("show")
+}
+function closeDeleteAllConfirm(){
+ $("deleteAllConfirm").classList.remove("show")
+}
+async function deleteAllNotices(){
+ if(!Object.keys(NOTICES||{}).length){
+  closeDeleteAllConfirm();
+  return toast("لا توجد تبليغات للحذف")
+ }
+ const btn=$("confirmDeleteAllBtn"),mainBtn=$("deleteAllBtn");
+ btn.disabled=true;mainBtn.disabled=true;btn.textContent="جاري الحذف...";
+ try{
+  await dbDelete("notifications");
+  NOTICES={};
+  renderNotices();
+  closeDeleteAllConfirm();
+  toast("تم حذف جميع التبليغات من قاعدة البيانات")
+ }catch(e){
+  console.error("DELETE_ALL_NOTIFICATIONS_ERROR",e);
+  toast("تعذر حذف جميع التبليغات")
+ }finally{
+  btn.disabled=false;
+  mainBtn.disabled=false;
+  btn.textContent="حذف الجميع"
+ }
+}
+$("deleteAllConfirm").addEventListener("click",e=>{
+ if(e.target===$("deleteAllConfirm"))closeDeleteAllConfirm()
+});
 async function init(){if(!await verifyAdmin())return;try{const[s,c,n]=await Promise.all([dbGet("students"),dbGet("classes"),dbGet("notifications")]);STUDENTS=s||{};CLASSES=c||{};NOTICES=n||{};fill()}catch(e){console.error(e);toast("تعذر تحميل البيانات")}}
 $("targetType").onchange=updateTargetUI;$("classId").onchange=fillStudents;window.addEventListener("load",init);
 </script></body></html>
