@@ -108,6 +108,27 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 
 @media(max-width:900px){.correction-grid{grid-template-columns:1fr}.grid.three{grid-template-columns:1fr 1fr}.exam-sheet{transform-origin:top right}}
 @media(max-width:650px){.main{padding:11px 9px 70px}.grid,.grid.three{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.topbar{align-items:flex-start}.brand h1{font-size:11px}.panel-body{padding:11px}.option-editor{grid-template-columns:28px 1fr}.option-editor>button{grid-column:1/-1}.preview-pages{transform-origin:top right}.saved-exams{grid-template-columns:1fr}}
+
+/* ================= الصفحة الرئيسية ودورة الامتحان ================= */
+.home-stage{margin:13px 0}
+.home-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.home-card{min-height:150px;padding:18px;border:1px solid var(--border);border-radius:18px;background:#fff;box-shadow:var(--shadow);text-align:right}
+.home-card.create{background:linear-gradient(145deg,#f5faff,#e9f3ff);border-color:#b9d7fa}
+.home-card.list{background:linear-gradient(145deg,#fbf9ff,#f3efff);border-color:#d4c7f5}
+.home-card h3{font-size:14px;font-weight:900}.home-card p{margin-top:7px;color:#667085;font-size:8.5px;line-height:1.8}
+.home-card button{width:100%;height:46px;margin-top:13px;border:0;border-radius:12px;color:#fff;font-size:9px;font-weight:900}
+.home-card.create button{background:linear-gradient(135deg,#0870e8,#064594)}.home-card.list button{background:linear-gradient(135deg,#6938ef,#5030c9)}
+.saved-exam{position:relative;overflow:hidden;transition:.2s}
+.saved-exam.uncorrected{border-color:#f0c686;background:#fffaf2}
+.saved-exam.uncorrected h4{color:#9a5b00}
+.saved-exam.completed{opacity:.48;filter:grayscale(.25);background:#f4f5f7;pointer-events:none}
+.saved-exam.completed:after{content:"تم التصحيح والاعتماد";position:absolute;inset:auto -34px 22px auto;transform:rotate(-16deg);padding:6px 42px;border:2px solid #067647;color:#067647;background:rgba(236,253,243,.94);font-size:9px;font-weight:900}
+.exam-state{display:inline-flex;min-height:24px;align-items:center;padding:0 8px;border-radius:999px;font-size:7px;font-weight:900;margin-top:7px}
+.exam-state.ready{color:#9a5b00;background:#fff0d8}.exam-state.completed{color:#067647;background:#ecfdf3}
+.saved-exam .correct-btn{background:linear-gradient(135deg,#0a9852,#06703e)!important;color:#fff!important}
+.saved-exam .completed-btn{background:#d0d5dd!important;color:#667085!important;cursor:not-allowed!important}
+@media(max-width:650px){.home-actions{grid-template-columns:1fr}}
+
 </style>
 </head>
 
@@ -129,20 +150,27 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
   <div id="teacherChip" class="teacher-chip">الأستاذ: —</div>
  </section>
 
- <div class="steps">
+ <div id="workflowSteps" class="steps hidden">
   <button id="step1" class="step active" type="button" onclick="goStage('setup')">1 — إعداد الامتحان</button>
   <button id="step2" class="step" type="button" onclick="goStage('questions')">2 — الأسئلة</button>
   <button id="step3" class="step" type="button" onclick="goStage('preview')">3 — المعاينة والطباعة</button>
   <button id="step4" class="step" type="button" onclick="goStage('correction')">4 — التصحيح</button>
  </div>
 
+ <section id="homeStage" class="home-stage">
+  <div class="home-actions">
+   <article class="home-card create"><h3>إنشاء امتحان جديد</h3><p>اضغط هنا حتى يظهر الصف والمادة والفترة وتبدأ إعداد الامتحان من البداية.</p><button type="button" onclick="startNewExam()">إنشاء امتحان</button></article>
+   <article class="home-card list"><h3>الامتحانات المحفوظة</h3><p>الامتحان غير المصحح يظهر له زر «تصحيح الامتحان». وبعد الاعتماد النهائي يُقفل ويظهر بختم.</p><button type="button" onclick="scrollToSavedExams()">عرض الامتحانات</button></article>
+  </div>
+ </section>
+
  <section id="savedPanel" class="panel">
-  <div class="panel-head"><div><h3>امتحاناتك المحفوظة</h3><p>يمكنك متابعة التصحيح لامتحان سبق إنشاؤه.</p></div><button class="btn btn-soft" type="button" onclick="loadSavedExams()">تحديث</button></div>
+  <div class="panel-head"><div><h3>امتحاناتك</h3><p>غير المصحح يبقى فعالاً للتصحيح. المعتمد يظهر باهتاً ومختوماً ولا يمكن فتحه.</p></div><button class="btn btn-soft" type="button" onclick="loadSavedExams()">تحديث</button></div>
   <div class="panel-body"><div id="savedExams" class="saved-exams"><div class="help">لا توجد امتحانات محملة بعد.</div></div></div>
  </section>
 
- <section id="setupStage" class="panel">
-  <div class="panel-head"><div><h3>إعدادات الامتحان</h3><p>اختر الصف والمادة والفترة والدرجة التي سيُسجل عليها الامتحان.</p></div></div>
+ <section id="setupStage" class="panel hidden">
+  <div class="panel-head"><div><h3>إعدادات الامتحان</h3><p>اختر الصف والمادة والفترة والدرجة التي سيُسجل عليها الامتحان.</p></div><button class="btn btn-gray" type="button" onclick="goHome()">إلغاء والرجوع</button></div>
   <div class="panel-body">
    <div class="grid three">
     <div class="field"><label>الصف والمادة</label><select id="assignmentSelect"></select></div>
@@ -182,7 +210,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
  </section>
 
  <section id="correctionStage" class="panel hidden">
-  <div class="panel-head"><div><h3>تصحيح أوراق الامتحان</h3><p id="correctionExamText">اختر امتحاناً محفوظاً أو أنشئ امتحاناً جديداً.</p></div><div class="correction-head"><span id="correctionBadge" class="exam-badge">لا يوجد امتحان</span></div></div>
+  <div class="panel-head"><div><h3>تصحيح أوراق الامتحان</h3><p id="correctionExamText">اختر امتحاناً محفوظاً أو أنشئ امتحاناً جديداً.</p></div><div class="correction-head"><span id="correctionBadge" class="exam-badge">لا يوجد امتحان</span><button class="btn btn-gray" type="button" onclick="stopCamera();goHome()">الرجوع للامتحانات</button></div></div>
   <div class="panel-body">
    <div class="correction-grid">
     <div class="camera-card">
@@ -262,6 +290,25 @@ async function onAssignmentChanged(){const i=Number($("assignmentSelect").value|
 async function loadTargetOptions(){if(!selectedAssignment)return;const period=$("periodSelect").value;let schema=await dbGet(`gradeSchemas/${encodeURIComponent(TEACHER_CODE)}/${encodeURIComponent(selectedAssignment.classId)}/${encodeURIComponent(selectedAssignment.subjectId)}/${encodeURIComponent(period)}`);if(!schema){const legacy=String(selectedAssignment.subjectName||"").trim().toLowerCase().replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي").replace(/[^a-z0-9\u0600-\u06ff]+/gi,"_").replace(/^_+|_+$/g,"");schema=await dbGet(`gradeSchemas/${encodeURIComponent(TEACHER_CODE)}/${encodeURIComponent(selectedAssignment.classId)}/${encodeURIComponent(legacy)}/${encodeURIComponent(period)}`)}currentSchema=schema||{};const comps=currentSchema.components||{},valid=Object.entries(comps).filter(([,v])=>Number(v)>0);if(valid.length){$("targetSelect").innerHTML=valid.map(([k,v])=>`<option value="${esc(k)}" data-max="${Number(v)}">${esc(COMPONENTS[k]||k)} — من ${Number(v)}</option>`).join("");$("targetInfo").innerHTML=`تقسيم ${esc(PERIODS[period])}: <strong>${valid.map(([k,v])=>`${esc(COMPONENTS[k]||k)} (${Number(v)})`).join(" + ")}</strong>. اختر المفردة التي يمثلها هذا الامتحان.`}else{$("targetSelect").innerHTML=`<option value="__direct__" data-max="${selectedAssignment.maxGrade}">${esc(PERIODS[period])} مباشرة — من ${selectedAssignment.maxGrade}</option>`;$("targetInfo").innerHTML=`لا يوجد تقسيم محفوظ لهذه الفترة. درجة الامتحان ستُسجل مباشرة في <strong>${esc(PERIODS[period])}</strong> من ${selectedAssignment.maxGrade}.`}updateScoreSummary()}
 function selectedTarget(){const op=$("targetSelect").selectedOptions[0];return{key:op?.value||"__direct__",max:Number(op?.dataset.max||selectedAssignment?.maxGrade||100),label:op?.textContent||""}}
 
+
+function resetNewExamState(){
+ stopCamera();
+ examDraft=null;currentExam=null;examResults={};questions=[];customLogoData="";fontScale=1;pagePlan=[];omrLayout={};
+ $("examMinutes").value="45";$("examTitle").value="";$("pageLimit").value="1";$("logoMode").value="school";$("logoPreview").src="logo.png";$("customLogoField").classList.add("hidden");$("customLogoInput").value="";$("duplexToggle").checked=false;
+ if(assignments.length){$("assignmentSelect").value="0";selectedAssignment=assignments[0]}
+}
+async function startNewExam(){
+ resetNewExamState();
+ $("homeStage").classList.add("hidden");$("savedPanel").classList.add("hidden");$("workflowSteps").classList.remove("hidden");
+ await loadTargetOptions();goStage("setup")
+}
+function scrollToSavedExams(){$("savedPanel").scrollIntoView({behavior:"smooth",block:"start"})}
+function goHome(){
+ stopCamera();
+ ["setupStage","questionsStage","previewStage","correctionStage"].forEach(id=>$(id).classList.add("hidden"));
+ $("workflowSteps").classList.add("hidden");$("homeStage").classList.remove("hidden");$("savedPanel").classList.remove("hidden");
+ loadSavedExams();window.scrollTo({top:0,behavior:"smooth"})
+}
 function newExamId(){return`EX_${Date.now().toString(36).toUpperCase()}_${Math.random().toString(36).slice(2,7).toUpperCase()}`}
 function setupSnapshot(){const t=selectedTarget(),c=classes[selectedAssignment.classId]||{};return{examId:examDraft?.examId||newExamId(),teacherCode:TEACHER_CODE,teacherName:teacher.name||teacherUser.name||"",classId:selectedAssignment.classId,className:className(selectedAssignment.classId),room:roomLabel(c),subjectId:selectedAssignment.subjectId,subjectName:selectedAssignment.subjectName,period:$("periodSelect").value,periodLabel:PERIODS[$("periodSelect").value],targetKey:t.key,targetLabel:t.label,targetMax:t.max,subjectMax:selectedAssignment.maxGrade,minutes:Math.max(5,Number($("examMinutes").value||45)),title:$("examTitle").value.trim(),logoMode:$("logoMode").value,logoData:$("logoMode").value==="custom"?customLogoData:"logo.png",duplex:$("duplexToggle").checked,pageLimit:Math.max(1,Math.min(8,Number($("pageLimit").value||1))),fontScale,components:currentSchema.components||{},createdAt:examDraft?.createdAt||Date.now(),updatedAt:Date.now()}}
 function saveSetupAndContinue(){if(!selectedAssignment)return toast("لا يوجد صف ومادة مسندان للحساب.","error");if($("logoMode").value==="custom"&&!customLogoData)return toast("ارفع اللوكو الخاص بك أولاً.","warn");examDraft=setupSnapshot();if(!questions.length)addQuestion();goStage("questions");updateScoreSummary()}
@@ -335,12 +382,23 @@ function captureOMRLayout(){omrLayout={};[...$("previewPages").querySelectorAll(
 
 async function saveExamOnly(){if(!examDraft||!pagePlan.length)return toast("اعرض المعاينة أولاً.","warn");const exam={...examDraft,questions:JSON.parse(JSON.stringify(questions)),fontScale,pageCount:pagePlan.length,pagePlan:JSON.parse(JSON.stringify(pagePlan)),omrLayout:JSON.parse(JSON.stringify(omrLayout)),students:studentsOfClass(examDraft.classId).map(s=>({code:s.code,name:s.name||"",serial:s.serial||""})),status:"ready",updatedAt:Date.now()};try{await dbPut(`exams/${encodeURIComponent(exam.examId)}`,exam);savedExams[exam.examId]=exam;currentExam=exam;examDraft=exam;toast("تم حفظ الامتحان.","success");renderSavedExams()}catch(e){console.error(e);toast("تعذر حفظ الامتحان.","error")}}
 
-async function generateExamPDF(){if(!examDraft||!pagePlan.length)return toast("اعرض المعاينة أولاً.","warn");const btn=$("downloadExamBtn");btn.disabled=true;btn.textContent="جاري إنشاء PDF...";try{await saveExamOnly();const exam=currentExam||examDraft,rows=studentsOfClass(exam.classId);if(!rows.length)throw new Error("NO_STUDENTS");const {jsPDF}=window.jspdf,pdf=new jsPDF({orientation:"portrait",unit:"mm",format:"a4",compress:true});let first=true;for(let si=0;si<rows.length;si++){for(let p=0;p<pagePlan.length;p++){if(!first)pdf.addPage("a4","portrait");first=false;$("pdfHost").innerHTML=sheetHTML(exam,rows[si],p,pagePlan[p],"pdf");makeQRCodes($("pdfHost"));await waitImages($("pdfHost"));await new Promise(r=>requestAnimationFrame(r));const sheet=$("pdfHost").querySelector(".exam-sheet"),canvas=await html2canvas(sheet,{scale:1.55,useCORS:true,allowTaint:true,backgroundColor:"#fff",width:794,height:1123,windowWidth:794,windowHeight:1123});pdf.addImage(canvas.toDataURL("image/jpeg",.94),"JPEG",0,0,210,297,undefined,"FAST");canvas.width=1;canvas.height=1;$("pdfHost").innerHTML=""}}pdf.save(`امتحان_${exam.subjectName}_${exam.className}_${exam.periodLabel}.pdf`);toast("تم تنزيل أسئلة جميع الطلبة.","success");await openExamForCorrection(exam.examId);goStage("correction")}catch(e){console.error(e);toast("تعذر إنشاء ملف PDF.","error")}finally{btn.disabled=false;btn.textContent="تنزيل الأسئلة PDF لكل الطلبة";$("pdfHost").innerHTML=""}}
+async function generateExamPDF(){if(!examDraft||!pagePlan.length)return toast("اعرض المعاينة أولاً.","warn");const btn=$("downloadExamBtn");btn.disabled=true;btn.textContent="جاري إنشاء PDF...";try{await saveExamOnly();const exam=currentExam||examDraft,rows=studentsOfClass(exam.classId);if(!rows.length)throw new Error("NO_STUDENTS");const {jsPDF}=window.jspdf,pdf=new jsPDF({orientation:"portrait",unit:"mm",format:"a4",compress:true});let first=true;for(let si=0;si<rows.length;si++){for(let p=0;p<pagePlan.length;p++){if(!first)pdf.addPage("a4","portrait");first=false;$("pdfHost").innerHTML=sheetHTML(exam,rows[si],p,pagePlan[p],"pdf");makeQRCodes($("pdfHost"));await waitImages($("pdfHost"));await new Promise(r=>requestAnimationFrame(r));const sheet=$("pdfHost").querySelector(".exam-sheet"),canvas=await html2canvas(sheet,{scale:1.55,useCORS:true,allowTaint:true,backgroundColor:"#fff",width:794,height:1123,windowWidth:794,windowHeight:1123});pdf.addImage(canvas.toDataURL("image/jpeg",.94),"JPEG",0,0,210,297,undefined,"FAST");canvas.width=1;canvas.height=1;$("pdfHost").innerHTML=""}}pdf.save(`امتحان_${exam.subjectName}_${exam.className}_${exam.periodLabel}.pdf`);exam.status="ready";await dbPatch(`exams/${encodeURIComponent(exam.examId)}`,{status:"ready",pdfGeneratedAt:Date.now(),updatedAt:Date.now()});savedExams[exam.examId]=exam;toast("تم تنزيل الأسئلة وحفظ الامتحان كـ «غير مصحح».","success");showAlert("تم تجهيز الامتحان","تم إنشاء ملف PDF لكل الطلبة. الامتحان الآن ظاهر بحالة «غير مصحح». عندما تريد البدء اضغط زر «تصحيح الامتحان».",[["الرجوع للامتحانات","g",()=>{closeAlert();goHome()}]])}catch(e){console.error(e);toast("تعذر إنشاء ملف PDF.","error")}finally{btn.disabled=false;btn.textContent="تنزيل الأسئلة PDF لكل الطلبة";$("pdfHost").innerHTML=""}}
 
 async function loadSavedExams(){try{const all=await dbGet("exams")||{};savedExams=Object.fromEntries(Object.entries(all).filter(([,e])=>e?.teacherCode===TEACHER_CODE).sort((a,b)=>Number(b[1]?.updatedAt||0)-Number(a[1]?.updatedAt||0)).slice(0,20));renderSavedExams()}catch(e){console.error(e);toast("تعذر تحميل الامتحانات المحفوظة.","error")}}
-function renderSavedExams(){const rows=Object.entries(savedExams);$("savedExams").innerHTML=rows.length?rows.map(([id,e])=>`<article class="saved-exam"><h4>${esc(e.subjectName)} — ${esc(e.className)}</h4><p>${esc(e.periodLabel)} — ${esc(e.targetLabel||"")}<br>${e.pageCount||1} صفحة — الدرجة ${e.targetMax}</p><button type="button" onclick="openExamForCorrection('${id}')">متابعة التصحيح</button></article>`).join(""):`<div class="help">لا توجد امتحانات محفوظة.</div>`}
+function renderSavedExams(){
+ const rows=Object.entries(savedExams);
+ $("savedExams").innerHTML=rows.length?rows.map(([id,e])=>{
+  const completed=e.status==="completed";
+  return`<article class="saved-exam ${completed?"completed":"uncorrected"}">
+   <h4>${esc(e.subjectName)} — ${esc(e.className)}</h4>
+   <p>${esc(e.periodLabel)} — ${esc(e.targetLabel||"")}<br>${e.pageCount||1} صفحة لكل طالب — الدرجة ${e.targetMax}</p>
+   <span class="exam-state ${completed?"completed":"ready"}">${completed?"تم التصحيح والاعتماد":"غير مصحح"}</span>
+   ${completed?`<button class="completed-btn" type="button" disabled>تم التصحيح والاعتماد</button>`:`<button class="correct-btn" type="button" onclick="openExamForCorrection('${id}')">تصحيح الامتحان</button>`}
+  </article>`
+ }).join(""):`<div class="help">لا توجد امتحانات محفوظة.</div>`
+}
 
-async function openExamForCorrection(id){try{const exam=savedExams[id]||await dbGet(`exams/${encodeURIComponent(id)}`);if(!exam||exam.teacherCode!==TEACHER_CODE)return toast("هذا الامتحان غير تابع لحسابك.","error");currentExam=exam;examDraft=exam;questions=JSON.parse(JSON.stringify(exam.questions||[]));fontScale=Number(exam.fontScale||1);pagePlan=exam.pagePlan||[];omrLayout=exam.omrLayout||{};examResults=await dbGet(`examResults/${encodeURIComponent(id)}`)||{};$("correctionExamText").textContent=`${exam.className} — ${exam.subjectName} — ${exam.periodLabel} — ${exam.targetLabel}`;$("correctionBadge").textContent=`من ${exam.targetMax} — ${exam.pageCount} صفحة لكل طالب`;renderResults();goStage("correction");toast("تم فتح مرحلة التصحيح.","success")}catch(e){console.error(e);toast("تعذر فتح الامتحان.","error")}}
+async function openExamForCorrection(id){try{const exam=savedExams[id]||await dbGet(`exams/${encodeURIComponent(id)}`);if(!exam||exam.teacherCode!==TEACHER_CODE)return toast("هذا الامتحان غير تابع لحسابك.","error");if(exam.status==="completed")return toast("هذا الامتحان تم التصحيح والاعتماد ولا يمكن فتحه مرة أخرى.","warn");currentExam=exam;examDraft=exam;questions=JSON.parse(JSON.stringify(exam.questions||[]));fontScale=Number(exam.fontScale||1);pagePlan=exam.pagePlan||[];omrLayout=exam.omrLayout||{};examResults=await dbGet(`examResults/${encodeURIComponent(id)}`)||{};$("correctionExamText").textContent=`${exam.className} — ${exam.subjectName} — ${exam.periodLabel} — ${exam.targetLabel}`;$("correctionBadge").textContent=`من ${exam.targetMax} — ${exam.pageCount} صفحة لكل طالب`;renderResults();goStage("correction");toast("تم فتح مرحلة التصحيح.","success")}catch(e){console.error(e);toast("تعذر فتح الامتحان.","error")}}
 
 function essayQuestions(){return(currentExam?.questions||[]).filter(q=>q.type==="essay")}
 function mcqQuestions(){return(currentExam?.questions||[]).filter(q=>q.type!=="essay")}
@@ -385,11 +443,68 @@ function calcGradeValue(v){const t=raw(v);if(!t)return null;const n=Number(t);re
 function periodFromComponents(rec,components,period){const comp=rec.components?.[period]||{};let seen=false,total=0;for(const [k,max] of Object.entries(components||{})){if(Number(max)<=0)continue;const v=comp[k];if(raw(v)!==""){seen=true;total+=Number(calcGradeValue(v)||0)}}return seen?Math.round(total*100)/100:null}
 function annualFromRecord(rec){const vals=["term1","midyear","term2"].map(k=>calcGradeValue(rec[k]));return vals.every(v=>v!==null)?Math.round(vals.reduce((a,b)=>a+Number(b),0)/3):null}
 
-async function finishClassCorrection(){if(!currentExam)return;const rows=currentExam.students||[];const incomplete=[];for(const st of rows){const r=studentResult(st.code),count=scannedPageCount(st.code);if(count>0&&count<Number(currentExam.pageCount))incomplete.push(`${st.name}: صفحات ناقصة`);else if(count===Number(currentExam.pageCount)&&!essaysComplete(st.code))incomplete.push(`${st.name}: درجة الشرح غير مكتملة`)}if(incomplete.length)return showAlert("لا يمكن إنهاء التصحيح",`أكمل الحالات التالية أولاً:\n${incomplete.slice(0,8).join("\n")}${incomplete.length>8?`\nو ${incomplete.length-8} حالات أخرى`:""}`,[["موافق","soft",closeAlert]]);showAlert("تأكيد إنهاء الصف","كل طالب لا توجد له أي ورقة ممسوحة سيُسجل له «غ» ويُحسب صفر. هل تريد تثبيت الدرجات في نظام الدرجات الموحد؟",[["نعم، تثبيت الدرجات","r",async()=>{closeAlert();await finalizeGrades()}],["إلغاء","gray",closeAlert]])}
+async function finishClassCorrection(){
+ if(!currentExam)return;
+ const rows=currentExam.students||[],missingPaper=[],essayMissing=[];
+ for(const st of rows){
+  const count=scannedPageCount(st.code),required=Number(currentExam.pageCount||1);
+  if(count<required){
+   const missing=[];for(let p=0;p<required;p++)if(!studentResult(st.code).pages?.[p])missing.push(p+1);
+   missingPaper.push({student:st,missing})
+  }else if(!essaysComplete(st.code))essayMissing.push(st)
+ }
+ if(essayMissing.length){
+  return showAlert("درجات الشرح غير مكتملة",`الأوراق التالية ممسوحة، لكن درجة سؤال الشرح لم تُدخل بعد:\n${essayMissing.slice(0,10).map(x=>x.name).join("\n")}${essayMissing.length>10?`\nو ${essayMissing.length-10} طلاب آخرين`:""}\n\nأدخل درجات الشرح ثم أعد الضغط على الانتهاء.`,[["موافق","soft",closeAlert]])
+ }
+ if(missingPaper.length){
+  const lines=missingPaper.slice(0,10).map(x=>`${x.student.name}: الصفحة ${x.missing.join("، ")}`);
+  return showAlert("أوراق لم تُصحح",`هناك ${missingPaper.length} طالب/ة لم تُمسح لهم جميع صفحات الامتحان:\n${lines.join("\n")}${missingPaper.length>10?`\nو ${missingPaper.length-10} طلاب آخرين`:""}\n\nإذا تعتمد الآن، كل طالب ناقصة له ورقة واحدة أو أكثر سيُعتمد له «غ» ويُحسب صفر بالكامل.`,[
+   ["اعتمادهم غ = صفر","r",async()=>{closeAlert();await finalizeGrades(true)}],
+   ["أرجع وأكمل المسح","gray",closeAlert]
+  ])
+ }
+ showAlert("تأكيد الاعتماد النهائي","تم مسح جميع أوراق الطلبة وإكمال درجات الشرح. عند الاعتماد سيُغلق هذا الامتحان نهائياً ويظهر بختم «تم التصحيح والاعتماد» ولن يمكن الدخول إليه مرة أخرى.",[
+  ["اعتماد نهائي","g",async()=>{closeAlert();await finalizeGrades(false)}],
+  ["إلغاء","gray",closeAlert]
+ ])
+}
 
-async function finalizeGrades(){const exam=currentExam,rows=exam.students||[],updates={},now=Date.now();try{for(const st of rows){const scanned=scannedPageCount(st.code),absent=scanned===0,gradeValue=absent?"غ":resultTotal(st.code),base=`grades/${st.code}/${exam.subjectId}`,old=await dbGet(base)||{},rec={...old,components:{...(old.components||{})},subjectId:exam.subjectId,subjectName:exam.subjectName,maxGrade:exam.subjectMax,passGrade:Number(old.passGrade??exam.subjectMax*.5),classId:exam.classId,teacherCode:TEACHER_CODE,updatedAt:now,updatedBy:TEACHER_CODE,updatedSource:"exam_correction",canonicalVersion:1};if(exam.targetKey&&exam.targetKey!=="__direct__"){rec.components[exam.period]={...(rec.components[exam.period]||{}),[exam.targetKey]:gradeValue};const p=periodFromComponents(rec,exam.components,exam.period);if(p!==null)rec[exam.period]=p}else rec[exam.period]=gradeValue;const ann=annualFromRecord(rec);if(ann!==null)rec.annual=ann;updates[base]=rec;updates[`examResults/${exam.examId}/${st.code}/finalScore`]=absent?0:Number(gradeValue);updates[`examResults/${exam.examId}/${st.code}/displayScore`]=gradeValue;updates[`examResults/${exam.examId}/${st.code}/finalStatus`]=absent?"absent":"completed";updates[`examResults/${exam.examId}/${st.code}/finalized`]=true;updates[`examResults/${exam.examId}/${st.code}/finalizedAt`]=now}updates[`exams/${exam.examId}/status`]="completed";updates[`exams/${exam.examId}/completedAt`]=now;await dbPatch("",updates);exam.status="completed";for(const st of rows){examResults[st.code]??={};examResults[st.code].finalized=true;examResults[st.code].finalStatus=scannedPageCount(st.code)===0?"absent":"completed"}renderResults();toast("تم إنهاء التصحيح وتثبيت الدرجات. الطلبة بدون ورقة سُجل لهم غ = صفر.","success")}catch(e){console.error(e);toast("تعذر تثبيت الدرجات. لم يتم إنهاء التصحيح.","error")}}
+async function finalizeGrades(allowMissingAsAbsent=false){
+ const exam=currentExam,rows=exam.students||[],updates={},now=Date.now(),required=Number(exam.pageCount||1);
+ try{
+  for(const st of rows){
+   const scanned=scannedPageCount(st.code),incomplete=scanned<required,absent=incomplete;
+   if(incomplete&&!allowMissingAsAbsent)throw new Error("MISSING_PAGES");
+   const gradeValue=absent?"غ":resultTotal(st.code),base=`grades/${st.code}/${exam.subjectId}`,old=await dbGet(base)||{},rec={...old,components:{...(old.components||{})},subjectId:exam.subjectId,subjectName:exam.subjectName,maxGrade:exam.subjectMax,passGrade:Number(old.passGrade??exam.subjectMax*.5),classId:exam.classId,teacherCode:TEACHER_CODE,updatedAt:now,updatedBy:TEACHER_CODE,updatedSource:"exam_correction",canonicalVersion:1};
+   if(exam.targetKey&&exam.targetKey!=="__direct__"){rec.components[exam.period]={...(rec.components[exam.period]||{}),[exam.targetKey]:gradeValue};const p=periodFromComponents(rec,exam.components,exam.period);if(p!==null)rec[exam.period]=p}else rec[exam.period]=gradeValue;
+   const ann=annualFromRecord(rec);if(ann!==null)rec.annual=ann;updates[base]=rec;
+   updates[`examResults/${exam.examId}/${st.code}/finalScore`]=absent?0:Number(gradeValue);
+   updates[`examResults/${exam.examId}/${st.code}/displayScore`]=gradeValue;
+   updates[`examResults/${exam.examId}/${st.code}/finalStatus`]=absent?"absent":"completed";
+   updates[`examResults/${exam.examId}/${st.code}/finalized`]=true;
+   updates[`examResults/${exam.examId}/${st.code}/finalizedAt`]=now;
+   if(absent)updates[`examResults/${exam.examId}/${st.code}/missingPagesAtFinalize`]=Array.from({length:required},(_,p)=>p).filter(p=>!studentResult(st.code).pages?.[p]).map(p=>p+1)
+  }
+  updates[`exams/${exam.examId}/status`]="completed";updates[`exams/${exam.examId}/completedAt`]=now;updates[`exams/${exam.examId}/completedBy`]=TEACHER_CODE;
+  await dbPatch("",updates);
+  exam.status="completed";exam.completedAt=now;savedExams[exam.examId]={...exam};
+  for(const st of rows){examResults[st.code]??={};examResults[st.code].finalized=true;examResults[st.code].finalStatus=scannedPageCount(st.code)<required?"absent":"completed"}
+  stopCamera();renderResults();renderSavedExams();
+  showAlert("تم التصحيح والاعتماد","تم تثبيت درجات الامتحان في نظام الدرجات الموحد. الامتحان أُغلق نهائياً وأصبح مختوماً «تم التصحيح والاعتماد». أي طالب كانت له صفحة ناقصة تم اعتماد «غ» له ويُحسب صفر.",[
+   ["الرجوع للامتحانات","g",()=>{closeAlert();goHome()}]
+  ])
+ }catch(e){console.error(e);toast(e.message==="MISSING_PAGES"?"توجد أوراق ناقصة. أكمل مسحها أو وافق على اعتمادها غ.":"تعذر تثبيت الدرجات. لم يتم إنهاء التصحيح.","error")}
+}
 
-function goStage(name){const map={setup:"setupStage",questions:"questionsStage",preview:"previewStage",correction:"correctionStage"};Object.values(map).forEach(id=>$(id).classList.add("hidden"));$(map[name]).classList.remove("hidden");const order=["setup","questions","preview","correction"],idx=order.indexOf(name);order.forEach((x,i)=>{$(`step${i+1}`).classList.toggle("active",i===idx);$(`step${i+1}`).classList.toggle("done",i<idx)});if(name==="questions")renderQuestions();if(name==="correction")renderResults();window.scrollTo({top:0,behavior:"smooth"})}
+function goStage(name){
+ if(name==="questions"&&!examDraft&&!selectedAssignment)return toast("ابدأ بإنشاء امتحان أولاً.","warn");
+ if(name==="preview"&&!pagePlan.length)return toast("جهز الأسئلة والمعاينة أولاً.","warn");
+ if(name==="correction"){if(!currentExam)return toast("اختر امتحاناً غير مصحح واضغط «تصحيح الامتحان».","warn");if(currentExam.status==="completed")return toast("هذا الامتحان تم التصحيح والاعتماد.","warn")}
+ $("homeStage").classList.add("hidden");$("savedPanel").classList.add("hidden");$("workflowSteps").classList.remove("hidden");
+ const map={setup:"setupStage",questions:"questionsStage",preview:"previewStage",correction:"correctionStage"};Object.values(map).forEach(id=>$(id).classList.add("hidden"));$(map[name]).classList.remove("hidden");
+ const order=["setup","questions","preview","correction"],idx=order.indexOf(name);order.forEach((x,i)=>{$(`step${i+1}`).classList.toggle("active",i===idx);$(`step${i+1}`).classList.toggle("done",i<idx)});
+ if(name==="questions")renderQuestions();if(name==="correction")renderResults();window.scrollTo({top:0,behavior:"smooth"})
+}
 
 async function compressImage(file,maxW=1200,maxH=900,quality=.84){return new Promise((resolve,reject)=>{const img=new Image(),url=URL.createObjectURL(file);img.onload=()=>{let w=img.naturalWidth,h=img.naturalHeight,scale=Math.min(1,maxW/w,maxH/h);w=Math.max(1,Math.round(w*scale));h=Math.max(1,Math.round(h*scale));const c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(img,0,0,w,h);URL.revokeObjectURL(url);resolve(c.toDataURL("image/jpeg",quality))};img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("IMAGE"))};img.src=url})}
 
@@ -401,7 +516,7 @@ $("customLogoInput").onchange=async e=>{if(!e.target.files?.[0])return;customLog
 $("duplexToggle").onchange=()=>{$("pageLimit").value=$("duplexToggle").checked?2:1};
 $("sensitivity").oninput=()=>{$("sensitivityValue").textContent=$("sensitivity").value};
 
-async function init(){try{if(!await verifyTeacher())return;await loadBase();await loadSavedExams();goStage("setup")}catch(e){console.error(e);toast("تعذر تحميل نظام الامتحانات.","error")}finally{$("loaderScreen").classList.add("hidden")}}
+async function init(){try{if(!await verifyTeacher())return;await loadBase();await loadSavedExams();goHome()}catch(e){console.error(e);toast("تعذر تحميل نظام الامتحانات.","error")}finally{$("loaderScreen").classList.add("hidden")}}
 window.addEventListener("beforeunload",stopCamera);
 window.addEventListener("load",init);
 </script>
