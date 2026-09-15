@@ -93,7 +93,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 .card-head{padding:11px 12px;border-bottom:1px solid var(--border)}.card-head h4{font-size:11px}.card-head p{margin-top:3px;color:var(--muted);font-size:7.5px;line-height:1.6}
 .camera-stage{position:relative;background:#101820;min-height:310px;display:flex;align-items:center;justify-content:center;overflow:hidden}.camera-stage video{width:100%;max-height:520px;display:block;object-fit:contain}.camera-overlay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .camera-placeholder{color:#dbe8f6;text-align:center;font-size:9px;line-height:1.8;padding:20px}.scan-status{padding:10px 11px;border-top:1px solid var(--border);font-size:8px;font-weight:900;line-height:1.7}.scan-status.good{color:var(--g);background:var(--gs)}.scan-status.warn{color:#9a5b00;background:#fff8e8}.scan-status.bad{color:var(--r);background:var(--rs)}
-.camera-actions{display:flex;gap:6px;flex-wrap:wrap;padding:10px}.sensitivity{display:grid;grid-template-columns:auto 1fr auto;gap:7px;align-items:center;padding:0 10px 10px;color:#475467;font-size:7.5px;font-weight:900}.sensitivity input{width:100%}
+.camera-actions{display:flex;gap:6px;flex-wrap:wrap;padding:10px}
 
 .results-table-wrap{overflow:auto;max-height:620px}.results-table{width:100%;min-width:760px;border-collapse:collapse}.results-table th,.results-table td{padding:8px;border-bottom:1px solid #edf0f4;text-align:center;font-size:7.5px}.results-table th{position:sticky;top:0;background:#f8fafc;color:#475467;font-weight:900;z-index:2}.results-table td.name{text-align:right;font-size:8.5px;font-weight:900}
 .status-tag{display:inline-flex;min-height:23px;align-items:center;padding:0 7px;border-radius:999px;font-size:7px;font-weight:900}.status-tag.wait{color:#9a5b00;background:#fff8e8}.status-tag.good{color:var(--g);background:var(--gs)}.status-tag.absent{color:var(--r);background:var(--rs)}
@@ -177,7 +177,9 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 
 
 /* ================= Scanner-grade camera + anti-tamper sheet ================= */
-.exam-head-right{grid-template-columns:1fr 110px!important}.page-qr{width:104px!important;height:104px!important}.page-qr canvas,.page-qr img{width:96px!important;height:96px!important}
+.exam-head-right{grid-template-columns:1fr 124px!important}
+.page-qr{width:116px!important;height:116px!important;padding:0!important;border:0!important;outline:0!important;border-radius:0!important;background:#fff!important;box-shadow:none!important;display:flex!important;align-items:center!important;justify-content:center!important}
+.page-qr canvas,.page-qr img{width:116px!important;height:116px!important;display:block!important;object-fit:contain!important}
 .scan-marker{position:absolute;z-index:20;box-sizing:content-box!important;width:16px;height:16px;background:#000;border:4px solid #fff;outline:1px solid #777;pointer-events:none}
 .scan-marker.tl{top:7px;left:7px}.scan-marker.tr{top:7px;right:7px}.scan-marker.br{right:7px;bottom:7px}.scan-marker.bl{left:7px;bottom:7px}
 .security-strip{position:absolute;z-index:20;left:50%;bottom:4px;transform:translateX(-50%);display:flex;gap:2px;padding:2px 3px;border-radius:3px;background:#fff;border:1px solid #777;direction:ltr;pointer-events:none}
@@ -187,6 +189,15 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 .scanner-status{display:flex;gap:6px;flex-wrap:wrap;padding:8px 10px;border-top:1px solid var(--border);background:#f8fafc}
 .scanner-chip{min-height:26px;display:inline-flex;align-items:center;padding:0 8px;border-radius:999px;background:#eef2f6;color:#475467;font-size:7.5px;font-weight:900}
 .scanner-chip.ok{background:#ecfdf3;color:#067647}.scanner-chip.bad{background:#fff1f1;color:#b42318}.scanner-chip.warn{background:#fff8e8;color:#9a5b00}
+
+
+/* ================= Auto-capture document scanner ================= */
+.scanner-status{align-items:center}
+.scanner-chip.capture{background:#eef6ff;color:#075fcf}
+.scanner-chip.capture.ok{background:#ecfdf3;color:#067647}
+.scanner-chip.capture.busy,.scanner-chip.busy{background:#fff5e8;color:#9a5b00}
+.camera-stage.scanner-captured{animation:scannerCaptured .36s ease}
+@keyframes scannerCaptured{0%{box-shadow:inset 0 0 0 0 rgba(255,255,255,0)}45%{box-shadow:inset 0 0 0 6px rgba(255,255,255,.9)}100%{box-shadow:inset 0 0 0 0 rgba(255,255,255,0)}}
 
 </style>
 </head>
@@ -291,8 +302,8 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
       <div id="cameraPlaceholder" class="camera-placeholder">اضغط «تشغيل الكاميرا» ثم ضع الورقة كاملة أمام الكاميرا. بعد قراءة الباركود تظهر علامة على جواب الطالب مباشرة: الأخضر صحيح، والأحمر خطأ.</div>
      </div>
      <div id="scanStatus" class="scan-status warn">الكاميرا متوقفة.</div>
-     <div class="camera-actions"><button id="startCameraBtn" class="btn btn-p" type="button" onclick="startCamera()">تشغيل الكاميرا</button><button id="torchBtn" class="btn btn-o hidden" type="button" onclick="toggleTorch()">تشغيل الفلاش</button><button class="btn btn-gray" type="button" onclick="stopCamera()">إيقاف</button><button class="btn btn-soft" type="button" onclick="scanCurrentFrame(true)">فحص الآن</button></div><div class="scanner-status"><span id="cornerChip" class="scanner-chip warn">زوايا الورقة: بانتظار</span><span id="qrChip" class="scanner-chip warn">الباركود: بانتظار</span><span id="securityChip" class="scanner-chip warn">أمان الورقة: بانتظار</span></div>
-     <div class="sensitivity"><span>حساسية التظليل</span><input id="sensitivity" type="range" min="10" max="50" value="22"><strong id="sensitivityValue">22</strong></div>
+     <div class="camera-actions"><button id="startCameraBtn" class="btn btn-p" type="button" onclick="startCamera()">تشغيل الكاميرا</button><button id="torchBtn" class="btn btn-o hidden" type="button" onclick="toggleTorch()">تشغيل الفلاش</button><button class="btn btn-gray" type="button" onclick="stopCamera()">إيقاف</button></div>
+     <div class="scanner-status"><span id="cornerChip" class="scanner-chip warn">زوايا الورقة: بانتظار</span><span id="captureChip" class="scanner-chip capture">التقاط الورقة: بانتظار الثبات</span><span id="qrChip" class="scanner-chip warn">الباركود: بانتظار</span><span id="securityChip" class="scanner-chip warn">أمان الورقة: بانتظار</span></div>
     </div>
 
     <div class="results-card">
@@ -339,6 +350,9 @@ let selectedAssignment=null,currentSchema={},examDraft=null,currentExam=null,sav
 let questions=[],customLogoData="",fontScale=1,pagePlan=[],omrLayout={};
 let cameraStream=null,scanTimer=null,scanBusy=false,scanCooldownUntil=0,lastStableSig="",stableCount=0,PAPER_META_CACHE={};
 let lastQRReadAt=0,lastOverlayStudent="",lastOverlayPage=-1,torchOn=false;
+let lastPageCorners=null,pageCornerStableCount=0,lastAutoCaptureAt=0;
+const AUTO_CAPTURE_FRAMES=4;
+const AUTO_OMR_BASE=20;
 let toastTimer=0;
 
 function toast(text,type=""){const el=$("toast");el.textContent=String(text||"");el.className=`toast ${type} show`;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),2800)}
@@ -465,7 +479,7 @@ function sheetHTML(exam,student,pageIndex,questionIndexes,mode="preview"){
  <header class="exam-head">
   <div class="exam-head-left"><div class="exam-time">الوقت: ${exam.minutes} دقيقة<br>الدرجة: ${exam.targetMax}<br><span class="teacher-print">الأستاذ: ${esc(exam.teacherName||"—")}</span></div></div>
   <div class="exam-head-center"><img class="exam-logo" src="${logo}" alt=""><div class="exam-school">مدرسة التحدي الأهلية المختلطة</div><div class="exam-subject">${esc(exam.subjectName)}</div></div>
-  <div class="exam-head-right"><div class="student-lines"><b>${esc(student.name||"—")}</b><br>الصف: ${esc(exam.className)}<br>الشعبة/القاعة: ${esc(exam.room||roomLabel(c))}<br>الصفحة: ${pageIndex+1} / ${exam.pageCount||pagePlan.length}</div><div><div class="page-qr" data-student="${esc(student.code)}" data-page-number="${pageIndex+1}" data-qr="${esc(qrPayload(exam,student,pageIndex))}"></div><div style="direction:ltr;text-align:center;margin-top:2px;font-size:7px;font-weight:700">${esc(student.code)} · P${pageIndex+1}</div></div></div>
+  <div class="exam-head-right"><div class="student-lines"><b>${esc(student.name||"—")}</b><br>الصف: ${esc(exam.className)}<br>الشعبة/القاعة: ${esc(exam.room||roomLabel(c))}<br>الصفحة: ${pageIndex+1} / ${exam.pageCount||pagePlan.length}</div><div><div class="page-qr" data-student="${esc(student.code)}" data-page-number="${pageIndex+1}" data-qr="${esc(qrPayload(exam,student,pageIndex))}"></div></div></div>
  </header>
  <main class="exam-body">${questionIndexes.map(i=>questionHTML(questions[i],i)).join("")}</main>
  <footer class="exam-foot"><span>${esc(exam.periodLabel)} — ${esc(exam.targetLabel)}</span><span>الأستاذ: ${esc(exam.teacherName||"—")}</span><span class="page-no">${pageIndex+1} / ${exam.pageCount||pagePlan.length}</span></footer>
@@ -478,7 +492,7 @@ async function makeQRCodes(root){
   if(!text)throw new Error("QR_PAYLOAD_MISSING");
   el.classList.remove("qr-ready");
   el.innerHTML="";
-  new QRCode(el,{text,width:96,height:96,correctLevel:QRCode.CorrectLevel.M});
+  new QRCode(el,{text,width:116,height:116,correctLevel:QRCode.CorrectLevel.M});
   await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
 
   const canvas=el.querySelector("canvas"),img=el.querySelector("img");
@@ -486,7 +500,7 @@ async function makeQRCodes(root){
    const frozen=document.createElement("img");
    frozen.alt="QR";
    frozen.src=canvas.toDataURL("image/png");
-   frozen.width=96;frozen.height=96;
+   frozen.width=116;frozen.height=116;
    el.innerHTML="";
    el.appendChild(frozen);
    await new Promise(resolve=>{
@@ -705,23 +719,30 @@ function findPageMarkers(work){const maxW=720,scale=Math.min(1,maxW/work.width),
 }
 function markerHomography(layout,found){const m=layout?.markers;if(!m?.tl||!m?.tr||!m?.br||!m?.bl||!found)return null;return homography([m.tl,m.tr,m.br,m.bl],[found.tl,found.tr,found.br,found.bl])}
 function transformRectCorners(H,r){return[{x:r.x,y:r.y},{x:r.x+r.w,y:r.y},{x:r.x+r.w,y:r.y+r.h},{x:r.x,y:r.y+r.h}].map(p=>mapH(H,p))}
-function cropExpectedQR(work,H,rect){if(!H||!rect)return null;const pts=transformRectCorners(H,rect),xs=pts.map(p=>p.x),ys=pts.map(p=>p.y);let x0=Math.max(0,Math.min(...xs)),x1=Math.min(work.width,Math.max(...xs)),y0=Math.max(0,Math.min(...ys)),y1=Math.min(work.height,Math.max(...ys)),pad=Math.max(18,Math.max(x1-x0,y1-y0)*.55);x0=Math.max(0,x0-pad);y0=Math.max(0,y0-pad);x1=Math.min(work.width,x1+pad);y1=Math.min(work.height,y1+pad);if(x1-x0<12||y1-y0<12)return null;const size=760,c=document.createElement("canvas");c.width=size;c.height=size;const ctx=c.getContext("2d",{willReadFrequently:true});ctx.imageSmoothingEnabled=false;ctx.drawImage(work,x0,y0,x1-x0,y1-y0,0,0,size,size);const fr=ctx.getImageData(0,0,size,size),bright=frameBrightness(fr.data),qr=readQRRobust(fr,size,size,bright);if(!qr)return null;const remap=p=>({x:x0+p.x/size*(x1-x0),y:y0+p.y/size*(y1-y0)});qr.location={topLeftCorner:remap(qr.location.topLeftCorner),topRightCorner:remap(qr.location.topRightCorner),bottomRightCorner:remap(qr.location.bottomRightCorner),bottomLeftCorner:remap(qr.location.bottomLeftCorner)};return qr}
-function sampleDiskMean(img,w,h,cx,cy,r){let sum=0,n=0;const rr=Math.max(2,r),x0=Math.max(0,Math.floor(cx-rr)),x1=Math.min(w-1,Math.ceil(cx+rr)),y0=Math.max(0,Math.floor(cy-rr)),y1=Math.min(h-1,Math.ceil(cy+rr));for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const dx=x-cx,dy=y-cy;if(dx*dx+dy*dy<=rr*rr){const k=(y*w+x)*4;sum+=(img[k]+img[k+1]+img[k+2])/3;n++}}return n?sum/n:255}
-function verifyPaperSecurity(frame,w,h,H,layout,token){const cells=layout?.securityCells||[];if(cells.length<12)return{ok:true,legacy:true,matches:0,total:0};const expected=paperSecurityBits(token),values=cells.map(c=>{const p=mapH(H,c),pr=mapH(H,{x:c.x+c.r,y:c.y}),r=Math.max(2,Math.hypot(pr.x-p.x,pr.y-p.y)*.55);return sampleDiskMean(frame,w,h,p.x,p.y,r)}),lo=Math.min(...values),hi=Math.max(...values),threshold=(lo+hi)/2;let matches=0;for(let i=0;i<values.length;i++){const black=values[i]<threshold;if(Number(black)===Number(expected[cells[i].i]||0))matches++}const contrast=hi-lo;if(contrast<38)return{ok:false,unclear:true,legacy:false,matches,total:values.length,contrast};return{ok:matches>=Math.max(12,Math.floor(values.length*.78)),unclear:false,legacy:false,matches,total:values.length,contrast}}
-function pageAngleFromMarkers(m){if(!m)return 0;return Math.atan2(m.tr.y-m.tl.y,m.tr.x-m.tl.x)*180/Math.PI}
-async function toggleTorch(){const track=cameraStream?.getVideoTracks?.()[0];if(!track)return toast("شغّل الكاميرا أولاً.","warn");try{const caps=track.getCapabilities?.()||{};if(!caps.torch)return toast("هذا الجهاز أو المتصفح لا يدعم تشغيل الفلاش من الصفحة.","warn");torchOn=!torchOn;await track.applyConstraints({advanced:[{torch:torchOn}]});const b=$("torchBtn");b.textContent=torchOn?"إطفاء الفلاش":"تشغيل الفلاش";b.classList.toggle("torch-on",torchOn)}catch(e){torchOn=false;toast("تعذر تشغيل الفلاش على هذا الجهاز.","warn")}}
-function updateTorchAvailability(){const track=cameraStream?.getVideoTracks?.()[0],caps=track?.getCapabilities?.()||{},b=$("torchBtn");if(!b)return;if(caps.torch){b.classList.remove("hidden");b.disabled=false}else{b.classList.add("hidden");b.disabled=true}}
-let cameraAutoTuneAt=0;
-async function applyCameraAutoControls(){
- try{
-  const track=cameraStream?.getVideoTracks?.()[0];if(!track)return;
-  const caps=track.getCapabilities?.()||{},advanced={};
-  if(Array.isArray(caps.focusMode)&&caps.focusMode.includes("continuous"))advanced.focusMode="continuous";
-  if(Array.isArray(caps.exposureMode)&&caps.exposureMode.includes("continuous"))advanced.exposureMode="continuous";
-  if(Array.isArray(caps.whiteBalanceMode)&&caps.whiteBalanceMode.includes("continuous"))advanced.whiteBalanceMode="continuous";
-  if(Array.isArray(caps.resizeMode)&&caps.resizeMode.includes("none"))advanced.resizeMode="none";
-  if(Object.keys(advanced).length)await track.applyConstraints({advanced:[advanced]})
- }catch(e){console.warn("CAMERA_AUTO_CONTROLS",e)}
+function cropExpectedQR(work,H,rect){
+ if(!H||!rect)return null;
+ const pts=transformRectCorners(H,rect),xs=pts.map(p=>p.x),ys=pts.map(p=>p.y),
+       baseX0=Math.max(0,Math.min(...xs)),baseX1=Math.min(work.width,Math.max(...xs)),
+       baseY0=Math.max(0,Math.min(...ys)),baseY1=Math.min(work.height,Math.max(...ys));
+ if(baseX1-baseX0<12||baseY1-baseY0<12)return null;
+
+ for(const padFactor of [.10,.20,.36,.56]){
+  const pad=Math.max(8,Math.max(baseX1-baseX0,baseY1-baseY0)*padFactor),
+        x0=Math.max(0,baseX0-pad),y0=Math.max(0,baseY0-pad),
+        x1=Math.min(work.width,baseX1+pad),y1=Math.min(work.height,baseY1+pad),
+        size=1024,c=document.createElement("canvas");
+  c.width=size;c.height=size;
+  const ctx=c.getContext("2d",{willReadFrequently:true});
+  ctx.imageSmoothingEnabled=false;
+  ctx.drawImage(work,x0,y0,x1-x0,y1-y0,0,0,size,size);
+  const fr=ctx.getImageData(0,0,size,size),bright=frameBrightness(fr.data),qr=readQRRobust(fr,size,size,bright);
+  if(qr){
+   const remap=p=>({x:x0+p.x/size*(x1-x0),y:y0+p.y/size*(y1-y0)});
+   qr.location={topLeftCorner:remap(qr.location.topLeftCorner),topRightCorner:remap(qr.location.topRightCorner),bottomRightCorner:remap(qr.location.bottomRightCorner),bottomLeftCorner:remap(qr.location.bottomLeftCorner)};
+   return qr
+  }
+ }
+ return null
 }
 function frameBrightness(data){let sum=0,n=0;for(let i=0;i<data.length;i+=64){sum+=(data[i]+data[i+1]+data[i+2])/3;n++}return n?sum/n:0}
 function qrAngleDegrees(qr){const a=qr?.location?.topLeftCorner,b=qr?.location?.topRightCorner;if(!a||!b)return 0;return Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI}
@@ -742,14 +763,131 @@ function updateCameraHUD(student,pageIndex,detected,brightness,angle,pageScore){
  const pageQids=new Set(currentExam.omrLayout?.[pageIndex]?.questionIds||[]),by=Object.fromEntries((detected||[]).map(d=>[d.qid,d])),globalIndex=Object.fromEntries((currentExam.questions||[]).map((q,i)=>[q.id,i+1]));
  $("hudAnswers").innerHTML=(currentExam.questions||[]).filter(q=>q.type!=="essay"&&pageQids.has(q.id)).map(q=>{const d=by[q.id],correct=q.options?.find(o=>o.correct)?.id,selected=d?.selected||null,ok=selected&&selected===correct,amb=d?.state==="ambiguous",cls=amb?"blank":!selected?"blank":ok?"ok":"bad",confidence=selected?` — ثقة ${Number(d?.confidence||0)}%`:"";return`<span class="hud-answer ${cls}">س${globalIndex[q.id]}: ${amb?"غير واضح":selected?`اختار ${optionNumber(q,selected)} ${ok?"✓ صحيح":"✕ خطأ"}`:"بدون إجابة"}${confidence}</span>`}).join("")||'<span class="hud-answer blank">لا توجد أسئلة اختيارية بهذه الصفحة</span>'
 }
+
+function cloneCorners(m){if(!m)return null;return{tl:{x:m.tl.x,y:m.tl.y},tr:{x:m.tr.x,y:m.tr.y},br:{x:m.br.x,y:m.br.y},bl:{x:m.bl.x,y:m.bl.y}}}
+function cornerMotionRatio(a,b,w,h){if(!a||!b)return Infinity;const diag=Math.hypot(w,h)||1;let max=0;for(const k of["tl","tr","br","bl"]){const d=Math.hypot(a[k].x-b[k].x,a[k].y-b[k].y)/diag;if(d>max)max=d}return max}
+function pageCoverageRatio(m,w,h){return m?polygonArea([m.tl,m.tr,m.br,m.bl])/Math.max(1,w*h):0}
+function averageMarkerScore(m){return m?["tl","tr","br","bl"].reduce((sum,k)=>sum+Number(m[k]?.score||0),0)/4:0}
+function captureHighResolutionFrame(video){const c=document.createElement("canvas");c.width=Math.max(1,video.videoWidth);c.height=Math.max(1,video.videoHeight);const ctx=c.getContext("2d",{willReadFrequently:true});ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality="high";ctx.drawImage(video,0,0,c.width,c.height);return c}
+function pulseScannerCapture(){const stage=$("cameraStage");stage.classList.remove("scanner-captured");void stage.offsetWidth;stage.classList.add("scanner-captured")}
+
+async function processCapturedPage(video){
+ const captured=captureHighResolutionFrame(video),
+       frameCtx=captured.getContext("2d",{willReadFrequently:true}),
+       frame=frameCtx.getImageData(0,0,captured.width,captured.height),
+       brightness=frameBrightness(frame.data),
+       baseLayout=currentExam.omrLayout?.[0]||Object.values(currentExam.omrLayout||{})[0],
+       foundMarkers=findPageMarkers(captured);
+
+ if(!foundMarkers||!baseLayout?.markers){
+  setScannerChip("captureChip","التقاط الورقة: أعد الثبات","warn");
+  setScanStatus("تم التقاط صورة، لكن إحدى الزوايا لم تكن واضحة. ثبّت الورقة مرة أخرى.","warn");
+  return
+ }
+
+ const coverage=pageCoverageRatio(foundMarkers,captured.width,captured.height),
+       markerScore=averageMarkerScore(foundMarkers),
+       Hbase=markerHomography(baseLayout,foundMarkers);
+
+ if(!Hbase||coverage<.18||markerScore<30){
+  setScannerChip("captureChip","التقاط الورقة: الجودة غير كافية","warn");
+  drawScannerFrame(video,captured,foundMarkers,null,false);
+  setScanStatus("صورة الورقة موجودة لكن الحجم/الدقة غير كافيين. قرّب الورقة قليلاً مع بقاء الزوايا الأربع ظاهرة.","warn");
+  return
+ }
+
+ setScannerChip("captureChip","التقاط الورقة: تم ✓","ok");
+ pulseScannerCapture();
+
+ let qr=cropExpectedQR(captured,Hbase,baseLayout.qrRect);
+ if(!qr)qr=readQRRobust(frame,captured.width,captured.height,brightness);
+
+ if(!qr){
+  setScannerChip("qrChip","الباركود: لم يُقرأ","bad");
+  setScannerChip("securityChip","أمان الورقة: بانتظار","warn");
+  drawScannerFrame(video,captured,foundMarkers,null,true);
+  setScanStatus("تم التقاط الورقة بدقة، لكن QR لم يُقرأ. قرّب الورقة قليلاً أو شغّل الفلاش ثم ثبّتها من جديد.","warn");
+  return
+ }
+
+ setScannerChip("qrChip","الباركود: مقروء ✓","ok");
+
+ let info=parseQR(qr.data);
+ if(!info){setScannerChip("qrChip","الباركود: غير تابع للنظام","bad");setScanStatus("الباركود المقروء ليس باركود امتحان التحدي.","bad");return}
+ info=await resolveQRInfo(info);
+ if(!info){setScannerChip("qrChip","الباركود: غير مسجل","bad");setScanStatus("تمت قراءة QR لكن بيانات الورقة غير موجودة في قاعدة البيانات.","bad");return}
+ if(info.examId!==currentExam.examId){setScanStatus("هذه الورقة تابعة لامتحان آخر.","bad");return}
+ if(info.pageIndex<0||info.pageIndex>=Number(currentExam.pageCount)){setScanStatus("رقم الصفحة في الباركود غير صحيح.","bad");return}
+
+ const student=(currentExam.students||[]).find(st=>st.code===info.studentCode);
+ if(!student){setScanStatus("الطالب الموجود في الباركود غير موجود ضمن هذا الامتحان.","bad");return}
+
+ const layout=currentExam.omrLayout?.[info.pageIndex];
+ if(!layout?.markers){setScanStatus("هذه الورقة لا تحتوي خريطة السكنر الجديدة. أنشئ PDF جديداً من النسخة الحالية.","bad");return}
+
+ const H=markerHomography(layout,foundMarkers);
+ if(!H){setScanStatus("تم تحديد الطالب، لكن تعذر تصحيح منظور الورقة من الزوايا الأربع.","bad");return}
+
+ const token=info.token||currentExam.paperTokens?.[student.code]?.[info.pageIndex]||"",
+       security=verifyPaperSecurity(frame.data,captured.width,captured.height,H,layout,token);
+
+ if(!security.ok){
+  if(security.unclear){
+   setScannerChip("securityChip","أمان الورقة: غير واضح","warn");
+   drawScannerFrame(video,captured,foundMarkers,qr,true);
+   setScanStatus("QR مقروء، لكن علامة أمان الورقة غير واضحة. شغّل الفلاش أو قرّب الورقة ثم أعد تثبيتها.","warn");
+   return
+  }
+  setScannerChip("securityChip",`أمان الورقة: غير مطابق ${security.matches}/${security.total}`,"bad");
+  drawScannerFrame(video,captured,foundMarkers,qr,true);
+  setScanStatus("تم رفض الورقة لأن QR لا يطابق علامة الأمان المطبوعة على نفس الورقة.","bad");
+  return
+ }
+
+ setScannerChip("securityChip",security.legacy?"أمان الورقة: نسخة قديمة":`أمان الورقة: مطابق ${security.matches}/${security.total} ✓`,security.legacy?"warn":"ok");
+
+ const bubbles=(layout.bubbles||[]).map(b=>({...b,...bubbleDarkness(frame.data,captured.width,captured.height,H,b)})),
+       pageQids=new Set(layout.questionIds||[]),
+       pageHasMCQ=(currentExam.questions||[]).some(q=>q.type!=="essay"&&pageQids.has(q.id));
+
+ if(pageHasMCQ&&!bubbles.length){
+  setScanStatus("تمت قراءة QR لكن خريطة دوائر هذه الصفحة غير موجودة. أعد إنشاء PDF لهذا الامتحان قبل التصحيح.","bad");
+  return
+ }
+
+ const detected=detectSelections(bubbles),
+       pageScore=scoreDetectedPage(info.pageIndex,detected),
+       angle=pageAngleFromMarkers(foundMarkers),
+       ambiguousCount=detected.filter(x=>x.state==="ambiguous").length,
+       selectedCount=detected.filter(x=>x.state==="selected").length;
+
+ lastOverlayStudent=student.code;
+ lastOverlayPage=info.pageIndex;
+
+ drawScanOverlayScanner(video,captured,foundMarkers,qr,bubbles,detected,info.pageIndex);
+ updateCameraHUD(student,info.pageIndex,detected,brightness,angle,pageScore);
+
+ const existing=studentResult(student.code).pages?.[info.pageIndex];
+ if(existing){setScanStatus(`هذه الصفحة سبق اعتمادها للطالب ${student.name}. لن تُكتب فوقها تلقائياً. استخدم «إعادة» للطالب إذا احتجت إعادة التصحيح.`,"warn");return}
+
+ if(ambiguousCount){
+  setScanStatus(`تم التقاط الورقة وقراءة ${student.name}. توجد ${ambiguousCount} إجابة غير واضحة بالبرتقالي؛ لن يتم اعتماد الصفحة حتى تكون الدوائر واضحة.`,"warn");
+  return
+ }
+
+ await acceptScannedPage(student,info.pageIndex,detected);
+ setScanStatus(`✓ تم التقاط وتصحيح الورقة | ${student.name} | الصفحة ${info.pageIndex+1}/${currentExam.pageCount} | رُصد ${selectedCount} جواب | درجة الصفحة ${pageScore}`,"good");
+ scanCooldownUntil=Date.now()+1300
+}
+
 async function startCamera(){
  if(!currentExam)return toast("افتح امتحاناً للتصحيح أولاً.","warn");if(cameraStream)return;
  try{
   cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:2560,min:1280},height:{ideal:1440,min:720},frameRate:{ideal:30,min:15}},audio:false});
-  await applyCameraAutoControls();const video=$("cameraVideo");video.srcObject=cameraStream;await video.play();video.classList.remove("hidden");$("cameraPlaceholder").classList.add("hidden");$("cameraHud").classList.remove("hidden");$("cameraLegend").classList.remove("hidden");$("hudStudent").textContent="بانتظار الباركود";$("hudPaper").textContent="وجّه الورقة كاملة أمام الكاميرا";$("hudTotal").textContent="0";$("scanStatus").className="scan-status warn";$("scanStatus").textContent="الكاميرا تعمل كالسكنر: ضع الورقة كاملة حتى تتحدد الزوايا الأربع، ثم يقرأ QR والإجابات.";setScannerChip("cornerChip","زوايا الورقة: بانتظار","warn");setScannerChip("qrChip","الباركود: بانتظار","warn");setScannerChip("securityChip","أمان الورقة: بانتظار","warn");clearInterval(scanTimer);scanTimer=setInterval(()=>scanCurrentFrame(false),300)
+  await applyCameraAutoControls();const video=$("cameraVideo");video.srcObject=cameraStream;await video.play();video.classList.remove("hidden");$("cameraPlaceholder").classList.add("hidden");$("cameraHud").classList.remove("hidden");$("cameraLegend").classList.remove("hidden");$("hudStudent").textContent="بانتظار الباركود";$("hudPaper").textContent="وجّه الورقة كاملة أمام الكاميرا";$("hudTotal").textContent="0";$("scanStatus").className="scan-status warn";$("scanStatus").textContent="حرّك الورقة عادي. عندما تظهر الزوايا الأربع وتثبت لحظة، النظام يلتقط صورة عالية الدقة تلقائياً ثم يقرأ QR ويصحح الإجابات.";setScannerChip("cornerChip","زوايا الورقة: بانتظار","warn");setScannerChip("captureChip","التقاط الورقة: بانتظار الثبات","capture");setScannerChip("qrChip","الباركود: بانتظار","warn");setScannerChip("securityChip","أمان الورقة: بانتظار","warn");lastPageCorners=null;pageCornerStableCount=0;clearInterval(scanTimer);scanTimer=setInterval(()=>scanCurrentFrame(),220)
  }catch(e){console.error(e);toast("تعذر تشغيل الكاميرا. تأكد من السماح للمتصفح باستخدامها.","error")}
 }
-function stopCamera(){clearInterval(scanTimer);scanTimer=null;if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null}$("cameraVideo").classList.add("hidden");$("cameraPlaceholder").classList.remove("hidden");$("cameraHud").classList.add("hidden");$("cameraLegend")?.classList.add("hidden");$("scanStatus").className="scan-status warn";$("scanStatus").textContent="الكاميرا متوقفة.";setScannerChip("cornerChip","زوايا الورقة: بانتظار","warn");setScannerChip("qrChip","الباركود: بانتظار","warn");setScannerChip("securityChip","أمان الورقة: بانتظار","warn");torchOn=false;$("torchBtn")?.classList.add("hidden");$("torchBtn")?.classList.remove("torch-on");lastOverlayStudent="";lastOverlayPage=-1;clearOverlay()}
+function stopCamera(){clearInterval(scanTimer);scanTimer=null;if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null}$("cameraVideo").classList.add("hidden");$("cameraPlaceholder").classList.remove("hidden");$("cameraHud").classList.add("hidden");$("cameraLegend")?.classList.add("hidden");$("scanStatus").className="scan-status warn";$("scanStatus").textContent="الكاميرا متوقفة.";setScannerChip("cornerChip","زوايا الورقة: بانتظار","warn");setScannerChip("captureChip","التقاط الورقة: بانتظار الثبات","capture");setScannerChip("qrChip","الباركود: بانتظار","warn");setScannerChip("securityChip","أمان الورقة: بانتظار","warn");lastPageCorners=null;pageCornerStableCount=0;torchOn=false;$("torchBtn")?.classList.add("hidden");$("torchBtn")?.classList.remove("torch-on");lastOverlayStudent="";lastOverlayPage=-1;clearOverlay()}
 function clearOverlay(){const c=$("cameraOverlay"),ctx=c.getContext("2d");ctx.clearRect(0,0,c.width,c.height)}
 
 function solveLinear(A,b){const n=b.length,M=A.map((r,i)=>[...r,b[i]]);for(let i=0;i<n;i++){let max=i;for(let r=i+1;r<n;r++)if(Math.abs(M[r][i])>Math.abs(M[max][i]))max=r;[M[i],M[max]]=[M[max],M[i]];if(Math.abs(M[i][i])<1e-9)return null;const d=M[i][i];for(let c=i;c<=n;c++)M[i][c]/=d;for(let r=0;r<n;r++){if(r===i)continue;const f=M[r][i];for(let c=i;c<=n;c++)M[r][c]-=f*M[i][c]}}return M.map(r=>r[n])}
@@ -760,32 +898,90 @@ function meanDisk(img,w,h,cx,cy,rx,ry,inner=0,outer=1){let sum=0,n=0;const minX=
 function diskDarkRatio(imageData,w,h,cx,cy,rx,ry,threshold){let dark=0,total=0;const x0=Math.max(0,Math.floor(cx-rx)),x1=Math.min(w-1,Math.ceil(cx+rx)),y0=Math.max(0,Math.floor(cy-ry)),y1=Math.min(h-1,Math.ceil(cy+ry));for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const dx=(x-cx)/Math.max(1,rx),dy=(y-cy)/Math.max(1,ry);if(dx*dx+dy*dy<=1){const k=(y*w+x)*4,g=(imageData[k]+imageData[k+1]+imageData[k+2])/3;if(g<threshold)dark++;total++}}return total?dark/total:0}
 function bubbleDarkness(imageData,w,h,H,b){const c=mapH(H,{x:b.x,y:b.y}),px=mapH(H,{x:b.x+b.r,y:b.y}),py=mapH(H,{x:b.x,y:b.y+b.r}),rx=Math.max(2.5,Math.hypot(px.x-c.x,px.y-c.y)),ry=Math.max(2.5,Math.hypot(py.x-c.x,py.y-c.y)),core=meanDisk(imageData,w,h,c.x,c.y,rx*.43,ry*.43,0,1),innerWide=meanDisk(imageData,w,h,c.x,c.y,rx*.72,ry*.72,0,1),outer=meanDisk(imageData,w,h,c.x,c.y,rx,ry,1.30,1.82),inner=core*.68+innerWide*.32,darkThreshold=Math.max(70,Math.min(190,outer-28)),darkRatio=diskDarkRatio(imageData,w,h,c.x,c.y,rx*.74,ry*.74,darkThreshold),score=(outer-inner)+darkRatio*52;return{score,inner,outer,core,innerWide,darkRatio,c,rx,ry}}
 
-async function scanCurrentFrame(manual=false){
- if(scanBusy||!currentExam||!cameraStream||Date.now()<scanCooldownUntil)return;const video=$("cameraVideo");if(video.readyState<2||!video.videoWidth||!video.videoHeight)return;scanBusy=true;
+async function scanCurrentFrame(){
+ if(scanBusy||!currentExam||!cameraStream||Date.now()<scanCooldownUntil)return;
+ const video=$("cameraVideo");
+ if(video.readyState<2||!video.videoWidth||!video.videoHeight)return;
+ scanBusy=true;
  try{
-  const work=document.createElement("canvas"),mobile=window.matchMedia("(max-width:650px)").matches,maxW=mobile?1600:2000,scale=Math.min(1,maxW/video.videoWidth);work.width=Math.max(1,Math.round(video.videoWidth*scale));work.height=Math.max(1,Math.round(video.videoHeight*scale));const ctx=work.getContext("2d",{willReadFrequently:true});ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality="high";ctx.drawImage(video,0,0,work.width,work.height);const frame=ctx.getImageData(0,0,work.width,work.height),brightness=frameBrightness(frame.data);autoTuneExposure(brightness);
-  const baseLayout=currentExam.omrLayout?.[0]||Object.values(currentExam.omrLayout||{})[0],foundMarkers=findPageMarkers(work);if(!foundMarkers||!baseLayout?.markers){setScannerChip("cornerChip","زوايا الورقة: لم تكتمل","warn");setScannerChip("qrChip","الباركود: بانتظار","warn");setScannerChip("securityChip","أمان الورقة: بانتظار","warn");drawScannerFrame(video,work,foundMarkers,null);setScanStatus("ضع الورقة كاملة داخل الإطار حتى تظهر الزوايا الأربع. لا تحتاج أن تقرّب الباركود وحده.","warn");return}
-  setScannerChip("cornerChip","زوايا الورقة: 4/4 ✓","ok");const Hbase=markerHomography(baseLayout,foundMarkers);if(!Hbase){setScanStatus("تعذر تثبيت زوايا الورقة. حرّكها قليلاً ثم ثبّتها.","warn");return}
-  let qr=cropExpectedQR(work,Hbase,baseLayout.qrRect);if(!qr)qr=readQRRobust(frame,work.width,work.height,brightness);if(!qr){setScannerChip("qrChip","الباركود: أبحث...","warn");setScannerChip("securityChip","أمان الورقة: بانتظار","warn");drawScannerFrame(video,work,foundMarkers,null);setScanStatus("تم تحديد الورقة مثل السكنر، وأبحث الآن عن الباركود الصغير داخل مكانه المتوقع. ثبّت الورقة نصف ثانية.","warn");return}
-  setScannerChip("qrChip","الباركود: مقروء ✓","ok");let info=parseQR(qr.data);if(!info){setScannerChip("qrChip","الباركود: غير تابع للنظام","bad");setScanStatus("تمت قراءة باركود لكنه ليس باركود امتحان التحدي.","bad");return}info=await resolveQRInfo(info);if(!info){setScannerChip("qrChip","الباركود: غير مسجل","bad");setScanStatus("الباركود المقروء غير موجود في قاعدة البيانات.","bad");return}if(info.examId!==currentExam.examId){setScanStatus("هذه الورقة تابعة لامتحان آخر.","bad");return}if(info.pageIndex<0||info.pageIndex>=Number(currentExam.pageCount)){setScanStatus("رقم الصفحة غير صحيح.","bad");return}
-  const student=(currentExam.students||[]).find(st=>st.code===info.studentCode);if(!student){setScanStatus("الطالب غير موجود ضمن هذا الامتحان.","bad");return}const layout=currentExam.omrLayout?.[info.pageIndex];if(!layout?.markers){setScanStatus("هذه الورقة قديمة ولا تحتوي علامات السكنر الجديدة. أنشئ PDF جديداً لهذا الامتحان.","bad");return}const H=markerHomography(layout,foundMarkers);if(!H){setScanStatus("تعذر معايرة الصفحة من الزوايا الأربع.","bad");return}
-  const token=info.token||currentExam.paperTokens?.[student.code]?.[info.pageIndex]||"",security=verifyPaperSecurity(frame.data,work.width,work.height,H,layout,token);if(!security.ok){if(security.unclear){setScannerChip("securityChip","أمان الورقة: غير واضح","warn");drawScannerFrame(video,work,foundMarkers,qr);setScanStatus("تمت قراءة QR لكن علامة أمان الورقة غير واضحة بسبب الإضاءة أو البعد. قرّب الورقة قليلاً أو شغّل الفلاش.","warn");return}setScannerChip("securityChip",`أمان الورقة: غير مطابق ${security.matches}/${security.total}`,"bad");drawScannerFrame(video,work,foundMarkers,qr);setScanStatus("تم رفض الورقة: الباركود لا يطابق علامة الأمان المطبوعة على نفس الورقة. لا تعتمدها.","bad");return}setScannerChip("securityChip",security.legacy?"أمان الورقة: نسخة قديمة":`أمان الورقة: مطابق ${security.matches}/${security.total} ✓`,security.legacy?"warn":"ok");
-  const bubbles=(layout.bubbles||[]).map(b=>({...b,...bubbleDarkness(frame.data,work.width,work.height,H,b)})),detected=detectSelections(bubbles,Number($("sensitivity").value||22)),pageScore=scoreDetectedPage(info.pageIndex,detected),angle=pageAngleFromMarkers(foundMarkers),lightPct=Math.round(brightness/255*100),angleAbs=Math.abs(angle),ambiguousCount=detected.filter(x=>x.state==="ambiguous").length,selectedCount=detected.filter(x=>x.state==="selected").length,quality=(lightPct>=22&&lightPct<=93&&angleAbs<=22);
-  if(lastOverlayStudent!==student.code||lastOverlayPage!==info.pageIndex){pulseCameraRead();lastOverlayStudent=student.code;lastOverlayPage=info.pageIndex}drawScanOverlayScanner(video,work,foundMarkers,qr,bubbles,detected,info.pageIndex);updateCameraHUD(student,info.pageIndex,detected,brightness,angle,pageScore);
-  const existing=studentResult(student.code).pages?.[info.pageIndex];if(existing){setScanStatus(`هذه الصفحة سبق اعتمادها للطالب ${student.name}. لمنع التكرار أو التزوير لن تُكتب فوقها. استخدم زر «إعادة» للطالب إذا احتجت إعادة التصحيح.`,"warn");return}
-  const sig=`${info.studentCode}|${info.pageIndex}|${JSON.stringify(detected.map(x=>[x.qid,x.selected,x.state,Math.round(Number(x.confidence||0)/5)*5]))}`;if(sig===lastStableSig)stableCount++;else{lastStableSig=sig;stableCount=1}
-  if(ambiguousCount){setScanStatus(`تمت قراءة ${student.name} والباركود صحيح. توجد ${ambiguousCount} إجابة عليها أكثر من شخبطة/تظليل غير واضح بالبرتقالي؛ لا يتم احتسابها حتى تثبت القراءة.`,"warn");return}if(!quality){setScanStatus(`الورقة مقروءة لكن الجودة تحتاج تحسين قبل الاعتماد: إضاءة ${lightPct}%، ميل ${angleAbs.toFixed(1)}°. استخدم الفلاش إذا كانت الإضاءة ضعيفة.`,"warn");return}
-  setScanStatus(`✓ الورقة مطابقة | ${student.name} | الصفحة ${info.pageIndex+1}/${currentExam.pageCount} | تم رصد ${selectedCount} جواب | درجة الصفحة ${pageScore} | المجموع ${pageLiveTotal(student.code,info.pageIndex,pageScore)}`,"good");if(stableCount>=3){await acceptScannedPage(student,info.pageIndex,detected);stableCount=0;lastStableSig="";scanCooldownUntil=Date.now()+1000}
- }catch(e){console.error(e);setScanStatus("حدث خطأ أثناء تحليل الورقة. ثبّت الورقة ثم أعد المحاولة.","bad")}finally{scanBusy=false}
+  const work=document.createElement("canvas"),mobile=window.matchMedia("(max-width:650px)").matches,maxW=mobile?1200:1450,scale=Math.min(1,maxW/video.videoWidth);
+  work.width=Math.max(1,Math.round(video.videoWidth*scale));work.height=Math.max(1,Math.round(video.videoHeight*scale));
+  const ctx=work.getContext("2d",{willReadFrequently:true});ctx.drawImage(video,0,0,work.width,work.height);
+  const frame=ctx.getImageData(0,0,work.width,work.height),brightness=frameBrightness(frame.data);
+  autoTuneExposure(brightness);
+
+  const markers=findPageMarkers(work);
+  if(!markers){
+   lastPageCorners=null;pageCornerStableCount=0;
+   setScannerChip("cornerChip","زوايا الورقة: لم تكتمل","warn");
+   setScannerChip("captureChip","التقاط الورقة: بانتظار الثبات","capture");
+   setScannerChip("qrChip","الباركود: بعد تثبيت الورقة","warn");
+   setScannerChip("securityChip","أمان الورقة: بانتظار","warn");
+   clearOverlay();
+   setScanStatus("أدخل الورقة كاملة في الكاميرا حتى تتحدد الزوايا الأربع.","warn");
+   return
+  }
+
+  const coverage=pageCoverageRatio(markers,work.width,work.height),
+        motion=cornerMotionRatio(markers,lastPageCorners,work.width,work.height),
+        lightPct=Math.round(brightness/255*100),
+        sizeGood=coverage>=.18,
+        lightGood=lightPct>=20&&lightPct<=94,
+        motionGood=motion<=.0065;
+
+  if(lastPageCorners&&motionGood&&sizeGood&&lightGood)pageCornerStableCount=Math.min(AUTO_CAPTURE_FRAMES,pageCornerStableCount+1);
+  else pageCornerStableCount=1;
+  lastPageCorners=cloneCorners(markers);
+
+  const stable=pageCornerStableCount>=AUTO_CAPTURE_FRAMES;
+  drawScannerFrame(video,work,markers,null,stable);
+  setScannerChip("cornerChip","زوايا الورقة: 4/4 ✓",stable?"ok":"warn");
+
+  if(!sizeGood){
+   setScannerChip("captureChip","التقاط الورقة: قرّبها قليلاً","warn");
+   setScanStatus("تم تحديد الزوايا الأربع، لكن الورقة بعيدة. قرّبها قليلاً مع بقاء الزوايا كلها ظاهرة.","warn");
+   return
+  }
+
+  if(!lightGood){
+   setScannerChip("captureChip","التقاط الورقة: حسّن الإضاءة","warn");
+   setScanStatus(`الزوايا واضحة، لكن الإضاءة ${lightPct}%. شغّل الفلاش إذا كانت الإضاءة ضعيفة.`,"warn");
+   return
+  }
+
+  if(!stable){
+   setScannerChip("captureChip",`التقاط الورقة: ثبّتها ${pageCornerStableCount}/${AUTO_CAPTURE_FRAMES}`,"busy");
+   setScanStatus("الزوايا محددة. ثبّت الورقة لحظة واحدة فقط وسيتم التقاطها تلقائياً.","warn");
+   return
+  }
+
+  if(Date.now()-lastAutoCaptureAt<1200)return;
+  lastAutoCaptureAt=Date.now();
+  setScannerChip("captureChip","التقاط الورقة: جاري التقاط الصورة…","busy");
+  setScanStatus("الورقة ثابتة ✓ جاري التقاط صورة عالية الدقة ومعالجتها…","good");
+  pageCornerStableCount=0;lastPageCorners=null;
+  await processCapturedPage(video)
+ }catch(e){
+  console.error(e);
+  setScanStatus("حدث خطأ أثناء التقاط/تحليل الورقة. أعد توجيهها أمام الكاميرا.","bad")
+ }finally{scanBusy=false}
 }
 
-function detectSelections(bubbles,sensitivity){
+function detectSelections(bubbles){
  const groups={};for(const b of bubbles)(groups[b.qid]??=[]).push(b);
- return Object.entries(groups).map(([qid,arr])=>{const sorted=[...arr].sort((a,b)=>b.score-a.score),top=sorted[0],second=sorted[1],vals=sorted.map(x=>Number(x.score||0)).sort((a,b)=>a-b),median=vals.length?vals[Math.floor(vals.length/2)]:0,user=Math.max(8,Number(sensitivity||22)),dynamicThreshold=Math.max(10,user*.64,median+Math.max(4,user*.18)),scores=Object.fromEntries(arr.map(x=>[x.oid,Math.round(x.score*10)/10]));
-  if(!top||top.score<dynamicThreshold||top.inner>238)return{qid,selected:null,state:"blank",confidence:0,scores};
-  const gap=top.score-Number(second?.score||0),ambiguous=second&&second.score>=dynamicThreshold*.84&&gap<Math.max(4.5,user*.22);
-  if(ambiguous)return{qid,selected:null,state:"ambiguous",confidence:Math.max(0,Math.min(100,Math.round(gap/(user||1)*100))),topOid:top.oid,secondOid:second.oid,scores};
-  const confidence=Math.max(1,Math.min(100,Math.round(55+Math.min(30,(top.score-dynamicThreshold)*1.5)+Math.min(15,gap*.8))));return{qid,selected:top.oid,state:"selected",confidence,scores}
+ return Object.entries(groups).map(([qid,arr])=>{
+  const sorted=[...arr].sort((a,b)=>b.score-a.score),top=sorted[0],second=sorted[1],
+        vals=sorted.map(x=>Number(x.score||0)).sort((a,b)=>a-b),
+        median=vals.length?vals[Math.floor(vals.length/2)]:0,
+        deviations=vals.map(v=>Math.abs(v-median)).sort((a,b)=>a-b),
+        mad=deviations.length?deviations[Math.floor(deviations.length/2)]:0,
+        dynamicThreshold=Math.max(10,AUTO_OMR_BASE*.62,median+Math.max(4,mad*2.3)),
+        scores=Object.fromEntries(arr.map(x=>[x.oid,Math.round(x.score*10)/10]));
+  if(!top||top.score<dynamicThreshold||top.inner>240||(Number(top.darkRatio||0)<.045&&top.score<dynamicThreshold+5))return{qid,selected:null,state:"blank",confidence:0,scores};
+  const gap=top.score-Number(second?.score||0),secondStrong=second&&(second.score>=dynamicThreshold*.82||Number(second.darkRatio||0)>=.10),ambiguous=secondStrong&&gap<Math.max(4.2,AUTO_OMR_BASE*.20);
+  if(ambiguous)return{qid,selected:null,state:"ambiguous",confidence:Math.max(0,Math.min(100,Math.round(gap/AUTO_OMR_BASE*100))),topOid:top.oid,secondOid:second.oid,scores};
+  const confidence=Math.max(1,Math.min(100,Math.round(58+Math.min(27,(top.score-dynamicThreshold)*1.4)+Math.min(15,gap*.75))));
+  return{qid,selected:top.oid,state:"selected",confidence,scores}
  })
 }
 function scoreDetectedPage(pageIndex,detected){const qids=new Set(currentExam.omrLayout?.[pageIndex]?.questionIds||[]),map=Object.fromEntries(detected.map(x=>[x.qid,x]));let score=0;for(const q of currentExam.questions||[]){if(!qids.has(q.id)||q.type==="essay")continue;const correct=q.options?.find(o=>o.correct)?.id,sel=map[q.id]?.selected;if(sel&&sel===correct)score+=Number(q.score||0)}return Math.round(score*100)/100}
@@ -800,19 +996,116 @@ function setScanStatus(text,type){const el=$("scanStatus");el.textContent=text;e
 function cameraContentMetrics(video,canvas){const stage=$("cameraStage"),sr=stage.getBoundingClientRect(),vr=video.getBoundingClientRect(),cw=Math.max(1,Math.round(sr.width)),ch=Math.max(1,Math.round(sr.height));if(canvas.width!==cw)canvas.width=cw;if(canvas.height!==ch)canvas.height=ch;const elementX=vr.left-sr.left,elementY=vr.top-sr.top,ew=Math.max(1,vr.width),eh=Math.max(1,vr.height),sourceAspect=video.videoWidth/Math.max(1,video.videoHeight),boxAspect=ew/eh;let contentW=ew,contentH=eh,ox=elementX,oy=elementY;if(sourceAspect>boxAspect){contentW=ew;contentH=ew/sourceAspect;oy=elementY+(eh-contentH)/2}else{contentH=eh;contentW=eh*sourceAspect;ox=elementX+(ew-contentW)/2}return{ox,oy,sx:contentW/Math.max(1,video.videoWidth),sy:contentH/Math.max(1,video.videoHeight),sourceScaleX:video.videoWidth/Math.max(1,canvas._workWidth||video.videoWidth),sourceScaleY:video.videoHeight/Math.max(1,canvas._workHeight||video.videoHeight)}}
 function roundRectPath(ctx,x,y,w,h,r){const rr=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+rr,y);ctx.arcTo(x+w,y,x+w,y+h,rr);ctx.arcTo(x+w,y+h,x,y+h,rr);ctx.arcTo(x,y+h,x,y,rr);ctx.arcTo(x,y,x+w,y,rr);ctx.closePath()}
 function workToDisplay(video,work,canvas,p){canvas._workWidth=work.width;canvas._workHeight=work.height;const m=cameraContentMetrics(video,canvas);return{x:m.ox+(p.x*m.sourceScaleX)*m.sx,y:m.oy+(p.y*m.sourceScaleY)*m.sy,scale:(m.sourceScaleX*m.sx+m.sourceScaleY*m.sy)/2}}
-function drawScannerFrame(video,work,m,qr){const c=$("cameraOverlay");c._workWidth=work.width;c._workHeight=work.height;const ctx=c.getContext("2d");cameraContentMetrics(video,c);ctx.clearRect(0,0,c.width,c.height);if(!m)return;const pts=[m.tl,m.tr,m.br,m.bl].map(p=>workToDisplay(video,work,c,p));ctx.save();ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();ctx.fillStyle="rgba(49,200,255,.06)";ctx.fill();ctx.strokeStyle="#31c8ff";ctx.lineWidth=4;ctx.shadowColor="#31c8ff";ctx.shadowBlur=12;ctx.stroke();ctx.shadowBlur=0;for(const p of pts){ctx.beginPath();ctx.arc(p.x,p.y,9,0,Math.PI*2);ctx.fillStyle="#31c8ff";ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.stroke()}ctx.restore();if(qr){const qpts=[qr.location.topLeftCorner,qr.location.topRightCorner,qr.location.bottomRightCorner,qr.location.bottomLeftCorner].map(p=>workToDisplay(video,work,c,p));ctx.beginPath();qpts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();ctx.strokeStyle="#7ee0ff";ctx.lineWidth=3;ctx.stroke()}}
-function drawScanOverlayScanner(video,work,markers,qr,bubbles,detected=[],pageIndex=0){drawScannerFrame(video,work,markers,qr);const c=$("cameraOverlay"),ctx=c.getContext("2d"),dmap=Object.fromEntries(detected.map(d=>[d.qid,d])),globalIndex=Object.fromEntries((currentExam.questions||[]).map((q,i)=>[q.id,i+1]));for(const b of bubbles){const d=dmap[b.qid],q=(currentExam.questions||[]).find(x=>x.id===b.qid),correct=q?.options?.find(o=>o.correct)?.id,p=workToDisplay(video,work,c,b.c),rp=workToDisplay(video,work,c,{x:b.c.x+b.rx,y:b.c.y}),radius=Math.max(7,Math.abs(rp.x-p.x)*1.18),selected=b.oid===d?.selected,amb=d?.state==="ambiguous"&&(b.oid===d.topOid||b.oid===d.secondOid);let stroke="rgba(215,230,245,.65)",fill="rgba(255,255,255,.02)",width=1.5,symbol="";if(amb){stroke="#ffb020";fill="rgba(255,176,32,.22)";width=4;symbol="?"}if(selected){const ok=d.selected===correct;stroke=ok?"#00e676":"#ff3b30";fill=ok?"rgba(0,230,118,.25)":"rgba(255,59,48,.25)";width=5;symbol=ok?"✓":"✕"}ctx.beginPath();ctx.arc(p.x,p.y,radius,0,Math.PI*2);ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke();if(symbol){ctx.fillStyle=stroke;ctx.font=`900 ${Math.max(15,Math.round(radius*1.15))}px Arial`;ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(symbol,p.x,p.y+1)}}}
-function drawScanOverlay(video,work,qr,bubbles,detected=[],pageIndex=0){const c=$("cameraOverlay");c._workWidth=work.width;c._workHeight=work.height;const ctx=c.getContext("2d"),m=cameraContentMetrics(video,c),X=x=>m.ox+(x*m.sourceScaleX)*m.sx,Y=y=>m.oy+(y*m.sourceScaleY)*m.sy;ctx.clearRect(0,0,c.width,c.height);
- const pts=[qr.location.topLeftCorner,qr.location.topRightCorner,qr.location.bottomRightCorner,qr.location.bottomLeftCorner];ctx.save();ctx.strokeStyle="#31c8ff";ctx.lineWidth=4;ctx.shadowColor="rgba(49,200,255,.7)";ctx.shadowBlur=9;ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(X(p.x),Y(p.y)):ctx.moveTo(X(p.x),Y(p.y)));ctx.closePath();ctx.stroke();ctx.restore();
- const qp=pts[0],qx=Math.max(6,X(qp.x)-2),qy=Math.max(34,Y(qp.y)-30);ctx.save();ctx.font="900 13px Tahoma,Arial";ctx.textAlign="left";ctx.textBaseline="middle";roundRectPath(ctx,qx,qy-13,74,26,8);ctx.fillStyle="rgba(7,95,207,.94)";ctx.fill();ctx.fillStyle="#fff";ctx.fillText("QR ✓",qx+18,qy);ctx.restore();
- const dmap=Object.fromEntries(detected.map(d=>[d.qid,d])),globalIndex=Object.fromEntries((currentExam.questions||[]).map((q,i)=>[q.id,i+1]));
- for(const b of bubbles){const d=dmap[b.qid];if(!d)continue;const q=(currentExam.questions||[]).find(x=>x.id===b.qid),correct=q?.options?.find(o=>o.correct)?.id,isSelected=b.oid===d.selected,isAmbiguous=d.state==="ambiguous"&&(b.oid===d.topOid||b.oid===d.secondOid);if(!isSelected&&!isAmbiguous)continue;
-  const cx=X(b.c.x),cy=Y(b.c.y),videoRx=b.rx*m.sourceScaleX*m.sx,videoRy=b.ry*m.sourceScaleY*m.sy,radius=Math.max(9,(videoRx+videoRy)/2*1.25);let stroke="#ffb020",fill="rgba(255,176,32,.24)",symbol="?",label=`س${globalIndex[b.qid]||""} غير واضح`;
-  if(isSelected){const ok=d.selected===correct;stroke=ok?"#00e676":"#ff3b30";fill=ok?"rgba(0,230,118,.25)":"rgba(255,59,48,.25)";symbol=ok?"✓":"✕";label=`س${globalIndex[b.qid]||""} ${ok?"صحيح":"خطأ"}`}
-  ctx.save();ctx.beginPath();ctx.arc(cx,cy,radius,0,Math.PI*2);ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle=stroke;ctx.lineWidth=5;ctx.shadowColor=stroke;ctx.shadowBlur=10;ctx.stroke();ctx.shadowBlur=0;ctx.fillStyle=stroke;ctx.font=`900 ${Math.max(17,Math.round(radius*1.15))}px Arial`;ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(symbol,cx,cy+1);
-  ctx.font="900 12px Tahoma,Arial";const tw=Math.max(58,ctx.measureText(label).width+16),tx=Math.min(c.width-tw-5,cx+radius+7),ty=Math.max(18,cy);roundRectPath(ctx,tx,ty-13,tw,26,7);ctx.fillStyle=isSelected?(d.selected===correct?"rgba(6,118,71,.94)":"rgba(180,35,24,.94)"):"rgba(181,71,8,.94)";ctx.fill();ctx.fillStyle="#fff";ctx.textAlign="center";ctx.fillText(label,tx+tw/2,ty);ctx.restore()
+function drawScannerFrame(video,work,m,qr,stable=false){
+ const c=$("cameraOverlay");c._workWidth=work.width;c._workHeight=work.height;
+ const ctx=c.getContext("2d");cameraContentMetrics(video,c);ctx.clearRect(0,0,c.width,c.height);
+ if(!m)return;
+ const pts=[m.tl,m.tr,m.br,m.bl].map(p=>workToDisplay(video,work,c,p)),color=stable?"#00e676":"#31c8ff";
+ ctx.save();
+ ctx.fillStyle="rgba(0,0,0,.18)";ctx.fillRect(0,0,c.width,c.height);
+ ctx.save();ctx.globalCompositeOperation="destination-out";ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();ctx.fillStyle="#000";ctx.fill();ctx.restore();
+ ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();ctx.strokeStyle=color;ctx.lineWidth=4;ctx.shadowColor=color;ctx.shadowBlur=12;ctx.stroke();ctx.shadowBlur=0;
+ for(const p of pts){ctx.beginPath();ctx.arc(p.x,p.y,11,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=3;ctx.stroke()}
+ ctx.restore();
+ if(qr){
+  const qpts=[qr.location.topLeftCorner,qr.location.topRightCorner,qr.location.bottomRightCorner,qr.location.bottomLeftCorner].map(p=>workToDisplay(video,work,c,p));
+  ctx.save();ctx.beginPath();qpts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();ctx.strokeStyle="#7ee0ff";ctx.lineWidth=4;ctx.shadowColor="#7ee0ff";ctx.shadowBlur=8;ctx.stroke();ctx.restore()
  }
 }
+
+function drawScanOverlayScanner(video,work,markers,qr,bubbles,detected=[],pageIndex=0){
+ /*
+    أولاً نرسم إطار الورقة والزوايا والـ QR.
+    بعدها نرسم خريطة كل الدوائر الموجودة في هذه الصفحة.
+ */
+ drawScannerFrame(video,work,markers,qr,true);
+
+ const c=$("cameraOverlay"),
+       ctx=c.getContext("2d"),
+       dmap=Object.fromEntries((detected||[]).map(d=>[d.qid,d])),
+       globalIndex=Object.fromEntries((currentExam.questions||[]).map((q,i)=>[q.id,i+1]));
+
+ for(const b of bubbles){
+  const d=dmap[b.qid],
+        q=(currentExam.questions||[]).find(x=>x.id===b.qid),
+        correct=q?.options?.find(o=>o.correct)?.id,
+        center=workToDisplay(video,work,c,b.c),
+        edge=workToDisplay(video,work,c,{x:b.c.x+b.rx,y:b.c.y}),
+        radius=Math.max(7,Math.abs(edge.x-center.x)*1.22),
+        selected=b.oid===d?.selected,
+        ambiguous=d?.state==="ambiguous"&&(b.oid===d?.topOid||b.oid===d?.secondOid);
+
+  /*
+     جميع الدوائر تظهر كخريطة خفيفة حتى يعرف المدرس
+     أن النظام حدّد مواقعها فعلاً.
+  */
+  let stroke="rgba(210,230,245,.72)",
+      fill="rgba(255,255,255,.015)",
+      width=1.4,
+      symbol="",
+      label="";
+
+  if(ambiguous){
+   stroke="#ffb020";
+   fill="rgba(255,176,32,.24)";
+   width=4;
+   symbol="?";
+   label=`س${globalIndex[b.qid]||""} غير واضح`
+  }
+
+  if(selected){
+   const ok=d.selected===correct;
+   stroke=ok?"#00e676":"#ff3b30";
+   fill=ok?"rgba(0,230,118,.27)":"rgba(255,59,48,.27)";
+   width=5;
+   symbol=ok?"✓":"✕";
+   label=`س${globalIndex[b.qid]||""} ${ok?"صحيح":"خطأ"}`
+  }
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(center.x,center.y,radius,0,Math.PI*2);
+  ctx.fillStyle=fill;
+  ctx.fill();
+  ctx.strokeStyle=stroke;
+  ctx.lineWidth=width;
+
+  if(selected||ambiguous){
+   ctx.shadowColor=stroke;
+   ctx.shadowBlur=8
+  }
+
+  ctx.stroke();
+  ctx.shadowBlur=0;
+
+  if(symbol){
+   ctx.fillStyle=stroke;
+   ctx.font=`900 ${Math.max(15,Math.round(radius*1.18))}px Arial`;
+   ctx.textAlign="center";
+   ctx.textBaseline="middle";
+   ctx.fillText(symbol,center.x,center.y+1);
+
+   // شارة صغيرة بجانب الجواب المقروء.
+   ctx.font="900 11px Tahoma,Arial";
+   const textW=Math.max(54,ctx.measureText(label).width+14),
+         x=Math.min(c.width-textW-5,center.x+radius+6),
+         y=Math.max(16,center.y);
+
+   roundRectPath(ctx,x,y-12,textW,24,7);
+   ctx.fillStyle=selected
+    ?(d.selected===correct?"rgba(6,118,71,.94)":"rgba(180,35,24,.94)")
+    :"rgba(181,71,8,.94)";
+   ctx.fill();
+
+   ctx.fillStyle="#fff";
+   ctx.textAlign="center";
+   ctx.fillText(label,x+textW/2,y)
+  }
+
+  ctx.restore()
+ }
+}
+
 
 function calcGradeValue(v){const t=raw(v);if(!t)return null;const n=Number(t);return Number.isFinite(n)?n:0}
 function periodFromComponents(rec,components,period){const comp=rec.components?.[period]||{};let seen=false,total=0;for(const [k,max] of Object.entries(components||{})){if(Number(max)<=0)continue;const v=comp[k];if(raw(v)!==""){seen=true;total+=Number(calcGradeValue(v)||0)}}return seen?Math.round(total*100)/100:null}
@@ -891,7 +1184,6 @@ $("logoMode").onchange=()=>{$("customLogoField").classList.toggle("hidden",$("lo
 $("customLogoInput").onchange=async e=>{if(!e.target.files?.[0])return;customLogoData=await compressImage(e.target.files[0],700,700,.86);$("logoPreview").src=customLogoData};
 $("duplexToggle").onchange=()=>{$("pageLimit").value=$("duplexToggle").checked?2:1};
 $("textScale").oninput=()=>{fontScale=Number($("textScale").value||100)/100;$("textScaleValue").textContent=`${$("textScale").value}%`};
-$("sensitivity").oninput=()=>{$("sensitivityValue").textContent=$("sensitivity").value};
 
 
 async function initPublicPaper(token){
