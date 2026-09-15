@@ -528,6 +528,37 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
  font-weight:900!important;
 }
 
+
+/* ================= Registration marks / QR safe zone v3 ================= */
+.scan-marker{
+ position:absolute;
+ z-index:18;
+ box-sizing:content-box!important;
+ width:13px!important;
+ height:13px!important;
+ background:#111!important;
+ border:3px solid #fff!important;
+ outline:1px solid #b9c2cc!important;
+ border-radius:2px!important;
+ pointer-events:none;
+}
+.scan-marker.tl{top:9px!important;left:42px!important}
+.scan-marker.tr{top:9px!important;right:158px!important}
+.scan-marker.br{right:10px!important;bottom:9px!important}
+.scan-marker.bl{left:10px!important;bottom:9px!important}
+
+/* QR منطقة مستقلة تماماً، لا Marker ولا نص فوقها */
+.exam-qr-holder{
+ z-index:30!important;
+ background:#fff!important;
+ isolation:isolate;
+}
+.page-qr{
+ position:relative;
+ z-index:31!important;
+ background:#fff!important;
+}
+
 </style>
 </head>
 
@@ -619,7 +650,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
   <div class="panel-body">
    <div class="correction-grid">
     <div class="camera-card">
-     <div class="card-head"><h4>التصحيح بالكاميرا / OMR</h4><p>ضع الورقة كاملة أمام الكاميرا مثل جهاز السكنر. عند ثبات الزوايا يأخذ النظام لقطة ثابتة ويعالج نفس الصورة خطوة بخطوة: قراءة الباركود، تحديد الطالب والصفحة، ثم قراءة الإجابات وحساب الدرجة. يجب أن يحتوي كل سؤال على دائرة واحدة فقط؛ إذا تم تظليل دائرتين أو أكثر في السؤال نفسه يُحسب السؤال خطأ بالكامل.</p></div>
+     <div class="card-head"><h4>التصحيح بالكاميرا / OMR</h4><p>ضع معظم الورقة أمام الكاميرا. علامات الزوايا تساعد على سرعة الالتقاط لكنها ليست شرطاً لنجاح التصحيح؛ بعد أخذ الصورة يحاول النظام قراءة QR بعدة طرق، وQR نفسه يُستخدم لمعايرة خريطة الصفحة عند الحاجة. الصورة مؤقتة في ذاكرة المتصفح ولا تُرفع إلى Firebase.</p></div>
      <div id="cameraStage" class="camera-stage">
       <video id="cameraVideo" playsinline webkit-playsinline autoplay muted class="hidden"></video>
       <canvas id="cameraOverlay" class="camera-overlay"></canvas>
@@ -1333,10 +1364,142 @@ function rectMean(integral,w,x0,y0,x1,y1){x0=Math.max(0,Math.min(w-1,Math.floor(
 function markerIntegral(frame,w,h){const I=new Float64Array((w+1)*(h+1)),W=w+1;for(let y=1;y<=h;y++){let row=0;for(let x=1;x<=w;x++){const k=((y-1)*w+(x-1))*4,g=.299*frame[k]+.587*frame[k+1]+.114*frame[k+2];row+=g;I[y*W+x]=I[(y-1)*W+x]+row}}return I}
 function bestMarkerInRegion(I,w,h,r){let best=null;const sizes=[4,5,7,9,11,13,15,18,21],step=3;for(const size of sizes){const half=size/2,ring=size*1.15;for(let y=r.y0+Math.ceil(ring);y<r.y1-ring;y+=step){for(let x=r.x0+Math.ceil(ring);x<r.x1-ring;x+=step){const core=rectMean(I,w,x-half,y-half,x+half,y+half),outer=rectMean(I,w,x-ring,y-ring,x+ring,y+ring),contrast=outer-core,score=contrast+(105-core)*.35;if(core<125&&contrast>24&&(!best||score>best.score))best={x,y,size,score,core,outer}}}}return best}
 function polygonArea(pts){let a=0;for(let i=0;i<pts.length;i++){const p=pts[i],q=pts[(i+1)%pts.length];a+=p.x*q.y-q.x*p.y}return Math.abs(a)/2}
-function findPageMarkers(work){const maxW=720,scale=Math.min(1,maxW/work.width),w=Math.max(1,Math.round(work.width*scale)),h=Math.max(1,Math.round(work.height*scale)),c=document.createElement("canvas");c.width=w;c.height=h;const cx=c.getContext("2d",{willReadFrequently:true});cx.drawImage(work,0,0,w,h);const fr=cx.getImageData(0,0,w,h),I=markerIntegral(fr.data,w,h),regions={tl:{x0:0,y0:0,x1:w*.58,y1:h*.58},tr:{x0:w*.42,y0:0,x1:w,y1:h*.58},br:{x0:w*.42,y0:h*.42,x1:w,y1:h},bl:{x0:0,y0:h*.42,x1:w*.58,y1:h}},m={};for(const key of["tl","tr","br","bl"]){const b=bestMarkerInRegion(I,w,h,regions[key]);if(!b)return null;m[key]={x:b.x/scale,y:b.y/scale,score:b.score}}
- const pts=[m.tl,m.tr,m.br,m.bl],area=polygonArea(pts),top=Math.hypot(m.tr.x-m.tl.x,m.tr.y-m.tl.y),bottom=Math.hypot(m.br.x-m.bl.x,m.br.y-m.bl.y),left=Math.hypot(m.bl.x-m.tl.x,m.bl.y-m.tl.y),right=Math.hypot(m.br.x-m.tr.x,m.br.y-m.tr.y),ratio=((left+right)/2)/Math.max(1,(top+bottom)/2);if(area<work.width*work.height*.12||ratio<.85||ratio>2.1||Math.max(top,bottom)/Math.max(1,Math.min(top,bottom))>2.2||Math.max(left,right)/Math.max(1,Math.min(left,right))>2.2)return null;return m
+function findPageMarkers(work){
+ const maxW=720,
+       scale=Math.min(1,maxW/work.width),
+       w=Math.max(1,Math.round(work.width*scale)),
+       h=Math.max(1,Math.round(work.height*scale)),
+       c=document.createElement("canvas");
+
+ c.width=w;
+ c.height=h;
+
+ const cx=c.getContext("2d",{willReadFrequently:true});
+ cx.drawImage(work,0,0,w,h);
+
+ const fr=cx.getImageData(0,0,w,h),
+       I=markerIntegral(fr.data,w,h),
+
+       /*
+          مناطق ضيقة قرب الحواف حتى لا يختلط QR نفسه مع Marker.
+          الـ TR مطبوع يسار QR لذلك المنطقة لا تصل لأقصى اليمين.
+       */
+       regions={
+        tl:{x0:w*.01,y0:0,x1:w*.38,y1:h*.28},
+        tr:{x0:w*.53,y0:0,x1:w*.86,y1:h*.28},
+        br:{x0:w*.60,y0:h*.72,x1:w*.995,y1:h*.995},
+        bl:{x0:w*.005,y0:h*.72,x1:w*.40,y1:h*.995}
+       },
+       out={};
+
+ for(const key of["tl","tr","br","bl"]){
+  const b=bestMarkerInRegion(I,w,h,regions[key]);
+
+  if(b){
+   out[key]={
+    x:b.x/scale,
+    y:b.y/scale,
+    score:b.score,
+    inferred:false
+   }
+  }
+ }
+
+ const realKeys=["tl","tr","br","bl"].filter(k=>out[k]),
+       realCount=realKeys.length;
+
+ /*
+    3 نقاط تكفي لاستنتاج الرابعة هندسياً.
+    هذا للاستفادة من الـ markers بدون جعلها شرطاً إجبارياً.
+ */
+ if(realCount===3){
+  if(!out.br){
+   out.br={
+    x:out.tr.x+out.bl.x-out.tl.x,
+    y:out.tr.y+out.bl.y-out.tl.y,
+    score:0,
+    inferred:true
+   }
+  }else if(!out.bl){
+   out.bl={
+    x:out.tl.x+out.br.x-out.tr.x,
+    y:out.tl.y+out.br.y-out.tr.y,
+    score:0,
+    inferred:true
+   }
+  }else if(!out.tr){
+   out.tr={
+    x:out.tl.x+out.br.x-out.bl.x,
+    y:out.tl.y+out.br.y-out.bl.y,
+    score:0,
+    inferred:true
+   }
+  }else if(!out.tl){
+   out.tl={
+    x:out.tr.x+out.bl.x-out.br.x,
+    y:out.tr.y+out.bl.y-out.br.y,
+    score:0,
+    inferred:true
+   }
+  }
+ }
+
+ /*
+    إذا ظهر فقط قطرا الورقة، نبني مستطيلاً تقريبياً.
+    لا نعتمد هذا في الدرجات؛ هو فقط لتسريع أخذ اللقطة.
+    بعد QR سنبني Homography دقيقاً من QR نفسه.
+ */
+ if(realCount===2){
+  if(out.tl&&out.br&&!out.tr&&!out.bl){
+   out.tr={x:out.br.x,y:out.tl.y,score:0,inferred:true};
+   out.bl={x:out.tl.x,y:out.br.y,score:0,inferred:true}
+  }else if(out.tr&&out.bl&&!out.tl&&!out.br){
+   out.tl={x:out.bl.x,y:out.tr.y,score:0,inferred:true};
+   out.br={x:out.tr.x,y:out.bl.y,score:0,inferred:true}
+  }
+ }
+
+ out._realCount=realCount;
+ out._hasQuad=Boolean(out.tl&&out.tr&&out.br&&out.bl);
+
+ if(!out._hasQuad){
+  return realCount?out:null
+ }
+
+ const pts=[out.tl,out.tr,out.br,out.bl],
+       area=polygonArea(pts);
+
+ /*
+    لا نفترض أن الورقة A4 بدقة.
+    يكفي أن تكون مساحة الشكل معقولة داخل الكاميرا.
+ */
+ if(area<work.width*work.height*.055){
+  out._small=true
+ }
+
+ return out
 }
-function markerHomography(layout,found){const m=layout?.markers;if(!m?.tl||!m?.tr||!m?.br||!m?.bl||!found)return null;return homography([m.tl,m.tr,m.br,m.bl],[found.tl,found.tr,found.br,found.bl])}
+function markerHomography(layout,found){
+ const m=layout?.markers;
+
+ if(
+  !m?.tl||
+  !m?.tr||
+  !m?.br||
+  !m?.bl||
+  !found?.tl||
+  !found?.tr||
+  !found?.br||
+  !found?.bl
+ ){
+  return null
+ }
+
+ return homography(
+  [m.tl,m.tr,m.br,m.bl],
+  [found.tl,found.tr,found.br,found.bl]
+ )
+}
 function transformRectCorners(H,r){return[{x:r.x,y:r.y},{x:r.x+r.w,y:r.y},{x:r.x+r.w,y:r.y+r.h},{x:r.x,y:r.y+r.h}].map(p=>mapH(H,p))}
 function cropExpectedQR(work,H,rect){
  if(!H||!rect)return null;
@@ -1437,6 +1600,228 @@ function cropExpectedQR(work,H,rect){
  }
 
  return null
+}
+
+
+function qrHomographyFromLayout(layout,qr){
+ const r=layout?.qrRect,
+       loc=qr?.location;
+
+ if(!r||!loc)return null;
+
+ const src=[
+  {x:r.x,y:r.y},
+  {x:r.x+r.w,y:r.y},
+  {x:r.x+r.w,y:r.y+r.h},
+  {x:r.x,y:r.y+r.h}
+ ],
+ dst=[
+  loc.topLeftCorner,
+  loc.topRightCorner,
+  loc.bottomRightCorner,
+  loc.bottomLeftCorner
+ ];
+
+ return homography(src,dst)
+}
+
+function makeCanvasCrop(source,x0,y0,x1,y1,size=1200){
+ const c=document.createElement("canvas");
+ c.width=size;
+ c.height=size;
+
+ const ctx=c.getContext("2d",{willReadFrequently:true});
+ ctx.imageSmoothingEnabled=false;
+ ctx.fillStyle="#fff";
+ ctx.fillRect(0,0,size,size);
+
+ const margin=48;
+
+ ctx.drawImage(
+  source,
+  x0,
+  y0,
+  Math.max(1,x1-x0),
+  Math.max(1,y1-y0),
+  margin,
+  margin,
+  size-margin*2,
+  size-margin*2
+ );
+
+ return{
+  canvas:c,
+  x0,y0,x1,y1,
+  margin,
+  size
+ }
+}
+
+function remapQRFromCrop(qr,crop){
+ if(!qr)return null;
+
+ const usable=crop.size-crop.margin*2,
+       remap=p=>({
+        x:crop.x0+
+          ((p.x-crop.margin)/usable)*
+          (crop.x1-crop.x0),
+        y:crop.y0+
+          ((p.y-crop.margin)/usable)*
+          (crop.y1-crop.y0)
+       });
+
+ qr.location={
+  topLeftCorner:remap(qr.location.topLeftCorner),
+  topRightCorner:remap(qr.location.topRightCorner),
+  bottomRightCorner:remap(qr.location.bottomRightCorner),
+  bottomLeftCorner:remap(qr.location.bottomLeftCorner)
+ };
+
+ return qr
+}
+
+async function readCapturedQRMultiPass(
+ captured,
+ Hbase=null,
+ expectedRect=null,
+ onAttempt=null
+){
+ let attempt=0;
+
+ const report=async label=>{
+  attempt++;
+  if(onAttempt){
+   onAttempt(attempt,label)
+  }
+  await nextPaint()
+ };
+
+ /*
+    محاولة 1: الموقع المتوقع من العلامات إذا توفر.
+ */
+ if(Hbase&&expectedRect){
+  await report("الموقع المتوقع للباركود");
+
+  const qr=cropExpectedQR(
+   captured,
+   Hbase,
+   expectedRect
+  );
+
+  if(qr)return{qr,attempt}
+ }
+
+ /*
+    الباركود مطبوع بالجزء العلوي الأيمن.
+    نجرب عدة مناطق، لذلك عدم ظهور Marker لا يوقف القراءة.
+ */
+ const W=captured.width,
+       H=captured.height,
+       regions=[
+        [W*.53,0,W,H*.38,"أعلى يمين الورقة"],
+        [W*.42,0,W,H*.48,"توسيع أعلى يمين الورقة"],
+        [W*.35,0,W,H*.58,"النصف العلوي الأيمن"],
+        [W*.20,0,W,H*.62,"الجزء العلوي الكامل تقريباً"]
+       ];
+
+ for(const [x0,y0,x1,y1,label] of regions){
+  await report(label);
+
+  const crop=makeCanvasCrop(
+   captured,
+   Math.max(0,x0),
+   Math.max(0,y0),
+   Math.min(W,x1),
+   Math.min(H,y1),
+   1280
+  ),
+  ctx=crop.canvas.getContext(
+   "2d",
+   {willReadFrequently:true}
+  ),
+  fr=ctx.getImageData(
+   0,
+   0,
+   crop.canvas.width,
+   crop.canvas.height
+  ),
+  brightness=frameBrightness(fr.data),
+  qr=readQRRobust(
+   fr,
+   crop.canvas.width,
+   crop.canvas.height,
+   brightness
+  );
+
+  if(qr){
+   return{
+    qr:remapQRFromCrop(qr,crop),
+    attempt
+   }
+  }
+
+  crop.canvas.width=1;
+  crop.canvas.height=1
+ }
+
+ /*
+    المحاولة الأخيرة: صورة كاملة مصغرة.
+ */
+ await report("الصورة كاملة");
+
+ const maxW=1800,
+       scale=Math.min(1,maxW/W),
+       c=document.createElement("canvas");
+
+ c.width=Math.max(1,Math.round(W*scale));
+ c.height=Math.max(1,Math.round(H*scale));
+
+ const ctx=c.getContext(
+  "2d",
+  {willReadFrequently:true}
+ );
+
+ ctx.imageSmoothingEnabled=false;
+ ctx.drawImage(
+  captured,
+  0,0,
+  c.width,c.height
+ );
+
+ const fr=ctx.getImageData(
+  0,0,
+  c.width,c.height
+ ),
+ brightness=frameBrightness(fr.data),
+ qr=readQRRobust(
+  fr,
+  c.width,
+  c.height,
+  brightness
+ );
+
+ if(qr){
+  const sx=W/c.width,
+        sy=H/c.height,
+        scaleP=p=>({
+         x:p.x*sx,
+         y:p.y*sy
+        });
+
+  qr.location={
+   topLeftCorner:scaleP(qr.location.topLeftCorner),
+   topRightCorner:scaleP(qr.location.topRightCorner),
+   bottomRightCorner:scaleP(qr.location.bottomRightCorner),
+   bottomLeftCorner:scaleP(qr.location.bottomLeftCorner)
+  };
+
+  return{qr,attempt}
+ }
+
+ c.width=1;
+ c.height=1;
+
+ return{qr:null,attempt}
 }
 
 function sampleDiskMean(img,w,h,cx,cy,r){
@@ -1756,7 +2141,72 @@ function frameBrightness(data){let sum=0,n=0;for(let i=0;i<data.length;i+=64){su
 function qrAngleDegrees(qr){const a=qr?.location?.topLeftCorner,b=qr?.location?.topRightCorner;if(!a||!b)return 0;return Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI}
 function qrContrastCopy(data,factor=1.65){const out=new Uint8ClampedArray(data.length);for(let i=0;i<data.length;i+=4){const y=.299*data[i]+.587*data[i+1]+.114*data[i+2],v=Math.max(0,Math.min(255,(y-128)*factor+128));out[i]=out[i+1]=out[i+2]=v;out[i+3]=255}return out}
 function qrThresholdCopy(data,threshold=145){const out=new Uint8ClampedArray(data.length);for(let i=0;i<data.length;i+=4){const y=.299*data[i]+.587*data[i+1]+.114*data[i+2],v=y<threshold?0:255;out[i]=out[i+1]=out[i+2]=v;out[i+3]=255}return out}
-function readQRRobust(frame,w,h,brightness=128){let qr=jsQR(frame.data,w,h,{inversionAttempts:"attemptBoth"});if(qr)return qr;try{qr=jsQR(qrContrastCopy(frame.data,1.7),w,h,{inversionAttempts:"attemptBoth"});if(qr)return qr}catch{}try{const threshold=Math.max(105,Math.min(185,Math.round(brightness*1.04)));qr=jsQR(qrThresholdCopy(frame.data,threshold),w,h,{inversionAttempts:"attemptBoth"});if(qr)return qr}catch{}return null}
+function readQRRobust(frame,w,h,brightness=128){
+ const opts={inversionAttempts:"attemptBoth"};
+
+ /*
+    قراءة أصلية أولاً.
+ */
+ let qr=jsQR(
+  frame.data,
+  w,h,
+  opts
+ );
+
+ if(qr)return qr;
+
+ /*
+    عدة درجات Contrast بدل محاولتين فقط.
+ */
+ for(const factor of[1.25,1.5,1.8,2.15]){
+  try{
+   qr=jsQR(
+    qrContrastCopy(frame.data,factor),
+    w,h,
+    opts
+   );
+
+   if(qr)return qr
+  }catch{}
+ }
+
+ /*
+    عدة Thresholds حول إضاءة الصورة.
+ */
+ const bases=[
+  brightness-42,
+  brightness-25,
+  brightness-10,
+  brightness+8,
+  brightness+25,
+  120,145,170
+ ];
+
+ for(const rawT of bases){
+  try{
+   const threshold=Math.max(
+    80,
+    Math.min(
+     210,
+     Math.round(rawT)
+    )
+   );
+
+   qr=jsQR(
+    qrThresholdCopy(
+     frame.data,
+     threshold
+    ),
+    w,h,
+    opts
+   );
+
+   if(qr)return qr
+  }catch{}
+ }
+
+ return null
+}
 function pulseCameraRead(){const stage=$("cameraStage");stage.classList.remove("camera-read-pulse");void stage.offsetWidth;stage.classList.add("camera-read-pulse")}
 
 async function autoTuneExposure(brightness){
@@ -1812,18 +2262,37 @@ function updateCameraHUD(student,pageIndex,detected,brightness,angle,pageScore){
   '<span class="hud-answer blank">لا توجد أسئلة اختيارية بهذه الصفحة</span>'
 }
 
-function cloneCorners(m){if(!m)return null;return{tl:{x:m.tl.x,y:m.tl.y},tr:{x:m.tr.x,y:m.tr.y},br:{x:m.br.x,y:m.br.y},bl:{x:m.bl.x,y:m.bl.y}}}
+function cloneCorners(m){
+ if(!m)return null;
+
+ const out={
+  _realCount:Number(m._realCount||0),
+  _hasQuad:Boolean(m._hasQuad)
+ };
+
+ for(const k of["tl","tr","br","bl"]){
+  if(m[k]){
+   out[k]={...m[k]}
+  }
+ }
+
+ return out
+}
 
 function scaleMarkerSeed(markers,fromW,fromH,toW,toH){
  if(!markers||!fromW||!fromH)return null;
 
  const sx=toW/fromW,
        sy=toH/fromH,
-       out={};
+       out={
+        _realCount:Number(markers._realCount||0),
+        _hasQuad:Boolean(markers._hasQuad)
+       };
 
  for(const k of["tl","tr","br","bl"]){
   const p=markers[k];
-  if(!p)return null;
+
+  if(!p)continue;
 
   out[k]={
    ...p,
@@ -1836,8 +2305,34 @@ function scaleMarkerSeed(markers,fromW,fromH,toW,toH){
  return out
 }
 
-function cornerMotionRatio(a,b,w,h){if(!a||!b)return Infinity;const diag=Math.hypot(w,h)||1;let max=0;for(const k of["tl","tr","br","bl"]){const d=Math.hypot(a[k].x-b[k].x,a[k].y-b[k].y)/diag;if(d>max)max=d}return max}
-function pageCoverageRatio(m,w,h){return m?polygonArea([m.tl,m.tr,m.br,m.bl])/Math.max(1,w*h):0}
+function cornerMotionRatio(a,b,w,h){
+ if(!a||!b)return Infinity;
+
+ const diag=Math.hypot(w,h)||1,
+       common=["tl","tr","br","bl"].filter(k=>a[k]&&b[k]);
+
+ if(common.length<2)return Infinity;
+
+ let max=0;
+
+ for(const k of common){
+  const d=Math.hypot(
+   a[k].x-b[k].x,
+   a[k].y-b[k].y
+  )/diag;
+
+  if(d>max)max=d
+ }
+
+ return max
+}
+function pageCoverageRatio(m,w,h){
+ if(!m?.tl||!m?.tr||!m?.br||!m?.bl)return 0;
+
+ return polygonArea(
+  [m.tl,m.tr,m.br,m.bl]
+ )/Math.max(1,w*h)
+}
 function averageMarkerScore(m){return m?["tl","tr","br","bl"].reduce((sum,k)=>sum+Number(m[k]?.score||0),0)/4:0}
 async function captureHighResolutionFrame(video){
  const track=cameraStream?.getVideoTracks?.()[0];
@@ -1946,24 +2441,24 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
 
  try{
   /*
-     لقطة واحدة عالية الدقة.
-     بعد هذه اللحظة لا نستخدم الكاميرا في QR أو الدرجات.
+     الصورة تبقى Canvas مؤقتاً في RAM داخل المتصفح فقط.
+     لا يوجد هنا dbPut/dbPatch للصورة ولا تحويل Base64 لها.
   */
   captured=await captureHighResolutionFrame(video);
   await pauseCameraOnCapturedImage(video);
 
   if(
    !captured||
-   captured.width<900||
-   captured.height<900
+   captured.width<720||
+   captured.height<720
   ){
    throw new Error("CAPTURE_RESOLUTION_TOO_LOW")
   }
 
   setProcessingOverlay(
    true,
-   "تم التقاط الصورة عالية الدقة ✓",
-   `الدقة: ${captured.width} × ${captured.height} — جاري معالجة نفس الصورة فقط.`,
+   "تم التقاط الصورة ✓",
+   `الصورة مؤقتة في ذاكرة المتصفح فقط — الدقة ${captured.width}×${captured.height}.`,
    "busy"
   );
 
@@ -1973,18 +2468,16 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
    "ok"
   );
 
-  pulseScannerCapture();
   await nextPaint();
 
-  processingStep="قراءة بيانات الصورة";
+  processingStep="تحضير الصورة";
 
   const frameCtx=captured.getContext(
    "2d",
    {willReadFrequently:true}
   ),
   frame=frameCtx.getImageData(
-   0,
-   0,
+   0,0,
    captured.width,
    captured.height
   ),
@@ -1994,14 +2487,18 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
    Object.values(currentExam.omrLayout||{})[0];
 
   /*
-     لأن الصورة الثابتة قد تكون أعلى دقة أو أبعادها تختلف قليلاً عن الفيديو،
-     نحدد زوايا A4 عليها من جديد. هذا أدق من تحويل زوايا الفيديو فقط.
+     Marker اختياري.
+     إذا ظهر نستخدمه لتحديد منطقة QR أسرع،
+     وإذا لم يظهر نقرأ QR مباشرة من الصورة.
   */
-  processingStep="تحديد زوايا الورقة";
+  processingStep="تحديد حدود الورقة";
 
   let foundMarkers=findPageMarkers(captured);
 
-  if(!foundMarkers){
+  if(
+   !foundMarkers||
+   Number(foundMarkers._realCount||0)<2
+  ){
    foundMarkers=scaleMarkerSeed(
     seedMarkers,
     seedW,
@@ -2011,80 +2508,68 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
    )
   }
 
-  if(
-   !foundMarkers||
-   !baseLayout?.markers
-  ){
-   setProcessingOverlay(
-    true,
-    "تعذر تحديد زوايا الصورة",
-    "الصورة موجودة، لكن الزوايا الأربع لم تظهر كاملة فيها.",
-    "error"
-   );
-   return
-  }
+  const Hbase=
+   baseLayout&&foundMarkers
+    ?markerHomography(
+      baseLayout,
+      foundMarkers
+     )
+    :null;
 
-  const Hbase=markerHomography(
-   baseLayout,
-   foundMarkers
+  setScannerChip(
+   "cornerChip",
+   `حدود الورقة: ${Number(foundMarkers?._realCount||0)}/4`,
+   Number(foundMarkers?._realCount||0)>=3?"ok":"warn"
   );
 
-  if(!Hbase){
-   setProcessingOverlay(
-    true,
-    "تعذر ضبط منظور الورقة",
-    "تم التقاط الصورة لكن حساب منظور A4 لم ينجح.",
-    "error"
-   );
-   return
-  }
-
   /*
-     المرحلة 1: QR
+     QR ليس تابعاً لنجاح الزوايا.
+     نجرب عدداً كبيراً من المحاولات على نفس الصورة المؤقتة.
   */
   processingStep="قراءة الباركود";
 
   setProcessingOverlay(
    true,
    "يتم البحث عن الباركود الخاص بالطالب",
-   "جاري تكبير QR كاملاً من الصورة عالية الدقة وقراءته...",
+   "تجري عدة محاولات تلقائية على نفس الصورة حتى تتم قراءة QR.",
    "busy"
   );
 
   setScannerChip(
    "qrChip",
-   "الباركود: جاري القراءة…",
+   "الباركود: جاري البحث…",
    "busy"
   );
 
   await nextPaint();
 
-  let qr=cropExpectedQR(
+  const qrResult=await readCapturedQRMultiPass(
    captured,
    Hbase,
-   baseLayout.qrRect
+   baseLayout?.qrRect||null,
+   (attempt,label)=>{
+    setProcessingOverlay(
+     true,
+     "يتم البحث عن الباركود الخاص بالطالب",
+     `المحاولة ${attempt} — ${label}`,
+     "busy"
+    )
+   }
   );
 
-  if(!qr){
-   qr=readQRRobust(
-    frame,
-    captured.width,
-    captured.height,
-    brightness
-   )
-  }
+  const qr=qrResult.qr;
 
   if(!qr){
    setScannerChip(
     "qrChip",
-    "الباركود: لم يُقرأ",
+    `الباركود: لم يُقرأ بعد ${qrResult.attempt} محاولات`,
     "bad"
    );
 
    setProcessingOverlay(
     true,
-    "لم يتم العثور على الباركود",
-    "تأكد أن QR كامل داخل الورقة وغير مقصوص من الطباعة، ثم أعد التصوير.",
+    "تعذر قراءة الباركود",
+    `جرّب النظام ${qrResult.attempt} طرق قراءة على نفس الصورة. تأكد أن QR كامل وواضح ثم أعد التصوير.`,
     "error"
    );
 
@@ -2093,11 +2578,11 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
 
   setScannerChip(
    "qrChip",
-   "الباركود: مقروء ✓",
+   `الباركود: مقروء ✓`,
    "ok"
   );
 
-  processingStep="تحليل بيانات الباركود";
+  processingStep="تحليل الباركود";
 
   info=parseQR(qr.data);
 
@@ -2117,7 +2602,7 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
    setProcessingOverlay(
     true,
     "الباركود غير مسجل",
-    "QR مقروء لكن سجل الورقة غير موجود في قاعدة البيانات.",
+    "تمت قراءة QR لكن بياناته غير موجودة بقاعدة الامتحان.",
     "error"
    );
    return
@@ -2127,7 +2612,7 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
    setProcessingOverlay(
     true,
     "هذه الورقة لامتحان آخر",
-    "افتح الامتحان الصحيح وأعد المسح.",
+    "افتح الامتحان الصحيح ثم أعد المسح.",
     "error"
    );
    return
@@ -2140,7 +2625,7 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
    setProcessingOverlay(
     true,
     "رقم الصفحة غير صحيح",
-    "QR يحمل رقم صفحة خارج هذا الامتحان.",
+    "الباركود يحمل رقم صفحة غير موجودة.",
     "error"
    );
    return
@@ -2172,9 +2657,6 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
    currentExam.genderLabel||
    classGenderLabel(currentExam.classId);
 
-  /*
-     الاسم يظهر كاملاً بدون قص.
-  */
   setProcessingOverlay(
    true,
    `الطالب: ${student.name||student.code}`,
@@ -2188,39 +2670,54 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
   $("hudPaper").textContent=
    `${classText} — ${roomText} — الصفحة ${info.pageIndex+1}/${currentExam.pageCount}`;
 
-  await sleepMs(90);
+  await sleepMs(80);
 
   processingStep="تحميل خريطة الصفحة";
 
   const layout=
    currentExam.omrLayout?.[info.pageIndex];
 
-  if(!layout?.markers){
+  if(!layout?.qrRect){
    setProcessingOverlay(
     true,
     "خريطة الصفحة غير موجودة",
-    "يجب إنشاء معاينة/PDF جديد من النسخة الحالية.",
+    "أنشئ معاينة وPDF جديداً من هذه النسخة.",
     "error"
    );
    return
   }
 
-  const H=markerHomography(
-   layout,
+  /*
+     نفضّل markers إذا كانت جيدة.
+     وإلا QR نفسه يعطينا 4 زوايا ويكفي لبناء Homography
+     للورقة كلها لأنها سطح مستوٍ واحد.
+  */
+  let H=
    foundMarkers
-  );
+    ?markerHomography(
+      layout,
+      foundMarkers
+     )
+    :null;
+
+  if(!H){
+   H=qrHomographyFromLayout(
+    layout,
+    qr
+   )
+  }
 
   if(!H){
    setProcessingOverlay(
     true,
-    "تعذر مطابقة الصورة بخريطة الصفحة",
-    "الزوايا موجودة لكن المنظور لا يطابق قالب هذه الصفحة.",
+    "تعذر معايرة خريطة الورقة",
+    "QR مقروء لكن تعذر بناء خريطة الإحداثيات.",
     "error"
    );
    return
   }
 
-  processingStep="التحقق من أمان الورقة";
+  processingStep="التحقق من الورقة";
 
   const token=
    info.token||
@@ -2235,12 +2732,19 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
    token
   );
 
-  if(!security.ok){
+  /*
+     الأمان يبقى فعالاً، لكن إذا كانت الورقة نسخة قديمة
+     نسمح بالاستمرار مثل النظام السابق.
+  */
+  if(
+   !security.ok&&
+   !security.legacy
+  ){
    if(security.unclear){
     setProcessingOverlay(
      true,
      "علامة أمان الورقة غير واضحة",
-     "الصورة مقروءة لكن منطقة الأمان تحتاج إضاءة أوضح.",
+     "QR مقروء؛ أعد التصوير بإضاءة أفضل.",
      "error"
     );
     return
@@ -2264,14 +2768,14 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
   );
 
   /*
-     المرحلة 2: الدرجات من الصورة فقط.
+     من هنا معالجة الإجابات على الصورة فقط.
   */
   processingStep="قراءة الإجابات";
 
   setProcessingOverlay(
    true,
    "جاري قراءة إجابات الطالب",
-   "تم تحديد الطالب والصفحة. الآن يتم تحليل دوائر الإجابة من الصورة الملتقطة.",
+   "تم التعرف على الطالب. الآن تتم قراءة الدوائر من الصورة المؤقتة نفسها.",
    "busy"
   );
 
@@ -2305,7 +2809,7 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
    setProcessingOverlay(
     true,
     "خريطة الإجابات غير موجودة",
-    "تم تحديد الطالب لكن لا توجد إحداثيات دوائر لهذه الصفحة.",
+    "تم تحديد الطالب لكن لا توجد خريطة دوائر لهذه الصفحة.",
     "error"
    );
    return
@@ -2320,16 +2824,13 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
         ).length,
         blankCount=detected.filter(
          x=>x.state==="blank"
-        ).length,
-        selectedCount=detected.filter(
-         x=>x.state==="selected"
         ).length;
 
   if(unclearCount){
    drawScanOverlayScanner(
     video,
     captured,
-    foundMarkers,
+    foundMarkers||{},
     qr,
     bubbles,
     detected,
@@ -2352,7 +2853,7 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
    true,
    "جاري حساب الدرجات",
    multipleCount
-    ?`تم رصد ${multipleCount} سؤال عليه أكثر من دائرة؛ كل واحد منها يُحسب خطأ.`
+    ?`تم رصد ${multipleCount} سؤال عليه أكثر من دائرة؛ يُحسب خطأ بالكامل.`
     :"جاري مقارنة الاختيارات بالإجابات الصحيحة...",
    "busy"
   );
@@ -2363,9 +2864,10 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
    info.pageIndex,
    detected
   ),
-  angle=pageAngleFromMarkers(
-   foundMarkers
-  );
+  angle=
+   foundMarkers?.tl&&foundMarkers?.tr
+    ?pageAngleFromMarkers(foundMarkers)
+    :0;
 
   lastOverlayStudent=
    student.code;
@@ -2376,7 +2878,7 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
   drawScanOverlayScanner(
    video,
    captured,
-   foundMarkers,
+   foundMarkers||{},
    qr,
    bubbles,
    detected,
@@ -2408,6 +2910,10 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
 
   processingStep="حفظ النتيجة";
 
+  /*
+     الذي يُحفظ في Firebase هو النتيجة النصية فقط:
+     الخيارات والدرجة والتوقيت. الصورة نفسها لا تُرسل.
+  */
   await acceptScannedPage(
    student,
    info.pageIndex,
@@ -2415,13 +2921,11 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
   );
 
   success=true;
-  scanCooldownUntil=
-   Date.now()+650;
 
   setProcessingOverlay(
    true,
-   "تم حساب الدرجات واعتماد الصفحة ✓",
-   `${student.name||student.code} | ${classText} | الصفحة ${info.pageIndex+1} | الدرجة ${pageScore} | متعدد: ${multipleCount} | فارغ: ${blankCount}`,
+   "تم اعتماد الصفحة ✓",
+   `${student.name||student.code} | الصفحة ${info.pageIndex+1} | الدرجة ${pageScore} | متعدد: ${multipleCount} | فارغ: ${blankCount}`,
    "done"
   );
 
@@ -2432,27 +2936,30 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
    error
   );
 
-  const detail=
-   error?.message==="CAPTURE_RESOLUTION_TOO_LOW"
-    ?"دقة الصورة الملتقطة منخفضة جداً."
-    :String(error?.message||"خطأ غير معروف");
-
   setProcessingOverlay(
    true,
    "تعذر معالجة الصورة",
-   `المرحلة: ${processingStep} — ${detail}`,
+   `المرحلة: ${processingStep} — ${String(error?.message||"خطأ")}`,
    "error"
   );
 
-  setScanStatus(
-   `تعذر المعالجة في مرحلة: ${processingStep}`,
-   "bad"
-  );
-
  }finally{
+  /*
+     إتلاف الصورة المؤقتة من RAM بعد انتهاء المعالجة.
+     لا تُخزن في Firebase أو localStorage أو sessionStorage.
+  */
+  try{
+   if(captured){
+    captured.width=1;
+    captured.height=1
+   }
+  }catch{}
+
+  captured=null;
+
   await resumeCameraAfterCapturedImage(
    video,
-   success?1250:950
+   success?1200:850
   )
  }
 }
@@ -2743,11 +3250,6 @@ async function scanCurrentFrame(){
  scanBusy=true;
 
  try{
-  /*
-     البث الحي وظيفته الوحيدة:
-     تحديد A4 بسرعة ومعرفة أن المقاس والزوايا جاهزة.
-     لا نقرأ QR ولا إجابات من الفيديو.
-  */
   const work=document.createElement("canvas"),
         mobile=window.matchMedia("(max-width:650px)").matches,
         maxW=mobile?820:1050,
@@ -2773,15 +3275,13 @@ async function scanCurrentFrame(){
 
   ctx.drawImage(
    video,
-   0,
-   0,
+   0,0,
    work.width,
    work.height
   );
 
   const frame=ctx.getImageData(
-   0,
-   0,
+   0,0,
    work.width,
    work.height
   ),
@@ -2789,28 +3289,37 @@ async function scanCurrentFrame(){
 
   autoTuneExposure(brightness);
 
-  const markers=findPageMarkers(work);
+  const markers=findPageMarkers(work),
+        realCount=Number(markers?._realCount||0);
 
-  if(!markers){
+  /*
+     لم نعد نشترط 4/4 ولا نسبة A4 دقيقة.
+     ثلاث نقاط حقيقية ممتازة، ونقطتان متقابلتان تكفيان
+     لأخذ لقطة أولية لأن QR لاحقاً سيحدد المنظور الدقيق.
+  */
+  if(
+   !markers||
+   realCount<2
+  ){
    lastPageCorners=null;
    pageCornerStableCount=0;
 
    setScannerChip(
     "cornerChip",
-    "A4: أدخل الورقة كاملة",
+    `حدود الورقة: ${realCount}/4`,
     "warn"
    );
 
    setScannerChip(
     "captureChip",
-    "التقاط: بانتظار",
+    "التقاط: قرّب الورقة",
     "capture"
    );
 
    clearOverlay();
 
    setScanStatus(
-    "وجّه ورقة A4 كاملة داخل الكاميرا. يكفي ظهور الزوايا الأربع.",
+    "أدخل معظم الورقة في الكاميرا. لا يشترط أن تكون A4 مضبوطة أو تظهر النقاط الأربع كلها.",
     "warn"
    );
 
@@ -2831,18 +3340,19 @@ async function scanCurrentFrame(){
   lightPct=Math.round(
    brightness/255*100
   ),
-  sizeGood=coverage>=.12,
-  lightGood=lightPct>=15&&lightPct<=98,
-  motionGood=motion<=.018;
+  hasUsefulSize=
+   coverage>=.075||
+   realCount>=3,
+  lightGood=
+   lightPct>=13&&
+   lightPct<=99,
+  motionGood=
+   motion<=.024;
 
-  /*
-     نحتاج قراءتين سريعتين فقط.
-     هذا تقريباً جزء من الثانية وليس تثبيتاً طويلاً.
-  */
   if(
    lastPageCorners&&
    motionGood&&
-   sizeGood&&
+   hasUsefulSize&&
    lightGood
   ){
    pageCornerStableCount=Math.min(
@@ -2869,23 +3379,17 @@ async function scanCurrentFrame(){
   setScannerChip(
    "cornerChip",
    ready
-    ?"A4: الزوايا جاهزة ✓"
-    :"A4: تم تحديد الزوايا",
+    ?`حدود الورقة: ${realCount}/4 ✓`
+    :`حدود الورقة: ${realCount}/4`,
    ready?"ok":"warn"
   );
 
-  if(!sizeGood){
+  if(!hasUsefulSize){
    setScannerChip(
     "captureChip",
     "التقاط: قرّب الورقة قليلاً",
     "warn"
    );
-
-   setScanStatus(
-    "تم تحديد الورقة. قرّبها قليلاً حتى تصبح بالحجم المناسب للقراءة.",
-    "warn"
-   );
-
    return
   }
 
@@ -2897,7 +3401,7 @@ async function scanCurrentFrame(){
    );
 
    setScanStatus(
-    "الورقة محددة، لكن الإضاءة غير مناسبة. استخدم زر الفلاش عند الحاجة.",
+    "الإضاءة غير مناسبة. استخدم الفلاش إذا احتجت.",
     "warn"
    );
 
@@ -2912,14 +3416,16 @@ async function scanCurrentFrame(){
    );
 
    setScanStatus(
-    "تم تحديد A4. بمجرد أن يتحول الإطار للأخضر ستُلتقط الصورة مباشرة.",
+    "تم تحديد الورقة بشكل كافٍ. ستؤخذ الصورة خلال لحظة.",
     "warn"
    );
 
    return
   }
 
-  if(Date.now()-lastAutoCaptureAt<650){
+  if(
+   Date.now()-lastAutoCaptureAt<600
+  ){
    return
   }
 
@@ -2927,12 +3433,12 @@ async function scanCurrentFrame(){
 
   setScannerChip(
    "captureChip",
-   "التقاط الصورة الآن ✓",
+   "تم أخذ الصورة ✓",
    "ok"
   );
 
   setScanStatus(
-   "A4 جاهزة ✓ تم أخذ الصورة. تبدأ المعالجة الآن على الصورة فقط.",
+   "تم أخذ الصورة. من الآن كل القراءة تتم من الصورة المؤقتة فقط.",
    "good"
   );
 
@@ -2954,7 +3460,7 @@ async function scanCurrentFrame(){
   console.error(error);
 
   setScanStatus(
-   "تعذر التقاط الورقة. أعد إدخالها داخل إطار الكاميرا.",
+   "تعذر أخذ الصورة. أعد توجيه الورقة أمام الكاميرا.",
    "bad"
   )
  }finally{
@@ -3140,24 +3646,141 @@ function cameraContentMetrics(video,canvas){const stage=$("cameraStage"),sr=stag
 function roundRectPath(ctx,x,y,w,h,r){const rr=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+rr,y);ctx.arcTo(x+w,y,x+w,y+h,rr);ctx.arcTo(x+w,y+h,x,y+h,rr);ctx.arcTo(x,y+h,x,y,rr);ctx.arcTo(x,y,x+w,y,rr);ctx.closePath()}
 function workToDisplay(video,work,canvas,p){canvas._workWidth=work.width;canvas._workHeight=work.height;const m=cameraContentMetrics(video,canvas);return{x:m.ox+(p.x*m.sourceScaleX)*m.sx,y:m.oy+(p.y*m.sourceScaleY)*m.sy,scale:(m.sourceScaleX*m.sx+m.sourceScaleY*m.sy)/2}}
 function drawScannerFrame(video,work,m,qr,stable=false){
- const c=$("cameraOverlay");c._workWidth=work.width;c._workHeight=work.height;
- const ctx=c.getContext("2d");cameraContentMetrics(video,c);ctx.clearRect(0,0,c.width,c.height);
- if(!m)return;
- const pts=[m.tl,m.tr,m.br,m.bl].map(p=>workToDisplay(video,work,c,p)),color=stable?"#00e676":"#31c8ff";
+ const c=$("cameraOverlay");
+ c._workWidth=work.width;
+ c._workHeight=work.height;
+
+ const ctx=c.getContext("2d");
+ cameraContentMetrics(video,c);
+ ctx.clearRect(0,0,c.width,c.height);
+
+ const markerObj=m||{};
+
+ const keys=["tl","tr","br","bl"].filter(k=>markerObj[k]),
+       shown=keys.map(k=>({
+        key:k,
+        src:markerObj[k],
+        p:workToDisplay(video,work,c,m[k])
+       })),
+       color=stable?"#00e676":"#31c8ff";
+
  ctx.save();
- ctx.fillStyle="rgba(0,0,0,.18)";ctx.fillRect(0,0,c.width,c.height);
- ctx.save();ctx.globalCompositeOperation="destination-out";ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();ctx.fillStyle="#000";ctx.fill();ctx.restore();
- ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();ctx.strokeStyle=color;ctx.lineWidth=4;ctx.shadowColor=color;ctx.shadowBlur=12;ctx.stroke();ctx.shadowBlur=0;
- for(const p of pts){ctx.beginPath();ctx.arc(p.x,p.y,11,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=3;ctx.stroke()}
+
+ /*
+    إذا عندنا Quad (حتى لو نقطة مستنتجة) نرسم إطاراً راقياً.
+ */
+ if(
+  markerObj.tl&&markerObj.tr&&markerObj.br&&markerObj.bl
+ ){
+  const pts=[markerObj.tl,markerObj.tr,markerObj.br,markerObj.bl].map(
+   p=>workToDisplay(video,work,c,p)
+  );
+
+  ctx.fillStyle="rgba(0,0,0,.12)";
+  ctx.fillRect(0,0,c.width,c.height);
+
+  ctx.save();
+  ctx.globalCompositeOperation="destination-out";
+  ctx.beginPath();
+  pts.forEach(
+   (p,i)=>
+    i
+     ?ctx.lineTo(p.x,p.y)
+     :ctx.moveTo(p.x,p.y)
+  );
+  ctx.closePath();
+  ctx.fillStyle="#000";
+  ctx.fill();
+  ctx.restore();
+
+  ctx.beginPath();
+  pts.forEach(
+   (p,i)=>
+    i
+     ?ctx.lineTo(p.x,p.y)
+     :ctx.moveTo(p.x,p.y)
+  );
+  ctx.closePath();
+  ctx.strokeStyle=color;
+  ctx.lineWidth=3;
+  ctx.shadowColor=color;
+  ctx.shadowBlur=8;
+  ctx.stroke();
+  ctx.shadowBlur=0
+ }
+
+ /*
+    النقاط الحقيقية دائرة ممتلئة.
+    النقطة المستنتجة دائرة مفرغة حتى نعرف أنها تقديرية.
+ */
+ for(const item of shown){
+  const p=item.p,
+        inferred=Boolean(item.src.inferred);
+
+  ctx.beginPath();
+  ctx.arc(
+   p.x,p.y,
+   inferred?7:9,
+   0,
+   Math.PI*2
+  );
+
+  if(inferred){
+   ctx.fillStyle="rgba(255,255,255,.16)";
+   ctx.fill();
+   ctx.strokeStyle=color;
+   ctx.lineWidth=2;
+   ctx.setLineDash([3,3]);
+   ctx.stroke();
+   ctx.setLineDash([])
+  }else{
+   ctx.fillStyle=color;
+   ctx.fill();
+   ctx.strokeStyle="#fff";
+   ctx.lineWidth=2;
+   ctx.stroke()
+  }
+ }
+
  ctx.restore();
+
  if(qr){
-  const qpts=[qr.location.topLeftCorner,qr.location.topRightCorner,qr.location.bottomRightCorner,qr.location.bottomLeftCorner].map(p=>workToDisplay(video,work,c,p));
-  ctx.save();ctx.beginPath();qpts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();ctx.strokeStyle="#7ee0ff";ctx.lineWidth=4;ctx.shadowColor="#7ee0ff";ctx.shadowBlur=8;ctx.stroke();ctx.restore()
+  const qpts=[
+   qr.location.topLeftCorner,
+   qr.location.topRightCorner,
+   qr.location.bottomRightCorner,
+   qr.location.bottomLeftCorner
+  ].map(
+   p=>workToDisplay(video,work,c,p)
+  );
+
+  ctx.save();
+  ctx.beginPath();
+
+  qpts.forEach(
+   (p,i)=>
+    i
+     ?ctx.lineTo(p.x,p.y)
+     :ctx.moveTo(p.x,p.y)
+  );
+
+  ctx.closePath();
+  ctx.strokeStyle="#7ee0ff";
+  ctx.lineWidth=4;
+  ctx.shadowColor="#7ee0ff";
+  ctx.shadowBlur=8;
+  ctx.stroke();
+  ctx.restore()
  }
 }
 
 function drawScanOverlayScanner(video,work,markers,qr,bubbles,detected=[],pageIndex=0){
- drawScannerFrame(video,work,markers,qr,true);
+ if(markers&&Object.keys(markers).length){
+  drawScannerFrame(video,work,markers,qr,true)
+ }else{
+  clearOverlay();
+  drawScannerFrame(video,work,{},qr,true)
+ }
 
  const c=$("cameraOverlay"),
        ctx=c.getContext("2d"),
