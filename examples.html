@@ -964,11 +964,24 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
  </section>
 
  <section id="previewStage" class="panel hidden">
-  <div class="panel-head"><div><h3>معاينة ورقة الأسئلة</h3><p>المعاينة لطالب واحد فقط. عند التنزيل سيولد النظام نفس الأوراق لكل طالب في الصف باسمه وباركوده الخاص.</p></div><div class="action-row" style="margin:0"><button class="btn btn-soft" type="button" onclick="goStage('questions')">تعديل الأسئلة</button></div></div>
+  <div class="panel-head">
+   <div>
+    <h3>معاينة ورقة الأسئلة</h3>
+    <p>راجع الامتحان جيداً. عند الضغط على تحميل PDF سيطلب النظام تأكيداً؛ بعد الموافقة والتنزيل تُعتمد المعاينة ويصبح الامتحان للتصحيح فقط ولا يمكن الرجوع لتعديل الأسئلة.</p>
+   </div>
+   <div class="action-row" style="margin:0">
+    <button id="editQuestionsBtn" class="btn btn-soft" type="button" onclick="goStage('questions')">تعديل الأسئلة</button>
+   </div>
+  </div>
   <div class="panel-body">
    <div id="previewSummary" class="score-summary"></div>
    <div class="preview-wrap"><div id="previewPages" class="preview-pages"></div></div>
-   <div class="action-row"><button id="saveExamBtn" class="btn btn-v" type="button" onclick="saveExamOnly()">حفظ الامتحان</button><button id="downloadExamBtn" class="btn btn-g" type="button" onclick="generateExamPDF()">تنزيل الأسئلة PDF لكل الطلبة</button></div>
+   <div class="action-row">
+    <button id="downloadExamBtn" class="btn btn-g" type="button" onclick="generateExamPDF()">تحميل الأسئلة PDF واعتماد المعاينة</button>
+   </div>
+   <div class="help" style="margin-top:8px;font-weight:900">
+    لا يوجد حفظ يدوي في هذه المرحلة. التحميل هو الاعتماد النهائي للمعاينة والانتقال إلى التصحيح.
+   </div>
   </div>
  </section>
 
@@ -1069,7 +1082,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
     </div>
 
     <div class="results-card">
-     <div class="card-head"><h4>نتائج الصف</h4><p>كل صفحة مقروءة تظهر بدرجتها. أسئلة الشرح تُدخل درجتها يدوياً قبل إنهاء التصحيح.</p></div>
+     <div class="card-head"><h4>نتائج الصف</h4><p>الجواب الفارغ = صفر. الطالب الذي لا توجد له أي ورقة عند الاعتماد = غياب. إذا ظهرت للطالب ورقة واحدة على الأقل فهو حاضر، وأي صفحة ناقصة له تُحسب صفراً.</p></div>
      <div class="results-table-wrap"><table class="results-table"><thead><tr><th>ت</th><th>الطالب</th><th>الصفحات</th><th>الاختياري</th><th>الشرح</th><th>المجموع</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="resultsBody"></tbody></table></div>
     </div>
    </div>
@@ -1188,6 +1201,77 @@ async function loadTargetOptions(){if(!selectedAssignment)return;const period=$(
 function selectedTarget(){const op=$("targetSelect").selectedOptions[0];return{key:op?.value||"__direct__",max:Number(op?.dataset.max||selectedAssignment?.maxGrade||100),label:op?.textContent||""}}
 
 
+
+function examEditingIsLocked(){
+ return Boolean(
+  currentExam?.editLocked===true||
+  currentExam?.previewFinalized===true||
+  examDraft?.editLocked===true||
+  examDraft?.previewFinalized===true
+ )
+}
+
+function applyExamEditLockUI(locked=false){
+ const ids=[
+  "step1",
+  "step2",
+  "step3",
+  "editQuestionsBtn"
+ ];
+
+ for(const id of ids){
+  const el=$(id);
+  if(!el)continue;
+
+  el.disabled=Boolean(locked);
+  el.style.opacity=locked?".42":"";
+  el.style.cursor=locked?"not-allowed":"";
+ }
+
+ const step4=$("step4");
+ if(step4&&locked){
+  step4.disabled=false;
+  step4.style.opacity="";
+  step4.style.cursor=""
+ }
+}
+
+async function lockExamForCorrection(exam){
+ if(!exam?.examId){
+  throw new Error("EXAM_LOCK_ID_MISSING")
+ }
+
+ const now=Date.now(),
+       patch={
+        status:"ready",
+        editLocked:true,
+        previewFinalized:true,
+        correctionOnly:true,
+        previewFinalizedAt:now,
+        pdfGeneratedAt:now,
+        updatedAt:now
+       };
+
+ await dbPatch(
+  `exams/${encodeURIComponent(exam.examId)}`,
+  patch
+ );
+
+ Object.assign(exam,patch);
+
+ if(examDraft?.examId===exam.examId){
+  Object.assign(examDraft,patch)
+ }
+
+ currentExam=exam;
+ savedExams[exam.examId]={
+  ...(savedExams[exam.examId]||{}),
+  ...exam
+ };
+
+ applyExamEditLockUI(true)
+}
+
 function resetNewExamState(){
  stopCamera();
  examDraft=null;currentExam=null;examResults={};questions=[];customLogoData="";
@@ -1210,7 +1294,8 @@ function resetNewExamState(){
   selectedAssignment=assignments[0]
  }
 
- renderExamClassInfo()
+ renderExamClassInfo();
+ applyExamEditLockUI(false)
 }
 async function startNewExam(){
  resetNewExamState();
@@ -2133,7 +2218,7 @@ async function saveExamOnly(){
  try{await dbPatch("",updates);savedExams[exam.examId]=exam;currentExam=exam;examDraft=exam;toast("تم حفظ الامتحان والباركودات الخاصة بكل طالب وصفحة.","success");renderSavedExams();return exam}catch(e){console.error(e);toast("تعذر حفظ الامتحان.","error");throw e}
 }
 
-async function generateExamPDF(){
+async function generateExamPDF(confirmed=false){
  if(
   !examDraft||
   !pagePlan.length
@@ -2144,51 +2229,73 @@ async function generateExamPDF(){
   )
  }
 
- const btn=
-  $("downloadExamBtn");
+ if(
+  examEditingIsLocked()
+ ){
+  return toast(
+   "تم اعتماد هذه المعاينة سابقاً. الامتحان أصبح للتصحيح فقط.",
+   "warn"
+  )
+ }
 
+ /*
+    أول ضغطة لا تنشئ شيئاً مباشرة.
+    نطلب تأكيداً واضحاً لأن الموافقة تقفل تعديل الأسئلة.
+ */
+ if(!confirmed){
+  return showAlert(
+   "تحميل الأسئلة PDF",
+   "هل تريد تحميل الأسئلة PDF واعتماد هذه المعاينة؟\n\nبعد الضغط على «نعم» سيُنشأ ملف PDF لكل الطلبة، وتُقفل مرحلة إعداد/تعديل الأسئلة لهذا الامتحان نهائياً، ثم تنتقل مباشرة إلى مرحلة التصحيح.",
+   [
+    [
+     "نعم، تحميل واعتماد",
+     "g",
+     async()=>{
+      closeAlert();
+      await generateExamPDF(true)
+     }
+    ],
+    [
+     "رجوع للمعاينة",
+     "gray",
+     closeAlert
+    ]
+   ]
+  )
+ }
+
+ const btn=$("downloadExamBtn");
  btn.disabled=true;
- btn.textContent=
-  "جاري إنشاء PDF...";
+ btn.textContent="جاري تجهيز PDF واعتماد الامتحان...";
 
  try{
+  /*
+     الحفظ داخلي فقط، بدون زر حفظ للمستخدم.
+  */
   await saveExamOnly();
 
-  const exam=
-   currentExam||
-   examDraft,
-  rows=
-   studentsOfClass(
-    exam.classId
-   );
+  const exam=currentExam||examDraft,
+        rows=studentsOfClass(exam.classId);
 
   if(!rows.length){
-   throw new Error(
-    "NO_STUDENTS"
-   )
+   throw new Error("NO_STUDENTS")
   }
 
   const expectedCount=
-   rows.length*
-   pagePlan.length,
-  uniqueCount=
-   validateUniquePaperQRCodes(
-    exam,
-    rows,
-    pagePlan.length
-   );
+         rows.length*pagePlan.length,
+        uniqueCount=
+         validateUniquePaperQRCodes(
+          exam,
+          rows,
+          pagePlan.length
+         );
 
-  if(
-   uniqueCount!==
-   expectedCount
-  ){
-   throw new Error(
-    "QR_UNIQUE_COUNT_MISMATCH"
-   )
+  if(uniqueCount!==expectedCount){
+   throw new Error("QR_UNIQUE_COUNT_MISMATCH")
   }
 
   /*
-     تأكيد حفظ Tokens قبل إنشاء الملف.
+     نحفظ Tokens وسجلات QR قبل إنشاء الملف.
   */
   const tokenUpdates={
    [`exams/${exam.examId}/paperTokens`]:
@@ -2196,15 +2303,9 @@ async function generateExamPDF(){
   };
 
   for(const st of rows){
-   for(
-    let p=0;
-    p<pagePlan.length;
-    p++
-   ){
+   for(let p=0;p<pagePlan.length;p++){
     const token=
-     exam.paperTokens[
-      st.code
-     ][p];
+     exam.paperTokens[st.code][p];
 
     tokenUpdates[
      `examPublicPages/${token}`
@@ -2218,91 +2319,59 @@ async function generateExamPDF(){
    }
   }
 
-  await dbPatch(
-   "",
-   tokenUpdates
-  );
+  await dbPatch("",tokenUpdates);
 
-  const {
-   jsPDF
-  }=window.jspdf,
-  pdf=
-   new jsPDF({
-    orientation:"portrait",
-    unit:"mm",
-    format:"a4",
-    compress:true
-   });
+  const {jsPDF}=window.jspdf,
+        pdf=new jsPDF({
+         orientation:"portrait",
+         unit:"mm",
+         format:"a4",
+         compress:true
+        });
 
   let first=true,
       created=0;
 
-  for(
-   let si=0;
-   si<rows.length;
-   si++
-  ){
-   const student=
-    rows[si];
+  for(let si=0;si<rows.length;si++){
+   const student=rows[si];
 
-   for(
-    let p=0;
-    p<pagePlan.length;
-    p++
-   ){
+   for(let p=0;p<pagePlan.length;p++){
     if(!first){
-     pdf.addPage(
-      "a4",
-      "portrait"
-     )
+     pdf.addPage("a4","portrait")
     }
 
     first=false;
 
     const sheet=
-     await renderPdfSheetWithQR(
-      exam,
-      student,
-      p,
-      pagePlan[p]
-     ),
-    qrEl=
-     sheet.querySelector(
-      ".page-qr"
-     ),
-    qrImg=
-     qrEl?.querySelector(
-      "img"
-     ),
-    expectedPayload=
-     qrPayload(
-      exam,
-      student,
-      p
-     );
+           await renderPdfSheetWithQR(
+            exam,
+            student,
+            p,
+            pagePlan[p]
+           ),
+          qrEl=
+           sheet.querySelector(".page-qr"),
+          qrImg=
+           qrEl?.querySelector("img"),
+          expectedPayload=
+           qrPayload(
+            exam,
+            student,
+            p
+           );
 
-    if(
-     qrEl?.dataset.qr!==
-     expectedPayload
-    ){
+    if(qrEl?.dataset.qr!==expectedPayload){
      throw new Error(
       `QR_PAYLOAD_MISMATCH_${student.code}_${p+1}`
      )
     }
 
-    if(
-     !qrImg?.src?.startsWith(
-      "data:image/png"
-     )
-    ){
+    if(!qrImg?.src?.startsWith("data:image/png")){
      throw new Error(
       `QR_PNG_MISSING_${student.code}_${p+1}`
      )
     }
 
-    /*
-       صورة الورقة العامة.
-    */
     const canvas=
      await html2canvas(
       sheet,
@@ -2331,90 +2400,62 @@ async function generateExamPDF(){
     );
 
     /*
-       نعيد رسم QR فوق JPEG كصورة PNG منفصلة.
-       بذلك لا يتأثر QR بضغط JPEG إطلاقاً.
+       QR lossless فوق صورة الصفحة.
     */
-    const sheetR=
-     sheet.getBoundingClientRect(),
-    qrR=
-     qrEl.getBoundingClientRect(),
-    qx=
-     (
-      qrR.left-
-      sheetR.left
-     )/
-     sheetR.width*
-     210,
-    qy=
-     (
-      qrR.top-
-      sheetR.top
-     )/
-     sheetR.height*
-     297,
-    qw=
-     qrR.width/
-     sheetR.width*
-     210,
-    qh=
-     qrR.height/
-     sheetR.height*
-     297;
+    const sheetR=sheet.getBoundingClientRect(),
+          qrR=qrEl.getBoundingClientRect(),
+          qx=
+           (qrR.left-sheetR.left)/
+           sheetR.width*210,
+          qy=
+           (qrR.top-sheetR.top)/
+           sheetR.height*297,
+          qw=
+           qrR.width/
+           sheetR.width*210,
+          qh=
+           qrR.height/
+           sheetR.height*297;
 
-    pdf.setFillColor(
-     255,255,255
-    );
+    pdf.setFillColor(255,255,255);
 
     pdf.rect(
      Math.max(0,qx-.9),
      Math.max(0,qy-.9),
-     Math.min(
-      210-qx+.9,
-      qw+1.8
-     ),
-     Math.min(
-      297-qy+.9,
-      qh+1.8
-     ),
+     Math.min(210-qx+.9,qw+1.8),
+     Math.min(297-qy+.9,qh+1.8),
      "F"
     );
 
     pdf.addImage(
      qrImg.src,
      "PNG",
-     qx,
-     qy,
-     qw,
-     qh,
+     qx,qy,qw,qh,
      undefined,
      "NONE"
     );
 
     canvas.width=1;
     canvas.height=1;
-
-    $("pdfHost")
-    .innerHTML="";
-
+    $("pdfHost").innerHTML="";
     created++
    }
   }
 
-  if(
-   created!==
-   expectedCount
-  ){
-   throw new Error(
-    "PDF_PAGE_COUNT_MISMATCH"
-   )
+  if(created!==expectedCount){
+   throw new Error("PDF_PAGE_COUNT_MISMATCH")
   }
 
+  /*
+     التنزيل أولاً.
+  */
   pdf.save(
    `امتحان_${exam.subjectName}_${exam.className}_${exam.periodLabel}.pdf`
   );
 
-  exam.status="ready";
-
+  /*
+     وبعد نجاح إنشاء الملف نقفل الامتحان للتصحيح فقط.
+  */
   await dbPatch(
    `exams/${encodeURIComponent(exam.examId)}`,
    {
@@ -2423,33 +2464,19 @@ async function generateExamPDF(){
     updatedAt:Date.now(),
     pdfPageCount:created,
     qrPageCount:uniqueCount,
-    qrFormat:"TH3_TOKEN_H_PNG_OVERLAY"
+    qrFormat:"TH4_IDENTITY_PNG_OVERLAY"
    }
   );
 
-  savedExams[
-   exam.examId
-  ]=exam;
+  await lockExamForCorrection(exam);
 
   toast(
-   `تم إنشاء ${created} صفحة بباركود عالي الدقة.`,
+   `تم تحميل ${created} صفحة واعتماد المعاينة. بدأ وضع التصحيح.`,
    "success"
   );
 
-  showAlert(
-   "تم تجهيز الامتحان",
-   `تم إنشاء ${created} صفحة PDF بنجاح.\nQR أصبح قصيراً وعالي الدقة ومضافاً داخل PDF كـ PNG غير مضغوط، حتى يُقرأ عند رفع PDF أو بعد سحب الورقة Scanner.`,
-   [
-    [
-     "الرجوع للامتحانات",
-     "g",
-     ()=>{
-      closeAlert();
-      goHome()
-     }
-    ]
-   ]
-  )
+  await loadSavedExams();
+  await openExamForCorrection(exam.examId)
 
  }
  catch(e){
@@ -2459,32 +2486,67 @@ async function generateExamPDF(){
   );
 
   toast(
-   "تعذر إنشاء PDF كاملاً. تم إيقاف الملف حتى لا تخرج صفحة بباركود غير صالح.",
+   "تعذر إنشاء PDF أو اعتماد الامتحان. بقيت المعاينة قابلة للتعديل ولم يتم قفل الأسئلة.",
    "error"
   )
  }
  finally{
-  btn.disabled=false;
-  btn.textContent=
-   "تنزيل الأسئلة PDF لكل الطلبة";
+  btn.disabled=
+   examEditingIsLocked();
 
-  $("pdfHost")
-  .innerHTML=""
+  btn.textContent=
+   examEditingIsLocked()
+    ?"تم اعتماد المعاينة — للتصحيح فقط"
+    :"تحميل الأسئلة PDF واعتماد المعاينة";
+
+  $("pdfHost").innerHTML=""
  }
 }
 
 async function loadSavedExams(){try{const all=await dbGet("exams")||{};savedExams=Object.fromEntries(Object.entries(all).filter(([,e])=>e?.teacherCode===TEACHER_CODE).sort((a,b)=>Number(b[1]?.updatedAt||0)-Number(a[1]?.updatedAt||0)).slice(0,20));renderSavedExams()}catch(e){console.error(e);toast("تعذر تحميل الامتحانات المحفوظة.","error")}}
 function renderSavedExams(){
- const rows=Object.entries(savedExams);
- $("savedExams").innerHTML=rows.length?rows.map(([id,e])=>{
-  const completed=e.status==="completed";
-  return`<article class="saved-exam ${completed?"completed":"uncorrected"}">
-   <h4>${esc(e.subjectName)} — ${esc(e.className)}</h4>
-   <p>${esc(e.periodLabel)} — ${esc(e.targetLabel||"")}<br>الصف: ${esc(e.className||"—")} — القاعة: ${esc(e.room||"—")} — الجنس: ${esc(e.genderLabel||"—")}<br>${e.pageCount||1} صفحة لكل طالب — الدرجة ${e.targetMax}</p>
-   <span class="exam-state ${completed?"completed":"ready"}">${completed?"تم التصحيح والاعتماد":"غير مصحح"}</span>
-   ${completed?`<button class="completed-btn" type="button" disabled>تم التصحيح والاعتماد</button>`:`<div class="saved-exam-actions"><button class="correct-btn" type="button" onclick="openExamForCorrection('${id}')">تصحيح الامتحان</button><button class="cancel-exam-btn" type="button" onclick="cancelExam('${id}')">إلغاء الامتحان</button></div>`}
-  </article>`
- }).join(""):`<div class="help">لا توجد امتحانات محفوظة.</div>`
+ const rows=
+  Object.entries(
+   savedExams
+  );
+
+ $("savedExams").innerHTML=
+  rows.length
+   ?rows.map(
+     ([id,e])=>{
+      const completed=
+             e.status==="completed",
+            locked=
+             e.editLocked===true||
+             e.previewFinalized===true,
+            stateText=
+             completed
+              ?"تم التصحيح والاعتماد"
+              :locked
+               ?"جاهز للتصحيح — الأسئلة مقفلة"
+               :"غير مصحح";
+
+      return`
+       <article class="saved-exam ${completed?"completed":"uncorrected"}">
+        <h4>${esc(e.subjectName)} — ${esc(e.className)}</h4>
+        <p>
+         ${esc(e.periodLabel)} — ${esc(e.targetLabel||"")}<br>
+         الصف: ${esc(e.className||"—")} — القاعة: ${esc(e.room||"—")} — الجنس: ${esc(e.genderLabel||"—")}<br>
+         ${e.pageCount||1} صفحة لكل طالب — الدرجة ${e.targetMax}
+        </p>
+        <span class="exam-state ${completed?"completed":"ready"}">${stateText}</span>
+        ${
+         completed
+          ?`<button class="completed-btn" type="button" disabled>تم التصحيح والاعتماد</button>`
+          :`<div class="saved-exam-actions">
+             <button class="correct-btn" type="button" onclick="openExamForCorrection('${id}')">تصحيح الامتحان</button>
+             <button class="cancel-exam-btn" type="button" onclick="cancelExam('${id}')">إلغاء الامتحان</button>
+            </div>`
+        }
+       </article>`
+     }
+    ).join("")
+   :'<div class="help">لا توجد امتحانات محفوظة.</div>'
 }
 function examHasCorrections(results){return Object.values(results||{}).some(r=>r&&(Object.keys(r.pages||{}).length||Object.keys(r.essayScores||{}).length||r.finalized===true))}
 async function cancelExam(id){
@@ -2532,6 +2594,10 @@ async function openExamForCorrection(id){
   pagePlan=exam.pagePlan||[];
   omrLayout=exam.omrLayout||{};
   currentExam.omrLayout=omrLayout;
+  applyExamEditLockUI(
+   exam.editLocked===true||
+   exam.previewFinalized===true
+  );
 
   examResults=
    await dbGet(
@@ -2572,7 +2638,63 @@ function essayTotalFor(code){const scores=studentResult(code).essayScores||{};re
 function scannedPageCount(code){return Object.keys(studentResult(code).pages||{}).length}
 function resultTotal(code){return Math.round((autoTotalFor(code)+essayTotalFor(code))*100)/100}
 function essaysComplete(code){const qs=essayQuestions();if(!qs.length)return true;const scores=studentResult(code).essayScores||{};return qs.every(q=>raw(scores[q.id])!==""&&Number(scores[q.id])>=0&&Number(scores[q.id])<=Number(q.score))}
-function resultStatus(code){const r=studentResult(code);if(r.finalStatus==="absent")return["غ / غائب","absent"];if(r.finalized)return["تم الحفظ","good"];const p=scannedPageCount(code);if(!p)return["بانتظار الورق","wait"];if(p<Number(currentExam?.pageCount||1))return[`ناقص ${Number(currentExam.pageCount)-p} صفحة`,"wait"];if(!essaysComplete(code))return["بانتظار درجة الشرح","wait"];return["جاهز","good"]}
+function resultStatus(code){
+ const r=
+  studentResult(code);
+
+ if(
+  r.finalStatus===
+  "absent"
+ ){
+  return[
+   "غ / غياب",
+   "absent"
+  ]
+ }
+
+ if(r.finalized){
+  return[
+   "تم الحفظ",
+   "good"
+  ]
+ }
+
+ const p=
+  scannedPageCount(code);
+
+ if(!p){
+  return[
+   "بانتظار ورقة الطالب",
+   "wait"
+  ]
+ }
+
+ if(
+  p<
+  Number(
+   currentExam?.pageCount||1
+  )
+ ){
+  return[
+   `حاضر — ناقص ${Number(currentExam.pageCount)-p} صفحة (تُحسب صفر عند الاعتماد)`,
+   "wait"
+  ]
+ }
+
+ if(
+  !essaysComplete(code)
+ ){
+  return[
+   "بانتظار درجة الشرح",
+   "wait"
+  ]
+ }
+
+ return[
+  "جاهز",
+  "good"
+ ]
+}
 
 function renderResults(){if(!currentExam){$("resultsBody").innerHTML='<tr><td colspan="8">لا يوجد امتحان.</td></tr>';return}const rows=currentExam.students||studentsOfClass(currentExam.classId).map(s=>({code:s.code,name:s.name,serial:s.serial}));$("resultsBody").innerHTML=rows.map((st,i)=>{const r=studentResult(st.code),pages=Array.from({length:Number(currentExam.pageCount||1)},(_,p)=>`<span class="page-score">${p+1}: ${r.pages?.[p]?.autoScore??"—"}</span>`).join(""),ess=essayQuestions(),essayHTML=ess.length?ess.map(q=>`<label style="display:inline-flex;align-items:center;gap:3px;margin:2px">${esc(q.title.slice(0,12))}<input class="essay-score" type="number" min="0" max="${q.score}" step=".5" value="${esc(r.essayScores?.[q.id]??"")}" onchange="setEssayScore('${st.code}','${q.id}',this.value)"></label>`).join(""):"—",[status,cls]=resultStatus(st.code);return`<tr><td>${i+1}</td><td class="name">${esc(st.name||st.code)}<div style="color:#98a2b3;font-size:6px">${esc(st.code)}</div></td><td>${pages}</td><td>${autoTotalFor(st.code)}</td><td>${essayHTML}</td><td><strong>${resultTotal(st.code)} / ${currentExam.targetMax}</strong></td><td><span class="status-tag ${cls}">${esc(status)}</span></td><td><button class="mini-btn btn-soft" type="button" onclick="resetStudentScan('${st.code}')">إعادة</button></td></tr>`}).join("")}
 
@@ -7272,67 +7394,579 @@ function periodFromComponents(rec,components,period){const comp=rec.components?.
 function annualFromRecord(rec){const vals=["term1","midyear","term2"].map(k=>calcGradeValue(rec[k]));return vals.every(v=>v!==null)?Math.round(vals.reduce((a,b)=>a+Number(b),0)/3):null}
 
 async function finishClassCorrection(){
- if(!currentExam)return;
- const rows=currentExam.students||[],missingPaper=[],essayMissing=[];
+ if(!currentExam){
+  return
+ }
+
+ const rows=
+        currentExam.students||[],
+       required=
+        Number(
+         currentExam.pageCount||1
+        ),
+       absentStudents=[],
+       partialStudents=[],
+       essayMissing=[];
+
  for(const st of rows){
-  const count=scannedPageCount(st.code),required=Number(currentExam.pageCount||1);
+  const count=
+   scannedPageCount(
+    st.code
+   );
+
+  if(count===0){
+   /*
+      لا توجد أي ورقة للطالب = غياب.
+   */
+   absentStudents.push(st);
+   continue
+  }
+
   if(count<required){
-   const missing=[];for(let p=0;p<required;p++)if(!studentResult(st.code).pages?.[p])missing.push(p+1);
-   missingPaper.push({student:st,missing})
-  }else if(!essaysComplete(st.code))essayMissing.push(st)
+   const missing=[];
+
+   for(
+    let p=0;
+    p<required;
+    p++
+   ){
+    if(
+     !studentResult(st.code)
+      .pages?.[p]
+    ){
+     missing.push(p+1)
+    }
+   }
+
+   partialStudents.push({
+    student:st,
+    missing
+   });
+
+   /*
+      الطالب حاضر لأن له ورقة واحدة على الأقل.
+      الصفحات المفقودة تُحسب صفراً، وليست غياباً.
+   */
+   continue
+  }
+
+  /*
+     إذا جميع الصفحات موجودة وفي الامتحان سؤال شرح،
+     تبقى درجة الشرح مطلوبة من الأستاذ.
+     أما عدم إجابة الطالب على الاختياري أصلاً فيبقى صفراً تلقائياً.
+  */
+  if(!essaysComplete(st.code)){
+   essayMissing.push(st)
+  }
  }
+
  if(essayMissing.length){
-  return showAlert("درجات الشرح غير مكتملة",`الأوراق التالية ممسوحة، لكن درجة سؤال الشرح لم تُدخل بعد:\n${essayMissing.slice(0,10).map(x=>x.name).join("\n")}${essayMissing.length>10?`\nو ${essayMissing.length-10} طلاب آخرين`:""}\n\nأدخل درجات الشرح ثم أعد الضغط على الانتهاء.`,[["موافق","soft",closeAlert]])
+  return showAlert(
+   "درجات الشرح غير مكتملة",
+   `هناك ${essayMissing.length} طالب/ة جميع أوراقهم ممسوحة لكن درجة سؤال الشرح لم تُدخل بعد:\n${essayMissing.slice(0,10).map(x=>x.name).join("\n")}${essayMissing.length>10?`\nو ${essayMissing.length-10} طلاب آخرين`:""}\n\nأدخل درجات الشرح ثم أعد الاعتماد.`,
+   [
+    [
+     "موافق",
+     "soft",
+     closeAlert
+    ]
+   ]
+  )
  }
- if(missingPaper.length){
-  const lines=missingPaper.slice(0,10).map(x=>`${x.student.name}: الصفحة ${x.missing.join("، ")}`);
-  return showAlert("أوراق لم تُصحح",`هناك ${missingPaper.length} طالب/ة لم تُمسح لهم جميع صفحات الامتحان:\n${lines.join("\n")}${missingPaper.length>10?`\nو ${missingPaper.length-10} طلاب آخرين`:""}\n\nإذا تعتمد الآن، كل طالب ناقصة له ورقة واحدة أو أكثر سيُعتمد له «غ» ويُحسب صفر بالكامل.`,[
-   ["اعتمادهم غ = صفر","r",async()=>{closeAlert();await finalizeGrades(true)}],
-   ["أرجع وأكمل المسح","gray",closeAlert]
-  ])
+
+ const parts=[];
+
+ if(absentStudents.length){
+  parts.push(
+   `الغياب: ${absentStudents.length} طالب/ة لم توجد لهم أي ورقة وسيتم تسجيل «غ».`
+  )
  }
- showAlert("تأكيد الاعتماد النهائي","تم مسح جميع أوراق الطلبة وإكمال درجات الشرح. عند الاعتماد سيُغلق هذا الامتحان نهائياً ويظهر بختم «تم التصحيح والاعتماد» ولن يمكن الدخول إليه مرة أخرى.",[
-  ["اعتماد نهائي","g",async()=>{closeAlert();await finalizeGrades(false)}],
-  ["إلغاء","gray",closeAlert]
- ])
+
+ if(partialStudents.length){
+  parts.push(
+   `طلاب حاضرون بأوراق ناقصة: ${partialStudents.length}. الصفحات غير الموجودة لهم ستُحسب صفراً، وليس غياباً.`
+  )
+ }
+
+ parts.push(
+  "أي سؤال لم يضع الطالب له إجابة يُحسب صفراً تلقائياً."
+ );
+
+ parts.push(
+  "بعد الاعتماد سيُغلق الامتحان نهائياً وتُنقل الدرجات إلى نظام الدرجات."
+ );
+
+ showAlert(
+  "تأكيد الاعتماد النهائي",
+  parts.join("\n\n"),
+  [
+   [
+    "اعتماد النتائج",
+    "g",
+    async()=>{
+     closeAlert();
+     await finalizeGrades()
+    }
+   ],
+   [
+    "إلغاء",
+    "gray",
+    closeAlert
+   ]
+  ]
+ )
 }
 
-async function finalizeGrades(allowMissingAsAbsent=false){
- const exam=currentExam,rows=exam.students||[],updates={},now=Date.now(),required=Number(exam.pageCount||1);
+async function finalizeGrades(){
+ const exam=currentExam,
+       rows=exam.students||[],
+       updates={},
+       now=Date.now(),
+       required=
+        Number(
+         exam.pageCount||1
+        );
+
  try{
   for(const st of rows){
-   const scanned=scannedPageCount(st.code),incomplete=scanned<required,absent=incomplete;
-   if(incomplete&&!allowMissingAsAbsent)throw new Error("MISSING_PAGES");
-   const gradeValue=absent?"غ":resultTotal(st.code),base=`grades/${st.code}/${exam.subjectId}`,old=await dbGet(base)||{},rec={...old,components:{...(old.components||{})},subjectId:exam.subjectId,subjectName:exam.subjectName,maxGrade:exam.subjectMax,passGrade:Number(old.passGrade??exam.subjectMax*.5),classId:exam.classId,teacherCode:TEACHER_CODE,updatedAt:now,updatedBy:TEACHER_CODE,updatedSource:"exam_correction",canonicalVersion:1};
-   if(exam.targetKey&&exam.targetKey!=="__direct__"){rec.components[exam.period]={...(rec.components[exam.period]||{}),[exam.targetKey]:gradeValue};const p=periodFromComponents(rec,exam.components,exam.period);if(p!==null)rec[exam.period]=p}else rec[exam.period]=gradeValue;
-   const ann=annualFromRecord(rec);if(ann!==null)rec.annual=ann;updates[base]=rec;
-   updates[`examResults/${exam.examId}/${st.code}/finalScore`]=absent?0:Number(gradeValue);
-   updates[`examResults/${exam.examId}/${st.code}/displayScore`]=gradeValue;
-   updates[`examResults/${exam.examId}/${st.code}/finalStatus`]=absent?"absent":"completed";
-   updates[`examResults/${exam.examId}/${st.code}/finalized`]=true;
-   updates[`examResults/${exam.examId}/${st.code}/finalizedAt`]=now;
-   if(absent)updates[`examResults/${exam.examId}/${st.code}/missingPagesAtFinalize`]=Array.from({length:required},(_,p)=>p).filter(p=>!studentResult(st.code).pages?.[p]).map(p=>p+1)
+   const scanned=
+          scannedPageCount(
+           st.code
+          ),
+         absent=
+          scanned===0,
+         incomplete=
+          scanned>0&&
+          scanned<required,
+         missingPages=
+          Array.from(
+           {length:required},
+           (_,p)=>p
+          )
+          .filter(
+           p=>
+            !studentResult(
+             st.code
+            ).pages?.[p]
+          )
+          .map(
+           p=>p+1
+          ),
+         /*
+            لا توجد أي ورقة = غياب.
+            توجد ورقة لكن الإجابات فارغة = المجموع صفر.
+            الصفحات المفقودة لطالب حاضر = صفر أيضاً.
+         */
+         gradeValue=
+          absent
+           ?"غ"
+           :resultTotal(
+             st.code
+            ),
+         base=
+          `grades/${st.code}/${exam.subjectId}`,
+         old=
+          await dbGet(base)||{},
+         rec={
+          ...old,
+          components:{
+           ...(old.components||{})
+          },
+          subjectId:
+           exam.subjectId,
+          subjectName:
+           exam.subjectName,
+          maxGrade:
+           exam.subjectMax,
+          passGrade:
+           Number(
+            old.passGrade??
+            exam.subjectMax*.5
+           ),
+          classId:
+           exam.classId,
+          teacherCode:
+           TEACHER_CODE,
+          updatedAt:now,
+          updatedBy:
+           TEACHER_CODE,
+          updatedSource:
+           "exam_correction",
+          canonicalVersion:1
+         };
+
+   if(
+    exam.targetKey&&
+    exam.targetKey!=="__direct__"
+   ){
+    rec.components[
+     exam.period
+    ]={
+     ...(rec.components[
+      exam.period
+     ]||{}),
+     [exam.targetKey]:
+      gradeValue
+    };
+
+    const p=
+     periodFromComponents(
+      rec,
+      exam.components,
+      exam.period
+     );
+
+    if(p!==null){
+     rec[exam.period]=p
+    }
+   }
+   else{
+    rec[exam.period]=
+     gradeValue
+   }
+
+   const ann=
+    annualFromRecord(rec);
+
+   if(ann!==null){
+    rec.annual=ann
+   }
+
+   updates[base]=rec;
+
+   updates[
+    `examResults/${exam.examId}/${st.code}/finalScore`
+   ]=
+    absent
+     ?0
+     :Number(
+       gradeValue||0
+      );
+
+   updates[
+    `examResults/${exam.examId}/${st.code}/displayScore`
+   ]=
+    gradeValue;
+
+   updates[
+    `examResults/${exam.examId}/${st.code}/finalStatus`
+   ]=
+    absent
+     ?"absent"
+     :"completed";
+
+   updates[
+    `examResults/${exam.examId}/${st.code}/attendanceStatus`
+   ]=
+    absent
+     ?"absent"
+     :"present";
+
+   updates[
+    `examResults/${exam.examId}/${st.code}/finalized`
+   ]=true;
+
+   updates[
+    `examResults/${exam.examId}/${st.code}/finalizedAt`
+   ]=now;
+
+   if(absent){
+    updates[
+     `examResults/${exam.examId}/${st.code}/absenceLabel`
+    ]="غ";
+   }
+
+   if(incomplete){
+    updates[
+     `examResults/${exam.examId}/${st.code}/missingPagesAsZero`
+    ]=
+     missingPages;
+
+    updates[
+     `examResults/${exam.examId}/${st.code}/missingPagesPolicy`
+    ]=
+     "zero";
+   }
   }
-  updates[`exams/${exam.examId}/status`]="completed";updates[`exams/${exam.examId}/completedAt`]=now;updates[`exams/${exam.examId}/completedBy`]=TEACHER_CODE;
-  for(const st of rows){const scanned=scannedPageCount(st.code),absent=scanned<required,finalScore=absent?0:resultTotal(st.code);for(let p=0;p<required;p++){const token=exam.paperTokens?.[st.code]?.[p];if(token)updates[`examPublicPages/${token}`]={...publicPaperRecord({...exam,status:"completed"},st,p,token),status:"completed",finalized:true,finalStatus:absent?"absent":"completed",finalScore,displayScore:absent?"غ":finalScore,completedAt:now}}}
-  await dbPatch("",updates);
-  exam.status="completed";exam.completedAt=now;savedExams[exam.examId]={...exam};
-  for(const st of rows){examResults[st.code]??={};examResults[st.code].finalized=true;examResults[st.code].finalStatus=scannedPageCount(st.code)<required?"absent":"completed"}
-  stopCamera();renderResults();renderSavedExams();
-  showAlert("تم التصحيح والاعتماد","تم تثبيت درجات الامتحان في نظام الدرجات الموحد. الامتحان أُغلق نهائياً وأصبح مختوماً «تم التصحيح والاعتماد». أي طالب كانت له صفحة ناقصة تم اعتماد «غ» له ويُحسب صفر.",[
-   ["الرجوع للامتحانات","g",()=>{closeAlert();goHome()}]
-  ])
- }catch(e){console.error(e);toast(e.message==="MISSING_PAGES"?"توجد أوراق ناقصة. أكمل مسحها أو وافق على اعتمادها غ.":"تعذر تثبيت الدرجات. لم يتم إنهاء التصحيح.","error")}
+
+  updates[
+   `exams/${exam.examId}/status`
+  ]="completed";
+
+  updates[
+   `exams/${exam.examId}/completedAt`
+  ]=now;
+
+  updates[
+   `exams/${exam.examId}/completedBy`
+  ]=TEACHER_CODE;
+
+  updates[
+   `exams/${exam.examId}/absencePolicy`
+  ]=
+   "no_scanned_pages_is_absent";
+
+  updates[
+   `exams/${exam.examId}/blankAnswerPolicy`
+  ]=
+   "zero";
+
+  updates[
+   `exams/${exam.examId}/missingPageForPresentPolicy`
+  ]=
+   "zero";
+
+  for(const st of rows){
+   const scanned=
+          scannedPageCount(
+           st.code
+          ),
+         absent=
+          scanned===0,
+         finalScore=
+          absent
+           ?0
+           :resultTotal(
+             st.code
+            );
+
+   for(
+    let p=0;
+    p<required;
+    p++
+   ){
+    const token=
+     exam.paperTokens?.[
+      st.code
+     ]?.[p];
+
+    if(token){
+     updates[
+      `examPublicPages/${token}`
+     ]={
+      ...publicPaperRecord(
+       {
+        ...exam,
+        status:"completed"
+       },
+       st,
+       p,
+       token
+      ),
+      status:"completed",
+      finalized:true,
+      finalStatus:
+       absent
+        ?"absent"
+        :"completed",
+      attendanceStatus:
+       absent
+        ?"absent"
+        :"present",
+      finalScore,
+      displayScore:
+       absent
+        ?"غ"
+        :finalScore,
+      completedAt:now
+     }
+    }
+   }
+  }
+
+  await dbPatch(
+   "",
+   updates
+  );
+
+  exam.status="completed";
+  exam.completedAt=now;
+
+  savedExams[
+   exam.examId
+  ]={
+   ...exam
+  };
+
+  for(const st of rows){
+   const scanned=
+    scannedPageCount(
+     st.code
+    );
+
+   examResults[
+    st.code
+   ]??={};
+
+   examResults[
+    st.code
+   ].finalized=true;
+
+   examResults[
+    st.code
+   ].finalStatus=
+    scanned===0
+     ?"absent"
+     :"completed";
+
+   examResults[
+    st.code
+   ].displayScore=
+    scanned===0
+     ?"غ"
+     :resultTotal(
+       st.code
+      );
+  }
+
+  stopCamera();
+  renderResults();
+  renderSavedExams();
+
+  showAlert(
+   "تم التصحيح والاعتماد",
+   "تم تثبيت النتائج نهائياً.\n\n• الطالب الذي لم توجد له أي ورقة سُجل «غ / غياب».\n• الطالب الحاضر الذي لم يحدد إجابة حصل على صفر للسؤال.\n• الصفحات المفقودة لطالب ظهرت له ورقة واحدة على الأقل حُسبت صفراً، وليس غياباً.\n\nتم إغلاق الامتحان نهائياً.",
+   [
+    [
+     "الرجوع للامتحانات",
+     "g",
+     ()=>{
+      closeAlert();
+      goHome()
+     }
+    ]
+   ]
+  )
+
+ }
+ catch(e){
+  console.error(e);
+
+  toast(
+   "تعذر تثبيت الدرجات. لم يتم إنهاء التصحيح.",
+   "error"
+  )
+ }
 }
 
 function goStage(name){
- if(name==="questions"&&!examDraft&&!selectedAssignment)return toast("ابدأ بإنشاء امتحان أولاً.","warn");
- if(name==="preview"&&!pagePlan.length)return toast("جهز الأسئلة والمعاينة أولاً.","warn");
- if(name==="correction"){if(!currentExam)return toast("اختر امتحاناً غير مصحح واضغط «تصحيح الامتحان».","warn");if(currentExam.status==="completed")return toast("هذا الامتحان تم التصحيح والاعتماد.","warn")}
- $("homeStage").classList.add("hidden");$("savedPanel").classList.add("hidden");$("workflowSteps").classList.remove("hidden");
- const map={setup:"setupStage",questions:"questionsStage",preview:"previewStage",correction:"correctionStage"};Object.values(map).forEach(id=>$(id).classList.add("hidden"));$(map[name]).classList.remove("hidden");
- const order=["setup","questions","preview","correction"],idx=order.indexOf(name);order.forEach((x,i)=>{$(`step${i+1}`).classList.toggle("active",i===idx);$(`step${i+1}`).classList.toggle("done",i<idx)});
- if(name==="questions")renderQuestions();if(name==="correction")renderResults();window.scrollTo({top:0,behavior:"smooth"})
+ /*
+    بعد تحميل PDF واعتماد المعاينة:
+    لا رجوع للإعداد أو الأسئلة أو المعاينة.
+ */
+ if(
+  examEditingIsLocked()&&
+  [
+   "setup",
+   "questions",
+   "preview"
+  ].includes(name)
+ ){
+  applyExamEditLockUI(true);
+
+  return toast(
+   "تم اعتماد المعاينة وتحميل PDF. هذا الامتحان أصبح للتصحيح فقط ولا يمكن تعديل الأسئلة.",
+   "warn"
+  )
+ }
+
+ if(
+  name==="questions"&&
+  !examDraft&&
+  !selectedAssignment
+ ){
+  return toast(
+   "ابدأ بإنشاء امتحان أولاً.",
+   "warn"
+  )
+ }
+
+ if(
+  name==="preview"&&
+  !pagePlan.length
+ ){
+  return toast(
+   "جهز الأسئلة والمعاينة أولاً.",
+   "warn"
+  )
+ }
+
+ if(name==="correction"){
+  if(!currentExam){
+   return toast(
+    "اختر امتحاناً غير مصحح واضغط «تصحيح الامتحان».",
+    "warn"
+   )
+  }
+
+  if(
+   currentExam.status===
+   "completed"
+  ){
+   return toast(
+    "هذا الامتحان تم التصحيح والاعتماد.",
+    "warn"
+   )
+  }
+ }
+
+ $("homeStage").classList.add("hidden");
+ $("savedPanel").classList.add("hidden");
+ $("workflowSteps").classList.remove("hidden");
+
+ const map={
+  setup:"setupStage",
+  questions:"questionsStage",
+  preview:"previewStage",
+  correction:"correctionStage"
+ };
+
+ Object.values(map).forEach(
+  id=>$(id).classList.add("hidden")
+ );
+
+ $(map[name]).classList.remove("hidden");
+
+ const order=[
+  "setup",
+  "questions",
+  "preview",
+  "correction"
+ ],
+ idx=order.indexOf(name);
+
+ order.forEach(
+  (x,i)=>{
+   $(`step${i+1}`)
+   .classList.toggle(
+    "active",
+    i===idx
+   );
+
+   $(`step${i+1}`)
+   .classList.toggle(
+    "done",
+    i<idx
+   )
+  }
+ );
+
+ applyExamEditLockUI(
+  examEditingIsLocked()
+ );
+
+ if(name==="questions"){
+  renderQuestions()
+ }
+
+ if(name==="correction"){
+  renderResults()
+ }
+
+ window.scrollTo({
+  top:0,
+  behavior:"smooth"
+ })
 }
 
 async function compressImage(file,maxW=1200,maxH=900,quality=.84){return new Promise((resolve,reject)=>{const img=new Image(),url=URL.createObjectURL(file);img.onload=()=>{let w=img.naturalWidth,h=img.naturalHeight,scale=Math.min(1,maxW/w,maxH/h);w=Math.max(1,Math.round(w*scale));h=Math.max(1,Math.round(h*scale));const c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(img,0,0,w,h);URL.revokeObjectURL(url);resolve(c.toDataURL("image/jpeg",quality))};img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("IMAGE"))};img.src=url})}
