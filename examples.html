@@ -10,6 +10,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <style>
 :root{
@@ -559,6 +560,298 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
  background:#fff!important;
 }
 
+
+/* ================= Camera + Scanner batch correction ================= */
+.correction-mode-switch{
+ display:flex;
+ gap:7px;
+ flex-wrap:wrap;
+ margin-bottom:12px;
+ padding:6px;
+ border:1px solid var(--border);
+ border-radius:14px;
+ background:#fff;
+}
+.correction-mode-btn{
+ min-height:42px;
+ flex:1 1 180px;
+ border:1px solid #dce6f3;
+ border-radius:10px;
+ background:#f8fbff;
+ color:#475467;
+ font-size:9px;
+ font-weight:900;
+}
+.correction-mode-btn.active{
+ border-color:#075fcf;
+ background:#075fcf;
+ color:#fff;
+ box-shadow:0 7px 20px rgba(7,95,207,.17);
+}
+.file-scan-card{
+ border:1px solid var(--border);
+ border-radius:15px;
+ background:#fff;
+ overflow:hidden;
+}
+.file-scan-card.hidden{display:none!important}
+.scan-dropzone{
+ margin:10px;
+ min-height:150px;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ gap:7px;
+ padding:18px;
+ border:2px dashed #a8c8ef;
+ border-radius:15px;
+ background:#f7fbff;
+ text-align:center;
+ transition:.16s ease;
+}
+.scan-dropzone.drag{
+ border-color:#075fcf;
+ background:#eaf4ff;
+ transform:scale(.995);
+}
+.scan-dropzone strong{
+ color:#075fcf;
+ font-size:12px;
+ font-weight:900;
+}
+.scan-dropzone p{
+ max-width:500px;
+ color:#667085;
+ font-size:8px;
+ line-height:1.8;
+ font-weight:800;
+}
+.scan-dropzone input{display:none}
+.scan-file-actions{
+ display:flex;
+ gap:6px;
+ flex-wrap:wrap;
+ justify-content:center;
+ margin-top:3px;
+}
+.batch-toolbar{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ flex-wrap:wrap;
+ padding:10px;
+ border-top:1px solid var(--border);
+ border-bottom:1px solid var(--border);
+ background:#fbfcfe;
+}
+.batch-progress-wrap{
+ flex:1 1 260px;
+ min-width:220px;
+}
+.batch-progress-head{
+ display:flex;
+ justify-content:space-between;
+ gap:8px;
+ margin-bottom:5px;
+ color:#475467;
+ font-size:8px;
+ font-weight:900;
+}
+.batch-progress{
+ height:9px;
+ overflow:hidden;
+ border-radius:999px;
+ background:#e9eef5;
+}
+.batch-progress > span{
+ display:block;
+ width:0;
+ height:100%;
+ border-radius:inherit;
+ background:linear-gradient(90deg,#075fcf,#16a0ff);
+ transition:width .18s ease;
+}
+.batch-stats{
+ display:flex;
+ gap:5px;
+ flex-wrap:wrap;
+}
+.batch-stat{
+ min-width:68px;
+ padding:6px 8px;
+ border-radius:9px;
+ text-align:center;
+ background:#fff;
+ border:1px solid #e2e8f0;
+}
+.batch-stat small{
+ display:block;
+ color:#667085;
+ font-size:6.8px;
+ font-weight:900;
+}
+.batch-stat b{
+ display:block;
+ margin-top:2px;
+ color:#172033;
+ font-size:11px;
+ font-weight:900;
+}
+.batch-stat.ok b{color:#067647}
+.batch-stat.bad b{color:#b42318}
+.batch-stat.warn b{color:#b54708}
+.file-scan-body{
+ display:grid;
+ grid-template-columns:minmax(250px,.88fr) minmax(290px,1.12fr);
+ gap:10px;
+ padding:10px;
+}
+.file-preview{
+ position:relative;
+ min-height:410px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ overflow:hidden;
+ border:1px solid #dfe7f1;
+ border-radius:12px;
+ background:#111d2b;
+}
+#fileScanPreview{
+ display:block;
+ max-width:100%;
+ max-height:610px;
+ width:auto;
+ height:auto;
+ background:#fff;
+}
+.file-preview-empty{
+ position:absolute;
+ inset:0;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:25px;
+ color:#b8c8db;
+ text-align:center;
+ font-size:9px;
+ line-height:1.9;
+ font-weight:900;
+ pointer-events:none;
+}
+.file-preview-empty.hidden{display:none!important}
+.file-process-card{
+ position:absolute;
+ left:10px;
+ right:10px;
+ top:10px;
+ z-index:6;
+ padding:10px 11px;
+ border-radius:11px;
+ background:rgba(4,18,34,.91);
+ color:#fff;
+ box-shadow:0 8px 30px rgba(0,0,0,.25);
+ backdrop-filter:blur(5px);
+}
+.file-process-card.hidden{display:none!important}
+.file-process-card strong{
+ display:block;
+ font-size:10px;
+ font-weight:900;
+}
+.file-process-card span{
+ display:block;
+ margin-top:3px;
+ color:#dcecff;
+ font-size:7.5px;
+ line-height:1.6;
+ font-weight:800;
+}
+.file-queue{
+ min-height:410px;
+ max-height:610px;
+ overflow:auto;
+ border:1px solid #dfe7f1;
+ border-radius:12px;
+ background:#fff;
+}
+.file-queue-head{
+ position:sticky;
+ top:0;
+ z-index:2;
+ padding:9px 10px;
+ border-bottom:1px solid #e7edf4;
+ background:#f8fafc;
+ color:#475467;
+ font-size:8px;
+ font-weight:900;
+}
+.file-queue-row{
+ display:grid;
+ grid-template-columns:32px minmax(0,1fr) auto;
+ gap:7px;
+ align-items:center;
+ padding:8px 9px;
+ border-bottom:1px solid #eef2f6;
+}
+.file-queue-row:last-child{border-bottom:0}
+.file-queue-row .num{
+ width:27px;
+ height:27px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ border-radius:8px;
+ background:#f2f4f7;
+ color:#667085;
+ font-size:7px;
+ font-weight:900;
+}
+.file-queue-row strong{
+ display:block;
+ overflow:hidden;
+ text-overflow:ellipsis;
+ white-space:nowrap;
+ color:#172033;
+ font-size:8px;
+ font-weight:900;
+}
+.file-queue-row small{
+ display:block;
+ margin-top:2px;
+ color:#667085;
+ font-size:6.8px;
+ font-weight:800;
+}
+.batch-tag{
+ min-width:70px;
+ padding:5px 6px;
+ border-radius:999px;
+ text-align:center;
+ font-size:6.8px;
+ font-weight:900;
+}
+.batch-tag.wait{background:#f2f4f7;color:#667085}
+.batch-tag.work{background:#edf5ff;color:#075fcf}
+.batch-tag.ok{background:#ecfdf3;color:#067647}
+.batch-tag.warn{background:#fff7ed;color:#b54708}
+.batch-tag.bad{background:#fff1f1;color:#b42318}
+.file-scan-note{
+ padding:9px 10px;
+ border-top:1px solid var(--border);
+ background:#f8fbff;
+ color:#475467;
+ font-size:7.3px;
+ line-height:1.8;
+ font-weight:800;
+}
+@media(max-width:920px){
+ .file-scan-body{grid-template-columns:1fr}
+ .file-preview,.file-queue{min-height:340px;max-height:520px}
+}
+
 </style>
 </head>
 
@@ -648,8 +941,12 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
  <section id="correctionStage" class="panel hidden">
   <div class="panel-head"><div><h3>تصحيح أوراق الامتحان</h3><p id="correctionExamText">اختر امتحاناً محفوظاً أو أنشئ امتحاناً جديداً.</p></div><div class="correction-head"><span id="correctionBadge" class="exam-badge">لا يوجد امتحان</span><button class="btn btn-gray" type="button" onclick="stopCamera();goHome()">الرجوع للامتحانات</button></div></div>
   <div class="panel-body">
+   <div class="correction-mode-switch">
+    <button id="cameraModeBtn" class="correction-mode-btn active" type="button" onclick="setCorrectionMode('camera')">التصحيح بالكاميرا</button>
+    <button id="fileModeBtn" class="correction-mode-btn" type="button" onclick="setCorrectionMode('files')">رفع PDF / ملفات Scanner</button>
+   </div>
    <div class="correction-grid">
-    <div class="camera-card">
+    <div id="cameraCorrectionCard" class="camera-card">
      <div class="card-head"><h4>التصحيح بالكاميرا / OMR</h4><p>ضع معظم الورقة أمام الكاميرا. علامات الزوايا تساعد على سرعة الالتقاط لكنها ليست شرطاً لنجاح التصحيح؛ بعد أخذ الصورة يحاول النظام قراءة QR بعدة طرق، وQR نفسه يُستخدم لمعايرة خريطة الصفحة عند الحاجة. الصورة مؤقتة في ذاكرة المتصفح ولا تُرفع إلى Firebase.</p></div>
      <div id="cameraStage" class="camera-stage">
       <video id="cameraVideo" playsinline webkit-playsinline autoplay muted class="hidden"></video>
@@ -677,6 +974,64 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
      <div id="scanStatus" class="scan-status warn">الكاميرا متوقفة.</div>
      <div class="camera-actions"><button id="startCameraBtn" class="btn btn-p" type="button" onclick="startCamera()">تشغيل الكاميرا</button><button id="torchBtn" class="btn btn-o hidden" type="button" onclick="toggleTorch()">تشغيل الفلاش</button><button class="btn btn-gray" type="button" onclick="stopCamera()">إيقاف</button></div>
      <div class="scanner-status"><span id="cornerChip" class="scanner-chip warn">زوايا الورقة: بانتظار</span><span id="captureChip" class="scanner-chip capture">التقاط الورقة: بانتظار الثبات</span><span id="qrChip" class="scanner-chip warn">الباركود: بانتظار</span><span id="securityChip" class="scanner-chip warn">أمان الورقة: بانتظار</span></div>
+    </div>
+
+    <div id="fileScanCard" class="file-scan-card hidden">
+     <div class="card-head">
+      <h4>التصحيح من Scanner / PDF</h4>
+      <p>ارفع PDF مسحوب بالسكنر أو مجموعة صور JPG/PNG. الملفات تُعالج محلياً داخل المتصفح صفحة صفحة، ولا تُرفع الصور أو ملف PDF إلى Firebase. الذي يُحفظ فقط هو نتيجة التصحيح.</p>
+     </div>
+
+     <div id="scanDropzone" class="scan-dropzone">
+      <strong>اسحب ملف PDF أو صور أوراق الطلبة هنا</strong>
+      <p>يمكن رفع ملف PDF واحد يحتوي عشرات أو مئات الصفحات، أو عدة صور دفعة واحدة. ترتيب أوراق الطلاب غير مهم لأن QR يحدد الطالب ورقم الصفحة.</p>
+      <div class="scan-file-actions">
+       <label class="btn btn-p" for="scannerFilesInput">اختيار PDF / صور</label>
+       <input id="scannerFilesInput" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp">
+       <button id="scannerStartBtn" class="btn btn-g" type="button" onclick="startScannerBatch()">بدء التصحيح</button>
+       <button id="scannerStopBtn" class="btn btn-o" type="button" onclick="cancelScannerBatch()">إيقاف</button>
+       <button class="btn btn-gray" type="button" onclick="clearScannerBatch()">مسح القائمة</button>
+      </div>
+     </div>
+
+     <div class="batch-toolbar">
+      <div class="batch-progress-wrap">
+       <div class="batch-progress-head">
+        <span id="batchProgressText">لا توجد ملفات مضافة</span>
+        <span id="batchProgressPct">0%</span>
+       </div>
+       <div class="batch-progress"><span id="batchProgressBar"></span></div>
+      </div>
+      <div class="batch-stats">
+       <div class="batch-stat"><small>الصفحات</small><b id="batchTotal">0</b></div>
+       <div class="batch-stat ok"><small>تم</small><b id="batchSuccess">0</b></div>
+       <div class="batch-stat warn"><small>مراجعة</small><b id="batchReview">0</b></div>
+       <div class="batch-stat bad"><small>مرفوض</small><b id="batchFailed">0</b></div>
+       <div class="batch-stat"><small>مكرر</small><b id="batchDuplicate">0</b></div>
+      </div>
+     </div>
+
+     <div class="file-scan-body">
+      <div class="file-preview">
+       <canvas id="fileScanPreview"></canvas>
+       <div id="filePreviewEmpty" class="file-preview-empty">ستظهر هنا الصفحة التي يعالجها النظام مع تحديد QR والدوائر المقروءة.</div>
+       <div id="fileProcessCard" class="file-process-card hidden">
+        <strong id="fileProcessTitle">جاري المعالجة</strong>
+        <span id="fileProcessText">—</span>
+       </div>
+      </div>
+
+      <div id="fileQueue" class="file-queue">
+       <div class="file-queue-head">سجل صفحات Scanner</div>
+       <div id="fileQueueRows">
+        <div class="help" style="padding:18px">لم تتم إضافة ملفات بعد.</div>
+       </div>
+      </div>
+     </div>
+
+     <div class="file-scan-note">
+      المعالجة محلية: PDF والصور تبقى في ذاكرة المتصفح المؤقتة فقط أثناء التصحيح. لا يتم إرسال الملف أو صورة الورقة إلى قاعدة البيانات. بعد معالجة كل صفحة يتم تحرير الـCanvas من الذاكرة.
+     </div>
     </div>
 
     <div class="results-card">
@@ -726,6 +1081,15 @@ let lastQRReadAt=0,lastOverlayStudent="",lastOverlayPage=-1,torchOn=false;
 let lastPageCorners=null,pageCornerStableCount=0,lastAutoCaptureAt=0;
 const AUTO_CAPTURE_FRAMES=2;
 const AUTO_OMR_BASE=20;
+
+let correctionMode="camera";
+let scannerFiles=[];
+let scannerBatchRunning=false;
+let scannerBatchCancelRequested=false;
+let scannerBatchSeq=0;
+let scannerBatchRows=[];
+let scannerBatchStats={total:0,done:0,success:0,review:0,failed:0,duplicate:0};
+
 let toastTimer=0;
 
 function toast(text,type=""){const el=$("toast");el.textContent=String(text||"");el.className=`toast ${type} show`;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),2800)}
@@ -1326,7 +1690,68 @@ async function cancelExam(id){
   ])
  }catch(e){console.error(e);toast("تعذر إلغاء الامتحان.","error")}
 }
-async function openExamForCorrection(id){try{const exam=savedExams[id]||await dbGet(`exams/${encodeURIComponent(id)}`);if(!exam||exam.teacherCode!==TEACHER_CODE)return toast("هذا الامتحان غير تابع لحسابك.","error");if(exam.status==="completed")return toast("هذا الامتحان تم التصحيح والاعتماد ولا يمكن فتحه مرة أخرى.","warn");currentExam=exam;examDraft=exam;questions=JSON.parse(JSON.stringify(exam.questions||[]));fontScale=Number(exam.fontScale||1);pagePlan=exam.pagePlan||[];omrLayout=exam.omrLayout||{};examResults=await dbGet(`examResults/${encodeURIComponent(id)}`)||{};$("correctionExamText").textContent=`${exam.className} — ${exam.subjectName} — ${exam.periodLabel} — ${exam.targetLabel}`;$("correctionBadge").textContent=`من ${exam.targetMax} — ${exam.pageCount} صفحة لكل طالب`;renderResults();goStage("correction");toast("تم فتح مرحلة التصحيح.","success")}catch(e){console.error(e);toast("تعذر فتح الامتحان.","error")}}
+async function openExamForCorrection(id){
+ try{
+  const exam=
+   savedExams[id]||
+   await dbGet(`exams/${encodeURIComponent(id)}`);
+
+  if(
+   !exam||
+   exam.teacherCode!==TEACHER_CODE
+  ){
+   return toast(
+    "هذا الامتحان غير تابع لحسابك.",
+    "error"
+   )
+  }
+
+  if(exam.status==="completed"){
+   return toast(
+    "هذا الامتحان تم التصحيح والاعتماد ولا يمكن فتحه مرة أخرى.",
+    "warn"
+   )
+  }
+
+  currentExam=exam;
+  examDraft=exam;
+  questions=JSON.parse(
+   JSON.stringify(exam.questions||[])
+  );
+  fontScale=Number(exam.fontScale||1);
+  imageScale=Number(exam.imageScale||.8);
+  pagePlan=exam.pagePlan||[];
+  omrLayout=exam.omrLayout||{};
+
+  examResults=
+   await dbGet(
+    `examResults/${encodeURIComponent(id)}`
+   )||{};
+
+  $("correctionExamText").textContent=
+   `${exam.className} — ${exam.subjectName} — ${exam.periodLabel} — ${exam.targetLabel}`;
+
+  $("correctionBadge").textContent=
+   `من ${exam.targetMax} — ${exam.pageCount} صفحة لكل طالب`;
+
+  clearScannerBatch();
+  renderResults();
+  goStage("correction");
+  setCorrectionMode("camera");
+
+  toast(
+   "تم فتح مرحلة التصحيح. يمكنك استخدام الكاميرا أو رفع ملف Scanner.",
+   "success"
+  )
+
+ }catch(e){
+  console.error(e);
+  toast(
+   "تعذر فتح الامتحان.",
+   "error"
+  )
+ }
+}
 
 function essayQuestions(){return(currentExam?.questions||[]).filter(q=>q.type==="essay")}
 function mcqQuestions(){return(currentExam?.questions||[]).filter(q=>q.type!=="essay")}
@@ -3588,8 +4013,10 @@ function detectSelections(bubbles){
  })
 }
 function scoreDetectedPage(pageIndex,detected){const qids=new Set(currentExam.omrLayout?.[pageIndex]?.questionIds||[]),map=Object.fromEntries(detected.map(x=>[x.qid,x]));let score=0;for(const q of currentExam.questions||[]){if(!qids.has(q.id)||q.type==="essay")continue;const correct=q.options?.find(o=>o.correct)?.id,sel=map[q.id]?.selected;if(sel&&sel===correct)score+=Number(q.score||0)}return Math.round(score*100)/100}
-async function acceptScannedPage(student,pageIndex,detected){
+async function acceptScannedPage(student,pageIndex,detected,options={}){
  const autoScore=scoreDetectedPage(pageIndex,detected),
+       source=String(options.source||"camera"),
+       sourceLabel=String(options.sourceLabel||"").slice(0,180),
        data={
         pageIndex,
         selections:Object.fromEntries(
@@ -3606,10 +4033,16 @@ async function acceptScannedPage(student,pageIndex,detected){
          ])
         ),
         autoScore,
+        scanSource:source,
+        sourceLabel,
         scannedAt:Date.now(),
         scannedBy:TEACHER_CODE
        };
 
+ /*
+    لا توجد صورة أو PDF داخل data.
+    Firebase يستلم النتيجة النصية/الرقمية فقط.
+ */
  examResults[student.code]??={};
  examResults[student.code].pages??={};
  examResults[student.code].pages[pageIndex]=data;
@@ -3625,20 +4058,1046 @@ async function acceptScannedPage(student,pageIndex,detected){
    pageScore:autoScore,
    currentTotal:resultTotal(student.code),
    status:"scanned",
+   scanSource:source,
    scannedAt:Date.now()
   }
  }
 
  await dbPatch("",updates);
-
  renderResults();
 
- setScanStatus(
-  `تم اعتماد الصفحة ${pageIndex+1} للطالب ${student.name}. درجة الصفحة ${autoScore}، والمجموع الحالي ${resultTotal(student.code)} / ${currentExam.targetMax}.`,
-  "good"
+ if(!options.silent){
+  setScanStatus(
+   `تم اعتماد الصفحة ${pageIndex+1} للطالب ${student.name}. درجة الصفحة ${autoScore}، والمجموع الحالي ${resultTotal(student.code)} / ${currentExam.targetMax}.`,
+   "good"
+  );
+  toast(`تم تصحيح الصفحة ${pageIndex+1}: ${student.name}`,"success")
+ }
+
+ return{
+  autoScore,
+  total:resultTotal(student.code),
+  data
+ }
+}
+
+
+function setCorrectionMode(mode){
+ correctionMode=mode==="files"?"files":"camera";
+
+ const camera=correctionMode==="camera",
+       cameraCard=$("cameraCorrectionCard"),
+       fileCard=$("fileScanCard");
+
+ cameraCard?.classList.toggle("hidden",!camera);
+ fileCard?.classList.toggle("hidden",camera);
+
+ $("cameraModeBtn")?.classList.toggle("active",camera);
+ $("fileModeBtn")?.classList.toggle("active",!camera);
+
+ if(!camera){
+  stopCamera()
+ }
+}
+
+function scannerStatusText(status){
+ const map={
+  queued:"بانتظار",
+  rendering:"تحويل الصفحة",
+  qr:"قراءة QR",
+  grading:"قراءة الإجابات",
+  success:"تم التصحيح",
+  review:"تحتاج مراجعة",
+  failed:"مرفوض",
+  duplicate:"مكرر",
+  skipped:"متوقف"
+ };
+ return map[status]||status
+}
+
+function scannerStatusClass(status){
+ if(status==="success")return"ok";
+ if(status==="review")return"warn";
+ if(status==="failed")return"bad";
+ if(status==="duplicate")return"warn";
+ if(["rendering","qr","grading"].includes(status))return"work";
+ return"wait"
+}
+
+function setFileProcess(title,text="",type="work"){
+ const card=$("fileProcessCard");
+ if(!card)return;
+
+ card.classList.remove("hidden");
+ $("fileProcessTitle").textContent=title||"جاري المعالجة";
+ $("fileProcessText").textContent=text||"";
+}
+
+function clearFileProcess(){
+ $("fileProcessCard")?.classList.add("hidden")
+}
+
+function updateBatchStats(){
+ const st=scannerBatchStats,
+       total=Math.max(0,Number(st.total||0)),
+       done=Math.max(0,Number(st.done||0)),
+       pct=total?Math.min(100,Math.round(done/total*100)):0;
+
+ $("batchTotal").textContent=total;
+ $("batchSuccess").textContent=st.success||0;
+ $("batchReview").textContent=st.review||0;
+ $("batchFailed").textContent=st.failed||0;
+ $("batchDuplicate").textContent=st.duplicate||0;
+
+ $("batchProgressBar").style.width=`${pct}%`;
+ $("batchProgressPct").textContent=`${pct}%`;
+
+ if(scannerBatchRunning){
+  $("batchProgressText").textContent=`جاري معالجة الصفحة ${Math.min(done+1,total)} من ${total}`
+ }else if(total){
+  $("batchProgressText").textContent=`تمت معالجة ${done} من ${total}`
+ }else{
+  $("batchProgressText").textContent="لا توجد ملفات مضافة"
+ }
+}
+
+function renderScannerQueue(){
+ const host=$("fileQueueRows");
+
+ if(!scannerBatchRows.length){
+  host.innerHTML='<div class="help" style="padding:18px">لم تتم إضافة ملفات بعد.</div>';
+  return
+ }
+
+ host.innerHTML=scannerBatchRows.map((row,i)=>`
+  <div class="file-queue-row" data-row-id="${esc(row.id)}">
+   <div class="num">${i+1}</div>
+   <div>
+    <strong>${esc(row.title||"صفحة")}</strong>
+    <small>${esc(row.detail||"بانتظار المعالجة")}</small>
+   </div>
+   <span class="batch-tag ${scannerStatusClass(row.status)}">${esc(scannerStatusText(row.status))}</span>
+  </div>
+ `).join("");
+
+ const active=scannerBatchRows.find(r=>["rendering","qr","grading"].includes(r.status));
+ if(active){
+  const el=host.querySelector(`[data-row-id="${CSS.escape(active.id)}"]`);
+  el?.scrollIntoView({block:"nearest",behavior:"smooth"})
+ }
+}
+
+function updateScannerRow(id,patch={}){
+ const row=scannerBatchRows.find(x=>x.id===id);
+ if(!row)return;
+
+ Object.assign(row,patch);
+ renderScannerQueue()
+}
+
+function resetScannerStats(){
+ scannerBatchStats={
+  total:scannerBatchRows.length,
+  done:0,
+  success:0,
+  review:0,
+  failed:0,
+  duplicate:0
+ };
+ updateBatchStats()
+}
+
+function fileKind(file){
+ const type=String(file?.type||"").toLowerCase(),
+       name=String(file?.name||"").toLowerCase();
+
+ if(type==="application/pdf"||name.endsWith(".pdf"))return"pdf";
+ if(type.startsWith("image/")||/\.(jpg|jpeg|png|webp)$/i.test(name))return"image";
+
+ return"unknown"
+}
+
+function addScannerFiles(files){
+ const incoming=[...(files||[])].filter(Boolean);
+
+ if(!incoming.length)return;
+
+ for(const file of incoming){
+  const kind=fileKind(file);
+
+  if(kind==="unknown"){
+   toast(`ملف غير مدعوم: ${file.name}`,"warn");
+   continue
+  }
+
+  const id=`FILE_${Date.now()}_${Math.random().toString(36).slice(2,8)}`;
+
+  scannerFiles.push({
+   id,
+   file,
+   kind,
+   name:file.name
+  })
+ }
+
+ buildScannerRowsFromFiles();
+ toast(`تمت إضافة ${incoming.length} ملف/ملفات.`,"success")
+}
+
+async function countPdfPages(file){
+ if(!window.pdfjsLib)return 1;
+
+ try{
+  const buf=await file.arrayBuffer(),
+        task=pdfjsLib.getDocument({
+         data:new Uint8Array(buf),
+         disableAutoFetch:true,
+         disableStream:true
+        }),
+        pdf=await task.promise,
+        count=pdf.numPages;
+
+  await pdf.destroy();
+  return count
+ }catch{
+  return 1
+ }
+}
+
+async function buildScannerRowsFromFiles(){
+ scannerBatchRows=[];
+
+ let seq=0;
+
+ for(const item of scannerFiles){
+  if(item.kind==="pdf"){
+   const count=await countPdfPages(item.file);
+   item.pageCount=count;
+
+   for(let p=1;p<=count;p++){
+    scannerBatchRows.push({
+     id:`ROW_${++seq}_${item.id}_${p}`,
+     fileId:item.id,
+     kind:"pdf",
+     pageNumber:p,
+     title:`${item.name} — الصفحة ${p}`,
+     detail:"بانتظار المعالجة",
+     status:"queued"
+    })
+   }
+  }else{
+   item.pageCount=1;
+
+   scannerBatchRows.push({
+    id:`ROW_${++seq}_${item.id}_1`,
+    fileId:item.id,
+    kind:"image",
+    pageNumber:1,
+    title:item.name,
+    detail:"بانتظار المعالجة",
+    status:"queued"
+   })
+  }
+ }
+
+ scannerBatchStats={
+  total:scannerBatchRows.length,
+  done:0,
+  success:0,
+  review:0,
+  failed:0,
+  duplicate:0
+ };
+
+ renderScannerQueue();
+ updateBatchStats()
+}
+
+function clearScannerBatch(){
+ if(scannerBatchRunning){
+  toast("أوقف المعالجة أولاً.","warn");
+  return
+ }
+
+ scannerFiles=[];
+ scannerBatchRows=[];
+ resetScannerStats();
+
+ const preview=$("fileScanPreview");
+ if(preview){
+  preview.width=1;
+  preview.height=1
+ }
+
+ $("filePreviewEmpty")?.classList.remove("hidden");
+ clearFileProcess();
+
+ const input=$("scannerFilesInput");
+ if(input)input.value=""
+}
+
+function cancelScannerBatch(){
+ if(!scannerBatchRunning){
+  toast("لا توجد معالجة جارية.","warn");
+  return
+ }
+
+ scannerBatchCancelRequested=true;
+ setFileProcess(
+  "جاري إيقاف المعالجة",
+  "سيتم الإيقاف بعد الصفحة الحالية."
+ )
+}
+
+async function imageFileToCanvas(file){
+ if("createImageBitmap" in window){
+  const bitmap=await createImageBitmap(file),
+        c=document.createElement("canvas");
+
+  c.width=Math.max(1,bitmap.width);
+  c.height=Math.max(1,bitmap.height);
+
+  const ctx=c.getContext("2d",{willReadFrequently:true});
+  ctx.drawImage(bitmap,0,0);
+
+  if(bitmap.close)bitmap.close();
+
+  return c
+ }
+
+ return new Promise((resolve,reject)=>{
+  const url=URL.createObjectURL(file),
+        img=new Image();
+
+  img.onload=()=>{
+   const c=document.createElement("canvas");
+   c.width=Math.max(1,img.naturalWidth);
+   c.height=Math.max(1,img.naturalHeight);
+   c.getContext("2d",{willReadFrequently:true}).drawImage(img,0,0);
+   URL.revokeObjectURL(url);
+   resolve(c)
+  };
+
+  img.onerror=()=>{
+   URL.revokeObjectURL(url);
+   reject(new Error("IMAGE_LOAD_FAILED"))
+  };
+
+  img.src=url
+ })
+}
+
+async function renderPdfPageToCanvas(pdf,pageNumber){
+ const page=await pdf.getPage(pageNumber),
+       base=page.getViewport({scale:1}),
+       targetWidth=2600,
+       scale=Math.max(
+        2,
+        Math.min(
+         4.2,
+         targetWidth/Math.max(1,base.width)
+        )
+       ),
+       viewport=page.getViewport({scale}),
+       c=document.createElement("canvas");
+
+ c.width=Math.max(1,Math.round(viewport.width));
+ c.height=Math.max(1,Math.round(viewport.height));
+
+ const ctx=c.getContext("2d",{willReadFrequently:true,alpha:false});
+ ctx.fillStyle="#fff";
+ ctx.fillRect(0,0,c.width,c.height);
+
+ await page.render({
+  canvasContext:ctx,
+  viewport,
+  intent:"display"
+ }).promise;
+
+ page.cleanup();
+
+ return c
+}
+
+function drawScannerFilePreview(
+ source,
+ qr=null,
+ H=null,
+ bubbles=[],
+ detected=[]
+){
+ const dest=$("fileScanPreview");
+
+ if(!dest||!source)return;
+
+ const maxW=850,
+       maxH=1120,
+       scale=Math.min(
+        1,
+        maxW/source.width,
+        maxH/source.height
+       );
+
+ dest.width=Math.max(1,Math.round(source.width*scale));
+ dest.height=Math.max(1,Math.round(source.height*scale));
+
+ const ctx=dest.getContext("2d");
+ ctx.clearRect(0,0,dest.width,dest.height);
+ ctx.drawImage(source,0,0,dest.width,dest.height);
+
+ $("filePreviewEmpty")?.classList.add("hidden");
+
+ const X=x=>x*scale,
+       Y=y=>y*scale;
+
+ if(qr?.location){
+  const pts=[
+   qr.location.topLeftCorner,
+   qr.location.topRightCorner,
+   qr.location.bottomRightCorner,
+   qr.location.bottomLeftCorner
+  ];
+
+  ctx.save();
+  ctx.beginPath();
+  pts.forEach((p,i)=>
+   i
+    ?ctx.lineTo(X(p.x),Y(p.y))
+    :ctx.moveTo(X(p.x),Y(p.y))
+  );
+  ctx.closePath();
+  ctx.strokeStyle="#31c8ff";
+  ctx.lineWidth=4;
+  ctx.shadowColor="#31c8ff";
+  ctx.shadowBlur=7;
+  ctx.stroke();
+  ctx.restore()
+ }
+
+ if(!H||!bubbles.length)return;
+
+ const dmap=Object.fromEntries(
+  (detected||[]).map(d=>[d.qid,d])
  );
 
- toast(`تم تصحيح الصفحة ${pageIndex+1}: ${student.name}`,"success")
+ for(const b of bubbles){
+  const d=dmap[b.qid],
+        mapped=mapH(H,{x:b.x,y:b.y}),
+        radius=Math.max(5,Number(b.r||7)*scale*1.25),
+        q=(currentExam.questions||[]).find(x=>x.id===b.qid),
+        correct=q?.options?.find(o=>o.correct)?.id,
+        selected=d?.state==="selected"&&d.selected===b.oid,
+        multiple=d?.state==="multiple"&&(d.markedOids||[]).includes(b.oid),
+        unclear=d?.state==="unclear"&&(d.markedOids||[]).includes(b.oid);
+
+  let color="rgba(220,230,240,.68)",
+      width=1.2,
+      symbol="";
+
+  if(selected){
+   const ok=d.selected===correct;
+   color=ok?"#00c853":"#ff3b30";
+   width=4;
+   symbol=ok?"✓":"✕"
+  }else if(multiple){
+   color="#ff3b30";
+   width=4;
+   symbol="✕"
+  }else if(unclear){
+   color="#ffb020";
+   width=4;
+   symbol="?"
+  }
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(
+   X(mapped.x),
+   Y(mapped.y),
+   radius,
+   0,
+   Math.PI*2
+  );
+  ctx.strokeStyle=color;
+  ctx.lineWidth=width;
+  ctx.stroke();
+
+  if(symbol){
+   ctx.fillStyle=color;
+   ctx.font=`900 ${Math.max(13,Math.round(radius*1.35))}px Arial`;
+   ctx.textAlign="center";
+   ctx.textBaseline="middle";
+   ctx.fillText(
+    symbol,
+    X(mapped.x),
+    Y(mapped.y)+1
+   )
+  }
+
+  ctx.restore()
+ }
+}
+
+function batchResult(status,detail="",extra={}){
+ return{
+  status,
+  detail,
+  ...extra
+ }
+}
+
+async function analyzeScannerCanvas(canvas,sourceLabel,rowId){
+ if(!currentExam){
+  return batchResult(
+   "failed",
+   "لا يوجد امتحان مفتوح للتصحيح."
+  )
+ }
+
+ setFileProcess(
+  "جاري قراءة الباركود",
+  sourceLabel
+ );
+
+ updateScannerRow(
+  rowId,
+  {
+   status:"qr",
+   detail:"جاري البحث عن QR الخاص بالطالب..."
+  }
+ );
+
+ drawScannerFilePreview(canvas);
+
+ const frameCtx=canvas.getContext("2d",{willReadFrequently:true}),
+       frame=frameCtx.getImageData(0,0,canvas.width,canvas.height),
+       brightness=frameBrightness(frame.data),
+       baseLayout=
+        currentExam.omrLayout?.[0]||
+        Object.values(currentExam.omrLayout||{})[0];
+
+ let foundMarkers=findPageMarkers(canvas),
+     Hbase=
+      baseLayout&&foundMarkers
+       ?markerHomography(baseLayout,foundMarkers)
+       :null;
+
+ const qrResult=await readCapturedQRMultiPass(
+  canvas,
+  Hbase,
+  baseLayout?.qrRect||null,
+  (attempt,label)=>{
+   setFileProcess(
+    "جاري قراءة الباركود",
+    `${sourceLabel} — المحاولة ${attempt}: ${label}`
+   )
+  }
+ );
+
+ const qr=qrResult.qr;
+
+ if(!qr){
+  drawScannerFilePreview(canvas);
+
+  return batchResult(
+   "review",
+   `تعذر قراءة QR بعد ${qrResult.attempt} محاولات.`
+  )
+ }
+
+ let info=parseQR(qr.data);
+
+ if(!info){
+  drawScannerFilePreview(canvas,qr);
+
+  return batchResult(
+   "failed",
+   "QR مقروء لكنه ليس باركود امتحان التحدي."
+  )
+ }
+
+ info=await resolveQRInfo(info);
+
+ if(!info){
+  drawScannerFilePreview(canvas,qr);
+
+  return batchResult(
+   "failed",
+   "QR غير مسجل في قاعدة بيانات أوراق الامتحان."
+  )
+ }
+
+ if(info.examId!==currentExam.examId){
+  drawScannerFilePreview(canvas,qr);
+
+  return batchResult(
+   "failed",
+   "هذه الصفحة تابعة لامتحان آخر."
+  )
+ }
+
+ if(
+  info.pageIndex<0||
+  info.pageIndex>=Number(currentExam.pageCount)
+ ){
+  drawScannerFilePreview(canvas,qr);
+
+  return batchResult(
+   "failed",
+   "رقم الصفحة داخل QR غير صحيح."
+  )
+ }
+
+ const student=(currentExam.students||[]).find(
+  st=>st.code===info.studentCode
+ );
+
+ if(!student){
+  drawScannerFilePreview(canvas,qr);
+
+  return batchResult(
+   "failed",
+   `الطالب ${info.studentCode} غير موجود ضمن هذا الامتحان.`
+  )
+ }
+
+ const existing=
+  studentResult(student.code)
+  .pages?.[info.pageIndex];
+
+ if(existing){
+  drawScannerFilePreview(canvas,qr);
+
+  return batchResult(
+   "duplicate",
+   `${student.name} — الصفحة ${info.pageIndex+1} مصححة سابقاً.`,
+   {
+    student,
+    pageIndex:info.pageIndex
+   }
+  )
+ }
+
+ const layout=currentExam.omrLayout?.[info.pageIndex];
+
+ if(!layout?.qrRect){
+  drawScannerFilePreview(canvas,qr);
+
+  return batchResult(
+   "failed",
+   "خريطة OMR لهذه الصفحة غير موجودة."
+  )
+ }
+
+ /*
+    نفضّل علامات الورقة، وإذا لم تكفِ نستخدم QR نفسه
+    لمعادلة منظور الصفحة.
+ */
+ let H=
+  foundMarkers
+   ?markerHomography(layout,foundMarkers)
+   :null;
+
+ if(!H){
+  H=qrHomographyFromLayout(layout,qr)
+ }
+
+ if(!H){
+  drawScannerFilePreview(canvas,qr);
+
+  return batchResult(
+   "review",
+   "تمت قراءة QR لكن تعذر حساب منظور الصفحة."
+  )
+ }
+
+ const token=
+  info.token||
+  currentExam.paperTokens?.[student.code]?.[info.pageIndex]||
+  "",
+  security=verifyPaperSecurity(
+   frame.data,
+   canvas.width,
+   canvas.height,
+   H,
+   layout,
+   token
+  );
+
+ if(!security.ok&&!security.legacy){
+  drawScannerFilePreview(canvas,qr);
+
+  return batchResult(
+   security.unclear?"review":"failed",
+   security.unclear
+    ?"QR مقروء لكن علامة أمان الورقة غير واضحة."
+    :"QR لا يطابق علامة أمان هذه الورقة."
+  )
+ }
+
+ updateScannerRow(
+  rowId,
+  {
+   status:"grading",
+   detail:`${student.name} — الصفحة ${info.pageIndex+1}/${currentExam.pageCount} — جاري قراءة الإجابات`
+  }
+ );
+
+ setFileProcess(
+  `الطالب: ${student.name}`,
+  `الصف: ${currentExam.className} | الصفحة ${info.pageIndex+1}/${currentExam.pageCount} — جاري قراءة الإجابات`
+ );
+
+ const bubbles=(layout.bubbles||[]).map(
+  b=>({
+   ...b,
+   ...bubbleDarkness(
+    frame.data,
+    canvas.width,
+    canvas.height,
+    H,
+    b
+   )
+  })
+ ),
+ detected=detectSelections(bubbles),
+ unclearCount=detected.filter(x=>x.state==="unclear").length,
+ multipleCount=detected.filter(x=>x.state==="multiple").length,
+ blankCount=detected.filter(x=>x.state==="blank").length;
+
+ drawScannerFilePreview(
+  canvas,
+  qr,
+  H,
+  bubbles,
+  detected
+ );
+
+ if(unclearCount){
+  return batchResult(
+   "review",
+   `${student.name} — توجد ${unclearCount} إجابة غير واضحة؛ لم تُعتمد الصفحة.`,
+   {
+    student,
+    pageIndex:info.pageIndex
+   }
+  )
+ }
+
+ const result=await acceptScannedPage(
+  student,
+  info.pageIndex,
+  detected,
+  {
+   silent:true,
+   source:"scanner_file",
+   sourceLabel
+  }
+ );
+
+ return batchResult(
+  "success",
+  `${student.name} — الصفحة ${info.pageIndex+1}/${currentExam.pageCount} — الدرجة ${result.autoScore} — متعدد: ${multipleCount} — فارغ: ${blankCount}`,
+  {
+   student,
+   pageIndex:info.pageIndex,
+   score:result.autoScore
+  }
+ )
+}
+
+function applyBatchOutcome(row,result){
+ const status=result.status||"failed";
+
+ updateScannerRow(
+  row.id,
+  {
+   status,
+   detail:result.detail||scannerStatusText(status)
+  }
+ );
+
+ scannerBatchStats.done++;
+
+ if(status==="success"){
+  scannerBatchStats.success++
+ }else if(status==="review"){
+  scannerBatchStats.review++
+ }else if(status==="duplicate"){
+  scannerBatchStats.duplicate++
+ }else{
+  scannerBatchStats.failed++
+ }
+
+ updateBatchStats()
+}
+
+async function processPdfItem(item,rows){
+ if(!window.pdfjsLib){
+  throw new Error("PDFJS_NOT_LOADED")
+ }
+
+ const buffer=await item.file.arrayBuffer(),
+       task=pdfjsLib.getDocument({
+        data:new Uint8Array(buffer),
+        disableAutoFetch:true,
+        disableStream:true
+       }),
+       pdf=await task.promise;
+
+ try{
+  for(const row of rows){
+   if(scannerBatchCancelRequested)break;
+
+   updateScannerRow(
+    row.id,
+    {
+     status:"rendering",
+     detail:`جاري تحويل الصفحة ${row.pageNumber} إلى صورة عالية الدقة...`
+    }
+   );
+
+   setFileProcess(
+    "جاري تجهيز صفحة PDF",
+    `${item.name} — الصفحة ${row.pageNumber}/${pdf.numPages}`
+   );
+
+   let canvas=null;
+
+   try{
+    canvas=await renderPdfPageToCanvas(
+     pdf,
+     row.pageNumber
+    );
+
+    const result=await analyzeScannerCanvas(
+     canvas,
+     `${item.name} — PDF page ${row.pageNumber}`,
+     row.id
+    );
+
+    applyBatchOutcome(row,result)
+   }catch(error){
+    console.error("PDF_PAGE_SCAN_ERROR",error);
+
+    applyBatchOutcome(
+     row,
+     batchResult(
+      "failed",
+      `تعذر معالجة الصفحة: ${String(error?.message||error)}`
+     )
+    )
+   }finally{
+    if(canvas){
+     canvas.width=1;
+     canvas.height=1;
+     canvas=null
+    }
+
+    await nextPaint()
+   }
+  }
+ }finally{
+  await pdf.destroy()
+ }
+}
+
+async function processImageItem(item,row){
+ updateScannerRow(
+  row.id,
+  {
+   status:"rendering",
+   detail:"جاري فتح الصورة عالية الدقة..."
+  }
+ );
+
+ let canvas=null;
+
+ try{
+  canvas=await imageFileToCanvas(item.file);
+
+  const result=await analyzeScannerCanvas(
+   canvas,
+   item.name,
+   row.id
+  );
+
+  applyBatchOutcome(row,result)
+ }catch(error){
+  console.error("IMAGE_SCAN_ERROR",error);
+
+  applyBatchOutcome(
+   row,
+   batchResult(
+    "failed",
+    `تعذر معالجة الصورة: ${String(error?.message||error)}`
+   )
+  )
+ }finally{
+  if(canvas){
+   canvas.width=1;
+   canvas.height=1;
+   canvas=null
+  }
+
+  await nextPaint()
+ }
+}
+
+async function startScannerBatch(){
+ if(scannerBatchRunning)return;
+
+ if(!currentExam){
+  toast("افتح امتحاناً محفوظاً للتصحيح أولاً.","warn");
+  return
+ }
+
+ if(!scannerFiles.length){
+  toast("أضف PDF أو صور Scanner أولاً.","warn");
+  return
+ }
+
+ if(!scannerBatchRows.length){
+  await buildScannerRowsFromFiles()
+ }
+
+ const pending=scannerBatchRows.filter(
+  r=>["queued","review","failed","skipped"].includes(r.status)
+ );
+
+ if(!pending.length){
+  toast("لا توجد صفحات بانتظار المعالجة.","warn");
+  return
+ }
+
+ scannerBatchRunning=true;
+ scannerBatchCancelRequested=false;
+
+ /*
+    عند إعادة تشغيل batch:
+    لا نمسح الصفحات الناجحة/المكررة السابقة.
+    الإحصاءات تعاد بناؤها من الحالة الحالية.
+ */
+ scannerBatchStats={
+  total:scannerBatchRows.length,
+  done:scannerBatchRows.filter(r=>["success","duplicate"].includes(r.status)).length,
+  success:scannerBatchRows.filter(r=>r.status==="success").length,
+  review:0,
+  failed:0,
+  duplicate:scannerBatchRows.filter(r=>r.status==="duplicate").length
+ };
+
+ updateBatchStats();
+
+ $("scannerStartBtn").disabled=true;
+
+ try{
+  if(window.pdfjsLib){
+   pdfjsLib.GlobalWorkerOptions.workerSrc=
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"
+  }
+
+  for(const item of scannerFiles){
+   if(scannerBatchCancelRequested)break;
+
+   const rows=scannerBatchRows.filter(
+    r=>
+     r.fileId===item.id&&
+     ["queued","review","failed","skipped"].includes(r.status)
+   );
+
+   if(!rows.length)continue;
+
+   if(item.kind==="pdf"){
+    await processPdfItem(item,rows)
+   }else{
+    await processImageItem(item,rows[0])
+   }
+  }
+
+  if(scannerBatchCancelRequested){
+   for(const row of scannerBatchRows){
+    if(["queued","rendering","qr","grading"].includes(row.status)){
+     row.status="skipped";
+     row.detail="تم إيقاف المعالجة قبل هذه الصفحة."
+    }
+   }
+
+   renderScannerQueue();
+   toast("تم إيقاف معالجة Scanner.","warn")
+  }else{
+   toast(
+    `اكتملت المعالجة: ${scannerBatchStats.success} صفحة تم تصحيحها.`,
+    "success"
+   )
+  }
+
+ }catch(error){
+  console.error("SCANNER_BATCH_ERROR",error);
+
+  showAlert(
+   "تعذر تشغيل تصحيح Scanner",
+   String(error?.message||error),
+   [["موافق","soft",closeAlert]]
+  )
+ }finally{
+  scannerBatchRunning=false;
+  scannerBatchCancelRequested=false;
+
+  $("scannerStartBtn").disabled=false;
+
+  updateBatchStats();
+  clearFileProcess();
+  renderResults()
+ }
+}
+
+function initScannerDropzone(){
+ const zone=$("scanDropzone"),
+       input=$("scannerFilesInput");
+
+ if(!zone||!input)return;
+
+ input.addEventListener(
+  "change",
+  async()=>{
+   addScannerFiles(input.files);
+   await buildScannerRowsFromFiles()
+  }
+ );
+
+ for(const name of["dragenter","dragover"]){
+  zone.addEventListener(
+   name,
+   e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    zone.classList.add("drag")
+   }
+  )
+ }
+
+ for(const name of["dragleave","drop"]){
+  zone.addEventListener(
+   name,
+   e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    zone.classList.remove("drag")
+   }
+  )
+ }
+
+ zone.addEventListener(
+  "drop",
+  async e=>{
+   const files=e.dataTransfer?.files;
+   if(!files?.length)return;
+
+   addScannerFiles(files);
+   await buildScannerRowsFromFiles()
+  }
+ )
 }
 
 function setScanStatus(text,type){const el=$("scanStatus");el.textContent=text;el.className=`scan-status ${type}`}
@@ -3963,7 +5422,40 @@ async function initPublicPaper(token){
   $("publicPaperResult").innerHTML=`<h2>${esc(page.studentName||page.studentCode)}</h2><div class="public-paper-grid"><div class="public-paper-item"><small>المادة</small><strong>${esc(page.subjectName)}</strong></div><div class="public-paper-item"><small>الصف</small><strong>${esc(page.className)}</strong></div><div class="public-paper-item"><small>الفترة</small><strong>${esc(page.periodLabel)}</strong></div><div class="public-paper-item"><small>الصفحة</small><strong>${page.pageNumber} / ${page.pageCount}</strong></div><div class="public-paper-item"><small>الأستاذ</small><strong>${esc(page.teacherName||"—")}</strong></div><div class="public-paper-item"><small>الحالة</small><strong>${esc(status)}</strong></div></div><div class="public-score"><small>${finalized?"الدرجة المعتمدة":"المجموع الحالي بعد الصفحات المصححة"}</small><strong>${absent?"غ = 0":`${current} / ${page.targetMax}`}</strong>${pageResult?`<small style="margin-top:5px">درجة هذه الصفحة: ${Number(pageResult.autoScore||0)}</small>`:""}</div>`;
  }catch(e){console.error(e);$("publicPaperResult").innerHTML='<div class="help">تعذر قراءة بيانات الباركود حالياً.</div>'}finally{$("loaderScreen").classList.add("hidden")}
 }
-async function init(){const publicToken=new URLSearchParams(location.search).get("scan");if(publicToken)return initPublicPaper(publicToken);try{if(!await verifyTeacher())return;await loadBase();await loadSavedExams();goHome()}catch(e){console.error(e);toast("تعذر تحميل نظام الامتحانات.","error")}finally{$("loaderScreen").classList.add("hidden")}}
+async function init(){
+ const publicToken=
+  new URLSearchParams(
+   location.search
+  ).get("scan");
+
+ if(publicToken){
+  return initPublicPaper(publicToken)
+ }
+
+ try{
+  if(!await verifyTeacher())return;
+
+  if(window.pdfjsLib){
+   pdfjsLib.GlobalWorkerOptions.workerSrc=
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"
+  }
+
+  await loadBase();
+  await loadSavedExams();
+
+  initScannerDropzone();
+  goHome()
+
+ }catch(e){
+  console.error(e);
+  toast(
+   "تعذر تحميل نظام الامتحانات.",
+   "error"
+  )
+ }finally{
+  $("loaderScreen").classList.add("hidden")
+ }
+}
 window.addEventListener("beforeunload",stopCamera);
 window.addEventListener("load",init);
 </script>
