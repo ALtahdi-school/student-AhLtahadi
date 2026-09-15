@@ -11,6 +11,9 @@
 >
 
 <meta name="theme-color" content="#075fcf">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 
 <title>قسم الحسابات | مدرسة التحدي الأهلية المختلطة</title>
 
@@ -2656,6 +2659,32 @@ function loadSession(){
 }
 
 
+
+function hasAccountantSession(){
+
+    try{
+
+        const stored =
+            JSON.parse(
+                sessionStorage.getItem(
+                    "tahadi_session"
+                ) || "{}"
+            );
+
+        return Boolean(
+            stored &&
+            stored.code
+        );
+
+    }
+    catch{
+
+        return false;
+
+    }
+
+}
+
 /* =========================================================
    VERIFY ACCOUNTANT
 ========================================================= */
@@ -2730,9 +2759,38 @@ async function verifyAccountant(){
 
 function logout(){
 
-    sessionStorage.clear();
+    /*
+       تسجيل خروج كامل:
+       - حذف جلسة تسجيل الدخول نفسها.
+       - تنظيف أي قيم أخرى داخل sessionStorage.
+       - تنظيف نسخة الجلسة الموجودة بالذاكرة.
+       - منع الرجوع إلى صفحة الحسابات بجلسة قديمة.
+    */
 
-    location.replace(
+    try{
+        sessionStorage.removeItem(
+            "tahadi_session"
+        );
+
+        sessionStorage.clear();
+    }
+    catch(error){
+        console.warn(
+            "SESSION_CLEAR_ERROR",
+            error
+        );
+    }
+
+    session = {};
+    accountantUser = {};
+    selectedStudentCode = "";
+    selectedClassId = "";
+
+    /*
+       replace يمنع بقاء صفحة الحسابات كصفحة رجوع
+       ضمن سجل التنقل الحالي.
+    */
+    window.location.replace(
         "index.html"
     );
 
@@ -4261,6 +4319,55 @@ $("showAllBtn").onclick =
 $("logoutBtn").onclick =
     logout;
 
+
+
+/* =========================================================
+   SESSION GUARD
+   إذا رجع المستخدم بزر الرجوع بعد تسجيل الخروج،
+   لا نسمح بعرض الصفحة من ذاكرة المتصفح.
+========================================================= */
+
+window.addEventListener(
+    "pageshow",
+    event => {
+
+        if(
+            event.persisted ||
+            !hasAccountantSession()
+        ){
+
+            if(
+                !hasAccountantSession()
+            ){
+
+                window.location.replace(
+                    "index.html"
+                );
+
+            }
+
+        }
+
+    }
+);
+
+window.addEventListener(
+    "storage",
+    event => {
+
+        if(
+            event.key === "tahadi_session" &&
+            !event.newValue
+        ){
+
+            window.location.replace(
+                "index.html"
+            );
+
+        }
+
+    }
+);
 
 /* =========================================================
    INIT
