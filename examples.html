@@ -163,6 +163,18 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 .public-score{margin-top:12px;padding:14px;border-radius:14px;background:#075fcf;color:#fff;text-align:center}.public-score small{display:block;font-size:8px}.public-score strong{display:block;margin-top:3px;font-size:24px}
 @media(max-width:650px){.camera-hud-main strong{font-size:13px}.hud-total b{font-size:18px}.public-paper-grid{grid-template-columns:1fr}.exam-sheet-inner{padding:18px 22px 17px}}
 
+
+/* ================= تحسين مباشر لقراءة الكاميرا و OMR ================= */
+.camera-stage{position:relative;background:#08131e;border-radius:0}
+.camera-stage video{width:100%;min-height:430px;max-height:620px;display:block;object-fit:contain;background:#08131e}
+.camera-overlay{position:absolute;inset:0;width:100%;height:100%;z-index:6;pointer-events:none}
+.camera-hud{z-index:8}
+.camera-legend{position:absolute;z-index:9;left:10px;right:10px;bottom:10px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:center;pointer-events:none}
+.camera-legend span{min-height:28px;display:inline-flex;align-items:center;gap:5px;padding:0 9px;border-radius:999px;color:#fff;font-size:8px;font-weight:900;box-shadow:0 4px 16px rgba(0,0,0,.18);backdrop-filter:blur(6px)}
+.camera-legend .correct{background:rgba(6,118,71,.92)}.camera-legend .wrong{background:rgba(180,35,24,.92)}.camera-legend .unclear{background:rgba(181,71,8,.92)}.camera-legend .qrread{background:rgba(7,95,207,.92)}
+.camera-read-pulse{animation:cameraReadPulse .55s ease}@keyframes cameraReadPulse{0%{box-shadow:inset 0 0 0 0 rgba(49,200,255,0)}45%{box-shadow:inset 0 0 0 5px rgba(49,200,255,.75)}100%{box-shadow:inset 0 0 0 0 rgba(49,200,255,0)}}
+@media(max-width:650px){.camera-stage,.camera-stage video{min-height:360px}.camera-legend span{font-size:7.5px;padding:0 7px}}
+
 </style>
 </head>
 
@@ -248,7 +260,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
   <div class="panel-body">
    <div class="correction-grid">
     <div class="camera-card">
-     <div class="card-head"><h4>التصحيح بالكاميرا / OMR</h4><p>وجّه الكاميرا إلى الصفحة كاملة. النظام يقرأ الباركود ثم يفحص الدوائر. إذا كانت القراءة غير واضحة لن يخمّن الإجابة بل سيطلب إعادة المسح.</p></div>
+     <div class="card-head"><h4>التصحيح بالكاميرا / OMR</h4><p>وجّه الكاميرا إلى الصفحة كاملة. النظام يحاول قراءة الباركود بعدة طرق، ثم يفحص دوائر الإجابة مباشرة. تظهر ✓ خضراء فوق جواب الطالب إذا كان صحيحاً و✕ حمراء إذا كان خطأ، والبرتقالي يعني أن القراءة غير واضحة.</p></div>
      <div id="cameraStage" class="camera-stage">
       <video id="cameraVideo" playsinline muted class="hidden"></video>
       <canvas id="cameraOverlay" class="camera-overlay"></canvas>
@@ -257,7 +269,13 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
        <div class="camera-hud-metrics"><span id="hudPageScore">درجة الصفحة: —</span><span id="hudLight">الإضاءة: —</span><span id="hudAngle">الزاوية: —</span></div>
        <div id="hudAnswers" class="hud-answers"></div>
       </div>
-      <div id="cameraPlaceholder" class="camera-placeholder">اضغط «تشغيل الكاميرا» ثم ضع الورقة كاملة أمام الكاميرا. سيقرأ النظام باركود الطالب والصفحة ويعرض الإجابات والدرجة مباشرة.</div>
+      <div id="cameraLegend" class="camera-legend hidden">
+       <span class="qrread">QR ✓ تمت قراءة الباركود</span>
+       <span class="correct">✓ جواب صحيح</span>
+       <span class="wrong">✕ جواب خطأ</span>
+       <span class="unclear">؟ قراءة غير واضحة</span>
+      </div>
+      <div id="cameraPlaceholder" class="camera-placeholder">اضغط «تشغيل الكاميرا» ثم ضع الورقة كاملة أمام الكاميرا. بعد قراءة الباركود تظهر علامة على جواب الطالب مباشرة: الأخضر صحيح، والأحمر خطأ.</div>
      </div>
      <div id="scanStatus" class="scan-status warn">الكاميرا متوقفة.</div>
      <div class="camera-actions"><button id="startCameraBtn" class="btn btn-p" type="button" onclick="startCamera()">تشغيل الكاميرا</button><button class="btn btn-gray" type="button" onclick="stopCamera()">إيقاف</button><button class="btn btn-soft" type="button" onclick="scanCurrentFrame(true)">فحص الآن</button></div>
@@ -307,6 +325,7 @@ let session={},teacherUser={},teacher={},classes={},students={},assignments=[],T
 let selectedAssignment=null,currentSchema={},examDraft=null,currentExam=null,savedExams={},examResults={};
 let questions=[],customLogoData="",fontScale=1,pagePlan=[],omrLayout={};
 let cameraStream=null,scanTimer=null,scanBusy=false,scanCooldownUntil=0,lastStableSig="",stableCount=0,PAPER_META_CACHE={};
+let lastQRReadAt=0,lastOverlayStudent="",lastOverlayPage=-1;
 let toastTimer=0;
 
 function toast(text,type=""){const el=$("toast");el.textContent=String(text||"");el.className=`toast ${type} show`;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),2800)}
@@ -648,10 +667,23 @@ async function resolveQRInfo(info){
 
 let cameraAutoTuneAt=0;
 async function applyCameraAutoControls(){
- try{const track=cameraStream?.getVideoTracks?.()[0];if(!track)return;const caps=track.getCapabilities?.()||{},advanced={};if(Array.isArray(caps.focusMode)&&caps.focusMode.includes("continuous"))advanced.focusMode="continuous";if(Array.isArray(caps.exposureMode)&&caps.exposureMode.includes("continuous"))advanced.exposureMode="continuous";if(Array.isArray(caps.whiteBalanceMode)&&caps.whiteBalanceMode.includes("continuous"))advanced.whiteBalanceMode="continuous";if(Object.keys(advanced).length)await track.applyConstraints({advanced:[advanced]})}catch(e){console.warn("CAMERA_AUTO_CONTROLS",e)}
+ try{
+  const track=cameraStream?.getVideoTracks?.()[0];if(!track)return;
+  const caps=track.getCapabilities?.()||{},advanced={};
+  if(Array.isArray(caps.focusMode)&&caps.focusMode.includes("continuous"))advanced.focusMode="continuous";
+  if(Array.isArray(caps.exposureMode)&&caps.exposureMode.includes("continuous"))advanced.exposureMode="continuous";
+  if(Array.isArray(caps.whiteBalanceMode)&&caps.whiteBalanceMode.includes("continuous"))advanced.whiteBalanceMode="continuous";
+  if(Array.isArray(caps.resizeMode)&&caps.resizeMode.includes("none"))advanced.resizeMode="none";
+  if(Object.keys(advanced).length)await track.applyConstraints({advanced:[advanced]})
+ }catch(e){console.warn("CAMERA_AUTO_CONTROLS",e)}
 }
 function frameBrightness(data){let sum=0,n=0;for(let i=0;i<data.length;i+=64){sum+=(data[i]+data[i+1]+data[i+2])/3;n++}return n?sum/n:0}
 function qrAngleDegrees(qr){const a=qr?.location?.topLeftCorner,b=qr?.location?.topRightCorner;if(!a||!b)return 0;return Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI}
+function qrContrastCopy(data,factor=1.65){const out=new Uint8ClampedArray(data.length);for(let i=0;i<data.length;i+=4){const y=.299*data[i]+.587*data[i+1]+.114*data[i+2],v=Math.max(0,Math.min(255,(y-128)*factor+128));out[i]=out[i+1]=out[i+2]=v;out[i+3]=255}return out}
+function qrThresholdCopy(data,threshold=145){const out=new Uint8ClampedArray(data.length);for(let i=0;i<data.length;i+=4){const y=.299*data[i]+.587*data[i+1]+.114*data[i+2],v=y<threshold?0:255;out[i]=out[i+1]=out[i+2]=v;out[i+3]=255}return out}
+function readQRRobust(frame,w,h,brightness=128){let qr=jsQR(frame.data,w,h,{inversionAttempts:"attemptBoth"});if(qr)return qr;try{qr=jsQR(qrContrastCopy(frame.data,1.7),w,h,{inversionAttempts:"attemptBoth"});if(qr)return qr}catch{}try{const threshold=Math.max(105,Math.min(185,Math.round(brightness*1.04)));qr=jsQR(qrThresholdCopy(frame.data,threshold),w,h,{inversionAttempts:"attemptBoth"});if(qr)return qr}catch{}return null}
+function pulseCameraRead(){const stage=$("cameraStage");stage.classList.remove("camera-read-pulse");void stage.offsetWidth;stage.classList.add("camera-read-pulse")}
+
 async function autoTuneExposure(brightness){
  if(Date.now()-cameraAutoTuneAt<1800)return;cameraAutoTuneAt=Date.now();
  try{const track=cameraStream?.getVideoTracks?.()[0],caps=track?.getCapabilities?.()||{},settings=track?.getSettings?.()||{};if(!caps.exposureCompensation||typeof settings.exposureCompensation!=="number")return;const target=132,err=target-brightness;if(Math.abs(err)<18)return;const step=Number(caps.exposureCompensation.step||.1),delta=(err>0?1:-1)*Math.max(step,Math.min(.6,Math.abs(err)/120)),next=Math.max(caps.exposureCompensation.min,Math.min(caps.exposureCompensation.max,settings.exposureCompensation+delta));await track.applyConstraints({advanced:[{exposureCompensation:next}]})}catch(e){}
@@ -662,13 +694,16 @@ function updateCameraHUD(student,pageIndex,detected,brightness,angle,pageScore){
  $("cameraHud").classList.remove("hidden");$("hudStudent").textContent=student.name||student.code;$("hudPaper").textContent=`${currentExam.subjectName} — الصفحة ${pageIndex+1}/${currentExam.pageCount}`;$("hudPageScore").textContent=`درجة الصفحة: ${pageScore}`;
  const lightPct=Math.round(brightness/255*100);$("hudLight").textContent=`الإضاءة: ${lightPct}% ${lightPct<30?"منخفضة":lightPct>86?"عالية":"مناسبة"}`;$("hudAngle").textContent=`الزاوية: ${Math.abs(angle).toFixed(1)}° ${Math.abs(angle)<=7?"مناسبة":"عدّل الميل"}`;$("hudTotal").textContent=`${pageLiveTotal(student.code,pageIndex,pageScore)} / ${currentExam.targetMax}`;
  const pageQids=new Set(currentExam.omrLayout?.[pageIndex]?.questionIds||[]),by=Object.fromEntries((detected||[]).map(d=>[d.qid,d])),globalIndex=Object.fromEntries((currentExam.questions||[]).map((q,i)=>[q.id,i+1]));
- $("hudAnswers").innerHTML=(currentExam.questions||[]).filter(q=>q.type!=="essay"&&pageQids.has(q.id)).map(q=>{const d=by[q.id],correct=q.options?.find(o=>o.correct)?.id,selected=d?.selected||null,ok=selected&&selected===correct,cls=!selected?"blank":ok?"ok":"bad";return`<span class="hud-answer ${cls}">س${globalIndex[q.id]}: الطالب ${selected?optionNumber(q,selected):"فارغ"} | الصحيح ${optionNumber(q,correct)} ${!selected?"":ok?"✓":"✕"}</span>`}).join("")||'<span class="hud-answer blank">لا توجد أسئلة اختيارية بهذه الصفحة</span>'
+ $("hudAnswers").innerHTML=(currentExam.questions||[]).filter(q=>q.type!=="essay"&&pageQids.has(q.id)).map(q=>{const d=by[q.id],correct=q.options?.find(o=>o.correct)?.id,selected=d?.selected||null,ok=selected&&selected===correct,amb=d?.state==="ambiguous",cls=amb?"blank":!selected?"blank":ok?"ok":"bad",confidence=selected?` — ثقة ${Number(d?.confidence||0)}%`:"";return`<span class="hud-answer ${cls}">س${globalIndex[q.id]}: ${amb?"غير واضح":selected?`اختار ${optionNumber(q,selected)} ${ok?"✓ صحيح":"✕ خطأ"}`:"بدون إجابة"}${confidence}</span>`}).join("")||'<span class="hud-answer blank">لا توجد أسئلة اختيارية بهذه الصفحة</span>'
 }
 async function startCamera(){
  if(!currentExam)return toast("افتح امتحاناً للتصحيح أولاً.","warn");if(cameraStream)return;
- try{cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:1920},height:{ideal:1080}},audio:false});await applyCameraAutoControls();$("cameraVideo").srcObject=cameraStream;await $("cameraVideo").play();$("cameraVideo").classList.remove("hidden");$("cameraPlaceholder").classList.add("hidden");$("cameraHud").classList.remove("hidden");$("hudStudent").textContent="بانتظار الباركود";$("hudPaper").textContent="وجّه الورقة كاملة أمام الكاميرا";$("hudTotal").textContent="0";$("scanStatus").className="scan-status warn";$("scanStatus").textContent="التصحيح التلقائي يعمل. النظام يعوض زاوية الورقة رياضياً ويحاول ضبط التركيز والإضاءة إذا كان الجهاز يدعم ذلك.";scanTimer=setInterval(()=>scanCurrentFrame(false),430)}catch(e){console.error(e);toast("تعذر تشغيل الكاميرا. تأكد من السماح للمتصفح باستخدامها.","error")}
+ try{
+  cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:2560,min:1280},height:{ideal:1440,min:720},frameRate:{ideal:30,min:15}},audio:false});
+  await applyCameraAutoControls();const video=$("cameraVideo");video.srcObject=cameraStream;await video.play();video.classList.remove("hidden");$("cameraPlaceholder").classList.add("hidden");$("cameraHud").classList.remove("hidden");$("cameraLegend").classList.remove("hidden");$("hudStudent").textContent="بانتظار الباركود";$("hudPaper").textContent="وجّه الورقة كاملة أمام الكاميرا";$("hudTotal").textContent="0";$("scanStatus").className="scan-status warn";$("scanStatus").textContent="الكاميرا تعمل بدقة عالية. ثبّت الورقة كاملة؛ بعد قراءة QR ستظهر علامات مباشرة فوق إجابات الطالب.";clearInterval(scanTimer);scanTimer=setInterval(()=>scanCurrentFrame(false),320)
+ }catch(e){console.error(e);toast("تعذر تشغيل الكاميرا. تأكد من السماح للمتصفح باستخدامها.","error")}
 }
-function stopCamera(){clearInterval(scanTimer);scanTimer=null;if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null}$("cameraVideo").classList.add("hidden");$("cameraPlaceholder").classList.remove("hidden");$("cameraHud").classList.add("hidden");$("scanStatus").className="scan-status warn";$("scanStatus").textContent="الكاميرا متوقفة.";clearOverlay()}
+function stopCamera(){clearInterval(scanTimer);scanTimer=null;if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null}$("cameraVideo").classList.add("hidden");$("cameraPlaceholder").classList.remove("hidden");$("cameraHud").classList.add("hidden");$("cameraLegend")?.classList.add("hidden");$("scanStatus").className="scan-status warn";$("scanStatus").textContent="الكاميرا متوقفة.";lastOverlayStudent="";lastOverlayPage=-1;clearOverlay()}
 function clearOverlay(){const c=$("cameraOverlay"),ctx=c.getContext("2d");ctx.clearRect(0,0,c.width,c.height)}
 
 function solveLinear(A,b){const n=b.length,M=A.map((r,i)=>[...r,b[i]]);for(let i=0;i<n;i++){let max=i;for(let r=i+1;r<n;r++)if(Math.abs(M[r][i])>Math.abs(M[max][i]))max=r;[M[i],M[max]]=[M[max],M[i]];if(Math.abs(M[i][i])<1e-9)return null;const d=M[i][i];for(let c=i;c<=n;c++)M[i][c]/=d;for(let r=0;r<n;r++){if(r===i)continue;const f=M[r][i];for(let c=i;c<=n;c++)M[r][c]-=f*M[i][c]}}return M.map(r=>r[n])}
@@ -676,28 +711,43 @@ function homography(src,dst){const A=[],b=[];for(let i=0;i<4;i++){const{x,y}=src
 function mapH(H,p){const d=H[6]*p.x+H[7]*p.y+1;return{x:(H[0]*p.x+H[1]*p.y+H[2])/d,y:(H[3]*p.x+H[4]*p.y+H[5])/d}}
 
 function meanDisk(img,w,h,cx,cy,rx,ry,inner=0,outer=1){let sum=0,n=0;const minX=Math.max(0,Math.floor(cx-rx*outer)),maxX=Math.min(w-1,Math.ceil(cx+rx*outer)),minY=Math.max(0,Math.floor(cy-ry*outer)),maxY=Math.min(h-1,Math.ceil(cy+ry*outer));for(let y=minY;y<=maxY;y++){for(let x=minX;x<=maxX;x++){const dx=(x-cx)/Math.max(1,rx),dy=(y-cy)/Math.max(1,ry),rr=Math.sqrt(dx*dx+dy*dy);if(rr>=inner&&rr<=outer){const k=(y*w+x)*4,g=(img[k]+img[k+1]+img[k+2])/3;sum+=g;n++}}}return n?sum/n:255}
-function bubbleDarkness(imageData,w,h,H,b){const c=mapH(H,{x:b.x,y:b.y}),px=mapH(H,{x:b.x+b.r,y:b.y}),py=mapH(H,{x:b.x,y:b.y+b.r}),rx=Math.max(2,Math.hypot(px.x-c.x,px.y-c.y)),ry=Math.max(2,Math.hypot(py.x-c.x,py.y-c.y)),inner=meanDisk(imageData,w,h,c.x,c.y,rx*.58,ry*.58,0,1),outer=meanDisk(imageData,w,h,c.x,c.y,rx,ry,1.25,1.8);return{score:outer-inner,inner,outer,c,rx,ry}}
-
-async function scanCurrentFrame(manual=false){
- if(scanBusy||!currentExam||!cameraStream||Date.now()<scanCooldownUntil)return;const video=$("cameraVideo");if(video.readyState<2)return;scanBusy=true;
- try{
-  const work=document.createElement("canvas"),maxW=1280,scale=Math.min(1,maxW/video.videoWidth);work.width=Math.round(video.videoWidth*scale);work.height=Math.round(video.videoHeight*scale);const ctx=work.getContext("2d",{willReadFrequently:true});ctx.drawImage(video,0,0,work.width,work.height);
-  const frame=ctx.getImageData(0,0,work.width,work.height),brightness=frameBrightness(frame.data);autoTuneExposure(brightness);const qr=jsQR(frame.data,work.width,work.height,{inversionAttempts:"dontInvert"});if(!qr){setScanStatus("لم يظهر باركود واضح. اجعل الورقة كاملة داخل الكاميرا.","warn");clearOverlay();return}
-  let info=parseQR(qr.data);if(!info){setScanStatus("الباركود المقروء ليس باركود امتحان التحدي.","bad");return}info=await resolveQRInfo(info);if(!info){setScanStatus("باركود الورقة غير موجود في قاعدة البيانات.","bad");return}if(info.examId!==currentExam.examId){setScanStatus("هذه الورقة تابعة لامتحان آخر.","bad");return}if(info.pageIndex<0||info.pageIndex>=Number(currentExam.pageCount)){setScanStatus("رقم الصفحة غير صحيح.","bad");return}
-  const student=(currentExam.students||[]).find(st=>st.code===info.studentCode);if(!student){setScanStatus("الطالب غير موجود ضمن هذا الامتحان.","bad");return}
-  const layout=currentExam.omrLayout?.[info.pageIndex];if(!layout?.qrRect){setScanStatus("لا توجد خريطة تصحيح محفوظة لهذه الصفحة.","bad");return}
-  const q=layout.qrRect,src=[{x:q.x,y:q.y},{x:q.x+q.w,y:q.y},{x:q.x+q.w,y:q.y+q.h},{x:q.x,y:q.y+q.h}],loc=qr.location,dst=[loc.topLeftCorner,loc.topRightCorner,loc.bottomRightCorner,loc.bottomLeftCorner],H=homography(src,dst);if(!H){setScanStatus("تعذر معايرة زاوية الورقة. أعد توجيه الكاميرا.","bad");return}
-  const bubbles=(layout.bubbles||[]).map(b=>({...b,...bubbleDarkness(frame.data,work.width,work.height,H,b)})),detected=detectSelections(bubbles,Number($("sensitivity").value||22)),pageScore=scoreDetectedPage(info.pageIndex,detected),angle=qrAngleDegrees(qr);
-  drawScanOverlay(video,work,qr,bubbles,detected);updateCameraHUD(student,info.pageIndex,detected,brightness,angle,pageScore);
-  const sig=`${info.studentCode}|${info.pageIndex}|${JSON.stringify(detected.map(x=>[x.qid,x.selected,x.state]))}`;if(sig===lastStableSig)stableCount++;else{lastStableSig=sig;stableCount=1}
-  const bad=detected.some(x=>x.state==="ambiguous");if(bad){setScanStatus(`تم التعرف على ${student.name} — الصفحة ${info.pageIndex+1}. توجد إجابة غير واضحة؛ أعد تثبيت الورقة.`,"warn");return}
-  const lightPct=Math.round(brightness/255*100),angleAbs=Math.abs(angle),quality=(lightPct>=28&&lightPct<=88&&angleAbs<=18);
-  setScanStatus(`الطالب: ${student.name} | الصفحة ${info.pageIndex+1}/${currentExam.pageCount} | درجة الصفحة ${pageScore} | المجموع بعد هذه الصفحة ${pageLiveTotal(student.code,info.pageIndex,pageScore)} | إضاءة ${lightPct}% | زاوية ${angleAbs.toFixed(1)}°${quality?"":" — حسّن وضع الورقة"}`,"good");
-  if(manual||stableCount>=3){await acceptScannedPage(student,info.pageIndex,detected);stableCount=0;lastStableSig="";scanCooldownUntil=Date.now()+1300}
- }catch(e){console.error(e);setScanStatus("حدث خطأ أثناء تحليل الورقة. أعد المحاولة.","bad")}finally{scanBusy=false}
+function bubbleDarkness(imageData,w,h,H,b){
+ const c=mapH(H,{x:b.x,y:b.y}),px=mapH(H,{x:b.x+b.r,y:b.y}),py=mapH(H,{x:b.x,y:b.y+b.r}),rx=Math.max(2.5,Math.hypot(px.x-c.x,px.y-c.y)),ry=Math.max(2.5,Math.hypot(py.x-c.x,py.y-c.y));
+ const core=meanDisk(imageData,w,h,c.x,c.y,rx*.43,ry*.43,0,1),innerWide=meanDisk(imageData,w,h,c.x,c.y,rx*.72,ry*.72,0,1),outer=meanDisk(imageData,w,h,c.x,c.y,rx,ry,1.30,1.82),inner=core*.68+innerWide*.32,score=outer-inner;
+ return{score,inner,outer,core,innerWide,c,rx,ry}
 }
 
-function detectSelections(bubbles,sensitivity){const groups={};for(const b of bubbles)(groups[b.qid]??=[]).push(b);return Object.entries(groups).map(([qid,arr])=>{const sorted=[...arr].sort((a,b)=>b.score-a.score),top=sorted[0],second=sorted[1],strong=top&&top.score>=sensitivity&&top.inner<220;if(!strong)return{qid,selected:null,state:"blank",scores:Object.fromEntries(arr.map(x=>[x.oid,Math.round(x.score*10)/10]))};if(second&&second.score>=sensitivity&&top.score-second.score<Math.max(5,sensitivity*.28))return{qid,selected:null,state:"ambiguous",scores:Object.fromEntries(arr.map(x=>[x.oid,Math.round(x.score*10)/10]))};return{qid,selected:top.oid,state:"selected",scores:Object.fromEntries(arr.map(x=>[x.oid,Math.round(x.score*10)/10]))}})}
+async function scanCurrentFrame(manual=false){
+ if(scanBusy||!currentExam||!cameraStream||Date.now()<scanCooldownUntil)return;
+ const video=$("cameraVideo");if(video.readyState<2||!video.videoWidth||!video.videoHeight)return;scanBusy=true;
+ try{
+  const work=document.createElement("canvas"),mobile=window.matchMedia("(max-width:650px)").matches,maxW=mobile?1500:1900,scale=Math.min(1,maxW/video.videoWidth);work.width=Math.max(1,Math.round(video.videoWidth*scale));work.height=Math.max(1,Math.round(video.videoHeight*scale));
+  const ctx=work.getContext("2d",{willReadFrequently:true});ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality="high";ctx.drawImage(video,0,0,work.width,work.height);
+  const frame=ctx.getImageData(0,0,work.width,work.height),brightness=frameBrightness(frame.data);autoTuneExposure(brightness);const qr=readQRRobust(frame,work.width,work.height,brightness);
+  if(!qr){setScanStatus("أبحث عن الباركود… قرّب الورقة قليلاً وثبّتها كاملة داخل الكاميرا.","warn");$("hudStudent").textContent="بانتظار الباركود";$("hudPaper").textContent="لم تتم قراءة QR بعد";clearOverlay();return}
+  lastQRReadAt=Date.now();let info=parseQR(qr.data);if(!info){setScanStatus("تمت قراءة باركود، لكنه ليس باركود امتحان التحدي.","bad");return}info=await resolveQRInfo(info);if(!info){setScanStatus("تمت قراءة الباركود، لكن بيانات هذه الورقة غير موجودة في قاعدة البيانات.","bad");return}if(info.examId!==currentExam.examId){setScanStatus("تمت قراءة الباركود، لكن الورقة تابعة لامتحان آخر.","bad");return}if(info.pageIndex<0||info.pageIndex>=Number(currentExam.pageCount)){setScanStatus("تمت قراءة الباركود، لكن رقم الصفحة غير صحيح.","bad");return}
+  const student=(currentExam.students||[]).find(st=>st.code===info.studentCode);if(!student){setScanStatus("تمت قراءة الباركود، لكن الطالب غير موجود ضمن هذا الامتحان.","bad");return}const layout=currentExam.omrLayout?.[info.pageIndex];if(!layout?.qrRect){setScanStatus("تمت قراءة الباركود، لكن لا توجد خريطة OMR محفوظة لهذه الصفحة.","bad");return}
+  const q=layout.qrRect,src=[{x:q.x,y:q.y},{x:q.x+q.w,y:q.y},{x:q.x+q.w,y:q.y+q.h},{x:q.x,y:q.y+q.h}],loc=qr.location,dst=[loc.topLeftCorner,loc.topRightCorner,loc.bottomRightCorner,loc.bottomLeftCorner],H=homography(src,dst);if(!H){setScanStatus("قرأت الباركود لكن تعذر حساب زاوية الورقة. عدّل الميل قليلاً.","bad");return}
+  const bubbles=(layout.bubbles||[]).map(b=>({...b,...bubbleDarkness(frame.data,work.width,work.height,H,b)})),detected=detectSelections(bubbles,Number($("sensitivity").value||22)),pageScore=scoreDetectedPage(info.pageIndex,detected),angle=qrAngleDegrees(qr),lightPct=Math.round(brightness/255*100),angleAbs=Math.abs(angle),ambiguousCount=detected.filter(x=>x.state==="ambiguous").length,selectedCount=detected.filter(x=>x.state==="selected").length,quality=(lightPct>=24&&lightPct<=91&&angleAbs<=20);
+  if(lastOverlayStudent!==student.code||lastOverlayPage!==info.pageIndex){pulseCameraRead();lastOverlayStudent=student.code;lastOverlayPage=info.pageIndex}
+  drawScanOverlay(video,work,qr,bubbles,detected,info.pageIndex);updateCameraHUD(student,info.pageIndex,detected,brightness,angle,pageScore);
+  const sig=`${info.studentCode}|${info.pageIndex}|${JSON.stringify(detected.map(x=>[x.qid,x.selected,x.state,Math.round(Number(x.confidence||0)/5)*5]))}`;if(sig===lastStableSig)stableCount++;else{lastStableSig=sig;stableCount=1}
+  if(ambiguousCount){setScanStatus(`QR ✓ ${student.name} — الصفحة ${info.pageIndex+1}. قرأت ${selectedCount} جواب، لكن ${ambiguousCount} إجابة غير واضحة باللون البرتقالي؛ ثبّت الورقة.`,"warn");return}
+  if(!quality&&!manual){setScanStatus(`QR ✓ ${student.name} — تم التعرف على الإجابات، لكن جودة الصورة تحتاج تحسين قبل الاعتماد. الإضاءة ${lightPct}%، الزاوية ${angleAbs.toFixed(1)}°.`,"warn");return}
+  setScanStatus(`QR ✓ الطالب: ${student.name} | الصفحة ${info.pageIndex+1}/${currentExam.pageCount} | تمت قراءة ${selectedCount} جواب | درجة الصفحة ${pageScore} | المجموع ${pageLiveTotal(student.code,info.pageIndex,pageScore)}`,"good");
+  if(manual||stableCount>=3){await acceptScannedPage(student,info.pageIndex,detected);stableCount=0;lastStableSig="";scanCooldownUntil=Date.now()+1100}
+ }catch(e){console.error(e);setScanStatus("حدث خطأ أثناء تحليل الورقة. ثبّت الورقة ثم أعد المحاولة.","bad")}finally{scanBusy=false}
+}
+
+function detectSelections(bubbles,sensitivity){
+ const groups={};for(const b of bubbles)(groups[b.qid]??=[]).push(b);
+ return Object.entries(groups).map(([qid,arr])=>{const sorted=[...arr].sort((a,b)=>b.score-a.score),top=sorted[0],second=sorted[1],vals=sorted.map(x=>Number(x.score||0)).sort((a,b)=>a-b),median=vals.length?vals[Math.floor(vals.length/2)]:0,user=Math.max(8,Number(sensitivity||22)),dynamicThreshold=Math.max(10,user*.64,median+Math.max(4,user*.18)),scores=Object.fromEntries(arr.map(x=>[x.oid,Math.round(x.score*10)/10]));
+  if(!top||top.score<dynamicThreshold||top.inner>238)return{qid,selected:null,state:"blank",confidence:0,scores};
+  const gap=top.score-Number(second?.score||0),ambiguous=second&&second.score>=dynamicThreshold*.84&&gap<Math.max(4.5,user*.22);
+  if(ambiguous)return{qid,selected:null,state:"ambiguous",confidence:Math.max(0,Math.min(100,Math.round(gap/(user||1)*100))),topOid:top.oid,secondOid:second.oid,scores};
+  const confidence=Math.max(1,Math.min(100,Math.round(55+Math.min(30,(top.score-dynamicThreshold)*1.5)+Math.min(15,gap*.8))));return{qid,selected:top.oid,state:"selected",confidence,scores}
+ })
+}
 function scoreDetectedPage(pageIndex,detected){const qids=new Set(currentExam.omrLayout?.[pageIndex]?.questionIds||[]),map=Object.fromEntries(detected.map(x=>[x.qid,x]));let score=0;for(const q of currentExam.questions||[]){if(!qids.has(q.id)||q.type==="essay")continue;const correct=q.options?.find(o=>o.correct)?.id,sel=map[q.id]?.selected;if(sel&&sel===correct)score+=Number(q.score||0)}return Math.round(score*100)/100}
 async function acceptScannedPage(student,pageIndex,detected){
  const autoScore=scoreDetectedPage(pageIndex,detected),data={pageIndex,selections:Object.fromEntries(detected.map(x=>[x.qid,{selected:x.selected,state:x.state,scores:x.scores}])),autoScore,scannedAt:Date.now(),scannedBy:TEACHER_CODE};
@@ -707,11 +757,18 @@ async function acceptScannedPage(student,pageIndex,detected){
 }
 
 function setScanStatus(text,type){const el=$("scanStatus");el.textContent=text;el.className=`scan-status ${type}`}
-function drawScanOverlay(video,work,qr,bubbles,detected=[]){
- const c=$("cameraOverlay"),rect=video.getBoundingClientRect();c.width=Math.max(1,Math.round(rect.width));c.height=Math.max(1,Math.round(rect.height));const ctx=c.getContext("2d"),sx=c.width/work.width,sy=c.height/work.height;ctx.clearRect(0,0,c.width,c.height);
- ctx.strokeStyle="#31c8ff";ctx.lineWidth=4;ctx.beginPath();const pts=[qr.location.topLeftCorner,qr.location.topRightCorner,qr.location.bottomRightCorner,qr.location.bottomLeftCorner];pts.forEach((p,i)=>i?ctx.lineTo(p.x*sx,p.y*sy):ctx.moveTo(p.x*sx,p.y*sy));ctx.closePath();ctx.stroke();
- const dmap=Object.fromEntries(detected.map(d=>[d.qid,d]));
- for(const b of bubbles){const d=dmap[b.qid],q=(currentExam.questions||[]).find(x=>x.id===b.qid),correct=q?.options?.find(o=>o.correct)?.id,selected=d?.selected;let color="rgba(255,255,255,.48)",width=2;if(b.oid===correct){color="#38a5ff";width=3}if(b.oid===selected){color=selected===correct?"#00e676":"#ff453a";width=5}ctx.beginPath();ctx.arc(b.c.x*sx,b.c.y*sy,Math.max(4,b.rx*sx),0,Math.PI*2);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke()}
+function cameraContentMetrics(video,canvas){const stage=$("cameraStage"),sr=stage.getBoundingClientRect(),vr=video.getBoundingClientRect();canvas.width=Math.max(1,Math.round(sr.width));canvas.height=Math.max(1,Math.round(sr.height));const elementX=vr.left-sr.left,elementY=vr.top-sr.top,ew=Math.max(1,vr.width),eh=Math.max(1,vr.height),sourceAspect=video.videoWidth/Math.max(1,video.videoHeight),boxAspect=ew/eh;let contentW=ew,contentH=eh,ox=elementX,oy=elementY;if(sourceAspect>boxAspect){contentW=ew;contentH=ew/sourceAspect;oy=elementY+(eh-contentH)/2}else{contentH=eh;contentW=eh*sourceAspect;ox=elementX+(ew-contentW)/2}return{ox,oy,sx:contentW/Math.max(1,video.videoWidth),sy:contentH/Math.max(1,video.videoHeight),sourceScaleX:video.videoWidth/Math.max(1,canvas._workWidth||video.videoWidth),sourceScaleY:video.videoHeight/Math.max(1,canvas._workHeight||video.videoHeight)}}
+function roundRectPath(ctx,x,y,w,h,r){const rr=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+rr,y);ctx.arcTo(x+w,y,x+w,y+h,rr);ctx.arcTo(x+w,y+h,x,y+h,rr);ctx.arcTo(x,y+h,x,y,rr);ctx.arcTo(x,y,x+w,y,rr);ctx.closePath()}
+function drawScanOverlay(video,work,qr,bubbles,detected=[],pageIndex=0){const c=$("cameraOverlay");c._workWidth=work.width;c._workHeight=work.height;const ctx=c.getContext("2d"),m=cameraContentMetrics(video,c),X=x=>m.ox+(x*m.sourceScaleX)*m.sx,Y=y=>m.oy+(y*m.sourceScaleY)*m.sy;ctx.clearRect(0,0,c.width,c.height);
+ const pts=[qr.location.topLeftCorner,qr.location.topRightCorner,qr.location.bottomRightCorner,qr.location.bottomLeftCorner];ctx.save();ctx.strokeStyle="#31c8ff";ctx.lineWidth=4;ctx.shadowColor="rgba(49,200,255,.7)";ctx.shadowBlur=9;ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(X(p.x),Y(p.y)):ctx.moveTo(X(p.x),Y(p.y)));ctx.closePath();ctx.stroke();ctx.restore();
+ const qp=pts[0],qx=Math.max(6,X(qp.x)-2),qy=Math.max(34,Y(qp.y)-30);ctx.save();ctx.font="900 13px Tahoma,Arial";ctx.textAlign="left";ctx.textBaseline="middle";roundRectPath(ctx,qx,qy-13,74,26,8);ctx.fillStyle="rgba(7,95,207,.94)";ctx.fill();ctx.fillStyle="#fff";ctx.fillText("QR ✓",qx+18,qy);ctx.restore();
+ const dmap=Object.fromEntries(detected.map(d=>[d.qid,d])),globalIndex=Object.fromEntries((currentExam.questions||[]).map((q,i)=>[q.id,i+1]));
+ for(const b of bubbles){const d=dmap[b.qid];if(!d)continue;const q=(currentExam.questions||[]).find(x=>x.id===b.qid),correct=q?.options?.find(o=>o.correct)?.id,isSelected=b.oid===d.selected,isAmbiguous=d.state==="ambiguous"&&(b.oid===d.topOid||b.oid===d.secondOid);if(!isSelected&&!isAmbiguous)continue;
+  const cx=X(b.c.x),cy=Y(b.c.y),videoRx=b.rx*m.sourceScaleX*m.sx,videoRy=b.ry*m.sourceScaleY*m.sy,radius=Math.max(9,(videoRx+videoRy)/2*1.25);let stroke="#ffb020",fill="rgba(255,176,32,.24)",symbol="?",label=`س${globalIndex[b.qid]||""} غير واضح`;
+  if(isSelected){const ok=d.selected===correct;stroke=ok?"#00e676":"#ff3b30";fill=ok?"rgba(0,230,118,.25)":"rgba(255,59,48,.25)";symbol=ok?"✓":"✕";label=`س${globalIndex[b.qid]||""} ${ok?"صحيح":"خطأ"}`}
+  ctx.save();ctx.beginPath();ctx.arc(cx,cy,radius,0,Math.PI*2);ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle=stroke;ctx.lineWidth=5;ctx.shadowColor=stroke;ctx.shadowBlur=10;ctx.stroke();ctx.shadowBlur=0;ctx.fillStyle=stroke;ctx.font=`900 ${Math.max(17,Math.round(radius*1.15))}px Arial`;ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(symbol,cx,cy+1);
+  ctx.font="900 12px Tahoma,Arial";const tw=Math.max(58,ctx.measureText(label).width+16),tx=Math.min(c.width-tw-5,cx+radius+7),ty=Math.max(18,cy);roundRectPath(ctx,tx,ty-13,tw,26,7);ctx.fillStyle=isSelected?(d.selected===correct?"rgba(6,118,71,.94)":"rgba(180,35,24,.94)"):"rgba(181,71,8,.94)";ctx.fill();ctx.fillStyle="#fff";ctx.textAlign="center";ctx.fillText(label,tx+tw/2,ty);ctx.restore()
+ }
 }
 
 function calcGradeValue(v){const t=raw(v);if(!t)return null;const n=Number(t);return Number.isFinite(n)?n:0}
