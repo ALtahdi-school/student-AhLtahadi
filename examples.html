@@ -1064,7 +1064,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
      </div>
 
      <div class="file-scan-note">
-      المعالجة محلية: PDF والصور تبقى في ذاكرة المتصفح المؤقتة فقط. النظام يقرأ QR لكل صفحة، يحدد الطالب ورقم الصفحة، ثم يدخل درجة الصفحة مباشرة في نتائج الامتحان. لا يتم رفع صورة الورقة إلى Firebase.
+      المعالجة محلية: يقرأ النظام QR، يحدد الطالب والصفحة، ثم يتحقق من خريطة OMR. إذا كانت الخريطة مفقودة أو ناقصة يعيد بناءها تلقائياً من الأسئلة وتقسيم الصفحات، وبعدها يدخل درجة الصفحة مباشرة في نتائج الامتحان. صورة الورقة لا تُرفع إلى Firebase.
      </div>
     </div>
 
@@ -1434,17 +1434,25 @@ function publicPaperRecord(exam,student,pageIndex,token){
 }
 function qrPayload(exam,student,pageIndex){
  /*
-    QR جديد قصير جداً:
-    بدلاً من رابط الصفحة الكامل نخزن Token فقط.
-    هذا يقلل كثافة مربعات QR ويجعل القراءة من PDF والسكنر أكثر ثباتاً.
+    TH4 لا يحتاج تحميل خريطة تعريف الطالب من Firebase.
+    QR نفسه يحتوي:
+    Token + كود الطالب + الصفحة + examId
+    ويبقى قصيراً بما يكفي للقراءة الواضحة.
  */
- const token=paperTokenFor(
-  exam,
-  student,
-  pageIndex
- );
+ const token=
+  paperTokenFor(
+   exam,
+   student,
+   pageIndex
+  );
 
- return`TH3|${token}`
+ return[
+  "TH4",
+  token,
+  student.code,
+  pageIndex+1,
+  exam.examId
+ ].join("|")
 }
 function paperSecurityBits(token){
  let h=2166136261>>>0;for(const ch of String(token||"")){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)>>>0}
@@ -1680,20 +1688,445 @@ async function renderPreview(){
   `<span class="score-pill green">${studentsOfClass(examDraft.classId).length} طالب</span>`
 }
 
+
+function relativeSheetRect(el,sheet){
+ const sr=
+  sheet.getBoundingClientRect(),
+ er=
+  el.getBoundingClientRect(),
+ sx=
+  EXAM_SHEET_W/
+  Math.max(1,sr.width),
+ sy=
+  EXAM_SHEET_H/
+  Math.max(1,sr.height);
+
+ return{
+  x:(er.left-sr.left)*sx,
+  y:(er.top-sr.top)*sy,
+  w:er.width*sx,
+  h:er.height*sy
+ }
+}
+
+function measureSheetOMRLayout(
+ sheet,
+ pageIndex,
+ questionIndexes
+){
+ if(!sheet){
+  return null
+ }
+
+ const qr=
+  sheet.querySelector(
+   ".page-qr img"
+  )||
+  sheet.querySelector(
+   ".page-qr canvas"
+  )||
+  sheet.querySelector(
+   ".page-qr"
+  );
+
+ if(!qr){
+  return null
+ }
+
+ const qrR=
+  relativeSheetRect(
+   qr,
+   sheet
+  ),
+ markers={},
+ securityCells=[],
+ bubbles=[
+  ...sheet.querySelectorAll(
+   ".omr-bubble"
+  )
+ ].map(
+  b=>{
+   const r=
+    relativeSheetRect(
+     b,
+     sheet
+    );
+
+   return{
+    qid:b.dataset.qid,
+    oid:b.dataset.oid,
+    x:r.x+r.w/2,
+    y:r.y+r.h/2,
+    r:
+     Math.min(
+      r.w,
+      r.h
+     )/2
+   }
+  }
+ );
+
+ for(
+  const m
+  of sheet.querySelectorAll(
+   ".scan-marker"
+  )
+ ){
+  const r=
+   relativeSheetRect(
+    m,
+    sheet
+   );
+
+  markers[
+   m.dataset.corner
+  ]={
+   x:r.x+r.w/2,
+   y:r.y+r.h/2,
+   r:
+    Math.min(
+     r.w,
+     r.h
+    )/2
+  }
+ }
+
+ for(
+  const cell
+  of sheet.querySelectorAll(
+   ".security-cell"
+  )
+ ){
+  const r=
+   relativeSheetRect(
+    cell,
+    sheet
+   );
+
+  securityCells.push({
+   i:
+    Number(
+     cell.dataset
+     .securityIndex
+    ),
+   x:r.x+r.w/2,
+   y:r.y+r.h/2,
+   r:
+    Math.min(
+     r.w,
+     r.h
+    )/2
+  })
+ }
+
+ const qids=
+  (questionIndexes||[])
+  .map(
+   i=>
+    currentExam?.questions?.[i]?.id||
+    questions?.[i]?.id
+  )
+  .filter(Boolean);
+
+ return{
+  version:"OMR_MAP_V5",
+  sheetWidth:EXAM_SHEET_W,
+  sheetHeight:EXAM_SHEET_H,
+  pageIndex,
+  qrRect:{
+   x:qrR.x,
+   y:qrR.y,
+   w:qrR.w,
+   h:qrR.h
+  },
+  markers,
+  securityCells,
+  bubbles,
+  questionIds:qids
+ }
+}
+
+function expectedBubbleCountForPage(
+ exam,
+ pageIndex
+){
+ const indexes=
+  exam?.pagePlan?.[
+   pageIndex
+  ]||[];
+
+ let count=0;
+
+ for(const i of indexes){
+  const q=
+   exam?.questions?.[i];
+
+  if(
+   !q||
+   q.type==="essay"
+  ){
+   continue
+  }
+
+  count+=
+   (q.options||[])
+   .length
+ }
+
+ return count
+}
+
+function isOMRLayoutUsable(
+ layout,
+ exam,
+ pageIndex
+){
+ if(
+  !layout||
+  !layout.qrRect||
+  !Number.isFinite(
+   Number(layout.qrRect.x)
+  )||
+  !Number.isFinite(
+   Number(layout.qrRect.y)
+  )||
+  Number(layout.qrRect.w)<=0||
+  Number(layout.qrRect.h)<=0
+ ){
+  return false
+ }
+
+ const expected=
+  expectedBubbleCountForPage(
+   exam,
+   pageIndex
+  ),
+ actual=
+  Array.isArray(
+   layout.bubbles
+  )
+   ?layout.bubbles.length
+   :0;
+
+ if(
+  expected>0&&
+  actual<expected
+ ){
+  return false
+ }
+
+ if(
+  !Array.isArray(
+   layout.questionIds
+  )||
+  !layout.questionIds.length
+ ){
+  return false
+ }
+
+ return true
+}
+
+async function rebuildExamOMRLayout(
+ pageIndex,
+ persist=true
+){
+ if(
+  !currentExam
+ ){
+  return null
+ }
+
+ const questionIndexes=
+  currentExam.pagePlan?.[
+   pageIndex
+  ];
+
+ if(
+  !Array.isArray(
+   questionIndexes
+  )
+ ){
+  return null
+ }
+
+ const student=
+  currentExam.students?.[0]||
+  {
+   code:"ST00000",
+   name:"طالب",
+   gender:""
+  };
+
+ const host=
+  $("pdfHost");
+
+ if(!host){
+  return null
+ }
+
+ try{
+  host.innerHTML=
+   sheetHTML(
+    currentExam,
+    student,
+    pageIndex,
+    questionIndexes,
+    "map"
+   );
+
+  await makeQRCodes(
+   host
+  );
+
+  await waitImages(
+   host
+  );
+
+  await new Promise(
+   r=>
+    requestAnimationFrame(
+     ()=>
+      requestAnimationFrame(r)
+    )
+  );
+
+  const sheet=
+   host.querySelector(
+    ".exam-sheet"
+   ),
+  repaired=
+   measureSheetOMRLayout(
+    sheet,
+    pageIndex,
+    questionIndexes
+   );
+
+  if(
+   !repaired||
+   !isOMRLayoutUsable(
+    repaired,
+    currentExam,
+    pageIndex
+   )
+  ){
+   return null
+  }
+
+  currentExam.omrLayout??={};
+  currentExam.omrLayout[
+   pageIndex
+  ]=repaired;
+
+  omrLayout=
+   currentExam.omrLayout;
+
+  if(
+   savedExams?.[
+    currentExam.examId
+   ]
+  ){
+   savedExams[
+    currentExam.examId
+   ].omrLayout=
+    currentExam.omrLayout
+  }
+
+  if(persist){
+   try{
+    await dbPatch(
+     `exams/${encodeURIComponent(currentExam.examId)}`,
+     {
+      [`omrLayout/${pageIndex}`]:
+       repaired,
+      omrMapVersion:
+       "OMR_MAP_V5",
+      omrMapRepairedAt:
+       Date.now()
+     }
+    )
+   }
+   catch(error){
+    console.warn(
+     "OMR_MAP_PERSIST_WARNING",
+     error
+    )
+   }
+  }
+
+  return repaired
+ }
+ finally{
+  host.innerHTML=""
+ }
+}
+
+async function ensureExamOMRLayout(
+ pageIndex,
+ options={}
+){
+ const force=
+  options.force===true,
+ current=
+  currentExam?.omrLayout?.[
+   pageIndex
+  ];
+
+ if(
+  !force&&
+  isOMRLayoutUsable(
+   current,
+   currentExam,
+   pageIndex
+  )
+ ){
+  return current
+ }
+
+ setFileProcess(
+  "جاري تجهيز خريطة الصفحة",
+  `الصفحة ${pageIndex+1} — يتم إصلاح خريطة OMR تلقائياً من بيانات الامتحان المحفوظة.`
+ );
+
+ const repaired=
+  await rebuildExamOMRLayout(
+   pageIndex,
+   options.persist!==false
+  );
+
+ return repaired
+}
+
 function captureOMRLayout(){
  omrLayout={};
- [...$("previewPages").querySelectorAll(".exam-sheet")].forEach((sheet,p)=>{
-  const sr=sheet.getBoundingClientRect(),qr=sheet.querySelector(".page-qr img")||sheet.querySelector(".page-qr canvas")||sheet.querySelector(".page-qr"),qrR=qr.getBoundingClientRect(),bubbles=[...sheet.querySelectorAll(".omr-bubble")].map(b=>{const r=b.getBoundingClientRect();return{qid:b.dataset.qid,oid:b.dataset.oid,x:(r.left-sr.left)+r.width/2,y:(r.top-sr.top)+r.height/2,r:Math.min(r.width,r.height)/2}}),markers={},securityCells=[];
-  [...sheet.querySelectorAll(".scan-marker")].forEach(m=>{const r=m.getBoundingClientRect();markers[m.dataset.corner]={x:(r.left-sr.left)+r.width/2,y:(r.top-sr.top)+r.height/2,r:Math.min(r.width,r.height)/2}});
-  [...sheet.querySelectorAll(".security-cell")].forEach(cell=>{const r=cell.getBoundingClientRect();securityCells.push({i:Number(cell.dataset.securityIndex),x:(r.left-sr.left)+r.width/2,y:(r.top-sr.top)+r.height/2,r:Math.min(r.width,r.height)/2})});
-  omrLayout[p]={qrRect:{x:qrR.left-sr.left,y:qrR.top-sr.top,w:qrR.width,h:qrR.height},markers,securityCells,bubbles,questionIds:pagePlan[p].map(i=>questions[i].id)}
- })
+
+ [
+  ...$("previewPages")
+  .querySelectorAll(
+   ".exam-sheet"
+  )
+ ].forEach(
+  (sheet,p)=>{
+   const indexes=
+    pagePlan[p]||[],
+   layout=
+    measureSheetOMRLayout(
+     sheet,
+     p,
+     indexes
+    );
+
+   if(layout){
+    omrLayout[p]=layout
+   }
+  }
+ )
 }
 
 async function saveExamOnly(){
  if(!examDraft||!pagePlan.length)return toast("اعرض المعاينة أولاً.","warn");
  const classRows=studentsOfClass(examDraft.classId);
- const exam={...examDraft,questions:JSON.parse(JSON.stringify(questions)),fontScale,imageScale,pageCount:pagePlan.length,pagePlan:JSON.parse(JSON.stringify(pagePlan)),omrLayout:JSON.parse(JSON.stringify(omrLayout)),students:classRows.map(st=>({code:st.code,name:st.name||"",serial:st.serial||"",gender:st.gender||""})),status:"ready",updatedAt:Date.now()};
+ const exam={...examDraft,questions:JSON.parse(JSON.stringify(questions)),fontScale,imageScale,pageCount:pagePlan.length,pagePlan:JSON.parse(JSON.stringify(pagePlan)),omrLayout:JSON.parse(JSON.stringify(omrLayout)),omrMapVersion:"OMR_MAP_V5",students:classRows.map(st=>({code:st.code,name:st.name||"",serial:st.serial||"",gender:st.gender||""})),status:"ready",updatedAt:Date.now()};
  ensurePaperTokens(exam,exam.students,exam.pageCount);
  const updates={[`exams/${exam.examId}`]:exam};
  for(const st of exam.students)for(let p=0;p<exam.pageCount;p++){const token=exam.paperTokens[st.code][p];updates[`examPublicPages/${token}`]=publicPaperRecord(exam,st,p,token)}
@@ -2098,6 +2531,7 @@ async function openExamForCorrection(id){
   imageScale=Number(exam.imageScale||.8);
   pagePlan=exam.pagePlan||[];
   omrLayout=exam.omrLayout||{};
+  currentExam.omrLayout=omrLayout;
 
   examResults=
    await dbGet(
@@ -2156,8 +2590,39 @@ function parseQR(text){
  }
 
  /*
-    النسخة الجديدة:
-    TH3|PXxxxxxxxxxxxxx
+    الصيغة الجديدة:
+    TH4|TOKEN|STUDENT|PAGE|EXAM
+    بهذه الصيغة معرفة الطالب والصفحة لا تعتمد على Firebase.
+ */
+ if(
+  value.startsWith("TH4|")
+ ){
+  const p=
+   value.split("|");
+
+  if(
+   p.length>=5&&
+   p[1]&&
+   p[2]&&
+   Number.isFinite(
+    Number(p[3])
+   )&&
+   p[4]
+  ){
+   return{
+    token:p[1],
+    studentCode:p[2],
+    pageIndex:
+     Number(p[3])-1,
+    examId:
+     p.slice(4).join("|"),
+    qrVersion:"TH4"
+   }
+  }
+ }
+
+ /*
+    TH3 السابقة: Token فقط.
  */
  if(
   value.startsWith("TH3|")
@@ -2170,13 +2635,14 @@ function parseQR(text){
     token,
     examId:"",
     studentCode:"",
-    pageIndex:-1
+    pageIndex:-1,
+    qrVersion:"TH3"
    }
   }
  }
 
  /*
-    إذا مكتبة QR أعادت Token وحده.
+    Token مفرد.
  */
  if(
   /^PX[a-z0-9]{8,32}$/i
@@ -2186,12 +2652,13 @@ function parseQR(text){
    token:value,
    examId:"",
    studentCode:"",
-   pageIndex:-1
+   pageIndex:-1,
+   qrVersion:"TOKEN"
   }
  }
 
  /*
-    دعم كامل للباركودات القديمة المبنية كرابط.
+    QR القديم المبني كرابط.
  */
  try{
   const u=
@@ -2220,7 +2687,9 @@ function parseQR(text){
      token,
      examId,
      studentCode,
-     pageIndex:pageNumber-1
+     pageIndex:
+      pageNumber-1,
+     qrVersion:"URL_FULL"
     }
    }
 
@@ -2228,14 +2697,15 @@ function parseQR(text){
     token,
     examId:"",
     studentCode:"",
-    pageIndex:-1
+    pageIndex:-1,
+    qrVersion:"URL_TOKEN"
    }
   }
  }
  catch{}
 
  /*
-    دعم صيغة TAHADI_EXAM القديمة.
+    صيغة أقدم.
  */
  const p=
   value.split("|");
@@ -2250,8 +2720,10 @@ function parseQR(text){
  return{
   examId:p[1],
   studentCode:p[2],
-  pageIndex:Number(p[3])-1,
-  token:""
+  pageIndex:
+   Number(p[3])-1,
+  token:"",
+  qrVersion:"LEGACY"
  }
 }
 
@@ -2719,6 +3191,300 @@ function canonicalQRLooksAligned(
  return(
   dx<.045&&
   dy<.045
+ )
+}
+
+
+function qrRectMappedMetrics(
+ H,
+ layout
+){
+ const r=
+  layout?.qrRect;
+
+ if(!H||!r){
+  return null
+ }
+
+ const pts=[
+  mapH(
+   H,
+   {x:r.x,y:r.y}
+  ),
+  mapH(
+   H,
+   {x:r.x+r.w,y:r.y}
+  ),
+  mapH(
+   H,
+   {
+    x:r.x+r.w,
+    y:r.y+r.h
+   }
+  ),
+  mapH(
+   H,
+   {x:r.x,y:r.y+r.h}
+  )
+ ];
+
+ const center={
+  x:
+   pts.reduce(
+    (a,p)=>a+p.x,
+    0
+   )/4,
+  y:
+   pts.reduce(
+    (a,p)=>a+p.y,
+    0
+   )/4
+ };
+
+ return{
+  pts,
+  center,
+  width:
+   (
+    Math.hypot(
+     pts[1].x-pts[0].x,
+     pts[1].y-pts[0].y
+    )+
+    Math.hypot(
+     pts[2].x-pts[3].x,
+     pts[2].y-pts[3].y
+    )
+   )/2,
+  height:
+   (
+    Math.hypot(
+     pts[3].x-pts[0].x,
+     pts[3].y-pts[0].y
+    )+
+    Math.hypot(
+     pts[2].x-pts[1].x,
+     pts[2].y-pts[1].y
+    )
+   )/2
+ }
+}
+
+function actualQRMetrics(qr){
+ const loc=
+  qr?.location;
+
+ if(!loc){
+  return null
+ }
+
+ const pts=[
+  loc.topLeftCorner,
+  loc.topRightCorner,
+  loc.bottomRightCorner,
+  loc.bottomLeftCorner
+ ],
+ center={
+  x:
+   pts.reduce(
+    (a,p)=>a+p.x,
+    0
+   )/4,
+  y:
+   pts.reduce(
+    (a,p)=>a+p.y,
+    0
+   )/4
+ };
+
+ return{
+  pts,
+  center,
+  width:
+   (
+    Math.hypot(
+     pts[1].x-pts[0].x,
+     pts[1].y-pts[0].y
+    )+
+    Math.hypot(
+     pts[2].x-pts[3].x,
+     pts[2].y-pts[3].y
+    )
+   )/2,
+  height:
+   (
+    Math.hypot(
+     pts[3].x-pts[0].x,
+     pts[3].y-pts[0].y
+    )+
+    Math.hypot(
+     pts[2].x-pts[1].x,
+     pts[2].y-pts[1].y
+    )
+   )/2
+ }
+}
+
+function qrAlignmentError(
+ H,
+ layout,
+ qr,
+ canvas
+){
+ const a=
+  actualQRMetrics(qr),
+ b=
+  qrRectMappedMetrics(
+   H,
+   layout
+  );
+
+ if(
+  !a||
+  !b||
+  !canvas
+ ){
+  return Infinity
+ }
+
+ const diag=
+  Math.hypot(
+   canvas.width,
+   canvas.height
+  )||1,
+ centerError=
+  Math.hypot(
+   a.center.x-b.center.x,
+   a.center.y-b.center.y
+  )/diag,
+ widthError=
+  Math.abs(
+   a.width-b.width
+  )/
+  Math.max(
+   1,
+   a.width
+  ),
+ heightError=
+  Math.abs(
+   a.height-b.height
+  )/
+  Math.max(
+   1,
+   a.height
+  );
+
+ return(
+  centerError*4+
+  widthError*.35+
+  heightError*.35
+ )
+}
+
+function choosePageHomography(
+ canvas,
+ layout,
+ qr,
+ foundMarkers
+){
+ const candidates=[],
+ canonical=
+  canonicalPageHomography(
+   canvas
+  );
+
+ if(canonical){
+  candidates.push({
+   type:"canonical",
+   H:canonical,
+   error:
+    qrAlignmentError(
+     canonical,
+     layout,
+     qr,
+     canvas
+    )
+  })
+ }
+
+ if(
+  foundMarkers&&
+  Number(
+   foundMarkers._realCount||0
+  )>=3
+ ){
+  const markerH=
+   markerHomography(
+    layout,
+    foundMarkers
+   );
+
+  if(markerH){
+   candidates.push({
+    type:"markers",
+    H:markerH,
+    error:
+     qrAlignmentError(
+      markerH,
+      layout,
+      qr,
+      canvas
+     )
+   })
+  }
+ }
+
+ const qrH=
+  qrHomographyFromLayout(
+   layout,
+   qr
+  );
+
+ if(qrH){
+  candidates.push({
+   type:"qr",
+   H:qrH,
+   /*
+      QR-H يطابق QR بطبيعته، لكن نعطيه أفضلية أقل
+      من canonical/markers إذا تلك الخرائط متطابقة جيداً.
+   */
+   error:.06
+  })
+ }
+
+ const canonicalGood=
+  candidates.find(
+   x=>
+    x.type==="canonical"&&
+    x.error<.085
+  );
+
+ if(canonicalGood){
+  return canonicalGood
+ }
+
+ const markerGood=
+  candidates
+  .filter(
+   x=>
+    x.type==="markers"&&
+    x.error<.11
+  )
+  .sort(
+   (a,b)=>
+    a.error-b.error
+  )[0];
+
+ if(markerGood){
+  return markerGood
+ }
+
+ return(
+  candidates
+  .sort(
+   (a,b)=>
+    a.error-b.error
+  )[0]||
+  null
  )
 }
 
@@ -4842,74 +5608,143 @@ function detectSelections(bubbles){
  })
 }
 function scoreDetectedPage(pageIndex,detected){const qids=new Set(currentExam.omrLayout?.[pageIndex]?.questionIds||[]),map=Object.fromEntries(detected.map(x=>[x.qid,x]));let score=0;for(const q of currentExam.questions||[]){if(!qids.has(q.id)||q.type==="essay")continue;const correct=q.options?.find(o=>o.correct)?.id,sel=map[q.id]?.selected;if(sel&&sel===correct)score+=Number(q.score||0)}return Math.round(score*100)/100}
-async function acceptScannedPage(student,pageIndex,detected,options={}){
- const autoScore=scoreDetectedPage(pageIndex,detected),
-       source=String(options.source||"camera"),
-       sourceLabel=String(options.sourceLabel||"").slice(0,180),
-       data={
-        pageIndex,
-        selections:Object.fromEntries(
-         detected.map(x=>[
-          x.qid,
-          {
-           selected:x.selected,
-           state:x.state,
-           markedOids:x.markedOids||[],
-           confidence:Number(x.confidence||0),
-           scores:x.scores||{},
-           ink:x.ink||{}
-          }
-         ])
+async function acceptScannedPage(
+ student,
+ pageIndex,
+ detected,
+ options={}
+){
+ const autoScore=
+  scoreDetectedPage(
+   pageIndex,
+   detected
+  ),
+ source=
+  String(
+   options.source||
+   "camera"
+  ),
+ sourceLabel=
+  String(
+   options.sourceLabel||
+   ""
+  ).slice(0,180),
+ data={
+  pageIndex,
+  selections:
+   Object.fromEntries(
+    detected.map(
+     x=>[
+      x.qid,
+      {
+       selected:x.selected,
+       state:x.state,
+       markedOids:
+        x.markedOids||[],
+       confidence:
+        Number(
+         x.confidence||0
         ),
-        autoScore,
-        scanSource:source,
-        sourceLabel,
-        scannedAt:Date.now(),
-        scannedBy:TEACHER_CODE
-       };
+       scores:x.scores||{},
+       ink:x.ink||{}
+      }
+     ]
+    )
+   ),
+  autoScore,
+  scanSource:source,
+  sourceLabel,
+  scannedAt:Date.now(),
+  scannedBy:TEACHER_CODE
+ };
 
- /*
-    لا توجد صورة أو PDF داخل data.
-    Firebase يستلم النتيجة النصية/الرقمية فقط.
- */
- examResults[student.code]??={};
- examResults[student.code].pages??={};
- examResults[student.code].pages[pageIndex]=data;
+ examResults[
+  student.code
+ ]??={};
 
- const updates={
-  [`examResults/${currentExam.examId}/${student.code}/pages/${pageIndex}`]:data
+ examResults[
+  student.code
+ ].pages??={};
+
+ examResults[
+  student.code
+ ].pages[
+  pageIndex
+ ]=data;
+
+ const currentTotal=
+  resultTotal(
+   student.code
+  ),
+ scannedPages=
+  Object.keys(
+   examResults[
+    student.code
+   ].pages||{}
+  ).length,
+ updates={
+  [`examResults/${currentExam.examId}/${student.code}/pages/${pageIndex}`]:
+   data,
+  [`examResults/${currentExam.examId}/${student.code}/currentTotal`]:
+   currentTotal,
+  [`examResults/${currentExam.examId}/${student.code}/scannedPages`]:
+   scannedPages,
+  [`examResults/${currentExam.examId}/${student.code}/lastUpdatedAt`]:
+   Date.now(),
+  [`examResults/${currentExam.examId}/${student.code}/lastScanSource`]:
+   source
  },
- token=currentExam.paperTokens?.[student.code]?.[pageIndex];
+ token=
+  currentExam.paperTokens?.[
+   student.code
+  ]?.[
+   pageIndex
+  ];
 
  if(token){
-  updates[`examPublicPages/${token}`]={
-   ...publicPaperRecord(currentExam,student,pageIndex,token),
+  updates[
+   `examPublicPages/${token}`
+  ]={
+   ...publicPaperRecord(
+    currentExam,
+    student,
+    pageIndex,
+    token
+   ),
    pageScore:autoScore,
-   currentTotal:resultTotal(student.code),
+   currentTotal,
    status:"scanned",
    scanSource:source,
    scannedAt:Date.now()
   }
  }
 
- await dbPatch("",updates);
+ await dbPatch(
+  "",
+  updates
+ );
+
  renderResults();
 
  if(!options.silent){
   setScanStatus(
-   `تم اعتماد الصفحة ${pageIndex+1} للطالب ${student.name}. درجة الصفحة ${autoScore}، والمجموع الحالي ${resultTotal(student.code)} / ${currentExam.targetMax}.`,
+   `تم اعتماد الصفحة ${pageIndex+1} للطالب ${student.name}. درجة الصفحة ${autoScore}، والمجموع الحالي ${currentTotal} / ${currentExam.targetMax}.`,
    "good"
   );
-  toast(`تم تصحيح الصفحة ${pageIndex+1}: ${student.name}`,"success")
+
+  toast(
+   `تم تصحيح الصفحة ${pageIndex+1}: ${student.name}`,
+   "success"
+  )
  }
 
  return{
   autoScore,
-  total:resultTotal(student.code),
+  total:currentTotal,
+  scannedPages,
   data
  }
 }
-
 
 function setCorrectionMode(mode){
  correctionMode=mode==="files"?"files":"camera";
@@ -5471,48 +6306,43 @@ async function analyzeScannerCanvas(
  brightness=
   frameBrightness(
    frame.data
-  ),
- baseLayout=
+  );
+
+ /*
+    للبحث الأول عن QR نستخدم أي خريطة صفحة متوفرة.
+    إذا لا توجد خريطة، البحث العام بالـ QR يبقى يعمل.
+ */
+ let baseLayout=
   currentExam.omrLayout?.[0]||
   Object.values(
    currentExam.omrLayout||{}
-  )[0];
+  ).find(Boolean)||
+  null;
 
- if(!baseLayout?.qrRect){
-  return batchResult(
-   "failed",
-   "الامتحان المحفوظ لا يحتوي خريطة QR. أعد المعاينة وحفظ الامتحان."
-  )
- }
-
- /*
-    للـ PDF الناتج من نفس النظام:
-    نعرف الموضع الحقيقي مباشرة قبل أي Marker.
- */
- const Hcanonical=
-  canonicalPageHomography(
-   canvas
-  ),
- foundMarkers=
+ const foundMarkers=
   findPageMarkers(
    canvas
   ),
- Hmarkers=
-  foundMarkers
+ canonical=
+  canonicalPageHomography(
+   canvas
+  ),
+ markerBase=
+  baseLayout&&foundMarkers
    ?markerHomography(
      baseLayout,
      foundMarkers
     )
    :null,
- Hbase=
-  Hcanonical||
-  Hmarkers;
+ searchH=
+  canonical||
+  markerBase;
 
  const qrResult=
   await readCapturedQRMultiPass(
    canvas,
-   Hbase,
-   baseLayout.qrRect,
+   searchH,
+   baseLayout?.qrRect||null,
    (
     attempt,
     label
@@ -5533,7 +6363,7 @@ async function analyzeScannerCanvas(
 
   return batchResult(
    "review",
-   `تعذر قراءة QR بعد ${qrResult.attempt} محاولات. إذا كان هذا PDF قديماً، أنشئ PDF جديداً بالنسخة الحالية.`
+   `تعذر قراءة QR بعد ${qrResult.attempt} محاولات.`
   )
  }
 
@@ -5550,10 +6380,14 @@ async function analyzeScannerCanvas(
 
   return batchResult(
    "failed",
-   "تمت قراءة QR لكنه لا يحمل صيغة امتحان التحدي."
+   "QR مقروء لكنه لا يحمل صيغة امتحان التحدي."
   )
  }
 
+ /*
+    TH4 يعرف الطالب والصفحة مباشرة.
+    TH3 والقديم يتم حلهما من paperTokens/Firebase.
+ */
  info=
   await resolveQRInfo(
    info
@@ -5567,13 +6401,13 @@ async function analyzeScannerCanvas(
 
   return batchResult(
    "failed",
-   "تمت قراءة QR لكن تعذر ربط Token بأي طالب في الامتحان الحالي."
+   "تمت قراءة QR لكن تعذر تحديد الطالب والصفحة."
   )
  }
 
  if(
-  info.examId!==
-  currentExam.examId
+  String(info.examId)!==
+  String(currentExam.examId)
  ){
   drawScannerFilePreview(
    canvas,
@@ -5586,18 +6420,21 @@ async function analyzeScannerCanvas(
   )
  }
 
+ const pageIndex=
+  Number(
+   info.pageIndex
+  );
+
  if(
-  info.pageIndex<0||
-  info.pageIndex>=
+  !Number.isInteger(
+   pageIndex
+  )||
+  pageIndex<0||
+  pageIndex>=
    Number(
     currentExam.pageCount
    )
  ){
-  drawScannerFilePreview(
-   canvas,
-   qr
-  );
-
   return batchResult(
    "failed",
    "رقم الصفحة داخل QR غير صحيح."
@@ -5608,28 +6445,60 @@ async function analyzeScannerCanvas(
   (currentExam.students||[])
   .find(
    st=>
-    st.code===
-    info.studentCode
+    String(st.code)===
+    String(info.studentCode)
   );
 
  if(!student){
-  drawScannerFilePreview(
-   canvas,
-   qr
-  );
-
   return batchResult(
    "failed",
    `الطالب ${info.studentCode} غير موجود ضمن هذا الامتحان.`
   )
  }
 
+ setFileProcess(
+  `تم التعرف على الطالب: ${student.name}`,
+  `الصفحة ${pageIndex+1}/${currentExam.pageCount} — جاري تحميل/إصلاح خريطة الإجابات.`
+ );
+
+ updateScannerRow(
+  rowId,
+  {
+   status:"grading",
+   detail:
+    `${student.name} — الصفحة ${pageIndex+1} — جاري تجهيز الخريطة`
+  }
+ );
+
+ /*
+    هذه هي نقطة الإصلاح الأساسية:
+    لا نفشل إذا omrLayout غير موجودة أو ناقصة.
+    نعيد إنشاء خريطة الصفحة تلقائياً من exam.questions + exam.pagePlan.
+ */
+ let layout=
+  await ensureExamOMRLayout(
+   pageIndex,
+   {
+    persist:true
+   }
+  );
+
+ if(!layout){
+  return batchResult(
+   "failed",
+   `${student.name} — تعذر إنشاء خريطة الصفحة من بيانات الامتحان المحفوظة. تأكد أن pagePlan والأسئلة محفوظة داخل الامتحان.`
+  )
+ }
+
+ /*
+    إذا الصفحة سبق تصحيحها لا نكررها.
+ */
  const existing=
   studentResult(
    student.code
   )
   .pages?.[
-   info.pageIndex
+   pageIndex
   ];
 
  if(existing){
@@ -5640,82 +6509,79 @@ async function analyzeScannerCanvas(
 
   return batchResult(
    "duplicate",
-   `${student.name} — الصفحة ${info.pageIndex+1} مصححة سابقاً.`,
+   `${student.name} — الصفحة ${pageIndex+1} مصححة سابقاً.`,
    {
     student,
-    pageIndex:
-     info.pageIndex
+    pageIndex
    }
   )
  }
 
- const layout=
-  currentExam.omrLayout?.[
-   info.pageIndex
-  ];
-
- if(!layout?.qrRect){
-  return batchResult(
-   "failed",
-   "خريطة OMR لهذه الصفحة غير موجودة."
-  )
- }
-
  /*
-    ترتيب المعايرة:
-    1) علامات الورقة إذا كانت واضحة.
-    2) PDF مباشر إذا QR بمكانه المتوقع.
-    3) QR نفسه، وهو كافٍ للسكنر المسطح.
+    اختر أدق خريطة:
+    canonical للـ PDF الأصلي،
+    markers للسكنر،
+    QR كـ fallback.
  */
- let H=null;
-
- if(
-  foundMarkers&&
-  Number(
-   foundMarkers._realCount||0
-  )>=3
- ){
-  H=
-   markerHomography(
-    layout,
-    foundMarkers
-   )
- }
-
- if(
-  !H&&
-  Hcanonical&&
-  canonicalQRLooksAligned(
+ let chosen=
+  choosePageHomography(
    canvas,
    layout,
-   qr
-  )
+   qr,
+   foundMarkers
+  );
+
+ /*
+    إذا الخريطة القديمة موجودة لكنها لا تطابق الصورة،
+    نجبر إعادة بنائها ونحاول مرة ثانية.
+ */
+ if(
+  !chosen||
+  !chosen.H
  ){
-  H=
-   Hcanonical
+  layout=
+   await ensureExamOMRLayout(
+    pageIndex,
+    {
+     force:true,
+     persist:true
+    }
+   );
+
+  chosen=
+   layout
+    ?choosePageHomography(
+      canvas,
+      layout,
+      qr,
+      foundMarkers
+     )
+    :null
  }
 
- if(!H){
-  H=
-   qrHomographyFromLayout(
-    layout,
-    qr
-   )
- }
+ if(
+  !layout||
+  !chosen?.H
+ ){
+  drawScannerFilePreview(
+   canvas,
+   qr
+  );
 
- if(!H){
   return batchResult(
    "review",
-   `${student.name} — QR مقروء لكن تعذر حساب خريطة الصفحة.`
+   `${student.name} — QR مقروء والطالب معروف، لكن تعذر معايرة مواقع الإجابات.`
   )
  }
 
- const token=
+ const H=
+  chosen.H,
+ token=
   info.token||
   currentExam.paperTokens?.[
    student.code
   ]?.[
-   info.pageIndex
+   pageIndex
   ]||
   "",
  security=
@@ -5729,9 +6595,8 @@ async function analyzeScannerCanvas(
   );
 
  /*
-    في ملفات Scanner:
-    عدم وضوح شريط الأمان لا يلغي QR صحيحاً مربوطاً
-    بالطالب داخل الامتحان نفسه. أما mismatch واضح فيبقى مرفوضاً.
+    عدم وضوح شريط الأمان في السكنر لا يمنع التصحيح.
+    mismatch صريح فقط يمنع الصفحة.
  */
  if(
   !security.ok&&
@@ -5745,22 +6610,50 @@ async function analyzeScannerCanvas(
 
   return batchResult(
    "failed",
-   "QR مقروء لكن علامة أمان الورقة لا تطابق هذه الصفحة."
+   "QR صحيح، لكن علامة أمان الورقة لا تطابق الصفحة."
   )
  }
 
- updateScannerRow(
-  rowId,
-  {
-   status:"grading",
-   detail:
-    `${student.name} — الصفحة ${info.pageIndex+1}/${currentExam.pageCount} — جاري قراءة الإجابات`
+ const expectedBubbles=
+  expectedBubbleCountForPage(
+   currentExam,
+   pageIndex
+  );
+
+ if(
+  expectedBubbles>0&&
+  (
+   !Array.isArray(
+    layout.bubbles
+   )||
+   layout.bubbles.length<
+    expectedBubbles
+  )
+ ){
+  layout=
+   await ensureExamOMRLayout(
+    pageIndex,
+    {
+     force:true,
+     persist:true
+    }
+   );
+
+  if(
+   !layout||
+   layout.bubbles.length<
+    expectedBubbles
+  ){
+   return batchResult(
+    "failed",
+    `${student.name} — خريطة الإجابات غير مكتملة حتى بعد الإصلاح التلقائي.`
+   )
   }
- );
+ }
 
  setFileProcess(
-  `تم التعرف على: ${student.name}`,
-  `الصف: ${currentExam.className} | الصفحة ${info.pageIndex+1}/${currentExam.pageCount} — جاري حساب الدرجات`
+  `الطالب: ${student.name}`,
+  `الخريطة جاهزة (${chosen.type}) — جاري قراءة إجابات الصفحة ${pageIndex+1}.`
  );
 
  const bubbles=
@@ -5808,8 +6701,7 @@ async function analyzeScannerCanvas(
    `${student.name} — توجد ${unclearCount} إجابة غير واضحة؛ لم يعتمد النظام الصفحة حتى لا يخمّن.`,
    {
     student,
-    pageIndex:
-     info.pageIndex
+    pageIndex
    }
   )
  }
@@ -5817,7 +6709,7 @@ async function analyzeScannerCanvas(
  const result=
   await acceptScannedPage(
    student,
-   info.pageIndex,
+   pageIndex,
    detected,
    {
     silent:true,
@@ -5827,20 +6719,22 @@ async function analyzeScannerCanvas(
   );
 
  /*
-    النتيجة أصبحت الآن داخل examResults مباشرة
-    وتظهر في جدول نفس الامتحان.
+    النتيجة تظهر فوراً في جدول الامتحان.
  */
  renderResults();
 
  return batchResult(
   "success",
-  `${student.name} — الصفحة ${info.pageIndex+1}/${currentExam.pageCount} — الدرجة ${result.autoScore} — متعدد: ${multipleCount} — فارغ: ${blankCount}`,
+  `${student.name} — الصفحة ${pageIndex+1}/${currentExam.pageCount} — الدرجة ${result.autoScore} — المجموع الحالي ${result.total}/${currentExam.targetMax} — متعدد: ${multipleCount} — فارغ: ${blankCount}`,
   {
    student,
-   pageIndex:
-    info.pageIndex,
+   pageIndex,
    score:
-    result.autoScore
+    result.autoScore,
+   total:
+    result.total,
+   mapType:
+    chosen.type
   }
  )
 }
