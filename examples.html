@@ -1202,6 +1202,175 @@ function selectedTarget(){const op=$("targetSelect").selectedOptions[0];return{k
 
 
 
+
+const CORRECTION_ROUTE_PARAM="correctionExam";
+
+function setCorrectionReturnRoute(examId){
+ try{
+  const u=new URL(location.href);
+  u.searchParams.delete("scan");
+  u.searchParams.set(
+   CORRECTION_ROUTE_PARAM,
+   examId
+  );
+
+  /*
+     replaceState مهم:
+     لا ننشئ History entry جديدة للمعاينة.
+     لذلك عند الرجوع من عارض PDF يرجع المستخدم
+     إلى نفس صفحة التطبيق ولكن بحالة التصحيح.
+  */
+  history.replaceState(
+   {
+    ...(history.state||{}),
+    correctionExamId:examId
+   },
+   "",
+   u.pathname+
+   u.search+
+   u.hash
+  )
+ }
+ catch(error){
+  console.warn(
+   "CORRECTION_ROUTE_SET_ERROR",
+   error
+  )
+ }
+}
+
+function clearCorrectionReturnRoute(){
+ try{
+  const u=new URL(location.href);
+
+  if(
+   !u.searchParams.has(
+    CORRECTION_ROUTE_PARAM
+   )
+  ){
+   return
+  }
+
+  u.searchParams.delete(
+   CORRECTION_ROUTE_PARAM
+  );
+
+  history.replaceState(
+   {
+    ...(history.state||{}),
+    correctionExamId:null
+   },
+   "",
+   u.pathname+
+   (u.searchParams.toString()
+    ?`?${u.searchParams.toString()}`
+    :"")+
+   u.hash
+  )
+ }
+ catch(error){
+  console.warn(
+   "CORRECTION_ROUTE_CLEAR_ERROR",
+   error
+  )
+ }
+}
+
+function getCorrectionReturnExamId(){
+ try{
+  const u=new URL(location.href);
+
+  return(
+   u.searchParams.get(
+    CORRECTION_ROUTE_PARAM
+   )||
+   history.state?.correctionExamId||
+   ""
+  )
+ }
+ catch{
+  return""
+ }
+}
+
+async function restoreCorrectionRouteIfNeeded(){
+ const examId=
+  getCorrectionReturnExamId();
+
+ if(!examId){
+  return false
+ }
+
+ /*
+    إذا الامتحان ما زال مفتوحاً ومقفل للتصحيح،
+    رجوع المستخدم من PDF يعيده مباشرة للتصحيح.
+ */
+ const exam=
+  savedExams?.[examId]||
+  await dbGet(
+   `exams/${encodeURIComponent(examId)}`
+  );
+
+ if(
+  !exam||
+  exam.status==="completed"
+ ){
+  clearCorrectionReturnRoute();
+  return false
+ }
+
+ if(
+  exam.teacherCode!==
+  TEACHER_CODE
+ ){
+  clearCorrectionReturnRoute();
+  return false
+ }
+
+ await openExamForCorrection(
+  examId,
+  {
+   preserveRoute:true,
+   fromReturn:true
+  }
+ );
+
+ return true
+}
+
+function approvedExamSnapshot(exam){
+ /*
+    هذه البيانات هي النسخة التي طُبع PDF على أساسها.
+    التصحيح لاحقاً يعتمد على نفس questions/pagePlan/omrLayout
+    ولا يعيد بناء امتحان جديد من المدخلات.
+ */
+ return{
+  examId:exam.examId,
+  approvedAt:Date.now(),
+  questionCount:
+   (exam.questions||[]).length,
+  pageCount:
+   Number(exam.pageCount||0),
+  pagePlan:
+   JSON.parse(
+    JSON.stringify(
+     exam.pagePlan||[]
+    )
+   ),
+  omrMapVersion:
+   exam.omrMapVersion||
+   "OMR_MAP_V5",
+  targetKey:
+   exam.targetKey||"",
+  targetMax:
+   Number(exam.targetMax||0),
+  subjectId:
+   exam.subjectId||"",
+  classId:
+   exam.classId||""
+ }
+}
+
 function examEditingIsLocked(){
  return Boolean(
   currentExam?.editLocked===true||
@@ -1238,17 +1407,44 @@ function applyExamEditLockUI(locked=false){
 
 async function lockExamForCorrection(exam){
  if(!exam?.examId){
-  throw new Error("EXAM_LOCK_ID_MISSING")
+  throw new Error(
+   "EXAM_LOCK_ID_MISSING"
+  )
  }
 
  const now=Date.now(),
+       approved=
+        approvedExamSnapshot(
+         exam
+        ),
        patch={
         status:"ready",
         editLocked:true,
         previewFinalized:true,
         correctionOnly:true,
+        pdfApproved:true,
         previewFinalizedAt:now,
-        pdfGeneratedAt:now,
+        approvedAt:now,
+        approvedSnapshot:
+         approved,
+        approvedOmrLayout:
+         JSON.parse(
+          JSON.stringify(
+           exam.omrLayout||{}
+          )
+         ),
+        approvedPagePlan:
+         JSON.parse(
+          JSON.stringify(
+           exam.pagePlan||[]
+          )
+         ),
+        approvedQuestions:
+         JSON.parse(
+          JSON.stringify(
+           exam.questions||[]
+          )
+         ),
         updatedAt:now
        };
 
@@ -1257,19 +1453,43 @@ async function lockExamForCorrection(exam){
   patch
  );
 
- Object.assign(exam,patch);
+ Object.assign(
+  exam,
+  patch
+ );
 
- if(examDraft?.examId===exam.examId){
-  Object.assign(examDraft,patch)
+ if(
+  examDraft?.examId===
+  exam.examId
+ ){
+  Object.assign(
+   examDraft,
+   patch
+  )
  }
 
  currentExam=exam;
- savedExams[exam.examId]={
-  ...(savedExams[exam.examId]||{}),
+
+ savedExams[
+  exam.examId
+ ]={
+  ...(savedExams[
+   exam.examId
+  ]||{}),
   ...exam
  };
 
- applyExamEditLockUI(true)
+ /*
+    من هذه اللحظة التطبيق نفسه أصبح على Route التصحيح،
+    حتى قبل فتح عارض الـ PDF.
+ */
+ setCorrectionReturnRoute(
+  exam.examId
+ );
+
+ applyExamEditLockUI(
+  true
+ )
 }
 
 function resetNewExamState(){
@@ -1305,9 +1525,57 @@ async function startNewExam(){
 function scrollToSavedExams(){$("savedPanel").scrollIntoView({behavior:"smooth",block:"start"})}
 function goHome(){
  stopCamera();
- ["setupStage","questionsStage","previewStage","correctionStage"].forEach(id=>$(id).classList.add("hidden"));
- $("workflowSteps").classList.add("hidden");$("homeStage").classList.remove("hidden");$("savedPanel").classList.remove("hidden");
- loadSavedExams();window.scrollTo({top:0,behavior:"smooth"})
+
+ /*
+    إذا المستخدم اختار الرجوع للصفحة الرئيسية بنفسه،
+    نزيل Route التصحيح. هذا لا يفتح تعديل الامتحان؛
+    الامتحان المقفل يبقى مقفلاً في قاعدة البيانات.
+ */
+ clearCorrectionReturnRoute();
+
+ $("homeStage")
+ .classList.remove(
+  "hidden"
+ );
+
+ $("savedPanel")
+ .classList.remove(
+  "hidden"
+ );
+
+ $("workflowSteps")
+ .classList.add(
+  "hidden"
+ );
+
+ [
+  "setupStage",
+  "questionsStage",
+  "previewStage",
+  "correctionStage"
+ ].forEach(
+  id=>
+   $(id).classList.add(
+    "hidden"
+   )
+ );
+
+ currentExam=null;
+ examDraft=null;
+ questions=[];
+ pagePlan=[];
+ omrLayout={};
+
+ applyExamEditLockUI(
+  false
+ );
+
+ window.scrollTo({
+  top:0,
+  behavior:"smooth"
+ });
+
+ renderSavedExams()
 }
 function newExamId(){return`EX_${Date.now().toString(36).toUpperCase()}_${Math.random().toString(36).slice(2,7).toUpperCase()}`}
 function setupSnapshot(){
@@ -2238,21 +2506,19 @@ async function generateExamPDF(confirmed=false){
   )
  }
 
- /*
-    أول ضغطة لا تنشئ شيئاً مباشرة.
-    نطلب تأكيداً واضحاً لأن الموافقة تقفل تعديل الأسئلة.
- */
  if(!confirmed){
   return showAlert(
    "تحميل الأسئلة PDF",
-   "هل تريد تحميل الأسئلة PDF واعتماد هذه المعاينة؟\n\nبعد الضغط على «نعم» سيُنشأ ملف PDF لكل الطلبة، وتُقفل مرحلة إعداد/تعديل الأسئلة لهذا الامتحان نهائياً، ثم تنتقل مباشرة إلى مرحلة التصحيح.",
+   "هل تريد تحميل الأسئلة PDF واعتماد هذه المعاينة؟\n\nبعد الضغط على «نعم» تصبح هذه الأسئلة وهذه الخريطة هي النسخة الرسمية للامتحان. لن تستطيع تعديل الأسئلة بعدها، وعند الرجوع من ملف PDF ستظهر لك مرحلة التصحيح مباشرة.",
    [
     [
      "نعم، تحميل واعتماد",
      "g",
      async()=>{
       closeAlert();
-      await generateExamPDF(true)
+      await generateExamPDF(
+       true
+      )
      }
     ],
     [
@@ -2264,25 +2530,62 @@ async function generateExamPDF(confirmed=false){
   )
  }
 
- const btn=$("downloadExamBtn");
+ const btn=
+  $("downloadExamBtn");
+
  btn.disabled=true;
- btn.textContent="جاري تجهيز PDF واعتماد الامتحان...";
+ btn.textContent=
+  "جاري تجهيز الامتحان الرسمي...";
 
  try{
   /*
-     الحفظ داخلي فقط، بدون زر حفظ للمستخدم.
+     1) نحفظ المعاينة الحالية داخلياً.
+     هذا هو الامتحان الذي ستُطبع أوراقه.
   */
   await saveExamOnly();
 
-  const exam=currentExam||examDraft,
-        rows=studentsOfClass(exam.classId);
+  const exam=
+         currentExam||
+         examDraft,
+        rows=
+         studentsOfClass(
+          exam.classId
+         );
 
   if(!rows.length){
-   throw new Error("NO_STUDENTS")
+   throw new Error(
+    "NO_STUDENTS"
+   )
   }
 
+  /*
+     نثبت نفس questions/pagePlan/omrLayout داخل exam
+     قبل إنشاء الصفحات.
+  */
+  exam.questions=
+   JSON.parse(
+    JSON.stringify(
+     questions
+    )
+   );
+
+  exam.pagePlan=
+   JSON.parse(
+    JSON.stringify(
+     pagePlan
+    )
+   );
+
+  exam.omrLayout=
+   JSON.parse(
+    JSON.stringify(
+     omrLayout
+    )
+   );
+
   const expectedCount=
-         rows.length*pagePlan.length,
+         rows.length*
+         pagePlan.length,
         uniqueCount=
          validateUniquePaperQRCodes(
           exam,
@@ -2290,22 +2593,36 @@ async function generateExamPDF(confirmed=false){
           pagePlan.length
          );
 
-  if(uniqueCount!==expectedCount){
-   throw new Error("QR_UNIQUE_COUNT_MISMATCH")
+  if(
+   uniqueCount!==
+   expectedCount
+  ){
+   throw new Error(
+    "QR_UNIQUE_COUNT_MISMATCH"
+   )
   }
 
-  /*
-     نحفظ Tokens وسجلات QR قبل إنشاء الملف.
-  */
   const tokenUpdates={
    [`exams/${exam.examId}/paperTokens`]:
-    exam.paperTokens
+    exam.paperTokens,
+   [`exams/${exam.examId}/questions`]:
+    exam.questions,
+   [`exams/${exam.examId}/pagePlan`]:
+    exam.pagePlan,
+   [`exams/${exam.examId}/omrLayout`]:
+    exam.omrLayout
   };
 
   for(const st of rows){
-   for(let p=0;p<pagePlan.length;p++){
+   for(
+    let p=0;
+    p<pagePlan.length;
+    p++
+   ){
     const token=
-     exam.paperTokens[st.code][p];
+     exam.paperTokens[
+      st.code
+     ][p];
 
     tokenUpdates[
      `examPublicPages/${token}`
@@ -2319,25 +2636,47 @@ async function generateExamPDF(confirmed=false){
    }
   }
 
-  await dbPatch("",tokenUpdates);
+  await dbPatch(
+   "",
+   tokenUpdates
+  );
 
-  const {jsPDF}=window.jspdf,
-        pdf=new jsPDF({
-         orientation:"portrait",
-         unit:"mm",
-         format:"a4",
-         compress:true
-        });
+  /*
+     2) نبني ملف PDF كاملاً في الذاكرة.
+     لا نفتحه/ننـزله بعد.
+  */
+  const {
+   jsPDF
+  }=window.jspdf,
+  pdf=
+   new jsPDF({
+    orientation:"portrait",
+    unit:"mm",
+    format:"a4",
+    compress:true
+   });
 
   let first=true,
       created=0;
 
-  for(let si=0;si<rows.length;si++){
-   const student=rows[si];
+  for(
+   let si=0;
+   si<rows.length;
+   si++
+  ){
+   const student=
+    rows[si];
 
-   for(let p=0;p<pagePlan.length;p++){
+   for(
+    let p=0;
+    p<pagePlan.length;
+    p++
+   ){
     if(!first){
-     pdf.addPage("a4","portrait")
+     pdf.addPage(
+      "a4",
+      "portrait"
+     )
     }
 
     first=false;
@@ -2350,9 +2689,13 @@ async function generateExamPDF(confirmed=false){
             pagePlan[p]
            ),
           qrEl=
-           sheet.querySelector(".page-qr"),
+           sheet.querySelector(
+            ".page-qr"
+           ),
           qrImg=
-           qrEl?.querySelector("img"),
+           qrEl?.querySelector(
+            "img"
+           ),
           expectedPayload=
            qrPayload(
             exam,
@@ -2360,13 +2703,20 @@ async function generateExamPDF(confirmed=false){
             p
            );
 
-    if(qrEl?.dataset.qr!==expectedPayload){
+    if(
+     qrEl?.dataset.qr!==
+     expectedPayload
+    ){
      throw new Error(
       `QR_PAYLOAD_MISMATCH_${student.code}_${p+1}`
      )
     }
 
-    if(!qrImg?.src?.startsWith("data:image/png")){
+    if(
+     !qrImg?.src?.startsWith(
+      "data:image/png"
+     )
+    ){
      throw new Error(
       `QR_PNG_MISSING_${student.code}_${p+1}`
      )
@@ -2400,83 +2750,161 @@ async function generateExamPDF(confirmed=false){
     );
 
     /*
-       QR lossless فوق صورة الصفحة.
+       QR يبقى PNG lossless فوق الصفحة.
     */
-    const sheetR=sheet.getBoundingClientRect(),
-          qrR=qrEl.getBoundingClientRect(),
+    const sheetR=
+           sheet.getBoundingClientRect(),
+          qrR=
+           qrEl.getBoundingClientRect(),
           qx=
-           (qrR.left-sheetR.left)/
-           sheetR.width*210,
+           (
+            qrR.left-
+            sheetR.left
+           )/
+           sheetR.width*
+           210,
           qy=
-           (qrR.top-sheetR.top)/
-           sheetR.height*297,
+           (
+            qrR.top-
+            sheetR.top
+           )/
+           sheetR.height*
+           297,
           qw=
            qrR.width/
-           sheetR.width*210,
+           sheetR.width*
+           210,
           qh=
            qrR.height/
-           sheetR.height*297;
+           sheetR.height*
+           297;
 
-    pdf.setFillColor(255,255,255);
+    pdf.setFillColor(
+     255,255,255
+    );
 
     pdf.rect(
-     Math.max(0,qx-.9),
-     Math.max(0,qy-.9),
-     Math.min(210-qx+.9,qw+1.8),
-     Math.min(297-qy+.9,qh+1.8),
+     Math.max(
+      0,
+      qx-.9
+     ),
+     Math.max(
+      0,
+      qy-.9
+     ),
+     Math.min(
+      210-qx+.9,
+      qw+1.8
+     ),
+     Math.min(
+      297-qy+.9,
+      qh+1.8
+     ),
      "F"
     );
 
     pdf.addImage(
      qrImg.src,
      "PNG",
-     qx,qy,qw,qh,
+     qx,
+     qy,
+     qw,
+     qh,
      undefined,
      "NONE"
     );
 
     canvas.width=1;
     canvas.height=1;
-    $("pdfHost").innerHTML="";
+
+    $("pdfHost")
+    .innerHTML="";
+
     created++
    }
   }
 
-  if(created!==expectedCount){
-   throw new Error("PDF_PAGE_COUNT_MISMATCH")
+  if(
+   created!==
+   expectedCount
+  ){
+   throw new Error(
+    "PDF_PAGE_COUNT_MISMATCH"
+   )
   }
 
   /*
-     التنزيل أولاً.
-  */
-  pdf.save(
-   `امتحان_${exam.subjectName}_${exam.className}_${exam.periodLabel}.pdf`
-  );
-
-  /*
-     وبعد نجاح إنشاء الملف نقفل الامتحان للتصحيح فقط.
+     3) الملف جاهز فعلياً.
+     الآن نسجل بياناته ونقفل الامتحان قبل فتح الـ PDF.
   */
   await dbPatch(
    `exams/${encodeURIComponent(exam.examId)}`,
    {
     status:"ready",
-    pdfGeneratedAt:Date.now(),
-    updatedAt:Date.now(),
-    pdfPageCount:created,
-    qrPageCount:uniqueCount,
-    qrFormat:"TH4_IDENTITY_PNG_OVERLAY"
+    pdfGeneratedAt:
+     Date.now(),
+    updatedAt:
+     Date.now(),
+    pdfPageCount:
+     created,
+    qrPageCount:
+     uniqueCount,
+    qrFormat:
+     "TH4_IDENTITY_PNG_OVERLAY",
+    approvedQuestionsReady:
+     true,
+    approvedOmrReady:
+     true
    }
   );
 
-  await lockExamForCorrection(exam);
-
-  toast(
-   `تم تحميل ${created} صفحة واعتماد المعاينة. بدأ وضع التصحيح.`,
-   "success"
+  await lockExamForCorrection(
+   exam
   );
 
-  await loadSavedExams();
-  await openExamForCorrection(exam.examId)
+  /*
+     4) قبل تشغيل تحميل/عارض PDF نحول الـ SPA نفسها
+     إلى مرحلة التصحيح ونضع examId في URL.
+     لو Safari فتح PDF فوق نفس الصفحة، الرجوع يعود للتصحيح.
+  */
+  await openExamForCorrection(
+   exam.examId,
+   {
+    preserveRoute:true,
+    fromPdfDownload:true
+   }
+  );
+
+  setCorrectionReturnRoute(
+   exam.examId
+  );
+
+  /*
+     نعطي المتصفح Frame واحد حتى يرسم صفحة التصحيح
+     ويحفظ حالتها قبل تشغيل عارض PDF.
+  */
+  await new Promise(
+   resolve=>
+    requestAnimationFrame(
+     ()=>
+      requestAnimationFrame(
+       resolve
+      )
+    )
+  );
+
+  /*
+     5) آخر خطوة فقط هي فتح/تنزيل الملف.
+     لا يوجد أي تغيير مهم بعد pdf.save().
+  */
+  pdf.save(
+   `امتحان_${exam.subjectName}_${exam.className}_${exam.periodLabel}.pdf`
+  );
+
+  toast(
+   `تم اعتماد ${created} صفحة. عند الرجوع من ملف PDF ستبقى في مرحلة التصحيح.`,
+   "success"
+  )
 
  }
  catch(e){
@@ -2485,8 +2913,18 @@ async function generateExamPDF(confirmed=false){
    e
   );
 
+  /*
+     إذا لم يصل النظام لمرحلة القفل يبقى قابلاً للتعديل.
+     وإذا تم القفل فعلاً فلا نعيد فتح التعديل لأن النسخة الرسمية اعتمدت.
+  */
+  if(!examEditingIsLocked()){
+   clearCorrectionReturnRoute()
+  }
+
   toast(
-   "تعذر إنشاء PDF أو اعتماد الامتحان. بقيت المعاينة قابلة للتعديل ولم يتم قفل الأسئلة.",
+   examEditingIsLocked()
+    ?"تم اعتماد الامتحان، لكن المتصفح تعذر عليه فتح ملف PDF. الامتحان بقي للتصحيح فقط."
+    :"تعذر إنشاء PDF. بقيت المعاينة قابلة للتعديل ولم يتم اعتمادها.",
    "error"
   )
  }
@@ -2496,10 +2934,11 @@ async function generateExamPDF(confirmed=false){
 
   btn.textContent=
    examEditingIsLocked()
-    ?"تم اعتماد المعاينة — للتصحيح فقط"
+    ?"تم اعتماد الأسئلة — انتقل للتصحيح"
     :"تحميل الأسئلة PDF واعتماد المعاينة";
 
-  $("pdfHost").innerHTML=""
+  $("pdfHost")
+  .innerHTML=""
  }
 }
 
@@ -2561,15 +3000,18 @@ async function cancelExam(id){
   ])
  }catch(e){console.error(e);toast("تعذر إلغاء الامتحان.","error")}
 }
-async function openExamForCorrection(id){
+async function openExamForCorrection(id,options={}){
  try{
   const exam=
    savedExams[id]||
-   await dbGet(`exams/${encodeURIComponent(id)}`);
+   await dbGet(
+    `exams/${encodeURIComponent(id)}`
+   );
 
   if(
    !exam||
-   exam.teacherCode!==TEACHER_CODE
+   exam.teacherCode!==
+   TEACHER_CODE
   ){
    return toast(
     "هذا الامتحان غير تابع لحسابك.",
@@ -2577,7 +3019,12 @@ async function openExamForCorrection(id){
    )
   }
 
-  if(exam.status==="completed"){
+  if(
+   exam.status===
+   "completed"
+  ){
+   clearCorrectionReturnRoute();
+
    return toast(
     "هذا الامتحان تم التصحيح والاعتماد ولا يمكن فتحه مرة أخرى.",
     "warn"
@@ -2586,14 +3033,63 @@ async function openExamForCorrection(id){
 
   currentExam=exam;
   examDraft=exam;
-  questions=JSON.parse(
-   JSON.stringify(exam.questions||[])
-  );
-  fontScale=Number(exam.fontScale||1);
-  imageScale=Number(exam.imageScale||.8);
-  pagePlan=exam.pagePlan||[];
-  omrLayout=exam.omrLayout||{};
-  currentExam.omrLayout=omrLayout;
+
+  /*
+     إذا الامتحان معتمد، التصحيح يعتمد النسخة الرسمية
+     المخزنة وقت تحميل PDF.
+  */
+  questions=
+   JSON.parse(
+    JSON.stringify(
+     (
+      exam.approvedQuestions||
+      exam.questions||
+      []
+     )
+    )
+   );
+
+  fontScale=
+   Number(
+    exam.fontScale||1
+   );
+
+  imageScale=
+   Number(
+    exam.imageScale||.8
+   );
+
+  pagePlan=
+   JSON.parse(
+    JSON.stringify(
+     (
+      exam.approvedPagePlan||
+      exam.pagePlan||
+      []
+     )
+    )
+   );
+
+  omrLayout=
+   JSON.parse(
+    JSON.stringify(
+     (
+      exam.approvedOmrLayout||
+      exam.omrLayout||
+      {}
+     )
+    )
+   );
+
+  currentExam.questions=
+   questions;
+
+  currentExam.pagePlan=
+   pagePlan;
+
+  currentExam.omrLayout=
+   omrLayout;
+
   applyExamEditLockUI(
    exam.editLocked===true||
    exam.previewFinalized===true
@@ -2604,28 +3100,58 @@ async function openExamForCorrection(id){
     `examResults/${encodeURIComponent(id)}`
    )||{};
 
-  $("correctionExamText").textContent=
+  $("correctionExamText")
+  .textContent=
    `${exam.className} — ${exam.subjectName} — ${exam.periodLabel} — ${exam.targetLabel}`;
 
-  $("correctionBadge").textContent=
+  $("correctionBadge")
+  .textContent=
    `من ${exam.targetMax} — ${exam.pageCount} صفحة لكل طالب`;
 
   clearScannerBatch();
   renderResults();
-  goStage("correction");
-  setCorrectionMode("camera");
 
-  toast(
-   "تم فتح مرحلة التصحيح. يمكنك استخدام الكاميرا أو رفع ملف Scanner.",
-   "success"
-  )
+  /*
+     لا نسمح للرجوع من PDF بإعادة المعاينة.
+  */
+  if(
+   options.preserveRoute||
+   examEditingIsLocked()
+  ){
+   setCorrectionReturnRoute(
+    exam.examId
+   )
+  }
 
- }catch(e){
+  goStage(
+   "correction"
+  );
+
+  setCorrectionMode(
+   "camera"
+  );
+
+  if(!options.fromReturn){
+   toast(
+    options.fromPdfDownload
+     ?"تم اعتماد الأسئلة. هذا هو مخطط التصحيح الرسمي للامتحان."
+     :"تم فتح مرحلة التصحيح. يمكنك استخدام الكاميرا أو رفع ملف Scanner.",
+    "success"
+   )
+  }
+
+  return true
+
+ }
+ catch(e){
   console.error(e);
+
   toast(
    "تعذر فتح الامتحان.",
    "error"
-  )
+  );
+
+  return false
  }
 }
 
@@ -7989,21 +8515,94 @@ async function initPublicPaper(token){
   $("publicPaperResult").innerHTML=`<h2>${esc(page.studentName||page.studentCode)}</h2><div class="public-paper-grid"><div class="public-paper-item"><small>المادة</small><strong>${esc(page.subjectName)}</strong></div><div class="public-paper-item"><small>الصف</small><strong>${esc(page.className)}</strong></div><div class="public-paper-item"><small>الفترة</small><strong>${esc(page.periodLabel)}</strong></div><div class="public-paper-item"><small>الصفحة</small><strong>${page.pageNumber} / ${page.pageCount}</strong></div><div class="public-paper-item"><small>الأستاذ</small><strong>${esc(page.teacherName||"—")}</strong></div><div class="public-paper-item"><small>الحالة</small><strong>${esc(status)}</strong></div></div><div class="public-score"><small>${finalized?"الدرجة المعتمدة":"المجموع الحالي بعد الصفحات المصححة"}</small><strong>${absent?"غ = 0":`${current} / ${page.targetMax}`}</strong>${pageResult?`<small style="margin-top:5px">درجة هذه الصفحة: ${Number(pageResult.autoScore||0)}</small>`:""}</div>`;
  }catch(e){console.error(e);$("publicPaperResult").innerHTML='<div class="help">تعذر قراءة بيانات الباركود حالياً.</div>'}finally{$("loaderScreen").classList.add("hidden")}
 }
+
+/* =========================================================
+   RETURN FROM PDF VIEWER
+   Safari/iPhone قد يفتح PDF فوق نفس الصفحة.
+   عند الرجوع نعيد التأكيد أن الشاشة هي التصحيح.
+========================================================= */
+window.addEventListener(
+ "pageshow",
+ async event=>{
+  const examId=
+   getCorrectionReturnExamId();
+
+  if(!examId){
+   return
+  }
+
+  /*
+     إذا الصفحة رجعت من BFCache تكون كل البيانات غالباً موجودة.
+  */
+  if(
+   currentExam?.examId===
+   examId&&
+   currentExam.status!=="completed"
+  ){
+   applyExamEditLockUI(
+    true
+   );
+
+   goStage(
+    "correction"
+   );
+
+   return
+  }
+
+  /*
+     وإذا أعيد تحميلها، استرجع الامتحان من Firebase.
+  */
+  if(
+   !document
+    .getElementById(
+     "loaderScreen"
+    )
+    ?.classList
+    .contains(
+     "hidden"
+    )
+  ){
+   return
+  }
+
+  try{
+   await restoreCorrectionRouteIfNeeded()
+  }
+  catch(error){
+   console.warn(
+    "PDF_RETURN_RESTORE_ERROR",
+    error
+   )
+  }
+ }
+);
+
 async function init(){
- const publicToken=
+ const params=
   new URLSearchParams(
    location.search
-  ).get("scan");
+  ),
+ publicToken=
+  params.get("scan");
 
  if(publicToken){
-  return initPublicPaper(publicToken)
+  return initPublicPaper(
+   publicToken
+  )
  }
 
  try{
-  if(!await verifyTeacher())return;
+  if(
+   !await verifyTeacher()
+  ){
+   return
+  }
 
   if(window.pdfjsLib){
-   pdfjsLib.GlobalWorkerOptions.workerSrc=
+   pdfjsLib
+   .GlobalWorkerOptions
+   .workerSrc=
     "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"
   }
 
@@ -8011,16 +8610,32 @@ async function init(){
   await loadSavedExams();
 
   initScannerDropzone();
-  goHome()
 
- }catch(e){
+  /*
+     رجوع من عارض PDF أو Reload بعد الاعتماد:
+     افتح التصحيح مباشرة ولا تعرض المعاينة مرة ثانية.
+  */
+  const restored=
+   await restoreCorrectionRouteIfNeeded();
+
+  if(!restored){
+   goHome()
+  }
+
+ }
+ catch(e){
   console.error(e);
+
   toast(
    "تعذر تحميل نظام الامتحانات.",
    "error"
   )
- }finally{
-  $("loaderScreen").classList.add("hidden")
+ }
+ finally{
+  $("loaderScreen")
+  .classList.add(
+   "hidden"
+  )
  }
 }
 window.addEventListener("beforeunload",stopCamera);
