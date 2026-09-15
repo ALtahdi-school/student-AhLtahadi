@@ -1962,6 +1962,8 @@ let selectedClassId = "";
 
 let selectedStudentCode = "";
 
+let isLoggingOut = false;
+
 
 /* =========================================================
    SHORTCUT
@@ -2623,6 +2625,31 @@ async function dbPost(
 
 function loadSession(){
 
+    /*
+       إذا الصفحة وصلت بحالة logout لأي سبب،
+       لا نحاول استعادة أي جلسة قديمة.
+    */
+    try{
+        const params =
+            new URLSearchParams(
+                location.search
+            );
+
+        if(
+            params.get("logout") === "1"
+        ){
+            clearAuthStorage();
+            session = {};
+
+            location.replace(
+                `index.html?logout=1&t=${Date.now()}`
+            );
+
+            return false;
+        }
+    }
+    catch{}
+
     try{
 
         session =
@@ -2633,26 +2660,25 @@ function loadSession(){
             );
 
     }
-
     catch{
 
         session = {};
 
     }
 
-
     if(
         !session.code
     ){
 
+        clearAuthStorage();
+
         location.replace(
-            "index.html"
+            `index.html?logout=1&t=${Date.now()}`
         );
 
         return false;
 
     }
-
 
     return true;
 
@@ -2753,45 +2779,131 @@ async function verifyAccountant(){
 }
 
 
+
+function clearAuthStorage(){
+
+    /*
+       امسح كل آثار تسجيل الدخول من هذا الموقع.
+       السبب: بعض نسخ صفحة الدخول قد تحفظ الجلسة في
+       localStorage وليس sessionStorage فقط.
+    */
+
+    try{
+        sessionStorage.removeItem("tahadi_session");
+        sessionStorage.removeItem("tahadi_user");
+        sessionStorage.removeItem("tahadi_role");
+        sessionStorage.removeItem("studentCode");
+        sessionStorage.removeItem("userCode");
+        sessionStorage.clear();
+    }
+    catch(error){
+        console.warn("SESSION_STORAGE_CLEAR_ERROR",error);
+    }
+
+    try{
+        localStorage.removeItem("tahadi_session");
+        localStorage.removeItem("tahadi_user");
+        localStorage.removeItem("tahadi_role");
+        localStorage.removeItem("studentCode");
+        localStorage.removeItem("userCode");
+        localStorage.removeItem("loginCode");
+        localStorage.removeItem("rememberedCode");
+
+        /*
+           لضمان عدم وجود جلسة قديمة باسم مختلف
+           من نسخة سابقة للموقع، نمسح تخزين الموقع المحلي كله.
+        */
+        localStorage.clear();
+    }
+    catch(error){
+        console.warn("LOCAL_STORAGE_CLEAR_ERROR",error);
+    }
+
+    /*
+       امسح الكوكيز القابلة للمسح من JavaScript لنفس الموقع.
+       لا نعتمد عليها أساساً، لكن هذا يمنع أي نسخة قديمة
+       من إعادة تسجيل الدخول تلقائياً.
+    */
+    try{
+        document.cookie
+            .split(";")
+            .forEach(cookie => {
+
+                const name =
+                    cookie
+                    .split("=")[0]
+                    .trim();
+
+                if(!name){
+                    return;
+                }
+
+                document.cookie =
+                    `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;SameSite=Lax`;
+
+            });
+    }
+    catch(error){
+        console.warn("COOKIE_CLEAR_ERROR",error);
+    }
+
+    try{
+        window.name = "";
+    }
+    catch{}
+
+}
+
 /* =========================================================
    LOGOUT
 ========================================================= */
 
 function logout(){
 
+    if(isLoggingOut){
+        return;
+    }
+
+    isLoggingOut = true;
+
     /*
-       تسجيل خروج كامل:
-       - حذف جلسة تسجيل الدخول نفسها.
-       - تنظيف أي قيم أخرى داخل sessionStorage.
-       - تنظيف نسخة الجلسة الموجودة بالذاكرة.
-       - منع الرجوع إلى صفحة الحسابات بجلسة قديمة.
+       أولاً نمسح كل الجلسات قبل أي انتقال.
     */
+    clearAuthStorage();
 
-    try{
-        sessionStorage.removeItem(
-            "tahadi_session"
-        );
-
-        sessionStorage.clear();
-    }
-    catch(error){
-        console.warn(
-            "SESSION_CLEAR_ERROR",
-            error
-        );
-    }
-
+    /*
+       امسح نسخة الحساب الموجودة في ذاكرة الصفحة نفسها.
+    */
     session = {};
     accountantUser = {};
     selectedStudentCode = "";
     selectedClassId = "";
 
+    try{
+        $("studentModal")?.classList.remove("show");
+        $("confirmModal")?.classList.remove("show");
+    }
+    catch{}
+
     /*
-       replace يمنع بقاء صفحة الحسابات كصفحة رجوع
-       ضمن سجل التنقل الحالي.
+       نستخدم رابطاً جديداً مع logout=1 ووقت متغير
+       حتى لا يعيد المتصفح نسخة index من الكاش.
+       replace يمنع الرجوع مباشرة إلى صفحة المحاسب.
     */
+    const target =
+        `index.html?logout=1&t=${Date.now()}`;
+
+    try{
+        history.replaceState(
+            null,
+            "",
+            target
+        );
+    }
+    catch{}
+
     window.location.replace(
-        "index.html"
+        target
     );
 
 }
@@ -4340,8 +4452,10 @@ window.addEventListener(
                 !hasAccountantSession()
             ){
 
+                clearAuthStorage();
+
                 window.location.replace(
-                    "index.html"
+                    `index.html?logout=1&t=${Date.now()}`
                 );
 
             }
@@ -4360,8 +4474,10 @@ window.addEventListener(
             !event.newValue
         ){
 
+            clearAuthStorage();
+
             window.location.replace(
-                "index.html"
+                `index.html?logout=1&t=${Date.now()}`
             );
 
         }
