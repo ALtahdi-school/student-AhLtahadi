@@ -199,6 +199,222 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 .camera-stage.scanner-captured{animation:scannerCaptured .36s ease}
 @keyframes scannerCaptured{0%{box-shadow:inset 0 0 0 0 rgba(255,255,255,0)}45%{box-shadow:inset 0 0 0 6px rgba(255,255,255,.9)}100%{box-shadow:inset 0 0 0 0 rgba(255,255,255,0)}}
 
+
+/* ================= Step-by-step captured-paper processing ================= */
+.processing-overlay{
+ position:absolute;
+ inset:0;
+ z-index:14;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:18px;
+ pointer-events:none;
+ background:rgba(4,18,34,.28);
+ backdrop-filter:blur(1.5px);
+}
+.processing-overlay.hidden{display:none!important}
+.processing-card{
+ width:min(390px,calc(100% - 22px));
+ padding:18px 16px;
+ border:1px solid rgba(255,255,255,.18);
+ border-radius:18px;
+ background:rgba(4,18,34,.90);
+ color:#fff;
+ text-align:center;
+ box-shadow:0 18px 60px rgba(0,0,0,.30);
+}
+.processing-spinner{
+ width:34px;
+ height:34px;
+ margin:0 auto 10px;
+ border:4px solid rgba(255,255,255,.20);
+ border-top-color:#55d4ff;
+ border-radius:50%;
+ animation:processingSpin .75s linear infinite;
+}
+.processing-overlay.done .processing-spinner{
+ animation:none;
+ border:0;
+ width:38px;
+ height:38px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:#067647;
+ font-size:22px;
+}
+.processing-overlay.done .processing-spinner:before{content:"✓"}
+.processing-overlay.error .processing-spinner{
+ animation:none;
+ border:0;
+ width:38px;
+ height:38px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:#b42318;
+ font-size:22px;
+}
+.processing-overlay.error .processing-spinner:before{content:"!"}
+.processing-card strong{display:block;font-size:15px;font-weight:900}
+.processing-card span{display:block;margin-top:6px;color:#dcecff;font-size:9px;font-weight:800;line-height:1.8}
+@keyframes processingSpin{to{transform:rotate(360deg)}}
+
+
+/* ================= Professional compact A4 exam layout ================= */
+.exam-sheet{
+ --img-scale:.82;
+ font-weight:700;
+}
+.exam-sheet *{
+ font-weight:700;
+}
+.exam-sheet-inner{
+ padding:15px 22px 14px!important;
+}
+.exam-head{
+ height:104px!important;
+ flex:0 0 104px!important;
+ grid-template-columns:1fr 116px 1fr!important;
+ gap:7px!important;
+ padding-bottom:4px!important;
+}
+.exam-head-left{
+ padding-top:20px!important;
+ text-align:left!important;
+ direction:rtl!important;
+}
+.exam-head-center{
+ padding-top:0!important;
+}
+.exam-head-right{
+ grid-template-columns:1fr 124px!important;
+ gap:5px!important;
+}
+.exam-logo{
+ width:72px!important;
+ height:48px!important;
+}
+.exam-school{
+ font-size:calc(9px * var(--fs))!important;
+}
+.exam-subject{
+ font-size:calc(14px * var(--fs))!important;
+}
+.exam-time,.student-lines,.corner-student-lines{
+ font-size:calc(9px * var(--fs))!important;
+ line-height:1.42!important;
+ font-weight:800!important;
+}
+.corner-student-lines b{
+ font-size:calc(10.5px * var(--fs))!important;
+ font-weight:900!important;
+}
+.exam-body{
+ height:948px!important;
+ flex:0 0 948px!important;
+ padding-top:4px!important;
+}
+.exam-question{
+ margin-bottom:3px!important;
+ padding:4px 5px!important;
+ border-width:1.4px!important;
+ border-radius:4px!important;
+ font-size:calc(10.7px * var(--fs))!important;
+}
+.q-title{
+ font-size:calc(11.5px * var(--fs))!important;
+ line-height:1.28!important;
+}
+.q-meta{
+ margin-top:0!important;
+ font-size:calc(7.3px * var(--fs))!important;
+}
+.q-options{
+ gap:2px!important;
+ margin-top:3px!important;
+}
+.q-option{
+ min-height:22px!important;
+ gap:5px!important;
+ padding:2px 4px!important;
+ font-size:calc(9.8px * var(--fs))!important;
+ line-height:1.22!important;
+}
+.omr-bubble{
+ width:16px!important;
+ height:16px!important;
+ flex-basis:16px!important;
+ border-width:1.8px!important;
+}
+.q-option img{
+ max-width:calc(116px * var(--img-scale))!important;
+ max-height:calc(68px * var(--img-scale))!important;
+}
+.q-option.horizontal img{
+ max-width:calc(94px * var(--img-scale))!important;
+}
+.essay-lines{
+ gap:4px!important;
+ margin-top:4px!important;
+}
+.essay-line{
+ height:14px!important;
+}
+.exam-foot{
+ height:30px!important;
+ flex:0 0 30px!important;
+ padding-top:3px!important;
+ font-size:calc(7.2px * var(--fs))!important;
+}
+.page-qr{
+ width:116px!important;
+ height:116px!important;
+ padding:0!important;
+ border:0!important;
+ outline:0!important;
+ border-radius:0!important;
+ background:#fff!important;
+ box-shadow:none!important;
+}
+.page-qr canvas,.page-qr img{
+ width:116px!important;
+ height:116px!important;
+}
+.exam-context-box{
+ margin-top:10px;
+ padding:11px 12px;
+ border:1px solid #cfe2fb;
+ border-radius:12px;
+ background:#f6faff;
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:8px;
+}
+.exam-context-item{
+ padding:8px;
+ border-radius:9px;
+ background:#fff;
+ border:1px solid #dfe9f5;
+}
+.exam-context-item small{
+ display:block;
+ color:#667085;
+ font-size:7px;
+ font-weight:900;
+}
+.exam-context-item strong{
+ display:block;
+ margin-top:3px;
+ color:#172033;
+ font-size:9px;
+ font-weight:900;
+}
+@media(max-width:650px){
+ .exam-context-box{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 
@@ -250,12 +466,18 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
     <div class="field"><label>درجة الامتحان / مفردة الدرجة</label><select id="targetSelect"></select></div>
     <div class="field"><label>وقت الامتحان بالدقائق</label><input id="examMinutes" type="number" min="5" max="300" value="45"></div>
     <div class="field"><label>حجم نص ورقة الأسئلة</label><div class="range-line"><input id="textScale" type="range" min="70" max="125" step="5" value="100"><strong id="textScaleValue">100%</strong></div><div class="help">تحكم مباشر بحجم النص قبل المعاينة.</div></div>
-    <div class="field"><label>عدد صفحات كل طالب</label><input id="pageLimit" type="number" min="1" max="8" value="1"></div>
+    <div class="field"><label>عدد صفحات كل طالب</label><select id="pageLimit"><option value="2" selected>صفحتان</option><option value="3">3 صفحات</option><option value="4">4 صفحات</option></select><div class="help">الخيارات المتاحة فقط: 2 أو 3 أو 4 صفحات.</div></div>
+    <div class="field"><label>حجم صور الأسئلة</label><div class="range-line"><input id="imageScale" type="range" min="50" max="110" step="5" value="80"><strong id="imageScaleValue">80%</strong></div><div class="help">صغّر الصور إذا أردت احتواء أسئلة أكثر ضمن الصفحات المحددة.</div></div>
     <div class="field"><label>اللوكو</label><select id="logoMode"><option value="school">لوكو المدرسة</option><option value="custom">لوكو خاص بي</option></select><img id="logoPreview" class="logo-preview" src="logo.png" alt=""></div>
     <div id="customLogoField" class="field hidden"><label>رفع اللوكو الخاص</label><input id="customLogoInput" type="file" accept="image/*"><div class="help">سيتم ضغط الصورة تلقائياً حتى تبقى الصفحة خفيفة.</div></div>
     <div class="field"><label>طباعة وجه وظهر</label><div class="switch-line"><input id="duplexToggle" type="checkbox"><span>نعم، أريد الأسئلة وجه وظهر</span></div><div class="help">عند التفعيل يبدأ النظام بصفحتين لكل طالب ويمكن زيادتها عند الحاجة.</div></div>
    </div>
    <div id="targetInfo" class="target-box">اختر الصف والفترة لعرض تقسيم الدرجة.</div>
+   <div id="examClassInfo" class="exam-context-box">
+    <div class="exam-context-item"><small>الصف</small><strong id="examInfoClass">—</strong></div>
+    <div class="exam-context-item"><small>القاعة</small><strong id="examInfoRoom">—</strong></div>
+    <div class="exam-context-item"><small>الجنس</small><strong id="examInfoGender">—</strong></div>
+   </div>
    <div class="action-row"><button class="btn btn-p" type="button" onclick="saveSetupAndContinue()">إعداد قالب الأسئلة</button></div>
   </div>
  </section>
@@ -284,10 +506,17 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
   <div class="panel-body">
    <div class="correction-grid">
     <div class="camera-card">
-     <div class="card-head"><h4>التصحيح بالكاميرا / OMR</h4><p>ضع الورقة كاملة أمام الكاميرا مثل جهاز السكنر. النظام يثبت الزوايا الأربع أولاً، ثم يكبّر منطقة الباركود الصغير آلياً ويقرأها، وبعدها يحدد كل دوائر الإجابة على الصورة. الدائرة المختارة الصحيحة تظهر خضراء والخاطئة حمراء، وأي شخبطة مزدوجة أو غير واضحة تظهر برتقالية ولا تُعتمد.</p></div>
+     <div class="card-head"><h4>التصحيح بالكاميرا / OMR</h4><p>ضع الورقة كاملة أمام الكاميرا مثل جهاز السكنر. عند ثبات الزوايا يأخذ النظام لقطة ثابتة ويعالج نفس الصورة خطوة بخطوة: قراءة الباركود، تحديد الطالب والصفحة، ثم قراءة الإجابات وحساب الدرجة. يجب أن يحتوي كل سؤال على دائرة واحدة فقط؛ إذا تم تظليل دائرتين أو أكثر في السؤال نفسه يُحسب السؤال خطأ بالكامل.</p></div>
      <div id="cameraStage" class="camera-stage">
       <video id="cameraVideo" playsinline webkit-playsinline autoplay muted class="hidden"></video>
       <canvas id="cameraOverlay" class="camera-overlay"></canvas>
+      <div id="processingOverlay" class="processing-overlay hidden">
+       <div class="processing-card">
+        <div class="processing-spinner"></div>
+        <strong id="processingTitle">جاري معالجة الورقة</strong>
+        <span id="processingText">يرجى الانتظار...</span>
+       </div>
+      </div>
       <div id="cameraHud" class="camera-hud hidden">
        <div class="camera-hud-main"><div><strong id="hudStudent">—</strong><span id="hudPaper">بانتظار الباركود</span></div><div class="hud-total"><small>المجموع الحالي</small><b id="hudTotal">0</b></div></div>
        <div class="camera-hud-metrics"><span id="hudPageScore">درجة الصفحة: —</span><span id="hudLight">الإضاءة: —</span><span id="hudAngle">الزاوية: —</span></div>
@@ -296,7 +525,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
       <div id="cameraLegend" class="camera-legend hidden">
        <span class="qrread">QR ✓ تمت قراءة الباركود</span>
        <span class="correct">✓ جواب صحيح</span>
-       <span class="wrong">✕ جواب خطأ</span>
+       <span class="wrong">✕ خطأ / أكثر من دائرة</span>
        <span class="unclear">؟ قراءة غير واضحة</span>
       </div>
       <div id="cameraPlaceholder" class="camera-placeholder">اضغط «تشغيل الكاميرا» ثم ضع الورقة كاملة أمام الكاميرا. بعد قراءة الباركود تظهر علامة على جواب الطالب مباشرة: الأخضر صحيح، والأحمر خطأ.</div>
@@ -347,11 +576,11 @@ const safe=v=>String(v||"").replace(/[^a-zA-Z0-9_-]/g,"_");
 
 let session={},teacherUser={},teacher={},classes={},students={},assignments=[],TEACHER_CODE="";
 let selectedAssignment=null,currentSchema={},examDraft=null,currentExam=null,savedExams={},examResults={};
-let questions=[],customLogoData="",fontScale=1,pagePlan=[],omrLayout={};
+let questions=[],customLogoData="",fontScale=1,imageScale=.80,pagePlan=[],omrLayout={};
 let cameraStream=null,scanTimer=null,scanBusy=false,scanCooldownUntil=0,lastStableSig="",stableCount=0,PAPER_META_CACHE={};
 let lastQRReadAt=0,lastOverlayStudent="",lastOverlayPage=-1,torchOn=false;
 let lastPageCorners=null,pageCornerStableCount=0,lastAutoCaptureAt=0;
-const AUTO_CAPTURE_FRAMES=4;
+const AUTO_CAPTURE_FRAMES=2;
 const AUTO_OMR_BASE=20;
 let toastTimer=0;
 
@@ -375,17 +604,71 @@ function roomLabel(c){const n=Number(c?.roomNumber);if(n===101)return"الطلا
 async function verifyTeacher(){loadSession();if(!session.code)return logout(),false;teacherUser=await dbGet(`users/${encodeURIComponent(session.code)}`);if(!teacherUser||!["teacher","th"].includes(norm(teacherUser.role))||teacherUser.active===false||teacherUser.hidden===true){logout();return false}TEACHER_CODE=teacherUser.teacherId||session.code;teacher=await dbGet(`teachers/${encodeURIComponent(TEACHER_CODE)}`);if(!teacher)throw new Error("TEACHER_NOT_FOUND");return true}
 async function loadBase(){const[c,s]=await Promise.all([dbGet("classes"),dbGet("students")]);classes=c||{};students=s||{};assignments=resolveAssignments();$("teacherChip").textContent=`الأستاذ: ${teacher.name||teacherUser.name||TEACHER_CODE}`;renderAssignmentOptions()}
 
+
+function classGenderLabel(classId){
+ const c=classes[classId]||{},
+       direct=c.gender||c.type||c.studentGender||"",
+       name=c.name||"";
+
+ if(isFemaleValue(direct)||isFemaleValue(name))return"بنات";
+ if(isMaleValue(direct)||isMaleValue(name))return"بنين";
+
+ const rows=studentsOfClass(classId),
+       girls=rows.filter(x=>isFemaleValue(x.gender)).length,
+       boys=rows.filter(x=>isMaleValue(x.gender)).length;
+
+ if(girls&&boys)return"مختلط";
+ if(girls)return"بنات";
+ if(boys)return"بنين";
+
+ return"غير محدد"
+}
+
+function renderExamClassInfo(){
+ const a=selectedAssignment;
+ if(!a)return;
+
+ const c=classes[a.classId]||{};
+
+ $("examInfoClass").textContent=className(a.classId);
+ $("examInfoRoom").textContent=roomLabel(c);
+ $("examInfoGender").textContent=classGenderLabel(a.classId)
+}
+
 function renderAssignmentOptions(){if(!assignments.length){$("assignmentSelect").innerHTML='<option value="">لا توجد صفوف مسندة</option>';return}$("assignmentSelect").innerHTML=assignments.map((a,i)=>`<option value="${i}">${esc(className(a.classId))} — ${esc(a.subjectName)}</option>`).join("");selectedAssignment=assignments[0];onAssignmentChanged()}
-async function onAssignmentChanged(){const i=Number($("assignmentSelect").value||0);selectedAssignment=assignments[i]||assignments[0]||null;await loadTargetOptions()}
+async function onAssignmentChanged(){
+ const i=Number($("assignmentSelect").value||0);
+ selectedAssignment=assignments[i]||assignments[0]||null;
+ renderExamClassInfo();
+ await loadTargetOptions()
+}
 async function loadTargetOptions(){if(!selectedAssignment)return;const period=$("periodSelect").value;let schema=await dbGet(`gradeSchemas/${encodeURIComponent(TEACHER_CODE)}/${encodeURIComponent(selectedAssignment.classId)}/${encodeURIComponent(selectedAssignment.subjectId)}/${encodeURIComponent(period)}`);if(!schema){const legacy=String(selectedAssignment.subjectName||"").trim().toLowerCase().replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي").replace(/[^a-z0-9\u0600-\u06ff]+/gi,"_").replace(/^_+|_+$/g,"");schema=await dbGet(`gradeSchemas/${encodeURIComponent(TEACHER_CODE)}/${encodeURIComponent(selectedAssignment.classId)}/${encodeURIComponent(legacy)}/${encodeURIComponent(period)}`)}currentSchema=schema||{};const comps=currentSchema.components||{},valid=Object.entries(comps).filter(([,v])=>Number(v)>0);if(valid.length){$("targetSelect").innerHTML=valid.map(([k,v])=>`<option value="${esc(k)}" data-max="${Number(v)}">${esc(COMPONENTS[k]||k)} — من ${Number(v)}</option>`).join("");$("targetInfo").innerHTML=`تقسيم ${esc(PERIODS[period])}: <strong>${valid.map(([k,v])=>`${esc(COMPONENTS[k]||k)} (${Number(v)})`).join(" + ")}</strong>. اختر المفردة التي يمثلها هذا الامتحان.`}else{$("targetSelect").innerHTML=`<option value="__direct__" data-max="${selectedAssignment.maxGrade}">${esc(PERIODS[period])} مباشرة — من ${selectedAssignment.maxGrade}</option>`;$("targetInfo").innerHTML=`لا يوجد تقسيم محفوظ لهذه الفترة. درجة الامتحان ستُسجل مباشرة في <strong>${esc(PERIODS[period])}</strong> من ${selectedAssignment.maxGrade}.`}updateScoreSummary()}
 function selectedTarget(){const op=$("targetSelect").selectedOptions[0];return{key:op?.value||"__direct__",max:Number(op?.dataset.max||selectedAssignment?.maxGrade||100),label:op?.textContent||""}}
 
 
 function resetNewExamState(){
  stopCamera();
- examDraft=null;currentExam=null;examResults={};questions=[];customLogoData="";fontScale=1;pagePlan=[];omrLayout={};
- $("examMinutes").value="45";$("textScale").value="100";$("textScaleValue").textContent="100%";$("pageLimit").value="1";$("logoMode").value="school";$("logoPreview").src="logo.png";$("customLogoField").classList.add("hidden");$("customLogoInput").value="";$("duplexToggle").checked=false;
- if(assignments.length){$("assignmentSelect").value="0";selectedAssignment=assignments[0]}
+ examDraft=null;currentExam=null;examResults={};questions=[];customLogoData="";
+ fontScale=1;imageScale=.80;pagePlan=[];omrLayout={};
+
+ $("examMinutes").value="45";
+ $("textScale").value="100";
+ $("textScaleValue").textContent="100%";
+ $("imageScale").value="80";
+ $("imageScaleValue").textContent="80%";
+ $("pageLimit").value="2";
+ $("logoMode").value="school";
+ $("logoPreview").src="logo.png";
+ $("customLogoField").classList.add("hidden");
+ $("customLogoInput").value="";
+ $("duplexToggle").checked=true;
+
+ if(assignments.length){
+  $("assignmentSelect").value="0";
+  selectedAssignment=assignments[0]
+ }
+
+ renderExamClassInfo()
 }
 async function startNewExam(){
  resetNewExamState();
@@ -400,7 +683,57 @@ function goHome(){
  loadSavedExams();window.scrollTo({top:0,behavior:"smooth"})
 }
 function newExamId(){return`EX_${Date.now().toString(36).toUpperCase()}_${Math.random().toString(36).slice(2,7).toUpperCase()}`}
-function setupSnapshot(){const t=selectedTarget(),c=classes[selectedAssignment.classId]||{};fontScale=Math.max(.7,Math.min(1.25,Number($("textScale").value||100)/100));return{examId:examDraft?.examId||newExamId(),teacherCode:TEACHER_CODE,teacherName:teacher.name||teacherUser.name||"",classId:selectedAssignment.classId,className:className(selectedAssignment.classId),room:roomLabel(c),subjectId:selectedAssignment.subjectId,subjectName:selectedAssignment.subjectName,period:$("periodSelect").value,periodLabel:PERIODS[$("periodSelect").value],targetKey:t.key,targetLabel:t.label,targetMax:t.max,subjectMax:selectedAssignment.maxGrade,minutes:Math.max(5,Number($("examMinutes").value||45)),logoMode:$("logoMode").value,logoData:$("logoMode").value==="custom"?customLogoData:"logo.png",duplex:$("duplexToggle").checked,pageLimit:Math.max(1,Math.min(8,Number($("pageLimit").value||1))),fontScale,paperTokens:examDraft?.paperTokens||{},components:currentSchema.components||{},createdAt:examDraft?.createdAt||Date.now(),updatedAt:Date.now()}}
+function setupSnapshot(){
+ const t=selectedTarget(),
+       c=classes[selectedAssignment.classId]||{};
+
+ fontScale=Math.max(
+  .7,
+  Math.min(
+   1.25,
+   Number($("textScale").value||100)/100
+  )
+ );
+
+ imageScale=Math.max(
+  .50,
+  Math.min(
+   1.10,
+   Number($("imageScale").value||80)/100
+  )
+ );
+
+ return{
+  examId:examDraft?.examId||newExamId(),
+  teacherCode:TEACHER_CODE,
+  teacherName:teacher.name||teacherUser.name||"",
+  classId:selectedAssignment.classId,
+  className:className(selectedAssignment.classId),
+  room:roomLabel(c),
+  genderLabel:classGenderLabel(selectedAssignment.classId),
+  subjectId:selectedAssignment.subjectId,
+  subjectName:selectedAssignment.subjectName,
+  period:$("periodSelect").value,
+  periodLabel:PERIODS[$("periodSelect").value],
+  targetKey:t.key,
+  targetLabel:t.label,
+  targetMax:t.max,
+  subjectMax:selectedAssignment.maxGrade,
+  minutes:Math.max(5,Number($("examMinutes").value||45)),
+  logoMode:$("logoMode").value,
+  logoData:$("logoMode").value==="custom"?customLogoData:"logo.png",
+  duplex:$("duplexToggle").checked,
+  pageLimit:[2,3,4].includes(Number($("pageLimit").value))
+   ?Number($("pageLimit").value)
+   :2,
+  fontScale,
+  imageScale,
+  paperTokens:examDraft?.paperTokens||{},
+  components:currentSchema.components||{},
+  createdAt:examDraft?.createdAt||Date.now(),
+  updatedAt:Date.now()
+ }
+}
 function saveSetupAndContinue(){if(!selectedAssignment)return toast("لا يوجد صف ومادة مسندان للحساب.","error");if($("logoMode").value==="custom"&&!customLogoData)return toast("ارفع اللوكو الخاص بك أولاً.","warn");examDraft=setupSnapshot();if(!questions.length)addQuestion();goStage("questions");updateScoreSummary()}
 
 function totalQuestionScore(){return Math.round(questions.reduce((s,q)=>s+Number(q.score||0),0)*100)/100}
@@ -443,15 +776,89 @@ function questionHTML(q,index){if(q.type==="essay")return`<div class="exam-quest
  return`<div class="exam-question" data-qid="${q.id}"><div class="q-title">س${index+1}/ ${esc(q.title)}</div><div class="q-meta">الدرجة: ${q.score}</div><div class="q-options ${q.direction}">${opts}</div></div>`}
 
 async function waitImages(root){await Promise.all([...root.querySelectorAll("img")].map(img=>img.complete?Promise.resolve():new Promise(r=>{img.onload=r;img.onerror=r})))}
-async function measureQuestions(){const host=$("measureHost");host.style.setProperty("--fs",fontScale);host.innerHTML=questions.map((q,i)=>questionHTML(q,i)).join("");await waitImages(host);await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));return [...host.querySelectorAll(".exam-question")].map(el=>Math.ceil(el.getBoundingClientRect().height+10))}
-function paginate(heights){const cap=832,pages=[];let page=[],used=0;for(let i=0;i<questions.length;i++){const h=heights[i];if(page.length&&used+h>cap){pages.push(page);page=[];used=0}page.push(i);used+=h}if(page.length)pages.push(page);return pages}
+async function measureQuestions(){
+ const host=$("measureHost");
+ host.style.setProperty("--fs",fontScale);
+ host.style.setProperty("--img-scale",imageScale);
+ host.innerHTML=questions.map((q,i)=>questionHTML(q,i)).join("");
+ await waitImages(host);
+ await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+
+ return [...host.querySelectorAll(".exam-question")].map(
+  el=>Math.ceil(el.getBoundingClientRect().height+4)
+ )
+}
+function paginate(heights){
+ const cap=900,
+       pages=[];
+
+ let page=[],
+     used=0;
+
+ for(let i=0;i<questions.length;i++){
+  const h=heights[i];
+
+  if(page.length&&used+h>cap){
+   pages.push(page);
+   page=[];
+   used=0
+  }
+
+  page.push(i);
+  used+=h
+ }
+
+ if(page.length)pages.push(page);
+
+ return pages
+}
 
 async function preparePreview(){if(!validateExam())return;examDraft=setupSnapshot();const heights=await measureQuestions();pagePlan=paginate(heights);const need=pagePlan.length,limit=examDraft.pageLimit;if(need>limit){showOverflowAlert(need,limit);return}await renderPreview();goStage("preview")}
-function showOverflowAlert(need,limit){showAlert("الورقة لا تكفي",`الأسئلة تحتاج ${need} صفحة لكل طالب بينما الإعداد الحالي ${limit} صفحة.\nيمكنك تصغير الخط والصور (اللوكو لا يتغير)، أو زيادة عدد الصفحات.`,[
- ["تصغير الخط","o",async()=>{closeAlert();fontScale=Math.max(.70,Math.round((fontScale-.08)*100)/100);$("textScale").value=Math.round(fontScale*100);$("textScaleValue").textContent=`${Math.round(fontScale*100)}%`;$("pageLimit").value=Math.max(1,Number($("pageLimit").value||1));await preparePreview()}],
- ["زيادة عدد الأوراق","g",async()=>{closeAlert();$("pageLimit").value=need;examDraft=setupSnapshot();await renderPreview();goStage("preview")}],
- ["رجوع","gray",closeAlert]
- ])}
+function showOverflowAlert(need,limit){
+ showAlert(
+  "الأسئلة أكبر من عدد الصفحات",
+  `الامتحان يحتاج ${need} صفحة، بينما الحد المختار ${limit}.\nصغّر صور الأسئلة أو حجم الخط، أو اختر 3/4 صفحات.`,
+  [
+   [
+    "تصغير الصور",
+    "o",
+    async()=>{
+     closeAlert();
+     imageScale=Math.max(.50,Math.round((imageScale-.10)*100)/100);
+     $("imageScale").value=Math.round(imageScale*100);
+     $("imageScaleValue").textContent=`${Math.round(imageScale*100)}%`;
+     await preparePreview()
+    }
+   ],
+   [
+    "تصغير الخط",
+    "o",
+    async()=>{
+     closeAlert();
+     fontScale=Math.max(.70,Math.round((fontScale-.06)*100)/100);
+     $("textScale").value=Math.round(fontScale*100);
+     $("textScaleValue").textContent=`${Math.round(fontScale*100)}%`;
+     await preparePreview()
+    }
+   ],
+   [
+    "زيادة عدد الصفحات",
+    "g",
+    async()=>{
+     closeAlert();
+     $("pageLimit").value=String(
+      Math.min(
+       4,
+       Math.max(2,need)
+      )
+     );
+     await preparePreview()
+    }
+   ],
+   ["رجوع","gray",closeAlert]
+  ]
+ )
+}
 
 
 function isFemaleValue(v){const g=norm(v);return["female","f","girl","girls","اناث","إناث","بنات","بنت"].includes(g)||g.includes("بنات")||g.includes("اناث")||g.includes("إناث")}
@@ -461,7 +868,28 @@ function randomPaperToken(){try{const a=new Uint32Array(2);crypto.getRandomValue
 function ensurePaperTokens(exam,rows,pageCount){exam.paperTokens??={};for(const st of rows){exam.paperTokens[st.code]??={};for(let p=0;p<pageCount;p++)exam.paperTokens[st.code][p]??=randomPaperToken()}return exam.paperTokens}
 function paperTokenFor(exam,student,pageIndex){ensurePaperTokens(exam,[student],Math.max(Number(exam.pageCount||0),pageIndex+1));return exam.paperTokens?.[student.code]?.[pageIndex]}
 function paperPublicURL(exam,student,pageIndex){const token=paperTokenFor(exam,student,pageIndex),u=new URL(location.href);u.search="";u.hash="";u.searchParams.set("scan",token);return u.toString()}
-function publicPaperRecord(exam,student,pageIndex,token){return{token,examId:exam.examId,studentCode:student.code,studentName:student.name||"",pageIndex,pageNumber:pageIndex+1,pageCount:Number(exam.pageCount||1),subjectName:exam.subjectName,className:exam.className,period:exam.period,periodLabel:exam.periodLabel,targetLabel:exam.targetLabel,targetMax:exam.targetMax,teacherName:exam.teacherName||"",status:exam.status||"ready",updatedAt:Date.now()}}
+function publicPaperRecord(exam,student,pageIndex,token){
+ return{
+  token,
+  examId:exam.examId,
+  studentCode:student.code,
+  studentName:student.name||"",
+  pageIndex,
+  pageNumber:pageIndex+1,
+  pageCount:Number(exam.pageCount||1),
+  subjectName:exam.subjectName,
+  className:exam.className,
+  room:exam.room||"",
+  genderLabel:exam.genderLabel||"",
+  period:exam.period,
+  periodLabel:exam.periodLabel,
+  targetLabel:exam.targetLabel,
+  targetMax:exam.targetMax,
+  teacherName:exam.teacherName||"",
+  status:exam.status||"ready",
+  updatedAt:Date.now()
+ }
+}
 function qrPayload(exam,student,pageIndex){return paperPublicURL(exam,student,pageIndex)}
 function paperSecurityBits(token){
  let h=2166136261>>>0;for(const ch of String(token||"")){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)>>>0}
@@ -470,20 +898,63 @@ function paperSecurityBits(token){
 }
 function securityStripHTML(token){return`<div class="security-strip" aria-hidden="true">${paperSecurityBits(token).map((b,i)=>`<span class="security-cell ${b?"bit1":""}" data-security-index="${i}"></span>`).join("")}</div>`}
 function sheetHTML(exam,student,pageIndex,questionIndexes,mode="preview"){
- const logo=exam.logoMode==="custom"?exam.logoData:"logo.png",side=exam.duplex?(pageIndex%2===0?"وجه":"ظهر"):`صفحة ${pageIndex+1}`,c=classes[exam.classId]||{},genderClass=examGenderClass(exam,student);
- const token=paperTokenFor(exam,student,pageIndex);
- return`<section class="exam-sheet ${genderClass}" data-page="${pageIndex}" style="--fs:${exam.fontScale||1}">
+ const logo=exam.logoMode==="custom"?exam.logoData:"logo.png",
+       side=exam.duplex?(pageIndex%2===0?"وجه":"ظهر"):`صفحة ${pageIndex+1}`,
+       c=classes[exam.classId]||{},
+       genderClass=examGenderClass(exam,student),
+       token=paperTokenFor(exam,student,pageIndex),
+       gender=exam.genderLabel||classGenderLabel(exam.classId);
+
+ return`<section class="exam-sheet ${genderClass}" data-page="${pageIndex}" style="--fs:${exam.fontScale||1};--img-scale:${exam.imageScale||.8}">
  <span class="scan-marker tl" data-corner="tl"></span><span class="scan-marker tr" data-corner="tr"></span><span class="scan-marker br" data-corner="br"></span><span class="scan-marker bl" data-corner="bl"></span>${securityStripHTML(token)}
  <img class="exam-watermark" src="${logo}" alt="">
- <div class="sheet-side">${side}</div><div class="exam-sheet-inner">
+ <div class="sheet-side">${side}</div>
+ <div class="exam-sheet-inner">
+
  <header class="exam-head">
-  <div class="exam-head-left"><div class="exam-time">الوقت: ${exam.minutes} دقيقة<br>الدرجة: ${exam.targetMax}<br><span class="teacher-print">الأستاذ: ${esc(exam.teacherName||"—")}</span></div></div>
-  <div class="exam-head-center"><img class="exam-logo" src="${logo}" alt=""><div class="exam-school">مدرسة التحدي الأهلية المختلطة</div><div class="exam-subject">${esc(exam.subjectName)}</div></div>
-  <div class="exam-head-right"><div class="student-lines"><b>${esc(student.name||"—")}</b><br>الصف: ${esc(exam.className)}<br>الشعبة/القاعة: ${esc(exam.room||roomLabel(c))}<br>الصفحة: ${pageIndex+1} / ${exam.pageCount||pagePlan.length}</div><div><div class="page-qr" data-student="${esc(student.code)}" data-page-number="${pageIndex+1}" data-qr="${esc(qrPayload(exam,student,pageIndex))}"></div></div></div>
+
+  <div class="exam-head-left">
+   <div class="corner-student-lines">
+    <b>${esc(student.name||"—")}</b><br>
+    الصف: ${esc(exam.className)}<br>
+    القاعة: ${esc(exam.room||roomLabel(c))}<br>
+    الجنس: ${esc(gender)}
+   </div>
+  </div>
+
+  <div class="exam-head-center">
+   <img class="exam-logo" src="${logo}" alt="">
+   <div class="exam-school">مدرسة التحدي الأهلية المختلطة</div>
+   <div class="exam-subject">${esc(exam.subjectName)}</div>
+  </div>
+
+  <div class="exam-head-right">
+   <div class="exam-time">
+    الوقت: ${exam.minutes} دقيقة<br>
+    الدرجة: ${exam.targetMax}<br>
+    الصفحة: ${pageIndex+1} / ${exam.pageCount||pagePlan.length}<br>
+    <span class="teacher-print">الأستاذ: ${esc(exam.teacherName||"—")}</span>
+   </div>
+   <div>
+    <div class="page-qr" data-student="${esc(student.code)}" data-page-number="${pageIndex+1}" data-qr="${esc(qrPayload(exam,student,pageIndex))}"></div>
+   </div>
+  </div>
+
  </header>
- <main class="exam-body">${questionIndexes.map(i=>questionHTML(questions[i],i)).join("")}</main>
- <footer class="exam-foot"><span>${esc(exam.periodLabel)} — ${esc(exam.targetLabel)}</span><span>الأستاذ: ${esc(exam.teacherName||"—")}</span><span class="page-no">${pageIndex+1} / ${exam.pageCount||pagePlan.length}</span></footer>
- </div></section>`}
+
+ <main class="exam-body">
+  ${questionIndexes.map(i=>questionHTML(questions[i],i)).join("")}
+ </main>
+
+ <footer class="exam-foot">
+  <span>${esc(exam.periodLabel)} — ${esc(exam.targetLabel)}</span>
+  <span>${esc(exam.className)} — ${esc(exam.room||roomLabel(c))} — ${esc(gender)}</span>
+  <span class="page-no">${pageIndex+1} / ${exam.pageCount||pagePlan.length}</span>
+ </footer>
+
+ </div>
+ </section>`
+}
 
 async function makeQRCodes(root){
  const els=[...root.querySelectorAll(".page-qr")];
@@ -544,7 +1015,42 @@ async function renderPdfSheetWithQR(exam,student,pageIndex,questionIndexes){
  if(!qr?.classList.contains("qr-ready")||!qr.querySelector("img,canvas"))throw new Error("QR_NOT_READY");
  return $("pdfHost").querySelector(".exam-sheet")
 }
-async function renderPreview(){examDraft={...setupSnapshot(),questions:JSON.parse(JSON.stringify(questions)),fontScale,pageCount:pagePlan.length,pagePlan:JSON.parse(JSON.stringify(pagePlan))};const sample=studentsOfClass(examDraft.classId)[0]||{code:"ST00000",name:"اسم الطالب",gender:classes[examDraft.classId]?.gender||""};ensurePaperTokens(examDraft,[sample],pagePlan.length);$("previewPages").innerHTML=pagePlan.map((qs,p)=>sheetHTML(examDraft,sample,p,qs)).join("");await makeQRCodes($("previewPages"));await waitImages($("previewPages"));await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));captureOMRLayout();$("previewSummary").innerHTML=`<span class="score-pill blue">${esc(examDraft.className)} — ${esc(examDraft.subjectName)}</span><span class="score-pill blue">${esc(examDraft.periodLabel)}</span><span class="score-pill green">${pagePlan.length} صفحة لكل طالب</span><span class="score-pill green">${studentsOfClass(examDraft.classId).length} طالب</span>`}
+async function renderPreview(){
+ examDraft={
+  ...setupSnapshot(),
+  questions:JSON.parse(JSON.stringify(questions)),
+  fontScale,
+  imageScale,
+  pageCount:pagePlan.length,
+  pagePlan:JSON.parse(JSON.stringify(pagePlan))
+ };
+
+ const sample=studentsOfClass(examDraft.classId)[0]||{
+  code:"ST00000",
+  name:"اسم الطالب",
+  gender:classes[examDraft.classId]?.gender||""
+ };
+
+ ensurePaperTokens(examDraft,[sample],pagePlan.length);
+
+ $("previewPages").innerHTML=pagePlan.map(
+  (qs,p)=>sheetHTML(examDraft,sample,p,qs)
+ ).join("");
+
+ await makeQRCodes($("previewPages"));
+ await waitImages($("previewPages"));
+ await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+
+ captureOMRLayout();
+
+ $("previewSummary").innerHTML=
+  `<span class="score-pill blue">الصف: ${esc(examDraft.className)}</span>`+
+  `<span class="score-pill blue">القاعة: ${esc(examDraft.room)}</span>`+
+  `<span class="score-pill blue">الجنس: ${esc(examDraft.genderLabel)}</span>`+
+  `<span class="score-pill blue">${esc(examDraft.subjectName)} — ${esc(examDraft.periodLabel)}</span>`+
+  `<span class="score-pill green">${pagePlan.length} صفحة لكل طالب</span>`+
+  `<span class="score-pill green">${studentsOfClass(examDraft.classId).length} طالب</span>`
+}
 
 function captureOMRLayout(){
  omrLayout={};
@@ -559,7 +1065,7 @@ function captureOMRLayout(){
 async function saveExamOnly(){
  if(!examDraft||!pagePlan.length)return toast("اعرض المعاينة أولاً.","warn");
  const classRows=studentsOfClass(examDraft.classId);
- const exam={...examDraft,questions:JSON.parse(JSON.stringify(questions)),fontScale,pageCount:pagePlan.length,pagePlan:JSON.parse(JSON.stringify(pagePlan)),omrLayout:JSON.parse(JSON.stringify(omrLayout)),students:classRows.map(st=>({code:st.code,name:st.name||"",serial:st.serial||"",gender:st.gender||""})),status:"ready",updatedAt:Date.now()};
+ const exam={...examDraft,questions:JSON.parse(JSON.stringify(questions)),fontScale,imageScale,pageCount:pagePlan.length,pagePlan:JSON.parse(JSON.stringify(pagePlan)),omrLayout:JSON.parse(JSON.stringify(omrLayout)),students:classRows.map(st=>({code:st.code,name:st.name||"",serial:st.serial||"",gender:st.gender||""})),status:"ready",updatedAt:Date.now()};
  ensurePaperTokens(exam,exam.students,exam.pageCount);
  const updates={[`exams/${exam.examId}`]:exam};
  for(const st of exam.students)for(let p=0;p<exam.pageCount;p++){const token=exam.paperTokens[st.code][p];updates[`examPublicPages/${token}`]=publicPaperRecord(exam,st,p,token)}
@@ -657,7 +1163,7 @@ function renderSavedExams(){
   const completed=e.status==="completed";
   return`<article class="saved-exam ${completed?"completed":"uncorrected"}">
    <h4>${esc(e.subjectName)} — ${esc(e.className)}</h4>
-   <p>${esc(e.periodLabel)} — ${esc(e.targetLabel||"")}<br>${e.pageCount||1} صفحة لكل طالب — الدرجة ${e.targetMax}</p>
+   <p>${esc(e.periodLabel)} — ${esc(e.targetLabel||"")}<br>الصف: ${esc(e.className||"—")} — القاعة: ${esc(e.room||"—")} — الجنس: ${esc(e.genderLabel||"—")}<br>${e.pageCount||1} صفحة لكل طالب — الدرجة ${e.targetMax}</p>
    <span class="exam-state ${completed?"completed":"ready"}">${completed?"تم التصحيح والاعتماد":"غير مصحح"}</span>
    ${completed?`<button class="completed-btn" type="button" disabled>تم التصحيح والاعتماد</button>`:`<div class="saved-exam-actions"><button class="correct-btn" type="button" onclick="openExamForCorrection('${id}')">تصحيح الامتحان</button><button class="cancel-exam-btn" type="button" onclick="cancelExam('${id}')">إلغاء الامتحان</button></div>`}
   </article>`
@@ -1063,50 +1569,84 @@ async function autoTuneExposure(brightness){
 function optionNumber(q,oid){const i=(q?.options||[]).findIndex(o=>o.id===oid);return i>=0?String(i+1):"—"}
 function pageLiveTotal(code,pageIndex,pageScore){const old=Number(studentResult(code).pages?.[pageIndex]?.autoScore||0),base=autoTotalFor(code)-old+Number(pageScore||0);return Math.round((base+essayTotalFor(code))*100)/100}
 function updateCameraHUD(student,pageIndex,detected,brightness,angle,pageScore){
- $("cameraHud").classList.remove("hidden");$("hudStudent").textContent=student.name||student.code;$("hudPaper").textContent=`${currentExam.subjectName} — الصفحة ${pageIndex+1}/${currentExam.pageCount}`;$("hudPageScore").textContent=`درجة الصفحة: ${pageScore}`;
- const lightPct=Math.round(brightness/255*100);$("hudLight").textContent=`الإضاءة: ${lightPct}% ${lightPct<30?"منخفضة":lightPct>86?"عالية":"مناسبة"}`;$("hudAngle").textContent=`الزاوية: ${Math.abs(angle).toFixed(1)}° ${Math.abs(angle)<=7?"مناسبة":"عدّل الميل"}`;$("hudTotal").textContent=`${pageLiveTotal(student.code,pageIndex,pageScore)} / ${currentExam.targetMax}`;
- const pageQids=new Set(currentExam.omrLayout?.[pageIndex]?.questionIds||[]),by=Object.fromEntries((detected||[]).map(d=>[d.qid,d])),globalIndex=Object.fromEntries((currentExam.questions||[]).map((q,i)=>[q.id,i+1]));
- $("hudAnswers").innerHTML=(currentExam.questions||[]).filter(q=>q.type!=="essay"&&pageQids.has(q.id)).map(q=>{const d=by[q.id],correct=q.options?.find(o=>o.correct)?.id,selected=d?.selected||null,ok=selected&&selected===correct,amb=d?.state==="ambiguous",cls=amb?"blank":!selected?"blank":ok?"ok":"bad",confidence=selected?` — ثقة ${Number(d?.confidence||0)}%`:"";return`<span class="hud-answer ${cls}">س${globalIndex[q.id]}: ${amb?"غير واضح":selected?`اختار ${optionNumber(q,selected)} ${ok?"✓ صحيح":"✕ خطأ"}`:"بدون إجابة"}${confidence}</span>`}).join("")||'<span class="hud-answer blank">لا توجد أسئلة اختيارية بهذه الصفحة</span>'
+ $("cameraHud").classList.remove("hidden");
+ $("hudStudent").textContent=student.name||student.code;
+ $("hudPaper").textContent=`${currentExam.subjectName} — الصفحة ${pageIndex+1}/${currentExam.pageCount}`;
+ $("hudPageScore").textContent=`درجة الصفحة: ${pageScore}`;
+
+ const lightPct=Math.round(brightness/255*100);
+ $("hudLight").textContent=`الإضاءة: ${lightPct}% ${lightPct<30?"منخفضة":lightPct>86?"عالية":"مناسبة"}`;
+ $("hudAngle").textContent=`الزاوية: ${Math.abs(angle).toFixed(1)}° ${Math.abs(angle)<=7?"مناسبة":"عدّل الميل"}`;
+ $("hudTotal").textContent=`${pageLiveTotal(student.code,pageIndex,pageScore)} / ${currentExam.targetMax}`;
+
+ const pageQids=new Set(currentExam.omrLayout?.[pageIndex]?.questionIds||[]),
+       by=Object.fromEntries((detected||[]).map(d=>[d.qid,d])),
+       globalIndex=Object.fromEntries((currentExam.questions||[]).map((q,i)=>[q.id,i+1]));
+
+ $("hudAnswers").innerHTML=
+  (currentExam.questions||[])
+  .filter(q=>q.type!=="essay"&&pageQids.has(q.id))
+  .map(q=>{
+   const d=by[q.id],
+         correct=q.options?.find(o=>o.correct)?.id;
+
+   if(!d){
+    return`<span class="hud-answer blank">س${globalIndex[q.id]}: لم تُقرأ</span>`
+   }
+
+   if(d.state==="multiple"){
+    return`<span class="hud-answer bad">س${globalIndex[q.id]}: أكثر من دائرة ✕ — السؤال خطأ</span>`
+   }
+
+   if(d.state==="unclear"){
+    return`<span class="hud-answer blank">س${globalIndex[q.id]}: التظليل غير واضح ؟</span>`
+   }
+
+   if(d.state==="blank"){
+    return`<span class="hud-answer bad">س${globalIndex[q.id]}: بدون إجابة ✕</span>`
+   }
+
+   const selected=d.selected,
+         ok=selected&&selected===correct;
+
+   return`<span class="hud-answer ${ok?"ok":"bad"}">س${globalIndex[q.id]}: اختار ${optionNumber(q,selected)} ${ok?"✓ صحيح":"✕ خطأ"} — ثقة ${Number(d.confidence||0)}%</span>`
+  })
+  .join("")||
+  '<span class="hud-answer blank">لا توجد أسئلة اختيارية بهذه الصفحة</span>'
 }
 
 function cloneCorners(m){if(!m)return null;return{tl:{x:m.tl.x,y:m.tl.y},tr:{x:m.tr.x,y:m.tr.y},br:{x:m.br.x,y:m.br.y},bl:{x:m.bl.x,y:m.bl.y}}}
+
+function scaleMarkerSeed(markers,fromW,fromH,toW,toH){
+ if(!markers||!fromW||!fromH)return null;
+
+ const sx=toW/fromW,
+       sy=toH/fromH,
+       out={};
+
+ for(const k of["tl","tr","br","bl"]){
+  const p=markers[k];
+  if(!p)return null;
+
+  out[k]={
+   ...p,
+   x:p.x*sx,
+   y:p.y*sy,
+   r:Number(p.r||0)*((sx+sy)/2)
+  }
+ }
+
+ return out
+}
+
 function cornerMotionRatio(a,b,w,h){if(!a||!b)return Infinity;const diag=Math.hypot(w,h)||1;let max=0;for(const k of["tl","tr","br","bl"]){const d=Math.hypot(a[k].x-b[k].x,a[k].y-b[k].y)/diag;if(d>max)max=d}return max}
 function pageCoverageRatio(m,w,h){return m?polygonArea([m.tl,m.tr,m.br,m.bl])/Math.max(1,w*h):0}
 function averageMarkerScore(m){return m?["tl","tr","br","bl"].reduce((sum,k)=>sum+Number(m[k]?.score||0),0)/4:0}
 async function captureHighResolutionFrame(video){
- const track=cameraStream?.getVideoTracks?.()[0];
-
  /*
-    إذا المتصفح يدعم ImageCapture نأخذ صورة من حساس الكاميرا نفسه،
-    وليس مجرد نسخة من إطار الفيديو. هذا يعطي QR والدوائر تفاصيل أفضل.
- */
- if(
-  track&&
-  "ImageCapture" in window&&
-  "createImageBitmap" in window
- ){
-  try{
-   const imageCapture=new ImageCapture(track),
-         blob=await imageCapture.takePhoto(),
-         bitmap=await createImageBitmap(blob),
-         c=document.createElement("canvas");
-
-   c.width=Math.max(1,bitmap.width);
-   c.height=Math.max(1,bitmap.height);
-
-   const ctx=c.getContext("2d",{willReadFrequently:true});
-   ctx.drawImage(bitmap,0,0);
-
-   if(bitmap.close)bitmap.close();
-
-   return c
-  }catch(e){
-   console.warn("IMAGE_CAPTURE_FALLBACK",e)
-  }
- }
-
- /*
-    Fallback متوافق مع Safari وبقية المتصفحات.
+    نأخذ الإطار نفسه من الفيديو بالدقة الفعلية التي فتحت بها الكاميرا.
+    بهذه الطريقة الصورة التي تُحلل هي نفسها الصورة التي يراها الأستاذ
+    عندما تتوقف الكاميرا لحظة المعالجة، وتبقى الإحداثيات دقيقة.
  */
  const c=document.createElement("canvas");
  c.width=Math.max(1,video.videoWidth);
@@ -1119,115 +1659,449 @@ async function captureHighResolutionFrame(video){
 
  return c
 }
+
+function sleepMs(ms){
+ return new Promise(resolve=>setTimeout(resolve,ms))
+}
+
+function nextPaint(){
+ return new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))
+}
+
+function setProcessingOverlay(show,title="",text="",type="busy"){
+ const box=$("processingOverlay");
+ if(!box)return;
+ box.classList.toggle("hidden",!show);
+ box.classList.remove("done","error");
+ if(show&&type==="done")box.classList.add("done");
+ if(show&&type==="error")box.classList.add("error");
+ if($("processingTitle"))$("processingTitle").textContent=title||"جاري معالجة الورقة";
+ if($("processingText"))$("processingText").textContent=text||"يرجى الانتظار..."
+}
+
+async function pauseCameraOnCapturedImage(video){
+ try{video.pause()}catch{}
+ await nextPaint()
+}
+
+async function resumeCameraAfterCapturedImage(video,delay=850){
+ await sleepMs(delay);
+ setProcessingOverlay(false);
+ if(cameraStream&&video?.srcObject){
+  try{await video.play()}catch{}
+ }
+}
+
 function pulseScannerCapture(){const stage=$("cameraStage");stage.classList.remove("scanner-captured");void stage.offsetWidth;stage.classList.add("scanner-captured")}
 
-async function processCapturedPage(video){
- const captured=await captureHighResolutionFrame(video),
-       frameCtx=captured.getContext("2d",{willReadFrequently:true}),
-       frame=frameCtx.getImageData(0,0,captured.width,captured.height),
-       brightness=frameBrightness(frame.data),
-       baseLayout=currentExam.omrLayout?.[0]||Object.values(currentExam.omrLayout||{})[0],
-       foundMarkers=findPageMarkers(captured);
+async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
+ let captured=null,
+     success=false,
+     student=null,
+     info=null;
 
- if(!foundMarkers||!baseLayout?.markers){
-  setScannerChip("captureChip","التقاط الورقة: أعد الثبات","warn");
-  setScanStatus("تم التقاط صورة، لكن إحدى الزوايا لم تكن واضحة. ثبّت الورقة مرة أخرى.","warn");
-  return
- }
+ /*
+    اللقطة تؤخذ مرة واحدة فقط.
+    من هذه اللحظة كل القراءة والمعالجة تعتمد على captured فقط.
+ */
+ captured=await captureHighResolutionFrame(video);
+ await pauseCameraOnCapturedImage(video);
 
- const coverage=pageCoverageRatio(foundMarkers,captured.width,captured.height),
-       markerScore=averageMarkerScore(foundMarkers),
-       Hbase=markerHomography(baseLayout,foundMarkers);
-
- if(!Hbase||coverage<.18||markerScore<30){
-  setScannerChip("captureChip","التقاط الورقة: الجودة غير كافية","warn");
-  drawScannerFrame(video,captured,foundMarkers,null,false);
-  setScanStatus("صورة الورقة موجودة لكن الحجم/الدقة غير كافيين. قرّب الورقة قليلاً مع بقاء الزوايا الأربع ظاهرة.","warn");
-  return
- }
-
+ setProcessingOverlay(
+  true,
+  "تم التقاط ورقة A4 ✓",
+  "تم تثبيت الصورة. لن يعتمد التصحيح على الكاميرا من الآن.",
+  "busy"
+ );
  setScannerChip("captureChip","التقاط الورقة: تم ✓","ok");
  pulseScannerCapture();
+ await nextPaint();
 
- let qr=cropExpectedQR(captured,Hbase,baseLayout.qrRect);
- if(!qr)qr=readQRRobust(frame,captured.width,captured.height,brightness);
+ try{
+  const frameCtx=captured.getContext("2d",{willReadFrequently:true}),
+        frame=frameCtx.getImageData(0,0,captured.width,captured.height),
+        brightness=frameBrightness(frame.data),
+        baseLayout=currentExam.omrLayout?.[0]||Object.values(currentExam.omrLayout||{})[0];
 
- if(!qr){
-  setScannerChip("qrChip","الباركود: لم يُقرأ","bad");
-  setScannerChip("securityChip","أمان الورقة: بانتظار","warn");
-  drawScannerFrame(video,captured,foundMarkers,null,true);
-  setScanStatus("تم التقاط الورقة بدقة، لكن QR لم يُقرأ. قرّب الورقة قليلاً أو شغّل الفلاش ثم ثبّتها من جديد.","warn");
-  return
- }
+  /*
+     نستعمل زوايا اللقطة الحية بعد تحويلها إلى أبعاد الصورة الكاملة.
+     هذا يلغي إعادة البحث البطيئة عن أبعاد الورقة بعد الالتقاط.
+  */
+  let foundMarkers=scaleMarkerSeed(
+   seedMarkers,
+   seedW,
+   seedH,
+   captured.width,
+   captured.height
+  );
 
- setScannerChip("qrChip","الباركود: مقروء ✓","ok");
+  if(!foundMarkers){
+   foundMarkers=findPageMarkers(captured)
+  }
 
- let info=parseQR(qr.data);
- if(!info){setScannerChip("qrChip","الباركود: غير تابع للنظام","bad");setScanStatus("الباركود المقروء ليس باركود امتحان التحدي.","bad");return}
- info=await resolveQRInfo(info);
- if(!info){setScannerChip("qrChip","الباركود: غير مسجل","bad");setScanStatus("تمت قراءة QR لكن بيانات الورقة غير موجودة في قاعدة البيانات.","bad");return}
- if(info.examId!==currentExam.examId){setScanStatus("هذه الورقة تابعة لامتحان آخر.","bad");return}
- if(info.pageIndex<0||info.pageIndex>=Number(currentExam.pageCount)){setScanStatus("رقم الصفحة في الباركود غير صحيح.","bad");return}
-
- const student=(currentExam.students||[]).find(st=>st.code===info.studentCode);
- if(!student){setScanStatus("الطالب الموجود في الباركود غير موجود ضمن هذا الامتحان.","bad");return}
-
- const layout=currentExam.omrLayout?.[info.pageIndex];
- if(!layout?.markers){setScanStatus("هذه الورقة لا تحتوي خريطة السكنر الجديدة. أنشئ PDF جديداً من النسخة الحالية.","bad");return}
-
- const H=markerHomography(layout,foundMarkers);
- if(!H){setScanStatus("تم تحديد الطالب، لكن تعذر تصحيح منظور الورقة من الزوايا الأربع.","bad");return}
-
- const token=info.token||currentExam.paperTokens?.[student.code]?.[info.pageIndex]||"",
-       security=verifyPaperSecurity(frame.data,captured.width,captured.height,H,layout,token);
-
- if(!security.ok){
-  if(security.unclear){
-   setScannerChip("securityChip","أمان الورقة: غير واضح","warn");
-   drawScannerFrame(video,captured,foundMarkers,qr,true);
-   setScanStatus("QR مقروء، لكن علامة أمان الورقة غير واضحة. شغّل الفلاش أو قرّب الورقة ثم أعد تثبيتها.","warn");
+  if(!foundMarkers||!baseLayout?.markers){
+   setProcessingOverlay(
+    true,
+    "تعذر تثبيت حدود الورقة",
+    "أعد إدخال الورقة داخل إطار الكاميرا.",
+    "error"
+   );
+   setScanStatus("لم يتم تثبيت زوايا الورقة على الصورة الملتقطة.","warn");
    return
   }
-  setScannerChip("securityChip",`أمان الورقة: غير مطابق ${security.matches}/${security.total}`,"bad");
-  drawScannerFrame(video,captured,foundMarkers,qr,true);
-  setScanStatus("تم رفض الورقة لأن QR لا يطابق علامة الأمان المطبوعة على نفس الورقة.","bad");
-  return
+
+  const Hbase=markerHomography(baseLayout,foundMarkers);
+
+  if(!Hbase){
+   setProcessingOverlay(
+    true,
+    "تعذر معالجة منظور الورقة",
+    "أعد تصوير الورقة مع ظهور زواياها الأربع.",
+    "error"
+   );
+   return
+  }
+
+  /*
+     المرحلة 1 — البحث عن QR الخاص بالطالب.
+  */
+  setProcessingOverlay(
+   true,
+   "يتم البحث عن الباركود الخاص بالطالب",
+   "جاري قص منطقة QR وتكبيرها ومعالجتها من الصورة الملتقطة...",
+   "busy"
+  );
+  setScannerChip("qrChip","الباركود: جاري البحث…","busy");
+  await nextPaint();
+
+  let qr=cropExpectedQR(
+   captured,
+   Hbase,
+   baseLayout.qrRect
+  );
+
+  if(!qr){
+   qr=readQRRobust(
+    frame,
+    captured.width,
+    captured.height,
+    brightness
+   )
+  }
+
+  if(!qr){
+   drawScannerFrame(video,captured,foundMarkers,null,true);
+   setScannerChip("qrChip","الباركود: لم يُقرأ","bad");
+   setProcessingOverlay(
+    true,
+    "لم يتم العثور على باركود الطالب",
+    "شغّل الفلاش أو قرّب الورقة قليلاً ثم أعد إدخالها.",
+    "error"
+   );
+   setScanStatus("الصورة أُخذت، لكن QR لم يُقرأ منها.","warn");
+   return
+  }
+
+  setScannerChip("qrChip","الباركود: مقروء ✓","ok");
+
+  info=parseQR(qr.data);
+
+  if(!info){
+   setProcessingOverlay(
+    true,
+    "الباركود غير تابع للنظام",
+    "هذه الورقة لا تحمل QR امتحان التحدي.",
+    "error"
+   );
+   return
+  }
+
+  info=await resolveQRInfo(info);
+
+  if(!info){
+   setProcessingOverlay(
+    true,
+    "الباركود غير مسجل",
+    "تعذر العثور على سجل هذه الورقة في قاعدة البيانات.",
+    "error"
+   );
+   return
+  }
+
+  if(info.examId!==currentExam.examId){
+   setProcessingOverlay(
+    true,
+    "هذه الورقة لامتحان آخر",
+    "افتح الامتحان الصحيح ثم أعد مسح الورقة.",
+    "error"
+   );
+   return
+  }
+
+  student=(currentExam.students||[]).find(
+   st=>st.code===info.studentCode
+  );
+
+  if(!student){
+   setProcessingOverlay(
+    true,
+    "الطالب غير موجود في هذا الامتحان",
+    `الكود: ${info.studentCode}`,
+    "error"
+   );
+   return
+  }
+
+  const classText=currentExam.className||className(currentExam.classId),
+        roomText=currentExam.room||roomLabel(classes[currentExam.classId]||{}),
+        genderText=currentExam.genderLabel||classGenderLabel(currentExam.classId);
+
+  /*
+     بعد QR نعرض هوية الورقة قبل أي حساب درجات.
+  */
+  setProcessingOverlay(
+   true,
+   `الطالب: ${student.name||student.code}`,
+   `الصف: ${classText} | القاعة: ${roomText} | الجنس: ${genderText} | الصفحة: ${info.pageIndex+1}/${currentExam.pageCount}`,
+   "busy"
+  );
+
+  $("hudStudent").textContent=student.name||student.code;
+  $("hudPaper").textContent=
+   `${classText} — ${roomText} — الصفحة ${info.pageIndex+1}/${currentExam.pageCount}`;
+
+  await sleepMs(120);
+
+  if(info.pageIndex<0||info.pageIndex>=Number(currentExam.pageCount)){
+   setProcessingOverlay(
+    true,
+    "رقم الصفحة غير صحيح",
+    "بيانات QR لا تتطابق مع صفحات الامتحان.",
+    "error"
+   );
+   return
+  }
+
+  const layout=currentExam.omrLayout?.[info.pageIndex];
+
+  if(!layout?.markers){
+   setProcessingOverlay(
+    true,
+    "خريطة الصفحة غير موجودة",
+    "أنشئ PDF ومعاينة جديدة من هذا النظام.",
+    "error"
+   );
+   return
+  }
+
+  const H=markerHomography(layout,foundMarkers);
+
+  if(!H){
+   setProcessingOverlay(
+    true,
+    "تعذر تصحيح منظور الصورة",
+    "لا يمكن تحديد مواقع الأسئلة بدقة.",
+    "error"
+   );
+   return
+  }
+
+  const token=
+   info.token||
+   currentExam.paperTokens?.[student.code]?.[info.pageIndex]||
+   "",
+   security=verifyPaperSecurity(
+    frame.data,
+    captured.width,
+    captured.height,
+    H,
+    layout,
+    token
+   );
+
+  if(!security.ok){
+   if(security.unclear){
+    setProcessingOverlay(
+     true,
+     "علامة أمان الورقة غير واضحة",
+     "أعد التصوير بإضاءة أفضل.",
+     "error"
+    );
+    return
+   }
+
+   setProcessingOverlay(
+    true,
+    "تم رفض الورقة",
+    "الباركود لا يطابق علامة الأمان المطبوعة على الورقة.",
+    "error"
+   );
+   return
+  }
+
+  setScannerChip(
+   "securityChip",
+   security.legacy
+    ?"أمان الورقة: نسخة قديمة"
+    :`أمان الورقة: مطابق ✓`,
+   security.legacy?"warn":"ok"
+  );
+
+  /*
+     المرحلة 2 — معالجة النتائج على الصورة نفسها.
+  */
+  setProcessingOverlay(
+   true,
+   "جاري قراءة إجابات الطالب",
+   `تم تحديد ${student.name||student.code}. الآن تتم معالجة مواقع الأسئلة والدوائر من الصورة الملتقطة.`,
+   "busy"
+  );
+  await nextPaint();
+
+  const bubbles=(layout.bubbles||[]).map(
+   b=>({
+    ...b,
+    ...bubbleDarkness(
+     frame.data,
+     captured.width,
+     captured.height,
+     H,
+     b
+    )
+   })
+  ),
+  pageQids=new Set(layout.questionIds||[]),
+  pageHasMCQ=(currentExam.questions||[]).some(
+   q=>q.type!=="essay"&&pageQids.has(q.id)
+  );
+
+  if(pageHasMCQ&&!bubbles.length){
+   setProcessingOverlay(
+    true,
+    "خريطة الإجابات غير موجودة",
+    "تعذر تحديد دوائر هذه الصفحة.",
+    "error"
+   );
+   return
+  }
+
+  const detected=detectSelections(bubbles),
+        unclearCount=detected.filter(x=>x.state==="unclear").length,
+        multipleCount=detected.filter(x=>x.state==="multiple").length,
+        blankCount=detected.filter(x=>x.state==="blank").length,
+        selectedCount=detected.filter(x=>x.state==="selected").length;
+
+  if(unclearCount){
+   drawScanOverlayScanner(
+    video,
+    captured,
+    foundMarkers,
+    qr,
+    bubbles,
+    detected,
+    info.pageIndex
+   );
+
+   setProcessingOverlay(
+    true,
+    "توجد إجابة غير واضحة",
+    `عددها ${unclearCount}. لم يعتمد النظام الصفحة حتى لا يخمّن.`,
+    "error"
+   );
+   return
+  }
+
+  /*
+     المرحلة 3 — الحساب النهائي.
+  */
+  setProcessingOverlay(
+   true,
+   "جاري حساب الدرجات",
+   multipleCount
+    ?`هناك ${multipleCount} سؤال عليه أكثر من دائرة؛ كل سؤال منها يُحسب خطأ بالكامل.`
+    :"جاري مقارنة كل دائرة محددة بالإجابة الصحيحة...",
+   "busy"
+  );
+  await nextPaint();
+
+  const pageScore=scoreDetectedPage(
+   info.pageIndex,
+   detected
+  ),
+  angle=pageAngleFromMarkers(foundMarkers);
+
+  lastOverlayStudent=student.code;
+  lastOverlayPage=info.pageIndex;
+
+  drawScanOverlayScanner(
+   video,
+   captured,
+   foundMarkers,
+   qr,
+   bubbles,
+   detected,
+   info.pageIndex
+  );
+
+  updateCameraHUD(
+   student,
+   info.pageIndex,
+   detected,
+   brightness,
+   angle,
+   pageScore
+  );
+
+  const existing=
+   studentResult(student.code)
+   .pages?.[info.pageIndex];
+
+  if(existing){
+   setProcessingOverlay(
+    true,
+    "هذه الصفحة مصححة سابقاً",
+    "لن يتم استبدال نتيجتها تلقائياً.",
+    "error"
+   );
+   return
+  }
+
+  await acceptScannedPage(
+   student,
+   info.pageIndex,
+   detected
+  );
+
+  success=true;
+  scanCooldownUntil=Date.now()+650;
+
+  setProcessingOverlay(
+   true,
+   "تم حساب الدرجات واعتماد الصفحة ✓",
+   `${student.name||student.code} | ${classText} | الصفحة ${info.pageIndex+1} | الدرجة ${pageScore} | متعدد الاختيار: ${multipleCount} | فارغ: ${blankCount}`,
+   "done"
+  );
+
+ }catch(error){
+  console.error("CAPTURED_PAGE_PROCESSING_ERROR",error);
+
+  setProcessingOverlay(
+   true,
+   "حدث خطأ أثناء معالجة الصورة",
+   "أعد إدخال الورقة أمام الكاميرا.",
+   "error"
+  );
+ }finally{
+  /*
+     الكاميرا لا تدخل أبداً في حساب الدرجات.
+     نرجع البث فقط بعد انتهاء معالجة الصورة بالكامل
+     حتى يصبح النظام جاهزاً للورقة التالية.
+  */
+  await resumeCameraAfterCapturedImage(
+   video,
+   success?1250:850
+  )
  }
-
- setScannerChip("securityChip",security.legacy?"أمان الورقة: نسخة قديمة":`أمان الورقة: مطابق ${security.matches}/${security.total} ✓`,security.legacy?"warn":"ok");
-
- const bubbles=(layout.bubbles||[]).map(b=>({...b,...bubbleDarkness(frame.data,captured.width,captured.height,H,b)})),
-       pageQids=new Set(layout.questionIds||[]),
-       pageHasMCQ=(currentExam.questions||[]).some(q=>q.type!=="essay"&&pageQids.has(q.id));
-
- if(pageHasMCQ&&!bubbles.length){
-  setScanStatus("تمت قراءة QR لكن خريطة دوائر هذه الصفحة غير موجودة. أعد إنشاء PDF لهذا الامتحان قبل التصحيح.","bad");
-  return
- }
-
- const detected=detectSelections(bubbles),
-       pageScore=scoreDetectedPage(info.pageIndex,detected),
-       angle=pageAngleFromMarkers(foundMarkers),
-       ambiguousCount=detected.filter(x=>x.state==="ambiguous").length,
-       selectedCount=detected.filter(x=>x.state==="selected").length;
-
- lastOverlayStudent=student.code;
- lastOverlayPage=info.pageIndex;
-
- drawScanOverlayScanner(video,captured,foundMarkers,qr,bubbles,detected,info.pageIndex);
- updateCameraHUD(student,info.pageIndex,detected,brightness,angle,pageScore);
-
- const existing=studentResult(student.code).pages?.[info.pageIndex];
- if(existing){setScanStatus(`هذه الصفحة سبق اعتمادها للطالب ${student.name}. لن تُكتب فوقها تلقائياً. استخدم «إعادة» للطالب إذا احتجت إعادة التصحيح.`,"warn");return}
-
- if(ambiguousCount){
-  setScanStatus(`تم التقاط الورقة وقراءة ${student.name}. توجد ${ambiguousCount} إجابة غير واضحة بالبرتقالي؛ لن يتم اعتماد الصفحة حتى تكون الدوائر واضحة.`,"warn");
-  return
- }
-
- await acceptScannedPage(student,info.pageIndex,detected);
- setScanStatus(`✓ تم التقاط وتصحيح الورقة | ${student.name} | الصفحة ${info.pageIndex+1}/${currentExam.pageCount} | رُصد ${selectedCount} جواب | درجة الصفحة ${pageScore}`,"good");
- scanCooldownUntil=Date.now()+1300
 }
 
 async function startCamera(){
@@ -1324,7 +2198,7 @@ async function startCamera(){
   clearInterval(scanTimer);
   scanTimer=setInterval(
    ()=>scanCurrentFrame(),
-   220
+   140
   );
 
   startBtn.textContent="الكاميرا تعمل";
@@ -1351,6 +2225,7 @@ async function startCamera(){
   $("cameraPlaceholder").classList.remove("hidden");
   $("cameraHud").classList.add("hidden");
   $("cameraLegend")?.classList.add("hidden");
+ setProcessingOverlay(false);
 
   startBtn.textContent="تشغيل الكاميرا"
  }finally{
@@ -1421,100 +2296,490 @@ function mapH(H,p){const d=H[6]*p.x+H[7]*p.y+1;return{x:(H[0]*p.x+H[1]*p.y+H[2])
 
 function meanDisk(img,w,h,cx,cy,rx,ry,inner=0,outer=1){let sum=0,n=0;const minX=Math.max(0,Math.floor(cx-rx*outer)),maxX=Math.min(w-1,Math.ceil(cx+rx*outer)),minY=Math.max(0,Math.floor(cy-ry*outer)),maxY=Math.min(h-1,Math.ceil(cy+ry*outer));for(let y=minY;y<=maxY;y++){for(let x=minX;x<=maxX;x++){const dx=(x-cx)/Math.max(1,rx),dy=(y-cy)/Math.max(1,ry),rr=Math.sqrt(dx*dx+dy*dy);if(rr>=inner&&rr<=outer){const k=(y*w+x)*4,g=(img[k]+img[k+1]+img[k+2])/3;sum+=g;n++}}}return n?sum/n:255}
 function diskDarkRatio(imageData,w,h,cx,cy,rx,ry,threshold){let dark=0,total=0;const x0=Math.max(0,Math.floor(cx-rx)),x1=Math.min(w-1,Math.ceil(cx+rx)),y0=Math.max(0,Math.floor(cy-ry)),y1=Math.min(h-1,Math.ceil(cy+ry));for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const dx=(x-cx)/Math.max(1,rx),dy=(y-cy)/Math.max(1,ry);if(dx*dx+dy*dy<=1){const k=(y*w+x)*4,g=(imageData[k]+imageData[k+1]+imageData[k+2])/3;if(g<threshold)dark++;total++}}return total?dark/total:0}
-function bubbleDarkness(imageData,w,h,H,b){const c=mapH(H,{x:b.x,y:b.y}),px=mapH(H,{x:b.x+b.r,y:b.y}),py=mapH(H,{x:b.x,y:b.y+b.r}),rx=Math.max(2.5,Math.hypot(px.x-c.x,px.y-c.y)),ry=Math.max(2.5,Math.hypot(py.x-c.x,py.y-c.y)),core=meanDisk(imageData,w,h,c.x,c.y,rx*.43,ry*.43,0,1),innerWide=meanDisk(imageData,w,h,c.x,c.y,rx*.72,ry*.72,0,1),outer=meanDisk(imageData,w,h,c.x,c.y,rx,ry,1.30,1.82),inner=core*.68+innerWide*.32,darkThreshold=Math.max(70,Math.min(190,outer-28)),darkRatio=diskDarkRatio(imageData,w,h,c.x,c.y,rx*.74,ry*.74,darkThreshold),score=(outer-inner)+darkRatio*52;return{score,inner,outer,core,innerWide,darkRatio,c,rx,ry}}
+
+function diskInkRatio(imageData,w,h,cx,cy,rx,ry,backgroundLum){
+ let ink=0,total=0;
+ const x0=Math.max(0,Math.floor(cx-rx)),
+       x1=Math.min(w-1,Math.ceil(cx+rx)),
+       y0=Math.max(0,Math.floor(cy-ry)),
+       y1=Math.min(h-1,Math.ceil(cy+ry));
+
+ for(let y=y0;y<=y1;y++){
+  for(let x=x0;x<=x1;x++){
+   const dx=(x-cx)/Math.max(1,rx),
+         dy=(y-cy)/Math.max(1,ry);
+
+   if(dx*dx+dy*dy>1)continue;
+
+   const k=(y*w+x)*4,
+         r=imageData[k],
+         g=imageData[k+1],
+         b=imageData[k+2],
+         maxC=Math.max(r,g,b),
+         minC=Math.min(r,g,b),
+         chroma=maxC-minC,
+         lum=.299*r+.587*g+.114*b;
+
+   /*
+      الحبر يُعتبر موجوداً إذا كان أغمق من بياض الورقة المحلي،
+      أو لونه مشبعاً وواضحاً مقارنة بالخلفية.
+      هذا يلتقط الرصاص وألوان القلم الجاف الشائعة.
+   */
+   const darkInk=
+     lum < backgroundLum-24 ||
+     minC < backgroundLum-38 ||
+     (chroma>38 && lum < backgroundLum-12);
+
+   if(darkInk)ink++;
+   total++
+  }
+ }
+
+ return total?ink/total:0
+}
+
+function bubbleDarkness(imageData,w,h,H,b){
+ const c=mapH(H,{x:b.x,y:b.y}),
+       px=mapH(H,{x:b.x+b.r,y:b.y}),
+       py=mapH(H,{x:b.x,y:b.y+b.r}),
+       rx=Math.max(2.5,Math.hypot(px.x-c.x,px.y-c.y)),
+       ry=Math.max(2.5,Math.hypot(py.x-c.x,py.y-c.y)),
+       core=meanDisk(imageData,w,h,c.x,c.y,rx*.43,ry*.43,0,1),
+       innerWide=meanDisk(imageData,w,h,c.x,c.y,rx*.72,ry*.72,0,1),
+       outer=meanDisk(imageData,w,h,c.x,c.y,rx,ry,1.30,1.82),
+       inner=core*.68+innerWide*.32,
+       darkThreshold=Math.max(65,Math.min(205,outer-24)),
+       darkRatio=diskDarkRatio(imageData,w,h,c.x,c.y,rx*.70,ry*.70,darkThreshold),
+       inkRatio=diskInkRatio(imageData,w,h,c.x,c.y,rx*.70,ry*.70,outer),
+       score=(outer-inner)+darkRatio*38+inkRatio*68;
+
+ return{
+  score,
+  inner,
+  outer,
+  core,
+  innerWide,
+  darkRatio,
+  inkRatio,
+  c,
+  rx,
+  ry
+ }
+}
 
 async function scanCurrentFrame(){
- if(scanBusy||!currentExam||!cameraStream||Date.now()<scanCooldownUntil)return;
+ if(
+  scanBusy||
+  !currentExam||
+  !cameraStream||
+  Date.now()<scanCooldownUntil
+ ){
+  return
+ }
+
  const video=$("cameraVideo");
- if(video.readyState<2||!video.videoWidth||!video.videoHeight)return;
+
+ if(
+  video.readyState<2||
+  !video.videoWidth||
+  !video.videoHeight
+ ){
+  return
+ }
+
  scanBusy=true;
+
  try{
-  const work=document.createElement("canvas"),mobile=window.matchMedia("(max-width:650px)").matches,maxW=mobile?1200:1450,scale=Math.min(1,maxW/video.videoWidth);
-  work.width=Math.max(1,Math.round(video.videoWidth*scale));work.height=Math.max(1,Math.round(video.videoHeight*scale));
-  const ctx=work.getContext("2d",{willReadFrequently:true});ctx.drawImage(video,0,0,work.width,work.height);
-  const frame=ctx.getImageData(0,0,work.width,work.height),brightness=frameBrightness(frame.data);
+  /*
+     البث الحي وظيفته الوحيدة:
+     تحديد A4 بسرعة ومعرفة أن المقاس والزوايا جاهزة.
+     لا نقرأ QR ولا إجابات من الفيديو.
+  */
+  const work=document.createElement("canvas"),
+        mobile=window.matchMedia("(max-width:650px)").matches,
+        maxW=mobile?820:1050,
+        scale=Math.min(
+         1,
+         maxW/video.videoWidth
+        );
+
+  work.width=Math.max(
+   1,
+   Math.round(video.videoWidth*scale)
+  );
+
+  work.height=Math.max(
+   1,
+   Math.round(video.videoHeight*scale)
+  );
+
+  const ctx=work.getContext(
+   "2d",
+   {willReadFrequently:true}
+  );
+
+  ctx.drawImage(
+   video,
+   0,
+   0,
+   work.width,
+   work.height
+  );
+
+  const frame=ctx.getImageData(
+   0,
+   0,
+   work.width,
+   work.height
+  ),
+  brightness=frameBrightness(frame.data);
+
   autoTuneExposure(brightness);
 
   const markers=findPageMarkers(work);
+
   if(!markers){
-   lastPageCorners=null;pageCornerStableCount=0;
-   setScannerChip("cornerChip","زوايا الورقة: لم تكتمل","warn");
-   setScannerChip("captureChip","التقاط الورقة: بانتظار الثبات","capture");
-   setScannerChip("qrChip","الباركود: بعد تثبيت الورقة","warn");
-   setScannerChip("securityChip","أمان الورقة: بانتظار","warn");
+   lastPageCorners=null;
+   pageCornerStableCount=0;
+
+   setScannerChip(
+    "cornerChip",
+    "A4: أدخل الورقة كاملة",
+    "warn"
+   );
+
+   setScannerChip(
+    "captureChip",
+    "التقاط: بانتظار",
+    "capture"
+   );
+
    clearOverlay();
-   setScanStatus("أدخل الورقة كاملة في الكاميرا حتى تتحدد الزوايا الأربع.","warn");
+
+   setScanStatus(
+    "وجّه ورقة A4 كاملة داخل الكاميرا. يكفي ظهور الزوايا الأربع.",
+    "warn"
+   );
+
    return
   }
 
-  const coverage=pageCoverageRatio(markers,work.width,work.height),
-        motion=cornerMotionRatio(markers,lastPageCorners,work.width,work.height),
-        lightPct=Math.round(brightness/255*100),
-        sizeGood=coverage>=.18,
-        lightGood=lightPct>=20&&lightPct<=94,
-        motionGood=motion<=.0065;
+  const coverage=pageCoverageRatio(
+   markers,
+   work.width,
+   work.height
+  ),
+  motion=cornerMotionRatio(
+   markers,
+   lastPageCorners,
+   work.width,
+   work.height
+  ),
+  lightPct=Math.round(
+   brightness/255*100
+  ),
+  sizeGood=coverage>=.105,
+  lightGood=lightPct>=15&&lightPct<=98,
+  motionGood=motion<=.018;
 
-  if(lastPageCorners&&motionGood&&sizeGood&&lightGood)pageCornerStableCount=Math.min(AUTO_CAPTURE_FRAMES,pageCornerStableCount+1);
-  else pageCornerStableCount=1;
+  /*
+     نحتاج قراءتين سريعتين فقط.
+     هذا تقريباً جزء من الثانية وليس تثبيتاً طويلاً.
+  */
+  if(
+   lastPageCorners&&
+   motionGood&&
+   sizeGood&&
+   lightGood
+  ){
+   pageCornerStableCount=Math.min(
+    AUTO_CAPTURE_FRAMES,
+    pageCornerStableCount+1
+   )
+  }else{
+   pageCornerStableCount=1
+  }
+
   lastPageCorners=cloneCorners(markers);
 
-  const stable=pageCornerStableCount>=AUTO_CAPTURE_FRAMES;
-  drawScannerFrame(video,work,markers,null,stable);
-  setScannerChip("cornerChip","زوايا الورقة: 4/4 ✓",stable?"ok":"warn");
+  const ready=
+   pageCornerStableCount>=AUTO_CAPTURE_FRAMES;
+
+  drawScannerFrame(
+   video,
+   work,
+   markers,
+   null,
+   ready
+  );
+
+  setScannerChip(
+   "cornerChip",
+   ready
+    ?"A4: الزوايا جاهزة ✓"
+    :"A4: تم تحديد الزوايا",
+   ready?"ok":"warn"
+  );
 
   if(!sizeGood){
-   setScannerChip("captureChip","التقاط الورقة: قرّبها قليلاً","warn");
-   setScanStatus("تم تحديد الزوايا الأربع، لكن الورقة بعيدة. قرّبها قليلاً مع بقاء الزوايا كلها ظاهرة.","warn");
+   setScannerChip(
+    "captureChip",
+    "التقاط: قرّب الورقة قليلاً",
+    "warn"
+   );
+
+   setScanStatus(
+    "تم تحديد الورقة. قرّبها قليلاً حتى تصبح بالحجم المناسب للقراءة.",
+    "warn"
+   );
+
    return
   }
 
   if(!lightGood){
-   setScannerChip("captureChip","التقاط الورقة: حسّن الإضاءة","warn");
-   setScanStatus(`الزوايا واضحة، لكن الإضاءة ${lightPct}%. شغّل الفلاش إذا كانت الإضاءة ضعيفة.`,"warn");
+   setScannerChip(
+    "captureChip",
+    "التقاط: حسّن الإضاءة",
+    "warn"
+   );
+
+   setScanStatus(
+    "الورقة محددة، لكن الإضاءة غير مناسبة. استخدم زر الفلاش عند الحاجة.",
+    "warn"
+   );
+
    return
   }
 
-  if(!stable){
-   setScannerChip("captureChip",`التقاط الورقة: ثبّتها ${pageCornerStableCount}/${AUTO_CAPTURE_FRAMES}`,"busy");
-   setScanStatus("الزوايا محددة. ثبّت الورقة لحظة واحدة فقط وسيتم التقاطها تلقائياً.","warn");
+  if(!ready){
+   setScannerChip(
+    "captureChip",
+    "التقاط: جاهز تقريباً",
+    "busy"
+   );
+
+   setScanStatus(
+    "تم تحديد A4. بمجرد أن يتحول الإطار للأخضر ستُلتقط الصورة مباشرة.",
+    "warn"
+   );
+
    return
   }
 
-  if(Date.now()-lastAutoCaptureAt<1200)return;
+  if(Date.now()-lastAutoCaptureAt<650){
+   return
+  }
+
   lastAutoCaptureAt=Date.now();
-  setScannerChip("captureChip","التقاط الورقة: جاري التقاط الصورة…","busy");
-  setScanStatus("الورقة ثابتة ✓ جاري التقاط صورة عالية الدقة ومعالجتها…","good");
-  pageCornerStableCount=0;lastPageCorners=null;
-  await processCapturedPage(video)
- }catch(e){
-  console.error(e);
-  setScanStatus("حدث خطأ أثناء التقاط/تحليل الورقة. أعد توجيهها أمام الكاميرا.","bad")
- }finally{scanBusy=false}
+
+  setScannerChip(
+   "captureChip",
+   "التقاط الصورة الآن ✓",
+   "ok"
+  );
+
+  setScanStatus(
+   "A4 جاهزة ✓ تم أخذ الصورة. تبدأ المعالجة الآن على الصورة فقط.",
+   "good"
+  );
+
+  const seed=cloneCorners(markers),
+        seedW=work.width,
+        seedH=work.height;
+
+  pageCornerStableCount=0;
+  lastPageCorners=null;
+
+  await processCapturedPage(
+   video,
+   seed,
+   seedW,
+   seedH
+  )
+
+ }catch(error){
+  console.error(error);
+
+  setScanStatus(
+   "تعذر التقاط الورقة. أعد إدخالها داخل إطار الكاميرا.",
+   "bad"
+  )
+ }finally{
+  scanBusy=false
+ }
 }
 
 function detectSelections(bubbles){
- const groups={};for(const b of bubbles)(groups[b.qid]??=[]).push(b);
+ const groups={};
+ for(const b of bubbles)(groups[b.qid]??=[]).push(b);
+
  return Object.entries(groups).map(([qid,arr])=>{
-  const sorted=[...arr].sort((a,b)=>b.score-a.score),top=sorted[0],second=sorted[1],
+  const sorted=[...arr].sort((a,b)=>b.score-a.score),
         vals=sorted.map(x=>Number(x.score||0)).sort((a,b)=>a-b),
         median=vals.length?vals[Math.floor(vals.length/2)]:0,
         deviations=vals.map(v=>Math.abs(v-median)).sort((a,b)=>a-b),
         mad=deviations.length?deviations[Math.floor(deviations.length/2)]:0,
-        dynamicThreshold=Math.max(10,AUTO_OMR_BASE*.62,median+Math.max(4,mad*2.3)),
-        scores=Object.fromEntries(arr.map(x=>[x.oid,Math.round(x.score*10)/10]));
-  if(!top||top.score<dynamicThreshold||top.inner>240||(Number(top.darkRatio||0)<.045&&top.score<dynamicThreshold+5))return{qid,selected:null,state:"blank",confidence:0,scores};
-  const gap=top.score-Number(second?.score||0),secondStrong=second&&(second.score>=dynamicThreshold*.82||Number(second.darkRatio||0)>=.10),ambiguous=secondStrong&&gap<Math.max(4.2,AUTO_OMR_BASE*.20);
-  if(ambiguous)return{qid,selected:null,state:"ambiguous",confidence:Math.max(0,Math.min(100,Math.round(gap/AUTO_OMR_BASE*100))),topOid:top.oid,secondOid:second.oid,scores};
-  const confidence=Math.max(1,Math.min(100,Math.round(58+Math.min(27,(top.score-dynamicThreshold)*1.4)+Math.min(15,gap*.75))));
-  return{qid,selected:top.oid,state:"selected",confidence,scores}
+        threshold=Math.max(
+         10,
+         AUTO_OMR_BASE*.60,
+         median+Math.max(3.8,mad*2.15)
+        ),
+        scores=Object.fromEntries(
+         arr.map(x=>[x.oid,Math.round(Number(x.score||0)*10)/10])
+        ),
+        ink=Object.fromEntries(
+         arr.map(x=>[x.oid,Math.round(Number(x.inkRatio||0)*1000)/1000])
+        );
+
+  /*
+     دائرة تعتبر محددة إذا كان داخلها تظليل/شخبطة واضحة.
+     نستخدم أكثر من إشارة حتى نلتقط الرصاص والحبر الملون.
+  */
+  const marked=sorted.filter(x=>{
+   const strongScore=Number(x.score||0)>=threshold;
+   const strongInk=Number(x.inkRatio||0)>=.105;
+   const strongDark=Number(x.darkRatio||0)>=.105;
+   const acceptableLight=Number(x.inner||255)<243;
+
+   return acceptableLight&&(
+    strongScore ||
+    (strongInk&&Number(x.score||0)>=threshold*.50) ||
+    (strongDark&&Number(x.score||0)>=threshold*.52)
+   )
+  });
+
+  /*
+     قاعدة الامتحان:
+     أكثر من دائرة واحدة في السؤال = السؤال خطأ بالكامل.
+     لا نحاول اختيار "الأغمق" من بينها.
+  */
+  if(marked.length>=2){
+   return{
+    qid,
+    selected:null,
+    state:"multiple",
+    markedOids:marked.map(x=>x.oid),
+    confidence:100,
+    scores,
+    ink
+   }
+  }
+
+  if(marked.length===1){
+   const top=marked[0],
+         second=sorted.find(x=>x.oid!==top.oid),
+         gap=Number(top.score||0)-Number(second?.score||0),
+         confidence=Math.max(
+          1,
+          Math.min(
+           100,
+           Math.round(
+            62+
+            Math.min(24,(Number(top.score||0)-threshold)*1.4)+
+            Math.min(14,Math.max(0,gap)*.7)
+           )
+          )
+         );
+
+   return{
+    qid,
+    selected:top.oid,
+    state:"selected",
+    markedOids:[top.oid],
+    confidence,
+    scores,
+    ink
+   }
+  }
+
+  /*
+     إذا يوجد أثر قريب جداً من الحد لكن غير كافٍ، لا نخمن.
+     نطلب إعادة صورة أو تحسين الإضاءة.
+  */
+  const top=sorted[0];
+
+  if(
+   top&&(
+    Number(top.score||0)>=threshold*.78 ||
+    Number(top.inkRatio||0)>=.060 ||
+    Number(top.darkRatio||0)>=.070
+   )
+  ){
+   return{
+    qid,
+    selected:null,
+    state:"unclear",
+    markedOids:[top.oid],
+    topOid:top.oid,
+    confidence:0,
+    scores,
+    ink
+   }
+  }
+
+  return{
+   qid,
+   selected:null,
+   state:"blank",
+   markedOids:[],
+   confidence:100,
+   scores,
+   ink
+  }
  })
 }
 function scoreDetectedPage(pageIndex,detected){const qids=new Set(currentExam.omrLayout?.[pageIndex]?.questionIds||[]),map=Object.fromEntries(detected.map(x=>[x.qid,x]));let score=0;for(const q of currentExam.questions||[]){if(!qids.has(q.id)||q.type==="essay")continue;const correct=q.options?.find(o=>o.correct)?.id,sel=map[q.id]?.selected;if(sel&&sel===correct)score+=Number(q.score||0)}return Math.round(score*100)/100}
 async function acceptScannedPage(student,pageIndex,detected){
- const autoScore=scoreDetectedPage(pageIndex,detected),data={pageIndex,selections:Object.fromEntries(detected.map(x=>[x.qid,{selected:x.selected,state:x.state,scores:x.scores}])),autoScore,scannedAt:Date.now(),scannedBy:TEACHER_CODE};
- examResults[student.code]??={};examResults[student.code].pages??={};examResults[student.code].pages[pageIndex]=data;
- const updates={[`examResults/${currentExam.examId}/${student.code}/pages/${pageIndex}`]:data},token=currentExam.paperTokens?.[student.code]?.[pageIndex];if(token)updates[`examPublicPages/${token}`]={...publicPaperRecord(currentExam,student,pageIndex,token),pageScore:autoScore,currentTotal:resultTotal(student.code),status:"scanned",scannedAt:Date.now()};
- await dbPatch("",updates);renderResults();setScanStatus(`تم اعتماد الصفحة ${pageIndex+1} للطالب ${student.name}. درجة الصفحة ${autoScore}، والمجموع الحالي ${resultTotal(student.code)} / ${currentExam.targetMax}.`,"good");toast(`تم تصحيح الصفحة ${pageIndex+1}: ${student.name}`,"success")
+ const autoScore=scoreDetectedPage(pageIndex,detected),
+       data={
+        pageIndex,
+        selections:Object.fromEntries(
+         detected.map(x=>[
+          x.qid,
+          {
+           selected:x.selected,
+           state:x.state,
+           markedOids:x.markedOids||[],
+           confidence:Number(x.confidence||0),
+           scores:x.scores||{},
+           ink:x.ink||{}
+          }
+         ])
+        ),
+        autoScore,
+        scannedAt:Date.now(),
+        scannedBy:TEACHER_CODE
+       };
+
+ examResults[student.code]??={};
+ examResults[student.code].pages??={};
+ examResults[student.code].pages[pageIndex]=data;
+
+ const updates={
+  [`examResults/${currentExam.examId}/${student.code}/pages/${pageIndex}`]:data
+ },
+ token=currentExam.paperTokens?.[student.code]?.[pageIndex];
+
+ if(token){
+  updates[`examPublicPages/${token}`]={
+   ...publicPaperRecord(currentExam,student,pageIndex,token),
+   pageScore:autoScore,
+   currentTotal:resultTotal(student.code),
+   status:"scanned",
+   scannedAt:Date.now()
+  }
+ }
+
+ await dbPatch("",updates);
+
+ renderResults();
+
+ setScanStatus(
+  `تم اعتماد الصفحة ${pageIndex+1} للطالب ${student.name}. درجة الصفحة ${autoScore}، والمجموع الحالي ${resultTotal(student.code)} / ${currentExam.targetMax}.`,
+  "good"
+ );
+
+ toast(`تم تصحيح الصفحة ${pageIndex+1}: ${student.name}`,"success")
 }
 
 function setScanStatus(text,type){const el=$("scanStatus");el.textContent=text;el.className=`scan-status ${type}`}
@@ -1539,10 +2804,6 @@ function drawScannerFrame(video,work,m,qr,stable=false){
 }
 
 function drawScanOverlayScanner(video,work,markers,qr,bubbles,detected=[],pageIndex=0){
- /*
-    أولاً نرسم إطار الورقة والزوايا والـ QR.
-    بعدها نرسم خريطة كل الدوائر الموجودة في هذه الصفحة.
- */
  drawScannerFrame(video,work,markers,qr,true);
 
  const c=$("cameraOverlay"),
@@ -1557,25 +2818,33 @@ function drawScanOverlayScanner(video,work,markers,qr,bubbles,detected=[],pageIn
         center=workToDisplay(video,work,c,b.c),
         edge=workToDisplay(video,work,c,{x:b.c.x+b.rx,y:b.c.y}),
         radius=Math.max(7,Math.abs(edge.x-center.x)*1.22),
-        selected=b.oid===d?.selected,
-        ambiguous=d?.state==="ambiguous"&&(b.oid===d?.topOid||b.oid===d?.secondOid);
+        selected=d?.state==="selected"&&b.oid===d.selected,
+        multiple=d?.state==="multiple"&&(d.markedOids||[]).includes(b.oid),
+        unclear=d?.state==="unclear"&&(d.markedOids||[]).includes(b.oid);
 
-  /*
-     جميع الدوائر تظهر كخريطة خفيفة حتى يعرف المدرس
-     أن النظام حدّد مواقعها فعلاً.
-  */
   let stroke="rgba(210,230,245,.72)",
       fill="rgba(255,255,255,.015)",
       width=1.4,
       symbol="",
-      label="";
+      label="",
+      badgeColor="";
 
-  if(ambiguous){
+  if(unclear){
    stroke="#ffb020";
    fill="rgba(255,176,32,.24)";
    width=4;
    symbol="?";
-   label=`س${globalIndex[b.qid]||""} غير واضح`
+   label=`س${globalIndex[b.qid]||""} غير واضح`;
+   badgeColor="rgba(181,71,8,.94)"
+  }
+
+  if(multiple){
+   stroke="#ff3b30";
+   fill="rgba(255,59,48,.27)";
+   width=5;
+   symbol="✕";
+   label=`س${globalIndex[b.qid]||""} تعدد اختيارات`;
+   badgeColor="rgba(180,35,24,.94)"
   }
 
   if(selected){
@@ -1584,7 +2853,8 @@ function drawScanOverlayScanner(video,work,markers,qr,bubbles,detected=[],pageIn
    fill=ok?"rgba(0,230,118,.27)":"rgba(255,59,48,.27)";
    width=5;
    symbol=ok?"✓":"✕";
-   label=`س${globalIndex[b.qid]||""} ${ok?"صحيح":"خطأ"}`
+   label=`س${globalIndex[b.qid]||""} ${ok?"صحيح":"خطأ"}`;
+   badgeColor=ok?"rgba(6,118,71,.94)":"rgba(180,35,24,.94)"
   }
 
   ctx.save();
@@ -1595,7 +2865,7 @@ function drawScanOverlayScanner(video,work,markers,qr,bubbles,detected=[],pageIn
   ctx.strokeStyle=stroke;
   ctx.lineWidth=width;
 
-  if(selected||ambiguous){
+  if(selected||multiple||unclear){
    ctx.shadowColor=stroke;
    ctx.shadowBlur=8
   }
@@ -1610,16 +2880,13 @@ function drawScanOverlayScanner(video,work,markers,qr,bubbles,detected=[],pageIn
    ctx.textBaseline="middle";
    ctx.fillText(symbol,center.x,center.y+1);
 
-   // شارة صغيرة بجانب الجواب المقروء.
    ctx.font="900 11px Tahoma,Arial";
-   const textW=Math.max(54,ctx.measureText(label).width+14),
+   const textW=Math.max(64,ctx.measureText(label).width+14),
          x=Math.min(c.width-textW-5,center.x+radius+6),
          y=Math.max(16,center.y);
 
    roundRectPath(ctx,x,y-12,textW,24,7);
-   ctx.fillStyle=selected
-    ?(d.selected===correct?"rgba(6,118,71,.94)":"rgba(180,35,24,.94)")
-    :"rgba(181,71,8,.94)";
+   ctx.fillStyle=badgeColor||"rgba(4,18,34,.90)";
    ctx.fill();
 
    ctx.fillStyle="#fff";
@@ -1707,8 +2974,9 @@ $("periodSelect").onchange=loadTargetOptions;
 $("targetSelect").onchange=updateScoreSummary;
 $("logoMode").onchange=()=>{$("customLogoField").classList.toggle("hidden",$("logoMode").value!=="custom");$("logoPreview").src=$("logoMode").value==="custom"?(customLogoData||"logo.png"):"logo.png"};
 $("customLogoInput").onchange=async e=>{if(!e.target.files?.[0])return;customLogoData=await compressImage(e.target.files[0],700,700,.86);$("logoPreview").src=customLogoData};
-$("duplexToggle").onchange=()=>{$("pageLimit").value=$("duplexToggle").checked?2:1};
+$("duplexToggle").onchange=()=>{if(Number($("pageLimit").value)<2)$("pageLimit").value="2"};
 $("textScale").oninput=()=>{fontScale=Number($("textScale").value||100)/100;$("textScaleValue").textContent=`${$("textScale").value}%`};
+$("imageScale").oninput=()=>{imageScale=Number($("imageScale").value||80)/100;$("imageScaleValue").textContent=`${$("imageScale").value}%`};
 
 
 async function initPublicPaper(token){
