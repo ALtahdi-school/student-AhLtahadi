@@ -366,6 +366,58 @@
  .grade-breakdown-section{padding:10px}
 }
 
+
+/* ================= تصحيح اتجاه عناوين النتيجة واكتمال المراحل ================= */
+.grade-table th:not(:first-child){
+ writing-mode:vertical-rl!important;
+ transform:none!important;
+ text-orientation:mixed!important;
+ direction:rtl!important;
+ white-space:nowrap!important;
+ line-height:1.15!important;
+}
+.result-transcript thead th:not(.subject-th){
+ writing-mode:vertical-rl!important;
+ transform:none!important;
+ text-orientation:mixed!important;
+ direction:rtl!important;
+ white-space:nowrap!important;
+ line-height:1.15!important;
+}
+.result-decision-cell{
+ writing-mode:vertical-rl!important;
+ transform:none!important;
+ text-orientation:mixed!important;
+ direction:rtl!important;
+ white-space:normal!important;
+ overflow:hidden!important;
+ word-break:normal!important;
+ overflow-wrap:normal!important;
+ font-size:13px!important;
+ line-height:1.25!important;
+ padding:5px 3px!important;
+ text-align:center!important;
+ vertical-align:middle!important;
+}
+.subject-result.fail{
+ color:#c62828!important;
+ background:#fff0ef!important;
+ border:1px solid #f0bdb8!important;
+ text-decoration:underline!important;
+ text-decoration-thickness:1px!important;
+}
+.stage-incomplete-note{
+ display:inline-flex;
+ min-height:24px;
+ align-items:center;
+ padding:0 7px;
+ border-radius:999px;
+ background:#fff8e8;
+ color:#9a5b00;
+ font-size:6.8px;
+ font-weight:900;
+}
+
 </style></head><body><div
     id="loaderScreen"
     class="loader-screen"
@@ -704,6 +756,7 @@ let identityDocuments={},selectedIdentityFiles={},identityPreviewURLs={},identit
 let activeMessageActionId = null;
 let replyingTo = null;
 let gradeModel = null;
+let gradeSchemasBySubject={};
 let gradeSearchToken = 0;
 let currentResultField = "";
 let animatedMessageIds = new Set();
@@ -2295,7 +2348,560 @@ function buildGradeModel(raw){
  }
 }
 function fieldStats(rows,field){const values=rows.filter(r=>isGrade(r[field])).map(r=>({v:Number(r[field]),max:Number(r.maxGrade||100)}));if(!values.length)return{count:0,total:0,average:0};const total=values.reduce((a,b)=>a+b.v,0),average=values.reduce((a,b)=>a+b.v/Math.max(1,b.max)*100,0)/values.length;return{count:values.length,total:Math.round(total*100)/100,average:Math.round(average*10)/10};}function failedCount(model,field){return model.academic.filter(r=>isGrade(r[field])&&Number(r[field])<Number(r.passGrade??50)).length;}
-function stageStatus(model,field){if(!model||!model.academic.length)return{complete:false,missing:0,reason:"لا توجد مواد معرفة لهذا الصف"};if(field==="secondRound"){if(!model.academic.every(r=>isGrade(r.final)))return{complete:false,missing:model.academic.filter(r=>!isGrade(r.final)).length,reason:"بانتظار اكتمال نتيجة آخر السنة"};const needed=model.academic.filter(r=>Number(r.final)<Number(r.passGrade??50)),missing=needed.filter(r=>!isGrade(r.secondRound)).length;return{complete:missing===0,missing,needed:needed.length,reason:needed.length===0?"لا توجد مواد دور ثانٍ":missing?`باقي ${missing} مادة`:`اكتملت ${needed.length} مادة`};}const missing=model.academic.filter(r=>!isGrade(r[field])).length;return{complete:missing===0,missing,reason:missing?`باقي ${missing} مادة`:"النتيجة مكتملة"};}
+
+function safeGradeSchemaKey(value){
+ return String(value||"")
+  .trim()
+  .toLowerCase()
+  .replace(/[أإآ]/g,"ا")
+  .replace(/ة/g,"ه")
+  .replace(/ى/g,"ي")
+  .replace(/[^a-z0-9\u0600-\u06ff]+/gi,"_")
+  .replace(/^_+|_+$/g,"")
+}
+
+function gradeRecordTeacherCode(record){
+ const candidates=[
+  record?.teacherCode,
+  record?.updatedBy,
+  record?.createdBy
+ ];
+
+ return String(
+  candidates.find(
+   x=>
+    String(x||"").trim()
+  )||""
+ ).trim()
+}
+
+function schemaCacheKey(subjectId,subjectName=""){
+ return String(
+  subjectId||
+  safeGradeSchemaKey(subjectName)
+ )
+}
+
+async function loadGradeSchemasForStudent(rawGrades){
+ gradeSchemasBySubject={};
+
+ const entries=
+  Object.entries(
+   rawGrades||{}
+  );
+
+ await Promise.all(
+  entries.map(
+   async([gradeKey,record])=>{
+    try{
+     const teacherCode=
+            gradeRecordTeacherCode(
+             record
+            ),
+           classId=
+            record?.classId||
+            student.classId||
+            "",
+           subjectId=
+            String(
+             record?.subjectId||
+             gradeKey||
+             ""
+            ),
+           subjectName=
+            String(
+             record?.subjectName||
+             ""
+            );
+
+     if(
+      !teacherCode||
+      !classId
+     ){
+      return
+     }
+
+     let schemas=
+      await dbGet(
+       `gradeSchemas/${encodeURIComponent(teacherCode)}/${encodeURIComponent(classId)}/${encodeURIComponent(subjectId)}`
+      );
+
+     if(
+      !schemas||
+      !Object.keys(
+       schemas
+      ).length
+     ){
+      const legacy=
+       safeGradeSchemaKey(
+        subjectName
+       );
+
+      if(legacy){
+       schemas=
+        await dbGet(
+         `gradeSchemas/${encodeURIComponent(teacherCode)}/${encodeURIComponent(classId)}/${encodeURIComponent(legacy)}`
+        )
+      }
+     }
+
+     if(
+      schemas&&
+      typeof schemas==="object"
+     ){
+      gradeSchemasBySubject[
+       schemaCacheKey(
+        subjectId,
+        subjectName
+       )
+      ]=schemas;
+
+      if(subjectName){
+       gradeSchemasBySubject[
+        safeGradeSchemaKey(
+         subjectName
+        )
+       ]=schemas
+      }
+     }
+    }
+    catch(error){
+     console.warn(
+      "GRADE_SCHEMA_LOAD_WARNING",
+      gradeKey,
+      error
+     )
+    }
+   }
+  )
+ )
+}
+
+function schemaForGradeRow(row,field){
+ const record=
+        row?.record||{},
+       idKey=
+        schemaCacheKey(
+         record.subjectId||
+         row?.id,
+         record.subjectName||
+         row?.name
+        ),
+       nameKey=
+        safeGradeSchemaKey(
+         record.subjectName||
+         row?.name
+        ),
+       all=
+        gradeSchemasBySubject[
+         idKey
+        ]||
+        gradeSchemasBySubject[
+         nameKey
+        ]||
+        {};
+
+ return all?.[
+  field
+ ]||{}
+}
+
+function expectedComponentKeys(row,field){
+ const schema=
+        schemaForGradeRow(
+         row,
+         field
+        ),
+       components=
+        schema?.components||{};
+
+ return Object.entries(
+  components
+ )
+ .filter(
+  ([,max])=>
+   Number(max)>0
+ )
+ .map(
+  ([key])=>key
+ )
+}
+
+function componentWasEntered(value){
+ const v=
+  componentValue(
+   value
+  );
+
+ return(
+  isGrade(v)||
+  String(v??"")
+   .trim()==="غ"
+ )
+}
+
+function rowPeriodComponentsComplete(row,field){
+ const expected=
+  expectedComponentKeys(
+   row,
+   field
+  );
+
+ /*
+    إذا الأستاذ لم يقسم هذه المرحلة فتعتمد الدرجة المباشرة.
+ */
+ if(!expected.length){
+  return(
+   isGrade(
+    row?.record?.[
+     field
+    ]
+   )||
+   isGrade(
+    row?.[
+     field
+    ]
+   )
+  )
+ }
+
+ const stored=
+  row?.record?.components?.[
+   field
+  ]||{};
+
+ return expected.every(
+  key=>
+   componentWasEntered(
+    stored?.[
+     key
+    ]
+   )
+ )
+}
+
+function rowStageActuallyComplete(row,field){
+ if(row?.autoType){
+  return true
+ }
+
+ if(
+  [
+   "term1",
+   "midyear",
+   "term2",
+   "finalExam"
+  ].includes(field)
+ ){
+  return(
+   rowPeriodComponentsComplete(
+    row,
+    field
+   )&&
+   isGrade(
+    row?.[
+     field
+    ]
+   )
+  )
+ }
+
+ if(field==="annual"){
+  return(
+   rowStageActuallyComplete(
+    row,
+    "term1"
+   )&&
+   rowStageActuallyComplete(
+    row,
+    "midyear"
+   )&&
+   rowStageActuallyComplete(
+    row,
+    "term2"
+   )&&
+   isGrade(
+    row?.annual
+   )
+  )
+ }
+
+ if(field==="final"){
+  return(
+   rowStageActuallyComplete(
+    row,
+    "annual"
+   )&&
+   rowStageActuallyComplete(
+    row,
+    "finalExam"
+   )&&
+   isGrade(
+    row?.final
+   )
+  )
+ }
+
+ if(field==="secondRound"){
+  return(
+   rowPeriodComponentsComplete(
+    row,
+    "secondRound"
+   )&&
+   isGrade(
+    row?.secondRound
+   )
+  )
+ }
+
+ return isGrade(
+  row?.[
+   field
+  ]
+ )
+}
+
+function compactResultDecision(model,field){
+ const full=
+  genderedDecisionText(
+   resultDecision(
+    model,
+    field
+   )
+  ),
+ female=
+  normalizedGender()==="female",
+ text=
+  String(full||"")
+  .trim();
+
+ if(
+  text.includes("دون النجاح")||
+  text.includes("راسب")
+ ){
+  return female
+   ?"راسبة"
+   :"راسب"
+ }
+
+ if(text.includes("مكمل")){
+  return female
+   ?"مكملة"
+   :"مكمل"
+ }
+
+ if(
+  text.includes("ناجح")||
+  text.includes("ناجحة")
+ ){
+  return female
+   ?"ناجحة"
+   :"ناجح"
+ }
+
+ if(text.includes("معف")){
+  return female
+   ?"معفاة"
+   :"معفى"
+ }
+
+ if(text.includes("مؤهل")){
+  return female
+   ?"مؤهلة"
+   :"مؤهل"
+ }
+
+ if(text.includes("غير مؤهل")){
+  return female
+   ?"غير مؤهلة"
+   :"غير مؤهل"
+ }
+
+ return text
+  .split(/[،,\-]/)[0]
+  .trim()
+  .slice(0,18)
+}
+function stageStatus(model,field){
+ if(
+  !model||
+  !model.academic.length
+ ){
+  return{
+   complete:false,
+   missing:0,
+   reason:"لا توجد مواد معرفة لهذا الصف"
+  }
+ }
+
+ if(field==="annual"){
+  const prerequisites=[
+   "term1",
+   "midyear",
+   "term2"
+  ],
+  pending=
+   prerequisites.filter(
+    f=>
+     !stageStatus(
+      model,
+      f
+     ).complete
+   );
+
+  if(pending.length){
+   return{
+    complete:false,
+    missing:pending.length,
+    reason:
+     "بانتظار اكتمال الفصل الأول ونصف السنة والفصل الثاني"
+   }
+  }
+
+  const missing=
+   model.academic.filter(
+    row=>
+     !rowStageActuallyComplete(
+      row,
+      "annual"
+     )
+   ).length;
+
+  return{
+   complete:
+    missing===0,
+   missing,
+   reason:
+    missing
+     ?`باقي ${missing} مادة`
+     :"السعي السنوي مكتمل"
+  }
+ }
+
+ if(field==="final"){
+  const annual=
+         stageStatus(
+          model,
+          "annual"
+         ),
+        exam=
+         stageStatus(
+          model,
+          "finalExam"
+         );
+
+  if(
+   !annual.complete||
+   !exam.complete
+  ){
+   return{
+    complete:false,
+    missing:
+     Number(
+      !annual.complete
+     )+
+     Number(
+      !exam.complete
+     ),
+    reason:
+     "بانتظار اكتمال السعي السنوي والامتحان النهائي"
+   }
+  }
+
+  const missing=
+   model.academic.filter(
+    row=>
+     !rowStageActuallyComplete(
+      row,
+      "final"
+     )
+   ).length;
+
+  return{
+   complete:
+    missing===0,
+   missing,
+   reason:
+    missing
+     ?`باقي ${missing} مادة`
+     :"الدرجة النهائية مكتملة"
+  }
+ }
+
+ if(field==="secondRound"){
+  const finalStatus=
+   stageStatus(
+    model,
+    "final"
+   );
+
+  if(!finalStatus.complete){
+   return{
+    complete:false,
+    missing:
+     finalStatus.missing||
+     1,
+    needed:0,
+    reason:
+     "بانتظار اكتمال الدرجة النهائية"
+   }
+  }
+
+  const needed=
+   model.academic.filter(
+    row=>
+     Number(
+      row.final
+     )<
+     Number(
+      row.passGrade??
+      50
+     )
+   ),
+  missing=
+   needed.filter(
+    row=>
+     !rowStageActuallyComplete(
+      row,
+      "secondRound"
+     )
+   ).length;
+
+  return{
+   complete:
+    missing===0,
+   missing,
+   needed:
+    needed.length,
+   reason:
+    needed.length===0
+     ?"لا توجد مواد دور ثانٍ"
+     :missing
+      ?`باقي ${missing} مادة`
+      :`اكتملت ${needed.length} مادة`
+  }
+ }
+
+ const missingRows=
+  model.academic.filter(
+   row=>
+    !rowStageActuallyComplete(
+     row,
+     field
+    )
+  );
+
+ return{
+  complete:
+   missingRows.length===0,
+  missing:
+   missingRows.length,
+  reason:
+   missingRows.length
+    ?`باقي ${missingRows.length} مادة لم تكتمل جميع تقسيماتها`
+    :"النتيجة مكتملة"
+ }
+}
 function normalizeRuleType(t){return t==="generalExemption"||t==="individualExemption"?"exemption":t||"pass";}
 function legacyResultRules(model){const c=model?.classData||{},t={pass:"ناجح",fail:"راسب",supplementCount:"مكمل بـ {count} مواد",qualified:"مؤهل",notQualified:"غير مؤهل",exemptAll:"معفي عام",notExempt:"غير معفي عام",...(c.resultTexts||{})},out=[];if(c.assessmentType==="ministerial")out.push({id:"LEGACY_MIN",type:"ministerial",enabled:true,priority:10,stages:["annual"],maxSubjects:Number(c.ministerialRule?.maxHelpSubjects??3),bonusPerSubject:Number(c.ministerialRule?.bonusPerSubject??10),metText:t.qualified,notMetText:t.notQualified,notNeededText:"مؤهل ولا يحتاج إلى درجات مساعدة"});if(c.assessmentType==="exemption")out.push({id:"LEGACY_EX",type:"exemption",enabled:true,priority:20,stages:["annual"],minAverage:Number(c.exemptionRule?.averageMin??85),minSubjectGrade:Number(c.exemptionRule?.subjectThreshold??75),metText:t.exemptAll,notMetText:t.notExempt});out.push({id:"LEGACY_COMP",type:"completion",enabled:true,priority:30,stages:["term1","midyear","term2","finalExam","final","secondRound"],minFailedSubjects:1,maxFailedSubjects:3,gradeThreshold:50,metText:t.supplementCount,notMetText:""},{id:"LEGACY_FAIL",type:"failure",enabled:true,priority:40,stages:["term1","midyear","term2","finalExam","final","secondRound"],minFailedSubjects:4,gradeThreshold:50,metText:t.fail,notMetText:""},{id:"LEGACY_PASS",type:"pass",enabled:true,priority:50,stages:["term1","midyear","term2","annual","finalExam","final","secondRound"],minGrade:50,maxGrade:100,metText:t.pass,notMetText:""});return out;}
 function normalizeStoredRule(r={}){const type=normalizeRuleType(r.type),x={...r,type};if(type==="exemption"){if(r.type==="generalExemption")x.minSubjectGrade=Number(r.minSubjectGrade??classData?.exemptionRule?.subjectThreshold??75);if(r.type==="individualExemption")x.minAverage=0;}if(type==="pass"){x.minGrade=Number(r.minGrade??r.gradeThreshold??50);x.maxGrade=Number(r.maxGrade??100);}return x;}
@@ -2314,7 +2920,30 @@ function gradeClass(v,row){
   v,
   row
  )
-}function subjectStatus(row){if(isGrade(row.secondRound))return Number(row.secondRound)>=Number(row.passGrade??50)?["ناجح","pass"]:["راسب","fail"];if(isGrade(row.final))return Number(row.final)>=Number(row.passGrade??50)?["ناجح","pass"]:["دور ثانٍ","fail"];if(isGrade(row.annual))return Number(row.annual)>=Number(row.passGrade??50)?["مكتمل","pass"]:["دون النجاح","fail"];return["قيد الإكمال","wait"];}
+}function subjectStatus(row){
+ if(isGrade(row.secondRound)){
+  return Number(row.secondRound)>=Number(row.passGrade??50)
+   ?["ناجح","pass"]
+   :["راسب","fail"]
+ }
+
+ if(isGrade(row.final)){
+  return Number(row.final)>=Number(row.passGrade??50)
+   ?["ناجح","pass"]
+   :["راسب","fail"]
+ }
+
+ if(isGrade(row.annual)){
+  return Number(row.annual)>=Number(row.passGrade??50)
+   ?["مكتمل","pass"]
+   :["راسب","fail"]
+ }
+
+ return[
+  "قيد الإكمال",
+  "wait"
+ ]
+}
 function miniGradeHTML(label,value,row){const cls=gradeClass(value,row);return`<div class="mini-grade"><small>${esc(label)}</small><strong class="${cls}" ${isGrade(value)?`data-grade-number="${Number(value)}"`:""}>${isGrade(value)?"0":""}</strong></div>`;}
 function renderGradeFoot(model){
  const total=
@@ -2425,7 +3054,61 @@ function renderFinalResult(model){
   </div>`
 }
 function animateGradeNumbers(){document.querySelectorAll("[data-grade-number]").forEach((el,i)=>{const target=Number(el.dataset.gradeNumber);if(!Number.isFinite(target))return;const duration=550+Math.min(i*8,260),start=performance.now();const tick=now=>{const p=Math.min(1,(now-start)/duration),ease=1-Math.pow(1-p,3),v=target*ease;el.textContent=(Math.abs(target-Math.round(target))<.001?Math.round(v):(Math.round(v*10)/10));if(p<1)requestAnimationFrame(tick);else el.textContent=gradeBlank(target);};requestAnimationFrame(tick);});}
-async function loadGrades(renderNow=true){if(!canUseProtectedFeatures()){renderProtectedLocks();return;}const tasks=[dbGet(`grades/${encodeURIComponent(STUDENT_CODE)}`)];if(student.classId)tasks.push(dbGet(`classes/${encodeURIComponent(student.classId)}`));const result=await Promise.all(tasks);grades=result[0]||{};if(result[1])classData=result[1];gradeModel=buildGradeModel(grades);if(renderNow)renderGrades();return gradeModel;}
+async function loadGrades(renderNow=true){
+ if(
+  !canUseProtectedFeatures()
+ ){
+  renderProtectedLocks();
+  return
+ }
+
+ const tasks=[
+  dbGet(
+   `grades/${encodeURIComponent(STUDENT_CODE)}`
+  )
+ ];
+
+ if(student.classId){
+  tasks.push(
+   dbGet(
+    `classes/${encodeURIComponent(student.classId)}`
+   )
+  )
+ }
+
+ const result=
+  await Promise.all(
+   tasks
+  );
+
+ grades=
+  result[0]||{};
+
+ if(result[1]){
+  classData=
+   result[1]
+ }
+
+ /*
+    نقرأ تقسيمات الأستاذ قبل بناء النتيجة.
+    مثال: إذا الفصل الأول مقسم شهر أول + شهر ثاني،
+    لا نعتبر الفصل مكتملاً حتى تُحفظ المفردتان معاً.
+ */
+ await loadGradeSchemasForStudent(
+  grades
+ );
+
+ gradeModel=
+  buildGradeModel(
+   grades
+  );
+
+ if(renderNow){
+  renderGrades()
+ }
+
+ return gradeModel
+}
 
 
 const GRADE_COMPONENT_LABELS={
@@ -2483,33 +3166,38 @@ function componentValue(value){
 
 function gradeComponentsForPeriod(row,field){
  const root=
-  row?.record?.components?.[
-   field
-  ];
+        row?.record?.components?.[
+         field
+        ]||{},
+       expected=
+        expectedComponentKeys(
+         row,
+         field
+        ),
+       keys=
+        expected.length
+         ?expected
+         :Object.keys(root);
 
- if(
-  !root||
-  typeof root!=="object"||
-  Array.isArray(root)
- ){
-  return[]
- }
-
- return Object.entries(root)
-  .map(
-   ([key,value])=>({
-    key,
-    label:
-     componentLabel(key),
-    value:
-     componentValue(value)
-   })
-  )
-  .filter(
-   x=>
-    isGrade(x.value)||
-    String(x.value||"").trim()==="غ"
-  )
+ return keys.map(
+  key=>({
+   key,
+   label:
+    componentLabel(key),
+   value:
+    componentValue(
+     root?.[
+      key
+     ]
+    ),
+   entered:
+    componentWasEntered(
+     root?.[
+      key
+     ]
+    )
+  })
+ )
 }
 
 function publishedStageReady(model,field){
@@ -2631,6 +3319,14 @@ function genderedDecisionText(text){
   normalizedGender()==="female";
 
  if(!t)return t;
+
+ if(
+  t.includes("دون النجاح")
+ ){
+  return female
+   ?"راسبة"
+   :"راسب"
+ }
 
  if(
   /^ناجح(?:\s|$)/.test(t)||
@@ -2759,9 +3455,7 @@ function subjectPublishedStatus(model,row){
     "pass"
    ]
   :[
-    field==="final"
-     ?"مكمل"
-     :"دون النجاح",
+    "راسب",
     "fail"
    ]
 }
@@ -2776,26 +3470,49 @@ function renderGradeBreakdown(model){
   model.rows.map(
    (row,index)=>{
     const periods=
-     GRADE_FIELDS.map(
+     [
+      "term1",
+      "midyear",
+      "term2",
+      "finalExam",
+      "secondRound"
+     ].map(
       field=>{
        const components=
-        gradeComponentsForPeriod(
-         row,
-         field
-        ),
-       published=
-        publishedStageValue(
-         model,
-         row,
-         field
-        );
+              gradeComponentsForPeriod(
+               row,
+               field
+              ),
+             published=
+              publishedStageValue(
+               model,
+               row,
+               field
+              ),
+             expected=
+              expectedComponentKeys(
+               row,
+               field
+              );
 
        if(
         !components.length&&
-        !isGrade(published)
+        !isGrade(published)&&
+        !expected.length
        ){
         return""
        }
+
+       const complete=
+        row.autoType
+         ?publishedStageReady(
+           model,
+           field
+          )
+         :rowStageActuallyComplete(
+           row,
+           field
+          );
 
        return`
         <div class="grade-period-box">
@@ -2804,7 +3521,9 @@ function renderGradeBreakdown(model){
           <span>${
            isGrade(published)
             ?`الدرجة المكتملة: ${gradeBlank(published)}`
-            :"لم تكتمل الدرجة بعد"
+            :complete
+             ?"بانتظار اكتمال بقية المواد"
+             :"لم تكتمل جميع التقسيمات"
           }</span>
          </div>
          ${
@@ -2812,10 +3531,16 @@ function renderGradeBreakdown(model){
            ?`<div class="grade-component-row">${
              components.map(
               c=>
-               `<span class="grade-component-chip">${esc(c.label)}: <b>${esc(display(c.value))}</b></span>`
+               `<span class="grade-component-chip">${
+                esc(c.label)
+               }: <b>${
+                c.entered
+                 ?esc(display(c.value))
+                 :"—"
+               }</b></span>`
              ).join("")
             }</div>`
-           :'<div class="grade-no-components">لا توجد تقسيمات منشورة لهذه المرحلة.</div>'
+           :'<div class="grade-no-components">هذه المرحلة تُدخل بدرجة مباشرة وليست مقسمة.</div>'
          }
         </div>`
       }
@@ -3161,6 +3886,11 @@ function buildGradeResultHTML(model,field){
          model,
          field
         ),
+       compactDecision=
+        compactResultDecision(
+         model,
+         field
+        ),
        cols=
         GRADE_FIELDS,
        rowHeight=
@@ -3227,7 +3957,7 @@ function buildGradeResultHTML(model,field){
             ${cells}
             ${
              rowIndex===0
-              ?`<td class="result-decision-cell" rowspan="${model.rows.length}">${esc(decision)}</td>`
+              ?`<td class="result-decision-cell" rowspan="${model.rows.length}">${esc(compactDecision)}</td>`
               :""
             }
            </tr>`
