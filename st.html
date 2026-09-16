@@ -73,6 +73,68 @@
 #pageChat .msg-bubble-wrap{max-width:100%!important}
 #pageChat .mention-item{padding-inline:11px}
 
+
+/* ================= تحديث منصة الطالب: الدروس + النتيجة + الحضور ================= */
+.notice,.notice *{font-weight:900!important}
+.bottom-nav{grid-template-columns:repeat(5,1fr)!important}
+.nav-label{font-size:7.2px}
+.attendance-summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin-top:10px}
+.attendance-stat{min-width:0;padding:12px 5px;text-align:center;border:1px solid var(--border);border-radius:15px;background:#fff;box-shadow:0 5px 17px rgba(20,40,70,.045)}
+.attendance-stat b{display:block;font-size:20px;font-weight:900}
+.attendance-stat small{display:block;margin-top:4px;color:#667085;font-size:7px;font-weight:900}
+.attendance-stat.present b{color:#078746}.attendance-stat.absent b{color:#c62828}.attendance-stat.excused b{color:#7c3aed}.attendance-stat.late b{color:#dd7400}.attendance-stat.escape b{color:#b42318}
+
+.lesson-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:11px}
+.lesson-toolbar h3{font-size:15px;font-weight:900}.lesson-toolbar span{color:#667085;font-size:8px;font-weight:800}
+.lesson-subject-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.lesson-subject-card{position:relative;overflow:hidden;min-height:115px;padding:15px;border:1px solid #dfe7f0;border-radius:19px;background:linear-gradient(145deg,#fff,#f8fbff);box-shadow:0 8px 24px rgba(20,40,70,.055)}
+.lesson-subject-card:before{content:"";position:absolute;right:0;top:0;bottom:0;width:4px;background:linear-gradient(#075fcf,#6f50db)}
+.lesson-subject-card h4{font-size:13px;font-weight:900}.lesson-subject-card p{margin-top:5px;color:#667085;font-size:8px;line-height:1.7;font-weight:800}
+.lesson-subject-card button{width:100%;height:39px;margin-top:12px;border:0;border-radius:11px;color:#fff;background:#075fcf;font-size:8px;font-weight:900}
+.lesson-exam-count{display:inline-flex;min-height:24px;align-items:center;padding:0 8px;margin-top:8px;border-radius:999px;color:#075fcf;background:#edf5ff;font-size:7px;font-weight:900}
+.lesson-detail-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.lesson-back{height:36px;padding:0 11px;border:0;border-radius:10px;color:#475467;background:#f1f4f7;font-size:8px;font-weight:900}
+.lesson-detail-title h3{font-size:15px;font-weight:900}.lesson-detail-title p{margin-top:3px;color:#667085;font-size:8px;font-weight:800}
+.lesson-exam-list{display:grid;gap:9px}
+.lesson-exam-card{padding:14px;border:1px solid var(--border);border-radius:17px;background:#fff;box-shadow:0 7px 22px rgba(20,40,70,.05)}
+.lesson-exam-card.scheduled{border-right:4px solid #075fcf}.lesson-exam-card.active{border-right:4px solid #078746;background:#fbfffc}.lesson-exam-card.ended{border-right:4px solid #667085}
+.lesson-exam-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}.lesson-exam-top h4{font-size:11px;font-weight:900}.lesson-exam-date{color:#98a2b3;font-size:7px;font-weight:900;white-space:nowrap}
+.lesson-exam-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}.lesson-exam-meta span{min-height:25px;display:inline-flex;align-items:center;padding:0 8px;border-radius:999px;background:#f4f7fa;color:#475467;font-size:7px;font-weight:900}
+.lesson-exam-state{margin-top:9px;padding:9px 10px;border-radius:10px;font-size:8px;line-height:1.7;font-weight:900}.lesson-exam-state.scheduled{background:#edf5ff;color:#075fcf}.lesson-exam-state.active{background:#ecfdf3;color:#067647}.lesson-exam-state.ended{background:#f2f4f7;color:#475467}.lesson-exam-state.absent{background:#fff1f1;color:#b42318}
+.lesson-exam-btn{width:100%;height:44px;margin-top:9px;border:0;border-radius:12px;color:#fff;background:#078746;font-size:9px;font-weight:900;box-shadow:0 7px 18px rgba(7,135,70,.16)}
+.lesson-empty{padding:32px 18px;text-align:center;border:1px solid var(--border);border-radius:18px;background:#fff;color:#667085;font-size:9px;font-weight:800;line-height:1.8}
+
+.grade-student-card{position:relative;overflow:hidden;margin-bottom:11px;padding:16px;border-radius:20px;color:#fff;background:linear-gradient(135deg,#075fcf,#064a9e);box-shadow:0 14px 35px rgba(7,95,207,.18)}
+.grade-student-card:after{content:"";position:absolute;width:170px;height:170px;left:-75px;top:-90px;border-radius:50%;background:rgba(255,255,255,.08)}
+.grade-student-card h3{position:relative;z-index:2;font-size:15px;font-weight:900}.grade-student-card h3 strong{font-size:17px}
+.grade-student-meta{position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:10px}
+.grade-student-meta div{padding:8px;border-radius:10px;background:rgba(255,255,255,.12)}.grade-student-meta small{display:block;font-size:6.7px;font-weight:800;opacity:.82}.grade-student-meta strong{display:block;margin-top:3px;font-size:8.5px;font-weight:900}
+.grade-stage-status{display:flex;gap:6px;overflow:auto;padding:2px 0 10px;scrollbar-width:none}.grade-stage-status::-webkit-scrollbar{display:none}
+.grade-stage-chip{flex:0 0 auto;min-width:110px;padding:8px 10px;border:1px solid #e0e7ef;border-radius:12px;background:#fff}
+.grade-stage-chip small{display:block;color:#667085;font-size:6.5px;font-weight:900}.grade-stage-chip strong{display:block;margin-top:3px;font-size:8px;font-weight:900}
+.grade-stage-chip.ready{border-color:#b7e2c7;background:#f5fff8}.grade-stage-chip.ready strong{color:#067647}.grade-stage-chip.wait strong{color:#9a5b00}
+#subjectList{display:none!important}
+.grade-table-wrap{margin-top:0;border-radius:18px;border:1px solid #447cae;box-shadow:0 10px 26px rgba(20,40,70,.07)}
+.grade-table{min-width:980px;table-layout:fixed}
+.grade-table th{height:84px;padding:6px 4px;color:#fff;background:#5798cc;border:1px solid #4079a9;font-size:9px;vertical-align:middle}
+.grade-table th:first-child{width:150px;font-size:13px}
+.grade-table td{padding:8px 5px;border:1px solid #7d8d9b;background:#dceafa;font-size:10px;font-weight:900}
+.grade-table tbody td:first-child{color:#fff;background:#5798cc;font-size:9px}
+.grade-table tfoot td{background:#cfe1f2;font-weight:900}.grade-table tfoot td:first-child{color:#fff;background:#5798cc}
+.grade-result-note{margin-top:10px;padding:10px 12px;text-align:center;border-radius:12px;color:#b42318;background:#fff5f4;font-size:8px;line-height:1.7;font-weight:900}
+.grade-report-status{display:flex;align-items:center;justify-content:center;gap:7px;margin:10px 0;padding:10px;border-radius:12px;background:#f8fafc;border:1px solid #e3e9f1;font-size:8px;font-weight:900}
+.grade-report-status strong{color:#075fcf}
+.result-open-wrap{margin-top:12px!important}
+.result-stage-choice{font-weight:900}
+.exam-chat-lock{padding:25px 18px;text-align:center;border:1px solid #f0d09b;border-radius:18px;background:#fffaf2}
+.exam-chat-lock h3{color:#9a5b00;font-size:14px;font-weight:900}.exam-chat-lock p{margin-top:7px;color:#7b5a30;font-size:9px;line-height:1.8;font-weight:900}
+
+@media(max-width:700px){
+ .attendance-summary{grid-template-columns:repeat(5,minmax(58px,1fr));overflow-x:auto;padding-bottom:3px}
+ .lesson-subject-list{grid-template-columns:1fr}
+ .grade-student-meta{grid-template-columns:1fr 1fr}
+}
+
 </style></head><body><div
     id="loaderScreen"
     class="loader-screen"
@@ -201,7 +263,14 @@
             </span></div></div><div
         id="homeAccessWarning"
         class="access-warning"
-    ></div><div class="section-head"><h3>
+    ></div><div class="section-head"><h3>الحضور والانضباط</h3><span>السجل الحالي</span></div>
+<div class="attendance-summary">
+ <div class="attendance-stat present"><b id="attendancePresent">0</b><small>الحضور</small></div>
+ <div class="attendance-stat absent"><b id="attendanceAbsent">0</b><small>الغياب</small></div>
+ <div class="attendance-stat excused"><b id="attendanceExcused">0</b><small>المجاز</small></div>
+ <div class="attendance-stat late"><b id="attendanceLate">0</b><small>المتأخر</small></div>
+ <div class="attendance-stat escape"><b id="attendanceEscape">0</b><small>الهروب</small></div>
+</div><div class="section-head"><h3>
             بيانات الطالب
         </h3><span>
             بيانات رسمية
@@ -227,7 +296,26 @@
         </span></div><div
         id="noticeList"
         class="notice-list"
-    ></div></section><section id="pageGrades" class="page"><div id="gradesLocked"></div><div id="gradeSearchScreen" class="grade-search hidden"><div class="grade-search-card"><div class="grade-orbit"><div class="grade-orbit-core">%</div></div><h3 id="gradeSearchTitle">جاري البحث عن درجاتك</h3><p id="gradeSearchText">يرجى الانتظار ريثما يتم جلب الدرجات وترتيبها.</p><div class="grade-progress"><span></span></div></div></div><div id="gradesContent" class="hidden"><div class="section-head"><h3>الدرجات والنتائج</h3><span>2026-2027</span></div><div id="subjectList" class="subject-list"></div><div class="grade-table-wrap"><table class="grade-table"><thead><tr><th>المادة</th><th>الفصل الأول</th><th>نصف السنة</th><th>الفصل الثاني</th><th>السعي السنوي</th><th>الامتحان النهائي</th><th>نتيجة آخر السنة</th><th>الدور الثاني</th><th>الحالة</th></tr></thead><tbody id="gradeTableBody"></tbody><tfoot id="gradeTableFoot"></tfoot></table></div><div id="finalResultCard"></div><div class="result-open-wrap"><button id="resultCenterBtn" class="result-open-btn" type="button">عرض / تحميل النتيجة</button><div class="result-open-note">تظهر فقط النتائج التي اكتملت درجاتها بالكامل.</div></div>
+    ></div></section><section id="pageLessons" class="page">
+ <div id="lessonListView">
+  <div class="lesson-toolbar"><div><h3>الدروس</h3><span>المواد المخصصة لصفك</span></div><span id="lessonExamBadgeText">0 امتحان</span></div>
+  <div id="lessonSubjectList" class="lesson-subject-list"></div>
+ </div>
+ <div id="lessonDetailView" class="hidden">
+  <div class="lesson-detail-head">
+   <button class="lesson-back" type="button" onclick="closeLessonSubject()">رجوع للدروس</button>
+   <div class="lesson-detail-title"><h3 id="lessonDetailTitle">—</h3><p id="lessonDetailMeta">—</p></div>
+  </div>
+  <div id="lessonExamList" class="lesson-exam-list"></div>
+ </div>
+</section><section id="pageGrades" class="page"><div id="gradesLocked"></div><div id="gradeSearchScreen" class="grade-search hidden"><div class="grade-search-card"><div class="grade-orbit"><div class="grade-orbit-core">%</div></div><h3 id="gradeSearchTitle">جاري البحث عن درجاتك</h3><p id="gradeSearchText">يرجى الانتظار ريثما يتم جلب الدرجات وترتيبها.</p><div class="grade-progress"><span></span></div></div></div><div id="gradesContent" class="hidden"><div class="section-head"><h3>الدرجات والنتيجة</h3><span>2026-2027</span></div>
+<div id="gradeStudentCard" class="grade-student-card"></div>
+<div id="gradeStageStatus" class="grade-stage-status"></div>
+<div id="subjectList" class="subject-list"></div>
+<div class="grade-report-status">النتيجة الإلكترونية: <strong id="gradeLatestStatus">قيد الاكتمال</strong></div>
+<div class="grade-table-wrap"><table class="grade-table"><thead><tr><th>المادة</th><th>الفصل الأول</th><th>نصف السنة</th><th>الفصل الثاني</th><th>السعي السنوي</th><th>الامتحان النهائي</th><th>نتيجة آخر السنة</th><th>الدور الثاني</th><th>الحالة</th></tr></thead><tbody id="gradeTableBody"></tbody><tfoot id="gradeTableFoot"></tfoot></table></div>
+<div class="grade-result-note">ملاحظة: هذه النتيجة غير رسمية ومخصصة للاطلاع فقط ولا تعد وثيقة مدرسية رسمية.</div>
+<div id="finalResultCard"></div><div class="result-open-wrap"><button id="resultCenterBtn" class="result-open-btn" type="button">عرض / تحميل النتيجة</button><div class="result-open-note">تظهر فقط النتائج التي اكتملت درجاتها بالكامل.</div></div>
 <div id="gradeObjectionPanel" class="grade-objection-panel"><h4>اعتراض على درجة</h4><p>تظهر هذه الخدمة فقط للفترات التي فعّلتها الإدارة. اختر المادة والفترة ثم أرسل اعتراضك.</p><button id="openGradeObjectionBtn" class="grade-objection-btn" type="button">تقديم اعتراض</button><div id="gradeObjectionHistory" class="grade-objection-history"></div></div>
 </div></section><section
     id="pageChat"
@@ -300,6 +388,12 @@
         التبليغات
     </span></button><button
     class="nav-item"
+    data-page="lessons"
+    type="button"
+><span id="lessonBadge" class="nav-badge">0</span><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 016.5 3H20v15H6.5A2.5 2.5 0 004 20.5z"></path><path d="M4 5.5v15"></path><path d="M8 7h8"></path><path d="M8 11h7"></path></svg><span class="nav-label">
+        الدروس
+    </span></button><button
+    class="nav-item"
     data-page="grades"
     type="button"
 ><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"></path><path d="M8 8h8"></path><path d="M8 12h8"></path><path d="M8 16h5"></path></svg><span class="nav-label">
@@ -364,6 +458,10 @@ let chatPolling = null;
 let notificationPolling = null;
 let lastChatCount = 0;
 let absenceDays = 0;
+let attendanceStats={present:0,absent:0,excused:0,late:0,escape:0};
+let lessonSubjects=[],lessonExams=[],lessonSubmissions={},lessonPolling=null,activeLessonSubjectId="";
+let activeExamChatLock=null;
+const EXAM_RUNTIME_URL="examples.html";
 let selectedProfilePhotoFile = null;
 let profilePhotoPreviewURL = "";
 let photoProcessing=false,photoProcessToken=0,bgRemovalModulePromise=null,faceDetectorPromise=null,existingPhotoProcessing=false;
@@ -464,13 +562,131 @@ function renderExistingProfilePhoto(){if(!studentHasProfileImage())return;$("pro
 function globalAccountActive(){ return !( user.active === false || user.hidden === true || user.behaviorBlocked === true || student.hidden === true || student.accountActive === false || student.behaviorBlocked === true ); }
 function accessState(){ if( student.behaviorBlocked === true || user.behaviorBlocked === true ){ return { allowed:false, type:"blocked", title:"تم إيقاف الحساب", message: "تم إيقاف حسابك بسبب مخالفة سلوكية في الدردشة. يرجى مراجعة إدارة مدرسة التحدي الأهلية المختلطة." }; } if( student.accountantApproved !== true ){ return { allowed:false, type:"accountant", title: "صلاحية الحسابات غير مفعلة", message: "لم يتم تفعيل صلاحية الحسابات من قسم الحسابات بعد." }; } if( student.adminApproved !== true ){ return { allowed:false, type:"admin", title: "صلاحية الإدارة غير مفعلة", message: "صلاحية الدرجات غير مفعلة من إدارة المدرسة حالياً." }; } return { allowed:true, type:"allowed", title:"", message:"" }; }
 function canUseProtectedFeatures(){ return accessState().allowed; }
-function chatAccessState(){if(student.behaviorBlocked===true||user.behaviorBlocked===true)return{allowed:false,type:"blocked",title:"تم إيقاف الدردشة",message:"تم إيقاف حسابك بسبب مخالفة سلوكية في الدردشة. يرجى مراجعة إدارة المدرسة."};if(!globalAccountActive())return{allowed:false,type:"inactive",title:"الحساب غير فعال",message:"حسابك غير فعال حالياً. يرجى مراجعة إدارة المدرسة."};return{allowed:true,type:"allowed",title:"",message:""};}
+
+async function refreshExamChatLock(){
+ activeExamChatLock=null;
+
+ if(!student.classId){
+  return null
+ }
+
+ try{
+  const windows=
+   await dbGet(
+    `chatExamWindows/${encodeURIComponent(student.classId)}`
+   )||{},
+  now=Date.now();
+
+  const active=
+   Object.entries(windows)
+   .map(
+    ([examId,value])=>({
+     examId,
+     ...(value||{})
+    })
+   )
+   .filter(
+    x=>
+     x.lockChat===true&&
+     now>=Number(x.startAt||0)&&
+     now<Number(x.endAt||0)
+   )
+   .sort(
+    (a,b)=>
+     Number(b.startAt||0)-
+     Number(a.startAt||0)
+   );
+
+  activeExamChatLock=
+   active[0]||
+   null;
+
+  if(activeExamChatLock){
+   clearInterval(
+    chatPolling
+   );
+
+   chatMessages={};
+
+   if($("messages")){
+    $("messages").innerHTML=""
+   }
+  }
+
+  renderProtectedLocks();
+  return activeExamChatLock
+ }
+ catch(error){
+  console.warn(
+   "CHAT_EXAM_LOCK_ERROR",
+   error
+  );
+
+  return null
+ }
+}
+function chatAccessState(){
+ if(activeExamChatLock){
+  return{
+   allowed:false,
+   type:"exam",
+   title:"الدردشة متوقفة أثناء الامتحان",
+   message:
+    `بدأ امتحان ${activeExamChatLock.subjectName||"المادة"}، لذلك تم إخفاء الدردشة بالكامل حتى نهاية الامتحان في ${timeText(activeExamChatLock.endAt)}.`
+  }
+ }
+
+ if(
+  student.behaviorBlocked===true||
+  user.behaviorBlocked===true
+ ){
+  return{
+   allowed:false,
+   type:"blocked",
+   title:"تم إيقاف الدردشة",
+   message:"تم إيقاف حسابك بسبب مخالفة سلوكية في الدردشة. يرجى مراجعة إدارة المدرسة."
+  }
+ }
+
+ if(!globalAccountActive()){
+  return{
+   allowed:false,
+   type:"inactive",
+   title:"الحساب غير فعال",
+   message:"حسابك غير فعال حالياً. يرجى مراجعة إدارة المدرسة."
+  }
+ }
+
+ return{
+  allowed:true,
+  type:"allowed",
+  title:"",
+  message:""
+ }
+}
 function canUseChat(){return chatAccessState().allowed;}
 function normalizeGenderValue(value){const gender=norm(value);if(gender==="female"||gender==="f"||gender==="انثى"||gender==="أنثى"||gender==="بنت"||gender==="بنات")return"female";return"male";}
 function normalizedGender(){return normalizeGenderValue(student.gender);}
 function primaryStage(){const raw=[classData.name,student.className,classData.stage,student.stage,classData.schoolStage,student.schoolStage,classData.section,student.section,classData.level,student.level,classData.schoolType,student.schoolType].filter(Boolean).join(" "),t=norm(raw).replace(/[أإآ]/g,"ا");return t.includes("ابتدائ")||t.includes("primary")||t.includes("elementary");}
-function studentTerm(){const female=normalizedGender()==="female";return primaryStage()?(female?"تلميذة":"تلميذ"):(female?"بنت":"طالب");}
-function studentTermDefinite(){const t=studentTerm();return t==="طالب"?"الطالب":t==="بنت"?"البنت":t==="تلميذ"?"التلميذ":"التلميذة";}
+function studentTerm(){
+ const female=normalizedGender()==="female";
+ return primaryStage()
+  ?(female?"تلميذة":"تلميذ")
+  :(female?"طالبة":"طالب")
+}
+function studentTermDefinite(){
+ const t=studentTerm();
+ return t==="طالب"?"الطالب":
+        t==="طالبة"?"الطالبة":
+        t==="تلميذ"?"التلميذ":"التلميذة"
+}
+
+function genderSexText(){
+ return normalizedGender()==="female"?"أنثى":"ذكر"
+}
+function studentNameLabel(){
+ return `اسم ${studentTermDefinite()}`
+}
 function genderText(){return studentTerm();}
 function applyStudentTerminology(){const term=studentTermDefinite(),front=`هوية ${term} - الوجه`,back=`هوية ${term} - الظهر`;IDENTITY_DOCS.studentFront.label=front;IDENTITY_DOCS.studentBack.label=back;const sf=document.querySelector("#scanCardStudentFront .identity-scan-head strong"),sb=document.querySelector("#scanCardStudentBack .identity-scan-head strong"),title=document.querySelector(".profile-photo-title"),note=document.querySelector(".identity-scan-note");if(sf)sf.textContent=front;if(sb)sb.textContent=back;if(title)title.textContent=`الصورة الشخصية لـ${term}`;if(note)note.textContent=`أضف أربع صور: هوية ${term} وجه وظهر، وهوية الأب وجه وظهر. صوّر البطاقة كاملة على سطح ثابت وبإضاءة واضحة؛ النظام يكتشف حدود البطاقة ويقصها ويعدل الميل ويحسنها بشكل Scanner قبل الرفع.`;}
 function normalizeRoomPart(value){ return String( value ?? "" ) .trim() .replace( /[.#$\[\]\/]/g, "_" ) .replace( /\s+/g, "_" ); }
@@ -478,17 +694,400 @@ function chatRoomId(){ const classPart = normalizeRoomPart( student.classId || s
 async function init(){try{if(!loadSession())return;user=await dbGet(`users/${encodeURIComponent(session.code)}`);if(!user||!["student","st"].includes(norm(user.role))){logout();return;}STUDENT_CODE=user.studentId||session.code;[student,identityDocuments]=await Promise.all([dbGet(`students/${encodeURIComponent(STUDENT_CODE)}`),dbGet(`studentDocuments/${encodeURIComponent(STUDENT_CODE)}`)]);student=student||null;identityDocuments=identityDocuments||{};if(!student)throw new Error("STUDENT_NOT_FOUND");if(student.classId)classData=await dbGet(`classes/${encodeURIComponent(student.classId)}`)||{};academicSettings=await dbGet("academicSettings")||{};applyStudentTerminology();applyCompletionMediaRequirementUI();$("loaderScreen").classList.add("hidden");renderIdentityDocuments();if(!globalAccountActive()){showInactiveAccount();return;}if(profileNeedsCompletion()){renderCompletionForm(getMissingProfileFields());applyCompletionMediaRequirementUI();renderExistingProfilePhoto();renderIdentityDocuments();$("completeScreen").classList.remove("hidden");scheduleExistingProfilePhotoProcessing();return;}if(codeChangeNeedsCompletion()){await showCodeChangeScreen();return;}await openApp();scheduleExistingProfilePhotoProcessing();}catch(error){console.error(error);$("loaderScreen").classList.add("hidden");toast("تعذر تحميل حساب الطالب");}}
 $("saveProfileBtn").onclick=async()=>{if(photoProcessing){toast("انتظر حتى ينتهي تجهيز صورة المعاملة");return;}if(identityAnyProcessing()){toast("انتظر حتى ينتهي مسح صور الهويات");return;}const inputs=[...$("completeFields").querySelectorAll("input[data-key]")],updateData={};for(const input of inputs){const value=input.value.trim(),optional=input.dataset.optional==="1";if(!value&&!optional){input.focus();toast("يرجى إكمال جميع البيانات المطلوبة");return;}if(input.dataset.key==="lineNumber")updateData.lineNumber=value;else if(value)updateData[input.dataset.key]=value;}const mediaRequired=mediaCompletionRequired();if(mediaRequired&&!studentHasProfileImage()&&!selectedProfilePhotoFile){toast("الإدارة ألزمتك بإضافة الصورة الشخصية");return;}if(mediaRequired&&!identityDocumentsReadyForSave()){const missing=Object.keys(IDENTITY_DOCS).find(key=>!identityReady(key));toast(`الإدارة ألزمتك بإضافة ${IDENTITY_DOCS[missing].label}`);document.querySelector(`input[data-doc-key="${missing}"]`)?.scrollIntoView({behavior:"smooth",block:"center"});return;}$("saveProfileBtn").disabled=true;$("saveProfileBtn").dataset.saving="1";try{let imageURL=student.profileImage||"";if(selectedProfilePhotoFile){$("saveProfileBtn").textContent="جاري رفع صورة المعاملة...";imageURL=await uploadImage(selectedProfilePhotoFile);if(!imageURL)throw new Error("PROFILE_PHOTO_FAILED");Object.assign(updateData,{profileImage:imageURL,profileImageUploadedAt:Date.now(),profileImageProcessedAt:Date.now(),profileImageProcessVersion:PHOTO_PROCESS_VERSION,profileImageWhiteBackground:true,profileImageCenteredFace:true,profileImagePhotoType:"transaction",profileImageWidth:PHOTO_W,profileImageHeight:PHOTO_H});}if(Object.keys(selectedIdentityFiles).length){$("saveProfileBtn").textContent="جاري رفع صور الهويات الممسوحة...";await uploadPendingIdentityDocuments();}const docsComplete=identityDocumentsComplete(),photoComplete=Boolean(String(imageURL||"").trim());if(mediaRequired&&!photoComplete)throw new Error("PROFILE_PHOTO_REQUIRED");if(mediaRequired&&!docsComplete)throw new Error("IDENTITY_DOCUMENTS_REQUIRED");updateData.identityDocumentsCompleted=docsComplete;updateData.identityDocumentsUpdatedAt=Date.now();updateData.identityDocumentsPath=`studentDocuments/${STUDENT_CODE}`;updateData.profileCompleted=true;updateData.profileImageCompleted=photoComplete;updateData.profileCompletedAt=Date.now();$("saveProfileBtn").textContent="جاري حفظ البيانات...";await dbPatch(`students/${encodeURIComponent(STUDENT_CODE)}`,updateData);Object.assign(student,updateData);$("completeScreen").classList.add("hidden");await showCodeChangeScreen();}catch(error){console.error(error);toast(mediaCompletionRequired()?"تعذر حفظ البيانات أو الصور المطلوبة":"تعذر حفظ البيانات");}finally{delete $("saveProfileBtn").dataset.saving;$("saveProfileBtn").disabled=false;$("saveProfileBtn").textContent="حفظ ومتابعة";}};
 function showInactiveAccount(){ clearInterval( chatPolling ); clearInterval( notificationPolling ); clearInterval(gradeObjectionPolling); $("app") .classList.add( "hidden" ); $("completeScreen") .classList.add( "hidden" ); $("codeChangeScreen").classList.add("hidden"); if( student.behaviorBlocked === true || user.behaviorBlocked === true ){ $("inactiveTitle").textContent = "تم إيقاف الحساب"; $("inactiveText").textContent = "تم إيقاف حسابك بسبب مخالفة سلوكية في الدردشة. يرجى مراجعة إدارة مدرسة التحدي الأهلية المختلطة لإعادة التفعيل."; } else{ $("inactiveTitle").textContent = "الحساب غير فعال"; $("inactiveText").textContent = "حسابك غير فعال حالياً. يرجى مراجعة إدارة مدرسة التحدي الأهلية المختلطة."; } $("inactiveScreen") .classList.remove( "hidden" ); }
-async function loadAbsenceDays(){ absenceDays = 0; try{ const attendance = await dbGet( `attendance/${encodeURIComponent(STUDENT_CODE)}` ) || {}; const dates = new Set(); Object.entries( attendance ) .forEach( ([key,record]) => { if(!record){ return; } const status = norm( record.status ); const absent = record.absent === true || record.isAbsent === true || status === "absent" || status === "غائب" || status === "غياب"; if(absent){ const dateKey = record.date || record.attendanceDate || key; dates.add( String(dateKey) ); } } ); absenceDays = dates.size; } catch(error){ console.error( "ATTENDANCE_ERROR", error ); absenceDays = 0; } }
+async function loadAbsenceDays(){
+ attendanceStats={
+  present:0,
+  absent:0,
+  excused:0,
+  late:0,
+  escape:0
+ };
+ absenceDays=0;
+
+ try{
+  const attendance=
+   await dbGet(
+    `attendance/${encodeURIComponent(STUDENT_CODE)}`
+   )||{};
+
+  const sets={
+   present:new Set(),
+   absent:new Set(),
+   excused:new Set(),
+   late:new Set(),
+   escape:new Set()
+  };
+
+  function statusKind(record){
+   const rawStatus=
+    norm(
+     record?.status||
+     record?.attendanceStatus||
+     record?.state||
+     record?.type||
+     ""
+    )
+    .replace(/[أإآ]/g,"ا")
+    .replace(/ة/g,"ه");
+
+   if(
+    record?.escape===true||
+    record?.isEscape===true||
+    rawStatus.includes("هروب")||
+    rawStatus.includes("هرب")||
+    rawStatus==="escape"
+   )return"escape";
+
+   if(
+    record?.late===true||
+    record?.isLate===true||
+    rawStatus.includes("متاخر")||
+    rawStatus==="late"
+   )return"late";
+
+   if(
+    record?.excused===true||
+    record?.leave===true||
+    record?.isExcused===true||
+    rawStatus.includes("مجاز")||
+    rawStatus.includes("اجازه")||
+    rawStatus==="excused"||
+    rawStatus==="leave"
+   )return"excused";
+
+   if(
+    record?.absent===true||
+    record?.isAbsent===true||
+    rawStatus.includes("غائب")||
+    rawStatus.includes("غياب")||
+    rawStatus==="absent"
+   )return"absent";
+
+   if(
+    record?.present===true||
+    record?.isPresent===true||
+    rawStatus.includes("حاضر")||
+    rawStatus.includes("حضور")||
+    rawStatus==="present"
+   )return"present";
+
+   return""
+  }
+
+  function walk(node,path=[]){
+   if(!node||typeof node!=="object")return;
+
+   const kind=statusKind(node);
+
+   if(kind){
+    const key=
+     String(
+      node.date||
+      node.attendanceDate||
+      node.day||
+      path[0]||
+      path.join("_")||
+      Math.random()
+     );
+
+    sets[kind].add(key);
+    return
+   }
+
+   for(
+    const [key,value]
+    of Object.entries(node)
+   ){
+    if(value&&typeof value==="object"){
+     walk(value,[...path,key])
+    }
+   }
+  }
+
+  walk(attendance,[]);
+
+  for(const key of Object.keys(sets)){
+   attendanceStats[key]=sets[key].size
+  }
+
+  absenceDays=
+   attendanceStats.absent
+ }
+ catch(error){
+  console.error(
+   "ATTENDANCE_ERROR",
+   error
+  );
+  attendanceStats={
+   present:0,
+   absent:0,
+   excused:0,
+   late:0,
+   escape:0
+  };
+  absenceDays=0
+ }
+}
 async function loadClassStudents(){ classStudents = []; if( !student.classId ){ return; } try{ const allStudents = await dbGet( "students" ) || {}; const myClass = String( student.classId || "" ).trim(); const myRoom = String( student.roomNumber || "" ).trim(); const myGender = normalizedGender(); classStudents = Object.entries( allStudents ) .map( ([code,data]) => ({ code, ...(data || {}) }) ) .filter( item => { const targetClass = String( item.classId || "" ).trim(); const targetRoom = String( item.roomNumber || "" ).trim(); const targetGender = normalizeGenderValue( item.gender ); return ( targetClass === myClass && targetRoom === myRoom && targetGender === myGender ); } ) .sort( (a,b) => String( a.name || "" ) .localeCompare( String( b.name || "" ), "ar" ) ); classStudents .forEach( item => { chatUserProfiles[ item.code ] = item; } ); } catch(error){ console.error( "ROOM_STUDENTS_ERROR", error ); } }
 function startGradeObjectionPolling(){clearInterval(gradeObjectionPolling);gradeObjectionPolling=setInterval(()=>{if(document.visibilityState==="visible"&&$("pageGrades")?.classList.contains("active"))loadGradeObjectionState()},20000);}
-async function openApp(){if(profileNeedsCompletion()){renderCompletionForm(getMissingProfileFields());renderExistingProfilePhoto();renderIdentityDocuments();$("app").classList.add("hidden");$("codeChangeScreen").classList.add("hidden");$("completeScreen").classList.remove("hidden");return;}if(codeChangeNeedsCompletion()){$("app").classList.add("hidden");await showCodeChangeScreen();return;}if(!globalAccountActive()){showInactiveAccount();return;}$("codeChangeScreen").classList.add("hidden");await Promise.all([loadAbsenceDays(),loadClassStudents()]);$("app").classList.remove("hidden");$("inactiveScreen").classList.add("hidden");renderHome();await loadNotifications();renderProtectedLocks();startGradeObjectionPolling();if(canUseChat()){try{await loadChat();}catch(error){console.error("CHAT_INITIAL_LOAD_ERROR",error);renderChatLoadError();}}startNotificationPolling();}
+async function openApp(){
+ if(profileNeedsCompletion()){
+  renderCompletionForm(
+   getMissingProfileFields()
+  );
+  renderExistingProfilePhoto();
+  renderIdentityDocuments();
+  $("app").classList.add("hidden");
+  $("codeChangeScreen").classList.add("hidden");
+  $("completeScreen").classList.remove("hidden");
+  return
+ }
+
+ if(codeChangeNeedsCompletion()){
+  $("app").classList.add("hidden");
+  await showCodeChangeScreen();
+  return
+ }
+
+ if(!globalAccountActive()){
+  showInactiveAccount();
+  return
+ }
+
+ $("codeChangeScreen").classList.add("hidden");
+
+ await Promise.all([
+  loadAbsenceDays(),
+  loadClassStudents(),
+  loadLessonsData(false),
+  refreshExamChatLock()
+ ]);
+
+ $("app").classList.remove("hidden");
+ $("inactiveScreen").classList.add("hidden");
+
+ renderHome();
+ renderLessons();
+
+ await loadNotifications();
+
+ renderProtectedLocks();
+ startGradeObjectionPolling();
+ startLessonsPolling();
+
+ if(canUseChat()){
+  try{
+   await loadChat()
+  }
+  catch(error){
+   console.error(
+    "CHAT_INITIAL_LOAD_ERROR",
+    error
+   );
+   renderChatLoadError()
+  }
+ }
+
+ startNotificationPolling()
+}
 function className(){ return ( classData.name || student.className || "—" ); }
-function renderHome(){ $("topStudentName").textContent = student.name || "منصة الطالب"; $("heroName").textContent = student.name || "—"; $("heroCode").textContent = STUDENT_CODE; $("heroClass").textContent = `الصف: ${className()}`; $("heroRoom").textContent = `القاعة: ${student.roomNumber || "—"}`; $("heroGender").textContent = genderText(); if( studentHasProfileImage() ){ $("studentAvatar").innerHTML = ` <img src="${esc(student.profileImage)}" alt="صورة الطالب" > `; } else{ $("studentAvatar").textContent = String( student.name || "ط" ) .trim() .charAt(0) || "ط"; } const information = [ [ "الاسم الرباعي", student.name ], [ "اسم الأم", student.motherName ], [ "تاريخ الميلاد", dateText( student.birthDate ) ], [ "الجنس", genderText() ], [ "الصف", className() ], [ "القاعة / الشعبة", student.roomNumber ], [ "عدد أيام الغياب", `${absenceDays} يوم` ], [ "رقم ولي الأمر", student.guardianPhone ], [ "رقم الطالب", student.studentPhone ], [ "رقم الخط", String(student.lineNumber||"").trim() || "لايوجد" ], [ "المدرسة السابقة", student.previousSchool ], [ "تاريخ المباشرة", dateText( student.startDate ) ], [ "عنوان السكن", student.address ], [ "كود الطالب", STUDENT_CODE ] ]; $("studentInfoGrid").innerHTML = information .map( ([label,value]) => ` <div class="info-card"> <small> ${esc(label)} </small> <strong> ${esc( display(value) )} </strong> </div> ` ) .join("");if($("editableLineNumber"))$("editableLineNumber").value=student.lineNumber||"";renderAccountStatus();renderHomeAccessWarning(); }
+function renderHome(){
+ $("topStudentName").textContent=
+  student.name||
+  "منصة الطالب";
+
+ $("heroName").textContent=
+  student.name||
+  "—";
+
+ $("heroCode").textContent=
+  STUDENT_CODE;
+
+ $("heroClass").textContent=
+  `الصف: ${className()}`;
+
+ $("heroRoom").textContent=
+  `القاعة: ${student.roomNumber||"—"}`;
+
+ $("heroGender").textContent=
+  `${studentTerm()} — ${genderSexText()}`;
+
+ if(studentHasProfileImage()){
+  $("studentAvatar").innerHTML=
+   `<img src="${esc(student.profileImage)}" alt="صورة الطالب">`
+ }else{
+  $("studentAvatar").textContent=
+   String(
+    student.name||
+    "ط"
+   ).trim().charAt(0)||
+   "ط"
+ }
+
+ if($("attendancePresent")){
+  $("attendancePresent").textContent=
+   attendanceStats.present;
+  $("attendanceAbsent").textContent=
+   attendanceStats.absent;
+  $("attendanceExcused").textContent=
+   attendanceStats.excused;
+  $("attendanceLate").textContent=
+   attendanceStats.late;
+  $("attendanceEscape").textContent=
+   attendanceStats.escape
+ }
+
+ const information=[
+  ["الاسم الرباعي",student.name],
+  ["صفة الطالب",studentTerm()],
+  ["اسم الأم",student.motherName],
+  ["تاريخ الميلاد",dateText(student.birthDate)],
+  ["الجنس",genderSexText()],
+  ["الصف",className()],
+  ["القاعة / الشعبة",student.roomNumber],
+  ["عدد أيام الغياب",`${absenceDays} يوم`],
+  ["رقم ولي الأمر",student.guardianPhone],
+  ["رقم الطالب",student.studentPhone],
+  ["رقم الخط",String(student.lineNumber||"").trim()||"لايوجد"],
+  ["المدرسة السابقة",student.previousSchool],
+  ["تاريخ المباشرة",dateText(student.startDate)],
+  ["عنوان السكن",student.address],
+  ["كود الطالب",STUDENT_CODE]
+ ];
+
+ $("studentInfoGrid").innerHTML=
+  information.map(
+   ([label,value])=>
+    `<div class="info-card"><small>${esc(label)}</small><strong>${esc(display(value))}</strong></div>`
+  ).join("");
+
+ if($("editableLineNumber")){
+  $("editableLineNumber").value=
+   student.lineNumber||""
+ }
+
+ renderAccountStatus();
+ renderHomeAccessWarning()
+}
 function renderAccountStatus(){ const rows = [ [ "الحساب الرئيسي", globalAccountActive() ? [ "فعال", "green" ] : [ "غير فعال", "red" ] ], [ "الصورة الشخصية", studentHasProfileImage() ? [ "تم الحفظ", "green" ] : [ "غير مضافة", "orange" ] ], [ "عدد أيام الغياب", [ `${absenceDays} يوم`, absenceDays > 0 ? "orange" : "green" ] ], [ "الكتب الدراسية", student.booksReceived === true ? [ "تم استلام الكتب", "green" ] : [ "لم يستلم الكتب", "orange" ] ], [ "صلاحية الحسابات", student.accountantApproved === true ? [ "مفعلة", "green" ] : [ "غير مفعلة", "orange" ] ], [ "صلاحية الإدارة", student.adminApproved === true ? [ "مفعلة", "green" ] : [ "غير مفعلة", "orange" ] ], [ "الحالة السلوكية", student.behaviorBlocked === true ? [ "محظور", "red" ] : [ "سليم", "green" ] ], [ "الملف", student.fileStatus === "accepted" ? [ "تم القبول", "green" ] : [ "قيد المتابعة", "orange" ] ] ]; $("studentStatusBox").innerHTML = rows .map( ([label,[value,color]]) => ` <div class="status-row"> <span> ${esc(label)} </span> <b class="badge ${color}" > ${esc(value)} </b> </div> ` ) .join(""); }
 function renderHomeAccessWarning(){ const state = accessState(); const box = $("homeAccessWarning"); box.className = "access-warning"; if( state.allowed ){ box.textContent = ""; return; } box.textContent = state.message; box.classList.add( "show" ); if( state.type === "blocked" ){ box.classList.add( "blocked" ); } }
 async function saveEditableLineNumber(){const input=$("editableLineNumber"),button=$("saveLineNumberBtn");if(!input||!button)return;const value=String(input.value||"").trim();if(value.length>30){toast("رقم الخط طويل جداً");return;}button.disabled=true;button.textContent="جاري الحفظ...";try{const update={lineNumber:value,lineNumberUpdatedAt:Date.now(),lineNumberUpdatedBy:"student"};await dbPatch(`students/${encodeURIComponent(STUDENT_CODE)}`,update);Object.assign(student,update);renderHome();toast(value?"تم تحديث رقم خط النقل":"تم تسجيل أنه لا يوجد خط نقل");}catch(error){console.error("LINE_NUMBER_UPDATE_ERROR",error);toast("تعذر حفظ رقم الخط");}finally{button.disabled=false;button.textContent="حفظ الرقم";}}
 async function refreshStudentAccess(){ try{ const freshStudent = await dbGet( `students/${encodeURIComponent(STUDENT_CODE)}` ); const freshUser = await dbGet( `users/${encodeURIComponent(session.code)}` ); if(freshStudent){ student = freshStudent; } if(freshUser){ user = freshUser; } if( !globalAccountActive() ){ showInactiveAccount(); return false; } return true; } catch(error){ console.error(error); return false; } }
-document.querySelectorAll(".nav-item").forEach(button=>{button.addEventListener("click",async()=>{const page=button.dataset.page;if(button.classList.contains("active")&&page!=="chat")return;if(page==="grades"){const ok=await refreshStudentAccess();if(!ok)return;if(!canUseProtectedFeatures()){showAccessModal();return;}}if(page==="chat"){const ok=await refreshStudentAccess();if(!ok)return;if(!canUseChat()){showChatAccessModal();return;}}document.querySelectorAll(".nav-item").forEach(item=>item.classList.remove("active"));button.classList.add("active");document.querySelectorAll(".page").forEach(item=>item.classList.remove("active"));const pages={home:"pageHome",notices:"pageNotices",grades:"pageGrades",chat:"pageChat"};$(pages[page]).classList.add("active");if(page==="notices")await markNotificationsRead();if(page==="grades")await runGradeSearchExperience();if(page==="chat"){try{await loadChat();await markVisibleMessagesRead();setNavBadge("chatBadge",0);closeAllMessageActions();scrollChat();}catch(error){console.error("CHAT_OPEN_ERROR",error);renderChatLoadError();}}});});
+document.querySelectorAll(".nav-item").forEach(button=>{
+ button.addEventListener("click",async()=>{
+  const page=
+   button.dataset.page;
+
+  if(
+   button.classList.contains("active")&&
+   page!=="chat"&&
+   page!=="lessons"
+  ){
+   return
+  }
+
+  if(page==="grades"){
+   const ok=
+    await refreshStudentAccess();
+
+   if(!ok)return;
+
+   if(!canUseProtectedFeatures()){
+    showAccessModal();
+    return
+   }
+  }
+
+  if(page==="chat"){
+   const ok=
+    await refreshStudentAccess();
+
+   if(!ok)return;
+
+   await refreshExamChatLock();
+
+   if(!canUseChat()){
+    showChatAccessModal();
+    return
+   }
+  }
+
+  document
+  .querySelectorAll(".nav-item")
+  .forEach(
+   item=>
+    item.classList.remove(
+     "active"
+    )
+  );
+
+  button.classList.add(
+   "active"
+  );
+
+  document
+  .querySelectorAll(".page")
+  .forEach(
+   item=>
+    item.classList.remove(
+     "active"
+    )
+  );
+
+  const pages={
+   home:"pageHome",
+   notices:"pageNotices",
+   lessons:"pageLessons",
+   grades:"pageGrades",
+   chat:"pageChat"
+  };
+
+  $(pages[page])
+  .classList.add(
+   "active"
+  );
+
+  if(page==="notices"){
+   await markNotificationsRead()
+  }
+
+  if(page==="lessons"){
+   await loadLessonsData(
+    true
+   );
+
+   if(activeLessonSubjectId){
+    openLessonSubject(
+     activeLessonSubjectId
+    )
+   }
+  }
+
+  if(page==="grades"){
+   await runGradeSearchExperience()
+  }
+
+  if(page==="chat"){
+   try{
+    await loadChat();
+    await markVisibleMessagesRead();
+    setNavBadge(
+     "chatBadge",
+     0
+    );
+    closeAllMessageActions();
+    scrollChat()
+   }
+   catch(error){
+    console.error(
+     "CHAT_OPEN_ERROR",
+     error
+    );
+    renderChatLoadError()
+   }
+  }
+ })
+});
 function showAccessModal(){ const state = accessState(); $("accessModalTitle").textContent = state.title; $("accessModalText").textContent = state.message; $("accessModal") .classList.add( "show" ); }
 function showChatAccessModal(){const state=chatAccessState();$("accessModalTitle").textContent=state.title||"الدردشة غير متاحة";$("accessModalText").textContent=state.message||"الدردشة غير متاحة حالياً.";$("accessModal").classList.add("show");}
 $("closeAccessModal").onclick = () => { $("accessModal") .classList.remove( "show" ); };
@@ -496,7 +1095,635 @@ $("saveLineNumberBtn").onclick=saveEditableLineNumber;
 $("accessModal") .addEventListener( "click", event => { if( event.target === $("accessModal") ){ $("accessModal") .classList.remove( "show" ); } } );
 function lockHTML(state){return`<div class="lock-box"><div class="lock-icon">!</div><h3>${esc(state.title)}</h3><p>${esc(state.message)}</p></div>`;}
 function renderProtectedLocks(){const gradeState=accessState(),chatState=chatAccessState();if(gradeState.allowed){$("gradesLocked").innerHTML="";$("gradesContent").classList.remove("hidden");}else{$("gradesLocked").innerHTML=lockHTML(gradeState);$("gradesContent").classList.add("hidden");}if(chatState.allowed){$("chatLocked").innerHTML="";$("chatContent").classList.remove("hidden");}else{$("chatLocked").innerHTML=lockHTML(chatState);$("chatContent").classList.add("hidden");}}
-async function loadNotifications(){ const all = await dbGet( "notifications" ) || {}; notifications = Object.entries(all) .map( ([id,value]) => ({ id, ...value }) ) .filter( notice => { if( notice.active === false ){ return false; } if( notice.studentCode && notice.studentCode !== STUDENT_CODE ){ return false; } if( notice.classId && notice.classId !== student.classId ){ return false; } return true; } ) .sort( (a,b) => (b.createdAt || 0) - (a.createdAt || 0) ); await renderNotifications(); }
+
+function normalizedSubjectName(value){
+ return norm(value)
+  .replace(/[أإآ]/g,"ا")
+  .replace(/ة/g,"ه")
+  .replace(/ى/g,"ي")
+  .replace(/\s+/g," ")
+  .trim()
+}
+
+function isActivitySubjectForLessons(subject){
+ const n=
+  normalizedSubjectName(
+   subject?.name||
+   subject?.subjectName||
+   ""
+  );
+
+ const type=
+  norm(
+   subject?.autoType||
+   ""
+  );
+
+ return(
+  type==="sport"||
+  type==="art"||
+  n==="الرياضه"||
+  n==="رياضه"||
+  n==="التربيه الرياضيه"||
+  n==="تربيه رياضيه"||
+  n==="الفنيه"||
+  n==="فنيه"||
+  n==="التربيه الفنيه"||
+  n==="تربيه فنيه"
+ )
+}
+
+function normalizeLessonSubjects(){
+ const rows=
+  Array.isArray(classData?.subjects)
+   ?classData.subjects
+   :Object.values(
+     classData?.subjects||
+     {}
+    );
+
+ return rows
+  .filter(Boolean)
+  .map((sub,i)=>({
+   id:String(
+    sub.id||
+    sub.subjectId||
+    `SUB_${i+1}`
+   ),
+   name:String(
+    sub.name||
+    sub.subjectName||
+    ""
+   ).trim(),
+   order:Number(
+    sub.order||
+    i+1
+   ),
+   autoType:
+    sub.autoType||""
+  }))
+  .filter(
+   sub=>
+    sub.name&&
+    !isActivitySubjectForLessons(sub)
+  )
+  .sort(
+   (a,b)=>
+    a.order-b.order
+  )
+}
+
+function lessonExamTime(exam){
+ return Number(
+  exam?.startAt||
+  exam?.createdAt||
+  exam?.updatedAt||
+  0
+ )
+}
+
+function lessonExamState(exam){
+ const now=Date.now(),
+       start=
+        Number(
+         exam?.startAt||0
+        ),
+       end=
+        Number(
+         exam?.endAt||0
+        );
+
+ if(start&&now<start)return"scheduled";
+ if(end&&now>=end)return"ended";
+ if(start&&end&&now>=start&&now<end)return"active";
+ return exam?.status==="submitted"
+  ?"ended"
+  :"scheduled"
+}
+
+function lessonSubjectMatchesExam(subject,exam){
+ if(
+  exam?.subjectId&&
+  String(exam.subjectId)===
+  String(subject.id)
+ ){
+  return true
+ }
+
+ return(
+  normalizedSubjectName(
+   exam?.subjectName
+  )===
+  normalizedSubjectName(
+   subject.name
+  )
+ )
+}
+
+function formatFullExamTime(value){
+ if(!value)return"—";
+
+ const d=
+  new Date(
+   Number(value)||
+   value
+  );
+
+ if(Number.isNaN(d.getTime())){
+  return"—"
+ }
+
+ return d.toLocaleString(
+  "ar-IQ",
+  {
+   year:"numeric",
+   month:"short",
+   day:"numeric",
+   hour:"2-digit",
+   minute:"2-digit"
+  }
+ )
+}
+
+async function loadLessonsData(renderNow=true){
+ try{
+  lessonSubjects=
+   normalizeLessonSubjects();
+
+  const [
+   feed,
+   classLessons
+  ]=
+   await Promise.all([
+    dbGet(
+     `studentExamFeed/${encodeURIComponent(STUDENT_CODE)}`
+    ),
+    student.classId
+     ?dbGet(
+       `lessonExams/${encodeURIComponent(student.classId)}`
+      )
+     :Promise.resolve({})
+   ]);
+
+  const map=new Map();
+
+  for(
+   const [examId,value]
+   of Object.entries(
+    feed||{}
+   )
+  ){
+   if(
+    value&&
+    value.mode==="online"
+   ){
+    map.set(
+     examId,
+     {
+      examId,
+      ...value
+     }
+    )
+   }
+  }
+
+  for(
+   const bySubject
+   of Object.values(
+    classLessons||{}
+   )
+  ){
+   for(
+    const [examId,value]
+    of Object.entries(
+     bySubject||{}
+    )
+   ){
+    if(
+     value&&
+     value.mode==="online"&&
+     !map.has(examId)
+    ){
+     map.set(
+      examId,
+      {
+       examId,
+       ...value
+      }
+     )
+    }
+   }
+  }
+
+  lessonExams=
+   [...map.values()]
+   .sort(
+    (a,b)=>
+     lessonExamTime(b)-
+     lessonExamTime(a)
+   );
+
+  const submissionPairs=
+   await Promise.all(
+    lessonExams.map(
+     async exam=>{
+      try{
+       const result=
+        await dbGet(
+         `electronicExamSubmissions/${encodeURIComponent(exam.examId)}/${encodeURIComponent(STUDENT_CODE)}`
+        );
+
+       return[
+        exam.examId,
+        result||{}
+       ]
+      }catch{
+       return[
+        exam.examId,
+        {}
+       ]
+      }
+     }
+    )
+   );
+
+  lessonSubmissions=
+   Object.fromEntries(
+    submissionPairs
+   );
+
+  if(renderNow){
+   renderLessons()
+  }
+
+  const actionable=
+   lessonExams.filter(
+    exam=>{
+     const state=
+      lessonExamState(exam);
+
+     return(
+      state==="active"||
+      state==="scheduled"
+     )
+    }
+   ).length;
+
+  setNavBadge(
+   "lessonBadge",
+   actionable
+  );
+
+  if($("lessonExamBadgeText")){
+   $("lessonExamBadgeText").textContent=
+    `${lessonExams.length} امتحان`
+  }
+
+  return true
+ }
+ catch(error){
+  console.error(
+   "LESSONS_LOAD_ERROR",
+   error
+  );
+
+  if(renderNow){
+   $("lessonSubjectList").innerHTML=
+    '<div class="lesson-empty">تعذر تحميل الدروس حالياً. حاول مرة أخرى بعد قليل.</div>'
+  }
+
+  return false
+ }
+}
+
+function renderLessons(){
+ if(!$("lessonSubjectList"))return;
+
+ if(!lessonSubjects.length){
+  $("lessonSubjectList").innerHTML=
+   '<div class="lesson-empty">لا توجد مواد دراسية مخصصة لهذا الصف حالياً.</div>';
+  return
+ }
+
+ $("lessonSubjectList").innerHTML=
+  lessonSubjects.map(
+   subject=>{
+    const exams=
+     lessonExams.filter(
+      exam=>
+       lessonSubjectMatchesExam(
+        subject,
+        exam
+       )
+     );
+
+    const active=
+     exams.filter(
+      e=>
+       lessonExamState(e)==="active"
+     ).length;
+
+    return`
+     <article class="lesson-subject-card">
+      <h4>${esc(subject.name)}</h4>
+      <p>الدروس والامتحانات الإلكترونية الخاصة بمادة ${esc(subject.name)}.</p>
+      <span class="lesson-exam-count">
+       ${
+        active
+         ?`${active} امتحان متاح الآن`
+         :`${exams.length} امتحان`
+       }
+      </span>
+      <button type="button" onclick="openLessonSubject('${esc(subject.id)}')">فتح الدرس</button>
+     </article>`
+   }
+  ).join("")
+}
+
+function examSubmissionDisplay(exam){
+ const sub=
+  lessonSubmissions[
+   exam.examId
+  ]||{};
+
+ if(
+  sub.submitted===true||
+  sub.status==="submitted"
+ ){
+  const score=
+   sub.displayScore??
+   sub.score??
+   exam.displayScore??
+   exam.score;
+
+  return{
+   className:"ended",
+   text:
+    `انتهى وقت الامتحان — درجتك ${display(score)} من ${display(exam.targetMax||sub.maxScore)}`
+  }
+ }
+
+ if(
+  sub.absent===true||
+  sub.status==="absent"||
+  exam.status==="absent"
+ ){
+  return{
+   className:"absent",
+   text:
+    "انتهى وقت الامتحان — غ / غياب"
+  }
+ }
+
+ return{
+  className:"absent",
+  text:
+   "انتهى وقت الامتحان — لم تُسجل إجابة، وتعد الحالة غياباً."
+ }
+}
+
+function renderLessonExamCard(exam){
+ const state=
+        lessonExamState(exam),
+       start=
+        formatFullExamTime(
+         exam.startAt
+        ),
+       end=
+        formatFullExamTime(
+         exam.endAt
+        ),
+       title=
+        exam.title||
+        `امتحان ${exam.subjectName||""}`;
+
+ let stateBox="",
+     button="";
+
+ if(state==="scheduled"){
+  stateBox=
+   `<div class="lesson-exam-state scheduled">هذا الامتحان يبدأ في ${esc(start)}.</div>`
+ }else if(state==="active"){
+  stateBox=
+   '<div class="lesson-exam-state active">الامتحان متاح الآن. يمكنك الدخول والإجابة قبل انتهاء الوقت.</div>';
+
+  button=
+   `<button class="lesson-exam-btn" type="button" onclick="openStudentOnlineExam('${esc(exam.examId)}')">دخول الامتحان</button>`
+ }else{
+  const result=
+   examSubmissionDisplay(
+    exam
+   );
+
+  stateBox=
+   `<div class="lesson-exam-state ${result.className}">${esc(result.text)}</div>`
+ }
+
+ return`
+  <article class="lesson-exam-card ${state}">
+   <div class="lesson-exam-top">
+    <h4>${esc(title)}</h4>
+    <span class="lesson-exam-date">${esc(start)}</span>
+   </div>
+   <div class="lesson-exam-meta">
+    <span>الدرجة: ${esc(display(exam.targetMax))}</span>
+    <span>المدة: ${esc(display(exam.durationMinutes))} دقيقة</span>
+    <span>النهاية: ${esc(end)}</span>
+   </div>
+   ${stateBox}
+   ${button}
+  </article>`
+}
+
+function openLessonSubject(subjectId){
+ const subject=
+  lessonSubjects.find(
+   x=>
+    String(x.id)===
+    String(subjectId)
+  );
+
+ if(!subject)return;
+
+ activeLessonSubjectId=
+  String(subject.id);
+
+ $("lessonListView")
+ .classList.add(
+  "hidden"
+ );
+
+ $("lessonDetailView")
+ .classList.remove(
+  "hidden"
+ );
+
+ $("lessonDetailTitle").textContent=
+  subject.name;
+
+ const exams=
+  lessonExams
+  .filter(
+   exam=>
+    lessonSubjectMatchesExam(
+     subject,
+     exam
+    )
+  )
+  .sort(
+   (a,b)=>
+    lessonExamTime(b)-
+    lessonExamTime(a)
+  );
+
+ $("lessonDetailMeta").textContent=
+  exams.length
+   ?`${exams.length} امتحان — الأحدث أولاً`
+   :"لا يوجد امتحان لهذه المادة";
+
+ $("lessonExamList").innerHTML=
+  exams.length
+   ?exams.map(
+     renderLessonExamCard
+    ).join("")
+   :'<div class="lesson-empty">لا يوجد امتحان إلكتروني منشور لهذه المادة حالياً.</div>';
+
+ window.scrollTo({
+  top:0,
+  behavior:"smooth"
+ })
+}
+
+function closeLessonSubject(){
+ activeLessonSubjectId="";
+
+ $("lessonDetailView")
+ .classList.add(
+  "hidden"
+ );
+
+ $("lessonListView")
+ .classList.remove(
+  "hidden"
+ );
+
+ window.scrollTo({
+  top:0,
+  behavior:"smooth"
+ })
+}
+
+function openStudentOnlineExam(examId){
+ const url=
+  `${EXAM_RUNTIME_URL}?onlineExam=${encodeURIComponent(examId)}`;
+
+ location.href=url
+}
+
+function startLessonsPolling(){
+ clearInterval(
+  lessonPolling
+ );
+
+ lessonPolling=
+  setInterval(
+   async()=>{
+    if(document.hidden)return;
+
+    if(
+     $("pageLessons")
+     ?.classList
+     .contains(
+      "active"
+     )
+    ){
+     const current=
+      activeLessonSubjectId;
+
+     await loadLessonsData(
+      true
+     );
+
+     if(current){
+      openLessonSubject(
+       current
+      )
+     }
+    }
+   },
+   20000
+  )
+}
+
+window.openLessonSubject=
+ openLessonSubject;
+window.closeLessonSubject=
+ closeLessonSubject;
+window.openStudentOnlineExam=
+ openStudentOnlineExam;
+async function loadNotifications(){
+ const all=
+  await dbGet(
+   "notifications"
+  )||{};
+
+ const noticeTime=
+  notice=>{
+   const raw=
+    notice.createdAt||
+    notice.updatedAt||
+    notice.date||
+    notice.time||
+    0;
+
+   const numeric=
+    Number(raw);
+
+   if(Number.isFinite(numeric)&&numeric>0){
+    return numeric
+   }
+
+   const parsed=
+    new Date(raw).getTime();
+
+   return Number.isFinite(parsed)
+    ?parsed
+    :0
+  };
+
+ notifications=
+  Object.entries(all)
+  .map(
+   ([id,value])=>({
+    id,
+    ...value
+   })
+  )
+  .filter(
+   notice=>{
+    if(notice.active===false)return false;
+
+    if(
+     notice.studentCode&&
+     notice.studentCode!==STUDENT_CODE
+    )return false;
+
+    if(
+     notice.classId&&
+     notice.classId!==student.classId
+    )return false;
+
+    return true
+   }
+  )
+  .sort(
+   (a,b)=>
+    noticeTime(b)-
+    noticeTime(a)
+  );
+
+ await renderNotifications()
+}
 async function notificationReadMap(){ return ( await dbGet( `notificationReads/${encodeURIComponent(STUDENT_CODE)}` ) ) || {}; }
 async function renderNotifications(){ const reads = await notificationReadMap(); let unread = 0; if( !notifications.length ){ $("noticeList").innerHTML = ` <div class="lock-box"> <h3> لا توجد تبليغات </h3> <p> لا توجد تبليغات جديدة حالياً. </p> </div> `; $("noticeCountText").textContent = "0 تبليغ"; setNavBadge( "noticeBadge", 0 ); return; } $("noticeList").innerHTML = notifications .map( notice => { const isRead = Boolean( reads[ notice.id ] ); if(!isRead){ unread++; } return ` <article class="notice ${isRead ? "" : "unread"}" > <div class="notice-head"> <h4> ${esc( notice.title || "تبليغ" )} </h4> <span class="notice-date"> ${esc( dateText( notice.createdAt ) )} </span> </div> <p> ${esc( notice.message || notice.text || "" )} </p> <div class="notice-from"> ${esc( notice.senderName || "مدرسة التحدي" )} </div> </article> `; } ) .join(""); $("noticeCountText").textContent = `${notifications.length} تبليغ`; setNavBadge( "noticeBadge", unread ); }
 async function markNotificationsRead(){ if( !notifications.length ){ return; } const data = {}; notifications .forEach( notice => { data[ notice.id ] = Date.now(); } ); await dbPatch( `notificationReads/${encodeURIComponent(STUDENT_CODE)}`, data ); setNavBadge( "noticeBadge", 0 ); await renderNotifications(); }
@@ -545,13 +1772,229 @@ async function submitGradeObjection(){
  finally{btn.disabled=false;btn.textContent="إرسال الاعتراض"}
 }
 
-const GRADE_FIELDS=["term1","midyear","term2","annual","finalExam","final","secondRound"],GRADE_LABELS={term1:"الفصل الأول",midyear:"نصف السنة",term2:"الفصل الثاني",annual:"السعي السنوي",finalExam:"الامتحان النهائي",final:"نتيجة آخر السنة",secondRound:"الدور الثاني"};
+const GRADE_FIELDS=["term1","midyear","term2","annual","finalExam","final","secondRound"],GRADE_LABELS={term1:"الفصل الأول",midyear:"نصف السنة",term2:"الفصل الثاني",annual:"السعي السنوي",finalExam:"الامتحان النهائي",final:"الدرجة النهائية",secondRound:"الدور الثاني"};
 function isGrade(v){return v!==undefined&&v!==null&&v!==""&&Number.isFinite(Number(v));}function gradeNum(v){return isGrade(v)?Number(v):"";}function gradeBlank(v){return isGrade(v)?String(Math.round(Number(v)*100)/100):"";}
 function normalizeClassSubjects(c){let rows=Array.isArray(c?.subjects)?c.subjects:Object.values(c?.subjects||{});return rows.filter(Boolean).map((s,i)=>({id:String(s.id||`SUB_${i+1}`),name:String(s.name||s.subjectName||"").trim(),maxGrade:Number(s.maxGrade||100),passGrade:Number(s.passGrade??50),order:Number(s.order||i+1),autoType:s.autoType||""})).filter(s=>s.name).sort((a,b)=>a.order-b.order);}
 function recordSubjectName(rec,key=""){return String(rec?.subjectName||rec?.subject||rec?.name||key||"").trim();}function findGradeRecord(entries,subject){return entries.find(([key,r])=>String(r?.subjectId||"")===String(subject.id)||String(key)===String(subject.id)||norm(recordSubjectName(r,key))===norm(subject.name))?.[1]||{};}
 function annualFromRecord(rec,type){const a=gradeNum(rec.term1),b=gradeNum(rec.midyear),c=gradeNum(rec.term2);return isGrade(a)&&isGrade(b)&&isGrade(c)?Math.round((a+b+c)/3):(isGrade(rec.annual)?Number(rec.annual):"");}function finalFromRecord(rec,annual){if(isGrade(rec.final))return Number(rec.final);const exam=gradeNum(rec.finalExam);return isGrade(annual)&&isGrade(exam)?Math.round((Number(annual)+exam)/2):"";}
 function activityGrade(rows,field){const values=rows.filter(r=>!r.autoType&&isGrade(r[field])).map(r=>Number(r[field])/Math.max(1,Number(r.maxGrade||100))*100);if(!values.length)return"";const highest=Math.max(...values);return highest>=100?100:highest>80?90:85;}
-function buildGradeModel(raw){const type=classData?.assessmentType||"normal",entries=Object.entries(raw||{});let subjects=normalizeClassSubjects(classData),known=new Set(subjects.map(s=>norm(s.name)));entries.forEach(([key,r],i)=>{const name=recordSubjectName(r,key);if(name&&!known.has(norm(name))){subjects.push({id:String(r?.subjectId||key||`LEGACY_${i+1}`),name,maxGrade:Number(r?.maxGrade||100),passGrade:Number(r?.passGrade??50),order:subjects.length+1,autoType:"",legacy:true});known.add(norm(name));}});if(subjects.some(s=>!s.autoType)){if(!subjects.some(s=>s.autoType==="sport"))subjects.push({id:"SPORT",name:"الرياضة",maxGrade:100,passGrade:50,order:subjects.length+1,autoType:"sport"});if(!subjects.some(s=>s.autoType==="art"))subjects.push({id:"ART",name:"الفنية",maxGrade:100,passGrade:50,order:subjects.length+1,autoType:"art"});}let rows=subjects.sort((a,b)=>a.order-b.order).map(s=>{const rec=findGradeRecord(entries,s);if(s.autoType)return{...s,term1:"",midyear:"",term2:"",annual:"",finalExam:"",final:"",secondRound:"",record:rec};const annual=annualFromRecord(rec,type),final=finalFromRecord(rec,annual);return{...s,term1:gradeNum(rec.term1),midyear:gradeNum(rec.midyear),term2:gradeNum(rec.term2),annual,finalExam:gradeNum(rec.finalExam),final,secondRound:gradeNum(rec.secondRound),record:rec};});const academic=rows.filter(r=>!r.autoType);rows=rows.map(r=>r.autoType?{...r,...Object.fromEntries(GRADE_FIELDS.map(f=>[f,activityGrade(academic,f)]))}:r);return{student,classData:classData||{},assessmentType:type,rows,academic,raw:raw||{}};}
+function buildGradeModel(raw){
+ const type=
+        classData?.assessmentType||
+        "normal",
+       entries=
+        Object.entries(
+         raw||{}
+        );
+
+ let subjects=
+  normalizeClassSubjects(
+   classData
+  );
+
+ const known=
+  new Set(
+   subjects.map(
+    sub=>
+     norm(sub.name)
+   )
+  );
+
+ entries.forEach(
+  ([key,r],i)=>{
+   const name=
+    recordSubjectName(
+     r,
+     key
+    );
+
+   if(
+    name&&
+    !known.has(
+     norm(name)
+    )
+   ){
+    subjects.push({
+     id:String(
+      r?.subjectId||
+      key||
+      `LEGACY_${i+1}`
+     ),
+     name,
+     maxGrade:
+      Number(
+       r?.maxGrade||
+       100
+      ),
+     passGrade:
+      Number(
+       r?.passGrade??
+       50
+      ),
+     order:
+      subjects.length+1,
+     autoType:"",
+     legacy:true
+    });
+
+    known.add(
+     norm(name)
+    )
+   }
+  }
+ );
+
+ const hasSport=
+  subjects.some(
+   x=>
+    x.autoType==="sport"||
+    normalizedSubjectName(
+     x.name
+    ).includes(
+     "رياض"
+    )
+  );
+
+ const hasArt=
+  subjects.some(
+   x=>
+    x.autoType==="art"||
+    normalizedSubjectName(
+     x.name
+    ).includes(
+     "فني"
+    )
+  );
+
+ if(!hasSport){
+  subjects.push({
+   id:"SPORT",
+   name:"الرياضة",
+   maxGrade:100,
+   passGrade:50,
+   order:
+    subjects.length+1,
+   autoType:"sport"
+  })
+ }
+
+ if(!hasArt){
+  subjects.push({
+   id:"ART",
+   name:"الفنية",
+   maxGrade:100,
+   passGrade:50,
+   order:
+    subjects.length+1,
+   autoType:"art"
+  })
+ }
+
+ let rows=
+  subjects
+  .sort(
+   (a,b)=>
+    a.order-b.order
+  )
+  .map(
+   sub=>{
+    const rec=
+     findGradeRecord(
+      entries,
+      sub
+     );
+
+    if(sub.autoType){
+     return{
+      ...sub,
+      term1:"",
+      midyear:"",
+      term2:"",
+      annual:"",
+      finalExam:"",
+      final:"",
+      secondRound:"",
+      record:rec
+     }
+    }
+
+    const annual=
+     annualFromRecord(
+      rec,
+      type
+     ),
+    final=
+     finalFromRecord(
+      rec,
+      annual
+     );
+
+    return{
+     ...sub,
+     term1:
+      gradeNum(
+       rec.term1
+      ),
+     midyear:
+      gradeNum(
+       rec.midyear
+      ),
+     term2:
+      gradeNum(
+       rec.term2
+      ),
+     annual,
+     finalExam:
+      gradeNum(
+       rec.finalExam
+      ),
+     final,
+     secondRound:
+      gradeNum(
+       rec.secondRound
+      ),
+     record:rec
+    }
+   }
+  );
+
+ const academic=
+  rows.filter(
+   row=>
+    !row.autoType
+  );
+
+ rows=
+  rows.map(
+   row=>
+    row.autoType
+     ?{
+       ...row,
+       ...Object.fromEntries(
+        GRADE_FIELDS.map(
+         field=>[
+          field,
+          activityGrade(
+           academic,
+           field
+          )
+         ]
+        )
+       )
+      }
+     :row
+  );
+
+ return{
+  student,
+  classData:
+   classData||{},
+  assessmentType:type,
+  rows,
+  academic,
+  raw:raw||{}
+ }
+}
 function fieldStats(rows,field){const values=rows.filter(r=>isGrade(r[field])).map(r=>({v:Number(r[field]),max:Number(r.maxGrade||100)}));if(!values.length)return{count:0,total:0,average:0};const total=values.reduce((a,b)=>a+b.v,0),average=values.reduce((a,b)=>a+b.v/Math.max(1,b.max)*100,0)/values.length;return{count:values.length,total:Math.round(total*100)/100,average:Math.round(average*10)/10};}function failedCount(model,field){return model.academic.filter(r=>isGrade(r[field])&&Number(r[field])<Number(r.passGrade??50)).length;}
 function stageStatus(model,field){if(!model||!model.academic.length)return{complete:false,missing:0,reason:"لا توجد مواد معرفة لهذا الصف"};if(field==="secondRound"){if(!model.academic.every(r=>isGrade(r.final)))return{complete:false,missing:model.academic.filter(r=>!isGrade(r.final)).length,reason:"بانتظار اكتمال نتيجة آخر السنة"};const needed=model.academic.filter(r=>Number(r.final)<Number(r.passGrade??50)),missing=needed.filter(r=>!isGrade(r.secondRound)).length;return{complete:missing===0,missing,needed:needed.length,reason:needed.length===0?"لا توجد مواد دور ثانٍ":missing?`باقي ${missing} مادة`:`اكتملت ${needed.length} مادة`};}const missing=model.academic.filter(r=>!isGrade(r[field])).length;return{complete:missing===0,missing,reason:missing?`باقي ${missing} مادة`:"النتيجة مكتملة"};}
 function normalizeRuleType(t){return t==="generalExemption"||t==="individualExemption"?"exemption":t||"pass";}
@@ -575,12 +2018,280 @@ function resultEffectiveFailCount(model,field){if(field!=="secondRound")return f
 function renderFinalResult(model){const latest=["secondRound","final","finalExam","annual","term2","midyear","term1"].find(f=>{const s=stageStatus(model,f);return s.complete&&!(f==="secondRound"&&s.needed===0)});if(!latest){$("finalResultCard").innerHTML="";return;}const stats=fieldStats(model.rows,latest),decision=evaluateStageDecision(model,latest),bad=decision.kind==="danger";$("finalResultCard").innerHTML=`<div class="result-card ${bad?"fail":"special"}"><div>${esc(GRADE_LABELS[latest])}</div><div class="result-big">${esc(decision.text)}</div><div class="result-mini">المجموع ${stats.total} | المعدل ${stats.average}%</div></div>`;}
 function animateGradeNumbers(){document.querySelectorAll("[data-grade-number]").forEach((el,i)=>{const target=Number(el.dataset.gradeNumber);if(!Number.isFinite(target))return;const duration=550+Math.min(i*8,260),start=performance.now();const tick=now=>{const p=Math.min(1,(now-start)/duration),ease=1-Math.pow(1-p,3),v=target*ease;el.textContent=(Math.abs(target-Math.round(target))<.001?Math.round(v):(Math.round(v*10)/10));if(p<1)requestAnimationFrame(tick);else el.textContent=gradeBlank(target);};requestAnimationFrame(tick);});}
 async function loadGrades(renderNow=true){if(!canUseProtectedFeatures()){renderProtectedLocks();return;}const tasks=[dbGet(`grades/${encodeURIComponent(STUDENT_CODE)}`)];if(student.classId)tasks.push(dbGet(`classes/${encodeURIComponent(student.classId)}`));const result=await Promise.all(tasks);grades=result[0]||{};if(result[1])classData=result[1];gradeModel=buildGradeModel(grades);if(renderNow)renderGrades();return gradeModel;}
-function renderGrades(){$("gradesLocked").innerHTML="";$("gradesContent").classList.remove("hidden");if(!gradeModel||!gradeModel.rows.length){$("subjectList").innerHTML=`<div class="lock-box"><h3>لا توجد درجات</h3><p>لم يتم نشر الدرجات حتى الآن.</p></div>`;$("gradeTableBody").innerHTML="";$("gradeTableFoot").innerHTML="";$("finalResultCard").innerHTML="";$("gradeObjectionPanel")?.classList.remove("show");return;}$("subjectList").innerHTML=gradeModel.rows.map((r,i)=>{const st=subjectStatus(r);return`<div class="subject-card" style="--i:${i}"><div class="subject-head"><div><div class="subject-name">${esc(r.name)}</div><div class="subject-meta">الدرجة العظمى ${r.maxGrade} | درجة النجاح ${r.passGrade}</div></div><span class="subject-result ${st[1]}">${st[0]}</span></div><div class="mini-grades">${GRADE_FIELDS.map(f=>miniGradeHTML(GRADE_LABELS[f],r[f],r)).join("")}</div></div>`;}).join("");$("gradeTableBody").innerHTML=gradeModel.rows.map((r,i)=>{const st=subjectStatus(r);return`<tr style="--i:${i}"><td><strong>${esc(r.name)}</strong></td>${GRADE_FIELDS.map(f=>`<td class="grade-cell ${gradeClass(r[f],r)}" ${isGrade(r[f])?`data-grade-number="${Number(r[f])}"`:""}>${isGrade(r[f])?"0":""}</td>`).join("")}<td><span class="subject-result ${st[1]}">${st[0]}</span></td></tr>`;}).join("");$("gradeTableFoot").innerHTML=renderGradeFoot(gradeModel);renderFinalResult(gradeModel);renderGradeObjectionPanel();requestAnimationFrame(animateGradeNumbers);}
+
+function renderGradeStudentCard(){
+ const el=
+  $("gradeStudentCard");
+
+ if(!el)return;
+
+ el.innerHTML=
+  `<h3>${esc(studentNameLabel())}: <strong>${esc(student.name||"—")}</strong></h3>
+   <div class="grade-student-meta">
+    <div><small>الصفة</small><strong>${esc(studentTerm())}</strong></div>
+    <div><small>الجنس</small><strong>${esc(genderSexText())}</strong></div>
+    <div><small>الصف</small><strong>${esc(className())}</strong></div>
+    <div><small>القاعة</small><strong>${esc(student.roomNumber||classData.roomNumber||"—")}</strong></div>
+    <div><small>كود الطالب</small><strong>${esc(STUDENT_CODE)}</strong></div>
+    <div><small>العام الدراسي</small><strong>2026-2027</strong></div>
+   </div>`
+}
+
+function latestCompletedGradeField(model){
+ return[
+  "secondRound",
+  "final",
+  "finalExam",
+  "annual",
+  "term2",
+  "midyear",
+  "term1"
+ ].find(
+  field=>{
+   const st=
+    stageStatus(
+     model,
+     field
+    );
+
+   return(
+    st.complete&&
+    !(
+     field==="secondRound"&&
+     st.needed===0
+    )
+   )
+  }
+ )||""
+}
+
+function stageChipText(model,field){
+ const st=
+  stageStatus(
+   model,
+   field
+  );
+
+ if(!st.complete){
+  return{
+   ready:false,
+   text:
+    st.reason||
+    "قيد الاكتمال"
+  }
+ }
+
+ if(
+  field==="final"||
+  field==="secondRound"
+ ){
+  return{
+   ready:true,
+   text:
+    resultDecision(
+     model,
+     field
+    )
+  }
+ }
+
+ return{
+  ready:true,
+  text:"مكتمل"
+ }
+}
+
+function renderGradeStageStatus(model){
+ const box=
+  $("gradeStageStatus");
+
+ if(!box)return;
+
+ box.innerHTML=
+  GRADE_FIELDS.map(
+   field=>{
+    const state=
+     stageChipText(
+      model,
+      field
+     );
+
+    return`
+     <div class="grade-stage-chip ${state.ready?"ready":"wait"}">
+      <small>${esc(GRADE_LABELS[field])}</small>
+      <strong>${esc(state.text)}</strong>
+     </div>`
+   }
+  ).join("");
+
+ const latest=
+  latestCompletedGradeField(
+   model
+  );
+
+ if($("gradeLatestStatus")){
+  $("gradeLatestStatus").textContent=
+   latest
+    ?`${GRADE_LABELS[latest]} — ${stageChipText(model,latest).text}`
+    :"قيد الاكتمال"
+ }
+}
+function renderGrades(){
+ $("gradesLocked").innerHTML="";
+ $("gradesContent").classList.remove("hidden");
+
+ if(
+  !gradeModel||
+  !gradeModel.rows.length
+ ){
+  $("gradeStudentCard").innerHTML="";
+  $("gradeStageStatus").innerHTML="";
+  $("subjectList").innerHTML="";
+  $("gradeTableBody").innerHTML=
+   '<tr><td colspan="9">لا توجد درجات منشورة حتى الآن.</td></tr>';
+  $("gradeTableFoot").innerHTML="";
+  $("finalResultCard").innerHTML="";
+  $("gradeObjectionPanel")
+  ?.classList.remove(
+   "show"
+  );
+  return
+ }
+
+ renderGradeStudentCard();
+ renderGradeStageStatus(
+  gradeModel
+ );
+
+ $("subjectList").innerHTML="";
+
+ $("gradeTableBody").innerHTML=
+  gradeModel.rows.map(
+   (row,i)=>{
+    const status=
+     subjectStatus(
+      row
+     );
+
+    return`
+     <tr style="--i:${i}">
+      <td><strong>${esc(row.name)}</strong></td>
+      ${
+       GRADE_FIELDS.map(
+        field=>
+         `<td class="grade-cell ${gradeClass(row[field],row)}" ${isGrade(row[field])?`data-grade-number="${Number(row[field])}"`:""}>${isGrade(row[field])?"0":""}</td>`
+       ).join("")
+      }
+      <td><span class="subject-result ${status[1]}">${esc(status[0])}</span></td>
+     </tr>`
+   }
+  ).join("");
+
+ $("gradeTableFoot").innerHTML=
+  renderGradeFoot(
+   gradeModel
+  );
+
+ renderFinalResult(
+  gradeModel
+ );
+
+ renderGradeObjectionPanel();
+
+ requestAnimationFrame(
+  animateGradeNumbers
+ )
+}
 function delay(ms){return new Promise(resolve=>setTimeout(resolve,ms));}async function runGradeSearchExperience(){if(!canUseProtectedFeatures()){renderProtectedLocks();return;}const token=++gradeSearchToken,screen=$("gradeSearchScreen"),content=$("gradesContent"),title=$("gradeSearchTitle"),desc=$("gradeSearchText"),sets=[["جاري البحث عن درجاتك","يتم الآن جلب درجاتك من سجل الصف."],["جاري تدقيق الدرجات","نتحقق من المواد وترتيبها والدرجات المنشورة."],["جاري تجهيز النتيجة","لحظات وتظهر الدرجات بشكلها النهائي."],["جاري تحديث سجل الطالب","يتم الآن مطابقة أحدث الدرجات المنشورة."]],duration=[3000,3500,4000,4500,5000][Math.floor(Math.random()*5)],startIndex=Math.floor(Math.random()*sets.length);content.classList.add("hidden");screen.classList.remove("hidden");let step=0;const update=()=>{const item=sets[(startIndex+step++)%sets.length];title.textContent=item[0];desc.textContent=item[1];};update();const timer=setInterval(update,900);try{await Promise.all([loadGrades(false),loadGradeObjectionState(),delay(duration)]);if(token!==gradeSearchToken)return;renderGrades();}catch(error){console.error("GRADES_LOAD_ERROR",error);if(token===gradeSearchToken){gradeModel=null;$("gradesContent").classList.remove("hidden");$("subjectList").innerHTML=`<div class="lock-box"><h3>تعذر تحميل الدرجات</h3><p>حاول مرة أخرى.</p></div>`;}}finally{clearInterval(timer);if(token===gradeSearchToken)screen.classList.add("hidden");}}
 function resultReadyFields(model){return GRADE_FIELDS.filter(f=>{const s=stageStatus(model,f);return s.complete&&!(f==="secondRound"&&s.needed===0);});}function resultFieldsVisible(field){const order=["term1","midyear","term2","annual","finalExam","final","secondRound"],i=order.indexOf(field);return new Set(order.slice(0,Math.max(0,i)+1));}
 function resultTemplate(model){const t=model.classData?.resultTemplate||{};return{backgroundUrl:String(t.backgroundUrl||""),headerColor:String(t.headerColor||"#5798cc"),subjectColor:String(t.subjectColor||t.headerColor||"#5798cc"),cellColor:String(t.cellColor||"#dceafa"),borderColor:String(t.borderColor||"#66717d"),failColor:String(t.failColor||"#d62828"),textColor:String(t.textColor||"#111111")};}
 function resultQrText(model,field){const decision=resultDecision(model,field),stats=fieldStats(model.rows,field),visible=resultFieldsVisible(field),cols=GRADE_FIELDS.filter(f=>visible.has(f)),lines=["مدرسة التحدي الأهلية المختلطة",GRADE_LABELS[field],`الطالب: ${student.name||""}`,`العدد: ${student.serial||""}`,`الصف: ${className()}`,`القاعة: ${student.roomNumber||classData.roomNumber||""}`,`الكود: ${STUDENT_CODE}`,`النتيجة: ${decision}`,`المجموع: ${stats.total}`,`المعدل: ${stats.average}%`];model.rows.forEach(r=>lines.push(`${r.name}: ${cols.map(f=>GRADE_LABELS[f]+"="+(isGrade(r[f])?gradeBlank(r[f]):"-")).join(" | ")}`));return lines.join("\n");}
-function buildGradeResultHTML(model,field){const t=resultTemplate(model),visible=resultFieldsVisible(field),stats=fieldStats(model.rows,field),decision=resultDecision(model,field),cols=GRADE_FIELDS,rowHeight=Math.max(25,Math.min(36,Math.floor(345/Math.max(1,model.rows.length)))),bg=t.backgroundUrl?`<img class="result-template-bg" crossorigin="anonymous" src="${esc(t.backgroundUrl)}" alt="">`:"",fallback=t.backgroundUrl?"":`<div class="result-school-fallback"><div><h2>مدرسة التحدي الأهلية المختلطة</h2><p>العام الدراسي 2026-2027</p></div><img src="logo.png" alt=""></div>`,head=`<tr><th class="subject-th">الدروس</th>${cols.map(f=>`<th>${esc(GRADE_LABELS[f])}</th>`).join("")}</tr>`,body=model.rows.map(r=>`<tr><td class="subject-cell">${esc(r.name)}</td>${cols.map(f=>{const show=visible.has(f)&&isGrade(r[f]),fail=show&&Number(r[f])<Number(r.passGrade??50);return`<td class="${fail?"result-fail":""}" style="height:${rowHeight}px">${show?gradeBlank(r[f]):""}</td>`;}).join("")}</tr>`).join(""),totals=`<tr><td>المجموع</td>${cols.map(f=>`<td>${visible.has(f)?(fieldStats(model.rows,f).count?fieldStats(model.rows,f).total:""):""}</td>`).join("")}</tr><tr><td>المعدل</td>${cols.map(f=>`<td>${visible.has(f)?(fieldStats(model.rows,f).count?fieldStats(model.rows,f).average:""):""}</td>`).join("")}</tr>`;return`<div class="result-sheet ${t.backgroundUrl?"":"no-template"}" style="--rh:${esc(t.headerColor)};--rs:${esc(t.subjectColor)};--rc:${esc(t.cellColor)};--rb:${esc(t.borderColor)};--rf:${esc(t.failColor)};--rt:${esc(t.textColor)}">${bg}<div class="result-sheet-overlay">${fallback}<div class="result-dynamic-meta"><div class="result-serial">التسلسل : <span>${esc(student.serial||"—")}</span></div><div class="result-student-name">اسم الطالب : <strong>${esc(student.name||"—")}</strong></div><div class="result-class-line">الصف : <strong>${esc(className())}</strong></div><div class="result-room-line">القاعة : <strong>${esc(student.roomNumber||classData.roomNumber||"—")}</strong></div></div><div class="result-stage-title">${esc(GRADE_LABELS[field])}</div><div class="result-status-tag">${esc(decision)}</div><div class="result-unofficial">هذه النتيجة غير رسمية ومخصصة للاطلاع فقط</div><div class="result-table-wrap"><table class="result-transcript"><thead>${head}</thead><tbody>${body}</tbody><tfoot>${totals}</tfoot></table></div><div class="result-bottom"><div class="result-decision"><small>النتيجة</small><strong>${esc(decision)}</strong></div><div class="result-qr-box"><div class="result-qr"></div><span>رمز النتيجة</span></div><div class="result-average"><small>المعدل</small><strong>${stats.count?stats.average+"%":"—"}</strong></div></div><div class="result-footnote">النتيجة للاطلاع الإلكتروني فقط ولا تعد وثيقة مدرسية رسمية.</div></div></div>`;}
+function buildGradeResultHTML(model,field){
+ const t=resultTemplate(model),
+       visible=resultFieldsVisible(field),
+       stats=fieldStats(model.rows,field),
+       decision=resultDecision(model,field),
+       cols=GRADE_FIELDS,
+       rowHeight=
+        Math.max(
+         25,
+         Math.min(
+          36,
+          Math.floor(
+           345/
+           Math.max(
+            1,
+            model.rows.length
+           )
+          )
+         )
+        ),
+       bg=
+        t.backgroundUrl
+         ?`<img class="result-template-bg" crossorigin="anonymous" src="${esc(t.backgroundUrl)}" alt="">`
+         :"",
+       fallback=
+        t.backgroundUrl
+         ?""
+         :`<div class="result-school-fallback"><div><h2>مدرسة التحدي الأهلية المختلطة</h2><p>العام الدراسي 2026-2027</p></div><img src="logo.png" alt=""></div>`,
+       head=
+        `<tr><th class="subject-th">الدروس</th>${cols.map(f=>`<th>${esc(GRADE_LABELS[f])}</th>`).join("")}</tr>`,
+       body=
+        model.rows.map(
+         row=>
+          `<tr><td class="subject-cell">${esc(row.name)}</td>${
+           cols.map(
+            f=>{
+             const show=
+                    visible.has(f)&&
+                    isGrade(row[f]),
+                   fail=
+                    show&&
+                    Number(row[f])<
+                    Number(
+                     row.passGrade??
+                     50
+                    );
+
+             return`<td class="${fail?"result-fail":""}" style="height:${rowHeight}px">${show?gradeBlank(row[f]):""}</td>`
+            }
+           ).join("")
+          }</tr>`
+        ).join(""),
+       totals=
+        `<tr><td>المجموع</td>${cols.map(f=>`<td>${visible.has(f)?(fieldStats(model.rows,f).count?fieldStats(model.rows,f).total:""):""}</td>`).join("")}</tr>
+         <tr><td>المعدل</td>${cols.map(f=>`<td>${visible.has(f)?(fieldStats(model.rows,f).count?fieldStats(model.rows,f).average:""):""}</td>`).join("")}</tr>`;
+
+ return`
+  <div class="result-sheet ${t.backgroundUrl?"":"no-template"}" style="--rh:${esc(t.headerColor)};--rs:${esc(t.subjectColor)};--rc:${esc(t.cellColor)};--rb:${esc(t.borderColor)};--rf:${esc(t.failColor)};--rt:${esc(t.textColor)}">
+   ${bg}
+   <div class="result-sheet-overlay">
+    ${fallback}
+    <div class="result-dynamic-meta">
+     <div class="result-serial">التسلسل : <span>${esc(student.serial||"—")}</span></div>
+     <div class="result-student-name">${esc(studentNameLabel())} : <strong>${esc(student.name||"—")}</strong></div>
+     <div class="result-class-line">الصف : <strong>${esc(className())}</strong></div>
+     <div class="result-room-line">القاعة : <strong>${esc(student.roomNumber||classData.roomNumber||"—")}</strong> — الجنس: <strong>${esc(genderSexText())}</strong></div>
+    </div>
+    <div class="result-stage-title">${esc(GRADE_LABELS[field])}</div>
+    <div class="result-status-tag">${esc(decision)}</div>
+    <div class="result-unofficial">هذه النتيجة غير رسمية ومخصصة للاطلاع فقط</div>
+    <div class="result-table-wrap">
+     <table class="result-transcript">
+      <thead>${head}</thead>
+      <tbody>${body}</tbody>
+      <tfoot>${totals}</tfoot>
+     </table>
+    </div>
+    <div class="result-bottom">
+     <div class="result-decision"><small>النتيجة</small><strong>${esc(decision)}</strong></div>
+     <div class="result-qr-box"><div class="result-qr"></div><span>رمز النتيجة</span></div>
+     <div class="result-average"><small>المعدل</small><strong>${stats.count?stats.average+"%":"—"}</strong></div>
+    </div>
+    <div class="result-footnote">النتيجة للاطلاع الإلكتروني فقط ولا تعد وثيقة مدرسية رسمية.</div>
+   </div>
+  </div>`
+}
 function renderResultQR(root,model,field){const target=root.querySelector(".result-qr");if(!target||typeof QRCode==="undefined")return;target.innerHTML="";new QRCode(target,{text:resultQrText(model,field),width:112,height:112,correctLevel:QRCode.CorrectLevel.L});}
 async function waitResultImages(root){await Promise.all([...root.querySelectorAll("img")].map(img=>img.complete&&img.naturalWidth?Promise.resolve():new Promise(resolve=>{img.onload=resolve;img.onerror=resolve;})));}
 function fitResultPreview(){const area=$("resultPreviewArea"),stage=$("resultPreviewStage"),content=$("resultPreviewContent");if(!area||stage.classList.contains("hidden"))return;const scale=Math.min(.93,Math.max(.28,(area.clientWidth-10)/794));stage.style.width=`${794*scale}px`;stage.style.height=`${1123*scale}px`;content.style.transform=`scale(${scale})`;}
@@ -626,8 +2337,175 @@ function messageDayLabel(value){const d=new Date(Number(value)||value),now=new D
 function renderChatLoadError(){const box=$("messages");if(!box)return;$("chatLocked").innerHTML="";$("chatContent").classList.remove("hidden");box.innerHTML=`<div class="lock-box" style="margin:20px 8px"><div class="lock-icon">!</div><h3>تعذر تحميل الدردشة</h3><p>تحقق من الإنترنت ثم حاول مرة أخرى.</p><button type="button" onclick="retryChatLoad()" style="width:100%;height:43px;margin-top:13px;border:0;border-radius:12px;color:#fff;background:#075fcf;font-size:9px;font-weight:900">إعادة المحاولة</button></div>`;}
 async function retryChatLoad(){try{await loadChat();toast("تم تحديث الدردشة");}catch(error){console.error("CHAT_RETRY_ERROR",error);renderChatLoadError();toast("تعذر تحميل الدردشة");}}
 window.retryChatLoad=retryChatLoad;
-async function loadChat(){if(!canUseChat()){renderProtectedLocks();return;}$("chatLocked").innerHTML="";$("chatContent").classList.remove("hidden");$("chatRoomName").textContent=`${className()} - القاعة ${student.roomNumber||"—"} - ${genderText()}`;const room=chatRoomId();const raw=await dbGet(`chats/${encodeURIComponent(room)}/messages`)||{};chatMessages=Object.fromEntries(Object.entries(raw).filter(([,m])=>messageMatchesRoom(m)));lastChatCount=Object.keys(chatMessages).length;await prepareChatProfiles();renderChat(true);const active=$("pageChat").classList.contains("active");if(active){await markVisibleMessagesRead();setNavBadge("chatBadge",0);}else setNavBadge("chatBadge",unreadChatCount());startChatPolling();applyChatComposerState();}
-function startChatPolling(){clearInterval(chatPolling);chatPolling=setInterval(async()=>{if(document.hidden)return;try{const freshStudent=await dbGet(`students/${encodeURIComponent(STUDENT_CODE)}`);if(freshStudent)student=freshStudent;applyChatComposerState();if(!canUseChat()){renderProtectedLocks();clearInterval(chatPolling);return;}const fresh=await dbGet(`chats/${encodeURIComponent(chatRoomId())}/messages`)||{},filtered=Object.fromEntries(Object.entries(fresh).filter(([,m])=>messageMatchesRoom(m))),oldIds=new Set(Object.keys(chatMessages)),newIds=Object.keys(filtered).filter(id=>!oldIds.has(id)),chatActive=$("pageChat").classList.contains("active");newIds.forEach(id=>animatedMessageIds.add(id));chatMessages=filtered;lastChatCount=Object.keys(filtered).length;await prepareChatProfiles();renderChat(false);if(chatActive){await markVisibleMessagesRead();setNavBadge("chatBadge",0);}else setNavBadge("chatBadge",unreadChatCount(filtered));}catch(error){console.error("CHAT_POLL_ERROR",error);}},3000);}
+async function loadChat(){
+ await refreshExamChatLock();
+
+ if(!canUseChat()){
+  renderProtectedLocks();
+  return
+ }
+
+ $("chatLocked").innerHTML="";
+ $("chatContent").classList.remove("hidden");
+ $("chatRoomName").textContent=
+  `${className()} - القاعة ${student.roomNumber||"—"} - ${studentTerm()}`;
+
+ const room=
+  chatRoomId();
+
+ const raw=
+  await dbGet(
+   `chats/${encodeURIComponent(room)}/messages`
+  )||{};
+
+ chatMessages=
+  Object.fromEntries(
+   Object.entries(raw)
+   .filter(
+    ([,m])=>
+     messageMatchesRoom(m)
+   )
+  );
+
+ lastChatCount=
+  Object.keys(
+   chatMessages
+  ).length;
+
+ await prepareChatProfiles();
+ renderChat(true);
+
+ const active=
+  $("pageChat")
+  .classList
+  .contains(
+   "active"
+  );
+
+ if(active){
+  await markVisibleMessagesRead();
+  setNavBadge(
+   "chatBadge",
+   0
+  )
+ }else{
+  setNavBadge(
+   "chatBadge",
+   unreadChatCount()
+  )
+ }
+
+ startChatPolling();
+ applyChatComposerState()
+}
+function startChatPolling(){
+ clearInterval(
+  chatPolling
+ );
+
+ chatPolling=
+  setInterval(
+   async()=>{
+    if(document.hidden)return;
+
+    try{
+     await refreshExamChatLock();
+
+     if(!canUseChat()){
+      renderProtectedLocks();
+      clearInterval(
+       chatPolling
+      );
+      return
+     }
+
+     const freshStudent=
+      await dbGet(
+       `students/${encodeURIComponent(STUDENT_CODE)}`
+      );
+
+     if(freshStudent){
+      student=freshStudent
+     }
+
+     applyChatComposerState();
+
+     const fresh=
+      await dbGet(
+       `chats/${encodeURIComponent(chatRoomId())}/messages`
+      )||{},
+     filtered=
+      Object.fromEntries(
+       Object.entries(fresh)
+       .filter(
+        ([,m])=>
+         messageMatchesRoom(m)
+       )
+      ),
+     oldIds=
+      new Set(
+       Object.keys(
+        chatMessages
+       )
+      ),
+     newIds=
+      Object.keys(
+       filtered
+      )
+      .filter(
+       id=>
+        !oldIds.has(id)
+      ),
+     chatActive=
+      $("pageChat")
+      .classList
+      .contains(
+       "active"
+      );
+
+     newIds.forEach(
+      id=>
+       animatedMessageIds.add(
+        id
+       )
+     );
+
+     chatMessages=
+      filtered;
+
+     lastChatCount=
+      Object.keys(
+       filtered
+      ).length;
+
+     await prepareChatProfiles();
+     renderChat(false);
+
+     if(chatActive){
+      await markVisibleMessagesRead();
+      setNavBadge(
+       "chatBadge",
+       0
+      )
+     }else{
+      setNavBadge(
+       "chatBadge",
+       unreadChatCount(
+        filtered
+       )
+      )
+     }
+    }
+    catch(error){
+     console.error(
+      "CHAT_POLL_ERROR",
+      error
+     )
+    }
+   },
+   3000
+  )
+}
 function reactionSummary(message){ const reactions = message.reactions || {}; const groups = {}; Object.entries( reactions ) .forEach( ([code,emoji]) => { if(!emoji){ return; } if( !groups[ emoji ] ){ groups[ emoji ] = []; } groups[ emoji ].push( code ); } ); return groups; }
 async function reactToMessage( messageId, emoji ){ if(navigator.vibrate) navigator.vibrate(10); closeAllMessageActions(); const message = chatMessages[ messageId ]; if( !message || !messageMatchesRoom( message ) ){ return; } if( !canUseChat() ){ return; } const current = message.reactions?.[ STUDENT_CODE ]; const next = current === emoji ? null : emoji; await dbPut( `chats/${encodeURIComponent(chatRoomId())}/messages/${encodeURIComponent(messageId)}/reactions/${encodeURIComponent(STUDENT_CODE)}`, next ); if( !message.reactions ){ message.reactions = {}; } if(next){ message.reactions[ STUDENT_CODE ] = next; } else{ delete message.reactions[ STUDENT_CODE ]; } renderChat( false ); }
 window.reactToMessage = reactToMessage;
@@ -652,7 +2530,240 @@ function replyPreviewHTML(message){ const reply = message.replyTo; if( !reply ||
 function seenHTML(message){if(message.senderCode!==STUDENT_CODE)return"";const readBy=message.readBy||{},viewers=Object.keys(readBy).filter(code=>code!==STUDENT_CODE);return viewers.length?`<div class="seen-row"><span class="seen-text">شاهدها ${viewers.length}</span></div>`:`<div class="seen-row"><span class="seen-text">تم الإرسال ✓</span></div>`;}
 function renderChat(forceScroll=false){$("chatLocked").innerHTML="";$("chatContent").classList.remove("hidden");const box=$("messages"),wasNearBottom=(box.scrollHeight-box.scrollTop-box.clientHeight)<130,messages=Object.entries(chatMessages).map(([id,v])=>({id,...v})).filter(messageMatchesRoom).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));if(!messages.length){box.innerHTML=`<div class="chat-empty">لا توجد رسائل بعد<br><small>ابدأ أول رسالة في كروب الصف</small></div>`;return;}let lastDay="";box.innerHTML=messages.map(message=>{const mine=message.senderCode===STUDENT_CODE,p=chatUserProfiles[message.senderCode]||{},name=message.senderName||p.name||"طالب",day=messageDayKey(message.createdAt),separator=day!==lastDay?`<div class="chat-date-separator"><span>${esc(messageDayLabel(message.createdAt))}</span></div>`:"",fresh=animatedMessageIds.has(message.id);lastDay=day;return`${separator}<div class="msg-row ${mine?"mine":"other"} ${fresh?"fresh-message":""}"><div class="msg-side">${messageAvatarHTML(message,name)}<div class="msg-bubble-wrap">${messageActionPopup(message.id)}<div class="msg ${mine?"mine":""}" onclick="event.stopPropagation();toggleMessageActions('${esc(message.id)}')"><div class="msg-user"><span class="msg-name">${mine?"أنت":esc(name)}</span><span class="msg-time">${esc(timeText(message.createdAt))}</span></div>${replyPreviewHTML(message)}<div class="msg-text">${renderChatText(message.text||"")}</div>${renderMessageReactions(message)}</div>${seenHTML(message)}</div></div></div>`;}).join("");if(activeMessageActionId){const popup=document.querySelector(`[data-action-for="${CSS.escape(activeMessageActionId)}"]`);if(popup)popup.classList.add("show");}if(forceScroll||wasNearBottom)scrollChat();if(animatedMessageIds.size)setTimeout(()=>animatedMessageIds.clear(),650);}
 async function markVisibleMessagesRead(){ if( !canUseChat() ){ return; } const room = chatRoomId(); const tasks = []; Object.entries( chatMessages ) .forEach( ([id,message]) => { if( !messageMatchesRoom( message ) ){ return; } if( message.senderCode === STUDENT_CODE ){ return; } if( message.readBy?.[ STUDENT_CODE ] ){ return; } const now = Date.now(); tasks.push( dbPatch( `chats/${encodeURIComponent(room)}/messages/${encodeURIComponent(id)}/readBy`, { [STUDENT_CODE]: now } ) ); if( !message.readBy ){ message.readBy = {}; } message.readBy[ STUDENT_CODE ] = now; } ); if( tasks.length ){ try{ await Promise.all( tasks ); } catch(error){ console.error( error ); } } setNavBadge( "chatBadge", 0 ); }
-async function sendMessage(){if(chatSendBusy)return;if(!canUseChat()){showChatAccessModal();return;}const writeState=applyChatComposerState();if(!writeState.allowed){toast(writeState.message);return;}const input=$("chatInput"),text=cleanChatOutgoingText(input.value);if(!text)return;if(text.length>500){toast("الرسالة طويلة جداً");return;}chatSendBusy=true;applyChatComposerState();try{const[freshStudent,freshUser,rules]=await Promise.all([dbGet(`students/${encodeURIComponent(STUDENT_CODE)}`),dbGet(`users/${encodeURIComponent(session.code)}`),getModerationRules()]);if(freshStudent)student=freshStudent;if(freshUser)user=freshUser;if(!globalAccountActive()){showInactiveAccount();return;}const liveWriteState=applyChatComposerState();if(!liveWriteState.allowed){toast(liveWriteState.message);return;}const spam=await inspectChatSpam(text,rules);if(spam.blocked){chatLastAttemptAt=Date.now();toast(spam.message);return;}const moderationResult=await inspectChatMessage(text);if(moderationResult.blocked){chatLastAttemptAt=Date.now();await registerBehaviorViolation(text,moderationResult);return;}const now=Date.now(),room=chatRoomId(),data={senderCode:STUDENT_CODE,senderName:student.name||"",classId:student.classId||"",className:className(),roomNumber:student.roomNumber||"",gender:normalizedGender(),chatRoomId:room,text,createdAt:now,deliveredAt:now,readBy:{[STUDENT_CODE]:now},reactions:{},moderation:{checked:true,version:"local-behavior-v2",checkedAt:now}};if(replyingTo)data.replyTo={messageId:replyingTo.messageId,senderCode:replyingTo.senderCode,senderName:replyingTo.senderName,text:replyingTo.text};const posted=await dbPost(`chats/${encodeURIComponent(room)}/messages`,data);markChatSendSuccess();if(posted?.name){animatedMessageIds.add(posted.name);chatMessages[posted.name]={...data,id:posted.name};}if(navigator.vibrate)navigator.vibrate(18);input.value="";clearReply();hideMentionPanel();renderChat(true);setTimeout(async()=>{try{const fresh=await dbGet(`chats/${encodeURIComponent(room)}/messages`)||{};chatMessages=Object.fromEntries(Object.entries(fresh).filter(([,message])=>messageMatchesRoom(message)));lastChatCount=Object.keys(chatMessages).length;await prepareChatProfiles();renderChat(true);}catch(error){console.warn("CHAT_POST_REFRESH_ERROR",error);}},120);}catch(error){console.error("SEND_MESSAGE_ERROR",error);toast("تعذر إرسال الرسالة");}finally{chatSendBusy=false;applyChatComposerState();}}
+async function sendMessage(){
+ if(chatSendBusy)return;
+
+ await refreshExamChatLock();
+
+ if(!canUseChat()){
+  showChatAccessModal();
+  return
+ }
+
+ const writeState=
+  applyChatComposerState();
+
+ if(!writeState.allowed){
+  toast(
+   writeState.message
+  );
+  return
+ }
+
+ const input=
+        $("chatInput"),
+       text=
+        cleanChatOutgoingText(
+         input.value
+        );
+
+ if(!text)return;
+
+ if(text.length>500){
+  toast(
+   "الرسالة طويلة جداً"
+  );
+  return
+ }
+
+ chatSendBusy=true;
+ applyChatComposerState();
+
+ try{
+  const[
+   freshStudent,
+   freshUser,
+   rules
+  ]=
+   await Promise.all([
+    dbGet(
+     `students/${encodeURIComponent(STUDENT_CODE)}`
+    ),
+    dbGet(
+     `users/${encodeURIComponent(session.code)}`
+    ),
+    getModerationRules()
+   ]);
+
+  if(freshStudent){
+   student=freshStudent
+  }
+
+  if(freshUser){
+   user=freshUser
+  }
+
+  await refreshExamChatLock();
+
+  if(!globalAccountActive()){
+   showInactiveAccount();
+   return
+  }
+
+  if(!canUseChat()){
+   showChatAccessModal();
+   return
+  }
+
+  const liveWriteState=
+   applyChatComposerState();
+
+  if(!liveWriteState.allowed){
+   toast(
+    liveWriteState.message
+   );
+   return
+  }
+
+  const spam=
+   await inspectChatSpam(
+    text,
+    rules
+   );
+
+  if(spam.blocked){
+   chatLastAttemptAt=
+    Date.now();
+
+   toast(
+    spam.message
+   );
+   return
+  }
+
+  const moderationResult=
+   await inspectChatMessage(
+    text
+   );
+
+  if(moderationResult.blocked){
+   chatLastAttemptAt=
+    Date.now();
+
+   await registerBehaviorViolation(
+    text,
+    moderationResult
+   );
+   return
+  }
+
+  const now=
+         Date.now(),
+        room=
+         chatRoomId(),
+        data={
+         senderCode:STUDENT_CODE,
+         senderName:student.name||"",
+         classId:student.classId||"",
+         className:className(),
+         roomNumber:student.roomNumber||"",
+         gender:normalizedGender(),
+         chatRoomId:room,
+         text,
+         createdAt:now,
+         deliveredAt:now,
+         readBy:{
+          [STUDENT_CODE]:now
+         },
+         reactions:{},
+         moderation:{
+          checked:true,
+          version:"local-behavior-v2",
+          checkedAt:now
+         }
+        };
+
+  if(replyingTo){
+   data.replyTo={
+    messageId:replyingTo.messageId,
+    senderCode:replyingTo.senderCode,
+    senderName:replyingTo.senderName,
+    text:replyingTo.text
+   }
+  }
+
+  const posted=
+   await dbPost(
+    `chats/${encodeURIComponent(room)}/messages`,
+    data
+   );
+
+  markChatSendSuccess();
+
+  if(posted?.name){
+   animatedMessageIds.add(
+    posted.name
+   );
+
+   chatMessages[
+    posted.name
+   ]={
+    ...data,
+    id:posted.name
+   }
+  }
+
+  if(navigator.vibrate){
+   navigator.vibrate(18)
+  }
+
+  input.value="";
+  clearReply();
+  hideMentionPanel();
+  renderChat(true);
+
+  setTimeout(
+   async()=>{
+    try{
+     const fresh=
+      await dbGet(
+       `chats/${encodeURIComponent(room)}/messages`
+      )||{};
+
+     chatMessages=
+      Object.fromEntries(
+       Object.entries(fresh)
+       .filter(
+        ([,message])=>
+         messageMatchesRoom(
+          message
+         )
+       )
+      );
+
+     lastChatCount=
+      Object.keys(
+       chatMessages
+      ).length;
+
+     await prepareChatProfiles();
+     renderChat(true)
+    }
+    catch(error){
+     console.warn(
+      "CHAT_POST_REFRESH_ERROR",
+      error
+     )
+    }
+   },
+   120
+  )
+ }
+ catch(error){
+  console.error(
+   "SEND_MESSAGE_ERROR",
+   error
+  );
+
+  toast(
+   "تعذر إرسال الرسالة"
+  )
+ }
+ finally{
+  chatSendBusy=false;
+  applyChatComposerState()
+ }
+}
 setInterval(()=>{if($("chatContent")&&!$("chatContent").classList.contains("hidden"))applyChatComposerState();},30000);
 $("sendBtn").onclick = sendMessage;
 $("chatInput") .addEventListener( "keydown", event => { if( event.key === "Enter" ){ event.preventDefault(); sendMessage(); } } );
@@ -661,7 +2772,58 @@ function scrollChat(){ requestAnimationFrame( () => { $("messages").scrollTop = 
 function setNavBadge( id, number ){ const badge = $(id); const value = Math.max( 0, Number(number) || 0 ); badge.textContent = value > 99 ? "99+" : value; badge.classList.toggle( "show", value > 0 ); }
 $("chatInput") .addEventListener( "focus", () => { setTimeout( scrollChat, 250 ); } );
 if( window.visualViewport ){ window.visualViewport .addEventListener( "resize", () => { if( $("pageChat") .classList .contains( "active" ) ){ setTimeout( scrollChat, 100 ); } } ); }
-document.addEventListener( "visibilitychange", async () => { if( document.visibilityState !== "visible" ){ return; } try{ const ok = await refreshStudentAccess(); if(!ok){ return; } await loadAbsenceDays(); renderHome(); if($("pageChat").classList.contains("active")&&canUseChat()){try{await loadChat();await markVisibleMessagesRead();}catch(error){console.error("CHAT_VISIBILITY_REFRESH_ERROR",error);}} } catch(error){ console.error( error ); } } );
+document.addEventListener("visibilitychange",async()=>{
+ if(
+  document.visibilityState!=="visible"
+ ){
+  return
+ }
+
+ try{
+  const ok=
+   await refreshStudentAccess();
+
+  if(!ok)return;
+
+  await Promise.all([
+   loadAbsenceDays(),
+   loadLessonsData(
+    true
+   ),
+   refreshExamChatLock()
+  ]);
+
+  renderHome();
+
+  if(
+   $("pageChat")
+   .classList
+   .contains(
+    "active"
+   )
+  ){
+   if(canUseChat()){
+    try{
+     await loadChat();
+     await markVisibleMessagesRead()
+    }
+    catch(error){
+     console.error(
+      "CHAT_VISIBILITY_REFRESH_ERROR",
+      error
+     )
+    }
+   }else{
+    renderProtectedLocks()
+   }
+  }
+ }
+ catch(error){
+  console.error(
+   error
+  )
+ }
+});
 $("openGradeObjectionBtn").onclick=openGradeObjection;
 $("closeGradeObjectionBtn").onclick=closeGradeObjection;
 $("objectionPeriod").onchange=fillObjectionSubjects;
