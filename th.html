@@ -361,6 +361,20 @@ body.alert-open{overflow:hidden}
 .teacher-objection-review{color:#075fcf;background:#edf5ff}.teacher-objection-resolve{color:#067647;background:#ecfdf3}
 @media(max-width:560px){.teacher-objection-actions{grid-template-columns:1fr 1fr}.teacher-objection-actions input{grid-column:1/-1}}
 
+
+/* ================= قفل الدرجات + إعادة فتح الإدارة + سجل التعديلات ================= */
+.period-btn.reopened{color:#075fcf!important;border-color:#8dbbf1!important;background:#edf5ff!important}
+.period-btn.pending-admin{color:#9a5b00!important;border-color:#edc578!important;background:#fff8e8!important}
+.grade-info.reopened{border-color:#8dbbf1!important;background:#edf5ff!important;color:#075fcf!important}
+.grade-info.pending-admin{border-color:#edc578!important;background:#fff8e8!important;color:#9a5b00!important}
+.lock-state-line{margin-top:6px;font-size:7.5px;font-weight:900;line-height:1.7}
+.lock-state-line.reopened{color:#075fcf}
+.lock-state-line.pending{color:#9a5b00}
+.admin-review-note{margin-top:7px;padding:8px 9px;border-radius:10px;background:#fff8e8;color:#8a5700;font-size:7.5px;font-weight:900;line-height:1.8}
+.teacher-objection-change{margin-top:7px;padding:8px 9px;border:1px solid #edc578;border-radius:10px;background:#fffaf0;color:#7b4e00;font-size:8px;font-weight:900;line-height:1.75}
+.teacher-objection-change b{color:#172033}
+.save-btn.pending{background:#b77900}
+
 </style></head>
 <body>
 <div id="loaderScreen" class="loader-screen"><div class="loader-box"><img src="logo.png" class="loader-logo" alt=""><div class="spinner"></div><p>جاري تحميل منصة الأستاذ</p></div></div>
@@ -373,7 +387,7 @@ body.alert-open{overflow:hidden}
  </div>
 </section>
 <section class="objection-launch"><button id="openTeacherObjectionsBtn" class="objection-launch-btn" type="button">اعتراضات الدرجات <span id="teacherObjectionCount" class="objection-count">0</span></button></section>
-<section id="gradesSection" class="hidden"><div class="section-head"><h3 id="selectedClassTitle">درجات الصف</h3><span id="studentCount">0 طالب</span></div><div id="periodTools" class="period-tools"></div><div id="formulaInfo" class="grade-info"></div><input id="searchInput" class="search" type="search" placeholder="بحث باسم الطالب أو الكود..." autocomplete="off"><div id="tableArea"></div><div class="save-bar"><button id="saveGradesBtn" class="save-btn" type="button">حفظ درجات الصف</button><button id="reloadBtn" class="reload-btn" type="button" title="إعادة تحميل">↻</button></div></section></main>
+<section id="gradesSection" class="hidden"><div class="section-head"><h3 id="selectedClassTitle">درجات الصف</h3><span id="studentCount">0 طالب</span></div><div id="periodTools" class="period-tools"></div><div id="formulaInfo" class="grade-info"></div><input id="searchInput" class="search" type="search" placeholder="بحث باسم الطالب أو الكود..." autocomplete="off"><div id="tableArea"></div><div class="save-bar"><button id="saveGradesBtn" class="save-btn" type="button">حفظ وقفل درجات الفترة</button><button id="reloadBtn" class="reload-btn" type="button" title="إعادة تحميل">↻</button></div></section></main>
 
 
 <div id="recordsHubModal" class="modal">
@@ -457,7 +471,7 @@ body.alert-open{overflow:hidden}
 </div>
 <script>
 const DB="https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app",PERIODS={term1:{label:"الفصل الأول"},midyear:{label:"نصف السنة"},term2:{label:"الفصل الثاني"},finalExam:{label:"الامتحان النهائي"},secondRound:{label:"الدور الثاني"}},COMPONENTS=[["month1","شهر 1"],["month2","شهر 2"],["month3","شهر 3"],["month4","شهر 4"],["grammar","قواعد"],["literature","أدب"],["composition","إنشاء"],["oral","شفهي"],["practical","عملي"],["behavior","سلوك"],["attendance","حضور"],["drawing","رسم"],["preparation","تحضير"],["homework","واجب"],["daily","يومي"],["monthly","شهري"]].map(([key,label])=>({key,label}));
-let session={},teacherUser={},teacher={},classes={},students={},grades={},gradeKeys={},formulas={},assignments=[],TEACHER_CODE="",selectedClassId="",selectedPeriod="term1",editingPeriod="",gradesDirty=false,GRADE_LOCKS={},SUBMISSIONS={},lastCriticalKey="",RECORD_KIND="",RECORD_ASSIGNMENT_INDEXES=new Set(),GRADE_OBJECTIONS={},teacherObjectionPolling=null;
+let session={},teacherUser={},teacher={},classes={},students={},grades={},gradeKeys={},formulas={},assignments=[],TEACHER_CODE="",selectedClassId="",selectedPeriod="term1",editingPeriod="",gradesDirty=false,GRADE_LOCKS={},SUBMISSIONS={},GRADE_BASELINE={},lastCriticalKey="",RECORD_KIND="",RECORD_ASSIGNMENT_INDEXES=new Set(),GRADE_OBJECTIONS={},teacherObjectionPolling=null;
 const $=id=>document.getElementById(id),esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c])),norm=v=>String(v??"").trim().toLowerCase(),num=v=>v===""||v===null||v===undefined?null:(Number.isFinite(Number(v))?Number(v):null),safeJS=v=>String(v||"").replace(/\\/g,"\\\\").replace(/'/g,"\\'"),safeId=v=>String(v||"").replace(/[^a-zA-Z0-9_-]/g,"_"),safeKey=v=>String(v||"").trim().toLowerCase().replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي").replace(/[^a-z0-9\u0600-\u06ff]+/gi,"_").replace(/^_+|_+$/g,"");
 let SCREEN_ALERT_LAST_FOCUS=null;
 function closeScreenAlert(){
@@ -484,7 +498,7 @@ function toast(text,type="warn"){
 }
 $("screenAlertOk").onclick=closeScreenAlert;
 $("screenAlert").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key==="Escape"){e.preventDefault();closeScreenAlert()}});
-async function req(path,method="GET",data=undefined){const o={method,cache:"no-store"};if(data!==undefined){o.headers={"Content-Type":"application/json"};o.body=JSON.stringify(data)}const r=await fetch(`${DB}/${path}.json`,o);if(!r.ok)throw new Error(`${method}_${r.status}`);return method==="DELETE"?true:r.json()}const dbGet=p=>req(p),dbPatch=(p,d)=>req(p,"PATCH",d),dbPut=(p,d)=>req(p,"PUT",d);
+async function req(path,method="GET",data=undefined){const o={method,cache:"no-store"};if(data!==undefined){o.headers={"Content-Type":"application/json"};o.body=JSON.stringify(data)}const r=await fetch(`${DB}/${path}.json`,o);if(!r.ok)throw new Error(`${method}_${r.status}`);return method==="DELETE"?true:r.json()}const dbGet=p=>req(p),dbPatch=(p,d)=>req(p,"PATCH",d),dbPut=(p,d)=>req(p,"PUT",d),dbPost=(p,d)=>req(p,"POST",d);
 
 function rawText(v){return String(v??"").trim()}
 function storedGradeValue(v){const t=rawText(v);if(!t)return"";const n=Number(t);return Number.isFinite(n)?n:t}
@@ -510,11 +524,62 @@ function submissionBasePath(){
  const a=activeAssignment();return a?`teacherGradeSubmissions/${encodeURIComponent(TEACHER_CODE)}/${encodeURIComponent(selectedClassId)}/${encodeURIComponent(a.subjectId)}`:""
 }
 async function loadSubmissionState(){try{SUBMISSIONS=await dbGet(submissionBasePath())||{}}catch{SUBMISSIONS={}}}
-function submissionLocked(period=selectedPeriod){return SUBMISSIONS?.[period]?.locked===true}
+
+function submissionState(period=selectedPeriod){
+ return SUBMISSIONS?.[period]||{}
+}
+function submissionPreviouslySubmitted(period=selectedPeriod){
+ const x=submissionState(period);
+ return Boolean(
+  x.submittedAt||
+  x.firstSubmittedAt||
+  Number(x.revision||0)>0||
+  x.everSubmitted===true
+ )
+}
+function submissionPendingAdmin(period=selectedPeriod){
+ return submissionState(period)?.pendingApproval===true
+}
+function submissionAdminReopened(period=selectedPeriod){
+ const x=submissionState(period);
+ return(
+  submissionPreviouslySubmitted(period)&&
+  x.locked===false&&
+  x.pendingApproval!==true
+ )
+}
+function submissionRevision(period=selectedPeriod){
+ return Number(
+  submissionState(period)?.revision||0
+ )
+}
+function submissionUnlockText(period=selectedPeriod){
+ const x=submissionState(period);
+ if(!submissionAdminReopened(period))return"";
+ const by=String(x.unlockedByName||x.unlockedBy||"الإدارة");
+ return`تم فتح ${PERIODS[period]?.label||period} للتعديل من ${by}. أي تغيير جديد سيُرسل للإدارة مع الدرجة القديمة والجديدة لاعتماد القرار النهائي.`
+}
+function submissionLocked(period=selectedPeriod){
+ const x=submissionState(period);
+ return(
+  x.locked===true||
+  x.pendingApproval===true
+ )
+}
 function editLocked(period=selectedPeriod){return periodLocked(period)||submissionLocked(period)}
 function editLockText(period=selectedPeriod){
- if(periodLocked(period))return lockText(period);
- if(submissionLocked(period))return`لا يمكن تعديل درجات ${PERIODS[period]?.label||period} بعد حفظها. يرجى مراجعة الإدارة لإعادة فتح التعديل.`;
+ if(periodLocked(period)){
+  return lockText(period)
+ }
+
+ if(submissionPendingAdmin(period)){
+  return`تم قفل ${PERIODS[period]?.label||period} بعد إرسال التعديل للإدارة. الدرجة الرسمية السابقة تبقى معتمدة إلى أن تختار الإدارة اعتماد الدرجة الجديدة أو الإبقاء على القديمة.`
+ }
+
+ if(submissionLocked(period)){
+  return`لا يمكن تعديل درجات ${PERIODS[period]?.label||period} بعد الحفظ والقفل. تستطيع الإدارة وحدها إعادة فتح الفترة للتعديل.`
+ }
+
  return""
 }
 async function refreshEditLock(period=selectedPeriod){await Promise.all([loadGradeLocks(),loadSubmissionState()]);return editLocked(period)}
@@ -565,45 +630,189 @@ async function selectClass(classId){
  $("studentCount").textContent=`${list.length} اسم — ${genderText}`;
  setTimeout(()=>$("gradesSection").scrollIntoView({behavior:"smooth",block:"start"}),100)
 }
-function gradePath(code){const a=activeAssignment();return`grades/${encodeURIComponent(code)}/${encodeURIComponent(a.subjectId)}`}async function loadClassGrades(){gradesDirty=false;grades={};gradeKeys={};const a=activeAssignment(),list=studentsOfClass(selectedClassId),res=await Promise.all(list.map(s=>dbGet(`grades/${encodeURIComponent(s.code)}`)));list.forEach((st,i)=>{const all=res[i]||{},entry=Object.entries(all).find(([k,r])=>String(r?.subjectId||"")===String(a.subjectId)||String(k)===String(a.subjectId)||norm(r?.subjectName||r?.subject||k)===norm(a.subjectName));gradeKeys[st.code]=entry?.[0]||a.subjectId;grades[st.code]=entry?.[1]||{}})}
+function gradePath(code){const a=activeAssignment();return`grades/${encodeURIComponent(code)}/${encodeURIComponent(a.subjectId)}`}async function loadClassGrades(){
+ gradesDirty=false;
+ grades={};
+ gradeKeys={};
+ GRADE_BASELINE={};
+
+ const a=activeAssignment(),
+       list=studentsOfClass(selectedClassId),
+       res=await Promise.all(
+        list.map(
+         st=>
+          dbGet(
+           `grades/${encodeURIComponent(st.code)}`
+          )
+        )
+       );
+
+ list.forEach(
+  (st,i)=>{
+   const all=res[i]||{},
+         entry=Object.entries(all)
+         .find(
+          ([k,r])=>
+           String(r?.subjectId||"")===String(a.subjectId)||
+           String(k)===String(a.subjectId)||
+           norm(r?.subjectName||r?.subject||k)===norm(a.subjectName)
+         ),
+         record=entry?.[1]||{};
+
+   gradeKeys[st.code]=
+    entry?.[0]||
+    a.subjectId;
+
+   grades[st.code]=
+    JSON.parse(
+     JSON.stringify(record)
+    );
+
+   GRADE_BASELINE[st.code]=
+    JSON.parse(
+     JSON.stringify(record)
+    )
+  }
+ )
+}
 function formulaBasePath(){const a=activeAssignment();return`gradeSchemas/${encodeURIComponent(TEACHER_CODE)}/${encodeURIComponent(selectedClassId)}/${encodeURIComponent(a.subjectId)}`}async function loadFormulas(){formulas=await dbGet(formulaBasePath())||{};if(!Object.keys(formulas).length){const a=activeAssignment(),legacy=safeKey(a?.subjectName||"");if(legacy&&legacy!==a?.subjectId)formulas=await dbGet(`gradeSchemas/${encodeURIComponent(TEACHER_CODE)}/${encodeURIComponent(selectedClassId)}/${encodeURIComponent(legacy)}`)||{}}}
 function activeComponents(period){const c=formulas?.[period]?.components||{};return COMPONENTS.filter(x=>num(c[x.key])!==null&&Number(c[x.key])>0).map(x=>({...x,max:Number(c[x.key])}))}
 function formulaConfigured(period){const list=activeComponents(period);return list.length>0&&Math.abs(list.reduce((s,x)=>s+x.max,0)-subjectMax())<.001}
 function renderPeriodButtons(){
- $("periodTools").innerHTML=Object.entries(PERIODS).map(([k,v])=>`<button type="button" class="period-btn ${formulaConfigured(k)?"configured":""} ${selectedPeriod===k?"selected":""} ${editLocked(k)?"submitted":""}" onclick="selectPeriod('${k}')">${editLocked(k)?"🔒 ":""}${esc(v.label)}</button>`).join("")
+ $("periodTools").innerHTML=
+  Object.entries(PERIODS)
+  .map(
+   ([k,v])=>{
+    const pending=
+           submissionPendingAdmin(k),
+          reopened=
+           submissionAdminReopened(k),
+          locked=
+           editLocked(k);
+
+    return`
+     <button type="button"
+      class="period-btn ${formulaConfigured(k)?"configured":""} ${selectedPeriod===k?"selected":""} ${locked?"submitted":""} ${pending?"pending-admin":""} ${reopened?"reopened":""}"
+      onclick="selectPeriod('${k}')">
+      ${pending?"⏳ ":locked?"🔒 ":reopened?"🔓 ":""}${esc(v.label)}
+     </button>`
+   }
+  ).join("")
 }
 async function selectPeriod(period){selectedPeriod=period;await Promise.all([loadGradeLocks(),loadSubmissionState()]);renderPeriodButtons();renderFormulaInfo();renderGradeTable();if(editLocked(period))toast(editLockText(period))}
 function renderFormulaInfo(){
- const list=activeComponents(selectedPeriod),a=activeAssignment(),locked=editLocked(selectedPeriod),txt=formulaConfigured(selectedPeriod)?`${list.map(x=>`${x.label} (${x.max})`).join(" + ")} = ${subjectMax()}`:`يمكن إدخال درجة ${PERIODS[selectedPeriod].label} مباشرة من ${subjectMax()}، أو إعداد تقسيم الدرجة إلى مفردات.`;
- $("formulaInfo").className=`grade-info ${locked?"locked":""}`;
- $("formulaInfo").innerHTML=locked?`<div><strong>${esc(a?.subjectName||"المادة")}:</strong> ${esc(editLockText(selectedPeriod))}</div><button class="setup" type="button" disabled>التعديل مقفل</button>`:`<div><strong>${esc(a?.subjectName||"المادة")}:</strong> ${txt}</div><button class="setup" type="button" onclick="openFormulaModal('${selectedPeriod}')">${formulaConfigured(selectedPeriod)?"تعديل تقسيم الدرجة":"تقسيم الدرجة"}</button>`
+ const list=
+        activeComponents(
+         selectedPeriod
+        ),
+       a=
+        activeAssignment(),
+       locked=
+        editLocked(
+         selectedPeriod
+        ),
+       pending=
+        submissionPendingAdmin(
+         selectedPeriod
+        ),
+       reopened=
+        submissionAdminReopened(
+         selectedPeriod
+        ),
+       txt=
+        formulaConfigured(
+         selectedPeriod
+        )
+         ?`${list.map(x=>`${x.label} (${x.max})`).join(" + ")} = ${subjectMax()}`
+         :`يمكن إدخال درجة ${PERIODS[selectedPeriod].label} مباشرة من ${subjectMax()}، أو إعداد تقسيم الدرجة إلى مفردات.`;
+
+ $("formulaInfo").className=
+  `grade-info ${locked?"locked":""} ${pending?"pending-admin":""} ${reopened?"reopened":""}`;
+
+ if(locked){
+  $("formulaInfo").innerHTML=
+   `<div>
+     <strong>${esc(a?.subjectName||"المادة")}:</strong> ${esc(editLockText(selectedPeriod))}
+     ${pending?'<div class="admin-review-note">بانتظار قرار الإدارة: اعتماد التعديل الجديد أو الإبقاء على الدرجة الرسمية السابقة.</div>':""}
+    </div>
+    <button class="setup" type="button" disabled>${pending?"بانتظار الإدارة":"التعديل مقفل"}</button>`;
+  return
+ }
+
+ $("formulaInfo").innerHTML=
+  `<div>
+    <strong>${esc(a?.subjectName||"المادة")}:</strong> ${txt}
+    ${reopened?`<div class="lock-state-line reopened">${esc(submissionUnlockText(selectedPeriod))}</div>`:""}
+   </div>
+   <button class="setup" type="button" onclick="openFormulaModal('${selectedPeriod}')">${formulaConfigured(selectedPeriod)?"تعديل تقسيم الدرجة":"تقسيم الدرجة"}</button>`
 }
 function filteredStudents(){const q=norm($("searchInput").value);return studentsOfClass(selectedClassId).filter(st=>!q||norm(`${st.name} ${st.code}`).includes(q))}
 function componentValue(code,period,key){
- const explicit=grades[code]?.components?.[period]?.[key];
- if(explicit!==undefined&&explicit!==null&&explicit!=="")return explicit;
- const direct=grades[code]?.[period],parts=activeComponents(period);
- if(rawText(direct)===""||!parts.length)return"";
- const comp=parts.find(x=>x.key===key);if(!comp)return"";
- const n=calcGradeValue(direct);if(n===null)return"";
- const total=Math.max(1,subjectMax()),value=Number(n)*Number(comp.max||0)/total;
- return Math.round(value*100)/100
+ const explicit=
+  grades[code]?.components?.[period]?.[key];
+
+ if(
+  explicit!==undefined&&
+  explicit!==null&&
+  explicit!==""
+ ){
+  return explicit
+ }
+
+ /*
+   لا نوزع الدرجة المباشرة تلقائياً على مفردات الفصل.
+   امتحان إلكتروني/حضوري يبقى فقط في المفردة التي حددها الأستاذ.
+ */
+ return""
 }
 function hydrateComponentsFromDirect(code,period){
- if(!formulaConfigured(period))return;
- const rec=ensureRecord(code);rec.components??={};rec.components[period]??={};
- const current=rec.components[period],direct=rec[period];
- if(rawText(direct)==="")return;
- for(const comp of activeComponents(period)){
-  if(rawText(current[comp.key])==="")current[comp.key]=componentValue(code,period,comp.key)
- }
+ /*
+   متعمد: لا يتم توليد مفردات من الدرجة النهائية للفترة.
+   كل مفردة يجب أن تكون محفوظة فعلياً في components.
+ */
+ return
 }
 function directValue(code,period){return grades[code]?.[period]??""}
 function periodTotal(code,period){
- if(!formulaConfigured(period))return calcGradeValue(directValue(code,period));
- const comps=activeComponents(period);let total=0,seen=false;
- for(const comp of comps){const raw=componentValue(code,period,comp.key),v=calcGradeValue(raw);if(rawText(raw)!==""){seen=true;total+=Number(v||0)}}
- return seen?Math.round(total*100)/100:null
+ if(!formulaConfigured(period)){
+  return calcGradeValue(
+   directValue(
+    code,
+    period
+   )
+  )
+ }
+
+ const comps=
+  activeComponents(
+   period
+  );
+
+ let total=0;
+
+ for(const comp of comps){
+  const raw=
+   componentValue(
+    code,
+    period,
+    comp.key
+   );
+
+  if(rawText(raw)===""){
+   return null
+  }
+
+  const value=
+   calcGradeValue(raw);
+
+  total+=Number(
+   value||0
+  )
+ }
+
+ return Math.round(
+  total*100
+ )/100
 }
 function annualPreview(code){
  const a=periodTotal(code,"term1"),b=periodTotal(code,"midyear"),c=periodTotal(code,"term2");
@@ -636,7 +845,11 @@ function renderGradeTable(){
     })());
   return`<tr><td class="seq-col">${esc(st.serial||i+1)}</td><td class="name-col"><div class="student-name">${esc(st.name||"—")}</div><div class="student-code">${esc(st.code)}</div></td>${inputs}<td id="annual_${safeId(st.code)}" class="total-col ${annualLocked?"admin-locked-annual":annualFail?"fail":""}">${annualLocked?"مقفل":(annual===null?"—":annual)}</td></tr>`
  }).join("")}</tbody></table></div>`;
- $("saveGradesBtn").disabled=locked
+ $("saveGradesBtn").disabled=locked;
+ $("saveGradesBtn").classList.toggle("pending",submissionPendingAdmin(selectedPeriod));
+ $("saveGradesBtn").textContent=locked
+  ?(submissionPendingAdmin(selectedPeriod)?"بانتظار اعتماد الإدارة":"درجات الفترة مقفلة")
+  :"حفظ وقفل درجات الفترة"
 }
 function ensureRecord(code){if(!grades[code])grades[code]={};return grades[code]}
 function scoreFocus(input){if(editLocked(selectedPeriod)){input.blur();toast(editLockText(selectedPeriod),"warn")}}
@@ -653,6 +866,289 @@ function scoreChanged(input){
  const annual=annualPreview(code),annualCell=$(`annual_${safeId(code)}`),annualLocked=periodLocked("annual");if(annualCell){annualCell.textContent=annualLocked?"مقفل":(annual===null?"—":annual);annualCell.classList.toggle("admin-locked-annual",annualLocked);annualCell.classList.toggle("fail",!annualLocked&&annual!==null&&annual<subjectPass())}
 }
 
+
+function deepCopy(value){
+ try{
+  return JSON.parse(
+   JSON.stringify(
+    value??null
+   )
+  )
+ }catch{
+  return value??null
+ }
+}
+
+function normalizedGradeCompare(value){
+ const raw=
+  rawText(value);
+
+ if(raw==="")return"";
+
+ const n=
+  Number(raw);
+
+ return Number.isFinite(n)
+  ?String(
+    Math.round(n*1000)/1000
+   )
+  :raw
+}
+
+function sameGradeValue(a,b){
+ return normalizedGradeCompare(a)===
+        normalizedGradeCompare(b)
+}
+
+function stableObject(value){
+ if(!value||typeof value!=="object"){
+  return value??null
+ }
+
+ if(Array.isArray(value)){
+  return value.map(
+   stableObject
+  )
+ }
+
+ const out={};
+
+ Object.keys(value)
+ .sort()
+ .forEach(
+  key=>{
+   out[key]=
+    stableObject(
+     value[key]
+    )
+  }
+ );
+
+ return out
+}
+
+function sameComponents(a,b){
+ return JSON.stringify(
+  stableObject(a||{})
+ )===
+ JSON.stringify(
+  stableObject(b||{})
+ )
+}
+
+function baselineRecord(code){
+ return GRADE_BASELINE?.[code]||{}
+}
+
+function proposedComponents(code,period){
+ return deepCopy(
+  grades?.[code]?.components?.[period]||{}
+ )
+}
+
+function makeGradeChangeId(studentCode,period){
+ let rnd="";
+
+ try{
+  const arr=
+   new Uint32Array(2);
+
+  crypto.getRandomValues(arr);
+
+  rnd=
+   [...arr]
+   .map(
+    n=>
+     n.toString(36)
+   )
+   .join("")
+ }catch{
+  rnd=
+   Math.random()
+   .toString(36)
+   .slice(2,11)
+ }
+
+ return`GC_${Date.now().toString(36)}_${safeId(studentCode)}_${safeId(period)}_${rnd}`
+}
+
+function currentOfficialGrade(code,period){
+ return baselineRecord(code)?.[period]??""
+}
+
+function proposedOfficialGrade(code,period){
+ return formulaConfigured(period)
+  ?periodTotal(code,period)
+  :storedGradeValue(
+    directValue(
+     code,
+     period
+    )
+   )
+}
+
+function proposedAnnualGrade(code){
+ return annualPreview(code)
+}
+
+function matchingStudentObjection(studentCode,subjectId,period){
+ return Object.entries(
+  GRADE_OBJECTIONS||{}
+ )
+ .map(
+  ([id,o])=>({
+   id,
+   ...(o||{})
+  })
+ )
+ .filter(
+  o=>
+   String(o.studentCode||"")===
+   String(studentCode)&&
+   String(o.subjectId||"")===
+   String(subjectId)&&
+   String(o.period||"")===
+   String(period)
+ )
+ .sort(
+  (a,b)=>
+   Number(b.createdAt||0)-
+   Number(a.createdAt||0)
+ )[0]||null
+}
+
+async function refreshObjectionsForAudit(){
+ try{
+  GRADE_OBJECTIONS=
+   await dbGet(
+    "gradeObjections"
+   )||{}
+ }catch(error){
+  console.warn(
+   "GRADE_AUDIT_OBJECTION_REFRESH",
+   error
+  )
+ }
+}
+
+function gradeChangeRequestData({
+ id,
+ student,
+ assignment,
+ period,
+ oldGrade,
+ newGrade,
+ oldComponents,
+ newComponents,
+ oldAnnual,
+ newAnnual,
+ objection,
+ now
+}){
+ const sub=
+  submissionState(period);
+
+ return{
+  id,
+  type:"grade_change_after_admin_unlock",
+  status:"pending_admin",
+  unread:true,
+  studentCode:
+   student.code,
+  studentName:
+   student.name||"",
+  classId:
+   selectedClassId,
+  className:
+   classes[selectedClassId]?.name||
+   selectedClassId,
+  subjectId:
+   assignment.subjectId,
+  subjectName:
+   assignment.subjectName,
+  period,
+  periodLabel:
+   PERIODS[period]?.label||
+   period,
+  oldGrade:
+   oldGrade,
+  newGrade:
+   newGrade,
+  oldComponents:
+   deepCopy(oldComponents),
+  newComponents:
+   deepCopy(newComponents),
+  oldAnnual:
+   oldAnnual??null,
+  newAnnual:
+   newAnnual??null,
+  annualMayChange:
+   !sameGradeValue(
+    oldAnnual,
+    newAnnual
+   ),
+  teacherCode:
+   TEACHER_CODE,
+  teacherName:
+   teacher.name||
+   teacherUser.name||
+   "",
+  changedAt:
+   now,
+  changedBy:
+   TEACHER_CODE,
+  previousRevision:
+   Number(
+    sub.revision||1
+   ),
+  unlockedAt:
+   sub.unlockedAt||
+   null,
+  unlockedBy:
+   sub.unlockedBy||
+   null,
+  unlockedByName:
+   sub.unlockedByName||
+   "",
+  unlockReason:
+   sub.unlockReason||
+   "",
+  objectionId:
+   objection?.id||
+   null,
+  objectionGradeAtSubmit:
+   objection?.gradeAtSubmit??
+   null,
+  fromStudentObjection:
+   Boolean(
+    objection
+   ),
+  adminDecision:null,
+  adminReviewedAt:null,
+  adminReviewedBy:null
+ }
+}
+
+function officialPeriodMeta(period,grade,now,revision){
+ return{
+  value:
+   grade,
+  locked:true,
+  period,
+  periodLabel:
+   PERIODS[period]?.label||
+   period,
+  lockedAt:now,
+  lockedBy:
+   TEACHER_CODE,
+  lockedByName:
+   teacher.name||
+   teacherUser.name||
+   "",
+  revision,
+  source:"teacher_locked_submission"
+ }
+}
 function focusScoreInput(target){
  if(!target||target.disabled)return false;
  try{target.focus({preventScroll:true})}catch{target.focus()}
@@ -724,29 +1220,580 @@ $("tableArea").addEventListener("keydown",e=>{
  if(input)scoreKeyNav(e,input)
 });
 $("saveGradesBtn").onclick=async()=>{
- if(!selectedClassId||!activeAssignment()||!validateScores())return;
- if(await refreshEditLock(selectedPeriod)){toast(editLockText(selectedPeriod));renderPeriodButtons();renderFormulaInfo();renderGradeTable();return}
- const missing=missingGradeEntry();
- if(missing){toast(`لا يمكن الحفظ: تركت ${missing.field} فارغة عند ${missing.student.name||"أحد الطلبة"}. ضع 0 أو اكتب غياب / تارك / ملاحظة ثم حاول الحفظ من جديد.`);return}
- if(!await verifyTeacherWritePermission()){toast("تعذر التحقق من صلاحية حساب الأستاذ. لم يتم الحفظ.");return}
- const btn=$("saveGradesBtn");btn.disabled=true;btn.textContent="جاري حفظ الدرجات...";
+ if(
+  !selectedClassId||
+  !activeAssignment()||
+  !validateScores()
+ ){
+  return
+ }
+
+ if(
+  await refreshEditLock(
+   selectedPeriod
+  )
+ ){
+  toast(
+   editLockText(
+    selectedPeriod
+   )
+  );
+
+  renderPeriodButtons();
+  renderFormulaInfo();
+  renderGradeTable();
+  return
+ }
+
+ const missing=
+  missingGradeEntry();
+
+ if(missing){
+  toast(
+   `لا يمكن الحفظ والقفل: تركت ${missing.field} فارغة عند ${missing.student.name||"أحد الطلبة"}. أكمل جميع مفردات الفترة أولاً.`
+  );
+  return
+ }
+
+ if(
+  !await verifyTeacherWritePermission()
+ ){
+  toast(
+   "تعذر التحقق من صلاحية حساب الأستاذ. لم يتم الحفظ.",
+   "error"
+  );
+  return
+ }
+
+ const btn=
+  $("saveGradesBtn");
+
+ btn.disabled=true;
+ btn.textContent=
+  "جاري الحفظ والقفل...";
+
  try{
-  const a=activeAssignment(),updates={},now=Date.now(),configured=formulaConfigured(selectedPeriod),submissionBase=`teacherGradeSubmissions/${TEACHER_CODE}/${selectedClassId}/${a.subjectId}/${selectedPeriod}`;
-  for(const st of studentsOfClass(selectedClassId)){
-   const rec=grades[st.code]||{},base=`grades/${st.code}/${a.subjectId}`;
-   updates[`${base}/subjectId`]=a.subjectId;updates[`${base}/subjectName`]=a.subjectName;updates[`${base}/maxGrade`]=a.maxGrade;updates[`${base}/passGrade`]=a.passGrade;updates[`${base}/teacherCode`]=TEACHER_CODE;updates[`${base}/classId`]=selectedClassId;updates[`${base}/updatedAt`]=now;updates[`${base}/updatedBy`]=TEACHER_CODE;updates[`${base}/updatedSource`]="teacher";updates[`${base}/canonicalVersion`]=1;
-   if(configured)updates[`${base}/${selectedPeriod}`]=periodTotal(st.code,selectedPeriod);else updates[`${base}/${selectedPeriod}`]=storedGradeValue(directValue(st.code,selectedPeriod));
-   updates[`${base}/annual`]=annualPreview(st.code);
-   if(configured)updates[`${base}/components/${selectedPeriod}`]=rec.components?.[selectedPeriod]||null;
-   const oldKey=gradeKeys[st.code];if(oldKey&&oldKey!==a.subjectId)updates[`grades/${st.code}/${oldKey}`]=null
+  const a=
+         activeAssignment(),
+        now=
+         Date.now(),
+        configured=
+         formulaConfigured(
+          selectedPeriod
+         ),
+        subBefore=
+         deepCopy(
+          submissionState(
+           selectedPeriod
+          )
+         ),
+        resubmission=
+         submissionPreviouslySubmitted(
+          selectedPeriod
+         ),
+        reopened=
+         submissionAdminReopened(
+          selectedPeriod
+         ),
+        submissionBase=
+         `teacherGradeSubmissions/${TEACHER_CODE}/${selectedClassId}/${a.subjectId}/${selectedPeriod}`,
+        nextRevision=
+         Math.max(
+          1,
+          Number(
+           subBefore.revision||0
+          )+1
+         );
+
+ /*
+   إعادة الحفظ بعد قفل سابق لا يسمح بها إلا إذا الإدارة فتحت القفل.
+ */
+ if(
+  resubmission&&
+  !reopened
+ ){
+  throw new Error(
+   "GRADE_PERIOD_NOT_ADMIN_REOPENED"
+  )
+ }
+
+ /*
+   نحدّث الاعتراضات قبل بناء سجل التعديل حتى نربط التعديل
+   بأي اعتراض طالب موجود على نفس المادة والفترة.
+ */
+ if(resubmission){
+  await refreshObjectionsForAudit()
+ }
+
+ const updates={},
+       changedIds=[],
+       changedStudents=[];
+
+ for(
+  const st
+  of studentsOfClass(
+   selectedClassId
+  )
+ ){
+  const current=
+         grades[st.code]||{},
+        baseline=
+         baselineRecord(
+          st.code
+         ),
+        base=
+         `grades/${st.code}/${a.subjectId}`,
+        newGrade=
+         proposedOfficialGrade(
+          st.code,
+          selectedPeriod
+         ),
+        oldGrade=
+         baseline?.[
+          selectedPeriod
+         ]??"",
+        newComponents=
+         configured
+          ?proposedComponents(
+            st.code,
+            selectedPeriod
+           )
+          :{},
+        oldComponents=
+         configured
+          ?deepCopy(
+            baseline?.components?.[
+             selectedPeriod
+            ]||{}
+           )
+          :{},
+        oldAnnual=
+         baseline?.annual??
+         null,
+        newAnnual=
+         proposedAnnualGrade(
+          st.code
+         );
+
+  if(
+   newGrade===null||
+   rawText(newGrade)===""
+  ){
+   throw new Error(
+    `MISSING_FINAL_PERIOD_GRADE:${st.code}`
+   )
   }
-  updates[`${submissionBase}/locked`]=true;updates[`${submissionBase}/submittedAt`]=now;updates[`${submissionBase}/submittedBy`]=TEACHER_CODE;updates[`${submissionBase}/classId`]=selectedClassId;updates[`${submissionBase}/subjectId`]=a.subjectId;updates[`${submissionBase}/period`]=selectedPeriod;
-  await dbPatch("",updates);
-  gradesDirty=false;SUBMISSIONS[selectedPeriod]={locked:true,submittedAt:now,submittedBy:TEACHER_CODE};
-  toast(`تم حفظ درجات ${PERIODS[selectedPeriod].label} بنجاح. بعد الحفظ لا يمكن تعديلها إلا بعد مراجعة الإدارة وإعادة فتحها لك.`);
-  await loadClassGrades();await Promise.all([loadGradeLocks(),loadSubmissionState()]);renderPeriodButtons();renderFormulaInfo();renderGradeTable()
- }catch(e){console.error(e);toast("تعذر حفظ الدرجات. لم يتم اعتماد الحفظ.")}
- finally{btn.disabled=editLocked(selectedPeriod);btn.textContent="حفظ درجات الصف"}
+
+  if(!resubmission){
+   /*
+     أول اعتماد: الدرجة النهائية للفترة هي الدرجة الرسمية
+     التي تقرأها البورد/المنصة من grades.
+   */
+   updates[
+    `${base}/subjectId`
+   ]=a.subjectId;
+   updates[
+    `${base}/subjectName`
+   ]=a.subjectName;
+   updates[
+    `${base}/maxGrade`
+   ]=a.maxGrade;
+   updates[
+    `${base}/passGrade`
+   ]=a.passGrade;
+   updates[
+    `${base}/teacherCode`
+   ]=TEACHER_CODE;
+   updates[
+    `${base}/classId`
+   ]=selectedClassId;
+   updates[
+    `${base}/updatedAt`
+   ]=now;
+   updates[
+    `${base}/updatedBy`
+   ]=TEACHER_CODE;
+   updates[
+    `${base}/updatedSource`
+   ]="teacher_locked_submission";
+   updates[
+    `${base}/canonicalVersion`
+   ]=1;
+   updates[
+    `${base}/${selectedPeriod}`
+   ]=newGrade;
+
+   if(configured){
+    updates[
+     `${base}/components/${selectedPeriod}`
+    ]=newComponents
+   }
+
+   if(
+    newAnnual!==null&&
+    rawText(newAnnual)!==""
+   ){
+    updates[
+     `${base}/annual`
+    ]=newAnnual
+   }
+
+   updates[
+    `${base}/officialPeriods/${selectedPeriod}`
+   ]=
+    officialPeriodMeta(
+     selectedPeriod,
+     newGrade,
+     now,
+     nextRevision
+    );
+
+   const oldKey=
+    gradeKeys[
+     st.code
+    ];
+
+   if(
+    oldKey&&
+    oldKey!==a.subjectId
+   ){
+    updates[
+     `grades/${st.code}/${oldKey}`
+    ]=null
+   }
+
+   continue
+  }
+
+  /*
+    بعد فتح الإدارة للقفل:
+    لا نستبدل الدرجة الرسمية فوراً.
+    نرسل القديمة والجديدة للإدارة، والقديمة تبقى رسمية
+    إلى أن تعتمد الإدارة إحدى القيمتين.
+  */
+  const gradeChanged=
+         !sameGradeValue(
+          oldGrade,
+          newGrade
+         ),
+        componentsChanged=
+         configured&&
+         !sameComponents(
+          oldComponents,
+          newComponents
+         );
+
+  if(
+   !gradeChanged&&
+   !componentsChanged
+  ){
+   continue
+  }
+
+  const id=
+         makeGradeChangeId(
+          st.code,
+          selectedPeriod
+         ),
+        objection=
+         matchingStudentObjection(
+          st.code,
+          a.subjectId,
+          selectedPeriod
+         ),
+        request=
+         gradeChangeRequestData({
+          id,
+          student:st,
+          assignment:a,
+          period:selectedPeriod,
+          oldGrade,
+          newGrade,
+          oldComponents,
+          newComponents,
+          oldAnnual,
+          newAnnual,
+          objection,
+          now
+         });
+
+  changedIds.push(id);
+  changedStudents.push({
+   code:st.code,
+   name:st.name||"",
+   oldGrade,
+   newGrade,
+   id,
+   objectionId:
+    objection?.id||
+    null
+  });
+
+  updates[
+   `gradeChangeRequests/${id}`
+  ]=request;
+
+  updates[
+   `gradeChangeAudit/${id}`
+  ]={
+   ...request,
+   auditOnly:true
+  };
+
+  updates[
+   `adminGradeAlerts/${id}`
+  ]={
+   id,
+   category:"grade_change",
+   unread:true,
+   status:"pending_admin",
+   title:
+    objection
+     ?"تعديل درجة بعد اعتراض طالب"
+     :"تعديل درجة بعد فتح القفل",
+   studentCode:
+    st.code,
+   studentName:
+    st.name||"",
+   classId:
+    selectedClassId,
+   className:
+    classes[selectedClassId]?.name||
+    selectedClassId,
+   subjectId:
+    a.subjectId,
+   subjectName:
+    a.subjectName,
+   period:
+    selectedPeriod,
+   periodLabel:
+    PERIODS[selectedPeriod]?.label||
+    selectedPeriod,
+   oldGrade,
+   newGrade,
+   teacherCode:
+    TEACHER_CODE,
+   teacherName:
+    teacher.name||
+    teacherUser.name||
+    "",
+   changeRequestId:id,
+   objectionId:
+    objection?.id||
+    null,
+   createdAt:now
+  };
+
+  updates[
+   `gradeHistory/${st.code}/${a.subjectId}/${selectedPeriod}/${id}`
+  ]={
+   oldGrade,
+   newGrade,
+   teacherCode:
+    TEACHER_CODE,
+   changedAt:now,
+   changeRequestId:id,
+   status:"pending_admin",
+   source:
+    objection
+     ?"student_objection"
+     :"admin_unlock"
+  };
+
+  if(objection){
+   updates[
+    `gradeObjections/${objection.id}/gradeBeforeChange`
+   ]=oldGrade;
+   updates[
+    `gradeObjections/${objection.id}/gradeAfterChange`
+   ]=newGrade;
+   updates[
+    `gradeObjections/${objection.id}/teacherProposedGrade`
+   ]=newGrade;
+   updates[
+    `gradeObjections/${objection.id}/changeRequestId`
+   ]=id;
+   updates[
+    `gradeObjections/${objection.id}/teacherChangedAfterObjection`
+   ]=true;
+   updates[
+    `gradeObjections/${objection.id}/teacherChangedAt`
+   ]=now;
+   updates[
+    `gradeObjections/${objection.id}/adminGradeDecisionPending`
+   ]=true
+  }
+ }
+
+ const firstSubmittedAt=
+  subBefore.firstSubmittedAt||
+  subBefore.submittedAt||
+  now;
+
+ updates[
+  `${submissionBase}/locked`
+ ]=true;
+ updates[
+  `${submissionBase}/everSubmitted`
+ ]=true;
+ updates[
+  `${submissionBase}/firstSubmittedAt`
+ ]=firstSubmittedAt;
+ updates[
+  `${submissionBase}/submittedAt`
+ ]=now;
+ updates[
+  `${submissionBase}/submittedBy`
+ ]=TEACHER_CODE;
+ updates[
+  `${submissionBase}/submittedByName`
+ ]=
+  teacher.name||
+  teacherUser.name||
+  "";
+ updates[
+  `${submissionBase}/classId`
+ ]=selectedClassId;
+ updates[
+  `${submissionBase}/subjectId`
+ ]=a.subjectId;
+ updates[
+  `${submissionBase}/subjectName`
+ ]=a.subjectName;
+ updates[
+  `${submissionBase}/period`
+ ]=selectedPeriod;
+ updates[
+  `${submissionBase}/periodLabel`
+ ]=
+  PERIODS[selectedPeriod]?.label||
+  selectedPeriod;
+ updates[
+  `${submissionBase}/revision`
+ ]=nextRevision;
+ updates[
+  `${submissionBase}/lastLockedAt`
+ ]=now;
+ updates[
+  `${submissionBase}/lastLockedBy`
+ ]=TEACHER_CODE;
+
+ if(resubmission){
+  updates[
+   `${submissionBase}/pendingApproval`
+  ]=
+   changedIds.length>0;
+  updates[
+   `${submissionBase}/pendingChangeCount`
+  ]=
+   changedIds.length;
+  updates[
+   `${submissionBase}/pendingChangeIds`
+  ]=
+   changedIds.length
+    ?Object.fromEntries(
+      changedIds.map(
+       id=>[
+        id,
+        true
+       ]
+      )
+     )
+    :null;
+  updates[
+   `${submissionBase}/lastResubmittedAt`
+  ]=now;
+  updates[
+   `${submissionBase}/adminUnlocked`
+  ]=false
+ }else{
+  updates[
+   `${submissionBase}/pendingApproval`
+  ]=false;
+  updates[
+   `${submissionBase}/pendingChangeCount`
+  ]=0
+ }
+
+ await dbPatch(
+  "",
+  updates
+ );
+
+ gradesDirty=false;
+
+ if(!resubmission){
+  toast(
+   `تم حفظ واعتماد درجات ${PERIODS[selectedPeriod].label} وقفلها. الدرجة النهائية للفترة أصبحت هي الدرجة الرسمية المعتمدة في البورد والمنصة.`,
+   "success"
+  )
+ }else if(changedIds.length){
+  toast(
+   `تم قفل الفترة وإرسال ${changedIds.length} تعديل إلى الإدارة. الدرجات الرسمية القديمة لم تتغير بعد؛ الإدارة سترى الدرجة القديمة والجديدة وتختار ما يتم اعتماده.`,
+   "success"
+  )
+ }else{
+  toast(
+   `لم توجد فروقات في الدرجات. تم إعادة قفل ${PERIODS[selectedPeriod].label}.`,
+   "success"
+  )
+ }
+
+ await loadClassGrades();
+
+ await Promise.all([
+  loadGradeLocks(),
+  loadSubmissionState(),
+  loadTeacherObjections()
+ ]);
+
+ renderPeriodButtons();
+ renderFormulaInfo();
+ renderGradeTable()
+ }
+ catch(error){
+  console.error(
+   "SAVE_LOCKED_GRADES_ERROR",
+   error
+  );
+
+  const message=
+   String(
+    error?.message||
+    ""
+   );
+
+  if(
+   message==="GRADE_PERIOD_NOT_ADMIN_REOPENED"
+  ){
+   toast(
+    "الفترة سبق حفظها وقفلها. يجب أن تفتحها الإدارة أولاً قبل أي تعديل جديد.",
+    "error"
+   )
+  }else if(
+   message.startsWith(
+    "MISSING_FINAL_PERIOD_GRADE"
+   )
+  ){
+   toast(
+    "لا يمكن القفل قبل اكتمال الدرجة النهائية للفترة لجميع الطلبة.",
+    "error"
+   )
+  }else{
+   toast(
+    "تعذر حفظ وقفل الدرجات. لم يتم اعتماد أي تغيير.",
+    "error"
+   )
+  }
+ }
+ finally{
+  btn.disabled=
+   editLocked(
+    selectedPeriod
+   );
+  btn.textContent=
+   "حفظ وقفل درجات الفترة"
+ }
 }
 
 
@@ -953,35 +2000,145 @@ function teacherCanSeeObjection(o){
  if(!o||!o.classId||!o.subjectId)return false;
  return assignments.some(a=>String(a.classId)===String(o.classId)&&(String(a.subjectId)===String(o.subjectId)||norm(a.subjectName)===norm(o.subjectName)))
 }
-function teacherObjectionStatusLabel(v){return v==="resolved"?"تمت المراجعة":v==="reviewing"?"قيد المراجعة":v==="rejected"?"مرفوض":"جديد"}
+function teacherObjectionStatusLabel(v){
+ return v==="resolved"
+  ?"تمت المراجعة"
+  :v==="reviewing"
+   ?"قيد المراجعة"
+   :v==="rejected"
+    ?"مرفوض"
+    :v==="grade_changed_pending_admin"
+     ?"تعديل بانتظار الإدارة"
+     :"جديد"
+}
 function teacherObjectionRows(){
  return Object.entries(GRADE_OBJECTIONS||{}).map(([id,o])=>({id,...(o||{})})).filter(teacherCanSeeObjection).sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0))
 }
 function renderTeacherObjections(){
- const rows=teacherObjectionRows(),pending=rows.filter(x=>!["resolved","rejected"].includes(x.status)).length;
- $("teacherObjectionCount").textContent=String(pending);
- $("teacherObjectionsList").innerHTML=rows.length?rows.map(o=>`<article class="teacher-objection ${esc(o.status||"pending")}">
-  <div class="teacher-objection-head"><strong>${esc(o.studentName||o.studentCode||"طالب")}</strong><span>${esc(teacherObjectionStatusLabel(o.status))}</span></div>
-  <div class="teacher-objection-meta">${esc(o.className||"")} — ${esc(o.subjectName||"")} — ${esc(OBJECTION_PERIOD_LABELS[o.period]||o.period||"")} — الدرجة عند الاعتراض: ${esc(o.gradeAtSubmit??"—")}</div>
-  ${o.note?`<div class="teacher-objection-note">${esc(o.note)}</div>`:""}
-  ${o.adminReply?`<div class="teacher-objection-note">رد الإدارة: ${esc(o.adminReply)}</div>`:""}
-  <div class="teacher-objection-actions">
-   <input id="teacherObjReply_${safeId(o.id)}" value="${esc(o.teacherReply||"")}" placeholder="اكتب رد الأستاذ">
-   <button type="button" class="teacher-objection-review" onclick="updateTeacherObjection('${safeJS(o.id)}','reviewing')">قيد المراجعة</button>
-   <button type="button" class="teacher-objection-resolve" onclick="updateTeacherObjection('${safeJS(o.id)}','resolved')">تمت المراجعة</button>
-  </div>
- </article>`).join(""):`<div class="empty">لا توجد اعتراضات على موادك حالياً.</div>`
+ const rows=
+        teacherObjectionRows(),
+       pending=
+        rows.filter(
+         x=>
+          ![
+           "resolved",
+           "rejected"
+          ].includes(
+           x.status
+          )
+        ).length;
+
+ $("teacherObjectionCount").textContent=
+  String(
+   pending
+  );
+
+ $("teacherObjectionsList").innerHTML=
+  rows.length
+   ?rows.map(
+     o=>{
+      const changed=
+       o.teacherChangedAfterObjection===true||
+       o.gradeBeforeChange!==undefined||
+       o.gradeAfterChange!==undefined;
+
+      return`
+       <article class="teacher-objection ${esc(o.status||"pending")}">
+        <div class="teacher-objection-head">
+         <strong>${esc(o.studentName||o.studentCode||"طالب")}</strong>
+         <span>${esc(teacherObjectionStatusLabel(o.status))}</span>
+        </div>
+        <div class="teacher-objection-meta">
+         ${esc(o.className||"")} — ${esc(o.subjectName||"")} — ${esc(OBJECTION_PERIOD_LABELS[o.period]||o.period||"")} — الدرجة عند الاعتراض: ${esc(o.gradeAtSubmit??"—")}
+        </div>
+        ${
+         changed
+          ?`<div class="teacher-objection-change">
+             الدرجة الرسمية قبل التعديل: <b>${esc(o.gradeBeforeChange??o.gradeAtSubmit??"—")}</b><br>
+             الدرجة المقترحة بعد التعديل: <b>${esc(o.gradeAfterChange??o.teacherProposedGrade??"—")}</b><br>
+             ${o.adminGradeDecisionPending===true?"بانتظار قرار الإدارة لاعتماد القديمة أو الجديدة.":"تمت معالجة قرار الدرجة من الإدارة."}
+            </div>`
+          :""
+        }
+        ${o.note?`<div class="teacher-objection-note">${esc(o.note)}</div>`:""}
+        ${o.adminReply?`<div class="teacher-objection-note">رد الإدارة: ${esc(o.adminReply)}</div>`:""}
+        <div class="teacher-objection-actions">
+         <input id="teacherObjReply_${safeId(o.id)}" value="${esc(o.teacherReply||"")}" placeholder="اكتب رد الأستاذ">
+         <button type="button" class="teacher-objection-review" onclick="updateTeacherObjection('${safeJS(o.id)}','reviewing')">قيد المراجعة</button>
+         <button type="button" class="teacher-objection-resolve" onclick="updateTeacherObjection('${safeJS(o.id)}','resolved')">تمت المراجعة</button>
+        </div>
+       </article>`
+     }
+    ).join("")
+   :`<div class="empty">لا توجد اعتراضات على موادك حالياً.</div>`
 }
 async function loadTeacherObjections(){
  try{GRADE_OBJECTIONS=await dbGet("gradeObjections")||{};renderTeacherObjections()}catch(e){console.error("TEACHER_OBJECTIONS_LOAD",e)}
 }
 async function updateTeacherObjection(id,status){
- const o=GRADE_OBJECTIONS[id];if(!o||!teacherCanSeeObjection(o))return toast("هذا الاعتراض لا يخص موادك.","error");
- const reply=$(`teacherObjReply_${safeId(id)}`)?.value?.trim()||"";
+ const o=
+  GRADE_OBJECTIONS[
+   id
+  ];
+
+ if(
+  !o||
+  !teacherCanSeeObjection(o)
+ ){
+  return toast(
+   "هذا الاعتراض لا يخص موادك.",
+   "error"
+  )
+ }
+
+ const reply=
+  $(
+   `teacherObjReply_${safeId(id)}`
+  )?.value?.trim()||
+  "";
+
  try{
-  const patch={status,teacherReply:reply,teacherReviewedAt:Date.now(),teacherReviewedBy:TEACHER_CODE};
-  await dbPatch(`gradeObjections/${encodeURIComponent(id)}`,patch);Object.assign(o,patch);renderTeacherObjections();toast("تم تحديث الاعتراض.","success")
- }catch(e){console.error(e);toast("تعذر تحديث الاعتراض.","error")}
+  const patch={
+   status,
+   teacherReply:
+    reply,
+   teacherReviewedAt:
+    Date.now(),
+   teacherReviewedBy:
+    TEACHER_CODE
+  };
+
+  /*
+    إذا يوجد تعديل درجة بانتظار الإدارة لا نمسح بيانات القديمة والجديدة.
+    تبقى مرتبطة بالاعتراض حتى يحسمها حساب الإدارة.
+  */
+  await dbPatch(
+   `gradeObjections/${encodeURIComponent(id)}`,
+   patch
+  );
+
+  Object.assign(
+   o,
+   patch
+  );
+
+  renderTeacherObjections();
+
+  toast(
+   o.adminGradeDecisionPending===true
+    ?"تم تحديث الاعتراض. تعديل الدرجة ما زال بانتظار اعتماد الإدارة."
+    :"تم تحديث الاعتراض.",
+   "success"
+  )
+ }
+ catch(error){
+  console.error(error);
+
+  toast(
+   "تعذر تحديث الاعتراض.",
+   "error"
+  )
+ }
 }
 function openTeacherObjections(){loadTeacherObjections();$("teacherObjectionsModal").classList.add("show")}
 function closeTeacherObjections(){$("teacherObjectionsModal").classList.remove("show")}
