@@ -418,6 +418,155 @@
  font-weight:900;
 }
 
+
+/* ================= Final result layout + gender palette ================= */
+#gradeStageStatus{
+ display:flex!important;
+ gap:6px!important;
+ overflow-x:auto!important;
+ padding:2px 0 8px!important;
+}
+.grade-stage-chip.wait{display:none!important}
+.grade-report-status{
+ min-height:32px!important;
+ padding:7px 9px!important;
+ font-size:7.3px!important;
+}
+#gradeLatestStatus{font-size:7.4px!important}
+
+#gradesContent.grade-boys .grade-table th,
+#gradesContent.grade-boys .grade-table tbody td:first-child,
+#gradesContent.grade-boys .grade-table tfoot td:first-child{
+ background:#5798cc!important;
+ color:#fff!important;
+}
+#gradesContent.grade-boys .grade-table td{
+ background:#dceafa;
+}
+#gradesContent.grade-girls .grade-table th,
+#gradesContent.grade-girls .grade-table tbody td:first-child,
+#gradesContent.grade-girls .grade-table tfoot td:first-child{
+ background:#dd88b6!important;
+ color:#fff!important;
+ border-color:#b96c96!important;
+}
+#gradesContent.grade-girls .grade-table td{
+ background:#fde7f2;
+ border-color:#c79bad!important;
+}
+#gradesContent.grade-girls .grade-table tfoot td{
+ background:#f6d4e5;
+}
+#gradesContent.grade-girls .grade-student-card{
+ background:linear-gradient(135deg,#d85b9c,#b53f7e)!important;
+ box-shadow:0 14px 35px rgba(181,63,126,.18)!important;
+}
+
+.main-result-merged{
+ writing-mode:vertical-rl!important;
+ transform:none!important;
+ text-orientation:mixed!important;
+ direction:rtl!important;
+ text-align:center!important;
+ vertical-align:middle!important;
+ white-space:normal!important;
+ word-break:normal!important;
+ overflow:hidden!important;
+ padding:5px 2px!important;
+ font-size:10px!important;
+ line-height:1.28!important;
+ font-weight:900!important;
+ letter-spacing:.2px!important;
+}
+.main-result-merged.success{
+ background:#d9f4e2!important;
+ color:#08743b!important;
+}
+.main-result-merged.warning{
+ background:#fff0d1!important;
+ color:#9a5b00!important;
+}
+.main-result-merged.fail{
+ background:#ffe0de!important;
+ color:#c62828!important;
+ text-decoration:underline!important;
+ text-decoration-thickness:1.3px!important;
+}
+.main-result-merged.info{
+ background:#e9e3ff!important;
+ color:#5938bf!important;
+}
+.main-result-merged.neutral{
+ background:#eef2f6!important;
+ color:#667085!important;
+}
+
+.result-sheet.result-boys .result-transcript thead th,
+.result-sheet.result-boys .result-transcript .subject-cell{
+ background:#5798cc!important;
+ color:#fff!important;
+}
+.result-sheet.result-boys .result-transcript td{
+ background:#dceafa;
+}
+.result-sheet.result-girls .result-transcript thead th,
+.result-sheet.result-girls .result-transcript .subject-cell{
+ background:#dd88b6!important;
+ color:#fff!important;
+ border-color:#b96c96!important;
+}
+.result-sheet.result-girls .result-transcript td{
+ background:#fde7f2;
+ border-color:#c79bad!important;
+}
+.result-sheet.result-girls .result-decision-cell{
+ background:#efbed7!important;
+ color:#8f1f5a!important;
+}
+.result-sheet.result-boys .result-decision-cell{
+ background:#b9d5ef!important;
+ color:#084dd6!important;
+}
+.result-transcript tfoot tr:first-child td,
+.result-transcript tfoot tr:nth-child(2) td{
+ background:inherit!important;
+}
+.result-transcript tfoot tr:first-child td,
+.result-transcript tfoot tr:nth-child(2) td{
+ font-weight:900!important;
+}
+.result-sheet.result-boys .result-transcript tfoot td{
+ background:#cfe1f2!important;
+}
+.result-sheet.result-girls .result-transcript tfoot td{
+ background:#f6d4e5!important;
+}
+.result-sheet.result-boys .result-transcript tfoot td:first-child{
+ background:#5798cc!important;color:#fff!important;
+}
+.result-sheet.result-girls .result-transcript tfoot td:first-child{
+ background:#dd88b6!important;color:#fff!important;
+}
+.result-decision-cell{
+ max-width:54px!important;
+ width:54px!important;
+ font-size:11px!important;
+ line-height:1.2!important;
+}
+.result-integrity{
+ margin:8px 0 0;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ gap:5px;
+ font-size:6.6px;
+ font-weight:900;
+ color:#667085;
+}
+.result-integrity.ok{color:#067647}
+.result-integrity.warn{color:#9a5b00}
+.grade-objection-panel:not(.show){display:none!important}
+
 </style></head><body><div
     id="loaderScreen"
     class="loader-screen"
@@ -599,7 +748,7 @@
 <div id="gradeStudentCard" class="grade-student-card"></div>
 <div id="gradeStageStatus" class="grade-stage-status"></div>
 <div id="subjectList" class="subject-list"></div>
-<div class="grade-report-status">النتيجة الإلكترونية: <strong id="gradeLatestStatus">قيد الاكتمال</strong></div>
+<div class="grade-report-status">النتيجة الإلكترونية: <strong id="gradeLatestStatus">لا توجد نتيجة مكتملة بعد</strong></div>
 <div class="grade-table-wrap"><table class="grade-table"><thead><tr><th>المادة</th><th>الفصل الأول</th><th>نصف السنة</th><th>الفصل الثاني</th><th>السعي السنوي</th><th>الامتحان النهائي</th><th>الدرجة النهائية</th><th>الدور الثاني</th><th>النتيجة</th></tr></thead><tbody id="gradeTableBody"></tbody><tfoot id="gradeTableFoot"></tfoot></table></div>
 <div class="grade-result-note">ملاحظة: هذه النتيجة غير رسمية ومخصصة للاطلاع فقط ولا تعد وثيقة مدرسية رسمية.</div>
 <div id="finalResultCard"></div><div class="result-open-wrap"><button id="resultCenterBtn" class="result-open-btn" type="button">عرض النتيجة</button><div class="result-open-note">تظهر فقط النتائج التي اكتملت درجاتها بالكامل، ولا يوجد تحميل للدرجات.</div></div>
@@ -714,8 +863,8 @@
         </button></div></div><div id="resultPreviewModal" class="modal result-modal"><div class="modal-card result-modal-card"><div class="result-modal-head"><div><h3>النتائج المتاحة</h3><p>اختر أي نتيجة مكتملة لمعاينتها بحجم البطاقة الرسمية داخل المنصة.</p></div><button id="closeResultPreview" class="result-modal-close" type="button">×</button></div><div id="resultStageChoices" class="result-stage-list"></div><div id="resultPreviewToolbar" class="result-preview-toolbar hidden"></div><div id="resultPreviewArea" class="result-preview-area"><div id="resultNoReady" class="result-no-ready hidden"><strong>لا توجد نتيجة مكتملة حالياً</strong>تظهر النتيجة هنا بعد اكتمال درجات المرحلة.</div><div id="resultPreviewStage" class="result-preview-stage hidden"><div id="resultPreviewContent" class="result-preview-content"></div></div></div></div></div><div id="gradeObjectionModal" class="modal"><div class="objection-modal-card">
  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><h3 style="font-size:14px">تقديم اعتراض على درجة</h3><button id="closeGradeObjectionBtn" type="button" style="width:34px;height:34px;border:0;border-radius:10px;background:#f1f4f7">×</button></div>
  <div class="objection-form">
-  <div><label>الفترة</label><select id="objectionPeriod"></select></div>
-  <div><label>المادة</label><select id="objectionSubject"></select></div>
+  <div><label>النتيجة / الفترة المكتملة</label><select id="objectionPeriod"></select></div>
+  <div><label>المادة — الاعتراض على درجتها النهائية في هذه الفترة فقط</label><select id="objectionSubject"></select></div>
   <div><label>ملاحظة الطالب (اختياري)</label><textarea id="objectionNote" maxlength="400" placeholder="اكتب سبب الاعتراض إن وجد"></textarea></div>
   <button id="submitGradeObjectionBtn" class="objection-submit" type="button">إرسال الاعتراض</button>
  </div>
@@ -2083,7 +2232,28 @@ function startNotificationPolling(){ clearInterval( notificationPolling ); notif
 
 const OBJECTION_PERIOD_LABELS={term1:"الفصل الأول",midyear:"نصف السنة",term2:"الفصل الثاني",annual:"السعي السنوي",finalExam:"نهاية السنة / الامتحان النهائي",secondRound:"الدور الثاني"};
 function objectionPeriodEnabled(period){const v=gradeObjectionSettings?.[period];return v===true||v?.enabled===true}
-function enabledObjectionPeriods(){return Object.keys(OBJECTION_PERIOD_LABELS).filter(objectionPeriodEnabled)}
+function enabledObjectionPeriods(){
+ if(
+  !gradeModel||
+  !gradeModel.rows?.length
+ ){
+  return[]
+ }
+
+ return Object.keys(
+  OBJECTION_PERIOD_LABELS
+ )
+ .filter(
+  period=>
+   objectionPeriodEnabled(
+    period
+   )&&
+   publishedStageReady(
+    gradeModel,
+    period
+   )
+ )
+}
 function studentObjectionStatusLabel(v){return v==="resolved"?"تمت المراجعة":v==="reviewing"?"قيد المراجعة":v==="rejected"?"مرفوض":"تم الإرسال"}
 async function loadGradeObjectionState(){
  try{
@@ -2094,34 +2264,272 @@ async function loadGradeObjectionState(){
  }catch(e){console.error("STUDENT_OBJECTION_LOAD",e);gradeObjectionSettings={};studentObjections={};renderGradeObjectionPanel()}
 }
 function renderGradeObjectionPanel(){
- const panel=$("gradeObjectionPanel");if(!panel)return;
- const periods=enabledObjectionPeriods();panel.classList.toggle("show",periods.length>0&&!!gradeModel?.rows?.length);
- const rows=Object.entries(studentObjections||{}).map(([id,o])=>({id,...(o||{})})).sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0)).slice(0,5);
- $("gradeObjectionHistory").innerHTML=rows.length?rows.map(o=>`<div class="grade-objection-item"><strong>${esc(o.subjectName||"المادة")}</strong> — ${esc(OBJECTION_PERIOD_LABELS[o.period]||o.period)} — ${esc(studentObjectionStatusLabel(o.status))}${o.adminReply?`<br>رد الإدارة: ${esc(o.adminReply)}`:""}${o.teacherReply?`<br>رد الأستاذ: ${esc(o.teacherReply)}`:""}</div>`).join(""):""
+ const panel=
+  $("gradeObjectionPanel");
+
+ if(!panel)return;
+
+ const periods=
+  enabledObjectionPeriods();
+
+ panel.classList.toggle(
+  "show",
+  periods.length>0
+ );
+
+ if(periods.length){
+  panel.querySelector("h4").textContent=
+   "اعتراض على النتيجة";
+
+  panel.querySelector("p").textContent=
+   "يظهر الاعتراض فقط بعد اكتمال النتيجة وتفعيل الإدارة له. الاعتراض يكون على درجة المادة في الفصل/الفترة نفسها، وليس على تقسيمات الشهر أو مفردات الدرجة."
+ }
+
+ const rows=
+  Object.entries(
+   studentObjections||{}
+  )
+  .map(
+   ([id,o])=>({
+    id,
+    ...(o||{})
+   })
+  )
+  .sort(
+   (a,b)=>
+    Number(b.createdAt||0)-
+    Number(a.createdAt||0)
+  )
+  .slice(
+   0,
+   5
+  );
+
+ $("gradeObjectionHistory").innerHTML=
+  rows.length
+   ?rows.map(
+     o=>
+      `<div class="grade-objection-item"><strong>${esc(o.subjectName||"المادة")}</strong> — ${esc(OBJECTION_PERIOD_LABELS[o.period]||o.period)} — ${esc(studentObjectionStatusLabel(o.status))}${o.adminReply?`<br>رد الإدارة: ${esc(o.adminReply)}`:""}${o.teacherReply?`<br>رد الأستاذ: ${esc(o.teacherReply)}`:""}</div>`
+    ).join("")
+   :""
 }
 function fillObjectionSubjects(){
- const period=$("objectionPeriod").value,rows=gradeModel?.rows||[];
- $("objectionSubject").innerHTML=rows.filter(r=>!r.autoType).map(r=>`<option value="${esc(r.id)}">${esc(r.name)} — الدرجة: ${esc(displayGrade(r[period]))}</option>`).join("")
+ const period=
+        $("objectionPeriod").value,
+       rows=
+        gradeModel?.rows||[];
+
+ if(
+  !publishedStageReady(
+   gradeModel,
+   period
+  )
+ ){
+  $("objectionSubject").innerHTML="";
+  return
+ }
+
+ $("objectionSubject").innerHTML=
+  rows.filter(
+   r=>
+    !r.autoType&&
+    isGrade(
+     publishedStageValue(
+      gradeModel,
+      r,
+      period
+     )
+    )
+  )
+  .map(
+   r=>
+    `<option value="${esc(r.id)}">${esc(r.name)} — درجة ${esc(OBJECTION_PERIOD_LABELS[period]||period)}: ${esc(gradeBlank(publishedStageValue(gradeModel,r,period)))}</option>`
+  )
+  .join("")
 }
 function openGradeObjection(){
- const periods=enabledObjectionPeriods();if(!periods.length)return toast("الاعتراضات غير مفعلة حالياً");
- $("objectionPeriod").innerHTML=periods.map(p=>`<option value="${p}">${esc(OBJECTION_PERIOD_LABELS[p])}</option>`).join("");
- fillObjectionSubjects();$("objectionNote").value="";$("gradeObjectionModal").classList.add("show")
+ const periods=
+  enabledObjectionPeriods();
+
+ if(!periods.length){
+  return toast(
+   "لا توجد نتيجة مكتملة ومفتوحة للاعتراض حالياً"
+  )
+ }
+
+ $("objectionPeriod").innerHTML=
+  periods.map(
+   p=>
+    `<option value="${p}">${esc(OBJECTION_PERIOD_LABELS[p])}</option>`
+  ).join("");
+
+ fillObjectionSubjects();
+
+ $("objectionNote").value="";
+
+ $("gradeObjectionModal")
+ .classList.add(
+  "show"
+ )
 }
 function closeGradeObjection(){$("gradeObjectionModal").classList.remove("show")}
 async function submitGradeObjection(){
- const period=$("objectionPeriod").value,subjectId=$("objectionSubject").value,row=(gradeModel?.rows||[]).find(r=>String(r.id)===String(subjectId));
- if(!objectionPeriodEnabled(period))return toast("تم إيقاف الاعتراض لهذه الفترة من الإدارة");
- if(!row)return toast("اختر المادة");
- const duplicate=Object.values(studentObjections||{}).find(o=>o&&o.period===period&&String(o.subjectId)===String(subjectId)&&!["resolved","rejected"].includes(o.status));
- if(duplicate)return toast("لديك اعتراض مفتوح على نفس المادة والفترة");
- const data={studentCode:STUDENT_CODE,studentName:student.name||"",classId:student.classId||"",className:className(),subjectId:row.id,subjectName:row.name,period,gradeAtSubmit:isGrade(row[period])?Number(row[period]):displayGrade(row[period]),note:$("objectionNote").value.trim(),status:"pending",createdAt:Date.now(),createdBy:STUDENT_CODE};
- const btn=$("submitGradeObjectionBtn");btn.disabled=true;btn.textContent="جاري الإرسال...";
+ const period=
+        $("objectionPeriod").value,
+       subjectId=
+        $("objectionSubject").value,
+       row=
+        (gradeModel?.rows||[])
+        .find(
+         r=>
+          String(r.id)===
+          String(subjectId)
+        );
+
+ if(
+  !objectionPeriodEnabled(
+   period
+  )
+ ){
+  return toast(
+   "تم إيقاف الاعتراض لهذه الفترة من الإدارة"
+  )
+ }
+
+ if(
+  !publishedStageReady(
+   gradeModel,
+   period
+  )
+ ){
+  return toast(
+   "لا يمكن الاعتراض قبل اكتمال نتيجة هذه الفترة"
+  )
+ }
+
+ if(!row){
+  return toast(
+   "اختر المادة"
+  )
+ }
+
+ const officialValue=
+  publishedStageValue(
+   gradeModel,
+   row,
+   period
+  );
+
+ if(!isGrade(officialValue)){
+  return toast(
+   "درجة هذه المادة غير مكتملة في الفترة المختارة"
+  )
+ }
+
+ const duplicate=
+  Object.values(
+   studentObjections||{}
+  )
+  .find(
+   o=>
+    o&&
+    o.period===period&&
+    String(o.subjectId)===
+    String(subjectId)&&
+    ![
+     "resolved",
+     "rejected"
+    ].includes(
+     o.status
+    )
+  );
+
+ if(duplicate){
+  return toast(
+   "لديك اعتراض مفتوح على نفس المادة والفترة"
+  )
+ }
+
+ const data={
+  studentCode:
+   STUDENT_CODE,
+  studentName:
+   student.name||"",
+  studentTerm:
+   studentTerm(),
+  gender:
+   normalizedGender(),
+  classId:
+   student.classId||"",
+  className:
+   className(),
+  subjectId:
+   row.id,
+  subjectName:
+   row.name,
+  period,
+  periodLabel:
+   OBJECTION_PERIOD_LABELS[
+    period
+   ]||period,
+  gradeAtSubmit:
+   Number(
+    officialValue
+   ),
+  objectionScope:
+   "published_stage_grade_only",
+  componentsIncluded:
+   false,
+  note:
+   $("objectionNote")
+   .value.trim(),
+  status:
+   "pending",
+  createdAt:
+   Date.now(),
+  createdBy:
+   STUDENT_CODE
+ };
+
+ const btn=
+  $("submitGradeObjectionBtn");
+
+ btn.disabled=true;
+ btn.textContent=
+  "جاري الإرسال...";
+
  try{
-  const res=await dbPost("gradeObjections",data);if(res?.name)studentObjections[res.name]=data;
-  closeGradeObjection();renderGradeObjectionPanel();toast("تم إرسال الاعتراض إلى الإدارة والأستاذ")
- }catch(e){console.error(e);toast("تعذر إرسال الاعتراض")}
- finally{btn.disabled=false;btn.textContent="إرسال الاعتراض"}
+  const res=
+   await dbPost(
+    "gradeObjections",
+    data
+   );
+
+  if(res?.name){
+   studentObjections[
+    res.name
+   ]=data
+  }
+
+  closeGradeObjection();
+  renderGradeObjectionPanel();
+
+  toast(
+   "تم إرسال الاعتراض على درجة المادة في النتيجة المكتملة"
+  )
+ }
+ catch(error){
+  console.error(error);
+
+  toast(
+   "تعذر إرسال الاعتراض"
+  )
+ }
+ finally{
+  btn.disabled=false;
+  btn.textContent=
+   "إرسال الاعتراض"
+ }
 }
 
 const GRADE_FIELDS=["term1","midyear","term2","annual","finalExam","final","secondRound"],GRADE_LABELS={term1:"الفصل الأول",midyear:"نصف السنة",term2:"الفصل الثاني",annual:"السعي السنوي",finalExam:"الامتحان النهائي",final:"الدرجة النهائية",secondRound:"الدور الثاني"};
@@ -3027,29 +3435,29 @@ function renderFinalResult(model){
          model,
          latest
         ),
-       decision=
-        evaluateStageDecision(
+       type=
+        stageResultType(
          model,
          latest
         ),
-       text=
-        genderedDecisionText(
-         decision.text
-        ),
        css=
-        decision.kind==="danger"
+        type==="fail"
          ?"fail"
-         :decision.kind==="warning"
+         :type==="warning"
           ?"result-warning"
-          :decision.rule?.type==="exemption"||
-           decision.rule?.type==="ministerial"
+          :type==="info"
            ?"result-info"
-           :"result-success";
+           :"result-success",
+       phrase=
+        resultPhrase(
+         model,
+         latest
+        );
 
  $("finalResultCard").innerHTML=
   `<div class="result-card ${css}">
    <div>${esc(GRADE_LABELS[latest])}</div>
-   <div class="result-big">${esc(text)}</div>
+   <div class="result-big">${esc(phrase)}</div>
    <div class="result-mini">المجموع ${stats.total} | المعدل ${stats.average}%</div>
   </div>`
 }
@@ -3580,6 +3988,248 @@ function renderGradeBreakdown(model){
    }
   ).join("")
 }
+
+function gradeGenderClass(){
+ return normalizedGender()==="female"
+  ?"grade-girls"
+  :"grade-boys"
+}
+
+function resultGenderClass(){
+ return normalizedGender()==="female"
+  ?"result-girls"
+  :"result-boys"
+}
+
+function stageResultType(model,field){
+ const d=
+  evaluateStageDecision(
+   model,
+   field
+  );
+
+ if(d.kind==="danger"){
+  return"fail"
+ }
+
+ if(d.kind==="warning"){
+  return"warning"
+ }
+
+ if(
+  d.rule?.type==="exemption"||
+  d.rule?.type==="ministerial"
+ ){
+  return"info"
+ }
+
+ if(d.kind==="success"){
+  return"success"
+ }
+
+ return"neutral"
+}
+
+function resultPhrase(model,field){
+ const female=
+        normalizedGender()==="female",
+       term=
+        studentTerm(),
+       name=
+        student.name||
+        "",
+       decision=
+        compactResultDecision(
+         model,
+         field
+        ),
+       label=
+        GRADE_LABELS[
+         field
+        ]||
+        field;
+
+ if(
+  decision==="ناجح"||
+  decision==="ناجحة"
+ ){
+  return`${term} ${name} — ${female?"ناجحة":"ناجح"}، ألف ألف مبارك النجاح في ${label}`
+ }
+
+ if(
+  decision==="مكمل"||
+  decision==="مكملة"
+ ){
+  return`${term} ${name} — ${female?"مكملة":"مكمل"} في ${label}`
+ }
+
+ if(
+  decision==="راسب"||
+  decision==="راسبة"
+ ){
+  return`${term} ${name} — ${female?"راسبة":"راسب"} في ${label}`
+ }
+
+ if(
+  decision==="معفى"||
+  decision==="معفاة"
+ ){
+  return`${term} ${name} — ${female?"معفاة":"معفى"}، ألف ألف مبارك الإعفاء في ${label}`
+ }
+
+ if(
+  decision==="مؤهل"||
+  decision==="مؤهلة"
+ ){
+  return`${term} ${name} — ${female?"مؤهلة":"مؤهل"} في ${label}`
+ }
+
+ if(
+  decision==="غير مؤهل"||
+  decision==="غير مؤهلة"
+ ){
+  return`${term} ${name} — ${female?"غير مؤهلة":"غير مؤهل"} في ${label}`
+ }
+
+ return`${term} ${name} — ${decision} — ${label}`
+}
+
+function resultCellWord(model,field){
+ const value=
+  compactResultDecision(
+   model,
+   field
+  );
+
+ return String(value||"")
+  .replace("دون النجاح","راسب")
+  .trim()
+}
+
+async function sha256Text(text){
+ if(
+  !globalThis.crypto?.subtle
+ ){
+  return""
+ }
+
+ const bytes=
+  new TextEncoder()
+  .encode(
+   String(text||"")
+  ),
+ digest=
+  await crypto.subtle.digest(
+   "SHA-256",
+   bytes
+  );
+
+ return[
+  ...new Uint8Array(
+   digest
+  )
+ ].map(
+  b=>
+   b.toString(16)
+   .padStart(2,"0")
+ ).join("")
+}
+
+function stableResultPayload(model,field){
+ const rows=
+  model.rows.map(
+   row=>({
+    id:
+     row.id||
+     row.name,
+    name:
+     row.name,
+    max:
+     row.maxGrade,
+    pass:
+     row.passGrade,
+    term1:
+     publishedStageValue(
+      model,
+      row,
+      "term1"
+     ),
+    midyear:
+     publishedStageValue(
+      model,
+      row,
+      "midyear"
+     ),
+    term2:
+     publishedStageValue(
+      model,
+      row,
+      "term2"
+     ),
+    annual:
+     publishedStageValue(
+      model,
+      row,
+      "annual"
+     ),
+    finalExam:
+     publishedStageValue(
+      model,
+      row,
+      "finalExam"
+     ),
+    final:
+     publishedStageValue(
+      model,
+      row,
+      "final"
+     ),
+    secondRound:
+     publishedStageValue(
+      model,
+      row,
+      "secondRound"
+     )
+   })
+  );
+
+ return JSON.stringify({
+  studentCode:
+   STUDENT_CODE,
+  classId:
+   student.classId||"",
+  field,
+  decision:
+   resultCellWord(
+    model,
+    field
+   ),
+  rows
+ })
+}
+
+async function resultIntegrityDigest(model,field){
+ return await sha256Text(
+  stableResultPayload(
+   model,
+   field
+  )
+ )
+}
+
+function lockGradeModelView(model){
+ try{
+  for(const row of model?.rows||[]){
+   Object.freeze(row)
+  }
+
+  Object.freeze(
+   model?.rows||[]
+  )
+ }catch{}
+
+ return model
+}
 function renderGradeStudentCard(){
  const el=
   $("gradeStudentCard");
@@ -3669,8 +4319,17 @@ function renderGradeStageStatus(model){
 
  if(!box)return;
 
+ const completed=
+  GRADE_FIELDS.filter(
+   field=>
+    publishedStageReady(
+     model,
+     field
+    )
+  );
+
  box.innerHTML=
-  GRADE_FIELDS.map(
+  completed.map(
    field=>{
     const state=
      stageChipText(
@@ -3679,9 +4338,14 @@ function renderGradeStageStatus(model){
      );
 
     return`
-     <div class="grade-stage-chip ${state.ready?"ready":"wait"}">
+     <div class="grade-stage-chip ready">
       <small>${esc(GRADE_LABELS[field])}</small>
-      <strong>${esc(state.ready&&field!=="annual"?state.text:state.text)}</strong>
+      <strong>${esc(
+       field==="final"||
+       field==="secondRound"
+        ?resultCellWord(model,field)
+        :"مكتمل"
+      )}</strong>
      </div>`
    }
   ).join("");
@@ -3694,13 +4358,20 @@ function renderGradeStageStatus(model){
  if($("gradeLatestStatus")){
   $("gradeLatestStatus").textContent=
    latest
-    ?`${GRADE_LABELS[latest]} — ${genderedDecisionText(resultDecision(model,latest))}`
-    :"قيد الاكتمال"
+    ?`${GRADE_LABELS[latest]} — ${resultCellWord(model,latest)}`
+    :"لا توجد نتيجة مكتملة بعد"
  }
 }
 function renderGrades(){
  $("gradesLocked").innerHTML="";
- $("gradesContent").classList.remove("hidden");
+ $("gradesContent").classList.remove(
+  "hidden",
+  "grade-boys",
+  "grade-girls"
+ );
+ $("gradesContent").classList.add(
+  gradeGenderClass()
+ );
 
  if(
   !gradeModel||
@@ -3721,27 +4392,45 @@ function renderGrades(){
   return
  }
 
+ gradeModel=
+  lockGradeModelView(
+   gradeModel
+  );
+
  renderGradeBreakdown(
   gradeModel
  );
-
  renderGradeStudentCard();
-
  renderGradeStageStatus(
   gradeModel
  );
 
  $("subjectList").innerHTML="";
 
- $("gradeTableBody").innerHTML=
-  gradeModel.rows.map(
-   (row,i)=>{
-    const status=
-     subjectPublishedStatus(
-      gradeModel,
-      row
-     );
+ const latest=
+        latestPublishedField(
+         gradeModel
+        ),
+       mergedWord=
+        latest
+         ?resultCellWord(
+           gradeModel,
+           latest
+          )
+         :"",
+       mergedType=
+        latest
+         ?stageResultType(
+           gradeModel,
+           latest
+          )
+         :"neutral",
+       rows=
+        gradeModel.rows;
 
+ $("gradeTableBody").innerHTML=
+  rows.map(
+   (row,i)=>{
     return`
      <tr style="--i:${i}">
       <td><strong>${esc(row.name)}</strong></td>
@@ -3768,7 +4457,15 @@ function renderGrades(){
         }
        ).join("")
       }
-      <td><span class="subject-result ${status[1]}">${esc(status[0])}</span></td>
+      ${
+       i===0
+        ?`<td class="main-result-merged ${mergedType}" rowspan="${rows.length}">${
+          latest
+           ?esc(mergedWord)
+           :""
+         }</td>`
+        :""
+      }
      </tr>`
    }
   ).join("");
@@ -3999,7 +4696,7 @@ function buildGradeResultHTML(model,field){
         </tr>`;
 
  return`
-  <div class="result-sheet ${t.backgroundUrl?"":"no-template"}" style="--rh:${esc(t.headerColor)};--rs:${esc(t.subjectColor)};--rc:${esc(t.cellColor)};--rb:${esc(t.borderColor)};--rf:${esc(t.failColor)};--rt:${esc(t.textColor)}">
+  <div class="result-sheet ${t.backgroundUrl?"":"no-template"} ${resultGenderClass()}" style="--rh:${esc(t.headerColor)};--rs:${esc(t.subjectColor)};--rc:${esc(t.cellColor)};--rb:${esc(t.borderColor)};--rf:${esc(t.failColor)};--rt:${esc(t.textColor)}">
    ${bg}
    <div class="result-sheet-overlay">
     ${fallback}
@@ -4026,6 +4723,7 @@ function buildGradeResultHTML(model,field){
      <div class="result-average"><small>المعدل</small><strong>${stats.count?stats.average+"%":"—"}</strong></div>
     </div>
     <div class="result-footnote">النتيجة للاطلاع الإلكتروني فقط ولا تعد وثيقة مدرسية رسمية.</div>
+    <div class="result-integrity ok">عرض محمي للنتيجة — القراءة فقط</div>
    </div>
   </div>`
 }
@@ -4097,6 +4795,24 @@ async function previewResultField(field){
   gradeModel,
   field
  );
+
+ const digest=
+  await resultIntegrityDigest(
+   gradeModel,
+   field
+  );
+
+ const integrity=
+  root.querySelector(
+   ".result-integrity"
+  );
+
+ if(integrity){
+  integrity.textContent=
+   digest
+    ?`عرض قراءة فقط — بصمة سلامة ${digest.slice(0,12).toUpperCase()}`
+    :"عرض قراءة فقط"
+ }
 
  await waitResultImages(
   root
