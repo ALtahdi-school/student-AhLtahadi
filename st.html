@@ -135,6 +135,237 @@
  .grade-student-meta{grid-template-columns:1fr 1fr}
 }
 
+
+/* ================= Student Result V2 ================= */
+.lesson-answer-success{
+ margin-top:9px;
+ padding:11px 12px;
+ border:1px solid #afe0c2;
+ border-radius:12px;
+ background:linear-gradient(145deg,#f6fff9,#ebfbf1);
+ color:#067647;
+ font-size:9px;
+ line-height:1.75;
+ font-weight:900;
+}
+.lesson-answer-success strong{font-size:11px}
+.lesson-toolbar-copy{min-width:0}
+.lesson-toolbar-copy p{margin-top:3px;color:#667085;font-size:7.5px;font-weight:800;line-height:1.6}
+.guardian-phone{direction:ltr;unicode-bidi:plaintext;white-space:nowrap}
+
+.grade-breakdown-section{
+ margin-bottom:12px;
+ padding:13px;
+ border:1px solid #dbe7f3;
+ border-radius:18px;
+ background:linear-gradient(145deg,#fff,#f7fbff);
+ box-shadow:0 7px 22px rgba(20,40,70,.045);
+}
+.grade-breakdown-head{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:8px;
+ margin-bottom:10px;
+}
+.grade-breakdown-head h3{font-size:13px;font-weight:900}
+.grade-breakdown-head span{color:#667085;font-size:7.5px;font-weight:800}
+.grade-breakdown-list{display:grid;gap:7px}
+.grade-breakdown-subject{
+ overflow:hidden;
+ border:1px solid #e0e7ef;
+ border-radius:14px;
+ background:#fff;
+}
+.grade-breakdown-subject summary{
+ list-style:none;
+ min-height:49px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:8px;
+ padding:10px 11px;
+ cursor:pointer;
+}
+.grade-breakdown-subject summary::-webkit-details-marker{display:none}
+.grade-breakdown-subject summary strong{font-size:9.5px;font-weight:900}
+.grade-breakdown-subject summary span{color:#075fcf;font-size:7px;font-weight:900}
+.grade-breakdown-body{
+ padding:0 10px 10px;
+ border-top:1px solid #edf1f5;
+}
+.grade-period-box{
+ margin-top:8px;
+ padding:9px;
+ border-radius:11px;
+ background:#f8fafc;
+ border:1px solid #edf1f5;
+}
+.grade-period-head{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:6px;
+}
+.grade-period-head strong{font-size:8px;font-weight:900}
+.grade-period-head span{font-size:7px;font-weight:900;color:#075fcf}
+.grade-component-row{
+ display:flex;
+ gap:5px;
+ flex-wrap:wrap;
+ margin-top:7px;
+}
+.grade-component-chip{
+ min-height:26px;
+ display:inline-flex;
+ align-items:center;
+ gap:4px;
+ padding:0 8px;
+ border-radius:999px;
+ background:#fff;
+ border:1px solid #dfe6ee;
+ color:#475467;
+ font-size:7px;
+ font-weight:900;
+}
+.grade-component-chip b{color:#172033}
+.grade-no-components{margin-top:7px;color:#98a2b3;font-size:7px;font-weight:800}
+
+.grade-table-wrap{
+ width:100%!important;
+ overflow-x:hidden!important;
+ overflow-y:visible!important;
+ border-radius:14px!important;
+}
+.grade-table{
+ width:100%!important;
+ min-width:0!important;
+ table-layout:fixed!important;
+}
+.grade-table th,
+.grade-table td{
+ overflow:hidden;
+ text-overflow:clip;
+}
+.grade-table th{
+ height:105px!important;
+ padding:4px 2px!important;
+ font-size:7px!important;
+ writing-mode:vertical-rl;
+ transform:rotate(180deg);
+ white-space:nowrap;
+}
+.grade-table th:first-child{
+ width:25%!important;
+ writing-mode:horizontal-tb!important;
+ transform:none!important;
+ font-size:10px!important;
+}
+.grade-table th:last-child{
+ width:9%!important;
+}
+.grade-table td{
+ padding:6px 2px!important;
+ font-size:8px!important;
+}
+.grade-table tbody td:first-child{
+ padding:7px 4px!important;
+ font-size:7.5px!important;
+ line-height:1.45;
+ word-break:break-word;
+}
+.grade-table tfoot td{
+ padding:6px 2px!important;
+ font-size:7.5px!important;
+}
+.grade-table .grade-cell.high-grade{
+ color:#fff!important;
+ background:#0a9b43!important;
+}
+.grade-table .grade-cell.critical-grade{
+ color:#fff!important;
+ background:#e98a12!important;
+}
+.grade-table .grade-cell.fail-grade{
+ color:#c62828!important;
+ background:#ffe0de!important;
+ text-decoration:underline!important;
+ text-decoration-thickness:1.5px!important;
+ font-weight:900!important;
+}
+
+.result-card.result-success{
+ background:linear-gradient(135deg,#07934f,#056d3c)!important;
+}
+.result-card.result-warning{
+ background:linear-gradient(135deg,#ef9b18,#c66e00)!important;
+}
+.result-card.result-info{
+ background:linear-gradient(135deg,#0870e5,#5c39dd)!important;
+}
+
+.result-preview-toolbar{display:none!important}
+.result-preview-area{overflow-x:hidden!important}
+.result-transcript thead th:not(.subject-th){
+ writing-mode:vertical-rl!important;
+ transform:rotate(180deg)!important;
+}
+.result-transcript thead th.result-th{
+ width:52px;
+}
+.result-transcript td.result-high{
+ color:#fff!important;
+ background:#079b3f!important;
+}
+.result-transcript td.result-critical{
+ color:#fff!important;
+ background:#e58a13!important;
+}
+.result-transcript td.result-fail{
+ color:#c62828!important;
+ background:#ffdeda!important;
+ text-decoration:underline!important;
+ text-decoration-thickness:1.5px!important;
+}
+.result-decision-cell{
+ width:52px;
+ color:#084dd6!important;
+ background:#b9d5ef!important;
+ font-size:18px!important;
+ font-weight:900!important;
+ writing-mode:vertical-rl;
+ transform:rotate(180deg);
+ letter-spacing:1px;
+}
+.result-room-line{
+ max-width:390px;
+ text-align:left;
+ line-height:1.45;
+}
+.result-guardian-line{
+ position:absolute;
+ top:96px;
+ left:0;
+ direction:ltr;
+ unicode-bidi:plaintext;
+ color:#475467;
+ font-size:10px;
+ font-weight:900;
+}
+.result-dynamic-meta{height:122px!important}
+.result-stage-title{top:260px!important}
+.result-status-tag{top:294px!important}
+.result-unofficial{top:334px!important}
+.result-table-wrap{top:365px!important;height:485px!important}
+
+@media(max-width:430px){
+ .grade-table th{height:98px!important;font-size:6.4px!important}
+ .grade-table th:first-child{width:26%!important;font-size:8.5px!important}
+ .grade-table td{font-size:7.2px!important}
+ .grade-table tbody td:first-child{font-size:6.9px!important}
+ .grade-breakdown-section{padding:10px}
+}
+
 </style></head><body><div
     id="loaderScreen"
     class="loader-screen"
@@ -298,7 +529,7 @@
         class="notice-list"
     ></div></section><section id="pageLessons" class="page">
  <div id="lessonListView">
-  <div class="lesson-toolbar"><div><h3>الدروس</h3><span>المواد المخصصة لصفك</span></div><span id="lessonExamBadgeText">0 امتحان</span></div>
+  <div class="lesson-toolbar"><div class="lesson-toolbar-copy"><h3>الدروس</h3><span>المواد المخصصة لصفك</span><p>رقم ولي الأمر: <b id="lessonGuardianPhone" class="guardian-phone">—</b></p></div><span id="lessonExamBadgeText">0 امتحان</span></div>
   <div id="lessonSubjectList" class="lesson-subject-list"></div>
  </div>
  <div id="lessonDetailView" class="hidden">
@@ -309,13 +540,17 @@
   <div id="lessonExamList" class="lesson-exam-list"></div>
  </div>
 </section><section id="pageGrades" class="page"><div id="gradesLocked"></div><div id="gradeSearchScreen" class="grade-search hidden"><div class="grade-search-card"><div class="grade-orbit"><div class="grade-orbit-core">%</div></div><h3 id="gradeSearchTitle">جاري البحث عن درجاتك</h3><p id="gradeSearchText">يرجى الانتظار ريثما يتم جلب الدرجات وترتيبها.</p><div class="grade-progress"><span></span></div></div></div><div id="gradesContent" class="hidden"><div class="section-head"><h3>الدرجات والنتيجة</h3><span>2026-2027</span></div>
+<div id="gradeBreakdownSection" class="grade-breakdown-section">
+ <div class="grade-breakdown-head"><h3>الدرجات</h3><span>اضغط على أي مادة لمشاهدة تقسيمها</span></div>
+ <div id="gradeBreakdownList" class="grade-breakdown-list"></div>
+</div>
 <div id="gradeStudentCard" class="grade-student-card"></div>
 <div id="gradeStageStatus" class="grade-stage-status"></div>
 <div id="subjectList" class="subject-list"></div>
 <div class="grade-report-status">النتيجة الإلكترونية: <strong id="gradeLatestStatus">قيد الاكتمال</strong></div>
-<div class="grade-table-wrap"><table class="grade-table"><thead><tr><th>المادة</th><th>الفصل الأول</th><th>نصف السنة</th><th>الفصل الثاني</th><th>السعي السنوي</th><th>الامتحان النهائي</th><th>نتيجة آخر السنة</th><th>الدور الثاني</th><th>الحالة</th></tr></thead><tbody id="gradeTableBody"></tbody><tfoot id="gradeTableFoot"></tfoot></table></div>
+<div class="grade-table-wrap"><table class="grade-table"><thead><tr><th>المادة</th><th>الفصل الأول</th><th>نصف السنة</th><th>الفصل الثاني</th><th>السعي السنوي</th><th>الامتحان النهائي</th><th>الدرجة النهائية</th><th>الدور الثاني</th><th>النتيجة</th></tr></thead><tbody id="gradeTableBody"></tbody><tfoot id="gradeTableFoot"></tfoot></table></div>
 <div class="grade-result-note">ملاحظة: هذه النتيجة غير رسمية ومخصصة للاطلاع فقط ولا تعد وثيقة مدرسية رسمية.</div>
-<div id="finalResultCard"></div><div class="result-open-wrap"><button id="resultCenterBtn" class="result-open-btn" type="button">عرض / تحميل النتيجة</button><div class="result-open-note">تظهر فقط النتائج التي اكتملت درجاتها بالكامل.</div></div>
+<div id="finalResultCard"></div><div class="result-open-wrap"><button id="resultCenterBtn" class="result-open-btn" type="button">عرض النتيجة</button><div class="result-open-note">تظهر فقط النتائج التي اكتملت درجاتها بالكامل، ولا يوجد تحميل للدرجات.</div></div>
 <div id="gradeObjectionPanel" class="grade-objection-panel"><h4>اعتراض على درجة</h4><p>تظهر هذه الخدمة فقط للفترات التي فعّلتها الإدارة. اختر المادة والفترة ثم أرسل اعتراضك.</p><button id="openGradeObjectionBtn" class="grade-objection-btn" type="button">تقديم اعتراض</button><div id="gradeObjectionHistory" class="grade-objection-history"></div></div>
 </div></section><section
     id="pageChat"
@@ -424,7 +659,7 @@
             type="button"
         >
             حسناً
-        </button></div></div><div id="resultPreviewModal" class="modal result-modal"><div class="modal-card result-modal-card"><div class="result-modal-head"><div><h3>النتائج المتاحة</h3><p>اختر أي نتيجة مكتملة لمعاينتها بحجم A4 أو تنزيلها PDF.</p></div><button id="closeResultPreview" class="result-modal-close" type="button">×</button></div><div id="resultStageChoices" class="result-stage-list"></div><div id="resultPreviewToolbar" class="result-preview-toolbar hidden"><button id="downloadCurrentResult" type="button">تنزيل PDF</button></div><div id="resultPreviewArea" class="result-preview-area"><div id="resultNoReady" class="result-no-ready hidden"><strong>لا توجد نتيجة مكتملة حالياً</strong>تظهر النتيجة هنا بعد اكتمال درجات المرحلة.</div><div id="resultPreviewStage" class="result-preview-stage hidden"><div id="resultPreviewContent" class="result-preview-content"></div></div></div></div></div><div id="gradeObjectionModal" class="modal"><div class="objection-modal-card">
+        </button></div></div><div id="resultPreviewModal" class="modal result-modal"><div class="modal-card result-modal-card"><div class="result-modal-head"><div><h3>النتائج المتاحة</h3><p>اختر أي نتيجة مكتملة لمعاينتها بحجم البطاقة الرسمية داخل المنصة.</p></div><button id="closeResultPreview" class="result-modal-close" type="button">×</button></div><div id="resultStageChoices" class="result-stage-list"></div><div id="resultPreviewToolbar" class="result-preview-toolbar hidden"></div><div id="resultPreviewArea" class="result-preview-area"><div id="resultNoReady" class="result-no-ready hidden"><strong>لا توجد نتيجة مكتملة حالياً</strong>تظهر النتيجة هنا بعد اكتمال درجات المرحلة.</div><div id="resultPreviewStage" class="result-preview-stage hidden"><div id="resultPreviewContent" class="result-preview-content"></div></div></div></div></div><div id="gradeObjectionModal" class="modal"><div class="objection-modal-card">
  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><h3 style="font-size:14px">تقديم اعتراض على درجة</h3><button id="closeGradeObjectionBtn" type="button" style="width:34px;height:34px;border:0;border-radius:10px;background:#f1f4f7">×</button></div>
  <div class="objection-form">
   <div><label>الفترة</label><select id="objectionPeriod"></select></div>
@@ -1363,8 +1598,11 @@ async function loadLessonsData(renderNow=true){
       lessonExamState(exam);
 
      return(
-      state==="active"||
-      state==="scheduled"
+      (
+       state==="active"||
+       state==="scheduled"
+      )&&
+      !lessonExamAnswered(exam)
      )
     }
    ).length;
@@ -1375,8 +1613,13 @@ async function loadLessonsData(renderNow=true){
   );
 
   if($("lessonExamBadgeText")){
+   const visibleCount=
+    lessonExams.filter(
+     lessonExamVisible
+    ).length;
+
    $("lessonExamBadgeText").textContent=
-    `${lessonExams.length} امتحان`
+    `${visibleCount} امتحان حالي`
   }
 
   return true
@@ -1396,8 +1639,49 @@ async function loadLessonsData(renderNow=true){
  }
 }
 
+
+function lessonExamSubmission(examId){
+ return lessonSubmissions?.[examId]||{}
+}
+
+function lessonExamAnswered(exam){
+ const sub=lessonExamSubmission(exam.examId);
+ return(
+  sub.submitted===true||
+  sub.status==="submitted"||
+  exam.status==="submitted"
+ )
+}
+
+function lessonExamVisible(exam){
+ return lessonExamState(exam)!=="ended"
+}
+
+function lessonExamResultText(exam){
+ const sub=lessonExamSubmission(exam.examId);
+ const score=
+  sub.displayScore??
+  sub.score??
+  exam.displayScore??
+  exam.score;
+
+ if(
+  sub.absent===true||
+  sub.status==="absent"
+ ){
+  return"غ / غياب"
+ }
+
+ return`${display(score)} من ${display(exam.targetMax||sub.maxScore)}`
+}
 function renderLessons(){
  if(!$("lessonSubjectList"))return;
+
+ if($("lessonGuardianPhone")){
+  $("lessonGuardianPhone").textContent=
+   student.guardianPhone||
+   "—"
+ }
 
  if(!lessonSubjects.length){
   $("lessonSubjectList").innerHTML=
@@ -1414,24 +1698,34 @@ function renderLessons(){
        lessonSubjectMatchesExam(
         subject,
         exam
-       )
+       )&&
+       lessonExamVisible(exam)
      );
 
-    const active=
+    const activeUnanswered=
      exams.filter(
       e=>
-       lessonExamState(e)==="active"
+       lessonExamState(e)==="active"&&
+       !lessonExamAnswered(e)
+     ).length;
+
+    const answered=
+     exams.filter(
+      e=>
+       lessonExamAnswered(e)
      ).length;
 
     return`
      <article class="lesson-subject-card">
       <h4>${esc(subject.name)}</h4>
-      <p>الدروس والامتحانات الإلكترونية الخاصة بمادة ${esc(subject.name)}.</p>
+      <p>مادة ${esc(subject.name)} المخصصة لصفك.</p>
       <span class="lesson-exam-count">
        ${
-        active
-         ?`${active} امتحان متاح الآن`
-         :`${exams.length} امتحان`
+        activeUnanswered
+         ?`${activeUnanswered} امتحان متاح الآن`
+         :answered
+          ?`${answered} امتحان تمت الإجابة عنه`
+          :`${exams.length} امتحان`
        }
       </span>
       <button type="button" onclick="openLessonSubject('${esc(subject.id)}')">فتح الدرس</button>
@@ -1495,12 +1789,22 @@ function renderLessonExamCard(exam){
         ),
        title=
         exam.title||
-        `امتحان ${exam.subjectName||""}`;
+        `امتحان ${exam.subjectName||""}`,
+       answered=
+        lessonExamAnswered(
+         exam
+        );
 
  let stateBox="",
      button="";
 
- if(state==="scheduled"){
+ /*
+    الامتحان المنتهي لا يُعرض أصلاً من openLessonSubject.
+ */
+ if(answered){
+  stateBox=
+   `<div class="lesson-answer-success">جاوبت على الامتحان، ودرجتك هي <strong>${esc(lessonExamResultText(exam))}</strong>.</div>`
+ }else if(state==="scheduled"){
   stateBox=
    `<div class="lesson-exam-state scheduled">هذا الامتحان يبدأ في ${esc(start)}.</div>`
  }else if(state==="active"){
@@ -1509,18 +1813,10 @@ function renderLessonExamCard(exam){
 
   button=
    `<button class="lesson-exam-btn" type="button" onclick="openStudentOnlineExam('${esc(exam.examId)}')">دخول الامتحان</button>`
- }else{
-  const result=
-   examSubmissionDisplay(
-    exam
-   );
-
-  stateBox=
-   `<div class="lesson-exam-state ${result.className}">${esc(result.text)}</div>`
  }
 
  return`
-  <article class="lesson-exam-card ${state}">
+  <article class="lesson-exam-card ${answered?"active":state}">
    <div class="lesson-exam-top">
     <h4>${esc(title)}</h4>
     <span class="lesson-exam-date">${esc(start)}</span>
@@ -1568,6 +1864,9 @@ function openLessonSubject(subjectId){
     lessonSubjectMatchesExam(
      subject,
      exam
+    )&&
+    lessonExamVisible(
+     exam
     )
   )
   .sort(
@@ -1578,15 +1877,15 @@ function openLessonSubject(subjectId){
 
  $("lessonDetailMeta").textContent=
   exams.length
-   ?`${exams.length} امتحان — الأحدث أولاً`
-   :"لا يوجد امتحان لهذه المادة";
+   ?`${exams.length} امتحان حالي — الأحدث أولاً`
+   :"لا يوجد امتحان حالي لهذه المادة";
 
  $("lessonExamList").innerHTML=
   exams.length
    ?exams.map(
      renderLessonExamCard
     ).join("")
-   :'<div class="lesson-empty">لا يوجد امتحان إلكتروني منشور لهذه المادة حالياً.</div>';
+   :'<div class="lesson-empty">لا يوجد امتحان متاح أو مجدول لهذه المادة حالياً. الامتحانات المنتهية تختفي من الدروس، وتبقى درجاتها في صفحة الدرجات.</div>';
 
  window.scrollTo({
   top:0,
@@ -2010,15 +2309,552 @@ if(rule.type==="pass"){const min=Math.max(0,Number(rule.minGrade??50)),max=Math.
 if(rule.type==="completion"){const min=Math.max(0,Number(rule.minFailedSubjects??1)),max=Math.max(min,Number(rule.maxFailedSubjects??min)),threshold=Math.max(0,Number(rule.gradeThreshold||0)),bad=model.academic.filter(r=>{const v=effectiveStageValue(r,field),t=threshold||Number(r.passGrade??50);return v!==null&&v<t;}),ok=bad.length>=min&&bad.length<=max,data={...base,count:bad.length,min,max};return ok?{text:replaceRuleTokens(rule.metText,data),kind:"warning",matched:true,rule,reason:"met",data}:{text:replaceRuleTokens(rule.notMetText||"",data),kind:"danger",matched:false,rule,reason:"notMet",data};}
 const min=Math.max(1,Number(rule.minFailedSubjects??1)),threshold=Math.max(0,Number(rule.gradeThreshold||0)),bad=model.academic.filter(r=>{const v=effectiveStageValue(r,field),t=threshold||Number(r.passGrade??50);return v!==null&&v<t;}),ok=bad.length>=min,data={...base,count:bad.length,min};return ok?{text:replaceRuleTokens(rule.metText,data),kind:"danger",matched:true,rule,reason:"met",data}:{text:replaceRuleTokens(rule.notMetText||"",data),kind:"success",matched:false,rule,reason:"notMet",data};}
 function evaluateStageDecision(model,field){const status=stageStatus(model,field);if(!status.complete)return{text:"قيد الانتظار",kind:"neutral",matched:false,rule:null,data:{count:0}};let fallback=null;for(const rule of configuredResultRules(model)){if(!Array.isArray(rule.stages)||!rule.stages.includes(field))continue;const x=evaluateOneRule(model,field,rule);if(x.matched&&x.text)return x;if(!fallback&&x.text)fallback={...x,matched:true};}if(fallback)return fallback;const fails=resultEffectiveFailCount(model,field),stats=fieldStats(model.rows,field);return{text:fails?"راسب":"ناجح",kind:fails?"danger":"success",matched:true,rule:null,data:{count:fails,average:stats.average,total:stats.total}};}function resultDecision(model,field){return evaluateStageDecision(model,field).text;}
-function gradeClass(v,row){if(!isGrade(v))return"";const n=Number(v),pass=Number(row.passGrade??50),pct=n/Math.max(1,Number(row.maxGrade||100))*100;return n<pass?"fail-grade":pct>=90?"high-grade":"";}function subjectStatus(row){if(isGrade(row.secondRound))return Number(row.secondRound)>=Number(row.passGrade??50)?["ناجح","pass"]:["راسب","fail"];if(isGrade(row.final))return Number(row.final)>=Number(row.passGrade??50)?["ناجح","pass"]:["دور ثانٍ","fail"];if(isGrade(row.annual))return Number(row.annual)>=Number(row.passGrade??50)?["مكتمل","pass"]:["دون النجاح","fail"];return["قيد الإكمال","wait"];}
+function gradeClass(v,row){
+ return gradeVisualClass(
+  v,
+  row
+ )
+}function subjectStatus(row){if(isGrade(row.secondRound))return Number(row.secondRound)>=Number(row.passGrade??50)?["ناجح","pass"]:["راسب","fail"];if(isGrade(row.final))return Number(row.final)>=Number(row.passGrade??50)?["ناجح","pass"]:["دور ثانٍ","fail"];if(isGrade(row.annual))return Number(row.annual)>=Number(row.passGrade??50)?["مكتمل","pass"]:["دون النجاح","fail"];return["قيد الإكمال","wait"];}
 function miniGradeHTML(label,value,row){const cls=gradeClass(value,row);return`<div class="mini-grade"><small>${esc(label)}</small><strong class="${cls}" ${isGrade(value)?`data-grade-number="${Number(value)}"`:""}>${isGrade(value)?"0":""}</strong></div>`;}
-function renderGradeFoot(model){const total=f=>{const s=fieldStats(model.rows,f);return s.count?s.total:""},avg=f=>{const s=fieldStats(model.rows,f);return s.count?s.average+"%":""},latest=["final","annual","term2","midyear","term1"].find(f=>stageStatus(model,f).complete),fails=latest?failedCount(model,latest):0;return`<tr class="total-row"><td>المجموع</td>${GRADE_FIELDS.map(f=>`<td>${total(f)}</td>`).join("")}<td></td></tr><tr class="average-row"><td>المعدل</td>${GRADE_FIELDS.map(f=>`<td>${avg(f)}</td>`).join("")}<td></td></tr>${fails?`<tr class="fail-row"><td>عدد المواد الراسبة</td><td colspan="8">${fails}</td></tr>`:""}`;}
+function renderGradeFoot(model){
+ const total=
+        field=>{
+         const state=
+          publishedFieldStats(
+           model,
+           field
+          );
+
+         return state.count
+          ?state.total
+          :""
+        },
+       avg=
+        field=>{
+         const state=
+          publishedFieldStats(
+           model,
+           field
+          );
+
+         return state.count
+          ?state.average+"%"
+          :""
+        },
+       latest=
+        latestPublishedField(
+         model
+        ),
+       fails=
+        latest
+         ?failedCount(
+           model,
+           latest
+          )
+         :0;
+
+ return`
+  <tr class="total-row">
+   <td>المجموع</td>
+   ${
+    GRADE_FIELDS.map(
+     f=>
+      `<td>${total(f)}</td>`
+    ).join("")
+   }
+   <td></td>
+  </tr>
+  <tr class="average-row">
+   <td>المعدل</td>
+   ${
+    GRADE_FIELDS.map(
+     f=>
+      `<td>${avg(f)}</td>`
+    ).join("")
+   }
+   <td></td>
+  </tr>
+  ${
+   fails
+    ?`<tr class="fail-row"><td>عدد المواد غير الناجحة</td><td colspan="8">${fails}</td></tr>`
+    :""
+  }`
+}
 function resultEffectiveFailCount(model,field){if(field!=="secondRound")return failedCount(model,field);return model.academic.filter(r=>{const pass=Number(r.passGrade??50);if(Number(r.final)>=pass)return false;return !isGrade(r.secondRound)||Number(r.secondRound)<pass;}).length;}
 
-function renderFinalResult(model){const latest=["secondRound","final","finalExam","annual","term2","midyear","term1"].find(f=>{const s=stageStatus(model,f);return s.complete&&!(f==="secondRound"&&s.needed===0)});if(!latest){$("finalResultCard").innerHTML="";return;}const stats=fieldStats(model.rows,latest),decision=evaluateStageDecision(model,latest),bad=decision.kind==="danger";$("finalResultCard").innerHTML=`<div class="result-card ${bad?"fail":"special"}"><div>${esc(GRADE_LABELS[latest])}</div><div class="result-big">${esc(decision.text)}</div><div class="result-mini">المجموع ${stats.total} | المعدل ${stats.average}%</div></div>`;}
+function renderFinalResult(model){
+ const latest=
+  latestPublishedField(
+   model
+  );
+
+ if(!latest){
+  $("finalResultCard").innerHTML="";
+  return
+ }
+
+ const stats=
+        publishedFieldStats(
+         model,
+         latest
+        ),
+       decision=
+        evaluateStageDecision(
+         model,
+         latest
+        ),
+       text=
+        genderedDecisionText(
+         decision.text
+        ),
+       css=
+        decision.kind==="danger"
+         ?"fail"
+         :decision.kind==="warning"
+          ?"result-warning"
+          :decision.rule?.type==="exemption"||
+           decision.rule?.type==="ministerial"
+           ?"result-info"
+           :"result-success";
+
+ $("finalResultCard").innerHTML=
+  `<div class="result-card ${css}">
+   <div>${esc(GRADE_LABELS[latest])}</div>
+   <div class="result-big">${esc(text)}</div>
+   <div class="result-mini">المجموع ${stats.total} | المعدل ${stats.average}%</div>
+  </div>`
+}
 function animateGradeNumbers(){document.querySelectorAll("[data-grade-number]").forEach((el,i)=>{const target=Number(el.dataset.gradeNumber);if(!Number.isFinite(target))return;const duration=550+Math.min(i*8,260),start=performance.now();const tick=now=>{const p=Math.min(1,(now-start)/duration),ease=1-Math.pow(1-p,3),v=target*ease;el.textContent=(Math.abs(target-Math.round(target))<.001?Math.round(v):(Math.round(v*10)/10));if(p<1)requestAnimationFrame(tick);else el.textContent=gradeBlank(target);};requestAnimationFrame(tick);});}
 async function loadGrades(renderNow=true){if(!canUseProtectedFeatures()){renderProtectedLocks();return;}const tasks=[dbGet(`grades/${encodeURIComponent(STUDENT_CODE)}`)];if(student.classId)tasks.push(dbGet(`classes/${encodeURIComponent(student.classId)}`));const result=await Promise.all(tasks);grades=result[0]||{};if(result[1])classData=result[1];gradeModel=buildGradeModel(grades);if(renderNow)renderGrades();return gradeModel;}
 
+
+const GRADE_COMPONENT_LABELS={
+ month1:"الشهر الأول",
+ month2:"الشهر الثاني",
+ month3:"الشهر الثالث",
+ month4:"الشهر الرابع",
+ firstMonth:"الشهر الأول",
+ secondMonth:"الشهر الثاني",
+ thirdMonth:"الشهر الثالث",
+ fourthMonth:"الشهر الرابع",
+ oral:"الشفهي",
+ daily:"اليومي",
+ homework:"الواجبات",
+ assignments:"الواجبات",
+ quiz:"اختبار قصير",
+ quizzes:"اختبارات قصيرة",
+ exam:"الاختبار",
+ activity:"النشاط",
+ attendance:"الحضور",
+ project:"المشروع",
+ behavior:"السلوك"
+};
+
+function componentLabel(key){
+ const raw=
+  String(key||"");
+
+ return(
+  GRADE_COMPONENT_LABELS[
+   raw
+  ]||
+  raw
+   .replace(/_/g," ")
+   .replace(/([a-z])([A-Z])/g,"$1 $2")
+ )
+}
+
+function componentValue(value){
+ if(
+  value&&
+  typeof value==="object"
+ ){
+  return(
+   value.value??
+   value.grade??
+   value.score??
+   value.mark??
+   ""
+  )
+ }
+
+ return value
+}
+
+function gradeComponentsForPeriod(row,field){
+ const root=
+  row?.record?.components?.[
+   field
+  ];
+
+ if(
+  !root||
+  typeof root!=="object"||
+  Array.isArray(root)
+ ){
+  return[]
+ }
+
+ return Object.entries(root)
+  .map(
+   ([key,value])=>({
+    key,
+    label:
+     componentLabel(key),
+    value:
+     componentValue(value)
+   })
+  )
+  .filter(
+   x=>
+    isGrade(x.value)||
+    String(x.value||"").trim()==="غ"
+  )
+}
+
+function publishedStageReady(model,field){
+ const state=
+  stageStatus(
+   model,
+   field
+  );
+
+ if(!state.complete){
+  return false
+ }
+
+ if(
+  field==="secondRound"&&
+  state.needed===0
+ ){
+  return false
+ }
+
+ return true
+}
+
+function publishedStageValue(model,row,field){
+ if(
+  !publishedStageReady(
+   model,
+   field
+  )
+ ){
+  return""
+ }
+
+ return isGrade(
+  row[field]
+ )
+  ?row[field]
+  :""
+}
+
+function publishedFieldStats(model,field){
+ if(
+  !publishedStageReady(
+   model,
+   field
+  )
+ ){
+  return{
+   count:0,
+   total:0,
+   average:0
+  }
+ }
+
+ return fieldStats(
+  model.rows,
+  field
+ )
+}
+
+function gradeVisualClass(v,row){
+ if(!isGrade(v))return"";
+
+ const n=
+        Number(v),
+       pass=
+        Number(
+         row.passGrade??
+         50
+        ),
+       max=
+        Math.max(
+         1,
+         Number(
+          row.maxGrade||
+          100
+         )
+        ),
+       pct=
+        n/max*100;
+
+ if(n<pass){
+  return"fail-grade"
+ }
+
+ if(pct>=90){
+  return"high-grade"
+ }
+
+ if(pct<60){
+  return"critical-grade"
+ }
+
+ return""
+}
+
+function resultSheetGradeClass(v,row){
+ const cls=
+  gradeVisualClass(
+   v,
+   row
+  );
+
+ return cls==="high-grade"
+  ?"result-high"
+  :cls==="critical-grade"
+   ?"result-critical"
+   :cls==="fail-grade"
+    ?"result-fail"
+    :""
+}
+
+function genderedDecisionText(text){
+ let t=
+  String(text||"")
+  .trim();
+
+ const female=
+  normalizedGender()==="female";
+
+ if(!t)return t;
+
+ if(
+  /^ناجح(?:\s|$)/.test(t)||
+  /^ناجحة(?:\s|$)/.test(t)
+ ){
+  return female
+   ?"ناجحة، ألف مبارك النجاح"
+   :"ناجح، ألف مبارك النجاح"
+ }
+
+ if(
+  /^مكمل(?:ة)?(?:\s|$)/.test(t)
+ ){
+  return female
+   ?t.replace(/^مكمل(?:ة)?/,"مكملة")
+   :t.replace(/^مكمل(?:ة)?/,"مكمل")
+ }
+
+ if(
+  /^راسب(?:ة)?(?:\s|$)/.test(t)
+ ){
+  return female
+   ?t.replace(/^راسب(?:ة)?/,"راسبة")
+   :t.replace(/^راسب(?:ة)?/,"راسب")
+ }
+
+ if(
+  /^غير مؤهل(?:ة)?/.test(t)
+ ){
+  return female
+   ?t.replace(/^غير مؤهل(?:ة)?/,"غير مؤهلة")
+   :t.replace(/^غير مؤهل(?:ة)?/,"غير مؤهل")
+ }
+
+ if(
+  /^مؤهل(?:ة)?/.test(t)
+ ){
+  return female
+   ?t.replace(/^مؤهل(?:ة)?/,"مؤهلة")
+   :t.replace(/^مؤهل(?:ة)?/,"مؤهل")
+ }
+
+ if(
+  /^معف[ىي](?:ة)?/.test(t)||
+  /^معفي(?:ة)?/.test(t)
+ ){
+  return female
+   ?"معفاة، ألف مبارك الإعفاء"
+   :"معفى، ألف مبارك الإعفاء"
+ }
+
+ if(
+  /^غير معف/.test(t)
+ ){
+  return female
+   ?"غير معفاة"
+   :"غير معفى"
+ }
+
+ return t
+}
+
+function displayedStageDecision(model,field){
+ return genderedDecisionText(
+  resultDecision(
+   model,
+   field
+  )
+ )
+}
+
+function latestPublishedField(model){
+ return[
+  "secondRound",
+  "final",
+  "finalExam",
+  "annual",
+  "term2",
+  "midyear",
+  "term1"
+ ].find(
+  field=>
+   publishedStageReady(
+    model,
+    field
+   )
+ )||""
+}
+
+function subjectPublishedStatus(model,row){
+ const field=
+  latestPublishedField(
+   model
+  );
+
+ if(!field){
+  return[
+   "قيد الاكتمال",
+   "wait"
+  ]
+ }
+
+ const value=
+  publishedStageValue(
+   model,
+   row,
+   field
+  );
+
+ if(!isGrade(value)){
+  return[
+   "قيد الاكتمال",
+   "wait"
+  ]
+ }
+
+ const pass=
+  Number(
+   row.passGrade??
+   50
+  );
+
+ return Number(value)>=pass
+  ?[
+    "ناجح",
+    "pass"
+   ]
+  :[
+    field==="final"
+     ?"مكمل"
+     :"دون النجاح",
+    "fail"
+   ]
+}
+
+function renderGradeBreakdown(model){
+ const host=
+  $("gradeBreakdownList");
+
+ if(!host)return;
+
+ host.innerHTML=
+  model.rows.map(
+   (row,index)=>{
+    const periods=
+     GRADE_FIELDS.map(
+      field=>{
+       const components=
+        gradeComponentsForPeriod(
+         row,
+         field
+        ),
+       published=
+        publishedStageValue(
+         model,
+         row,
+         field
+        );
+
+       if(
+        !components.length&&
+        !isGrade(published)
+       ){
+        return""
+       }
+
+       return`
+        <div class="grade-period-box">
+         <div class="grade-period-head">
+          <strong>${esc(GRADE_LABELS[field])}</strong>
+          <span>${
+           isGrade(published)
+            ?`الدرجة المكتملة: ${gradeBlank(published)}`
+            :"لم تكتمل الدرجة بعد"
+          }</span>
+         </div>
+         ${
+          components.length
+           ?`<div class="grade-component-row">${
+             components.map(
+              c=>
+               `<span class="grade-component-chip">${esc(c.label)}: <b>${esc(display(c.value))}</b></span>`
+             ).join("")
+            }</div>`
+           :'<div class="grade-no-components">لا توجد تقسيمات منشورة لهذه المرحلة.</div>'
+         }
+        </div>`
+      }
+     ).filter(Boolean)
+     .join("");
+
+    const latest=
+     latestPublishedField(
+      model
+     ),
+    latestValue=
+     latest
+      ?publishedStageValue(
+        model,
+        row,
+        latest
+       )
+      :"";
+
+    return`
+     <details class="grade-breakdown-subject" ${index===0?"open":""}>
+      <summary>
+       <strong>${esc(row.name)}</strong>
+       <span>${
+        isGrade(latestValue)
+         ?`${esc(GRADE_LABELS[latest])}: ${gradeBlank(latestValue)}`
+         :"عرض التقسيم"
+       }</span>
+      </summary>
+      <div class="grade-breakdown-body">
+       ${
+        periods||
+        '<div class="grade-no-components" style="padding-top:9px">لم تُنشر تقسيمات لهذه المادة بعد.</div>'
+       }
+      </div>
+     </details>`
+   }
+  ).join("")
+}
 function renderGradeStudentCard(){
  const el=
   $("gradeStudentCard");
@@ -2032,6 +2868,7 @@ function renderGradeStudentCard(){
     <div><small>الجنس</small><strong>${esc(genderSexText())}</strong></div>
     <div><small>الصف</small><strong>${esc(className())}</strong></div>
     <div><small>القاعة</small><strong>${esc(student.roomNumber||classData.roomNumber||"—")}</strong></div>
+    <div><small>رقم ولي الأمر</small><strong class="guardian-phone">${esc(student.guardianPhone||"—")}</strong></div>
     <div><small>كود الطالب</small><strong>${esc(STUDENT_CODE)}</strong></div>
     <div><small>العام الدراسي</small><strong>2026-2027</strong></div>
    </div>`
@@ -2119,20 +2956,20 @@ function renderGradeStageStatus(model){
     return`
      <div class="grade-stage-chip ${state.ready?"ready":"wait"}">
       <small>${esc(GRADE_LABELS[field])}</small>
-      <strong>${esc(state.text)}</strong>
+      <strong>${esc(state.ready&&field!=="annual"?state.text:state.text)}</strong>
      </div>`
    }
   ).join("");
 
  const latest=
-  latestCompletedGradeField(
+  latestPublishedField(
    model
   );
 
  if($("gradeLatestStatus")){
   $("gradeLatestStatus").textContent=
    latest
-    ?`${GRADE_LABELS[latest]} — ${stageChipText(model,latest).text}`
+    ?`${GRADE_LABELS[latest]} — ${genderedDecisionText(resultDecision(model,latest))}`
     :"قيد الاكتمال"
  }
 }
@@ -2144,6 +2981,7 @@ function renderGrades(){
   !gradeModel||
   !gradeModel.rows.length
  ){
+  $("gradeBreakdownList").innerHTML="";
   $("gradeStudentCard").innerHTML="";
   $("gradeStageStatus").innerHTML="";
   $("subjectList").innerHTML="";
@@ -2158,7 +2996,12 @@ function renderGrades(){
   return
  }
 
+ renderGradeBreakdown(
+  gradeModel
+ );
+
  renderGradeStudentCard();
+
  renderGradeStageStatus(
   gradeModel
  );
@@ -2169,7 +3012,8 @@ function renderGrades(){
   gradeModel.rows.map(
    (row,i)=>{
     const status=
-     subjectStatus(
+     subjectPublishedStatus(
+      gradeModel,
       row
      );
 
@@ -2178,8 +3022,25 @@ function renderGrades(){
       <td><strong>${esc(row.name)}</strong></td>
       ${
        GRADE_FIELDS.map(
-        field=>
-         `<td class="grade-cell ${gradeClass(row[field],row)}" ${isGrade(row[field])?`data-grade-number="${Number(row[field])}"`:""}>${isGrade(row[field])?"0":""}</td>`
+        field=>{
+         const value=
+          publishedStageValue(
+           gradeModel,
+           row,
+           field
+          );
+
+         return`
+          <td class="grade-cell ${gradeVisualClass(value,row)}" ${
+           isGrade(value)
+            ?`data-grade-number="${Number(value)}"`
+            :""
+          }>${
+           isGrade(value)
+            ?"0"
+            :""
+          }</td>`
+        }
        ).join("")
       }
       <td><span class="subject-result ${status[1]}">${esc(status[0])}</span></td>
@@ -2203,15 +3064,105 @@ function renderGrades(){
  )
 }
 function delay(ms){return new Promise(resolve=>setTimeout(resolve,ms));}async function runGradeSearchExperience(){if(!canUseProtectedFeatures()){renderProtectedLocks();return;}const token=++gradeSearchToken,screen=$("gradeSearchScreen"),content=$("gradesContent"),title=$("gradeSearchTitle"),desc=$("gradeSearchText"),sets=[["جاري البحث عن درجاتك","يتم الآن جلب درجاتك من سجل الصف."],["جاري تدقيق الدرجات","نتحقق من المواد وترتيبها والدرجات المنشورة."],["جاري تجهيز النتيجة","لحظات وتظهر الدرجات بشكلها النهائي."],["جاري تحديث سجل الطالب","يتم الآن مطابقة أحدث الدرجات المنشورة."]],duration=[3000,3500,4000,4500,5000][Math.floor(Math.random()*5)],startIndex=Math.floor(Math.random()*sets.length);content.classList.add("hidden");screen.classList.remove("hidden");let step=0;const update=()=>{const item=sets[(startIndex+step++)%sets.length];title.textContent=item[0];desc.textContent=item[1];};update();const timer=setInterval(update,900);try{await Promise.all([loadGrades(false),loadGradeObjectionState(),delay(duration)]);if(token!==gradeSearchToken)return;renderGrades();}catch(error){console.error("GRADES_LOAD_ERROR",error);if(token===gradeSearchToken){gradeModel=null;$("gradesContent").classList.remove("hidden");$("subjectList").innerHTML=`<div class="lock-box"><h3>تعذر تحميل الدرجات</h3><p>حاول مرة أخرى.</p></div>`;}}finally{clearInterval(timer);if(token===gradeSearchToken)screen.classList.add("hidden");}}
-function resultReadyFields(model){return GRADE_FIELDS.filter(f=>{const s=stageStatus(model,f);return s.complete&&!(f==="secondRound"&&s.needed===0);});}function resultFieldsVisible(field){const order=["term1","midyear","term2","annual","finalExam","final","secondRound"],i=order.indexOf(field);return new Set(order.slice(0,Math.max(0,i)+1));}
+function resultReadyFields(model){
+ return GRADE_FIELDS.filter(
+  field=>
+   publishedStageReady(
+    model,
+    field
+   )
+ )
+}function resultFieldsVisible(field){const order=["term1","midyear","term2","annual","finalExam","final","secondRound"],i=order.indexOf(field);return new Set(order.slice(0,Math.max(0,i)+1));}
 function resultTemplate(model){const t=model.classData?.resultTemplate||{};return{backgroundUrl:String(t.backgroundUrl||""),headerColor:String(t.headerColor||"#5798cc"),subjectColor:String(t.subjectColor||t.headerColor||"#5798cc"),cellColor:String(t.cellColor||"#dceafa"),borderColor:String(t.borderColor||"#66717d"),failColor:String(t.failColor||"#d62828"),textColor:String(t.textColor||"#111111")};}
-function resultQrText(model,field){const decision=resultDecision(model,field),stats=fieldStats(model.rows,field),visible=resultFieldsVisible(field),cols=GRADE_FIELDS.filter(f=>visible.has(f)),lines=["مدرسة التحدي الأهلية المختلطة",GRADE_LABELS[field],`الطالب: ${student.name||""}`,`العدد: ${student.serial||""}`,`الصف: ${className()}`,`القاعة: ${student.roomNumber||classData.roomNumber||""}`,`الكود: ${STUDENT_CODE}`,`النتيجة: ${decision}`,`المجموع: ${stats.total}`,`المعدل: ${stats.average}%`];model.rows.forEach(r=>lines.push(`${r.name}: ${cols.map(f=>GRADE_LABELS[f]+"="+(isGrade(r[f])?gradeBlank(r[f]):"-")).join(" | ")}`));return lines.join("\n");}
+function resultQrText(model,field){
+ const decision=
+        displayedStageDecision(
+         model,
+         field
+        ),
+       stats=
+        publishedFieldStats(
+         model,
+         field
+        ),
+       visible=
+        resultFieldsVisible(
+         field
+        ),
+       cols=
+        GRADE_FIELDS.filter(
+         f=>
+          visible.has(f)&&
+          publishedStageReady(
+           model,
+           f
+          )
+        ),
+       lines=[
+        "مدرسة التحدي الأهلية المختلطة",
+        GRADE_LABELS[field],
+        `${studentNameLabel()}: ${student.name||""}`,
+        `العدد: ${student.serial||""}`,
+        `الصف: ${className()}`,
+        `القاعة: ${student.roomNumber||classData.roomNumber||""}`,
+        `رقم ولي الأمر: ${student.guardianPhone||""}`,
+        `الكود: ${STUDENT_CODE}`,
+        `النتيجة: ${decision}`,
+        `المجموع: ${stats.total}`,
+        `المعدل: ${stats.average}%`
+       ];
+
+ model.rows.forEach(
+  row=>
+   lines.push(
+    `${row.name}: ${
+     cols.map(
+      f=>
+       GRADE_LABELS[f]+"="+(
+        isGrade(
+         publishedStageValue(
+          model,
+          row,
+          f
+         )
+        )
+         ?gradeBlank(
+           publishedStageValue(
+            model,
+            row,
+            f
+           )
+          )
+         :"-"
+       )
+     ).join(" | ")
+    }`
+   )
+ );
+
+ return lines.join("\n")
+}
 function buildGradeResultHTML(model,field){
- const t=resultTemplate(model),
-       visible=resultFieldsVisible(field),
-       stats=fieldStats(model.rows,field),
-       decision=resultDecision(model,field),
-       cols=GRADE_FIELDS,
+ const t=
+        resultTemplate(
+         model
+        ),
+       visible=
+        resultFieldsVisible(
+         field
+        ),
+       stats=
+        publishedFieldStats(
+         model,
+         field
+        ),
+       decision=
+        displayedStageDecision(
+         model,
+         field
+        ),
+       cols=
+        GRADE_FIELDS,
        rowHeight=
         Math.max(
          25,
@@ -2235,32 +3186,87 @@ function buildGradeResultHTML(model,field){
          ?""
          :`<div class="result-school-fallback"><div><h2>مدرسة التحدي الأهلية المختلطة</h2><p>العام الدراسي 2026-2027</p></div><img src="logo.png" alt=""></div>`,
        head=
-        `<tr><th class="subject-th">الدروس</th>${cols.map(f=>`<th>${esc(GRADE_LABELS[f])}</th>`).join("")}</tr>`,
+        `<tr>
+         <th class="subject-th">الدروس</th>
+         ${cols.map(f=>`<th>${esc(GRADE_LABELS[f])}</th>`).join("")}
+         <th class="result-th">النتيجة</th>
+        </tr>`,
        body=
         model.rows.map(
-         row=>
-          `<tr><td class="subject-cell">${esc(row.name)}</td>${
+         (row,rowIndex)=>{
+          const cells=
            cols.map(
             f=>{
              const show=
                     visible.has(f)&&
-                    isGrade(row[f]),
-                   fail=
-                    show&&
-                    Number(row[f])<
-                    Number(
-                     row.passGrade??
-                     50
-                    );
+                    publishedStageReady(
+                     model,
+                     f
+                    ),
+                   value=
+                    show
+                     ?publishedStageValue(
+                       model,
+                       row,
+                       f
+                      )
+                     :"";
 
-             return`<td class="${fail?"result-fail":""}" style="height:${rowHeight}px">${show?gradeBlank(row[f]):""}</td>`
+             return`
+              <td class="${resultSheetGradeClass(value,row)}" style="height:${rowHeight}px">${
+               isGrade(value)
+                ?gradeBlank(value)
+                :""
+              }</td>`
             }
-           ).join("")
-          }</tr>`
+           ).join("");
+
+          return`
+           <tr>
+            <td class="subject-cell">${esc(row.name)}</td>
+            ${cells}
+            ${
+             rowIndex===0
+              ?`<td class="result-decision-cell" rowspan="${model.rows.length}">${esc(decision)}</td>`
+              :""
+            }
+           </tr>`
+         }
         ).join(""),
        totals=
-        `<tr><td>المجموع</td>${cols.map(f=>`<td>${visible.has(f)?(fieldStats(model.rows,f).count?fieldStats(model.rows,f).total:""):""}</td>`).join("")}</tr>
-         <tr><td>المعدل</td>${cols.map(f=>`<td>${visible.has(f)?(fieldStats(model.rows,f).count?fieldStats(model.rows,f).average:""):""}</td>`).join("")}</tr>`;
+        `<tr>
+         <td>المجموع</td>
+         ${
+          cols.map(
+           f=>{
+            const st=
+             publishedFieldStats(
+              model,
+              f
+             );
+
+            return`<td>${visible.has(f)&&st.count?st.total:""}</td>`
+           }
+          ).join("")
+         }
+         <td rowspan="2"></td>
+        </tr>
+        <tr>
+         <td>المعدل</td>
+         ${
+          cols.map(
+           f=>{
+            const st=
+             publishedFieldStats(
+              model,
+              f
+             );
+
+            return`<td>${visible.has(f)&&st.count?st.average:""}</td>`
+           }
+          ).join("")
+         }
+        </tr>`;
 
  return`
   <div class="result-sheet ${t.backgroundUrl?"":"no-template"}" style="--rh:${esc(t.headerColor)};--rs:${esc(t.subjectColor)};--rc:${esc(t.cellColor)};--rb:${esc(t.borderColor)};--rf:${esc(t.failColor)};--rt:${esc(t.textColor)}">
@@ -2272,6 +3278,7 @@ function buildGradeResultHTML(model,field){
      <div class="result-student-name">${esc(studentNameLabel())} : <strong>${esc(student.name||"—")}</strong></div>
      <div class="result-class-line">الصف : <strong>${esc(className())}</strong></div>
      <div class="result-room-line">القاعة : <strong>${esc(student.roomNumber||classData.roomNumber||"—")}</strong> — الجنس: <strong>${esc(genderSexText())}</strong></div>
+     <div class="result-guardian-line">رقم ولي الأمر: ${esc(student.guardianPhone||"—")}</div>
     </div>
     <div class="result-stage-title">${esc(GRADE_LABELS[field])}</div>
     <div class="result-status-tag">${esc(decision)}</div>
@@ -2295,7 +3302,80 @@ function buildGradeResultHTML(model,field){
 function renderResultQR(root,model,field){const target=root.querySelector(".result-qr");if(!target||typeof QRCode==="undefined")return;target.innerHTML="";new QRCode(target,{text:resultQrText(model,field),width:112,height:112,correctLevel:QRCode.CorrectLevel.L});}
 async function waitResultImages(root){await Promise.all([...root.querySelectorAll("img")].map(img=>img.complete&&img.naturalWidth?Promise.resolve():new Promise(resolve=>{img.onload=resolve;img.onerror=resolve;})));}
 function fitResultPreview(){const area=$("resultPreviewArea"),stage=$("resultPreviewStage"),content=$("resultPreviewContent");if(!area||stage.classList.contains("hidden"))return;const scale=Math.min(.93,Math.max(.28,(area.clientWidth-10)/794));stage.style.width=`${794*scale}px`;stage.style.height=`${1123*scale}px`;content.style.transform=`scale(${scale})`;}
-async function previewResultField(field){if(!gradeModel)return;const status=stageStatus(gradeModel,field);if(!status.complete||(field==="secondRound"&&status.needed===0))return toast("هذه النتيجة غير مكتملة");currentResultField=field;document.querySelectorAll(".result-stage-choice").forEach(b=>b.classList.toggle("active",b.dataset.field===field));$("resultNoReady").classList.add("hidden");$("resultPreviewStage").classList.remove("hidden");$("resultPreviewToolbar").classList.remove("hidden");const root=$("resultPreviewContent");root.innerHTML=buildGradeResultHTML(gradeModel,field);renderResultQR(root,gradeModel,field);await waitResultImages(root);requestAnimationFrame(fitResultPreview);}
+async function previewResultField(field){
+ if(!gradeModel)return;
+
+ const status=
+  stageStatus(
+   gradeModel,
+   field
+  );
+
+ if(
+  !status.complete||
+  (
+   field==="secondRound"&&
+   status.needed===0
+  )
+ ){
+  return toast(
+   "هذه النتيجة غير مكتملة"
+  )
+ }
+
+ currentResultField=
+  field;
+
+ document
+ .querySelectorAll(
+  ".result-stage-choice"
+ )
+ .forEach(
+  b=>
+   b.classList.toggle(
+    "active",
+    b.dataset.field===field
+   )
+ );
+
+ $("resultNoReady")
+ .classList.add(
+  "hidden"
+ );
+
+ $("resultPreviewStage")
+ .classList.remove(
+  "hidden"
+ );
+
+ $("resultPreviewToolbar")
+ .classList.add(
+  "hidden"
+ );
+
+ const root=
+  $("resultPreviewContent");
+
+ root.innerHTML=
+  buildGradeResultHTML(
+   gradeModel,
+   field
+  );
+
+ renderResultQR(
+  root,
+  gradeModel,
+  field
+ );
+
+ await waitResultImages(
+  root
+ );
+
+ requestAnimationFrame(
+  fitResultPreview
+ )
+}
 async function openResultCenter(){if(!gradeModel)await loadGrades(false);const ready=resultReadyFields(gradeModel);$("resultPreviewModal").classList.add("show");$("resultStageChoices").innerHTML=ready.map(f=>`<button class="result-stage-choice" data-field="${f}" type="button" onclick="previewResultField('${f}')">${esc(GRADE_LABELS[f])}</button>`).join("");$("resultPreviewStage").classList.add("hidden");$("resultPreviewToolbar").classList.add("hidden");$("resultNoReady").classList.toggle("hidden",ready.length>0);currentResultField="";if(ready.length)await previewResultField(ready[ready.length-1]);}
 function closeResultCenter(){$("resultPreviewModal").classList.remove("show");currentResultField="";$("resultPreviewContent").innerHTML="";}
 function pdfFileName(v){return String(v||"نتيجة").replace(/[\\/:*?"<>|]+/g,"-").replace(/\s+/g,"_");}
@@ -2829,7 +3909,7 @@ $("closeGradeObjectionBtn").onclick=closeGradeObjection;
 $("objectionPeriod").onchange=fillObjectionSubjects;
 $("submitGradeObjectionBtn").onclick=submitGradeObjection;
 $("gradeObjectionModal").addEventListener("click",e=>{if(e.target===$("gradeObjectionModal"))closeGradeObjection()});
-$("resultCenterBtn").onclick=openResultCenter;$("closeResultPreview").onclick=closeResultCenter;$("downloadCurrentResult").onclick=()=>downloadGradePDF(currentResultField);$("resultPreviewModal").addEventListener("click",e=>{if(e.target===$("resultPreviewModal"))closeResultCenter();});window.addEventListener("resize",fitResultPreview);$("logoutBtn").onclick = logout;
+$("resultCenterBtn").onclick=openResultCenter;$("closeResultPreview").onclick=closeResultCenter;$("resultPreviewModal").addEventListener("click",e=>{if(e.target===$("resultPreviewModal"))closeResultCenter();});window.addEventListener("resize",fitResultPreview);$("logoutBtn").onclick = logout;
 $("inactiveLogout").onclick = logout;
 window.addEventListener( "load", init );
 </script></body></html>
