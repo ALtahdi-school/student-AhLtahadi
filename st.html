@@ -1467,7 +1467,7 @@ function generalWhatsAppLink(){
 }
 function openHomeWhatsAppGroup(type){
  const isGeneral=type==="general",link=isGeneral?generalWhatsAppLink():classWhatsAppLink();
- if(!link){toast(isGeneral?"لم يتم إنشاء المجموعة العامة بعد":"لم يتم إنشاء مجموعة لهذا الصف بعد");return}
+ if(!link){toast("المجموعة غير متاحة");return}
  window.open(link,"_blank","noopener,noreferrer")
 }
 function className(){ return ( classData.name || student.className || "—" ); }
