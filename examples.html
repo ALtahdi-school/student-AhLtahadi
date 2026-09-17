@@ -754,9 +754,9 @@ function sheetHTML(exam,student,pageIndex,questionIndexes,mode="preview"){
  <img class="exam-watermark" src="${logo}" alt=""><div class="sheet-side">${side}</div><div class="exam-sheet-inner">
  <header class="exam-head"><div class="exam-head-left"><div class="corner-student-lines"><b>${esc(student.name||"—")}</b><br>الصف: ${esc(stClass)}<br>القاعة: ${esc(stRoom)}<br>الجنس: ${esc(gender)}</div></div>
  <div class="exam-head-center"><img class="exam-logo" src="${logo}" alt=""><div class="exam-school">مدرسة التحدي الأهلية المختلطة</div><div class="exam-subject">${esc(exam.subjectName)}</div></div>
- <div class="exam-head-right"><div class="exam-time">الوقت: ${exam.minutes} دقيقة<br>الدرجة: ${exam.targetMax}<br>الصفحة: ${pageIndex+1} / ${exam.pageCount||pagePlan.length}<br><span class="teacher-print">الأستاذ: ${esc(exam.teacherName||"—")}</span></div><div class="exam-qr-holder"><div class="page-qr" data-student="${esc(student.code)}" data-page-number="${pageIndex+1}" data-qr="${esc(qrPayload(exam,student,pageIndex))}"></div></div></div></header>
+ <div class="exam-head-right"><div class="exam-time">الوقت: ${exam.minutes} دقيقة<br>الدرجة: ${exam.targetMax}<br><span class="teacher-print">الأستاذ: ${esc(exam.teacherName||"—")}</span></div><div class="exam-qr-holder"><div class="page-qr" data-student="${esc(student.code)}" data-page-number="${pageIndex+1}" data-qr="${esc(qrPayload(exam,student,pageIndex))}"></div></div></div></header>
  <main class="exam-body">${questionIndexes.map(i=>questionHTML(questions[i],i,modelKey,exam)).join("")}</main>
- <footer class="exam-foot"><span>${esc(exam.periodLabel)} — ${esc(exam.targetLabel)}</span><span>${esc(stClass)} — ${esc(stRoom)}</span><span class="page-no">${pageIndex+1} / ${exam.pageCount||pagePlan.length}</span></footer>
+ <footer class="exam-foot"><span>${esc(exam.periodLabel)} — ${esc(exam.targetLabel)}</span><span>${esc(stClass)} — ${esc(stRoom)}</span></footer>
  </div></section>`
 }
 async function makeQRCodes(root){
