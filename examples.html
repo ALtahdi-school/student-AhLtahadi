@@ -24,6 +24,25 @@
 .camera-card,.file-scan-card,.paper-results-card{border-radius:13px!important}.camera-stage{min-height:390px!important}.camera-stage video{min-height:390px!important}
 @media(max-width:820px){.exam-card-meta{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:650px){.saved-exams{grid-template-columns:1fr!important}.saved-exam-actions{grid-template-columns:1fr!important}.camera-stage,.camera-stage video{min-height:330px!important}}
+
+/* ================= Clean A4 Camera Guide V10 ================= */
+.camera-stage{position:relative;overflow:hidden;background:#08131e;cursor:pointer}
+.camera-stage .camera-overlay,
+.camera-stage .camera-hud,
+.camera-stage .camera-legend{display:none!important}
+.camera-stage.tap-ready:after,
+.camera-stage.processing-tap:after{display:none!important;content:none!important}
+.a4-camera-guide{
+ position:absolute;z-index:10;left:50%;top:50%;transform:translate(-50%,-50%);
+ height:min(84%,540px);aspect-ratio:210 / 297;width:auto;max-width:88%;
+ border:3px solid rgba(255,255,255,.96);border-radius:7px;
+ box-shadow:0 0 0 1px rgba(7,95,207,.95),0 0 0 9999px rgba(0,0,0,.10);
+ pointer-events:none;
+}
+.a4-camera-guide:before,.a4-camera-guide:after{content:none!important;display:none!important}
+.camera-placeholder{position:relative;z-index:11}
+.processing-overlay{z-index:14}
+@media(max-width:650px){.a4-camera-guide{height:78%;max-width:90%;border-width:2px}}
 </style>
 </head>
 <body>
@@ -53,7 +72,17 @@
    <article class="home-card list"><h3>الامتحانات المحفوظة</h3><p>كل امتحاناتك بمكان واحد: متابعة، تصحيح، اعتماد أو إلغاء اعتماد، وحذف.</p><button type="button" onclick="scrollToSavedExams()">عرض الامتحانات</button></article>
   </div>
  </section>
-\n <section id="examTypeStage" class="exam-type-stage hidden">\n  <div class="panel">\n   <div class="panel-head"><div><h3>اختر نوع الامتحان</h3><p>حدد طريقة الامتحان أولاً.</p></div><button class="btn btn-gray" type="button" onclick="goHome()">رجوع</button></div>\n   <div class="panel-body"><div class="exam-type-grid">\n    <article class="exam-type-card paper"><div><div class="exam-type-icon">و</div><h3>حضوري على الورقة</h3><p>PDF لكل طالب، نماذج تلقائية، QR وتصحيح بالكاميرا أو Scanner.</p></div><button type="button" onclick="startNewExam('paper')">إنشاء امتحان حضوري</button></article>\n    <article class="exam-type-card online"><div><div class="exam-type-icon">إ</div><h3>إلكتروني على المنصة</h3><p>وقت بداية ومدة ونماذج تلقائية وعدّاد وتصحيح فوري.</p></div><button type="button" onclick="startNewExam('online')">إنشاء امتحان إلكتروني</button></article>\n   </div></div>\n  </div>\n </section>\n <section id="savedPanel" class="panel">
+
+ <section id="examTypeStage" class="exam-type-stage hidden">
+  <div class="panel">
+   <div class="panel-head"><div><h3>اختر نوع الامتحان</h3><p>حدد طريقة الامتحان أولاً.</p></div><button class="btn btn-gray" type="button" onclick="goHome()">رجوع</button></div>
+   <div class="panel-body"><div class="exam-type-grid">
+    <article class="exam-type-card paper"><div><div class="exam-type-icon">و</div><h3>حضوري على الورقة</h3><p>PDF لكل طالب، نماذج تلقائية، QR وتصحيح بالكاميرا أو Scanner.</p></div><button type="button" onclick="startNewExam('paper')">إنشاء امتحان حضوري</button></article>
+    <article class="exam-type-card online"><div><div class="exam-type-icon">إ</div><h3>إلكتروني على المنصة</h3><p>وقت بداية ومدة ونماذج تلقائية وعدّاد وتصحيح فوري.</p></div><button type="button" onclick="startNewExam('online')">إنشاء امتحان إلكتروني</button></article>
+   </div></div>
+  </div>
+ </section>
+ <section id="savedPanel" class="panel">
   <div class="panel-head"><div><h3>امتحاناتك</h3><p>إدارة سريعة للامتحانات المكتملة وغير المكتملة وقرار اعتماد الدرجات.</p></div><button class="btn btn-soft" type="button" onclick="loadSavedExams()">تحديث</button></div>
   <div class="panel-body"><div id="savedExams" class="saved-exams"><div class="help">لا توجد امتحانات محملة بعد.</div></div></div>
  </section>
@@ -99,7 +128,14 @@
    <div class="action-row"><button id="questionsDoneBtn" class="btn btn-p" type="button" onclick="preparePreview()">تم — معاينة ورقة الأسئلة</button></div>
   </div>
  </section>
- <section id="previewStage" class="panel hidden">\n  <div class="panel-head"><div><h3 id="previewStageTitle">معاينة الامتحان</h3><p id="previewStageHelp">راجع الامتحان جيداً قبل الاعتماد.</p></div><div class="action-row" style="margin:0"><button id="editQuestionsBtn" class="btn btn-soft" type="button" onclick="goStage('questions')">تعديل الأسئلة</button></div></div>\n  <div class="panel-body">\n   <div id="paperPreviewBlock"><div id="previewSummary" class="score-summary"></div><div class="preview-wrap"><div id="previewPages" class="preview-pages"></div></div><div class="action-row"><button id="downloadExamBtn" class="btn btn-g" type="button" onclick="generateExamPDF()">تحميل الأسئلة PDF واعتماد المعاينة</button></div></div>\n   <div id="onlinePreviewBlock" class="hidden"><div id="onlinePreviewSummary" class="online-preview-summary"></div><div id="onlineModelTabs" class="online-model-tabs"></div><div id="onlinePreviewModels" class="online-preview-questions"></div><div class="action-row"><button id="publishOnlineExamBtn" class="btn btn-g" type="button" onclick="publishElectronicExam()">نشر الامتحان الإلكتروني واعتماده</button></div></div>\n  </div>\n </section>\n
+ <section id="previewStage" class="panel hidden">
+  <div class="panel-head"><div><h3 id="previewStageTitle">معاينة الامتحان</h3><p id="previewStageHelp">راجع الامتحان جيداً قبل الاعتماد.</p></div><div class="action-row" style="margin:0"><button id="editQuestionsBtn" class="btn btn-soft" type="button" onclick="goStage('questions')">تعديل الأسئلة</button></div></div>
+  <div class="panel-body">
+   <div id="paperPreviewBlock"><div id="previewSummary" class="score-summary"></div><div class="preview-wrap"><div id="previewPages" class="preview-pages"></div></div><div class="action-row"><button id="downloadExamBtn" class="btn btn-g" type="button" onclick="generateExamPDF()">تحميل الأسئلة PDF واعتماد المعاينة</button></div></div>
+   <div id="onlinePreviewBlock" class="hidden"><div id="onlinePreviewSummary" class="online-preview-summary"></div><div id="onlineModelTabs" class="online-model-tabs"></div><div id="onlinePreviewModels" class="online-preview-questions"></div><div class="action-row"><button id="publishOnlineExamBtn" class="btn btn-g" type="button" onclick="publishElectronicExam()">نشر الامتحان الإلكتروني واعتماده</button></div></div>
+  </div>
+ </section>
+
  <section id="correctionStage" class="panel hidden">
  <div class="panel-head"><div><h3>تصحيح الامتحان الحضوري</h3><p id="correctionExamText">صحح بالكاميرا بالضغط على صورة الورقة، أو ارفع PDF/صور Scanner.</p></div><div class="correction-head"><span id="correctionBadge" class="exam-badge">لا يوجد امتحان</span><button class="btn btn-gray" type="button" onclick="goHome()">الرجوع</button></div></div>
  <div class="panel-body">
@@ -109,18 +145,19 @@
    <button id="fileModeBtn" class="correction-mode-btn" type="button" onclick="setCorrectionMode('files')">PDF / صور Scanner</button>
   </div>
   <div id="cameraCorrectionCard" class="camera-card">
-   <div class="card-head"><h4>التصحيح بالكاميرا</h4><p>شغّل الكاميرا، وجّه الورقة كاملة، ثم اضغط مرة واحدة على صورة الكاميرا. النظام يلتقط صورة مؤقتة ويقرأ QR ويحلل الدوائر ويحسب الدرجة.</p></div>
+   <div class="card-head"><h4>التصحيح بالكاميرا</h4><p>شغّل الكاميرا، ضع ورقة A4 كاملة داخل الإطار، ثم اضغط على صورة الكاميرا. النظام يلتقط الصورة ويعدل اتجاهها تلقائياً إذا كانت مقلوبة ثم يقرأ QR ويصحح الإجابات.</p></div>
    <div id="cameraStage" class="camera-stage" onclick="analyzeCameraPaperFromTap(event)">
     <video id="cameraVideo" class="hidden" autoplay muted playsinline webkit-playsinline></video>
     <canvas id="cameraOverlay" class="camera-overlay"></canvas>
-    <div id="cameraPlaceholder" class="camera-placeholder">اضغط «تشغيل الكاميرا»، ثم ضع ورقة الطالب أمام العدسة.</div>
+    <div id="a4CameraGuide" class="a4-camera-guide" aria-hidden="true"></div>
+    <div id="cameraPlaceholder" class="camera-placeholder">اضغط «تشغيل الكاميرا»، ثم ضع ورقة A4 كاملة داخل الإطار.</div>
     <div id="processingOverlay" class="processing-overlay hidden"><div class="processing-card"><div class="processing-spinner"></div><strong id="processingTitle">جاري معالجة الورقة</strong><span id="processingText">يرجى الانتظار...</span></div></div>
     <div id="cameraHud" class="camera-hud hidden"><div class="camera-hud-main"><div><strong id="hudStudent">بانتظار الورقة</strong><span id="hudPaper">اضغط على الصورة عند وضوح الورقة</span></div><div class="hud-total"><small>المجموع</small><b id="hudTotal">0</b><span id="hudPageScore"></span></div></div><div class="camera-hud-metrics"><span id="hudLight">الإضاءة: —</span><span id="hudAngle">المعايرة: —</span></div><div id="hudAnswers" class="hud-answers"></div></div>
     <div id="cameraLegend" class="camera-legend hidden"><span class="correct">صحيح</span><span class="wrong">خطأ</span><span class="unclear">غير واضح</span><span class="qrread">QR</span></div>
    </div>
    <div class="scanner-status"><span id="cornerChip" class="scanner-chip warn">الورقة: بانتظار</span><span id="captureChip" class="scanner-chip capture">الالتقاط: يدوي</span><span id="qrChip" class="scanner-chip warn">QR: بانتظار</span><span id="securityChip" class="scanner-chip warn">الأمان: بانتظار</span></div>
    <div id="scanStatus" class="scan-status warn">الكاميرا متوقفة.</div>
-   <div class="camera-tap-hint">بعد تشغيل الكاميرا: اضغط على صورة الورقة نفسها حتى يبدأ التحليل والتصحيح. لا يوجد التقاط تلقائي.</div>
+   <div class="camera-tap-hint">ضع الورقة كاملة داخل إطار A4 ثم اضغط على صورة الكاميرا لبدء المعالجة والتصحيح.</div>
    <div class="camera-actions"><button id="startCameraBtn" class="btn btn-p" type="button" onclick="event.stopPropagation();startCamera()">تشغيل الكاميرا</button><button id="torchBtn" class="btn btn-o hidden" type="button" onclick="event.stopPropagation();toggleTorch()">تشغيل الفلاش</button><button class="btn stop-camera" type="button" onclick="event.stopPropagation();stopCamera()">إيقاف الكاميرا</button></div>
   </div>
   <div id="fileScanCard" class="file-scan-card hidden">
@@ -142,7 +179,9 @@
   <div class="online-monitor-table-wrap"><table class="online-monitor-table"><thead><tr><th>ت</th><th>الطالب</th><th>الصف / القاعة</th><th>الجنس</th><th>النموذج</th><th>الحالة</th><th>البداية</th><th>الإرسال</th><th>الدرجة المعتمدة</th></tr></thead><tbody id="onlineMonitorBody"></tbody></table></div>
   <div class="online-schedule-note">بعد انتهاء الوقت: من لم يرسل الامتحان يسجل «غ / غياب». نتائج الامتحان تبقى مستقلة، ونقلها إلى سجل الدرجات قرار الأستاذ.</div><div id="onlineAdoptionPanel" class="grade-adoption-panel hidden"></div>
  </div>
- </section>\n <section id="onlineStudentStage" class="hidden"><div class="student-exam-shell"><div id="onlineStudentContent"><div class="panel"><div class="panel-body"><div class="help">جاري تحميل الامتحان...</div></div></div></div></div></section>\n <section id="publicScanStage" class="panel hidden">
+ </section>
+ <section id="onlineStudentStage" class="hidden"><div class="student-exam-shell"><div id="onlineStudentContent"><div class="panel"><div class="panel-body"><div class="help">جاري تحميل الامتحان...</div></div></div></div></div></section>
+ <section id="publicScanStage" class="panel hidden">
   <div class="panel-head"><div><h3>بيانات ورقة الامتحان</h3><p>تم فتح هذه الصفحة من باركود ورقة امتحان.</p></div></div>
   <div class="panel-body"><div id="publicPaperResult" class="public-paper-card"><div class="help">جاري قراءة الباركود...</div></div></div>
  </section>
@@ -3553,6 +3592,58 @@ async function resumeCameraAfterCapturedImage(video,delay=850){
  }
 }
 function pulseScannerCapture(){const stage=$("cameraStage");stage.classList.remove("scanner-captured");void stage.offsetWidth;stage.classList.add("scanner-captured")}
+function rotateCapturedCanvas(source,degrees){
+ const d=((Number(degrees)||0)%360+360)%360;
+ if(!d)return source;
+ const swap=d===90||d===270,
+       out=document.createElement("canvas");
+ out.width=swap?source.height:source.width;
+ out.height=swap?source.width:source.height;
+ const ctx=out.getContext("2d",{willReadFrequently:true});
+ ctx.save();
+ if(d===90){ctx.translate(out.width,0);ctx.rotate(Math.PI/2)}
+ else if(d===180){ctx.translate(out.width,out.height);ctx.rotate(Math.PI)}
+ else if(d===270){ctx.translate(0,out.height);ctx.rotate(-Math.PI/2)}
+ ctx.drawImage(source,0,0);
+ ctx.restore();
+ return out
+}
+function detectWholeCanvasQRForOrientation(canvas){
+ try{
+  const maxW=1500,
+        scale=Math.min(1,maxW/Math.max(1,canvas.width)),
+        c=document.createElement("canvas");
+  c.width=Math.max(1,Math.round(canvas.width*scale));
+  c.height=Math.max(1,Math.round(canvas.height*scale));
+  const ctx=c.getContext("2d",{willReadFrequently:true});
+  ctx.imageSmoothingEnabled=false;
+  ctx.drawImage(canvas,0,0,c.width,c.height);
+  const fr=ctx.getImageData(0,0,c.width,c.height),
+        brightness=frameBrightness(fr.data),
+        qr=readQRRobust(fr,c.width,c.height,brightness);
+  if(!qr)return null;
+  const sx=canvas.width/c.width,sy=canvas.height/c.height,sp=p=>({x:p.x*sx,y:p.y*sy});
+  qr.location={
+   topLeftCorner:sp(qr.location.topLeftCorner),
+   topRightCorner:sp(qr.location.topRightCorner),
+   bottomRightCorner:sp(qr.location.bottomRightCorner),
+   bottomLeftCorner:sp(qr.location.bottomLeftCorner)
+  };
+  return qr
+ }catch{return null}
+}
+function normalizedAngleDegrees(v){let a=Number(v)||0;while(a>180)a-=360;while(a<=-180)a+=360;return a}
+function normalizeCapturedPaperOrientation(captured){
+ const qr=detectWholeCanvasQRForOrientation(captured);
+ if(!qr)return{canvas:captured,rotation:0,qr:null};
+ const angle=normalizedAngleDegrees(qrAngleDegrees(qr));
+ let rotation=0;
+ if(angle>=135||angle<=-135)rotation=180;
+ else if(angle>45&&angle<135)rotation=270;
+ else if(angle<-45&&angle>-135)rotation=90;
+ if(!rotation)return{canvas:captured,rotation:0,qr};
+ return{canvas:rotateCapturedCanvas(captured,rotation),rotation,qr:null}
+}
 async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
  let captured=null,
      success=false,
@@ -3572,6 +3663,14 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
    captured.height<720
   ){
    throw new Error("CAPTURE_RESOLUTION_TOO_LOW")
+  }
+  const orientation=normalizeCapturedPaperOrientation(captured);
+  if(orientation.rotation){
+   const originalCaptured=captured;
+   captured=orientation.canvas;
+   if(originalCaptured!==captured){try{originalCaptured.width=1;originalCaptured.height=1}catch{}}
+   setProcessingOverlay(true,"تم تعديل اتجاه الورقة ✓",`تم تدوير الصورة تلقائياً ${orientation.rotation}° قبل التحليل.`,"busy");
+   await nextPaint();
   }
   setProcessingOverlay(
    true,
@@ -4009,6 +4108,8 @@ async function processCapturedPage(video,seedMarkers=null,seedW=0,seedH=0){
   )
  }
 }
+// V10: لا نرسم نتائج أو مربعات على معاينة الكاميرا؛ يبقى فقط إطار A4 الثابت.
+drawScanOverlayScanner=function(){clearOverlay()};
 async function analyzeCameraPaperFromTap(event){
  if(event?.target?.closest?.(".camera-actions"))return;
  if(!currentExam)return toast("افتح امتحاناً للتصحيح أولاً.","warn");
