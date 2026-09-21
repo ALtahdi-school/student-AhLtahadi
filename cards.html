@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dom-to-image-more@3.6.0/dist/dom-to-image-more.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{--p:#075fcf;--ps:#edf5ff;--pink:#d84f94;--pinks:#fff0f7;--g:#078b50;--r:#d92d20;--bg:#f5f8fc;--text:#172033;--muted:#667085;--border:#e3e9f1}
@@ -21,7 +22,7 @@
 .panel{margin-top:13px;border:1px solid var(--border);border-radius:16px;background:#fff;overflow:hidden}.panel-head{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px}.panel-head h3{font-size:13px}.panel-body{padding:13px}
 .toolbar{display:grid;grid-template-columns:1fr 1fr auto auto;gap:7px}.toolbar input,.toolbar select{height:42px;padding:0 10px;border:1px solid var(--border);border-radius:9px;outline:none}
 .class-grid{margin-top:12px}.classes-groups{display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"male female";gap:14px;direction:ltr}.classes-column{direction:rtl;border:1px solid var(--border);border-radius:16px;padding:11px;background:#fff}.classes-column.female{grid-area:female;background:linear-gradient(180deg,#fff7fb,#fff)}.classes-column.male{grid-area:male;background:linear-gradient(180deg,#f5f9ff,#fff)}.classes-column.mixed{grid-column:1/-1;grid-area:auto;background:#fafafa;margin-top:2px}.classes-column-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px;padding:8px 10px;border-radius:11px;font-weight:900}.classes-column.female .classes-column-head{color:#a62d68;background:#ffe6f2;border:1px solid #efb0ce}.classes-column.male .classes-column-head{color:#0a4b9d;background:#e5f0ff;border:1px solid #a8c9f3}.classes-column.mixed .classes-column-head{color:#475467;background:#f2f4f7;border:1px solid #d0d5dd}.classes-column-head strong{font-size:12px}.classes-column-head span{font-size:8px}.classes-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:9px}.class-card{position:relative;padding:13px 13px 11px;border-radius:14px;text-align:right;transition:.18s ease;box-shadow:0 6px 16px rgba(15,23,42,.045)}.class-card:hover{transform:translateY(-1px)}.class-card.female{background:#fff0f7;border:1.5px solid #e89abb}.class-card.male{background:#edf5ff;border:1.5px solid #9fc2ef}.class-card.mixed{background:#f8fafc;border:1.5px solid #cbd5e1}.class-card.female.active{box-shadow:0 0 0 3px rgba(216,79,148,.16),0 8px 20px rgba(216,79,148,.12);border-color:#d84f94}.class-card.male.active{box-shadow:0 0 0 3px rgba(7,95,207,.14),0 8px 20px rgba(7,95,207,.10);border-color:#075fcf}.class-card.mixed.active{box-shadow:0 0 0 3px rgba(71,84,103,.12)}.class-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding-left:24px}.class-card h4{font-size:10px;line-height:1.6}.class-card .class-room{margin-top:5px;font-size:8px;font-weight:900;line-height:1.6}.class-card.female .class-room{color:#a62d68}.class-card.male .class-room{color:#0a4b9d}.class-card.mixed .class-room{color:#475467}.class-card .class-count-small{margin-top:4px;color:var(--muted);font-size:7px;font-weight:700}.class-check{position:absolute;top:11px;left:11px;width:19px;height:19px;border-radius:50%;border:1px solid #bfd0e0;background:#fff;display:grid;place-items:center;font-size:11px;color:#fff}.class-card.female.active .class-check{background:#d84f94;border-color:#d84f94}.class-card.male.active .class-check{background:#075fcf;border-color:#075fcf}.class-card.mixed.active .class-check{background:#667085;border-color:#667085}@media(max-width:760px){.classes-groups{grid-template-columns:1fr;grid-template-areas:"female" "male"}.classes-column.mixed{grid-column:1}}
-.preview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(500px,1fr));gap:24px;align-items:start}.preview-item{min-width:0;width:100%;max-width:794px;margin-inline:auto}.preview-item-label{margin-bottom:8px;color:#475467;font-size:9px;font-weight:900}.preview-scale-shell{position:relative;width:100%;max-width:794px;aspect-ratio:210/297;overflow:hidden;margin-inline:auto}.preview-scale-shell .a4-page{position:absolute;top:0;right:0;transform-origin:top right}
+.preview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(500px,1fr));gap:24px;align-items:start}.preview-item{min-width:0;width:100%;max-width:794px;margin-inline:auto}.preview-item-label{margin-bottom:8px;color:#475467;font-size:9px;font-weight:900}.preview-scale-shell{position:relative;width:100%;max-width:794px;aspect-ratio:210/297;overflow:hidden;margin-inline:auto}.preview-scale-shell .a4-page{position:absolute;top:0;right:0;transform-origin:top right}.preview-final-image{display:block;width:100%;height:100%;object-fit:fill;background:#fff;border:0;margin:0;padding:0}
 .a4-page{position:relative;width:794px;height:1123px;aspect-ratio:auto;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.98) 0%,rgba(248,251,255,.98) 100%),radial-gradient(circle at top right,rgba(255,255,255,.75) 0 16%,transparent 17%),radial-gradient(circle at left 20%,rgba(255,255,255,.38) 0 11%,transparent 12%);padding:18px 20px 20px 20px;display:flex;flex-direction:column;font-family:"Cairo",Tahoma,Arial,"Simplified Arabic","Traditional Arabic",sans-serif;color:#111;box-shadow:0 18px 42px rgba(18,38,63,.12)}
 .a4-page:before{content:"";position:absolute;inset:0;border:14px solid var(--frame);pointer-events:none}.a4-page:after{content:"";position:absolute;inset:8px;border:3px solid var(--frame-dark);pointer-events:none}
 .frame-pattern{position:absolute;inset:14px;pointer-events:none;border:1px solid rgba(255,255,255,.55);background:radial-gradient(circle at 22% 14%,rgba(255,255,255,.18) 0 2px,transparent 2.5px) 0 0/24px 24px,repeating-linear-gradient(45deg,transparent 0 12px,rgba(255,255,255,.10) 12px 15px)}
@@ -55,7 +56,7 @@
 <script>
 const DB="https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app",YEAR="2026-2027",PUBLIC_CARD_PATH="publicStudentCards";
 const $=id=>document.getElementById(id),norm=v=>String(v||"").trim().toLowerCase(),esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
-let STUDENTS={},CLASSES={},SELECTED_CLASSES=new Set(),timer=0,GRADE_CACHE={},PREVIEW_MODELS=[],CURRENT_MANAGER="";
+let STUDENTS={},CLASSES={},SELECTED_CLASSES=new Set(),timer=0,GRADE_CACHE={},PREVIEW_MODELS=[],CURRENT_MANAGER="",PREVIEW_SNAPSHOTS=[];
 const FRAME_PALETTE=[
   {frame:"#244a9b",light:"#d9e6ff",dark:"#163e8f"},
   {frame:"#7a4cc2",light:"#efe2ff",dark:"#6632b8"},
@@ -92,7 +93,7 @@ function renderClasses(){
 }
 function toggleClassSelection(id){SELECTED_CLASSES.has(id)?SELECTED_CLASSES.delete(id):SELECTED_CLASSES.add(id);renderClasses()}
 function selectVisibleClasses(){visibleClasses().forEach(c=>SELECTED_CLASSES.add(c.id));renderClasses();toast(`تم تحديد ${SELECTED_CLASSES.size} صف`)}
-function clearSelection(){SELECTED_CLASSES.clear();PREVIEW_MODELS=[];$("preview").innerHTML='<div class="empty">حدد الصفوف ثم اضغط معاينة.</div>';$("countText").textContent='0 ورقة';renderClasses()}
+function clearSelection(){SELECTED_CLASSES.clear();PREVIEW_MODELS=[];PREVIEW_SNAPSHOTS=[];$("preview").innerHTML='<div class="empty">حدد الصفوف ثم اضغط معاينة.</div>';$("countText").textContent='0 ورقة';renderClasses()}
 function selectedRows(){if(!SELECTED_CLASSES.size)return[];return Object.entries(STUDENTS).map(([code,s])=>({code,...s})).filter(s=>s.name&&s.hidden!==true&&SELECTED_CLASSES.has(s.classId)).sort((a,b)=>{const ac=String(CLASSES[a.classId]?.name||a.classId||""),bc=String(CLASSES[b.classId]?.name||b.classId||"");const cmp=ac.localeCompare(bc,"ar");return cmp||String(a.name||"").localeCompare(String(b.name||""),"ar")})}
 function classSubjects(c){let rows=Array.isArray(c?.subjects)?c.subjects:Object.values(c?.subjects||{});return rows.filter(Boolean).map((s,i)=>({id:String(s.id||`SUB_${i+1}`),name:String(s.name||s.subjectName||"").trim(),maxGrade:Number(s.maxGrade||100),passGrade:Number(s.passGrade??50),order:Number(s.order||i+1),autoType:s.autoType||""})).filter(s=>s.name).sort((a,b)=>a.order-b.order)}
 function gradeSubjectName(rec,key=""){return String(rec?.subjectName||rec?.subject||rec?.name||key||"").trim()}
@@ -152,7 +153,39 @@ function fitPublicPage(){const shell=document.querySelector(".public-card-wrap")
 function openManagerModal(){const rows=selectedRows();if(!rows.length)return toast("حدد صفاً واحداً على الأقل");const saved=localStorage.getItem("tahadi_cards_manager_name")||CURRENT_MANAGER||"";$("managerNameInput").value=saved;$("managerModal").classList.add("show");setTimeout(()=>$("managerNameInput").focus(),50)}
 function closeManagerModal(){$("managerModal").classList.remove("show")}
 function renderPreview(){openManagerModal()}
-async function confirmManagerPreview(mode="all"){const name=$("managerNameInput").value.trim();if(!name)return toast("اكتب اسم مدير المدرسة");let rows=selectedRows();if(!rows.length)return closeManagerModal(),toast("حدد صفاً واحداً على الأقل");if(mode==="accountant")rows=rows.filter(isAccountantActive);if(!rows.length)return toast(mode==="accountant"?"لا يوجد طلاب مفعلون من الحسابات ضمن الصفوف المحددة":"لا توجد أسماء ضمن الصفوف المحددة");CURRENT_MANAGER=name;localStorage.setItem("tahadi_cards_manager_name",name);closeManagerModal();const b1=$("previewAccountantBtn"),b2=$("previewAllBtn");if(b1)b1.disabled=true;if(b2)b2.disabled=true;$("loadingText").textContent=mode==="accountant"?"جاري تجهيز الطلاب المفعلين من الحسابات":"جاري تجهيز جميع طلاب الصفوف";$("loading").classList.remove("hidden");try{PREVIEW_MODELS=await prepareModels(rows,name);$("countText").textContent=`${PREVIEW_MODELS.length} ورقة`;$("preview").innerHTML=PREVIEW_MODELS.map((m,i)=>`<div class="preview-item"><div class="preview-item-label">${esc(CLASSES[m.student.classId]?.name||m.student.className||"")} — ${esc(m.student.name||"")}</div><div class="preview-scale-shell">${a4HTML(m,`preview_${i}`)}</div></div>`).join("");fillQR($("preview"));fitPreviewPages();toast(mode==="accountant"?"تم إنشاء معاينة الطلاب المفعلين من الحسابات":"تم إنشاء معاينة جميع الطلاب") }catch(e){console.error(e);PREVIEW_MODELS=[];toast("تعذر تجهيز المعاينة أو ربط الباركود") }finally{if(b1)b1.disabled=false;if(b2)b2.disabled=false;$("loading").classList.add("hidden")}}
+
+async function nodeToExactPng(page){
+ await ensureArabicFonts();
+ await waitImages(page);
+ await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+ const originalTransform=page.style.transform;
+ const originalOrigin=page.style.transformOrigin;
+ page.style.transform="none";
+ page.style.transformOrigin="top right";
+ try{
+  if(window.domtoimage?.toPng){
+   return await window.domtoimage.toPng(page,{width:794,height:1123,bgcolor:"#ffffff",cacheBust:true,quality:1,style:{transform:"none",transformOrigin:"top right",width:"794px",height:"1123px",margin:"0"}})
+  }
+  const canvas=await html2canvas(page,{scale:3,useCORS:true,allowTaint:true,backgroundColor:"#fff",width:794,height:1123,windowWidth:794,windowHeight:1123,logging:false,scrollX:0,scrollY:0});
+  const data=canvas.toDataURL("image/png");canvas.width=1;canvas.height=1;return data
+ }finally{
+  page.style.transform=originalTransform;
+  page.style.transformOrigin=originalOrigin
+ }
+}
+async function freezePreviewAsExactImages(){
+ PREVIEW_SNAPSHOTS=[];
+ const shells=[...$("preview").querySelectorAll(".preview-item .preview-scale-shell")];
+ for(let i=0;i<shells.length;i++){
+  const shell=shells[i],page=shell.querySelector(".a4-page");
+  if(!page)continue;
+  const data=await nodeToExactPng(page);
+  PREVIEW_SNAPSHOTS.push(data);
+  shell.innerHTML=`<img class="preview-final-image" src="${data}" alt="معاينة ورقة الطالب">`;
+ }
+ if(PREVIEW_SNAPSHOTS.length!==shells.length)throw new Error("PREVIEW_SNAPSHOT_MISMATCH")
+}
+async function confirmManagerPreview(mode="all"){const name=$("managerNameInput").value.trim();if(!name)return toast("اكتب اسم مدير المدرسة");let rows=selectedRows();if(!rows.length)return closeManagerModal(),toast("حدد صفاً واحداً على الأقل");if(mode==="accountant")rows=rows.filter(isAccountantActive);if(!rows.length)return toast(mode==="accountant"?"لا يوجد طلاب مفعلون من الحسابات ضمن الصفوف المحددة":"لا توجد أسماء ضمن الصفوف المحددة");CURRENT_MANAGER=name;localStorage.setItem("tahadi_cards_manager_name",name);closeManagerModal();const b1=$("previewAccountantBtn"),b2=$("previewAllBtn");if(b1)b1.disabled=true;if(b2)b2.disabled=true;$("loadingText").textContent=mode==="accountant"?"جاري تجهيز الطلاب المفعلين من الحسابات":"جاري تجهيز جميع طلاب الصفوف";$("loading").classList.remove("hidden");try{PREVIEW_SNAPSHOTS=[];PREVIEW_MODELS=await prepareModels(rows,name);$("countText").textContent=`${PREVIEW_MODELS.length} ورقة`;$("preview").innerHTML=PREVIEW_MODELS.map((m,i)=>`<div class="preview-item"><div class="preview-item-label">${esc(CLASSES[m.student.classId]?.name||m.student.className||"")} — ${esc(m.student.name||"")}</div><div class="preview-scale-shell">${a4HTML(m,`preview_${i}`)}</div></div>`).join("");fillQR($("preview"));fitPreviewPages();$("loadingText").textContent="جاري تثبيت المعاينة النهائية للـ PDF";await freezePreviewAsExactImages();toast(mode==="accountant"?"تم إنشاء معاينة الطلاب المفعلين من الحسابات":"تم إنشاء معاينة جميع الطلاب") }catch(e){console.error(e);PREVIEW_MODELS=[];PREVIEW_SNAPSHOTS=[];toast("تعذر تجهيز المعاينة النهائية") }finally{if(b1)b1.disabled=false;if(b2)b2.disabled=false;$("loading").classList.add("hidden")}}
 async function waitImages(root){await Promise.all([...root.querySelectorAll("img")].map(img=>img.complete?Promise.resolve():new Promise(r=>{img.onload=r;img.onerror=r})))}
 async function pdfFromPages(pages,fileName,openInBrowser=false){const {jsPDF}=window.jspdf,pdf=new jsPDF({orientation:"portrait",unit:"mm",format:"a4",compress:true});for(let i=0;i<pages.length;i++){await waitImages(pages[i]);if(i)pdf.addPage("a4","portrait");const canvas=await html2canvas(pages[i],{scale:2,useCORS:true,allowTaint:true,backgroundColor:"#fff",width:794,height:1123,windowWidth:794,windowHeight:1123,logging:false});pdf.addImage(canvas.toDataURL("image/jpeg",.96),"JPEG",0,0,210,297,undefined,"FAST");canvas.width=1;canvas.height=1}if(openInBrowser){const blob=pdf.output("blob"),url=URL.createObjectURL(blob);location.replace(url);return}pdf.save(fileName)}
 async function ensureArabicFonts(){
@@ -161,39 +194,21 @@ async function ensureArabicFonts(){
   if(document.fonts?.load)await Promise.all([document.fonts.load('900 21px "Cairo"'),document.fonts.load('900 11px "Cairo"')]);
  }catch(e){console.warn("font_wait",e)}
 }
-async function pdfFromExactPreview(shells,fileName){
- await ensureArabicFonts();
+async function pdfFromFrozenPreview(images,fileName){
+ if(!images.length)throw new Error("NO_FROZEN_PREVIEW");
  const {jsPDF}=window.jspdf,pdf=new jsPDF({orientation:"portrait",unit:"mm",format:"a4",compress:true});
- for(let i=0;i<shells.length;i++){
-  const shell=shells[i];
-  const page=shell.querySelector(".a4-page");
-  if(page)await waitImages(page);
+ for(let i=0;i<images.length;i++){
   if(i)pdf.addPage("a4","portrait");
-  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
-  const rect=shell.getBoundingClientRect();
-  const captureScale=Math.min(4,Math.max(2.8,2200/Math.max(1,rect.width)));
-  const canvas=await html2canvas(shell,{
-   scale:captureScale,
-   useCORS:true,
-   allowTaint:true,
-   backgroundColor:"#fff",
-   logging:false,
-   scrollX:0,
-   scrollY:-window.scrollY
-  });
-  pdf.addImage(canvas.toDataURL("image/png"),"PNG",0,0,210,297,undefined,"FAST");
-  canvas.width=1;canvas.height=1;
+  pdf.addImage(images[i],"PNG",0,0,210,297,undefined,"FAST")
  }
  pdf.save(fileName)
 }
 async function downloadPDF(){
- if(!PREVIEW_MODELS.length)return toast("اضغط معاينة أولاً");
- const shells=[...$("preview").querySelectorAll(".preview-item .preview-scale-shell")];
- if(!shells.length)return toast("المعاينة غير جاهزة");
+ if(!PREVIEW_MODELS.length||!PREVIEW_SNAPSHOTS.length)return toast("اضغط معاينة أولاً حتى يتم تثبيت نفس الشكل للـ PDF");
  const btn=$("pdfBtn");btn.disabled=true;btn.textContent="جاري تجهيز PDF...";
  try{
-  await pdfFromExactPreview(shells,`نتائج_الطلبة_A4_${YEAR}.pdf`);
-  toast(`تم إنشاء PDF مطابق للمعاينة بعدد ${shells.length} ورقة`)
+  await pdfFromFrozenPreview(PREVIEW_SNAPSHOTS,`نتائج_الطلبة_A4_${YEAR}.pdf`);
+  toast(`تم إنشاء PDF من نفس المعاينة بالضبط بعدد ${PREVIEW_SNAPSHOTS.length} ورقة`)
  }catch(e){console.error(e);toast("تعذر إنشاء ملف PDF")}
  finally{btn.disabled=false;btn.textContent="تحميل PDF"}
 }
