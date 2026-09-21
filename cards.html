@@ -150,7 +150,31 @@ function renderPreview(){openManagerModal()}
 async function confirmManagerPreview(mode="all"){const name=$("managerNameInput").value.trim();if(!name)return toast("اكتب اسم مدير المدرسة");let rows=selectedRows();if(!rows.length)return closeManagerModal(),toast("حدد صفاً واحداً على الأقل");if(mode==="accountant")rows=rows.filter(isAccountantActive);if(!rows.length)return toast(mode==="accountant"?"لا يوجد طلاب مفعلون من الحسابات ضمن الصفوف المحددة":"لا توجد أسماء ضمن الصفوف المحددة");CURRENT_MANAGER=name;localStorage.setItem("tahadi_cards_manager_name",name);closeManagerModal();const b1=$("previewAccountantBtn"),b2=$("previewAllBtn");if(b1)b1.disabled=true;if(b2)b2.disabled=true;$("loadingText").textContent=mode==="accountant"?"جاري تجهيز الطلاب المفعلين من الحسابات":"جاري تجهيز جميع طلاب الصفوف";$("loading").classList.remove("hidden");try{PREVIEW_MODELS=await prepareModels(rows,name);$("countText").textContent=`${PREVIEW_MODELS.length} ورقة`;$("preview").innerHTML=PREVIEW_MODELS.map((m,i)=>`<div class="preview-item"><div class="preview-item-label">${esc(CLASSES[m.student.classId]?.name||m.student.className||"")} — ${esc(m.student.name||"")}</div>${a4HTML(m,`preview_${i}`)}</div>`).join("");fillQR($("preview"));toast(mode==="accountant"?"تم إنشاء معاينة الطلاب المفعلين من الحسابات":"تم إنشاء معاينة جميع الطلاب") }catch(e){console.error(e);PREVIEW_MODELS=[];toast("تعذر تجهيز المعاينة أو ربط الباركود") }finally{if(b1)b1.disabled=false;if(b2)b2.disabled=false;$("loading").classList.add("hidden")}}
 async function waitImages(root){await Promise.all([...root.querySelectorAll("img")].map(img=>img.complete?Promise.resolve():new Promise(r=>{img.onload=r;img.onerror=r})))}
 async function pdfFromPages(pages,fileName,openInBrowser=false){const {jsPDF}=window.jspdf,pdf=new jsPDF({orientation:"portrait",unit:"mm",format:"a4",compress:true});for(let i=0;i<pages.length;i++){await waitImages(pages[i]);if(i)pdf.addPage("a4","portrait");const canvas=await html2canvas(pages[i],{scale:2,useCORS:true,allowTaint:true,backgroundColor:"#fff",width:794,height:1123,windowWidth:794,windowHeight:1123,logging:false});pdf.addImage(canvas.toDataURL("image/jpeg",.96),"JPEG",0,0,210,297,undefined,"FAST");canvas.width=1;canvas.height=1}if(openInBrowser){const blob=pdf.output("blob"),url=URL.createObjectURL(blob);location.replace(url);return}pdf.save(fileName)}
-async function downloadPDF(){if(!PREVIEW_MODELS.length)return toast("اضغط معاينة أولاً");const btn=$("pdfBtn");btn.disabled=true;btn.textContent="جاري تجهيز PDF...";try{$("pdfHost").innerHTML=PREVIEW_MODELS.map((m,i)=>a4HTML(m,`pdf_${i}`)).join("");fillQR($("pdfHost"));const pages=[...$("pdfHost").querySelectorAll(".a4-page")];await pdfFromPages(pages,`نتائج_الطلبة_A4_${YEAR}.pdf`);toast(`تم إنشاء PDF بعدد ${pages.length} ورقة`)}catch(e){console.error(e);toast("تعذر إنشاء ملف PDF")}finally{btn.disabled=false;btn.textContent="تحميل PDF";$("pdfHost").innerHTML=""}}
+async function pdfFromExactPreview(pages,fileName){
+ const {jsPDF}=window.jspdf,pdf=new jsPDF({orientation:"portrait",unit:"mm",format:"a4",compress:true});
+ for(let i=0;i<pages.length;i++){
+  const page=pages[i];
+  await waitImages(page);
+  if(i)pdf.addPage("a4","portrait");
+  const rect=page.getBoundingClientRect();
+  const scale=Math.max(2,794/Math.max(1,rect.width));
+  const canvas=await html2canvas(page,{scale,useCORS:true,allowTaint:true,backgroundColor:"#fff",logging:false,scrollX:0,scrollY:-window.scrollY});
+  pdf.addImage(canvas.toDataURL("image/png"),"PNG",0,0,210,297,undefined,"FAST");
+  canvas.width=1;canvas.height=1;
+ }
+ pdf.save(fileName)
+}
+async function downloadPDF(){
+ if(!PREVIEW_MODELS.length)return toast("اضغط معاينة أولاً");
+ const pages=[...$("preview").querySelectorAll(".preview-item .a4-page")];
+ if(!pages.length)return toast("المعاينة غير جاهزة");
+ const btn=$("pdfBtn");btn.disabled=true;btn.textContent="جاري تجهيز PDF...";
+ try{
+  await pdfFromExactPreview(pages,`نتائج_الطلبة_A4_${YEAR}.pdf`);
+  toast(`تم إنشاء PDF مطابق للمعاينة بعدد ${pages.length} ورقة`)
+ }catch(e){console.error(e);toast("تعذر إنشاء ملف PDF")}
+ finally{btn.disabled=false;btn.textContent="تحميل PDF"}
+}
 async function loadData(){try{$("loadingText").textContent="جاري تحميل بيانات الصفوف والطلبة";$("loading").classList.remove("hidden");const[s,c]=await Promise.all([dbGet("students"),dbGet("classes")]);STUDENTS=s||{};CLASSES=c||{};GRADE_CACHE={};renderClasses()}catch(e){console.error(e);toast("تعذر تحميل البيانات")}finally{$("loading").classList.add("hidden")}}
 function modelFromSnapshot(x){return{student:{code:x.student?.code||"",name:x.student?.name||"",gender:x.student?.gender||"male",classId:x.student?.classId||"",className:x.student?.className||"",roomNumber:x.student?.roomNumber??""},classData:{name:x.student?.className||"",roomNumber:x.student?.roomNumber??""},grades:Array.isArray(x.grades)?x.grades:Object.values(x.grades||{}),managerName:x.managerName||"",token:x.token||"",qrURL:publicCardURL(x.token||"")}}
 async function openPublicCardPDF(token){document.body.classList.add("public-mode");$("loadingText").textContent="جاري فتح صفحة الطالب";$("loading").classList.remove("hidden");try{const snapshot=await dbGet(`${PUBLIC_CARD_PATH}/${encodeURIComponent(token)}`);if(!snapshot||snapshot.active===false)throw new Error("CARD_NOT_FOUND");const model=modelFromSnapshot(snapshot);document.body.innerHTML=`<main class="public-card-screen"><div class="public-card-wrap">${a4HTML(model,"public",{showQR:false})}</div></main>`;document.title=`نتيجة ${model.student.name||"الطالب"} | مدرسة التحدي`;window.scrollTo(0,0)}catch(e){console.error(e);document.body.innerHTML=`<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:#f5f8fc;font-family:Tahoma,Arial,sans-serif"><div style="max-width:440px;padding:25px;border-radius:18px;background:#fff;text-align:center;box-shadow:0 12px 35px rgba(0,0,0,.08)"><h2 style="font-size:18px">تعذر فتح صفحة الطالب</h2><p style="margin-top:8px;color:#667085;font-size:11px;line-height:1.8">قد يكون الباركود غير صالح أو تم حذف بيانات هذه البطاقة.</p></div></div>`}}
