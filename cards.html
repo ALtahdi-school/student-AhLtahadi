@@ -161,17 +161,26 @@ async function ensureArabicFonts(){
   if(document.fonts?.load)await Promise.all([document.fonts.load('900 21px "Cairo"'),document.fonts.load('900 11px "Cairo"')]);
  }catch(e){console.warn("font_wait",e)}
 }
-async function pdfFromExactPreview(pages,fileName){
+async function pdfFromExactPreview(shells,fileName){
  await ensureArabicFonts();
  const {jsPDF}=window.jspdf,pdf=new jsPDF({orientation:"portrait",unit:"mm",format:"a4",compress:true});
- for(let i=0;i<pages.length;i++){
-  const page=pages[i];
-  await waitImages(page);
+ for(let i=0;i<shells.length;i++){
+  const shell=shells[i];
+  const page=shell.querySelector(".a4-page");
+  if(page)await waitImages(page);
   if(i)pdf.addPage("a4","portrait");
-  const oldTransform=page.style.transform;
-  page.style.transform="none";
-  const canvas=await html2canvas(page,{scale:2.6,useCORS:true,allowTaint:true,backgroundColor:"#fff",logging:false,width:794,height:1123,windowWidth:794,windowHeight:1123,scrollX:0,scrollY:0,onclone:doc=>{doc.documentElement.dir="rtl";doc.querySelectorAll(".a4-page,.a4-page *").forEach(el=>el.style.fontFamily='"Cairo",Tahoma,Arial,sans-serif');const title=doc.querySelector(".a4-school h1");if(title){title.style.direction="rtl";title.style.whiteSpace="nowrap";title.style.fontWeight="900"}}});
-  page.style.transform=oldTransform;
+  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+  const rect=shell.getBoundingClientRect();
+  const captureScale=Math.min(4,Math.max(2.8,2200/Math.max(1,rect.width)));
+  const canvas=await html2canvas(shell,{
+   scale:captureScale,
+   useCORS:true,
+   allowTaint:true,
+   backgroundColor:"#fff",
+   logging:false,
+   scrollX:0,
+   scrollY:-window.scrollY
+  });
   pdf.addImage(canvas.toDataURL("image/png"),"PNG",0,0,210,297,undefined,"FAST");
   canvas.width=1;canvas.height=1;
  }
@@ -179,12 +188,12 @@ async function pdfFromExactPreview(pages,fileName){
 }
 async function downloadPDF(){
  if(!PREVIEW_MODELS.length)return toast("اضغط معاينة أولاً");
- const pages=[...$("preview").querySelectorAll(".preview-item .a4-page")];
- if(!pages.length)return toast("المعاينة غير جاهزة");
+ const shells=[...$("preview").querySelectorAll(".preview-item .preview-scale-shell")];
+ if(!shells.length)return toast("المعاينة غير جاهزة");
  const btn=$("pdfBtn");btn.disabled=true;btn.textContent="جاري تجهيز PDF...";
  try{
-  await pdfFromExactPreview(pages,`نتائج_الطلبة_A4_${YEAR}.pdf`);
-  toast(`تم إنشاء PDF مطابق للمعاينة بعدد ${pages.length} ورقة`)
+  await pdfFromExactPreview(shells,`نتائج_الطلبة_A4_${YEAR}.pdf`);
+  toast(`تم إنشاء PDF مطابق للمعاينة بعدد ${shells.length} ورقة`)
  }catch(e){console.error(e);toast("تعذر إنشاء ملف PDF")}
  finally{btn.disabled=false;btn.textContent="تحميل PDF"}
 }
