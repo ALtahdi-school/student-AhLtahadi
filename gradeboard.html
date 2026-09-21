@@ -275,7 +275,7 @@ button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!impo
        رفع الرياضة والفنية فعلياً للدرجة العظمى إذا كان ذلك يجعل الطالب مؤهلاً للإعفاء العام
       </label>
       <div class="rule-note" style="margin-top:8px">
-       عند تفعيل هذا الخيار وحفظ القواعد، يفحص النظام كل طالب في الصفوف الموجودة بالبورد. إذا كان الطالب لا يحقق الإعفاء العام بدرجاته الحالية، لكنه يحققه عند رفع الرياضة والفنية، تُحفظ الرياضة والفنية فعلياً بالدرجة العظمى المحددة لكل مادة، من دون تجاوز حد المادة. إذا لم يؤدِّ الرفع إلى الإعفاء العام فلا تتغير درجات الطالب.
+       عند تفعيل هذا الخيار وحفظ القواعد، يفحص النظام كل طالب في الصفوف الموجودة بالبورد. إذا كان الطالب لا يحقق الإعفاء العام بدرجاته الحالية، لكنه يحققه عند رفع الرياضة والفنية، تُحفظ الرياضة والفنية فعلياً بالدرجة العظمى المحددة لكل مادة، من دون تجاوز حد المادة. إذا لم يؤدِّ الرفع إلى الإعفاء العام فلا تتغير درجات الطالب.
       </div>
       <div class="rule-note" style="margin-top:8px">
        الإعفاء الفردي يُفحص فقط إذا لم يحصل الطالب على الإعفاء العام. ويظهر عدد المواد التي حقق بها الإعفاء الفردي.
@@ -504,7 +504,9 @@ function buildStudentModel(st,c,raw){
    return{...sub,term1,midyear,term2,annual:computeAnnual(term1,midyear,term2)}
   }
   const hasStored=["term1","midyear","term2","annual"].some(k=>rawText(rec[k])!=="");
-  if(hasStored){
+  const boardAuto=rec?.autoCalculatedByBoard===true||String(rec?.updatedSource||"")==="gradeboard_auto_activity";
+  const preserveStored=hasStored&&!boardAuto;
+  if(preserveStored){
    const term1=rec.term1??"",midyear=rec.midyear??"",term2=rec.term2??"",computed=computeAnnual(term1,midyear,term2);
    return{...sub,term1,midyear,term2,annual:computed!==""?computed:(rec.annual??""),storedActivity:true}
   }
@@ -801,6 +803,7 @@ async function saveBoardRules(){
        ...(oldRec||{}),
        subjectId:sub.id,
        subjectName:sub.name,
+       autoType:sub.autoType,
        maxGrade:max,
        passGrade:Number(sub.passGrade??50),
        classId:g.classId,
@@ -812,7 +815,7 @@ async function saveBoardRules(){
        adminEditedBy:by,
        exemptionAdjustedAt:now,
        exemptionAdjustedBy:by,
-       exemptionAdjustment:"max_activity_for_general_exemption",updatedAt:now,updatedBy:by,updatedSource:"gradeboard_exemption",canonicalVersion:1
+       exemptionAdjustment:"max_activity_for_general_exemption",activityLocked:true,autoCalculatedByBoard:false,updatedAt:now,updatedBy:by,updatedSource:"gradeboard_exemption",canonicalVersion:1
       };
       if(oldKey&&oldKey!==sub.id)updates[`grades/${st.code}/${oldKey}`]=null
      }
@@ -1055,7 +1058,7 @@ async function saveBoardGrades(){
   for(const code of dirtyGradeStudents){
    const st=DATA.students[code];if(!st)continue;
    const c=DATA.classes[st.classId];if(!c)continue;
-   const raw=DATA.grades[code]||{},subjects=normalizeClassSubjects(c).filter(s=>!s.autoType);
+   const raw=DATA.grades[code]||{},allSubjects=normalizeClassSubjects(c),subjects=allSubjects.filter(s=>!s.autoType),workingRaw=JSON.parse(JSON.stringify(raw||{}));
    for(const sub of subjects){
     const [oldKey,oldRec]=findGradeEntry(raw,sub),fields={};
     let touched=false;
@@ -1079,8 +1082,28 @@ async function saveBoardGrades(){
      }
     }
     updates[base]=record;
-    if(oldKey&&oldKey!==sub.id)updates[`grades/${code}/${oldKey}`]=null
+    workingRaw[sub.id]=record;
+    if(oldKey&&oldKey!==sub.id){updates[`grades/${code}/${oldKey}`]=null;delete workingRaw[oldKey]}
    }
+
+   // الرياضة والفنية تُحسب بنفس خوارزمية البورد وتُحفظ كسجل أساسي مشترك.
+   const liveModel=buildStudentModel(st,c,workingRaw);
+   for(const sub of allSubjects.filter(s=>s.autoType)){
+    const row=rowForSubject(liveModel,sub),[oldKey,oldRec]=findGradeEntry(raw,sub),base=`grades/${code}/${sub.id}`;
+    const annual=rawText(row.annual)===""?computeAnnual(row.term1,row.midyear,row.term2):row.annual;
+    const record={
+     ...(oldRec||{}),
+     subjectId:sub.id,subjectName:sub.name,autoType:sub.autoType,maxGrade:Number(sub.maxGrade||100),passGrade:Number(sub.passGrade??50),classId:st.classId,
+     term1:storedGradeValue(row.term1),midyear:storedGradeValue(row.midyear),term2:storedGradeValue(row.term2),annual:annual===""?null:Number(annual),
+     autoCalculatedByBoard:true,autoCalculatedAt:now,autoCalculatedBy:adminCode(),
+     updatedAt:now,updatedBy:adminCode(),updatedSource:"gradeboard_auto_activity",canonicalVersion:1
+    };
+    // إذا كان السجل مثبتاً من قاعدة إعفاء أو تعديل صريح فلا نستبدله بالحساب التلقائي.
+    const lockedActivity=oldRec?.exemptionAdjustment||oldRec?.activityLocked===true||String(oldRec?.updatedSource||"")==="gradeboard_exemption";
+    if(!lockedActivity){updates[base]=record;workingRaw[sub.id]=record}
+    if(oldKey&&oldKey!==sub.id&&!lockedActivity)updates[`grades/${code}/${oldKey}`]=null
+   }
+
    updates[`students/${code}/gradeBoardGradeChanged`]=true;
    updates[`students/${code}/gradeBoardGradeChangedAt`]=now;
    updates[`students/${code}/gradeBoardGradeChangedBy`]=adminCode()
@@ -1092,7 +1115,7 @@ async function saveBoardGrades(){
   }
   dirtyGradeStudents.clear();dirtyGradeCells.clear();EDIT_MODE=false;
   $("editGradesBtn").textContent="تعديل الدرجات";$("saveGradesBtn").disabled=true;$("saveGradesBtn").textContent="حفظ الدرجات";
-  renderAllBoards();toast("تم حفظ جميع الدرجات المعدلة وربطها بسجل الطالب.","success")
+  renderAllBoards();toast("تم حفظ الدرجات والرياضة والفنية كسجل أساسي موحد للكرت وصفحة الطالب.","success")
  }catch(e){console.error("GRADEBOARD_SAVE_ERROR",e);toast("تعذر حفظ الدرجات.","error");btn.disabled=false;btn.textContent=`حفظ الدرجات (${dirtyGradeStudents.size})`}
 }
 
