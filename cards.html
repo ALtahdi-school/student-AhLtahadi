@@ -120,12 +120,21 @@ function toggleClassSelection(id){SELECTED_CLASSES.has(id)?SELECTED_CLASSES.dele
 function selectVisibleClasses(){visibleClasses().forEach(c=>SELECTED_CLASSES.add(c.id));renderClasses();toast(`تم تحديد ${SELECTED_CLASSES.size} صف`)}
 function clearSelection(){SELECTED_CLASSES.clear();PREVIEW_MODELS=[];PREVIEW_SNAPSHOTS=[];$("preview").innerHTML='<div class="empty">حدد الصفوف ثم اضغط معاينة.</div>';$("countText").textContent='0 ورقة';renderClasses()}
 function selectedRows(){if(!SELECTED_CLASSES.size)return[];return Object.entries(STUDENTS).map(([code,s])=>({code,...s})).filter(s=>s.name&&s.hidden!==true&&SELECTED_CLASSES.has(s.classId)).sort((a,b)=>{const ac=String(CLASSES[a.classId]?.name||a.classId||""),bc=String(CLASSES[b.classId]?.name||b.classId||"");const cmp=ac.localeCompare(bc,"ar");return cmp||String(a.name||"").localeCompare(String(b.name||""),"ar")})}
-function classSubjects(c){let rows=Array.isArray(c?.subjects)?c.subjects:Object.values(c?.subjects||{});return rows.filter(Boolean).map((s,i)=>({id:String(s.id||`SUB_${i+1}`),name:String(s.name||s.subjectName||"").trim(),maxGrade:Number(s.maxGrade||100),passGrade:Number(s.passGrade??50),order:Number(s.order||i+1),autoType:s.autoType||""})).filter(s=>s.name).sort((a,b)=>a.order-b.order)}
+function classSubjects(c){
+ let rows=Array.isArray(c?.subjects)?c.subjects:Object.values(c?.subjects||{});
+ rows=rows.filter(Boolean).map((s,i)=>({id:String(s.id||`SUB_${i+1}`),name:String(s.name||s.subjectName||"").trim(),maxGrade:Number(s.maxGrade||100),passGrade:Number(s.passGrade??50),order:Number(s.order||i+1),autoType:s.autoType||""})).filter(s=>s.name);
+ const hasSport=rows.some(s=>s.autoType==="sport"||/رياض/.test(norm(s.name)));
+ const hasArt=rows.some(s=>s.autoType==="art"||/فني/.test(norm(s.name)));
+ if(!hasSport)rows.push({id:"SPORT",name:"الرياضة",maxGrade:100,passGrade:50,order:rows.length+1,autoType:"sport"});
+ if(!hasArt)rows.push({id:"ART",name:"الفنية",maxGrade:100,passGrade:50,order:rows.length+1,autoType:"art"});
+ return rows.sort((a,b)=>a.order-b.order)
+}
 function gradeSubjectName(rec,key=""){return String(rec?.subjectName||rec?.subject||rec?.name||key||"").trim()}
 function findGradeRecord(grades,subject){const entries=Object.entries(grades||{});const hit=entries.find(([key,r])=>String(r?.subjectId||"")===String(subject.id)||String(key)===String(subject.id)||norm(gradeSubjectName(r,key))===norm(subject.name));return hit?.[1]||{}}
 function gradeNumber(v){return v!==""&&v!==null&&v!==undefined&&Number.isFinite(Number(v))?Number(v):null}
 function calcAnnual(rec){const direct=gradeNumber(rec.annual);if(direct!==null)return direct;const a=gradeNumber(rec.term1),b=gradeNumber(rec.midyear),c=gradeNumber(rec.term2);return a!==null&&b!==null&&c!==null?Math.round((a+b+c)/3):null}
 function calcFinal(rec,annual){const direct=gradeNumber(rec.final);if(direct!==null)return direct;const exam=gradeNumber(rec.finalExam);return annual!==null&&exam!==null?Math.round((annual+exam)/2):null}
+function boardActivityGrade(rows,field){const vals=rows.filter(r=>!r.autoType&&gradeNumber(r[field])!==null).map(r=>(Number(gradeNumber(r[field])||0)/Math.max(1,Number(r.maxGrade||100)))*100);if(!vals.length)return null;const high=Math.max(...vals);if(high>=100)return 100;if(high>80)return 90;return 85}
 function gradeText(v){return v===null||v===undefined||v===""?"—":String(v)}
 function safeNumber(v){return Number.isFinite(Number(v))?Number(v):0}
 function attendanceSummary(student={}){const a=student.attendance||student.att||{};return{present:safeNumber(student.presentDays??student.attendancePresent??student.present??a.present??a.attendance),absent:safeNumber(student.absentDays??student.attendanceAbsent??student.absent??a.absent??a.absence),late:safeNumber(student.lateDays??student.attendanceLate??student.late??a.late),escape:safeNumber(student.escapeDays??student.attendanceEscape??student.escape??a.escape??a.runaway),leave:safeNumber(student.leaveDays??student.attendanceLeave??student.leave??a.leave??a.excused)}}
@@ -187,8 +196,28 @@ async function studentGradeModel(s){
   grades=g||{};attendanceNode=a||{};GRADE_CACHE[s.code]=grades;ATTENDANCE_CACHE[s.code]=attendanceNode
  }
  const c=CLASSES[s.classId]||{},subjects=classSubjects(c),known=new Set(subjects.map(x=>norm(x.name)));
- Object.entries(grades).forEach(([key,r])=>{const name=gradeSubjectName(r,key);if(name&&!known.has(norm(name))){subjects.push({id:String(r?.subjectId||key),name,maxGrade:Number(r?.maxGrade||100),passGrade:Number(r?.passGrade??50),order:subjects.length+1,autoType:""});known.add(norm(name))}});
- const rows=subjects.map(subject=>{const rec=findGradeRecord(grades,subject),annual=calcAnnual(rec),final=calcFinal(rec,annual);return{...subject,term1:gradeNumber(rec.term1),midyear:gradeNumber(rec.midyear),term2:gradeNumber(rec.term2),annual,finalExam:gradeNumber(rec.finalExam),final,secondRound:gradeNumber(rec.secondRound)}});
+ Object.entries(grades).forEach(([key,r])=>{const name=gradeSubjectName(r,key);if(name&&!known.has(norm(name))){subjects.push({id:String(r?.subjectId||key),name,maxGrade:Number(r?.maxGrade||100),passGrade:Number(r?.passGrade??50),order:subjects.length+1,autoType:r?.autoType||""});known.add(norm(name))}});
+ let rows=subjects.map(subject=>{
+  const rec=findGradeRecord(grades,subject);
+  if(subject.autoType){
+   const hasStored=["term1","midyear","term2","annual","finalExam","final","secondRound"].some(k=>gradeNumber(rec[k])!==null);
+   if(hasStored){
+    const annual=calcAnnual(rec),final=calcFinal(rec,annual);
+    return{...subject,term1:gradeNumber(rec.term1),midyear:gradeNumber(rec.midyear),term2:gradeNumber(rec.term2),annual,finalExam:gradeNumber(rec.finalExam),final,secondRound:gradeNumber(rec.secondRound),storedActivity:true}
+   }
+   return{...subject,term1:null,midyear:null,term2:null,annual:null,finalExam:null,final:null,secondRound:null,storedActivity:false}
+  }
+  const annual=calcAnnual(rec),final=calcFinal(rec,annual);
+  return{...subject,term1:gradeNumber(rec.term1),midyear:gradeNumber(rec.midyear),term2:gradeNumber(rec.term2),annual,finalExam:gradeNumber(rec.finalExam),final,secondRound:gradeNumber(rec.secondRound)}
+ });
+ const academic=rows.filter(r=>!r.autoType);
+ rows=rows.map(r=>{
+  if(!r.autoType)return r;
+  if(r.storedActivity){const x={...r};delete x.storedActivity;return x}
+  const term1=boardActivityGrade(academic,"term1"),midyear=boardActivityGrade(academic,"midyear"),term2=boardActivityGrade(academic,"term2");
+  const annual=term1!==null&&midyear!==null&&term2!==null?Math.round((term1+midyear+term2)/3):null;
+  const x={...r,term1,midyear,term2,annual,finalExam:null,final:null,secondRound:null};delete x.storedActivity;return x
+ });
  const parsed=attendanceSummaryFromNode(attendanceNode),legacy=attendanceSummary(s),sum=Object.values(parsed).reduce((a,b)=>a+b,0);
  return{student:s,classData:c,grades:rows,attendance:sum?parsed:legacy}
 }
@@ -197,7 +226,7 @@ async function ensureCardToken(s){let token=String(s.cardPdfToken||"").trim();if
 function publicCardURL(token){const u=new URL(location.href);u.search="";u.hash="";u.searchParams.set("card",token);return u.toString()}
 function snapshotFromModel(model,managerName,token){
  return {
-  version:4,
+  version:5,
   active:true,
   year:YEAR,
   token,
