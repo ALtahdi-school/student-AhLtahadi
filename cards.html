@@ -115,17 +115,21 @@ html,body,button,input,select,.a4-page,.a4-page *{font-family:"Simplified Arabic
 
 @media(max-width:720px){.rule-settings-grid{grid-template-columns:1fr}.rule-results-strip{grid-template-columns:1fr 1fr}.student-search-result{align-items:flex-start}}
 
+
+/* ===== V24: دخول أسرع بدون حجب الصفحة ===== */
+.core-load-status{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px;padding:9px 11px;border:1px solid #dbe6f2;border-radius:11px;background:#f8fbff;color:#475467;font-size:9px;font-weight:900;line-height:1.4}.core-load-status.ready{background:#f2fff7;border-color:#bfe7ce;color:#067647}.core-load-status.error{background:#fff6f6;border-color:#efc1c1;color:#b42318}.core-load-dot{width:8px;height:8px;border-radius:50%;background:#075fcf;box-shadow:0 0 0 4px rgba(7,95,207,.08);flex:0 0 auto}.core-load-status.ready .core-load-dot{background:#16a34a;box-shadow:0 0 0 4px rgba(22,163,74,.08)}.core-load-status.error .core-load-dot{background:#d92d20;box-shadow:0 0 0 4px rgba(217,45,32,.08)}
 </style>
 </head>
 <body>
-<div id="loading" class="loading"><div class="loading-box"><div class="loader"></div><div id="loadingText" class="loading-text">جاري التحميل...</div></div></div>
+<div id="loading" class="loading hidden"><div class="loading-box"><div class="loader"></div><div id="loadingText" class="loading-text">جاري التحميل...</div></div></div>
 <header class="header"><div class="header-in"><div class="brand"><img src="logo.png" alt=""><div><h1>مدرسة التحدي الأهلية المختلطة</h1><p>قسم الحوكمة - الكرتات</p></div></div><div class="actions"><button class="btn btn-soft" onclick="location.href='add.html'">الرجوع للإدارة</button><button class="btn btn-r" onclick="logout()">خروج</button></div></div></header>
 <main class="main">
 <section class="hero"><h2>تصميم نتائج الطلبة</h2><p>اختر الصفوف فقط، ثم اضغط معاينة. سيتم إنشاء ورقة A4 مستقلة لكل طالب بتصميم رسمي، مع جدول الدرجات وباركود صغير يفتح ملف PDF الخاص بنفس الورقة.</p></section>
 <section class="panel"><div class="panel-head"><h3>اختيار الصفوف</h3><button class="btn btn-soft" onclick="loadData()">تحديث</button></div><div class="panel-body">
+<div id="coreLoadStatus" class="core-load-status"><span style="display:flex;align-items:center;gap:8px"><i class="core-load-dot"></i><span id="coreLoadStatusText">جاري التحقق من الدخول...</span></span><span id="coreLoadCount"></span></div>
 <div class="student-lookup"><div class="student-lookup-title">إصدار كرت لطالب واحد</div><div class="student-lookup-sub">اكتب اسم الطالب أو الكود، ثم اختره من النتائج. عند اختيار طالب تصبح المعاينة والتحميل لهذا الطالب فقط.</div><div class="student-search-wrap"><input id="studentSearch" type="search" autocomplete="off" placeholder="ابحث باسم الطالب أو الكود"><div id="studentSearchResults" class="student-search-results hidden"></div></div><div id="selectedStudentCard" class="selected-student-card hidden"></div></div>
 <div class="toolbar"><input id="search" placeholder="بحث باسم الصف"><select id="genderSelect"><option value="">الجنس: الكل</option><option value="male">بنين</option><option value="female">بنات</option><option value="mixed">مختلط</option></select><button class="btn btn-p" onclick="selectVisibleClasses()">تحديد الظاهر</button><button class="btn btn-soft" onclick="clearSelection()">إلغاء التحديد</button></div>
-<div id="classGrid" class="class-grid"></div>
+<div id="classGrid" class="class-grid"><div class="empty">سيتم إظهار الصفوف فور اكتمال التحقق.</div></div>
 <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:12px"><button class="btn btn-g" onclick="renderPreview()">معاينة</button><button id="pdfBtn" class="btn btn-p" onclick="downloadPDF()">تحميل PDF</button></div>
 </div></section>
 <section class="panel"><div class="panel-head"><h3>المعاينة</h3><span id="countText" style="font-size:8px;color:#667085">0 ورقة</span></div><div class="panel-body"><div id="preview" class="preview-grid"><div class="empty">حدد الصفوف ثم اضغط معاينة.</div></div></div></section>
@@ -141,6 +145,10 @@ const DB="https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app",
 const A4_BASE_W=794,A4_BASE_H=1123,PRINT_SCALE=3.125,PRINT_W=Math.round(A4_BASE_W*PRINT_SCALE),PRINT_H=Math.round(A4_BASE_H*PRINT_SCALE);
 const $=id=>document.getElementById(id),norm=v=>String(v||"").trim().toLowerCase(),esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 let STUDENTS={},CLASSES={},SELECTED_CLASSES=new Set(),SELECTED_STUDENT_CODE="",timer=0,GRADE_CACHE={},ATTENDANCE_CACHE={},PREVIEW_MODELS=[],CURRENT_MANAGER="",PREVIEW_SNAPSHOTS=[],PREVIEW_OPTIONS=defaultPreviewOptions();
+const CORE_CACHE_KEY="tahadi_cards_core_cache_v1",CORE_CACHE_MAX_AGE=15*60*1000;
+function setCoreStatus(text,state="",count=""){const box=$("coreLoadStatus"),label=$("coreLoadStatusText"),counter=$("coreLoadCount");if(label)label.textContent=text;if(counter)counter.textContent=count||"";if(box)box.className=`core-load-status ${state}`.trim()}
+function saveCoreCache(){try{sessionStorage.setItem(CORE_CACHE_KEY,JSON.stringify({at:Date.now(),students:STUDENTS,classes:CLASSES}))}catch(e){console.warn("cards_cache_save",e)}}
+function hydrateCoreCache(){try{const x=JSON.parse(sessionStorage.getItem(CORE_CACHE_KEY)||"null");if(!x||!x.students||!x.classes||Date.now()-Number(x.at||0)>CORE_CACHE_MAX_AGE)return false;STUDENTS=x.students||{};CLASSES=x.classes||{};renderClasses();renderSelectedStudentCard();setCoreStatus("البيانات جاهزة — جاري التحقق من آخر تحديث","ready",`${Object.keys(STUDENTS).length} طالب`);return true}catch(e){console.warn("cards_cache_read",e);return false}}
 const FRAME_PALETTE=[
   {frame:"#244a9b",light:"#d9e6ff",dark:"#163e8f"},
   {frame:"#7a4cc2",light:"#efe2ff",dark:"#6632b8"},
@@ -365,4 +373,182 @@ function gradesTableHTML(rows=[],g,resultText="النتيجة غير مكتمل�
  const sums=Object.fromEntries(TABLE_PERIODS.map(f=>[f,periodSummary(rows,f)])),span=rows.length+2;
  const resultClass=/اعفاء|مبارك|ناجح/.test(resultText)?"grade-high":/مكمل|حض اوفر/.test(resultText)?"grade-fail":"grade-normal";
  const boardCell=`<td class="board-value board-result ${resultClass}" rowspan="${span}"><span>${esc(resultText)}</span></td>`;
- return`<table class="grades-table"><thead><tr><th>المادة</th><th class="vertical-head"><span>الفصل الأول</span></th><th class="vertical-head"><span>نصف السنة</span></th><th class="vertical-head"><span>الفصل الثاني</span></th><th class="vertical-head"><span>السعي السنوي</span></th><th class="vertical-head"><span>الامتحان النهائي</span></th><th class="vertical-head"><span>الدرجة النهائية</span></th><th class="vertical-head"><span>الدور الثاني</span></th><th class="board-head"><span>النتيجة</span></th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td>${esc(r.name)}</td>${gradeCell(r.term1,r)}${gradeCell(r.midyear,r)}${gradeCell(r.term2,r)}${gradeCell(r.annual,r)}${gradeCell(r.finalExam,r)}${gradeCell(r.final,r)}${gradeCell(r.secondRound,r)}${i===0?boardCell:""}</tr>`).join("")}<tr class="summary-row"><td>المجموع</td>${TABLE_PERIODS.map(f=>`<td>${sums[f].total===null?"—":esc(sums[f].total)}</td>`).join("")}</tr><tr class="summary-row average"><td>المعدل</td>${TABLE_PERIODS.map(f=>`<td>${sums[f].average===null?"—":esc(sums[f].average+"%")}</td>`).join(
+ return`<table class="grades-table"><thead><tr><th>المادة</th><th class="vertical-head"><span>الفصل الأول</span></th><th class="vertical-head"><span>نصف السنة</span></th><th class="vertical-head"><span>الفصل الثاني</span></th><th class="vertical-head"><span>السعي السنوي</span></th><th class="vertical-head"><span>الامتحان النهائي</span></th><th class="vertical-head"><span>الدرجة النهائية</span></th><th class="vertical-head"><span>الدور الثاني</span></th><th class="board-head"><span>النتيجة</span></th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td>${esc(r.name)}</td>${gradeCell(r.term1,r)}${gradeCell(r.midyear,r)}${gradeCell(r.term2,r)}${gradeCell(r.annual,r)}${gradeCell(r.finalExam,r)}${gradeCell(r.final,r)}${gradeCell(r.secondRound,r)}${i===0?boardCell:""}</tr>`).join("")}<tr class="summary-row"><td>المجموع</td>${TABLE_PERIODS.map(f=>`<td>${sums[f].total===null?"—":esc(sums[f].total)}</td>`).join("")}</tr><tr class="summary-row average"><td>المعدل</td>${TABLE_PERIODS.map(f=>`<td>${sums[f].average===null?"—":esc(sums[f].average+"%")}</td>`).join("")}</tr></tbody></table>`
+}
+function pageVars(model){const c=model.classData||{},g=genderTheme(model.student?.gender),t=classThemeFor(model.student?.classId,c.name);return`--frame:${t.frame};--frame-light:${t.light};--frame-dark:${t.dark};--table-head:${g.head};--table-head-text:${g.headText};--table-head-soft:${g.soft};--table-border:${g.border};`}
+function a4HTML(model,idSuffix="",options={}){
+ const showQR=options.showQR!==false,s=model.student||{},c=model.classData||{};
+ const qrid=`qr_${String(s.code||model.token||"").replace(/[^a-zA-Z0-9_-]/g,"_")}_${idSuffix}`;
+ const className=c.name||s.className||"—",roomText=room(s.roomNumber??c.roomNumber),qrURL=model.qrURL||publicCardURL(model.token||"");
+ const qrBlock=showQR?`<div class="qr-only"><div class="qr-caption">صحة صدور النتيجة</div><div id="${qrid}" class="sheet-qr" data-url="${esc(qrURL)}"></div></div>`:"";
+ const labelName=/تلميذ|تلميذة/.test(learnerLabel(s.gender,c))?"اسم التلميذ":"اسم الطالب";
+ return `<section class="a4-page" style="${pageVars(model)}"><div class="frame-pattern"></div><div class="paper-ornament"></div><div class="page-inner"><div class="a4-head"><img class="a4-logo" src="logo.png" alt=""><div class="a4-school"><h1>مدرسة التحدي الأهلية المختلطة</h1><p>نتيجة ${esc(learnerLabel(s.gender,c))}</p></div><div class="a4-year">العام الدراسي<br>${YEAR}</div></div><div class="student-panel"><div class="student-panel-top"><div class="student-name-wrap"><span class="student-label">${esc(labelName)}</span><strong class="student-name">${esc(s.name||"—")}</strong></div><div class="student-code"><span><span class="code-label">كود الطالب</span><span class="code-value">${esc(s.code||"—")}</span></span></div></div><div class="student-meta-grid"><div class="student-meta"><small>الجنس</small><strong>${esc(learnerLabel(s.gender,c))}</strong></div><div class="student-meta"><small>الصف</small><strong>${esc(className)}</strong></div><div class="student-meta"><small>القاعة</small><strong>${esc(roomText)}</strong></div></div></div><div class="grades-wrap"><div class="grades-title"><h2>جدول الدرجات</h2><span>سجل أكاديمي رسمي</span></div>${gradesTableHTML(model.grades||[],gender(s.gender),model.resultText||"النتيجة غير مكتملة")}${ruleResultsHTML(model.ruleResults||[])}${attendanceHTML(model.attendance||attendanceSummary(s),s)}</div><div class="a4-footer${showQR?"":" no-qr"}">${qrBlock}<div class="manager-box"><div class="result-note">ملاحظة: النتيجة خالية من الحك والشطب نهائياً.</div><div class="manager-line"><span class="manager-title">مدير المدرسة:</span><strong class="manager-name">${esc(model.managerName||"—")}</strong></div></div></div></div></section>`
+}
+function fillQR(root){root.querySelectorAll(".sheet-qr").forEach(el=>{el.innerHTML="";new QRCode(el,{text:el.dataset.url||"",width:312,height:312,correctLevel:QRCode.CorrectLevel.M});el.querySelectorAll("img").forEach(img=>img.remove());const canvases=[...el.querySelectorAll("canvas")];canvases.slice(1).forEach(x=>x.remove())})}
+function isAccountantActive(student){
+ if(!student||student.accountantApproved!==true)return false;
+ if(student.accountantPermanent===true)return true;
+ const until=Number(student.accountantApprovedUntil||0);
+ if(!until)return true;
+ return Date.now()<until
+}
+function fitPreviewPages(){document.querySelectorAll(".preview-scale-shell").forEach(shell=>{const page=shell.querySelector(".a4-page");if(!page)return;const scale=Math.min(1,shell.clientWidth/794);page.style.transform=`scale(${scale})`})}
+function fitPublicPage(){const shell=document.querySelector(".public-card-wrap"),page=shell?.querySelector(".a4-page");if(!shell||!page)return;const scale=Math.min(1,shell.clientWidth/794);page.style.transform=`scale(${scale})`}
+function syncRuleSettingsUI(){const pairs=[["rulePassEnabled","passRuleSettings"],["ruleMinisterialEnabled","ministerialRuleSettings"],["ruleExemptionEnabled","exemptionRuleSettings"]];pairs.forEach(([c,s])=>{const cb=$(c),box=$(s);if(box)box.classList.toggle("disabled",!cb?.checked)})}
+function writePreviewOptionsToUI(options){const o=normalizePreviewOptions(options);$("rulePassEnabled").checked=!!o.pass.enabled;$("passPeriod").value=o.pass.period||"auto";$("ruleMinisterialEnabled").checked=!!o.ministerial.enabled;$("ministerialMaxSubjects").value=Number(o.ministerial.maxSubjects??3);$("ministerialMaxDeficit").value=Number(o.ministerial.maxDeficitPerSubject??10);$("ruleExemptionEnabled").checked=!!o.exemption.enabled;$("exemptionMinAverage").value=Number(o.exemption.minAverage??85);$("exemptionMinSubject").value=Number(o.exemption.minSubjectGrade??75);$("exemptionFailCount").value=Number(o.exemption.failSubjectCount??0);$("exemptionFailDecision").value=o.exemption.failDecision==="block"?"block":"allow";$("individualMinSubject").value=Number(o.exemption.individualMinSubjectGrade??90);$("helperAssist").checked=!!o.exemption.maximizeActivitiesForExemption;syncRuleSettingsUI()}
+function readPreviewOptionsFromUI(){return normalizePreviewOptions({pass:{enabled:!!$("rulePassEnabled").checked,period:$("passPeriod").value||"auto"},ministerial:{enabled:!!$("ruleMinisterialEnabled").checked,maxSubjects:Math.max(0,Number($("ministerialMaxSubjects").value||0)),maxDeficitPerSubject:Math.max(0,Number($("ministerialMaxDeficit").value||0))},exemption:{enabled:!!$("ruleExemptionEnabled").checked,minAverage:Math.max(0,Number($("exemptionMinAverage").value||0)),minSubjectGrade:Math.max(0,Number($("exemptionMinSubject").value||0)),failSubjectCount:Math.max(0,Number($("exemptionFailCount").value||0)),failDecision:$("exemptionFailDecision").value==="block"?"block":"allow",individualMinSubjectGrade:Math.max(0,Number($("individualMinSubject").value||0)),maximizeActivitiesForExemption:!!$("helperAssist").checked}})}
+function openManagerModal(){const rows=selectedRows();if(!rows.length)return toast("حدد صفاً واحداً على الأقل أو اختر طالباً من البحث");const saved=localStorage.getItem("tahadi_cards_manager_name")||CURRENT_MANAGER||"";$("managerNameInput").value=saved;writePreviewOptionsToUI(PREVIEW_OPTIONS);$("managerModal").classList.add("show");setTimeout(()=>$("managerNameInput").focus(),50)}
+function closeManagerModal(){$("managerModal").classList.remove("show")}
+function renderPreview(){openManagerModal()}
+
+async function nodeToExactPng(page){
+ await ensureArabicFonts();
+ await waitImages(page);
+ await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+ const originalTransform=page.style.transform;
+ const originalOrigin=page.style.transformOrigin;
+ page.style.transform="none";
+ page.style.transformOrigin="top right";
+ try{
+  if(window.domtoimage?.toPng){
+   try{
+    return await window.domtoimage.toPng(page,{
+     width:PRINT_W,
+     height:PRINT_H,
+     bgcolor:"#ffffff",
+     cacheBust:true,
+     quality:1,
+     style:{
+      transform:`scale(${PRINT_SCALE})`,
+      transformOrigin:"top left",
+      width:`${A4_BASE_W}px`,
+      height:`${A4_BASE_H}px`,
+      margin:"0"
+     }
+    })
+   }catch(e){console.warn("highres_dom_to_image_fallback",e)}
+  }
+  const canvas=await html2canvas(page,{
+   scale:PRINT_SCALE,
+   useCORS:true,
+   allowTaint:true,
+   backgroundColor:"#fff",
+   width:A4_BASE_W,
+   height:A4_BASE_H,
+   windowWidth:A4_BASE_W,
+   windowHeight:A4_BASE_H,
+   logging:false,
+   scrollX:0,
+   scrollY:0,
+   imageTimeout:15000
+  });
+  const data=canvas.toDataURL("image/png",1);
+  canvas.width=1;canvas.height=1;
+  return data
+ }finally{
+  page.style.transform=originalTransform;
+  page.style.transformOrigin=originalOrigin
+ }
+}
+async function freezePreviewAsExactImages(){
+ PREVIEW_SNAPSHOTS=[];
+ const shells=[...$("preview").querySelectorAll(".preview-item .preview-scale-shell")];
+ for(let i=0;i<shells.length;i++){
+  const shell=shells[i],page=shell.querySelector(".a4-page");
+  if(!page)continue;
+  const data=await nodeToExactPng(page);
+  PREVIEW_SNAPSHOTS.push(data);
+  shell.innerHTML=`<img class="preview-final-image" src="${data}" alt="معاينة ورقة الطالب">`;
+ }
+ if(PREVIEW_SNAPSHOTS.length!==shells.length)throw new Error("PREVIEW_SNAPSHOT_MISMATCH")
+}
+async function confirmManagerPreview(mode="all"){
+ const name=$("managerNameInput").value.trim();if(!name)return toast("اكتب اسم مدير المدرسة");
+ PREVIEW_OPTIONS=readPreviewOptionsFromUI();
+ if(!PREVIEW_OPTIONS.pass.enabled&&!PREVIEW_OPTIONS.ministerial.enabled&&!PREVIEW_OPTIONS.exemption.enabled)return toast("فعّل قاعدة واحدة على الأقل");
+ let rows=selectedRows();if(!rows.length)return closeManagerModal(),toast("حدد صفاً أو اختر طالباً من البحث");
+ if(mode==="accountant")rows=rows.filter(isAccountantActive);if(!rows.length)return toast(mode==="accountant"?"لا يوجد طلاب مفعلون من الحسابات ضمن الاختيار":"لا توجد أسماء ضمن الاختيار");
+ CURRENT_MANAGER=name;localStorage.setItem("tahadi_cards_manager_name",name);closeManagerModal();
+ const b1=$("previewAccountantBtn"),b2=$("previewAllBtn");if(b1)b1.disabled=true;if(b2)b2.disabled=true;
+ $("loadingText").textContent=rows.length===1?"جاري تجهيز كرت الطالب":"جاري تجهيز كرتات الطلبة";$("loading").classList.remove("hidden");
+ try{PREVIEW_SNAPSHOTS=[];PREVIEW_MODELS=await prepareModels(rows,name,PREVIEW_OPTIONS);$("countText").textContent=`${PREVIEW_MODELS.length} ورقة`;$("preview").innerHTML=PREVIEW_MODELS.map((m,i)=>`<div class="preview-item"><div class="preview-item-label">${esc(CLASSES[m.student.classId]?.name||m.student.className||"")} — ${esc(m.student.name||"")}</div><div class="preview-scale-shell">${a4HTML(m,`preview_${i}`)}</div></div>`).join("");fillQR($("preview"));fitPreviewPages();$("loadingText").textContent="جاري تجهيز المعاينة عالية الدقة للطباعة";await freezePreviewAsExactImages();toast(PREVIEW_MODELS.length===1?"تم إنشاء كرت الطالب":"تم إنشاء المعاينة") }catch(e){console.error(e);PREVIEW_MODELS=[];PREVIEW_SNAPSHOTS=[];toast("تعذر تجهيز المعاينة النهائية") }finally{if(b1)b1.disabled=false;if(b2)b2.disabled=false;$("loading").classList.add("hidden")}
+}
+async function waitImages(root){await Promise.all([...root.querySelectorAll("img")].map(img=>img.complete?Promise.resolve():new Promise(r=>{img.onload=r;img.onerror=r})))}
+async function pdfFromPages(pages,fileName,openInBrowser=false){const {jsPDF}=window.jspdf,pdf=new jsPDF({orientation:"portrait",unit:"mm",format:"a4",compress:true});for(let i=0;i<pages.length;i++){await waitImages(pages[i]);if(i)pdf.addPage("a4","portrait");const canvas=await html2canvas(pages[i],{scale:2,useCORS:true,allowTaint:true,backgroundColor:"#fff",width:794,height:1123,windowWidth:794,windowHeight:1123,logging:false});pdf.addImage(canvas.toDataURL("image/jpeg",.96),"JPEG",0,0,210,297,undefined,"FAST");canvas.width=1;canvas.height=1}if(openInBrowser){const blob=pdf.output("blob"),url=URL.createObjectURL(blob);location.replace(url);return}pdf.save(fileName)}
+async function ensureArabicFonts(){
+ try{
+  if(document.fonts?.ready)await document.fonts.ready;
+  if(document.fonts?.load)await Promise.all([
+   document.fonts.load('900 21px "Simplified Arabic"'),
+   document.fonts.load('900 15px "Simplified Arabic"'),
+   document.fonts.load('700 14px "Simplified Arabic"')
+  ]);
+ }catch(e){console.warn("font_wait",e)}
+}
+async function pdfFromFrozenPreview(images,fileName){
+ if(!images.length)throw new Error("NO_FROZEN_PREVIEW");
+ const {jsPDF}=window.jspdf,pdf=new jsPDF({orientation:"portrait",unit:"mm",format:"a4",compress:true});
+ for(let i=0;i<images.length;i++){
+  if(i)pdf.addPage("a4","portrait");
+  pdf.addImage(images[i],"PNG",0,0,210,297,undefined,"FAST")
+ }
+ pdf.save(fileName)
+}
+async function downloadPDF(){
+ if(!PREVIEW_MODELS.length||!PREVIEW_SNAPSHOTS.length)return toast("اضغط معاينة أولاً حتى يتم تثبيت نفس الشكل للـ PDF");
+ const btn=$("pdfBtn");btn.disabled=true;btn.textContent="جاري تجهيز PDF...";
+ try{
+  const fileName=PREVIEW_MODELS.length===1?`كرت_${String(PREVIEW_MODELS[0].student?.name||PREVIEW_MODELS[0].student?.code||"الطالب").replace(/[\/:*?"<>|]/g,"_")}_${YEAR}.pdf`:`نتائج_الطلبة_A4_${YEAR}.pdf`;await pdfFromFrozenPreview(PREVIEW_SNAPSHOTS,fileName);
+  toast(`تم إنشاء PDF عالي الدقة من نفس المعاينة بعدد ${PREVIEW_SNAPSHOTS.length} ورقة`)
+ }catch(e){console.error(e);toast("تعذر إنشاء ملف PDF")}
+ finally{btn.disabled=false;btn.textContent="تحميل PDF"}
+}
+async function loadData(options={}){
+ const hadData=Object.keys(STUDENTS).length>0||Object.keys(CLASSES).length>0;
+ setCoreStatus(hadData?"جاري تحديث البيانات بالخلفية...":"جاري تحميل الصفوف والطلبة...","",hadData?`${Object.keys(STUDENTS).length} طالب`:"");
+ try{
+  const[s,c]=await Promise.all([dbGet("students"),dbGet("classes")]);
+  STUDENTS=s||{};CLASSES=c||{};GRADE_CACHE={};ATTENDANCE_CACHE={};
+  renderClasses();renderSelectedStudentCard();saveCoreCache();
+  setCoreStatus("جاهز","ready",`${Object.keys(STUDENTS).length} طالب`);
+  if(!options.silent&&hadData)toast("تم تحديث البيانات")
+ }catch(e){
+  console.error(e);
+  setCoreStatus(hadData?"تعذر التحديث — البيانات السابقة ما زالت متاحة":"تعذر تحميل البيانات","error",hadData?`${Object.keys(STUDENTS).length} طالب`:"");
+  if(!hadData)toast("تعذر تحميل البيانات")
+ }
+}
+function modelFromSnapshot(x){
+ const grades=Array.isArray(x.grades)?x.grades:Object.values(x.grades||{});
+ const options=normalizePreviewOptions(x.options||{});
+ const result=resultInfo(grades,x.student||{}, {name:x.student?.className||""}, options);
+ return {
+  student:{code:x.student?.code||"",name:x.student?.name||"",gender:x.student?.gender||"male",classId:x.student?.classId||"",className:x.student?.className||"",roomNumber:x.student?.roomNumber??"",guardianPhone:x.student?.guardianPhone||""},
+  classData:{name:x.student?.className||"",roomNumber:x.student?.roomNumber??"",guardianPhone:x.student?.guardianPhone||""},
+  grades:result.rows,
+  attendance:x.attendance||attendanceSummary(x.student||{}),
+  managerName:x.managerName||"",
+  token:x.token||"",
+  qrURL:publicCardURL(x.token||""),
+  options,
+  resultText:result.text,
+  ruleResults:result.ruleResults||[]
+ }
+}
+async function openPublicCardPDF(token){document.body.classList.add("public-mode");$("loadingText").textContent="جاري فتح صفحة الطالب";$("loading").classList.remove("hidden");try{const snapshot=await dbGet(`${PUBLIC_CARD_PATH}/${encodeURIComponent(token)}`);if(!snapshot||snapshot.active===false)throw new Error("CARD_NOT_FOUND");const model=modelFromSnapshot(snapshot);await ensureArabicFonts();document.body.innerHTML=`<main class="public-card-screen"><div class="public-card-wrap">${a4HTML(model,"public",{showQR:false})}</div></main>`;document.title=`نتيجة ${model.student.name||"الطالب"} | مدرسة التحدي`;fitPublicPage();window.scrollTo(0,0)}catch(e){console.error(e);document.body.innerHTML=`<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:#f5f8fc;font-family:'Simplified Arabic','Traditional Arabic',Tahoma,Arial,sans-serif"><div style="max-width:440px;padding:25px;border-radius:18px;background:#fff;text-align:center;box-shadow:0 12px 35px rgba(0,0,0,.08)"><h2 style="font-size:18px">تعذر فتح صفحة الطالب</h2><p style="margin-top:8px;color:#667085;font-size:11px;line-height:1.8">قد يكون الباركود غير صالح أو تم حذف بيانات هذه البطاقة.</p></div></div>`}}
+$("genderSelect").onchange=renderClasses;$("search").oninput=renderClasses;$("studentSearch").oninput=renderStudentSearchResults;["rulePassEnabled","ruleMinisterialEnabled","ruleExemptionEnabled"].forEach(id=>$(id)?.addEventListener("change",syncRuleSettingsUI));$("managerNameInput").addEventListener("keydown",e=>{if(e.key==="Enter")confirmManagerPreview("all")});$("managerModal").addEventListener("click",e=>{if(e.target===$("managerModal"))closeManagerModal()});document.addEventListener("click",e=>{if(!e.target.closest(".student-search-wrap"))$("studentSearchResults")?.classList.add("hidden")});
+window.addEventListener("resize",()=>{fitPreviewPages();fitPublicPage()});
+window.addEventListener("load",async()=>{
+ const publicToken=new URLSearchParams(location.search).get("card");
+ if(publicToken){await openPublicCardPDF(publicToken);return}
+ $("loading")?.classList.add("hidden");
+ setCoreStatus("جاري التحقق من صلاحية الدخول...");
+ const ok=await verifyAdmin();
+ if(!ok)return;
+ const cached=hydrateCoreCache();
+ if(!cached)setCoreStatus("تم التحقق — جاري تحميل البيانات...");
+ loadData({silent:true});
+});
+</script>
+</body>
+</html>
