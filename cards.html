@@ -62,6 +62,30 @@
 .guardian-phone-card b{font-size:14px;font-weight:900;direction:ltr;unicode-bidi:plaintext;color:var(--frame-dark)}
 .sheet-qr{width:96px!important;height:96px!important;padding:5px!important;border-radius:14px!important}.sheet-qr canvas{width:84px!important;height:84px!important}
 
+
+/* ===== V20: إخراج نهائي مطابق للمعاينة + Simplified Arabic ===== */
+html,body,button,input,select,.a4-page,.a4-page *{font-family:"Simplified Arabic","Traditional Arabic",Tahoma,Arial,sans-serif!important}
+.student-name-wrap{display:flex!important;align-items:center!important;gap:7px!important;min-width:0!important;flex:1 1 auto!important;white-space:nowrap!important;overflow:hidden!important}
+.student-label{display:inline!important;flex:0 0 auto!important;font-size:13px!important;font-weight:700!important;line-height:1.35!important;white-space:nowrap!important}
+.student-name{display:inline!important;min-width:0!important;margin:0!important;font-size:15px!important;font-weight:900!important;line-height:1.35!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:clip!important}
+.grades-title{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;white-space:nowrap!important}
+.grades-title h2{font-size:15px!important;font-weight:900!important;line-height:1.3!important;white-space:nowrap!important}
+.grades-title span{font-size:12px!important;font-weight:700!important;line-height:1.3!important;white-space:nowrap!important}
+.guardian-phone-card{white-space:nowrap!important;flex-wrap:nowrap!important;font-size:14px!important;line-height:1.3!important;overflow:hidden!important}
+.guardian-phone-card span,.guardian-phone-card b{white-space:nowrap!important;font-size:14px!important}
+.a4-footer{grid-template-columns:145px minmax(0,1fr)!important;gap:18px!important;align-items:end!important;padding-top:8px!important}
+.a4-footer.no-qr{grid-template-columns:1fr!important}.a4-footer.no-qr .manager-box{max-width:none!important;width:100%!important}
+.qr-only{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-end!important;gap:5px!important}
+.qr-caption{font-size:12px!important;font-weight:900!important;line-height:1.25!important;color:var(--frame-dark)!important;white-space:nowrap!important;text-align:center!important}
+.sheet-qr{width:118px!important;height:118px!important;padding:6px!important;border:2px solid var(--frame-dark)!important;border-radius:15px!important;background:#fff!important;box-shadow:0 7px 16px rgba(15,23,42,.08)!important}
+.sheet-qr canvas{width:104px!important;height:104px!important;display:block!important}.sheet-qr img{display:none!important}
+.manager-box{display:flex!important;flex-direction:column!important;justify-content:flex-end!important;align-items:stretch!important;min-height:88px!important;padding:0 8px 6px!important;border-top:0!important}
+.result-note{padding:0 4px 7px!important;text-align:center!important;font-size:13px!important;font-weight:800!important;line-height:1.35!important;color:#344054!important;white-space:nowrap!important}
+.manager-line{display:flex!important;align-items:center!important;justify-content:center!important;gap:9px!important;min-height:44px!important;padding:7px 10px 0!important;border-top:2px solid #879bb2!important;white-space:nowrap!important}
+.manager-title{display:inline!important;font-size:15px!important;font-weight:900!important;line-height:1.3!important;white-space:nowrap!important}
+.manager-name{display:inline!important;margin:0!important;font-size:15px!important;font-weight:900!important;line-height:1.3!important;white-space:nowrap!important}
+.a4-school h1,.a4-school p,.a4-year,.student-code,.student-meta,.behavior-title,.attendance-box{font-family:"Simplified Arabic","Traditional Arabic",Tahoma,Arial,sans-serif!important}
+
 </style>
 </head>
 <body>
@@ -293,11 +317,11 @@ function a4HTML(model,idSuffix="",options={}){
  const showQR=options.showQR!==false,s=model.student||{},c=model.classData||{};
  const qrid=`qr_${String(s.code||model.token||"").replace(/[^a-zA-Z0-9_-]/g,"_")}_${idSuffix}`;
  const className=c.name||s.className||"—",roomText=room(s.roomNumber??c.roomNumber),qrURL=model.qrURL||publicCardURL(model.token||"");
- const qrBlock=showQR?`<div class="qr-only"><div id="${qrid}" class="sheet-qr" data-url="${esc(qrURL)}"></div></div>`:"";
+ const qrBlock=showQR?`<div class="qr-only"><div class="qr-caption">صحة صدور النتيجة</div><div id="${qrid}" class="sheet-qr" data-url="${esc(qrURL)}"></div></div>`:"";
  const labelName=/تلميذ|تلميذة/.test(learnerLabel(s.gender,c))?"اسم التلميذ":"اسم الطالب";
- return `<section class="a4-page" style="${pageVars(model)}"><div class="frame-pattern"></div><div class="page-inner"><div class="a4-head"><img class="a4-logo" src="logo.png" alt=""><div class="a4-school"><h1>مدرسة التحدي الأهلية المختلطة</h1><p>نتيجة ${esc(learnerLabel(s.gender,c))}</p></div><div class="a4-year">العام الدراسي<br>${YEAR}</div></div><div class="student-panel"><div class="student-panel-top"><div class="student-name-wrap"><span class="student-label">${esc(labelName)}</span><strong class="student-name">${esc(s.name||"—")}</strong></div><div class="student-code"><span><span class="code-label">كود الطالب</span><span class="code-value">${esc(s.code||"—")}</span></span></div></div><div class="student-meta-grid"><div class="student-meta"><small>الجنس</small><strong>${esc(learnerLabel(s.gender,c))}</strong></div><div class="student-meta"><small>الصف</small><strong>${esc(className)}</strong></div><div class="student-meta"><small>القاعة</small><strong>${esc(roomText)}</strong></div></div></div><div class="grades-wrap"><div class="grades-title"><h2>جدول الدرجات</h2><span>سجل أكاديمي رسمي</span></div>${gradesTableHTML(model.grades||[],gender(s.gender),model.resultText||"النتيجة غير مكتملة")}${attendanceHTML(model.attendance||attendanceSummary(s),s)}</div><div class="a4-footer${showQR?"":" no-qr"}">${qrBlock}<div class="manager-box"><div class="manager-title">مدير المدرسة</div><strong class="manager-name">${esc(model.managerName||"—")}</strong></div></div></div></section>`
+ return `<section class="a4-page" style="${pageVars(model)}"><div class="frame-pattern"></div><div class="page-inner"><div class="a4-head"><img class="a4-logo" src="logo.png" alt=""><div class="a4-school"><h1>مدرسة التحدي الأهلية المختلطة</h1><p>نتيجة ${esc(learnerLabel(s.gender,c))}</p></div><div class="a4-year">العام الدراسي<br>${YEAR}</div></div><div class="student-panel"><div class="student-panel-top"><div class="student-name-wrap"><span class="student-label">${esc(labelName)}</span><strong class="student-name">${esc(s.name||"—")}</strong></div><div class="student-code"><span><span class="code-label">كود الطالب</span><span class="code-value">${esc(s.code||"—")}</span></span></div></div><div class="student-meta-grid"><div class="student-meta"><small>الجنس</small><strong>${esc(learnerLabel(s.gender,c))}</strong></div><div class="student-meta"><small>الصف</small><strong>${esc(className)}</strong></div><div class="student-meta"><small>القاعة</small><strong>${esc(roomText)}</strong></div></div></div><div class="grades-wrap"><div class="grades-title"><h2>جدول الدرجات</h2><span>سجل أكاديمي رسمي</span></div>${gradesTableHTML(model.grades||[],gender(s.gender),model.resultText||"النتيجة غير مكتملة")}${attendanceHTML(model.attendance||attendanceSummary(s),s)}</div><div class="a4-footer${showQR?"":" no-qr"}">${qrBlock}<div class="manager-box"><div class="result-note">ملاحظة: النتيجة خالية من الحك والشطب نهائياً.</div><div class="manager-line"><span class="manager-title">مدير المدرسة:</span><strong class="manager-name">${esc(model.managerName||"—")}</strong></div></div></div></div></section>`
 }
-function fillQR(root){root.querySelectorAll(".sheet-qr").forEach(el=>{el.innerHTML="";new QRCode(el,{text:el.dataset.url||"",width:84,height:84,correctLevel:QRCode.CorrectLevel.M});el.querySelectorAll("img").forEach(img=>img.remove());const canvases=[...el.querySelectorAll("canvas")];canvases.slice(1).forEach(x=>x.remove())})}
+function fillQR(root){root.querySelectorAll(".sheet-qr").forEach(el=>{el.innerHTML="";new QRCode(el,{text:el.dataset.url||"",width:104,height:104,correctLevel:QRCode.CorrectLevel.M});el.querySelectorAll("img").forEach(img=>img.remove());const canvases=[...el.querySelectorAll("canvas")];canvases.slice(1).forEach(x=>x.remove())})}
 function isAccountantActive(student){
  if(!student||student.accountantApproved!==true)return false;
  if(student.accountantPermanent===true)return true;
@@ -348,7 +372,11 @@ async function pdfFromPages(pages,fileName,openInBrowser=false){const {jsPDF}=wi
 async function ensureArabicFonts(){
  try{
   if(document.fonts?.ready)await document.fonts.ready;
-  if(document.fonts?.load)await Promise.all([document.fonts.load('900 21px "Cairo"'),document.fonts.load('900 11px "Cairo"')]);
+  if(document.fonts?.load)await Promise.all([
+   document.fonts.load('900 21px "Simplified Arabic"'),
+   document.fonts.load('900 15px "Simplified Arabic"'),
+   document.fonts.load('700 14px "Simplified Arabic"')
+  ]);
  }catch(e){console.warn("font_wait",e)}
 }
 async function pdfFromFrozenPreview(images,fileName){
@@ -386,7 +414,7 @@ function modelFromSnapshot(x){
   resultText:result.text
  }
 }
-async function openPublicCardPDF(token){document.body.classList.add("public-mode");$("loadingText").textContent="جاري فتح صفحة الطالب";$("loading").classList.remove("hidden");try{const snapshot=await dbGet(`${PUBLIC_CARD_PATH}/${encodeURIComponent(token)}`);if(!snapshot||snapshot.active===false)throw new Error("CARD_NOT_FOUND");const model=modelFromSnapshot(snapshot);await ensureArabicFonts();document.body.innerHTML=`<main class="public-card-screen"><div class="public-card-wrap">${a4HTML(model,"public",{showQR:false})}</div></main>`;document.title=`نتيجة ${model.student.name||"الطالب"} | مدرسة التحدي`;fitPublicPage();window.scrollTo(0,0)}catch(e){console.error(e);document.body.innerHTML=`<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:#f5f8fc;font-family:Tahoma,Arial,sans-serif"><div style="max-width:440px;padding:25px;border-radius:18px;background:#fff;text-align:center;box-shadow:0 12px 35px rgba(0,0,0,.08)"><h2 style="font-size:18px">تعذر فتح صفحة الطالب</h2><p style="margin-top:8px;color:#667085;font-size:11px;line-height:1.8">قد يكون الباركود غير صالح أو تم حذف بيانات هذه البطاقة.</p></div></div>`}}
+async function openPublicCardPDF(token){document.body.classList.add("public-mode");$("loadingText").textContent="جاري فتح صفحة الطالب";$("loading").classList.remove("hidden");try{const snapshot=await dbGet(`${PUBLIC_CARD_PATH}/${encodeURIComponent(token)}`);if(!snapshot||snapshot.active===false)throw new Error("CARD_NOT_FOUND");const model=modelFromSnapshot(snapshot);await ensureArabicFonts();document.body.innerHTML=`<main class="public-card-screen"><div class="public-card-wrap">${a4HTML(model,"public",{showQR:false})}</div></main>`;document.title=`نتيجة ${model.student.name||"الطالب"} | مدرسة التحدي`;fitPublicPage();window.scrollTo(0,0)}catch(e){console.error(e);document.body.innerHTML=`<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:#f5f8fc;font-family:'Simplified Arabic','Traditional Arabic',Tahoma,Arial,sans-serif"><div style="max-width:440px;padding:25px;border-radius:18px;background:#fff;text-align:center;box-shadow:0 12px 35px rgba(0,0,0,.08)"><h2 style="font-size:18px">تعذر فتح صفحة الطالب</h2><p style="margin-top:8px;color:#667085;font-size:11px;line-height:1.8">قد يكون الباركود غير صالح أو تم حذف بيانات هذه البطاقة.</p></div></div>`}}
 $("genderSelect").onchange=renderClasses;$("search").oninput=renderClasses;$("managerNameInput").addEventListener("keydown",e=>{if(e.key==="Enter")confirmManagerPreview("all")});$("managerModal").addEventListener("click",e=>{if(e.target===$("managerModal"))closeManagerModal()});
 window.addEventListener("resize",()=>{fitPreviewPages();fitPublicPage()});
 window.addEventListener("load",async()=>{const publicToken=new URLSearchParams(location.search).get("card");if(publicToken){await openPublicCardPDF(publicToken);return}if(await verifyAdmin())await loadData()});
