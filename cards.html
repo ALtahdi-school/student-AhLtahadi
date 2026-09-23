@@ -91,6 +91,30 @@ html,body,button,input,select,.a4-page,.a4-page *{font-family:"Simplified Arabic
 .a4-page,.a4-page *{font-weight:900!important}
 .a4-page canvas{font-weight:normal!important}
 .preview-final-image{font-weight:normal!important}
+
+
+/* ===== V23: طالب واحد + قواعد متعددة + ملاحظات ولي الأمر + زخرفة ===== */
+.student-lookup{position:relative;margin-bottom:12px;padding:12px;border:1.5px solid #d9e4f0;border-radius:14px;background:linear-gradient(135deg,#f8fbff,#fff)}
+.student-lookup-title{font-size:12px;font-weight:900;color:#0b4f9f;margin-bottom:7px}.student-lookup-sub{font-size:8px;font-weight:900;color:#667085;margin-bottom:8px}
+.student-search-wrap{position:relative}.student-search-wrap input{width:100%;height:46px;padding:0 13px;border:1.5px solid #cbd8e6;border-radius:11px;outline:none;background:#fff;font-size:11px;font-weight:900}.student-search-wrap input:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(7,95,207,.08)}
+.student-search-results{position:absolute;z-index:200;top:50px;right:0;left:0;max-height:310px;overflow:auto;border:1px solid #d8e2ee;border-radius:12px;background:#fff;box-shadow:0 16px 36px rgba(15,23,42,.14)}
+.student-search-results.hidden{display:none!important}.student-search-result{width:100%;border:0;border-bottom:1px solid #edf1f5;background:#fff;padding:10px 12px;text-align:right;display:flex;align-items:center;justify-content:space-between;gap:10px}.student-search-result:last-child{border-bottom:0}.student-search-result:hover{background:#f5f9ff}.student-search-result strong{display:block;font-size:10px;font-weight:900;color:#172033}.student-search-result small{display:block;margin-top:3px;font-size:7.5px;font-weight:900;color:#667085}.student-search-result .student-result-code{font-size:8px;font-weight:900;color:var(--p);direction:ltr;white-space:nowrap}
+.selected-student-card{margin-top:9px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 11px;border-radius:11px;border:1.5px solid #9fc2ef;background:#edf5ff}.selected-student-card strong{font-size:10px;font-weight:900;color:#0a4b9d}.selected-student-card span{display:block;margin-top:2px;font-size:7.5px;font-weight:900;color:#475467}.selected-student-card button{border:0;border-radius:8px;padding:7px 10px;background:#fff;color:#d92d20;font-size:8px;font-weight:900}
+
+.modal-card{width:min(720px,100%)!important;max-height:92vh;overflow:auto}.rule-picker{margin-top:12px;display:grid;gap:9px}.rule-block{border:1.5px solid #dce5f0;border-radius:13px;background:#f9fbfd;overflow:hidden}.rule-toggle{display:flex;align-items:center;gap:8px;padding:10px 12px;font-size:10px;font-weight:900;color:#172033;background:#fff}.rule-toggle input{width:18px!important;height:18px!important;margin:0!important;accent-color:var(--p)}.rule-settings{padding:10px 12px;border-top:1px solid #e7edf4}.rule-settings.disabled{opacity:.45;pointer-events:none}.rule-settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.rule-settings-grid .field{display:flex;flex-direction:column;gap:4px}.rule-settings-grid label{font-size:8px;font-weight:900;color:#475467}.rule-settings-grid input,.rule-settings-grid select{width:100%;height:38px;margin:0!important;padding:0 9px;border:1px solid #d6e0ea;border-radius:8px;background:#fff;font-size:9px;font-weight:900;outline:none}.rule-help-check{display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px;border-radius:9px;background:#fff;border:1px dashed #b7c7d9;font-size:8px;font-weight:900}.rule-help-check input{width:17px!important;height:17px!important;margin:0!important}
+
+.rule-results-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:7px}.rule-result-card{min-width:0;padding:6px 7px;border:1.5px solid var(--frame-light);border-radius:10px;background:rgba(255,255,255,.94);text-align:center}.rule-result-card small{display:block;font-size:9px;font-weight:900;color:#667085;white-space:nowrap}.rule-result-card strong{display:block;margin-top:2px;font-size:10px;font-weight:900;color:var(--frame-dark);line-height:1.25}.rule-result-card.good strong{color:#078b50}.rule-result-card.bad strong{color:#c62828}.rule-result-card.wait strong{color:#b54708}
+
+.guardian-notes-box{margin-top:7px;padding:7px 10px 6px;border:1.7px solid var(--frame-light);border-radius:11px;background:rgba(255,255,255,.95)}.guardian-notes-title{text-align:right;font-size:12px;font-weight:900;color:var(--frame-dark);line-height:1.25}.guardian-notes-space{height:28px;border-bottom:1px dashed #aab7c6;margin-top:3px}.guardian-signature{margin-top:5px;text-align:left;font-size:11px;font-weight:900;color:#344054;white-space:nowrap}
+
+.a4-page{background:
+ radial-gradient(circle at 14% 10%,rgba(255,255,255,.95) 0 5%,transparent 5.4%),
+ radial-gradient(circle at 86% 18%,rgba(255,255,255,.75) 0 7%,transparent 7.4%),
+ linear-gradient(135deg,rgba(255,255,255,.99),rgba(247,250,255,.985))!important}
+.paper-ornament{position:absolute;z-index:1;inset:16px;pointer-events:none;opacity:.16;background-image:radial-gradient(circle,var(--frame-dark) 1.2px,transparent 1.5px);background-size:30px 30px;border-radius:5px}.paper-ornament:before,.paper-ornament:after{content:"";position:absolute;width:70px;height:70px;border-color:var(--frame-dark);opacity:.7}.paper-ornament:before{top:7px;right:7px;border-top:4px double var(--frame-dark);border-right:4px double var(--frame-dark);border-radius:0 18px 0 0}.paper-ornament:after{bottom:7px;left:7px;border-bottom:4px double var(--frame-dark);border-left:4px double var(--frame-dark);border-radius:0 0 0 18px}.frame-pattern{box-shadow:inset 0 0 0 2px rgba(255,255,255,.28),inset 0 0 22px rgba(0,0,0,.03)!important}
+
+@media(max-width:720px){.rule-settings-grid{grid-template-columns:1fr}.rule-results-strip{grid-template-columns:1fr 1fr}.student-search-result{align-items:flex-start}}
+
 </style>
 </head>
 <body>
@@ -99,6 +123,7 @@ html,body,button,input,select,.a4-page,.a4-page *{font-family:"Simplified Arabic
 <main class="main">
 <section class="hero"><h2>تصميم نتائج الطلبة</h2><p>اختر الصفوف فقط، ثم اضغط معاينة. سيتم إنشاء ورقة A4 مستقلة لكل طالب بتصميم رسمي، مع جدول الدرجات وباركود صغير يفتح ملف PDF الخاص بنفس الورقة.</p></section>
 <section class="panel"><div class="panel-head"><h3>اختيار الصفوف</h3><button class="btn btn-soft" onclick="loadData()">تحديث</button></div><div class="panel-body">
+<div class="student-lookup"><div class="student-lookup-title">إصدار كرت لطالب واحد</div><div class="student-lookup-sub">اكتب اسم الطالب أو الكود، ثم اختره من النتائج. عند اختيار طالب تصبح المعاينة والتحميل لهذا الطالب فقط.</div><div class="student-search-wrap"><input id="studentSearch" type="search" autocomplete="off" placeholder="ابحث باسم الطالب أو الكود"><div id="studentSearchResults" class="student-search-results hidden"></div></div><div id="selectedStudentCard" class="selected-student-card hidden"></div></div>
 <div class="toolbar"><input id="search" placeholder="بحث باسم الصف"><select id="genderSelect"><option value="">الجنس: الكل</option><option value="male">بنين</option><option value="female">بنات</option><option value="mixed">مختلط</option></select><button class="btn btn-p" onclick="selectVisibleClasses()">تحديد الظاهر</button><button class="btn btn-soft" onclick="clearSelection()">إلغاء التحديد</button></div>
 <div id="classGrid" class="class-grid"></div>
 <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:12px"><button class="btn btn-g" onclick="renderPreview()">معاينة</button><button id="pdfBtn" class="btn btn-p" onclick="downloadPDF()">تحميل PDF</button></div>
@@ -106,12 +131,16 @@ html,body,button,input,select,.a4-page,.a4-page *{font-family:"Simplified Arabic
 <section class="panel"><div class="panel-head"><h3>المعاينة</h3><span id="countText" style="font-size:8px;color:#667085">0 ورقة</span></div><div class="panel-body"><div id="preview" class="preview-grid"><div class="empty">حدد الصفوف ثم اضغط معاينة.</div></div></div></section>
 </main>
 <div id="pdfHost" class="pdf-host"></div><div id="toast" class="toast"></div>
-<div id="managerModal" class="modal"><div class="modal-card"><h3>معاينة النتائج</h3><p>اكتب اسم مدير المدرسة، وحدد طريقة تشغيل الكرتات على قاعدة النجاح أو الوزاري أو الإعفاء، ثم اختر نوع التحميل.</p><input id="managerNameInput" placeholder="اسم المدير"><select id="ruleModeSelect" style="width:100%;height:44px;margin-top:10px;padding:0 12px;border:1px solid var(--border);border-radius:11px;outline:none"><option value="pass">قاعدة النجاح</option><option value="ministerial">قاعدة الوزاري</option><option value="exemption">قاعدة الإعفاء</option></select><label style="display:flex;align-items:center;gap:8px;margin-top:10px;padding:10px 12px;border:1px solid var(--border);border-radius:11px;background:#f8fbff;font-size:9px;font-weight:800"><input id="helperAssist" type="checkbox"> تفعيل المساعدة على مادتي الرياضة والفنية لرفع المعدل إلى 85 للإعفاء المجاني</label><div class="modal-actions" style="flex-wrap:wrap"><button class="btn btn-soft" onclick="closeManagerModal()">إلغاء</button><button id="previewAccountantBtn" class="btn btn-g" onclick="confirmManagerPreview('accountant')">تحميل المفعل من الحسابات</button><button id="previewAllBtn" class="btn btn-p" onclick="confirmManagerPreview('all')">تحميل الكل</button></div></div></div>
+<div id="managerModal" class="modal"><div class="modal-card"><h3>معاينة النتائج</h3><p>اكتب اسم مدير المدرسة، ثم فعّل قاعدة واحدة أو أكثر. يمكن تشغيل النجاح والوزاري والإعفاء معاً، ولكل قاعدة إعداداتها المستقلة.</p><input id="managerNameInput" placeholder="اسم المدير"><div class="rule-picker">
+<div class="rule-block"><label class="rule-toggle"><input id="rulePassEnabled" type="checkbox" checked> قاعدة النجاح</label><div id="passRuleSettings" class="rule-settings"><div class="rule-settings-grid"><div class="field"><label>الفترة المعتمدة للنجاح</label><select id="passPeriod"><option value="auto">تلقائي حسب آخر فترة متوفرة</option><option value="term1">الفصل الأول</option><option value="midyear">نصف السنة</option><option value="term2">الفصل الثاني</option><option value="annual">السعي السنوي</option><option value="finalExam">الامتحان النهائي</option><option value="final">الدرجة النهائية</option><option value="secondRound">الدور الثاني</option></select></div></div></div></div>
+<div class="rule-block"><label class="rule-toggle"><input id="ruleMinisterialEnabled" type="checkbox"> قاعدة الدخول الوزاري</label><div id="ministerialRuleSettings" class="rule-settings disabled"><div class="rule-settings-grid"><div class="field"><label>أقصى عدد مواد راسب بها</label><input id="ministerialMaxSubjects" type="number" min="0" max="30" value="3"></div><div class="field"><label>أقصى نقص مسموح للمادة</label><input id="ministerialMaxDeficit" type="number" min="0" max="100" step=".5" value="10"></div></div></div></div>
+<div class="rule-block"><label class="rule-toggle"><input id="ruleExemptionEnabled" type="checkbox"> قاعدة الإعفاء</label><div id="exemptionRuleSettings" class="rule-settings disabled"><div class="rule-settings-grid"><div class="field"><label>المعدل المطلوب للإعفاء العام</label><input id="exemptionMinAverage" type="number" min="0" max="100" step=".5" value="85"></div><div class="field"><label>أقل سعي للمادة</label><input id="exemptionMinSubject" type="number" min="0" max="100" step=".5" value="75"></div><div class="field"><label>عدد مواد الرسوب المسموح</label><input id="exemptionFailCount" type="number" min="0" max="10" value="0"></div><div class="field"><label>حكم عدد مواد الرسوب</label><select id="exemptionFailDecision"><option value="allow">يسمح حتى العدد المحدد</option><option value="block">العدد المحدد يمنع الإعفاء</option></select></div><div class="field"><label>سعي الإعفاء الفردي</label><input id="individualMinSubject" type="number" min="0" max="100" step=".5" value="90"></div></div><label class="rule-help-check"><input id="helperAssist" type="checkbox"> مساعدة الرياضة والفنية للوصول إلى معدل الإعفاء المطلوب إذا كانت المساعدة تحقق الإعفاء</label></div></div>
+</div><div class="modal-actions" style="flex-wrap:wrap"><button class="btn btn-soft" onclick="closeManagerModal()">إلغاء</button><button id="previewAccountantBtn" class="btn btn-g" onclick="confirmManagerPreview('accountant')">تحميل المفعل من الحسابات</button><button id="previewAllBtn" class="btn btn-p" onclick="confirmManagerPreview('all')">تحميل الكل</button></div></div></div>
 <script>
 const DB="https://tahadi-school-default-rtdb.europe-west1.firebasedatabase.app",YEAR="2026-2027",PUBLIC_CARD_PATH="publicStudentCards";
 const A4_BASE_W=794,A4_BASE_H=1123,PRINT_SCALE=3.125,PRINT_W=Math.round(A4_BASE_W*PRINT_SCALE),PRINT_H=Math.round(A4_BASE_H*PRINT_SCALE);
 const $=id=>document.getElementById(id),norm=v=>String(v||"").trim().toLowerCase(),esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
-let STUDENTS={},CLASSES={},SELECTED_CLASSES=new Set(),timer=0,GRADE_CACHE={},ATTENDANCE_CACHE={},PREVIEW_MODELS=[],CURRENT_MANAGER="",PREVIEW_SNAPSHOTS=[],PREVIEW_OPTIONS={ruleMode:"pass",helper:false};
+let STUDENTS={},CLASSES={},SELECTED_CLASSES=new Set(),SELECTED_STUDENT_CODE="",timer=0,GRADE_CACHE={},ATTENDANCE_CACHE={},PREVIEW_MODELS=[],CURRENT_MANAGER="",PREVIEW_SNAPSHOTS=[],PREVIEW_OPTIONS=defaultPreviewOptions();
 const FRAME_PALETTE=[
   {frame:"#244a9b",light:"#d9e6ff",dark:"#163e8f"},
   {frame:"#7a4cc2",light:"#efe2ff",dark:"#6632b8"},
@@ -121,7 +150,9 @@ const FRAME_PALETTE=[
   {frame:"#3f7c2a",light:"#e4f5db",dark:"#2f621e"},
   {frame:"#5a5ec9",light:"#e7e8ff",dark:"#4347b3"},
   {frame:"#b85c22",light:"#ffe5d5",dark:"#9b4716"}
-];
+ ];
+function defaultPreviewOptions(){return{pass:{enabled:true,period:"auto"},ministerial:{enabled:false,maxSubjects:3,maxDeficitPerSubject:10},exemption:{enabled:false,minAverage:85,minSubjectGrade:75,failSubjectCount:0,failDecision:"allow",individualMinSubjectGrade:90,maximizeActivitiesForExemption:false}}}
+function normalizePreviewOptions(o={}){const d=defaultPreviewOptions();if(o?.ruleMode){d.pass.enabled=o.ruleMode==="pass";d.ministerial.enabled=o.ruleMode==="ministerial";d.exemption.enabled=o.ruleMode==="exemption";d.exemption.maximizeActivitiesForExemption=!!o.helper;return d}return{pass:{...d.pass,...(o.pass||{})},ministerial:{...d.ministerial,...(o.ministerial||{})},exemption:{...d.exemption,...(o.exemption||{})}}}
 function toast(t){$("toast").textContent=t;$("toast").classList.add("show");clearTimeout(timer);timer=setTimeout(()=>$("toast").classList.remove("show"),2600)}
 async function req(path,method="GET",data){const o={method,cache:"no-store"};if(data!==undefined){o.headers={"Content-Type":"application/json"};o.body=JSON.stringify(data)}const r=await fetch(`${DB}/${path}.json`,o);if(!r.ok)throw new Error(`${method}_${r.status}`);return r.json()}
 const dbGet=p=>req(p),dbPut=(p,d)=>req(p,"PUT",d);
@@ -146,10 +177,15 @@ function renderClasses(){
  const column=(type,title,list)=>list.length?`<section class="classes-column ${type}"><div class="classes-column-head"><strong>${title}</strong><span>${list.length} صف</span></div><div class="classes-list">${list.map(card).join("")}</div></section>`:"";
  $("classGrid").innerHTML=`<div class="classes-groups">${column("female","البنات",female)}${column("male","البنين",male)}${column("mixed","الصفوف المختلطة",mixed)}</div>`
 }
-function toggleClassSelection(id){SELECTED_CLASSES.has(id)?SELECTED_CLASSES.delete(id):SELECTED_CLASSES.add(id);renderClasses()}
-function selectVisibleClasses(){visibleClasses().forEach(c=>SELECTED_CLASSES.add(c.id));renderClasses();toast(`تم تحديد ${SELECTED_CLASSES.size} صف`)}
-function clearSelection(){SELECTED_CLASSES.clear();PREVIEW_MODELS=[];PREVIEW_SNAPSHOTS=[];$("preview").innerHTML='<div class="empty">حدد الصفوف ثم اضغط معاينة.</div>';$("countText").textContent='0 ورقة';renderClasses()}
-function selectedRows(){if(!SELECTED_CLASSES.size)return[];return Object.entries(STUDENTS).map(([code,s])=>({code,...s})).filter(s=>s.name&&s.hidden!==true&&SELECTED_CLASSES.has(s.classId)).sort((a,b)=>{const ac=String(CLASSES[a.classId]?.name||a.classId||""),bc=String(CLASSES[b.classId]?.name||b.classId||"");const cmp=ac.localeCompare(bc,"ar");return cmp||String(a.name||"").localeCompare(String(b.name||""),"ar")})}
+function allStudentRows(){return Object.entries(STUDENTS).map(([code,s])=>({code,...s})).filter(s=>s?.name&&s.hidden!==true)}
+function renderStudentSearchResults(){const box=$("studentSearchResults"),q=norm($("studentSearch")?.value||"");if(!box)return;if(!q){box.classList.add("hidden");box.innerHTML="";return}const rows=allStudentRows().filter(s=>norm(`${s.name} ${s.code}`).includes(q)).sort((a,b)=>String(a.name||"").localeCompare(String(b.name||""),"ar")).slice(0,15);box.innerHTML=rows.length?rows.map(s=>{const c=CLASSES[s.classId]||{};return`<button type="button" class="student-search-result" onclick="selectStudentForCard('${esc(s.code)}')"><span><strong>${esc(s.name)}</strong><small>${esc(c.name||s.className||"بدون صف")} — ${esc(learnerLabel(s.gender,c))}</small></span><span class="student-result-code">${esc(s.code)}</span></button>`}).join(""):'<div class="empty" style="padding:12px">لا يوجد طالب مطابق.</div>';box.classList.remove("hidden")}
+function renderSelectedStudentCard(){const box=$("selectedStudentCard");if(!box)return;if(!SELECTED_STUDENT_CODE||!STUDENTS[SELECTED_STUDENT_CODE]){box.classList.add("hidden");box.innerHTML="";return}const s={code:SELECTED_STUDENT_CODE,...STUDENTS[SELECTED_STUDENT_CODE]},c=CLASSES[s.classId]||{};box.innerHTML=`<div><strong>تم اختيار: ${esc(s.name)}</strong><span>${esc(c.name||s.className||"بدون صف")} — ${esc(s.code)}</span></div><button type="button" onclick="clearStudentCardSelection()">إلغاء اختيار الطالب</button>`;box.classList.remove("hidden")}
+function selectStudentForCard(code){if(!STUDENTS[code])return;SELECTED_STUDENT_CODE=code;SELECTED_CLASSES.clear();renderClasses();renderSelectedStudentCard();if($("studentSearch"))$("studentSearch").value=STUDENTS[code].name||code;if($("studentSearchResults"))$("studentSearchResults").classList.add("hidden");toast("تم اختيار طالب واحد. المعاينة والتحميل سيكونان له فقط")}
+function clearStudentCardSelection(){SELECTED_STUDENT_CODE="";if($("studentSearch"))$("studentSearch").value="";if($("studentSearchResults")){$("studentSearchResults").innerHTML="";$("studentSearchResults").classList.add("hidden")}renderSelectedStudentCard()}
+function toggleClassSelection(id){SELECTED_STUDENT_CODE="";renderSelectedStudentCard();SELECTED_CLASSES.has(id)?SELECTED_CLASSES.delete(id):SELECTED_CLASSES.add(id);renderClasses()}
+function selectVisibleClasses(){SELECTED_STUDENT_CODE="";renderSelectedStudentCard();visibleClasses().forEach(c=>SELECTED_CLASSES.add(c.id));renderClasses();toast(`تم تحديد ${SELECTED_CLASSES.size} صف`)}
+function clearSelection(){SELECTED_CLASSES.clear();SELECTED_STUDENT_CODE="";renderSelectedStudentCard();PREVIEW_MODELS=[];PREVIEW_SNAPSHOTS=[];$("preview").innerHTML='<div class="empty">حدد الصفوف أو اختر طالباً ثم اضغط معاينة.</div>';$("countText").textContent='0 ورقة';renderClasses()}
+function selectedRows(){if(SELECTED_STUDENT_CODE&&STUDENTS[SELECTED_STUDENT_CODE])return[{code:SELECTED_STUDENT_CODE,...STUDENTS[SELECTED_STUDENT_CODE]}];if(!SELECTED_CLASSES.size)return[];return allStudentRows().filter(s=>SELECTED_CLASSES.has(s.classId)).sort((a,b)=>{const ac=String(CLASSES[a.classId]?.name||a.classId||""),bc=String(CLASSES[b.classId]?.name||b.classId||"");const cmp=ac.localeCompare(bc,"ar");return cmp||String(a.name||"").localeCompare(String(b.name||""),"ar")})}
 function classSubjects(c){
  let rows=Array.isArray(c?.subjects)?c.subjects:Object.values(c?.subjects||{});
  rows=rows.filter(Boolean).map((s,i)=>({id:String(s.id||`SUB_${i+1}`),name:String(s.name||s.subjectName||"").trim(),maxGrade:Number(s.maxGrade||100),passGrade:Number(s.passGrade??50),order:Number(s.order||i+1),autoType:s.autoType||""})).filter(s=>s.name);
@@ -213,8 +249,21 @@ function assistOnArtSports(rows=[],field="annual",target=85){
 }
 function countFailed(rows=[],field){return rows.filter(r=>{const x=gradeNumber(r[field]);return x!==null&&x<Number(r.passGrade??50)}).length}
 function countExemptSubjects(rows=[],field){return rows.filter(r=>{const x=gradeNumber(r[field]);return x!==null&&x>=85}).length}
-function resultInfo(rows=[],student={},classData={},options={ruleMode:"pass",helper:false}){const rule=options?.ruleMode||"pass";const board=ruleFieldForMode(rows,rule);if(!board.field)return{field:null,label:board.label,rows,average:null,text:"النتيجة غير مكتملة"};let workingRows=rows.map(r=>({...r}));if(rule==="exemption"&&options?.helper)workingRows=assistOnArtSports(workingRows,board.field,85);const missing=workingRows.some(r=>gradeNumber(r[board.field])===null);const avg=periodSummary(workingRows,board.field).average;const failed=countFailed(workingRows,board.field);let text="النتيجة غير مكتملة";if(missing){text="النتيجة غير مكتملة"}else if(rule==="ministerial"){text=failed?"حض اوفر غير مؤهل للوزاري":"مبارك مؤهل للوزاري بالتوفيق"}else if(rule==="exemption"){if(failed){text=`${genderedWord(student,"مكمل","مكملة")} بعدد دروس ${failed}`}else if(avg!==null&&avg>=95){text="اعفاء عام الف الف مبارك"}else if(avg!==null&&avg>=85){const cnt=countExemptSubjects(workingRows,board.field);text=cnt>=workingRows.length?"اعفاء عام الف الف مبارك":`اعفاء بعدد مواد ${cnt} الف الف مبارك`}else{text=genderedWord(student,"ناجح","ناجحة")}}else{text=failed?`${genderedWord(student,"مكمل","مكملة")} بعدد دروس ${failed}`:genderedWord(student,"ناجح","ناجحة") }return{field:board.field,label:board.label,rows:workingRows,average:avg,text,failed}}
-function attendanceHTML(att={},student={}){return`<section class="behavior-panel"><div class="behavior-title">السلوك والانضباط</div><div class="attendance-strip"><div class="attendance-box present"><small>الحضور</small><strong>${esc(att.present??0)}</strong></div><div class="attendance-box absent"><small>الغياب</small><strong>${esc(att.absent??0)}</strong></div><div class="attendance-box late"><small>المتأخر</small><strong>${esc(att.late??0)}</strong></div><div class="attendance-box escape"><small>الهروب</small><strong>${esc(att.escape??0)}</strong></div><div class="attendance-box excused"><small>المجاز</small><strong>${esc(att.leave??0)}</strong></div></div><div class="guardian-phone-card"><span>هاتف ولي أمر الطالب</span><b>${esc(guardianPhoneOf(student))}</b></div></section>`}
+function selectedPassField(rows,period="auto"){if(period&&period!=="auto")return{field:period,label:{term1:"الفصل الأول",midyear:"نصف السنة",term2:"الفصل الثاني",annual:"السعي السنوي",finalExam:"الامتحان النهائي",final:"الدرجة النهائية",secondRound:"الدور الثاني"}[period]||period};return ruleFieldForMode(rows,"pass")}
+function exemptionFailAllowed(fails,rule){const n=Math.max(0,Number(rule?.failSubjectCount??0)),decision=rule?.failDecision==="block"?"block":"allow";return decision==="allow"?fails<=n:(n===0?fails===0:fails<n)}
+function resultInfo(rows=[],student={},classData={},options={}){
+ const opts=normalizePreviewOptions(options),baseRows=rows.map(r=>({...r})),academicBase=baseRows.filter(r=>!r.autoType);
+ let workingRows=baseRows;
+ if(opts.exemption.enabled&&opts.exemption.maximizeActivitiesForExemption){const target=Math.max(0,Number(opts.exemption.minAverage??85));workingRows=assistOnArtSports(workingRows,"annual",target)}
+ const academic=workingRows.filter(r=>!r.autoType),ruleResults=[];
+ if(opts.pass.enabled){const board=selectedPassField(academic,opts.pass.period);if(!board.field||academic.some(r=>gradeNumber(r[board.field])===null)){ruleResults.push({key:"pass",label:"النجاح",short:"غير مكتمل",text:"النتيجة غير مكتملة",css:"wait"})}else{const failed=countFailed(academic,board.field);const text=failed?`${genderedWord(student,"مكمل","مكملة")} بعدد دروس ${failed}`:genderedWord(student,"ناجح","ناجحة");ruleResults.push({key:"pass",label:"النجاح",short:failed?`مكمل ${failed}`:text,text,css:failed?"bad":"good"})}}
+ if(opts.ministerial.enabled){const field="annual";if(!academic.length||academic.some(r=>gradeNumber(r[field])===null)){ruleResults.push({key:"ministerial",label:"الوزاري",short:"غير مكتمل",text:"النتيجة غير مكتملة",css:"wait"})}else{const failedRows=academic.filter(r=>gradeNumber(r[field])<Number(r.passGrade??50)),deficits=failedRows.map(r=>Number(r.passGrade??50)-Number(gradeNumber(r[field])||0)),ok=failedRows.length<=Number(opts.ministerial.maxSubjects??3)&&deficits.every(d=>d<=Number(opts.ministerial.maxDeficitPerSubject??10));ruleResults.push({key:"ministerial",label:"الوزاري",short:ok?"مؤهل وزاري":"غير مؤهل وزاري",text:ok?"مبارك مؤهل للوزاري بالتوفيق":"حض اوفر غير مؤهل للوزاري",css:ok?"good":"bad"})}}
+ if(opts.exemption.enabled){const field="annual";if(!workingRows.length||workingRows.some(r=>gradeNumber(r[field])===null)){ruleResults.push({key:"exemption",label:"الإعفاء",short:"غير مكتمل",text:"النتيجة غير مكتملة",css:"wait"})}else{const avg=periodSummary(workingRows,field).average,percs=workingRows.map(r=>(Number(gradeNumber(r[field])||0)/Math.max(1,Number(r.maxGrade||100)))*100),min=Math.min(...percs),fails=countFailed(academic,field),general=avg!==null&&avg>=Number(opts.exemption.minAverage??85)&&min>=Number(opts.exemption.minSubjectGrade??75)&&exemptionFailAllowed(fails,opts.exemption);if(general){ruleResults.push({key:"exemption",label:"الإعفاء",short:"إعفاء عام",text:"اعفاء عام الف الف مبارك",css:"good"})}else{const threshold=Number(opts.exemption.individualMinSubjectGrade??90),individual=workingRows.filter(r=>{const n=gradeNumber(r[field]);if(n===null)return false;return (n/Math.max(1,Number(r.maxGrade||100))*100)>=threshold&&n>=Number(r.passGrade??50)}).length;if(individual)ruleResults.push({key:"exemption",label:"الإعفاء",short:`إعفاء ${individual} مواد`,text:`اعفاء بعدد مواد ${individual} الف الف مبارك`,css:"good"});else ruleResults.push({key:"exemption",label:"الإعفاء",short:"غير مشمول",text:"غير مشمول بالإعفاء",css:"bad"})}}}
+ if(!ruleResults.length)ruleResults.push({key:"none",label:"النتيجة",short:"غير مكتمل",text:"النتيجة غير مكتملة",css:"wait"});
+ const text=ruleResults.map(r=>r.short).join(" • ");return{rows:workingRows,average:periodSummary(workingRows,"annual").average,text,ruleResults}
+}
+function ruleResultsHTML(items=[]){if(!items.length)return"";return`<div class="rule-results-strip">${items.map(x=>`<div class="rule-result-card ${esc(x.css||"")}"><small>${esc(x.label)}</small><strong>${esc(x.text)}</strong></div>`).join("")}</div>`}
+function attendanceHTML(att={},student={}){return`<section class="behavior-panel"><div class="behavior-title">السلوك والانضباط</div><div class="attendance-strip"><div class="attendance-box present"><small>الحضور</small><strong>${esc(att.present??0)}</strong></div><div class="attendance-box absent"><small>الغياب</small><strong>${esc(att.absent??0)}</strong></div><div class="attendance-box late"><small>المتأخر</small><strong>${esc(att.late??0)}</strong></div><div class="attendance-box escape"><small>الهروب</small><strong>${esc(att.escape??0)}</strong></div><div class="attendance-box excused"><small>المجاز</small><strong>${esc(att.leave??0)}</strong></div></div><div class="guardian-phone-card"><span>هاتف ولي أمر الطالب</span><b>${esc(guardianPhoneOf(student))}</b></div><div class="guardian-notes-box"><div class="guardian-notes-title">ملاحظات ولي الأمر</div><div class="guardian-notes-space"></div><div class="guardian-signature">توقيع ولي الأمر: ____________________</div></div></section>`}
 function gradeClass(v,subject){const n=gradeNumber(v);if(n===null)return"";const pass=Number(subject.passGrade??50),max=Math.max(1,Number(subject.maxGrade||100));if(n<pass)return isNearPass(n,pass,max)?"grade-critical":"grade-fail";if(n/max*100>=90)return"grade-high";return"grade-normal"}
 async function studentGradeModel(s){
  let grades=GRADE_CACHE[s.code],attendanceNode=ATTENDANCE_CACHE[s.code];
@@ -256,7 +305,7 @@ async function ensureCardToken(s){let token=String(s.cardPdfToken||"").trim();if
 function publicCardURL(token){const u=new URL(location.href);u.search="";u.hash="";u.searchParams.set("card",token);return u.toString()}
 function snapshotFromModel(model,managerName,token){
  return {
-  version:5,
+  version:6,
   active:true,
   year:YEAR,
   token,
@@ -282,7 +331,7 @@ async function prepareModels(rows,managerName,options=PREVIEW_OPTIONS){
  return mapLimit(rows,6,async s=>{
   const base=await studentGradeModel(s);
   const result=resultInfo(base.grades,base.student,base.classData,options);
-  const model={...base,grades:result.rows,attendance:base.attendance,resultText:result.text,resultMeta:result,options:{...options}};
+  const model={...base,grades:result.rows,attendance:base.attendance,resultText:result.text,ruleResults:result.ruleResults||[],resultMeta:result,options:normalizePreviewOptions(options)};
   const token=await ensureCardToken(s);
   const snapshot=snapshotFromModel(model,managerName,token);
   await dbPut(`${PUBLIC_CARD_PATH}/${encodeURIComponent(token)}`,snapshot);
@@ -316,144 +365,4 @@ function gradesTableHTML(rows=[],g,resultText="النتيجة غير مكتمل�
  const sums=Object.fromEntries(TABLE_PERIODS.map(f=>[f,periodSummary(rows,f)])),span=rows.length+2;
  const resultClass=/اعفاء|مبارك|ناجح/.test(resultText)?"grade-high":/مكمل|حض اوفر/.test(resultText)?"grade-fail":"grade-normal";
  const boardCell=`<td class="board-value board-result ${resultClass}" rowspan="${span}"><span>${esc(resultText)}</span></td>`;
- return`<table class="grades-table"><thead><tr><th>المادة</th><th class="vertical-head"><span>الفصل الأول</span></th><th class="vertical-head"><span>نصف السنة</span></th><th class="vertical-head"><span>الفصل الثاني</span></th><th class="vertical-head"><span>السعي السنوي</span></th><th class="vertical-head"><span>الامتحان النهائي</span></th><th class="vertical-head"><span>الدرجة النهائية</span></th><th class="vertical-head"><span>الدور الثاني</span></th><th class="board-head"><span>النتيجة</span></th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td>${esc(r.name)}</td>${gradeCell(r.term1,r)}${gradeCell(r.midyear,r)}${gradeCell(r.term2,r)}${gradeCell(r.annual,r)}${gradeCell(r.finalExam,r)}${gradeCell(r.final,r)}${gradeCell(r.secondRound,r)}${i===0?boardCell:""}</tr>`).join("")}<tr class="summary-row"><td>المجموع</td>${TABLE_PERIODS.map(f=>`<td>${sums[f].total===null?"—":esc(sums[f].total)}</td>`).join("")}</tr><tr class="summary-row average"><td>المعدل</td>${TABLE_PERIODS.map(f=>`<td>${sums[f].average===null?"—":esc(sums[f].average+"%")}</td>`).join("")}</tr></tbody></table>`
-}
-function pageVars(model){const c=model.classData||{},g=genderTheme(model.student?.gender),t=classThemeFor(model.student?.classId,c.name);return`--frame:${t.frame};--frame-light:${t.light};--frame-dark:${t.dark};--table-head:${g.head};--table-head-text:${g.headText};--table-head-soft:${g.soft};--table-border:${g.border};`}
-function a4HTML(model,idSuffix="",options={}){
- const showQR=options.showQR!==false,s=model.student||{},c=model.classData||{};
- const qrid=`qr_${String(s.code||model.token||"").replace(/[^a-zA-Z0-9_-]/g,"_")}_${idSuffix}`;
- const className=c.name||s.className||"—",roomText=room(s.roomNumber??c.roomNumber),qrURL=model.qrURL||publicCardURL(model.token||"");
- const qrBlock=showQR?`<div class="qr-only"><div class="qr-caption">صحة صدور النتيجة</div><div id="${qrid}" class="sheet-qr" data-url="${esc(qrURL)}"></div></div>`:"";
- const labelName=/تلميذ|تلميذة/.test(learnerLabel(s.gender,c))?"اسم التلميذ":"اسم الطالب";
- return `<section class="a4-page" style="${pageVars(model)}"><div class="frame-pattern"></div><div class="page-inner"><div class="a4-head"><img class="a4-logo" src="logo.png" alt=""><div class="a4-school"><h1>مدرسة التحدي الأهلية المختلطة</h1><p>نتيجة ${esc(learnerLabel(s.gender,c))}</p></div><div class="a4-year">العام الدراسي<br>${YEAR}</div></div><div class="student-panel"><div class="student-panel-top"><div class="student-name-wrap"><span class="student-label">${esc(labelName)}</span><strong class="student-name">${esc(s.name||"—")}</strong></div><div class="student-code"><span><span class="code-label">كود الطالب</span><span class="code-value">${esc(s.code||"—")}</span></span></div></div><div class="student-meta-grid"><div class="student-meta"><small>الجنس</small><strong>${esc(learnerLabel(s.gender,c))}</strong></div><div class="student-meta"><small>الصف</small><strong>${esc(className)}</strong></div><div class="student-meta"><small>القاعة</small><strong>${esc(roomText)}</strong></div></div></div><div class="grades-wrap"><div class="grades-title"><h2>جدول الدرجات</h2><span>سجل أكاديمي رسمي</span></div>${gradesTableHTML(model.grades||[],gender(s.gender),model.resultText||"النتيجة غير مكتملة")}${attendanceHTML(model.attendance||attendanceSummary(s),s)}</div><div class="a4-footer${showQR?"":" no-qr"}">${qrBlock}<div class="manager-box"><div class="result-note">ملاحظة: النتيجة خالية من الحك والشطب نهائياً.</div><div class="manager-line"><span class="manager-title">مدير المدرسة:</span><strong class="manager-name">${esc(model.managerName||"—")}</strong></div></div></div></div></section>`
-}
-function fillQR(root){root.querySelectorAll(".sheet-qr").forEach(el=>{el.innerHTML="";new QRCode(el,{text:el.dataset.url||"",width:312,height:312,correctLevel:QRCode.CorrectLevel.M});el.querySelectorAll("img").forEach(img=>img.remove());const canvases=[...el.querySelectorAll("canvas")];canvases.slice(1).forEach(x=>x.remove())})}
-function isAccountantActive(student){
- if(!student||student.accountantApproved!==true)return false;
- if(student.accountantPermanent===true)return true;
- const until=Number(student.accountantApprovedUntil||0);
- if(!until)return true;
- return Date.now()<until
-}
-function fitPreviewPages(){document.querySelectorAll(".preview-scale-shell").forEach(shell=>{const page=shell.querySelector(".a4-page");if(!page)return;const scale=Math.min(1,shell.clientWidth/794);page.style.transform=`scale(${scale})`})}
-function fitPublicPage(){const shell=document.querySelector(".public-card-wrap"),page=shell?.querySelector(".a4-page");if(!shell||!page)return;const scale=Math.min(1,shell.clientWidth/794);page.style.transform=`scale(${scale})`}
-function openManagerModal(){const rows=selectedRows();if(!rows.length)return toast("حدد صفاً واحداً على الأقل");const saved=localStorage.getItem("tahadi_cards_manager_name")||CURRENT_MANAGER||"";$("managerNameInput").value=saved;$("ruleModeSelect").value=PREVIEW_OPTIONS.ruleMode||"pass";$("helperAssist").checked=!!PREVIEW_OPTIONS.helper;$("managerModal").classList.add("show");setTimeout(()=>$("managerNameInput").focus(),50)}
-function closeManagerModal(){$("managerModal").classList.remove("show")}
-function renderPreview(){openManagerModal()}
-
-async function nodeToExactPng(page){
- await ensureArabicFonts();
- await waitImages(page);
- await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
- const originalTransform=page.style.transform;
- const originalOrigin=page.style.transformOrigin;
- page.style.transform="none";
- page.style.transformOrigin="top right";
- try{
-  if(window.domtoimage?.toPng){
-   try{
-    return await window.domtoimage.toPng(page,{
-     width:PRINT_W,
-     height:PRINT_H,
-     bgcolor:"#ffffff",
-     cacheBust:true,
-     quality:1,
-     style:{
-      transform:`scale(${PRINT_SCALE})`,
-      transformOrigin:"top left",
-      width:`${A4_BASE_W}px`,
-      height:`${A4_BASE_H}px`,
-      margin:"0"
-     }
-    })
-   }catch(e){console.warn("highres_dom_to_image_fallback",e)}
-  }
-  const canvas=await html2canvas(page,{
-   scale:PRINT_SCALE,
-   useCORS:true,
-   allowTaint:true,
-   backgroundColor:"#fff",
-   width:A4_BASE_W,
-   height:A4_BASE_H,
-   windowWidth:A4_BASE_W,
-   windowHeight:A4_BASE_H,
-   logging:false,
-   scrollX:0,
-   scrollY:0,
-   imageTimeout:15000
-  });
-  const data=canvas.toDataURL("image/png",1);
-  canvas.width=1;canvas.height=1;
-  return data
- }finally{
-  page.style.transform=originalTransform;
-  page.style.transformOrigin=originalOrigin
- }
-}
-async function freezePreviewAsExactImages(){
- PREVIEW_SNAPSHOTS=[];
- const shells=[...$("preview").querySelectorAll(".preview-item .preview-scale-shell")];
- for(let i=0;i<shells.length;i++){
-  const shell=shells[i],page=shell.querySelector(".a4-page");
-  if(!page)continue;
-  const data=await nodeToExactPng(page);
-  PREVIEW_SNAPSHOTS.push(data);
-  shell.innerHTML=`<img class="preview-final-image" src="${data}" alt="معاينة ورقة الطالب">`;
- }
- if(PREVIEW_SNAPSHOTS.length!==shells.length)throw new Error("PREVIEW_SNAPSHOT_MISMATCH")
-}
-async function confirmManagerPreview(mode="all"){const name=$("managerNameInput").value.trim();if(!name)return toast("اكتب اسم مدير المدرسة");PREVIEW_OPTIONS={ruleMode:$("ruleModeSelect").value||"pass",helper:!!$("helperAssist").checked};let rows=selectedRows();if(!rows.length)return closeManagerModal(),toast("حدد صفاً واحداً على الأقل");if(mode==="accountant")rows=rows.filter(isAccountantActive);if(!rows.length)return toast(mode==="accountant"?"لا يوجد طلاب مفعلون من الحسابات ضمن الصفوف المحددة":"لا توجد أسماء ضمن الصفوف المحددة");CURRENT_MANAGER=name;localStorage.setItem("tahadi_cards_manager_name",name);closeManagerModal();const b1=$("previewAccountantBtn"),b2=$("previewAllBtn");if(b1)b1.disabled=true;if(b2)b2.disabled=true;$("loadingText").textContent=mode==="accountant"?"جاري تجهيز الطلاب المفعلين من الحسابات":"جاري تجهيز جميع طلاب الصفوف";$("loading").classList.remove("hidden");try{PREVIEW_SNAPSHOTS=[];PREVIEW_MODELS=await prepareModels(rows,name,PREVIEW_OPTIONS);$("countText").textContent=`${PREVIEW_MODELS.length} ورقة`;$("preview").innerHTML=PREVIEW_MODELS.map((m,i)=>`<div class="preview-item"><div class="preview-item-label">${esc(CLASSES[m.student.classId]?.name||m.student.className||"")} — ${esc(m.student.name||"")}</div><div class="preview-scale-shell">${a4HTML(m,`preview_${i}`)}</div></div>`).join("");fillQR($("preview"));fitPreviewPages();$("loadingText").textContent="جاري تجهيز المعاينة عالية الدقة للطباعة";await freezePreviewAsExactImages();toast(mode==="accountant"?"تم إنشاء معاينة الطلاب المفعلين من الحسابات":"تم إنشاء معاينة جميع الطلاب") }catch(e){console.error(e);PREVIEW_MODELS=[];PREVIEW_SNAPSHOTS=[];toast("تعذر تجهيز المعاينة النهائية") }finally{if(b1)b1.disabled=false;if(b2)b2.disabled=false;$("loading").classList.add("hidden")}}
-async function waitImages(root){await Promise.all([...root.querySelectorAll("img")].map(img=>img.complete?Promise.resolve():new Promise(r=>{img.onload=r;img.onerror=r})))}
-async function pdfFromPages(pages,fileName,openInBrowser=false){const {jsPDF}=window.jspdf,pdf=new jsPDF({orientation:"portrait",unit:"mm",format:"a4",compress:true});for(let i=0;i<pages.length;i++){await waitImages(pages[i]);if(i)pdf.addPage("a4","portrait");const canvas=await html2canvas(pages[i],{scale:2,useCORS:true,allowTaint:true,backgroundColor:"#fff",width:794,height:1123,windowWidth:794,windowHeight:1123,logging:false});pdf.addImage(canvas.toDataURL("image/jpeg",.96),"JPEG",0,0,210,297,undefined,"FAST");canvas.width=1;canvas.height=1}if(openInBrowser){const blob=pdf.output("blob"),url=URL.createObjectURL(blob);location.replace(url);return}pdf.save(fileName)}
-async function ensureArabicFonts(){
- try{
-  if(document.fonts?.ready)await document.fonts.ready;
-  if(document.fonts?.load)await Promise.all([
-   document.fonts.load('900 21px "Simplified Arabic"'),
-   document.fonts.load('900 15px "Simplified Arabic"'),
-   document.fonts.load('700 14px "Simplified Arabic"')
-  ]);
- }catch(e){console.warn("font_wait",e)}
-}
-async function pdfFromFrozenPreview(images,fileName){
- if(!images.length)throw new Error("NO_FROZEN_PREVIEW");
- const {jsPDF}=window.jspdf,pdf=new jsPDF({orientation:"portrait",unit:"mm",format:"a4",compress:true});
- for(let i=0;i<images.length;i++){
-  if(i)pdf.addPage("a4","portrait");
-  pdf.addImage(images[i],"PNG",0,0,210,297,undefined,"FAST")
- }
- pdf.save(fileName)
-}
-async function downloadPDF(){
- if(!PREVIEW_MODELS.length||!PREVIEW_SNAPSHOTS.length)return toast("اضغط معاينة أولاً حتى يتم تثبيت نفس الشكل للـ PDF");
- const btn=$("pdfBtn");btn.disabled=true;btn.textContent="جاري تجهيز PDF...";
- try{
-  await pdfFromFrozenPreview(PREVIEW_SNAPSHOTS,`نتائج_الطلبة_A4_${YEAR}.pdf`);
-  toast(`تم إنشاء PDF عالي الدقة من نفس المعاينة بعدد ${PREVIEW_SNAPSHOTS.length} ورقة`)
- }catch(e){console.error(e);toast("تعذر إنشاء ملف PDF")}
- finally{btn.disabled=false;btn.textContent="تحميل PDF"}
-}
-async function loadData(){try{$("loadingText").textContent="جاري تحميل بيانات الصفوف والطلبة";$("loading").classList.remove("hidden");const[s,c]=await Promise.all([dbGet("students"),dbGet("classes")]);STUDENTS=s||{};CLASSES=c||{};GRADE_CACHE={};ATTENDANCE_CACHE={};renderClasses()}catch(e){console.error(e);toast("تعذر تحميل البيانات")}finally{$("loading").classList.add("hidden")}}
-function modelFromSnapshot(x){
- const grades=Array.isArray(x.grades)?x.grades:Object.values(x.grades||{});
- const options=x.options||{ruleMode:"pass",helper:false};
- const result=resultInfo(grades,x.student||{}, {name:x.student?.className||""}, options);
- return {
-  student:{code:x.student?.code||"",name:x.student?.name||"",gender:x.student?.gender||"male",classId:x.student?.classId||"",className:x.student?.className||"",roomNumber:x.student?.roomNumber??"",guardianPhone:x.student?.guardianPhone||""},
-  classData:{name:x.student?.className||"",roomNumber:x.student?.roomNumber??"",guardianPhone:x.student?.guardianPhone||""},
-  grades:result.rows,
-  attendance:x.attendance||attendanceSummary(x.student||{}),
-  managerName:x.managerName||"",
-  token:x.token||"",
-  qrURL:publicCardURL(x.token||""),
-  options,
-  resultText:result.text
- }
-}
-async function openPublicCardPDF(token){document.body.classList.add("public-mode");$("loadingText").textContent="جاري فتح صفحة الطالب";$("loading").classList.remove("hidden");try{const snapshot=await dbGet(`${PUBLIC_CARD_PATH}/${encodeURIComponent(token)}`);if(!snapshot||snapshot.active===false)throw new Error("CARD_NOT_FOUND");const model=modelFromSnapshot(snapshot);await ensureArabicFonts();document.body.innerHTML=`<main class="public-card-screen"><div class="public-card-wrap">${a4HTML(model,"public",{showQR:false})}</div></main>`;document.title=`نتيجة ${model.student.name||"الطالب"} | مدرسة التحدي`;fitPublicPage();window.scrollTo(0,0)}catch(e){console.error(e);document.body.innerHTML=`<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:#f5f8fc;font-family:'Simplified Arabic','Traditional Arabic',Tahoma,Arial,sans-serif"><div style="max-width:440px;padding:25px;border-radius:18px;background:#fff;text-align:center;box-shadow:0 12px 35px rgba(0,0,0,.08)"><h2 style="font-size:18px">تعذر فتح صفحة الطالب</h2><p style="margin-top:8px;color:#667085;font-size:11px;line-height:1.8">قد يكون الباركود غير صالح أو تم حذف بيانات هذه البطاقة.</p></div></div>`}}
-$("genderSelect").onchange=renderClasses;$("search").oninput=renderClasses;$("managerNameInput").addEventListener("keydown",e=>{if(e.key==="Enter")confirmManagerPreview("all")});$("managerModal").addEventListener("click",e=>{if(e.target===$("managerModal"))closeManagerModal()});
-window.addEventListener("resize",()=>{fitPreviewPages();fitPublicPage()});
-window.addEventListener("load",async()=>{const publicToken=new URLSearchParams(location.search).get("card");if(publicToken){await openPublicCardPDF(publicToken);return}if(await verifyAdmin())await loadData()});
-</script>
-</body>
-</html>
+ return`<table class="grades-table"><thead><tr><th>المادة</th><th class="vertical-head"><span>الفصل الأول</span></th><th class="vertical-head"><span>نصف السنة</span></th><th class="vertical-head"><span>الفصل الثاني</span></th><th class="vertical-head"><span>السعي السنوي</span></th><th class="vertical-head"><span>الامتحان النهائي</span></th><th class="vertical-head"><span>الدرجة النهائية</span></th><th class="vertical-head"><span>الدور الثاني</span></th><th class="board-head"><span>النتيجة</span></th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td>${esc(r.name)}</td>${gradeCell(r.term1,r)}${gradeCell(r.midyear,r)}${gradeCell(r.term2,r)}${gradeCell(r.annual,r)}${gradeCell(r.finalExam,r)}${gradeCell(r.final,r)}${gradeCell(r.secondRound,r)}${i===0?boardCell:""}</tr>`).join("")}<tr class="summary-row"><td>المجموع</td>${TABLE_PERIODS.map(f=>`<td>${sums[f].total===null?"—":esc(sums[f].total)}</td>`).join("")}</tr><tr class="summary-row average"><td>المعدل</td>${TABLE_PERIODS.map(f=>`<td>${sums[f].average===null?"—":esc(sums[f].average+"%")}</td>`).join(
